@@ -10,11 +10,8 @@
 >
 ## [关于我](https://github.com/softfatgay)
 
-## 扫码下载demo
+## [demo.apk下载地址](https://www.pgyer.com/QjBP)
 
-<figure >
-<img src="./imges/app_down.png" width="200"/>
-</figure >
 
 ## 在此基础上增加的一些功能
 
