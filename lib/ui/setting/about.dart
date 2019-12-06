@@ -54,7 +54,7 @@ class _AboutAppState extends State<AboutApp> {
                         ..onTap = () {
                           Flutter2Activity.toActivity(Flutter2Activity.webView,
                               arguments: {
-                                'url': 'https://github.com/softfatgay'
+                                'url': 'https://github.com/softfatgay/FlutterWant'
                               });
                         }),
                   TextSpan(text: '关于:         '),
