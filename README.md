@@ -1,4 +1,4 @@
-# flutter_app
+# FlutterWant
 
 >项目是基于 luoGuoXiong 的 easyMarketFlutter 而写的,其中前三个模块的接口也是其项目用的api，其次，再次非常感谢luoGuoXiong，作为一个初学者，给我提供了非常大的帮,希望对大家有用.
 >
