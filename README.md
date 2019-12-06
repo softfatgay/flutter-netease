@@ -6,6 +6,9 @@
 >
 [Peroluo(给他点赞)](https://github.com/Peroluo) 
 [easyMarketFlutter地址](https://github.com/Peroluo/easyMarketFlutter) 
+>
+>
+[关于我](https://github.com/softfatgay)
 
 ##扫码下载demo
 
@@ -49,7 +52,7 @@
 >
 >
 
-[关于我](https://github.com/softfatgay)
+
 
 ## 最后
 *谢谢大家
