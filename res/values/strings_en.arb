@@ -1,0 +1,13 @@
+{
+  "app_name": "flutter_app",
+  "home": "home",
+  "topic": "topic",
+  "sort": "sort",
+  "shopping_market": "market",
+  "mine": "mine",
+  "home_title_one": "品牌制造商",
+  "home_title_two": "新品首发",
+  "home_title_three": "人气推荐",
+  "home_title_four": "专题精选",
+  "more_goods": "更多"
+}
