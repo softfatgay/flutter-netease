@@ -8,9 +8,9 @@
 [easyMarketFlutter地址](https://github.com/Peroluo/easyMarketFlutter) 
 >
 >
-##[关于我](https://github.com/softfatgay)
+## [关于我](https://github.com/softfatgay)
 
-##扫码下载demo
+## 扫码下载demo
 
 <figure >
 <img src="./imges/app_down.png" width="200"/>
