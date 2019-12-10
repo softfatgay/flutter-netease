@@ -92,6 +92,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.7"
+  dropdown_menu:
+    dependency: "direct main"
+    description:
+      name: dropdown_menu
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.1"
   english_words:
     dependency: "direct main"
     description:

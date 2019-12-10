@@ -54,8 +54,10 @@ dependencies:
 
   open_iconic_flutter: ^0.3.0
 
-
   english_words: ^3.1.5
+
+  #下拉菜单
+  dropdown_menu: ^1.1.1
 
 dev_dependencies:
   flutter_test:

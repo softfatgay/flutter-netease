@@ -11,6 +11,7 @@ import 'package:flutter_app/ui/setting/favorite.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/topic/topic_detail.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/widget_list.dart';
 
 class Router {
   static String plugin = Util.flutter2activity;
@@ -33,6 +34,9 @@ class Router {
           break;
         case 2: //设置界面
           return Setting();
+          break;
+        case 3: //组件
+          return WidgetList();
           break;
       }
       return NoFoundPage();

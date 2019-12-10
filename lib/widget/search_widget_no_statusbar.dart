@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 typedef void OnValueChanged(String value);
 typedef void OnSearchBtnClick(String value);
 
-class SearchWidget extends StatefulWidget {
+class SearchWidgetNoStstusbar extends StatefulWidget {
   final String textValue;
   final String hintText;
   final double textFiledHeight;
@@ -12,7 +12,7 @@ class SearchWidget extends StatefulWidget {
   final OnValueChanged onValueChangedCallBack;
   final OnSearchBtnClick onSearchBtnClick;
 
-  SearchWidget(
+  SearchWidgetNoStstusbar(
       {this.textValue,
       this.textFiledHeight = 48.0,
       @required this.controller,
@@ -24,7 +24,7 @@ class SearchWidget extends StatefulWidget {
   _SearchGoodsState createState() => _SearchGoodsState();
 }
 
-class _SearchGoodsState extends State<SearchWidget> {
+class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
   String text;
 
   @override
@@ -33,8 +33,7 @@ class _SearchGoodsState extends State<SearchWidget> {
       throw Exception('TextEditingController 没有初始化');
     }
     return Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
+      height: widget.textFiledHeight,
       decoration: BoxDecoration(
           border:
               Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
