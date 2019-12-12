@@ -23,6 +23,8 @@ dependencies:
 
   #  图片
   cached_network_image: ^1.1.3
+  #如果package get报错,改成下面的版本
+#  cached_network_image: ^2.0.0-rc.1
 
   #  banner
   flutter_swiper: ^1.1.6

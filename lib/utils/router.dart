@@ -8,6 +8,7 @@ import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
 import 'package:flutter_app/ui/setting/favorite.dart';
+import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/topic/topic_detail.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -18,11 +19,17 @@ class Router {
   static var demoPlugin = MethodChannel(plugin);
 
   static Map<String, Function> routes = {
-    Util.goodDetailTag: (context, {arguments}) => GoodsDetail(arguments: arguments),//商品详情
+    Util.goodDetailTag: (context, {arguments}) =>
+        GoodsDetail(arguments: arguments),
+    //商品详情
     Util.brandTag: (context, {arguments}) => BrandCopy(arguments: arguments),
-    Util.catalogTag: (context, {arguments}) => SortChild(arguments: arguments),//子分类
-    Util.topicDetail: (context, {arguments}) => Topicdetail(arguments: arguments),//专题详情
-    Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),//专题详情
+    Util.catalogTag: (context, {arguments}) => SortChild(arguments: arguments),
+    //子分类
+    Util.topicDetail: (context, {arguments}) =>
+        Topicdetail(arguments: arguments),
+    //专题详情
+    Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),
+    //专题详情
     Util.setting: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
@@ -37,6 +44,9 @@ class Router {
           break;
         case 3: //组件
           return WidgetList();
+          break;
+        case 4: //组件
+          return ScrollViewDemo();
           break;
       }
       return NoFoundPage();
