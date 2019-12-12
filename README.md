@@ -2,7 +2,7 @@
 
 >项目是基于 luoGuoXiong 的 easyMarketFlutter 而写的,其中前三个模块的接口也是其项目用的api，其次，再次非常感谢luoGuoXiong，作为一个初学者，给我提供了非常大的帮,希望对大家有用.
 >
->需要注意,项目中使用了kotlin,编译不通过的,注意更改build文件
+>需要注意,项目中使用了kotlin,adroidx(编译一直提示没有使用androidx,就修改了),flutter升级到最新版本了,好多报错,无奈删除了封装的chewie.编译不通过的,注意更改build文件
 >
 ### [Peroluo(给他点赞)](https://github.com/Peroluo) 
 >

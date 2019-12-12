@@ -6,7 +6,6 @@ import 'package:flutter_app/ui/shoping_market/web_view.dart';
 import 'package:flutter_app/ui/sort/sort.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/widget/wrapper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart';
 
@@ -114,12 +113,12 @@ class _MainPageState extends State<MainPage> {
   final itemNames = [];
 
   _saveScreenInfo(BuildContext context) async {
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    SharedPreferences prefs = await _prefs;
-    prefs.setDouble('screen_width', width);
-    prefs.setDouble('screen_height', height);
+//    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+//    final width = MediaQuery.of(context).size.width;
+//    final height = MediaQuery.of(context).size.height;
+//    SharedPreferences prefs = await _prefs;
+//    prefs.setDouble('screen_width', width);
+//    prefs.setDouble('screen_height', height);
   }
 }
 
