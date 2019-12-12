@@ -13,6 +13,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="FlutterWant"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
