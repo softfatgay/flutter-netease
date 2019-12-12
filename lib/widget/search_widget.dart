@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -51,60 +54,67 @@ class _SearchGoodsState extends State<SearchWidget> {
             },
           ),
           Expanded(
-            child: Container(
-              height: widget.textFiledHeight,
-              margin: EdgeInsets.symmetric(vertical: 5),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: new BoxDecoration(
-                  color: Colors.grey[100],
-                  border: Border.all(color: Colors.grey[400], width: 0.5),
-                  borderRadius: new BorderRadius.circular(20.0)),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      style: TextStyle(textBaseline: TextBaseline.alphabetic),
-                      decoration: InputDecoration(
-                          hintText: TextUtil.isEmpty(widget.hintText)
-                              ? ''
-                              : widget.hintText,
-                          border: InputBorder.none),
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (text) {
-                        //回车按钮
-                        if (widget.onSearchBtnClick != null) {
-                          widget.onSearchBtnClick(text);
-                        }
-                      },
-                      maxLines: 1,
-                      onChanged: (textValue) {
-                        setState(() {
-                          this.text = textValue;
-                        });
-                        if (widget.onValueChangedCallBack != null) {
-                          widget.onValueChangedCallBack(text);
-                        }
-                      },
-                      controller: widget.controller,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  decoration: new BoxDecoration(
+                      color: Colors.grey[100],
+                      border: Border.all(color: Colors.grey[400], width: 0.5),
+                      borderRadius: new BorderRadius.circular(20.0)),
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          height: widget.textFiledHeight,
+                          child: TextField(
+                            style: TextStyle(
+                                textBaseline: TextBaseline.alphabetic),
+                            decoration: InputDecoration(
+                                hintText: TextUtil.isEmpty(widget.hintText)
+                                    ? ''
+                                    : widget.hintText,
+                                border: InputBorder.none),
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (text) {
+                              //回车按钮
+                              if (widget.onSearchBtnClick != null) {
+                                widget.onSearchBtnClick(text);
+                              }
+                            },
+                            maxLines: 1,
+                            onChanged: (textValue) {
+                              setState(() {
+                                this.text = textValue;
+                              });
+                              if (widget.onValueChangedCallBack != null) {
+                                widget.onValueChangedCallBack(text);
+                              }
+                            },
+                            controller: widget.controller,
+                          )),
                     ),
-                  ),
-                  Container(
-                    child: GestureDetector(
-                      child: TextUtil.isEmpty(text)
-                          ? Container()
-                          : Icon(
-                              Icons.cancel,
-                            ),
-                      onTap: () {
-                        widget.controller.clear();
-                        setState(() {
-                          text = '';
-                        });
-                      },
+                    Container(
+                      margin: EdgeInsets.only(right: 8),
+                      child: GestureDetector(
+                        child: TextUtil.isEmpty(text)
+                            ? Container()
+                            : Icon(
+                                Icons.cancel,
+                              ),
+                        onTap: () {
+                          widget.controller.clear();
+                          setState(() {
+                            text = '';
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
           Container(

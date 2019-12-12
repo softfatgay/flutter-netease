@@ -1,12 +1,9 @@
-package com.example.want;
+package com.example.flutter_want;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import java.io.Serializable;
 import java.util.HashMap;
 
 public class WebViewActivity extends Activity {
