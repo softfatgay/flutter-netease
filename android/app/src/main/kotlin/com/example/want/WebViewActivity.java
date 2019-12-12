@@ -1,9 +1,11 @@
-package com.example.flutter_want;
+package com.example.want;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+
 import java.util.HashMap;
 
 public class WebViewActivity extends Activity {

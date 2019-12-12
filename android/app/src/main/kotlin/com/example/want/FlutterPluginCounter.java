@@ -1,4 +1,4 @@
-package com.example.flutter_want;
+package com.example.want;
 
 import android.app.Activity;
 import android.util.Log;

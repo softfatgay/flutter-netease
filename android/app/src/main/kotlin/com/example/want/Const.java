@@ -1,4 +1,4 @@
-package com.example.flutter_want;
+package com.example.want;
 
 public class Const {
      static final String flutterJumpActivity = "com.example.want/flutter2activity";
