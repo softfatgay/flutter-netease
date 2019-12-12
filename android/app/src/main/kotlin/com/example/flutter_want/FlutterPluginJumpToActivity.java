@@ -1,4 +1,4 @@
-package com.example.want;
+package com.example.flutter_want;
 
 import android.app.Activity;
 import android.content.Intent;

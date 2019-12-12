@@ -21,51 +21,10 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  String get app_name => "flutter_app";
-  String get home => "home";
-  String get home_title_four => "专题精选";
-  String get home_title_one => "品牌制造商";
-  String get home_title_three => "人气推荐";
-  String get home_title_two => "新品首发";
-  String get mine => "mine";
-  String get more_goods => "更多";
-  String get shopping_market => "market";
-  String get sort => "sort";
-  String get topic => "topic";
 }
 
 class $en extends S {
   const $en();
-}
-
-class $zh_CN extends S {
-  const $zh_CN();
-
-  @override
-  TextDirection get textDirection => TextDirection.ltr;
-
-  @override
-  String get mine => "我的";
-  @override
-  String get app_name => "flutter_app";
-  @override
-  String get more_goods => "更多";
-  @override
-  String get home_title_two => "新品首发";
-  @override
-  String get topic => "专题";
-  @override
-  String get sort => "分类";
-  @override
-  String get shopping_market => "购物车";
-  @override
-  String get home_title_three => "人气推荐";
-  @override
-  String get home => "首页";
-  @override
-  String get home_title_one => "品牌制造商";
-  @override
-  String get home_title_four => "专题精选";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -74,7 +33,6 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en", ""),
-      Locale("zh", "CN"),
     ];
   }
 
@@ -101,9 +59,6 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       switch (lang) {
         case "en":
           S.current = const $en();
-          return SynchronousFuture<S>(S.current);
-        case "zh_CN":
-          S.current = const $zh_CN();
           return SynchronousFuture<S>(S.current);
         default:
           // NO-OP.
