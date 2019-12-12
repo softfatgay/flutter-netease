@@ -6,6 +6,15 @@
 #### 注意事项:
 >项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),我本地的flutter sdk(1.12.13)升级到最新版本了,好多报错:升级了全部的第三方库,无奈删除了封装的chewie,(还没找到解决办法,安装video_player,就报错).编译不通过的,注意更改build文件
 >
+### [Peroluo(给他点赞)](https://github.com/Peroluo) 
+>
+### [easyMarketFlutter地址](https://github.com/Peroluo/easyMarketFlutter) 
+>
+>
+## [关于我](https://github.com/softfatgay)
+
+## [demo.apk下载地址](https://www.pgyer.com/QjBP)
+
 
 ## 在此基础上增加的一些功能
 
@@ -42,16 +51,8 @@
 10. [package_info](https://pub.flutter-io.cn/packages/package_info)
 >
 >
-### [Peroluo(给他点赞)](https://github.com/Peroluo) 
->
-### [easyMarketFlutter地址](https://github.com/Peroluo/easyMarketFlutter) 
->
->
-## [关于我](https://github.com/softfatgay)
 
-## [demo.apk下载地址](https://www.pgyer.com/QjBP)
->
->
+
 
 ## 最后
 *谢谢大家
