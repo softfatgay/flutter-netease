@@ -179,13 +179,16 @@ class _WidgetListState extends State<WidgetList> {
   }
 
   Widget _buildHeader() {
-    return SearchWidgetNoStstusbar(
-      hintText: '输入搜索',
-      controller: _textEditingController,
-      onValueChangedCallBack: (value) {},
-      onSearchBtnClick: (value) {
-        setState(() {});
-      },
+    return Container(
+      decoration: BoxDecoration(),
+      child: SearchWidgetNoStstusbar(
+        hintText: '输入搜索',
+        controller: _textEditingController,
+        onValueChangedCallBack: (value) {},
+        onSearchBtnClick: (value) {
+          setState(() {});
+        },
+      ),
     );
   }
 
@@ -205,11 +208,11 @@ class _WidgetListState extends State<WidgetList> {
   }
 
   DropdownMenu buildDropdownMenu() {
-    return DropdownMenu(maxMenuHeight: kDropdownMenuItemHeight*10, menus: [
+    return DropdownMenu(maxMenuHeight: kDropdownMenuItemHeight * 10, menus: [
       DropdownMenuBuilder(
           builder: (BuildContext context) {
             return DropdownListMenu(
-              selectedIndex: 3,
+              selectedIndex: 0,
               data: TYPES,
               itemBuilder: buildCheckItem,
             );
@@ -218,7 +221,7 @@ class _WidgetListState extends State<WidgetList> {
       DropdownMenuBuilder(
           builder: (BuildContext context) {
             return DropdownListMenu(
-              selectedIndex: 3,
+              selectedIndex: 0,
               data: ORDERS,
               itemBuilder: buildCheckItem,
             );
@@ -230,8 +233,8 @@ class _WidgetListState extends State<WidgetList> {
               selectedIndex: 0,
               subSelectedIndex: 0,
               itemExtent: 45.0,
-              background: Colors.red,
-              subBackground: Colors.blueAccent,
+              background: Colors.grey[200],
+              subBackground: Colors.grey[200],
               itemBuilder: (BuildContext context, dynamic data, bool selected) {
                 if (!selected) {
                   return new DecoratedBox(
@@ -258,7 +261,7 @@ class _WidgetListState extends State<WidgetList> {
                               new Container(
                                   color: Theme.of(context).primaryColor,
                                   width: 3.0,
-                                  height: 20.0),
+                                  height: 45.0),
                               new Padding(
                                   padding: new EdgeInsets.only(left: 12.0),
                                   child: new Text(data['title'])),
@@ -276,14 +279,18 @@ class _WidgetListState extends State<WidgetList> {
                   height: 45.0,
                   child: new Row(
                     children: <Widget>[
-                      new Text(
-                        data['title'],
-                        style: new TextStyle(color: color),
+                      Container(
+                        child: Text(
+                          data['title'],
+                          style: new TextStyle(color: color),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 15),
                       ),
                       new Expanded(
-                          child: new Align(
+                          child: Container(
+                            padding: EdgeInsets.only(right: 12),
                               alignment: Alignment.centerRight,
-                              child: new Text(data['count'].toString())))
+                              child: Text(data['count'].toString())))
                     ],
                   ),
                 );

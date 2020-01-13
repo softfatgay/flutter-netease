@@ -148,7 +148,8 @@ class _BrandState extends State<Brand> {
               ],
             ),
           );
-          return Router.link(widget, Util.goodDetailTag, context,{'id':brandGoods[index]['id']});
+          return Router.link(widget, Util.goodDetailTag, context,
+              {'id': brandGoods[index]['id']});
         }, childCount: brandGoods.length),
       ),
     );
@@ -170,7 +171,7 @@ class _BrandState extends State<Brand> {
     }
   }
 
-  void getMoreData() async{
+  void getMoreData() async {
     setState(() {
       moreLoading = true;
     });

@@ -6,7 +6,7 @@ class NoFoundPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '错误页面',
+          '未索引页面',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,

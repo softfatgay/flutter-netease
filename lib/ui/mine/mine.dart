@@ -29,21 +29,21 @@ class _MinePageState extends State<MinePage> {
   ];
   List itemList = [
     _ItemList(Icon(Icons.info_outline, color: Colors.blue), '关于'),
-    _ItemList(Icon(Icons.favorite_border, color: Colors.blue), '我的收藏(视频播放演示)'),
+    _ItemList(Icon(Icons.account_box, color: Colors.blue), '登录'),
     _ItemList(Icon(Icons.settings, color: Colors.blue), '设置'),
-    _ItemList(Icon(Icons.local_printshop, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.collections_bookmark, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.credit_card, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.local_hospital, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
-    _ItemList(Icon(Icons.settings, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.list, color: Colors.blue), '搜索+下拉菜单'),
+    _ItemList(Icon(Icons.collections_bookmark, color: Colors.blue), 'PageView(垂直翻页效果)'),
+    _ItemList(Icon(Icons.videocam, color: Colors.blue), '我的收藏(视频播放演示)'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: Colors.blue), '展示条目'),
   ];
 
   @override
@@ -66,6 +66,7 @@ class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
@@ -249,10 +250,10 @@ class _MinePageState extends State<MinePage> {
   Widget buildWidget(List itemList, int index) {
     Widget widget = Container(
       decoration: BoxDecoration(
-          color: Colors.white,
           border:
-              Border(bottom: BorderSide(width: 1, color: Colors.grey[200]))),
-      padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
+      margin: EdgeInsets.only(left: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

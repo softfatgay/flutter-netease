@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/brand/brand_copy.dart';
 import 'package:flutter_app/ui/child_fenlei/child_fenlei.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
+import 'package:flutter_app/ui/mine/login.dart';
+import 'package:flutter_app/ui/mine/login_verification_code.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
@@ -36,8 +38,8 @@ class Router {
         case 0: //关于界面
           return AboutApp();
           break;
-        case 1: //收藏界面
-          return Favorite();
+        case 1: //登录
+          return Login();
           break;
         case 2: //设置界面
           return Setting();
@@ -48,6 +50,10 @@ class Router {
         case 4: //组件
           return ScrollViewDemo();
           break;
+        case 5: //收藏界面
+          return Favorite();
+          break;
+
       }
       return NoFoundPage();
     },

@@ -67,6 +67,7 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
                           hintText: TextUtil.isEmpty(widget.hintText)
                               ? ''
                               : widget.hintText,
+                          contentPadding: EdgeInsets.only(bottom: 10),
                           border: InputBorder.none),
                       textInputAction: TextInputAction.search,
                       onSubmitted: (text) {

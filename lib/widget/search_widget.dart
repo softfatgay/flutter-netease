@@ -39,8 +39,7 @@ class _SearchGoodsState extends State<SearchWidget> {
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
       decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+          border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
           GestureDetector(

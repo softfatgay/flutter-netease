@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http/api.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:toast/toast.dart';
 
 class GoodsDetail extends StatefulWidget {
   final Map arguments;

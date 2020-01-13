@@ -47,7 +47,7 @@ class _SwiperViewState extends State<SwiperView> {
         scrollDirection: Axis.horizontal,
         autoplay: true,
         autoplayDelay: 2000,
-        onTap: (index) =>prefix0.Toast.show(index.toString(), context),
+        onTap: (index) =>{},
       ),
     );
   }
