@@ -12,7 +12,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   #网络
   dio: ^3.0.7
-  connectivity: ^0.3.2
+  connectivity: ^0.4.6+2
   #  webview
   webview_flutter: ^0.3.17
   #状态管理
@@ -41,13 +41,13 @@ dependencies:
   image_picker: ^0.6.2+1
 
   #包信息
-  package_info: ^0.4.0+12
+  package_info: ^0.4.0+13
 
   url_launcher: any
 
   #视频播放切勿改动
   #  chewie: ^0.9.8+1 项目中已把chewie的源码拿出来改动过了,请不要再次dependencie
-  video_player: ^0.10.4+1
+  video_player: ^0.10.5+1
 
   #shared_preferences插件
 #  shared_preferences: ^0.5.4+8
