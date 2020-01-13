@@ -17,7 +17,7 @@ public class WebViewActivity extends Activity {
         WebView webview = findViewById(R.id.webview);
 
         Bundle extras = getIntent().getExtras();
-        HashMap<String,String> arguments = (HashMap<String, String>) extras.getSerializable("arguments");
+        HashMap<String,String> arguments = (HashMap<String, String>) extras.getSerializable(ConstsKt.pluginParams);
 
         webview.setWebViewClient(new WebViewClient());//添加WebViewClient实例
         webview.loadUrl(arguments.get("url"));//添加浏览器地址
