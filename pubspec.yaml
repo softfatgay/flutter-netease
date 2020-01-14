@@ -12,7 +12,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   #网络
   dio: ^3.0.7
-  connectivity: ^0.4.6+2
+
+#  connectivity用于监听网络变化状态
+#  connectivity: ^0.4.6+2
   #  webview
   webview_flutter: ^0.3.17
   #状态管理

@@ -103,7 +103,7 @@ class _SortState extends State<Sort> {
       child: Center(
         child: Text(
           '搜索商品$goodCount件',
-          style: TextStyle(color: Color.fromARGB(255, 102, 102, 102)),
+          style: TextStyle(color: Color.fromARGB(255, 102, 102, 102),fontSize: 16),
         ),
       ),
     );

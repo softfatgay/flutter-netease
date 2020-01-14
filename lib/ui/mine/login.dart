@@ -90,7 +90,7 @@ class _LoginState extends State<Login> {
                           child: TextField(
                             controller: _codeController,
                             maxLines: 1,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderSide: BorderSide(

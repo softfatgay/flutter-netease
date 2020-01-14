@@ -113,6 +113,7 @@ class _LoginState extends State<LoginForCode> {
                               textAlign: TextAlign.start,
                               controller: _codeController,
                               maxLines: 1,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(
                                     borderSide: BorderSide(
