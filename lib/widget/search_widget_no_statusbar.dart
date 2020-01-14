@@ -25,7 +25,7 @@ class SearchWidgetNoStstusbar extends StatefulWidget {
 }
 
 class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
-  String text;
+  String text = '';
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +34,18 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
     }
     return Container(
       height: widget.textFiledHeight,
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      decoration:
+          BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[100]))),
       child: Row(
         children: <Widget>[
           GestureDetector(
             child: Container(
               height: widget.textFiledHeight,
               padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Icon(Icons.arrow_back),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.grey,
+              ),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -52,34 +54,40 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
           Expanded(
             child: Container(
               height: widget.textFiledHeight,
-              margin: EdgeInsets.symmetric(vertical: 5),
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              margin: EdgeInsets.symmetric(vertical: 7),
+              padding: EdgeInsets.only(right: 5),
               decoration: new BoxDecoration(
                   color: Colors.grey[100],
-                  border: Border.all(color: Colors.grey[400], width: 0.5),
-                  borderRadius: new BorderRadius.circular(20.0)),
+                  border: Border.all(color: Colors.grey[200], width: 0.1),
+                  borderRadius: new BorderRadius.circular(5.0)),
               child: Row(
                 children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Icon(
+                      Icons.search,
+                      size: 22,
+                      color: Colors.grey,
+                    ),
+                  ),
                   Expanded(
                     child: TextField(
-                      style: TextStyle(textBaseline: TextBaseline.alphabetic),
+                      style: TextStyle(textBaseline: TextBaseline.alphabetic,fontSize: 16),
                       decoration: InputDecoration(
-                          hintText: TextUtil.isEmpty(widget.hintText)
-                              ? ''
-                              : widget.hintText,
-                          contentPadding: EdgeInsets.only(bottom: 10),
+                          hintText: TextUtil.isEmpty(widget.hintText) ? '' : widget.hintText,
+                          contentPadding: EdgeInsets.only(bottom: 15),
                           border: InputBorder.none),
                       textInputAction: TextInputAction.search,
                       onSubmitted: (text) {
                         //回车按钮
-                        if (widget.onSearchBtnClick != null) {
+                        if (widget.onSearchBtnClick != null && this.text.isNotEmpty) {
                           widget.onSearchBtnClick(text);
                         }
                       },
                       maxLines: 1,
                       onChanged: (textValue) {
                         setState(() {
-                          this.text = textValue;
+                          this.text = textValue.trim();
                         });
                         if (widget.onValueChangedCallBack != null) {
                           widget.onValueChangedCallBack(text);
@@ -94,6 +102,8 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
                           ? Container()
                           : Icon(
                               Icons.cancel,
+                              size: 20,
+                              color: Colors.grey,
                             ),
                       onTap: () {
                         widget.controller.clear();
@@ -109,14 +119,20 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
           ),
           Container(
             height: widget.textFiledHeight,
+            margin: EdgeInsets.symmetric(horizontal: 5),
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
               child: Center(
-                child: Text('搜索'),
+                child: Text(
+                   '搜索',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
               onTap: () {
                 if (widget.onSearchBtnClick != null) {
-                  widget.onSearchBtnClick(text);
+                  if (this.text.isNotEmpty) {
+                    widget.onSearchBtnClick(text);
+                  }
                 }
               },
             ),

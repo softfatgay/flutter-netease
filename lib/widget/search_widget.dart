@@ -38,15 +38,15 @@ class _SearchGoodsState extends State<SearchWidget> {
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      decoration:
+          BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
           GestureDetector(
             child: Container(
               height: widget.textFiledHeight,
               padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Icon(Icons.arrow_back),
+              child: Icon(Icons.arrow_back,color: Colors.grey,),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -58,23 +58,24 @@ class _SearchGoodsState extends State<SearchWidget> {
                 Container(
                   decoration: new BoxDecoration(
                       color: Colors.grey[100],
-                      border: Border.all(color: Colors.grey[400], width: 0.5),
-                      borderRadius: new BorderRadius.circular(20.0)),
-                  margin: EdgeInsets.symmetric(vertical: 5),
+                      border: Border.all(color: Colors.grey[100], width: 0.1),
+                      borderRadius: new BorderRadius.circular(5.0)),
+                  margin: EdgeInsets.symmetric(vertical: 7),
                 ),
                 Row(
                   children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Icon(Icons.search,size: 22,color: Colors.grey,),
+                    ),
                     Expanded(
                       child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 8),
                           height: widget.textFiledHeight,
                           child: TextField(
-                            style: TextStyle(
-                                textBaseline: TextBaseline.alphabetic),
+                            style: TextStyle(textBaseline: TextBaseline.alphabetic,fontSize: 16),
                             decoration: InputDecoration(
-                                hintText: TextUtil.isEmpty(widget.hintText)
-                                    ? ''
-                                    : widget.hintText,
+                                hintText: TextUtil.isEmpty(widget.hintText) ? '' : widget.hintText,
                                 border: InputBorder.none),
                             textInputAction: TextInputAction.search,
                             onSubmitted: (text) {
@@ -86,7 +87,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                             maxLines: 1,
                             onChanged: (textValue) {
                               setState(() {
-                                this.text = textValue;
+                                this.text = textValue.trim();
                               });
                               if (widget.onValueChangedCallBack != null) {
                                 widget.onValueChangedCallBack(text);
@@ -102,6 +103,8 @@ class _SearchGoodsState extends State<SearchWidget> {
                             ? Container()
                             : Icon(
                                 Icons.cancel,
+                                size: 20,
+                                color: Colors.grey,
                               ),
                         onTap: () {
                           widget.controller.clear();
@@ -118,13 +121,17 @@ class _SearchGoodsState extends State<SearchWidget> {
           ),
           Container(
             height: widget.textFiledHeight,
+            margin: EdgeInsets.only(right: 5),
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
               child: Center(
-                child: Text('搜索'),
+                child: Text(
+                  '搜索',
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),
+                ),
               ),
               onTap: () {
-                if (widget.onSearchBtnClick != null) {
+                if (widget.onSearchBtnClick != null && text.isNotEmpty) {
                   widget.onSearchBtnClick(text);
                 }
               },
