@@ -3,7 +3,7 @@
 >项目是基于 luoGuoXiong 的 easyMarketFlutter 而写的,其中前三个模块的接口也是其项目用的api，其次，再次非常感谢luoGuoXiong，作为一个初学者，给我提供了非常大的帮,希望对大家有用.
 >
 #### 注意事项:
->项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),升级了全部的第三方库.最新的flutter插件创建项目android入口变了,注意
+>项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),升级了全部的第三方库.最新的flutter插件创建项目android入口变了,注意;项目中使用了与安卓原生的交互,必要的库(lifecycle)在yaml文件中有注释,删除了相机相册使用的库image-picker,会导致release包无法打开,暂时没有找到原因
 >
 ### [Peroluo(给他点赞)](https://github.com/Peroluo) 
 >
