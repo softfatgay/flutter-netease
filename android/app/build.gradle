@@ -45,27 +45,20 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-//    signingConfigs {
-//        release {
-//            keyAlias localProperties.getProperty('keyAlias')
-//            keyPassword localProperties.getProperty('keyPassword')
-//            storeFile file(localProperties.getProperty('storeFile'))
-//            storePassword localProperties.getProperty('storePassword')
-//        }
-//    }
-//    buildTypes {
-//        release {
-//            signingConfig signingConfigs.release
-//            minifyEnabled false //是否压缩
-//            useProguard false //打开混淆
-////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' //配置混淆文件
-//        }
-//    }
-
-//    storePassword=qwer1234
-//    keyPassword=qwer1234
-//    keyAlias=key
-//    storeFile=D:/key.jks
+    signingConfigs {
+        debug {
+            storeFile file("../key.jks")
+            storePassword "qwer1234"
+            keyAlias "key"
+            keyPassword "qwer1234"
+        }
+        release {
+            storeFile file("../key.jks")
+            storePassword "qwer1234"
+            keyAlias "key"
+            keyPassword "qwer1234"
+        }
+    }
 
     buildTypes {
         release {
@@ -86,4 +79,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
 }

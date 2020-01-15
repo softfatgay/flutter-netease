@@ -13,8 +13,6 @@ dependencies:
   #网络
   dio: ^3.0.7
 
-#  connectivity用于监听网络变化状态
-#  connectivity: ^0.4.6+2
   #  webview
   webview_flutter: ^0.3.17
   #状态管理
@@ -26,7 +24,7 @@ dependencies:
   #  图片
   cached_network_image: ^2.0.0-rc.1
   #如果package get报错,改成下面的版本
-#  cached_network_image: ^2.0.0-rc.1
+  #  cached_network_image: ^2.0.0-rc.1
 
   #  banner
   flutter_swiper: ^1.1.6
@@ -39,8 +37,8 @@ dependencies:
   #语言包
   flutter_localizations:
     sdk: flutter
-  #相机相册
-  image_picker: ^0.6.2+1
+  #相机相册-注销,导致打包失败
+  #  image_picker: ^0.6.3+1
 
   #包信息
   package_info: ^0.4.0+13
@@ -52,7 +50,7 @@ dependencies:
   video_player: ^0.10.5+1
 
   #shared_preferences插件
-#  shared_preferences: ^0.5.4+8
+  #  shared_preferences: ^0.5.4+8
 
   screen: ^0.0.5
 
@@ -62,6 +60,9 @@ dependencies:
 
   #下拉菜单
   dropdown_menu: ^1.1.1
+
+  #与安卓原生交互必须的库
+  flutter_plugin_android_lifecycle: ^1.0.4
 
 dev_dependencies:
   flutter_test:
