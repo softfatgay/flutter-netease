@@ -9,6 +9,7 @@ import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/search_widget.dart';
+import 'package:flutter_app/widget/sliver_footer.dart';
 
 class SearchGoods extends StatefulWidget {
   final Map arguments;
@@ -23,7 +24,6 @@ class _SearchGoodsState extends State<SearchGoods> {
   TextEditingController controller = TextEditingController();
   ScrollController _scrollController = new ScrollController();
   bool isLoading = false;
-  Timer timer;
   String textValue = '';
   var searchTipsData = [];
   var searchTipsresultData = [];
@@ -55,6 +55,8 @@ class _SearchGoodsState extends State<SearchGoods> {
     });
   }
 
+//  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=0&floorPrice=-1&upperPrice=-1&size=40&itemId=0&stillSearch=false&searchWordSource=1&needPopWindow=true&_stat_search=userhand
+//  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=1&floorPrice=-1&upperPrice=-1&size=40&itemId=3827056&stillSearch=false&searchWordSource=1&needPopWindow=false
   void _getTipsResult() {
     var params = {
       'keyword': keyword,
@@ -68,16 +70,25 @@ class _SearchGoodsState extends State<SearchGoods> {
       'itemId': itemId,
       'stillSearch': 'false',
       'searchWordSource': '7',
-      'needPopWindow': 'true',
-      '_stat_search': 'autoComplete',
+      'needPopWindow': 'false'
     };
+    if (!hasMore) {
+      params.addAll({'_stat_search': 'userhand'});
+    } else {
+      params.remove('_stat_search');
+    }
     DioManager.get('xhr/search/search.json', params, (data) {
       setState(() {
         isLoading = false;
+        var newDirectlyList = [];
         var directlyList = data['data']['directlyList'];
         if (directlyList != null) {
+          newDirectlyList.addAll(directlyList);
+        }
+        if (newDirectlyList.isNotEmpty) {
           searchTipsresultData.addAll(data['data']['directlyList']);
-          itemId = data['data']['searchParams']['itemId'];
+          itemId =
+              searchTipsresultData[searchTipsresultData.length - 1]['itemTagList'][0]['itemId'];
           hasMore = data['data']['hasMore'];
           if (!hasMore) {
             bottomTipsText = '没有更多了';
@@ -86,19 +97,23 @@ class _SearchGoodsState extends State<SearchGoods> {
         } else {
           hasMore = false;
           isFirstLoading = true;
-          bottomTipsText = '没有您想要的内容';
+          bottomTipsText = '没有找到您想要的内容';
         }
       });
     });
   }
 
   void _getSearchTips() async {
+    setState(() {
+      isLoading = true;
+    });
     var params = {'keywordPrefix': textValue};
     DioManager.post(
       'xhr/search/searchAutoComplete.json',
       params,
       (data) {
         setState(() {
+          isLoading = false;
           searchTipsData = data['data'];
           serachResult = false;
           hasMore = false;
@@ -125,32 +140,19 @@ class _SearchGoodsState extends State<SearchGoods> {
               hintText: '输入搜索',
               controller: controller,
               onValueChangedCallBack: (value) {
-                _startTimer(value);
+                textValue = value;
+                _getSearchTips();
               },
               onSearchBtnClick: (value) {
                 Util.hideKeyBord(context);
-                setState(() {
-                  textValue = value;
-                  _getSearchTips();
-                });
+                textValue = value;
+                _getSearchTips();
               },
             ),
           )
         ],
       ),
     );
-  }
-
-  _startTimer(String value) {
-    if (timer != null) {
-      timer.cancel();
-    }
-    timer = Timer(Duration(seconds: 1), () {
-      setState(() {
-        textValue = value;
-        _getSearchTips();
-      });
-    });
   }
 
   Widget _showPop() {
@@ -166,32 +168,9 @@ class _SearchGoodsState extends State<SearchGoods> {
         ),
         serachResult ? buildNullSliver() : buildSearchTips(),
         !serachResult ? buildNullSliver() : buildSearchResult(),
-        buildSliver(buildFooter()),
+        SliverFooter(hasMore: hasMore, tipsText: bottomTipsText),
       ],
     );
-  }
-
-  SliverList buildSliver(Widget child) {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return child;
-    }, childCount: 1));
-  }
-
-  Widget buildFooter() {
-    if (!hasMore) {
-      return Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Center(
-          child: Text(
-            bottomTipsText,
-            style: TextStyle(color: Colors.grey),
-          ),
-        ),
-      );
-    } else {
-      return Loading();
-    }
   }
 
   @override
@@ -298,16 +277,6 @@ class _SearchGoodsState extends State<SearchGoods> {
     return SliverList(
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Container();
-      }, childCount: 1),
-    );
-  }
-
-  SliverList buildLoadingSliver() {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Container(
-          child: Loading(),
-        );
       }, childCount: 1),
     );
   }
@@ -442,15 +411,4 @@ class _SearchGoodsState extends State<SearchGoods> {
     );
   }
 
-  Widget buildFirstTipsText() {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      child: Center(
-        child: Text(
-          '搜索更大的世界',
-          style: TextStyle(color: Colors.grey[400]),
-        ),
-      ),
-    );
-  }
 }

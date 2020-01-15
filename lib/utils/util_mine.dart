@@ -11,29 +11,23 @@ class Util {
   static String setting = 'setting';
   static String search = 'search';
 
-
   static const String flutter2activity = 'com.example.want.flutter2activity';
   static const String flutter2activityParams = 'connect_params';
   static const String webView = 'webView';
 
-  static respone2Json(Response response) {
+  ///网络返回转换
+  static response2Json(Response response) {
     return json.decode(json.encode(response.data));
   }
 
- static SliverList buildOneSliverList(Widget widget) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return SingleChildScrollView(
-          child: widget,
-        );
-      }, childCount: 1),
-    );
+  ///验证手机号
+  static bool isPhone(String phone) {
+    return RegExp('^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}\$')
+        .hasMatch(phone);
   }
 
-  static bool isPhone(String phone){
-    return RegExp('^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}\$').hasMatch(phone);
-  }
-  static void hideKeyBord(BuildContext context){
+  ///  隐藏软键盘
+  static void hideKeyBord(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());
   }
 }

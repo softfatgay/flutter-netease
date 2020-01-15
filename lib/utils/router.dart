@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/ui/brand/brand_copy.dart';
+import 'package:flutter_app/ui/brand/brand.dart';
 import 'package:flutter_app/ui/child_fenlei/child_fenlei.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/mine/login.dart';

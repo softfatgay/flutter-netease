@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
@@ -9,6 +10,9 @@ typedef void OnSearchBtnClick(String value);
 
 class SearchWidget extends StatefulWidget {
   final String textValue;
+
+  ///{@macro 输入框变化,回调时间,默认500毫秒}
+  final int textChangeDuration;
   final String hintText;
   final double textFiledHeight;
   final TextEditingController controller;
@@ -20,6 +24,7 @@ class SearchWidget extends StatefulWidget {
       this.textFiledHeight = 48.0,
       @required this.controller,
       this.hintText,
+      this.textChangeDuration = 500,
       this.onSearchBtnClick,
       this.onValueChangedCallBack});
 
@@ -29,7 +34,6 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchGoodsState extends State<SearchWidget> {
   String text;
-
   @override
   Widget build(BuildContext context) {
     if (widget.controller == null) {
@@ -46,7 +50,10 @@ class _SearchGoodsState extends State<SearchWidget> {
             child: Container(
               height: widget.textFiledHeight,
               padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Icon(Icons.arrow_back,color: Colors.grey,),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.grey,
+              ),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -66,32 +73,33 @@ class _SearchGoodsState extends State<SearchWidget> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(left: 5),
-                      child: Icon(Icons.search,size: 22,color: Colors.grey,),
+                      child: Icon(
+                        Icons.search,
+                        size: 22,
+                        color: Colors.grey,
+                      ),
                     ),
                     Expanded(
                       child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 8),
                           height: widget.textFiledHeight,
                           child: TextField(
-                            style: TextStyle(textBaseline: TextBaseline.alphabetic,fontSize: 16),
+                            style: TextStyle(textBaseline: TextBaseline.alphabetic, fontSize: 16),
                             decoration: InputDecoration(
                                 hintText: TextUtil.isEmpty(widget.hintText) ? '' : widget.hintText,
                                 border: InputBorder.none),
                             textInputAction: TextInputAction.search,
                             onSubmitted: (text) {
                               //回车按钮
-                              if (widget.onSearchBtnClick != null) {
-                                widget.onSearchBtnClick(text);
-                              }
+                              setState(() {
+                                if (widget.onSearchBtnClick != null) {
+                                  widget.onSearchBtnClick(text);
+                                }
+                              });
                             },
                             maxLines: 1,
                             onChanged: (textValue) {
-                              setState(() {
-                                this.text = textValue.trim();
-                              });
-                              if (widget.onValueChangedCallBack != null) {
-                                widget.onValueChangedCallBack(text);
-                              }
+                              _startTimer(textValue);
                             },
                             controller: widget.controller,
                           )),
@@ -120,25 +128,56 @@ class _SearchGoodsState extends State<SearchWidget> {
             ),
           ),
           Container(
+            width: 70,
             height: widget.textFiledHeight,
-            margin: EdgeInsets.only(right: 5),
+            margin: EdgeInsets.symmetric(vertical: 7),
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: GestureDetector(
-              child: Center(
+            child: Center(
+              child: RaisedButton(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                onPressed: () {
+                  if (widget.onSearchBtnClick != null && text.isNotEmpty) {
+                    widget.onSearchBtnClick(text);
+                  }
+                },
                 child: Text(
                   '搜索',
-                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                 ),
+                color: Colors.white,
+                elevation: 0,
               ),
-              onTap: () {
-                if (widget.onSearchBtnClick != null && text.isNotEmpty) {
-                  widget.onSearchBtnClick(text);
-                }
-              },
             ),
           ),
         ],
       ),
     );
+  }
+
+  Timer timer;
+
+  _startTimer(String value) {
+    if (timer != null) {
+      timer.cancel();
+    }
+    timer = Timer(Duration(milliseconds: widget.textChangeDuration), () {
+      setState(() {
+        this.text = value.trim();
+        if (widget.onValueChangedCallBack != null) {
+          widget.onValueChangedCallBack(text);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    if (timer != null) {
+      timer.cancel();
+      timer = null;
+    }
   }
 }

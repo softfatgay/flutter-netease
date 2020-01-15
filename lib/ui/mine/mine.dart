@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_app/utils/widget_util.dart';
+
+//import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MinePage extends StatefulWidget {
@@ -15,8 +17,7 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
-  final String icon =
-      'http://img2.imgtn.bdimg.com/it/u=664126570,3319232266&fm=26&gp=0.jpg';
+  final String icon = 'http://img2.imgtn.bdimg.com/it/u=664126570,3319232266&fm=26&gp=0.jpg';
 
   final String imageAsset = 'assets/images/boduoxiaojie.png';
   File image;
@@ -83,27 +84,18 @@ class _MinePageState extends State<MinePage> {
               background: buildUserMsg(),
             ),
           ),
-          buildOneSliver(buildges(buildWidget(itemList1, 0))),
+          WidgetUtil.buildASingleSliver(buildges(buildWidget(itemList1, 0))),
           buildOneBottomSliver(itemList),
         ],
       ),
     );
   }
 
-  SliverList buildOneSliver(Widget widget, {int childCount = 1}) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return widget;
-      }, childCount: childCount),
-    );
-  }
-
   Widget buildOrder() {
     return Container(
       margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+      decoration:
+          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(4))),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -180,9 +172,7 @@ class _MinePageState extends State<MinePage> {
                           '波多老师',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Container(
@@ -199,11 +189,10 @@ class _MinePageState extends State<MinePage> {
                     ],
                   ),
                   onTap: () {
-                    Flutter2Activity.toActivity(Flutter2Activity.webView,
-                        arguments: {
-                          'url':
-                              'https://baike.baidu.com/item/%E6%B3%A2%E5%A4%9A%E9%87%8E%E7%BB%93%E8%A1%A3/1505010?fr=aladdin'
-                        });
+                    Flutter2Activity.toActivity(Flutter2Activity.webView, arguments: {
+                      'url':
+                          'https://baike.baidu.com/item/%E6%B3%A2%E5%A4%9A%E9%87%8E%E7%BB%93%E8%A1%A3/1505010?fr=aladdin'
+                    });
                   },
                 ),
               ),
@@ -239,8 +228,7 @@ class _MinePageState extends State<MinePage> {
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       if (itemList.length > 0) {
         for (int i = 0; i < (itemList.length); i++) {
-          return Router.link(buildWidget(itemList, index), Util.setting,
-              context, {'id': index});
+          return Router.link(buildWidget(itemList, index), Util.setting, context, {'id': index});
         }
       }
       return Container();
@@ -249,9 +237,8 @@ class _MinePageState extends State<MinePage> {
 
   Widget buildWidget(List itemList, int index) {
     Widget widget = Container(
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      decoration:
+          BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
       margin: EdgeInsets.only(left: 15),
       child: Row(
@@ -294,14 +281,14 @@ class _MinePageState extends State<MinePage> {
             actions: <Widget>[
               CupertinoActionSheetAction(
                 onPressed: () {
-                  _showImagePicker(ImageSource.camera);
+//                  _showImagePicker(ImageSource.camera);
                   Navigator.pop(context, 0);
                 },
                 child: Text('相机'),
               ),
               CupertinoActionSheetAction(
                 onPressed: () {
-                  _showImagePicker(ImageSource.gallery);
+//                  _showImagePicker(ImageSource.gallery);
                   Navigator.pop(context, 0);
                 },
                 child: Text('相册'),
@@ -312,12 +299,12 @@ class _MinePageState extends State<MinePage> {
         });
   }
 
-  _showImagePicker(ImageSource type) async {
-    File data = await ImagePicker.pickImage(source: type);
-    setState(() {
-      image = data;
-    });
-  }
+//  _showImagePicker(ImageSource type) async {
+//    File data = await ImagePicker.pickImage(source: type);
+//    setState(() {
+//      image = data;
+//    });
+//  }
 
   Widget buildges(Widget widget) {
     return GestureDetector(

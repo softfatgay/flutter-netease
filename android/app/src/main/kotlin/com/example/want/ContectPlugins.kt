@@ -2,7 +2,6 @@ package com.example.want
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
@@ -15,17 +14,15 @@ object ContectPlugins {
                             if (call.hasArgument("url")) {
                                 //跳转到指定Activity
                                 val intent = Intent(mainActivity, WebViewActivity::class.java)
-                                val arguments = call.arguments as HashMap<String, String>
+                                val arguments = call.arguments as HashMap<*, *>
                                 val bundle = Bundle()
                                 bundle.putSerializable(pluginParams, arguments)
                                 intent.putExtras(bundle)
                                 mainActivity.startActivity(intent)
 
                                 //返回给flutter的参数
-                                //返回给flutter的参数
                                 result.success("success")
                             }
-                            result.success("跳转成功")
                         }
                     }
                 }

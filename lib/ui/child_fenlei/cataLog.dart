@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/footer.dart';
 import 'package:flutter_app/widget/loading.dart';
 
@@ -132,7 +132,7 @@ class _CatalogGoodsState extends State<CatalogGoods>
                     crossAxisSpacing: 8,
                   )),
             ),
-            buildSliver(buildFooter()),
+            WidgetUtil.buildASingleSliver(buildFooter()),
           ],
         ),
       );
@@ -168,13 +168,6 @@ class _CatalogGoodsState extends State<CatalogGoods>
         total = data.data['count'];
       });
     });
-  }
-
-  SliverList buildSliver(Widget widget) {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return widget;
-    }, childCount: 1));
   }
 
   Widget buildFooter() {

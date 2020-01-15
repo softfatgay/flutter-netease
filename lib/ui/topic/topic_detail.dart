@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -90,7 +91,7 @@ class _TopicdetailState extends State<Topicdetail> {
                 );
               }, childCount: 1),
             ),
-            Util.buildOneSliverList(buildText()),
+            WidgetUtil.buildASingleSliver(buildText()),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -123,22 +124,11 @@ class _TopicdetailState extends State<Topicdetail> {
               },
               childCount: commentList.length,
             )),
-            Util.buildOneSliverList(buildFooter()),
-
+            WidgetUtil.buildASingleSliver(buildFooter()),
           ],
         ),
       );
     }
-  }
-
-  SliverList _buildSliverList(Widget widget) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return SingleChildScrollView(
-          child: widget,
-        );
-      }, childCount: 1),
-    );
   }
 
   @override

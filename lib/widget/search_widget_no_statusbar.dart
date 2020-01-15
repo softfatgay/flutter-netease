@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,9 @@ typedef void OnSearchBtnClick(String value);
 
 class SearchWidgetNoStstusbar extends StatefulWidget {
   final String textValue;
+
+  ///{@macro 输入框变化,回调时间,默认500毫秒}
+  final int textChangeDuration;
   final String hintText;
   final double textFiledHeight;
   final TextEditingController controller;
@@ -17,6 +22,7 @@ class SearchWidgetNoStstusbar extends StatefulWidget {
       this.textFiledHeight = 48.0,
       @required this.controller,
       this.hintText,
+      this.textChangeDuration = 500,
       this.onSearchBtnClick,
       this.onValueChangedCallBack});
 
@@ -72,7 +78,7 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
                   ),
                   Expanded(
                     child: TextField(
-                      style: TextStyle(textBaseline: TextBaseline.alphabetic,fontSize: 16),
+                      style: TextStyle(textBaseline: TextBaseline.alphabetic, fontSize: 16),
                       decoration: InputDecoration(
                           hintText: TextUtil.isEmpty(widget.hintText) ? '' : widget.hintText,
                           contentPadding: EdgeInsets.only(bottom: 15),
@@ -80,18 +86,15 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
                       textInputAction: TextInputAction.search,
                       onSubmitted: (text) {
                         //回车按钮
-                        if (widget.onSearchBtnClick != null && this.text.isNotEmpty) {
-                          widget.onSearchBtnClick(text);
-                        }
+                        setState(() {
+                          if (widget.onSearchBtnClick != null && this.text.isNotEmpty) {
+                            widget.onSearchBtnClick(text);
+                          }
+                        });
                       },
                       maxLines: 1,
                       onChanged: (textValue) {
-                        setState(() {
-                          this.text = textValue.trim();
-                        });
-                        if (widget.onValueChangedCallBack != null) {
-                          widget.onValueChangedCallBack(text);
-                        }
+                        _startTimer(textValue);
                       },
                       controller: widget.controller,
                     ),
@@ -118,27 +121,57 @@ class _SearchGoodsState extends State<SearchWidgetNoStstusbar> {
             ),
           ),
           Container(
+            width: 70,
             height: widget.textFiledHeight,
-            margin: EdgeInsets.symmetric(horizontal: 5),
+            margin: EdgeInsets.symmetric(vertical: 7),
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: GestureDetector(
-              child: Center(
-                child: Text(
-                   '搜索',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-              onTap: () {
-                if (widget.onSearchBtnClick != null) {
-                  if (this.text.isNotEmpty) {
+            child: Center(
+              child: RaisedButton(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                onPressed: () {
+                  if (widget.onSearchBtnClick != null && text.isNotEmpty) {
                     widget.onSearchBtnClick(text);
                   }
-                }
-              },
+                },
+                child: Text(
+                  '搜索',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                ),
+                color: Colors.transparent,
+                highlightColor: Colors.grey[200],
+                elevation: 0,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Timer timer;
+
+  _startTimer(String value) {
+    if (timer != null) {
+      timer.cancel();
+    }
+    timer = Timer(Duration(milliseconds: widget.textChangeDuration), () {
+      setState(() {
+        this.text = value.trim();
+        if (widget.onValueChangedCallBack != null) {
+          widget.onValueChangedCallBack(text);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    if (timer != null) {
+      timer.cancel();
+      timer = null;
+    }
   }
 }

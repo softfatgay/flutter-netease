@@ -58,7 +58,7 @@ class Api {
   static Future<T> getBrandGoods1<T>({int page, int size, int brandId}) async {
     Response response = await http
         .get('/goods/list', {'page': page, 'size': size, 'brandId': brandId});
-    return EntityFactory.generateOBJ<T>(Util.respone2Json(response));
+    return EntityFactory.generateOBJ<T>(Util.response2Json(response));
   }
 
   // 某制造商的相关信息
@@ -69,7 +69,7 @@ class Api {
   // 某制造商的相关信息
   static Future<T> getBrandMsg1<T>({int id}) async {
     var response = await http.get('/brand/detail', {'id': id});
-    return EntityFactory.generateOBJ<T>(Util.respone2Json(response));
+    return EntityFactory.generateOBJ<T>(Util.response2Json(response));
   }
 
   // 获取子分类

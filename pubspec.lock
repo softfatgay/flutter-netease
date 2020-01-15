@@ -145,12 +145,12 @@ packages:
     source: hosted
     version: "0.0.3"
   flutter_plugin_android_lifecycle:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_plugin_android_lifecycle
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   flutter_swiper:
     dependency: "direct main"
     description:
@@ -196,13 +196,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.4"
-  image_picker:
-    dependency: "direct main"
-    description:
-      name: image_picker
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.6.3"
   intl:
     dependency: transitive
     description:

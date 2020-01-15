@@ -51,10 +51,10 @@ class _SortChildState extends State<SortChild> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getInitdata();
+    _getInitData();
   }
 
-  _getInitdata() async {
+  _getInitData() async {
     Response data = await Api.getBrotherCatalog(id: widget.arguments['id']);
     List<dynamic> brotherCategory = data.data['brotherCategory'];
     int index;

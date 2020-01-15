@@ -60,10 +60,10 @@ class _SortState extends State<Sort> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getInitdata();
+    _getInitData();
   }
 
-  _getInitdata() async {
+  _getInitData() async {
     var response = await Future.wait([Api.getSortTabs(), Api.getGoodsCount()]);
 
     setState(() {

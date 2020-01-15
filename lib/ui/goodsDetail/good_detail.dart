@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/utils/toast.dart';
+import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -205,11 +206,11 @@ class _GoodsDetailState extends State<GoodsDetail> {
               child: buildSwiper(context, imgList),
             ),
           ),
-          buildSliverWidget(buildOneTab()), //banner底部活动
-          buildSliverWidget(buildDescription()), //简述
-          buildSliverWidget(buildSelectProperty()), //选择属性
-          buildSliverWidget(buildComment()), //评论
-          buildSliverWidget(buildTextTitle('商品详情')), //商品详情标题
+          WidgetUtil.buildASingleSliver(buildOneTab()), //banner底部活动
+          WidgetUtil.buildASingleSliver(buildDescription()), //简述
+          WidgetUtil.buildASingleSliver(buildSelectProperty()), //选择属性
+          WidgetUtil.buildASingleSliver(buildComment()), //评论
+          WidgetUtil.buildASingleSliver(buildTextTitle('商品详情')), //商品详情标题
         ],
       );
     }
@@ -240,14 +241,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
       autoplay: true,
       autoplayDelay: 4000,
       onTap: (index) => Toast.show('$index', context),
-    );
-  }
-
-  SliverList buildSliverWidget(Widget child) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return child;
-      }, childCount: 1),
     );
   }
 
