@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/brand/brand.dart';
 import 'package:flutter_app/ui/child_fenlei/child_fenlei.dart';
+import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/login_verification_code.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/topic/topic_detail.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/FullScreenImage.dart';
 import 'package:flutter_app/widget/widget_list.dart';
 
 class Router {
@@ -21,16 +23,18 @@ class Router {
   static var demoPlugin = MethodChannel(plugin);
 
   static Map<String, Function> routes = {
-    Util.goodDetailTag: (context, {arguments}) =>
-        GoodsDetail(arguments: arguments),
+    Util.goodDetailTag: (context, {arguments}) => GoodsDetail(arguments: arguments),
     //商品详情
     Util.brandTag: (context, {arguments}) => BrandCopy(arguments: arguments),
     Util.catalogTag: (context, {arguments}) => SortChild(arguments: arguments),
     //子分类
-    Util.topicDetail: (context, {arguments}) =>
-        Topicdetail(arguments: arguments),
+    Util.topicDetail: (context, {arguments}) => Topicdetail(arguments: arguments),
     //专题详情
     Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),
+     //评论
+    Util.comment: (context, {arguments}) => CommentList(arguments: arguments),
+    ///大图
+    Util.image: (context, {arguments}) => FullScreenImage(arguments),
     //专题详情
     Util.setting: (context, {arguments}) {
       var id = arguments['id'];
@@ -53,7 +57,6 @@ class Router {
         case 5: //收藏界面
           return Favorite();
           break;
-
       }
       return NoFoundPage();
     },
@@ -65,8 +68,7 @@ class Router {
     return GestureDetector(
       onTap: () {
         if (params != null) {
-          Navigator.pushNamed(context, routeName, arguments: params)
-              .then((onValue) {
+          Navigator.pushNamed(context, routeName, arguments: params).then((onValue) {
             if (callBack != null) {
               callBack();
             }
@@ -83,17 +85,32 @@ class Router {
     );
   }
 
+  ///组件跳转
+  static push(String routeName, BuildContext context, [Map params, Function callBack]) {
+    if (params != null) {
+      Navigator.pushNamed(context, routeName, arguments: params).then((onValue) {
+        if (callBack != null) {
+          callBack();
+        }
+      });
+    } else {
+      Navigator.pushNamed(context, routeName).then((onValue) {
+        if (callBack != null) {
+          callBack();
+        }
+      });
+    }
+  }
+
   static run(RouteSettings routeSettings) {
     final Function pageContentBuilder = Router.routes[routeSettings.name];
     if (pageContentBuilder != null) {
       if (routeSettings.arguments != null) {
         return MaterialPageRoute(
-            builder: (context) => pageContentBuilder(context,
-                arguments: routeSettings.arguments));
+            builder: (context) => pageContentBuilder(context, arguments: routeSettings.arguments));
       } else {
         // 无参数路由
-        return MaterialPageRoute(
-            builder: (context) => pageContentBuilder(context));
+        return MaterialPageRoute(builder: (context) => pageContentBuilder(context));
       }
     } else {
       return MaterialPageRoute(builder: (context) => NoFoundPage());

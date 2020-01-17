@@ -27,7 +27,7 @@ class HttpUtils {
       return error;
     }));
     // 开启日志
-     http.interceptors.add(LogInterceptor(responseBody: false));
+     http.interceptors.add(LogInterceptor(responseBody: true));
   }
 
   Future get(String url, [Map<String, dynamic> params]) {

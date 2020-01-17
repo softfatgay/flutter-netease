@@ -48,6 +48,7 @@ class _TopicdetailState extends State<Topicdetail> {
   bool isLoading = true;
   List commentList = [];
   String title;
+  bool titleColor = false;
 
   String content;
   String htmlContent;
@@ -61,9 +62,10 @@ class _TopicdetailState extends State<Topicdetail> {
     } else {
       return Scaffold(
         body: CustomScrollView(
+          controller: _scrollController,
           slivers: <Widget>[
             SliverAppBar(
-              iconTheme: IconThemeData(color: Colors.black),
+              iconTheme: IconThemeData(color: titleColor?Colors.blue:Colors.grey[200]),
               brightness: Brightness.dark,
               pinned: true,
               elevation: 0,
@@ -73,7 +75,7 @@ class _TopicdetailState extends State<Topicdetail> {
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   '${goodMsg['title']}',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: titleColor?Colors.blue:Colors.transparent),
                 ),
                 background: CachedNetworkImage(
                   imageUrl: goodMsg['scene_pic_url'],
@@ -136,6 +138,17 @@ class _TopicdetailState extends State<Topicdetail> {
     // TODO: implement initState
     super.initState();
     _getInitData();
+    _scrollController.addListener((){
+      var pixels = _scrollController.position.pixels;
+      print(pixels);
+      setState(() {
+        if (pixels>150) {
+          titleColor = true;
+        }else{
+          titleColor = false;
+        }
+      });
+    });
   }
 
   _getInitData() async {

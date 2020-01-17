@@ -1,0 +1,70 @@
+{
+  "code": "200",
+  "data": [
+    {
+      "name": "全部",
+      "strCount": "11299",
+      "type": "1"
+    },
+    {
+      "name": "晒单",
+      "strCount": "1",
+      "type": "0"
+    },
+    {
+      "name": "最新",
+      "strCount": "11299",
+      "type": "0"
+    },
+    {
+      "name": "有图",
+      "strCount": "345",
+      "type": "0"
+    },
+    {
+      "name": "追评",
+      "strCount": "62",
+      "type": "0"
+    },
+    {
+      "name": "很舒服",
+      "strCount": "699",
+      "type": "0"
+    },
+    {
+      "name": "质量上乘",
+      "strCount": "604",
+      "type": "0"
+    },
+    {
+      "name": "性价比高",
+      "strCount": "253",
+      "type": "0"
+    },
+    {
+      "name": "手感好",
+      "strCount": "130",
+      "type": "0"
+    },
+    {
+      "name": "有效实用",
+      "strCount": "123",
+      "type": "0"
+    },
+    {
+      "name": "被子不错",
+      "strCount": "112",
+      "type": "0"
+    },
+    {
+      "name": "做工精良",
+      "strCount": "105",
+      "type": "0"
+    },
+    {
+      "name": "材质薄",
+      "strCount": "93",
+      "type": "0"
+    }
+  ]
+}

@@ -10,6 +10,8 @@ class Util {
   static String topicDetail = 'topicDetail';
   static String setting = 'setting';
   static String search = 'search';
+  static String comment = 'comment';
+  static String image = 'image';
 
   static const String flutter2activity = 'com.example.want.flutter2activity';
   static const String flutter2activityParams = 'connect_params';
@@ -29,5 +31,9 @@ class Util {
   ///  隐藏软键盘
   static void hideKeyBord(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());
+  }
+
+  static String long2Time(int time){
+    return DateTime.fromMillisecondsSinceEpoch(time).toString();
   }
 }

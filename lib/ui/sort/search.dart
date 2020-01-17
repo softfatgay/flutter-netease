@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/net/DioManager.dart';
 import 'package:flutter_app/utils/router.dart';
@@ -402,13 +404,23 @@ class _SearchGoodsState extends State<SearchGoods> {
         return GestureDetector(
           child: widget,
           onTap: () {
-            Toast.show('$index', context);
+            Router.push(Util.goodDetailTag, context,{'id':searchTipsresultData[index]['id']});
           },
         );
       }, childCount: searchTipsresultData.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 0.65, mainAxisSpacing: 3, crossAxisSpacing: 3),
     );
+  }
+
+  //获取详情
+  void _getDetail() async{
+//    https://m.you.163.com/xhr/item/detail.json
+    Response response = await Dio().post('https://m.you.163.com/xhr/item/detail.json',queryParameters: {'id':'1023000'});
+    String dataStr = json.encode(response.data);
+    Map<String, dynamic> dataMap = json.decode(dataStr);
+    var dataMap2 = dataMap['data'];
+    LogUtil.e(json.encode(dataMap),tag:"////");
   }
 
 }

@@ -74,7 +74,8 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.arrow_back),
+                        icon: Icon(Icons.arrow_back,color: this.makeStickyHeaderTextColor(
+                            shrinkOffset, false),),
                         onPressed: () => Navigator.pop(context),
                       ),
                       Text(
