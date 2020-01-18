@@ -158,20 +158,23 @@ class _SearchGoodsState extends State<SearchGoods> {
   }
 
   Widget _showPop() {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-            return Container(
-              height: MediaQuery.of(context).padding.top + 50,
-            );
-          }, childCount: 1),
-        ),
-        serachResult ? buildNullSliver() : buildSearchTips(),
-        !serachResult ? buildNullSliver() : buildSearchResult(),
-        SliverFooter(hasMore: hasMore, tipsText: bottomTipsText),
-      ],
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+              return Container(
+                height: MediaQuery.of(context).padding.top + 50,
+              );
+            }, childCount: 1),
+          ),
+          serachResult ? buildNullSliver() : buildSearchTips(),
+          !serachResult ? buildNullSliver() : buildSearchResult(),
+          SliverFooter(hasMore: hasMore, tipsText: bottomTipsText),
+        ],
+      ),
     );
   }
 
@@ -186,91 +189,79 @@ class _SearchGoodsState extends State<SearchGoods> {
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E4%BC%91%E9%97%B2%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=0&floorPrice=-1&upperPrice=-1&size=40&itemId=0&stillSearch=false&searchWordSource=7&needPopWindow=true&_stat_search=auto
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E4%BC%91%E9%97%B2%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=0&floorPrice=-1&upperPrice=-1&size=40&itemId=1056006&stillSearch=false&searchWordSource=7&needPopWindow=false
   buildImage(int index) {
-    return Positioned(
-        bottom: 0,
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                height: 30,
+    return Container(
+      child: Stack(
+        alignment: const FractionalOffset(0.0, 1), //方法一
+        children: <Widget>[
+          Container(
+            height: 30,
+            child: CachedNetworkImage(
+              imageUrl: searchTipsresultData[index]['listPromBanner']['bannerContentUrl'],
+              fit: BoxFit.fill,
+            ),
+          ),
+          Container(
+            width: 70,
+            height: 35,
+            child: CachedNetworkImage(
+              imageUrl: searchTipsresultData[index]['listPromBanner']['bannerTitleUrl'],
+              fit: BoxFit.fill,
+            ),
+          ),
+          Container(
+              width: 70,
+              height: 35,
+              child: Center(
                 child: Stack(
+                  alignment: const FractionalOffset(0.5, 0.5),
                   children: <Widget>[
-                    Container(
-                      child: CachedNetworkImage(
-                        imageUrl: searchTipsresultData[index]['listPromBanner']['bannerContentUrl'],
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Center(
-                      child: Text(searchTipsresultData[index]['listPromBanner']['content']),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 70,
-                height: 35,
-                child: CachedNetworkImage(
-                  imageUrl: searchTipsresultData[index]['listPromBanner']['bannerTitleUrl'],
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Container(
-                  width: 70,
-                  height: 35,
-                  child: Center(
-                    child: Stack(
-                      alignment: const FractionalOffset(0.5, 0.5),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              searchTipsresultData[index]['listPromBanner']['promoTitle'],
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Text(
-                              searchTipsresultData[index]['listPromBanner']['promoSubTitle'],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                            ),
-                          ],
+                        Text(
+                          searchTipsresultData[index]['listPromBanner']['promoTitle'],
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        Text(
+                          searchTipsresultData[index]['listPromBanner']['promoSubTitle'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                         ),
                       ],
                     ),
-                  )),
-              Positioned(
-                left: 75,
-                height: 30,
-                child: Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text(searchTipsresultData[index]['listPromBanner']['content'],
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                    )),
-              ),
-            ],
+                  ],
+                ),
+              )),
+          Positioned(
+            left: 75,
+            height: 30,
+            child: Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Center(
+                  child: Text(searchTipsresultData[index]['listPromBanner']['content'],
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 12)),
+                )),
           ),
-        ));
+        ],
+      ),
+    );
   }
 
   buildBottomText(int index) {
-    return Positioned(
-      bottom: 0,
-      child: Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-        child: Text(
-          searchTipsresultData[index]['simpleDesc'],
-          style: TextStyle(color: Color(0XFF875D2A), fontSize: 16),
-          overflow: TextOverflow.ellipsis,
-        ),
+    return Container(
+      decoration: BoxDecoration(color: Color(0xFFF1ECE2)),
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        searchTipsresultData[index]['simpleDesc'],
+        style: TextStyle(color: Color(0XFF875D2A), fontSize: 14),
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
@@ -332,95 +323,84 @@ class _SearchGoodsState extends State<SearchGoods> {
         Widget widget = Container(
           padding: EdgeInsets.only(bottom: 5),
           width: double.infinity,
-          decoration: BoxDecoration(color: Colors.grey[200]),
+          decoration: BoxDecoration(color: Colors.transparent),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
                 flex: 7,
                 child: Container(
-                  child: Stack(
-                    overflow: Overflow.clip,
-                    children: <Widget>[
-                      CachedNetworkImage(
-                        imageUrl: searchTipsresultData[index]['primaryPicUrl'],
-                        fit: BoxFit.fill,
-                      ),
-                      searchTipsresultData[index]['listPromBanner'] != null
-                          ? buildImage(index)
-                          : buildBottomText(index)
-                    ],
+                  width: double.infinity,
+                  child: CachedNetworkImage(
+                    imageUrl: searchTipsresultData[index]['primaryPicUrl'],
+                    fit: BoxFit.fill,
                   ),
                   decoration: BoxDecoration(color: Colors.grey[200]),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                  child: Text(
-                    searchTipsresultData[index]['name'],
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              searchTipsresultData[index]['listPromBanner'] != null
+                  ? buildImage(index)
+                  : Expanded(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        child: buildBottomText(index),
+                      )),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: Text(
+                  searchTipsresultData[index]['name'],
+                  textAlign: TextAlign.left,
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      '￥${searchTipsresultData[index]['retailPrice']}',
-                      textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold),
+              Container(
+                child: Text(
+                  '￥${searchTipsresultData[index]['retailPrice']}',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold),
+                ),
+              ),
+              searchTipsresultData[index]['itemTagList'] == null
+                  ? Container()
+                  : Container(
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(color: Colors.red, width: 0.5)),
+                      child: Text(
+                        '${searchTipsresultData[index]['itemTagList'][0]['name'] == null ? '年货特惠' : searchTipsresultData[index]['itemTagList'][0]['name']}',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 12, color: Colors.red),
+                      ),
                     ),
-                  ),
-                  Expanded(child: Container())
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  searchTipsresultData[index]['itemTagList'] == null
-                      ? Container()
-                      : Container(
-                          margin: EdgeInsets.only(top: 5),
-                          padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              border: Border.all(color: Colors.red, width: 0.5)),
-                          child: Text(
-                            '${searchTipsresultData[index]['itemTagList'][0]['name'] == null ? '年货特惠' : searchTipsresultData[index]['itemTagList'][0]['name']}',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 16, color: Colors.red),
-                          ),
-                        ),
-                  Expanded(child: Container())
-                ],
-              ),
             ],
           ),
         );
         return GestureDetector(
           child: widget,
           onTap: () {
-            Router.push(Util.goodDetailTag, context,{'id':searchTipsresultData[index]['id']});
+            Router.push(Util.goodDetailTag, context, {'id': searchTipsresultData[index]['id']});
           },
         );
       }, childCount: searchTipsresultData.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 0.65, mainAxisSpacing: 3, crossAxisSpacing: 3),
+          crossAxisCount: 2, childAspectRatio: 0.65, mainAxisSpacing: 10, crossAxisSpacing: 10),
     );
   }
 
   //获取详情
-  void _getDetail() async{
+  void _getDetail() async {
 //    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio().post('https://m.you.163.com/xhr/item/detail.json',queryParameters: {'id':'1023000'});
+    Response response = await Dio()
+        .post('https://m.you.163.com/xhr/item/detail.json', queryParameters: {'id': '1023000'});
     String dataStr = json.encode(response.data);
     Map<String, dynamic> dataMap = json.decode(dataStr);
     var dataMap2 = dataMap['data'];
-    LogUtil.e(json.encode(dataMap),tag:"////");
+    LogUtil.e(json.encode(dataMap), tag: "////");
   }
-
 }

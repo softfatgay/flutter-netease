@@ -9,7 +9,9 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/utils/widget_util.dart';
+import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/count.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/start_widget.dart';
@@ -293,42 +295,25 @@ class _GoodsDetailState extends State<GoodsDetail> {
   }
 
   Widget buildSwiper(BuildContext context, List imgList) {
-    if (imgList.isEmpty) {
-      return Container(
-        color: Colors.grey,
-        child: Center(
-          child: Text(
-            '暂无图片',
-            style: TextStyle(fontSize: 16, color: Colors.black38),
-          ),
-        ),
-      );
-    }
-    return Swiper(
-      itemCount: imgList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return CachedNetworkImage(
-          imageUrl: imgList[index],
-          fit: BoxFit.cover,
-        );
+    return BannerCacheImg(
+      imageList: imgList,
+      onTap: (index) {
+        Router.push(Util.image, context, {'id': '${imgList[index]}'});
       },
-      controller: SwiperController(),
-      scrollDirection: Axis.horizontal,
-      autoplay: true,
-      autoplayDelay: 4000,
-      onTap: (index) => Toast.show('$index', context),
     );
   }
 
   buildActivity() {
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
-        child: Text(
-          promoTip == null ? '' : promoTip,
-          textAlign: TextAlign.start,
-          style: TextStyle(color: Color(0xFFF48F57)),
-        ));
+    return promoTip == null
+        ? Container()
+        : Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
+            child: Text(
+              promoTip == null ? '' : promoTip,
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Color(0xFFF48F57)),
+            ));
   }
 
   Widget buildOneTab() {
@@ -392,7 +377,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     ),
                   )),
                   Container(
-                    child: Icon(Icons.keyboard_arrow_right),
+                    child: arrowRightIcon
                   )
                 ],
               ),
@@ -421,8 +406,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               : InkResponse(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5))),
+                    decoration: bottomBorder,
                     child: Row(
                       children: <Widget>[
                         Container(
@@ -446,7 +430,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                             ),
                           ],
                         )),
-                        Icon(Icons.keyboard_arrow_right)
+                        arrowRightIcon,
                       ],
                     ),
                   ),
@@ -460,8 +444,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               : InkResponse(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5))),
+                    decoration: bottomBorder,
                     child: Row(
                       children: <Widget>[
                         Container(
@@ -474,7 +457,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             shoppingReward['rewardDesc'],
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: textBlack),
                           ),
                         ),
                         Expanded(
@@ -485,7 +468,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                             ),
                           ),
                         ),
-                        Icon(Icons.keyboard_arrow_right)
+                        arrowRightIcon,
                       ],
                     ),
                   ),
@@ -498,8 +481,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               ? Container()
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5))),
+                  decoration: bottomBorder,
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -557,9 +539,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           InkResponse(
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 15),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[100]))),
+              decoration:bottomBorder,
               child: Row(
                 children: <Widget>[
                   Container(
@@ -584,7 +564,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       style: TextStyle(fontSize: 14, color: Colors.red),
                     ),
                   ),
-                  Icon(Icons.keyboard_arrow_right)
+                  arrowRightIcon,
                 ],
               ),
             ),
@@ -635,7 +615,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         Text('好评率'),
                       ],
                     )),
-                    Icon(Icons.keyboard_arrow_right)
+                    arrowRightIcon
                   ],
                 ),
               ),
@@ -1057,11 +1037,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
             delegate: SliverChildBuilderDelegate((context, index) {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                        bottom: BorderSide(
-                            width: 0.5, color: Colors.grey[200], style: BorderStyle.solid))),
+                decoration: bottomBorder,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1443,12 +1419,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                           )
                         ],
                       ),
-                      Container(
-                        child: Icon(
-                          Icons.keyboard_arrow_right,
-                          size: 20,
-                        ),
-                      )
+                      arrowRightIcon,
                     ],
                   )),
                   onTap: () {

@@ -7,6 +7,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/utils/widget_util.dart';
+import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/start_widget.dart';
@@ -61,7 +62,6 @@ class _CommentListState extends State<CommentList> {
 
   void reset() {
     setState(() {
-      isFirstLoading = true;
       page = 1;
       commentList.clear();
       commentList = [];
@@ -199,38 +199,28 @@ class _CommentListState extends State<CommentList> {
   }
 
   Widget buildCommentTags() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      child: Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        children: tags(),
-      ),
-    );
-  }
-
-  List<Widget> tags() {
-    return List.generate(showTagsNum, (index) {
-      return GestureDetector(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(2)),
-              border: Border.all(
-                  width: 0.5, color: tag == commentTags[index]['name'] ? Colors.red : Colors.grey)),
-          child: Text(
-            '${commentTags[index]['name'] + '(' + commentTags[index]['strCount'] + ')'}',
-            style: TextStyle(color: tag == commentTags[index]['name'] ? Colors.red : Colors.grey),
-          ),
-        ),
-        onTap: () {
-          setState(() {
-            this.tag = commentTags[index]['name'];
-          });
-          reset();
-        },
+    if (commentTags == null||commentTags.isEmpty) {
+      return Loading();
+    }else{
+      List items = [];
+      commentTags.forEach((item){
+        items.add(item['name']);
+      });
+      return Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: FlowWidget(
+            items: items,
+            checkedItem: tag,
+            showItemCount: showTagsNum,
+            onTap: (index){
+              setState(() {
+                this.tag = commentTags[index]['name'];
+              });
+              reset();
+            },
+          )
       );
-    });
+    }
   }
 
   Widget buildLine() {
