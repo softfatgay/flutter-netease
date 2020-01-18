@@ -346,7 +346,7 @@ class _SearchGoodsState extends State<SearchGoods> {
                         imageUrl: searchTipsresultData[index]['primaryPicUrl'],
                         fit: BoxFit.fill,
                       ),
-                      searchTipsresultData[index]['listPromBanner']['promoTitle'] != null
+                      searchTipsresultData[index]['listPromBanner'] != null
                           ? buildImage(index)
                           : buildBottomText(index)
                     ],

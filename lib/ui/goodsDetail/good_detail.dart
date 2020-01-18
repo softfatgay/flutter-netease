@@ -5,7 +5,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -31,6 +30,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
   int goodCount = 1; //商品数量
   double price = 0; //商品价格
   String skuDec = '规格'; //商品属性简介
+  String skuLimit; //商品限制规则
+  String promoTip = ''; //商品活动介绍
+  List couponShortNameList = []; //券活动等
+  List hdrkDetailVOList; //促销
 
   bool initLoading = true;
   ScrollController _scrollController = ScrollController();
@@ -52,6 +55,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.arguments['id']);
     _getDetailPageUp();
     _getDetail();
     _getRMD();
@@ -100,11 +104,15 @@ class _GoodsDetailState extends State<GoodsDetail> {
           if (skuId == item['id']) {
             price = item['retailPrice'];
             skuDec = item['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
+            skuLimit = item['skuLimit'];
+            promoTip = item['promoTip'];
+            couponShortNameList = item['couponShortNameList'];
+            hdrkDetailVOList = item['hdrkDetailVOList'];
           }
         });
       } else {
         price = goodDetailPre['item']['retailPrice'];
-        skuDec = '规格';
+        skuDec = goodDetailPre['item']['name'];
       }
 
       //默认属性
@@ -258,7 +266,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           WidgetUtil.buildASingleSliver(buildOnlyText()),
           buildRecommondReason(),
           //选择属性
-//          WidgetUtil.buildASingleSliver(buildSelectProperty()),
+          WidgetUtil.buildASingleSliver(buildSelectProperty()),
           //服务
           WidgetUtil.buildASingleSliver(buildDescription()),
           //评论
@@ -314,57 +322,13 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   buildActivity() {
     return Container(
-      width: double.infinity,
-      height: 35,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: 35,
-            decoration: BoxDecoration(color: Colors.red),
-          ),
-          Container(
-            width: 70,
-            height: 35,
-            child: CachedNetworkImage(
-              imageUrl: actvity['bannerTitleUrl'],
-              fit: BoxFit.fill,
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 70,
-                height: 35,
-                child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
-                )),
-              ),
-              Expanded(
-                child: Container(
-                  child: Text(
-                    '',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
+        child: Text(
+          promoTip == null ? '' : promoTip,
+          textAlign: TextAlign.start,
+          style: TextStyle(color: Color(0xFFF48F57)),
+        ));
   }
 
   Widget buildOneTab() {
@@ -451,6 +415,45 @@ class _GoodsDetailState extends State<GoodsDetail> {
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
+          //领券
+          (couponShortNameList == null || couponShortNameList.isEmpty)
+              ? Container()
+              : InkResponse(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5))),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(right: 5),
+                          child: Text(
+                            '领券:',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ),
+                        Expanded(
+                            child: Row(
+                          children: <Widget>[
+                            Container(
+                              decoration:
+                                  BoxDecoration(border: Border.all(color: Color(0xFFFBBB65))),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              child: Text(
+                                couponShortNameList[0],
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        )),
+                        Icon(Icons.keyboard_arrow_right)
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Toast.show('您还没有登录', context);
+                  },
+                ),
           //购物反
           shoppingReward == null
               ? Container()
@@ -489,6 +492,66 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   onTap: () {
                     buildActivityDialog(context);
                   },
+                ),
+          //促销限制
+          ((skuLimit == null) && (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty))
+              ? Container()
+              : Container(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5))),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty) ? '限制:' : '促销',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: skuLimit == null
+                            ? Container(
+                                child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 5),
+                                    padding: EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.red),
+                                        borderRadius: BorderRadius.circular(8)),
+                                    child: Text(
+                                      hdrkDetailVOList[0]['activityType'],
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          hdrkDetailVOList[0]['name'],
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          hdrkDetailVOList[0]['promLimitDesc'],
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ))
+                            : Text(
+                                skuLimit,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                      ),
+                    ],
+                  ),
                 ),
           //选择属性
           InkResponse(
@@ -529,32 +592,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
               buildSizeModel(context);
             },
           ),
-          skuList.isEmpty
-              ? Container()
-              : Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5))),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '限制:',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                      skuList[0]['skuLimit'] == null
-                          ? Container()
-                          : Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(
-                                skuList[0]['skuLimit'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                    ],
-                  ),
-                ),
         ],
       ),
     );
@@ -1148,7 +1185,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                               imageUrl: rmdList[index]['primaryPicUrl'],
                               fit: BoxFit.fill,
                             ),
-                            rmdList[index]['listPromBanner']['promoTitle'] != null
+                            rmdList[index]['listPromBanner'] != null
                                 ? buildImage(index)
                                 : buildBottomText(index)
                           ],
@@ -1473,11 +1510,19 @@ class _GoodsDetailState extends State<GoodsDetail> {
               skuId = skuList[index]['id'];
               price = skuList[index]['retailPrice'];
               skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
+              skuLimit = skuList[index]['skuLimit'];
+              promoTip = skuList[index]['promoTip'];
+              couponShortNameList = skuList[index]['couponShortNameList'];
+              hdrkDetailVOList = skuList[index]['hdrkDetailVOList'];
             });
             setState(() {
               skuId = skuList[index]['id'];
               price = skuList[index]['retailPrice'];
               skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
+              skuLimit = skuList[index]['skuLimit'];
+              promoTip = skuList[index]['promoTip'];
+              couponShortNameList = skuList[index]['couponShortNameList'];
+              hdrkDetailVOList = skuList[index]['hdrkDetailVOList'];
             });
           },
         );
