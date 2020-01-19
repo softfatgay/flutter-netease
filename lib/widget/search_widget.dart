@@ -34,6 +34,14 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchGoodsState extends State<SearchWidget> {
   String text;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.controller.text = widget.textValue;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.controller == null) {

@@ -261,33 +261,31 @@ class _GoodsDetailState extends State<GoodsDetail> {
             ),
           ),
           //banner底部活动
-          WidgetUtil.buildASingleSliver(buildActivity()),
+          SliverToBoxAdapter(child: buildActivity(),),
           //商品名称
-          WidgetUtil.buildASingleSliver(buildTitle()),
+          SliverToBoxAdapter(child: buildTitle(),),
           //推荐理由
-          WidgetUtil.buildASingleSliver(buildOnlyText()),
+          SliverToBoxAdapter(child: buildOnlyText(),),
           buildRecommondReason(),
           //选择属性
-          WidgetUtil.buildASingleSliver(buildSelectProperty()),
+          SliverToBoxAdapter(child: buildSelectProperty(),),
           //服务
-          WidgetUtil.buildASingleSliver(buildDescription()),
+          SliverToBoxAdapter(child: buildDescription(),),
           //评论
-          WidgetUtil.buildASingleSliver(buildComment()),
+          SliverToBoxAdapter(child: buildComment(),),
           //详情title
-          WidgetUtil.buildASingleSliver(builddetailTitle()),
+          SliverToBoxAdapter(child: builddetailTitle(),),
           //成分
           buildIntro(),
           //商品详情
-          WidgetUtil.buildASingleSliver(goodDetail.isEmpty ? Container() : buildGoodDetail()),
+          SliverToBoxAdapter(child: goodDetail.isEmpty ? Container() : buildGoodDetail(),),
           //报告
           buildReport(),
           //常见问题
-          WidgetUtil.buildASingleSliver(
-              goodDetail.isEmpty ? Container() : buildIssuTitle('-- 常见问题 --')),
+          SliverToBoxAdapter(child: goodDetail.isEmpty ? Container() : buildIssuTitle('-- 常见问题 --'),),
           buildIssueList(),
           //推荐
-          WidgetUtil.buildASingleSliver(
-              goodDetail.isEmpty ? Container() : buildIssuTitle('-- 你可能还喜欢 --')),
+          SliverToBoxAdapter(child:  goodDetail.isEmpty ? Container() : buildIssuTitle('-- 你可能还喜欢 --'),),
           buildrecommond(),
         ],
       );
@@ -1343,7 +1341,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   Widget buildRecommondR() {
     var recommendReason = this.goodDetailPre['item']['recommendReason'];
-    print(recommendReason);
     return recommendReason.isEmpty
         ? Container(
             child: Text(this.goodDetailPre['item']['simpleDesc']),
@@ -1361,7 +1358,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   buildRecommondReason() {
     var recommendReason = this.goodDetailPre['item']['recommendReason'];
-    print(recommendReason);
     return recommendReason.isEmpty
         ? WidgetUtil.buildASingleSliver(
             Container(

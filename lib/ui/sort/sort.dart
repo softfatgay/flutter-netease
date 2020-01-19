@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
@@ -24,6 +26,10 @@ class _SortState extends State<Sort> {
   bool isRequest = true;
 
   Map currentCategory;
+
+  List roundWords = ['零食', '茅台酒', '床上用品', '衣服', '玩具', '奶粉', '背包'];
+  int rondomIndex = 0;
+  var timer;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +67,14 @@ class _SortState extends State<Sort> {
     // TODO: implement initState
     super.initState();
     _getInitData();
+    timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
+      setState(() {
+        rondomIndex++;
+        if (rondomIndex>=7) {
+          rondomIndex = 0;
+        }
+      });
+    });
   }
 
   _getInitData() async {
@@ -102,12 +116,12 @@ class _SortState extends State<Sort> {
       ),
       child: Center(
         child: Text(
-          '搜索商品$goodCount件',
-          style: TextStyle(color: Color.fromARGB(255, 102, 102, 102),fontSize: 16),
+          roundWords[rondomIndex],
+          style: TextStyle(color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
         ),
       ),
     );
-    return Router.link(widget, Util.search, context);
+    return Router.link(widget, Util.search, context, {'id': roundWords[rondomIndex]});
   }
 
   Widget buildContent() {
@@ -118,59 +132,60 @@ class _SortState extends State<Sort> {
         slivers: <Widget>[
           SliverList(
             delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-                Widget widget = Stack(
-                  children: <Widget>[
-                    Positioned(
-                      child: Container(
-                        height: 120,
-                        child: CachedNetworkImage(
-                          imageUrl: currentCategory['wap_banner_url'],
-                          fit: BoxFit.fill,
+            SliverChildBuilderDelegate((BuildContext context, int index) {
+              Widget widget = Stack(
+                children: <Widget>[
+                  Positioned(
+                    child: Container(
+                      height: 120,
+                      child: CachedNetworkImage(
+                        imageUrl: currentCategory['wap_banner_url'],
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    child: Container(
+                      height: 120,
+                      child: Center(
+                        child: Text(
+                          '${currentCategory['front_name']}',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
-                    Positioned(
-                      child: Container(
-                        height: 120,
-                        child: Center(
-                          child: Text(
-                            '${currentCategory['front_name']}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              return Router.link(widget, Util.catalogTag, context,{'id':currentCategory['id']});
+                  )
+                ],
+              );
+              return Router.link(widget, Util.catalogTag, context, {'id': currentCategory['id']});
             }, childCount: 1),
           ),
           SliverPadding(
             padding: EdgeInsets.all(4.0),
             sliver: SliverGrid(
               delegate:
-                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                    Widget widget = Card(
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: currentCategory['subCategoryList'][index]
-                              ['wap_banner_url'],
-                            ),
-                            flex: 4,
-                          ),
-                          Expanded(
-                            child: Text(
-                              currentCategory['subCategoryList'][index]['name'],
-                            ),
-                            flex: 1,
-                          )
-                        ],
+              SliverChildBuilderDelegate((BuildContext context, int index) {
+                Widget widget = Card(
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: CachedNetworkImage(
+                          imageUrl: currentCategory['subCategoryList'][index]
+                          ['wap_banner_url'],
+                        ),
+                        flex: 4,
                       ),
-                    );
-                return Router.link(widget, Util.catalogTag, context,{'id':currentCategory['subCategoryList'][index]['id']});
+                      Expanded(
+                        child: Text(
+                          currentCategory['subCategoryList'][index]['name'],
+                        ),
+                        flex: 1,
+                      )
+                    ],
+                  ),
+                );
+                return Router.link(widget, Util.catalogTag, context,
+                    {'id': currentCategory['subCategoryList'][index]['id']});
               }, childCount: currentCategory['subCategoryList'].length),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -182,6 +197,15 @@ class _SortState extends State<Sort> {
           )
         ],
       );
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    if (timer != null) {
+      timer.cancel();
     }
   }
 }

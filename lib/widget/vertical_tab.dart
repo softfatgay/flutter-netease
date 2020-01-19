@@ -4,12 +4,13 @@
  * @Date: 2019-08-26 17:29:18
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/global.dart';
 
-const double opWidth = 100.0;
+const double opWidth = 80;
 
-const tabItemHeight = 50.0;
+const tabItemHeight = 40.0;
 
-const indexColor = Colors.green;
+const indexColor = iconColor;
 
 class VerticalTab extends StatefulWidget {
   VerticalTab({Key key, this.tabs, this.onTabChange, this.activeIndex});
@@ -75,9 +76,9 @@ class _VerticalTab extends State<VerticalTab> {
           child: Text(
             '$item',
             style: TextStyle(
-                color: index == _currentIndex ? Colors.green : Colors.black87,
+                color: index == _currentIndex ? textRed : textBlack,
                 letterSpacing: 2,
-                fontSize: index == _currentIndex ? 16 : 14),
+                fontSize: index == _currentIndex ? 18 : 16),
           ),
         ),
       ),
@@ -91,9 +92,13 @@ class _VerticalTab extends State<VerticalTab> {
       tabList[i] = buildTabItem(widget.tabs[i], i);
     }
     return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: splitLineColor),
+        color: Colors.white,
+      ),
       width: opWidth,
       height: double.infinity,
-      color: Colors.white,
+
       child: tabList.isNotEmpty
           ? Stack(
               children: <Widget>[
@@ -107,10 +112,11 @@ class _VerticalTab extends State<VerticalTab> {
                 ),
                 AnimatedPositioned(
                     duration: Duration(milliseconds: isTap ? 100 : 0),
-                    top: -_scrollY + _currentIndex * 50,
+                    top: -_scrollY + _currentIndex * tabItemHeight + tabItemHeight / 4,
                     child: Container(
-                      height: tabItemHeight,
-                      width: 4,
+                      alignment: Alignment.center,
+                      height: tabItemHeight / 2,
+                      width: 3,
                       color: indexColor,
                     ))
               ],

@@ -46,6 +46,11 @@ class _SearchGoodsState extends State<SearchGoods> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      textValue = widget.arguments['id'];
+    });
+
+    _getSearchTips();
     _scrollController.addListener(() {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
@@ -139,6 +144,7 @@ class _SearchGoodsState extends State<SearchGoods> {
           Container(
             decoration: BoxDecoration(color: Colors.white),
             child: SearchWidget(
+              textValue: textValue,
               hintText: '输入搜索',
               controller: controller,
               onValueChangedCallBack: (value) {
@@ -281,22 +287,25 @@ class _SearchGoodsState extends State<SearchGoods> {
             margin: EdgeInsets.only(left: 15),
             decoration: BoxDecoration(
               border: Border(
-                bottom: index == searchTipsData.length - 1
-                    ? BorderSide(width: 0, color: Colors.transparent)
-                    : BorderSide(width: 0.5, color: Colors.grey[200]),
+                bottom: BorderSide(width: 0.5, color: Colors.grey[200]),
               ),
             ),
             child: Row(
               children: <Widget>[
-                Container(
-                  child: Center(
+                Expanded(
                     child: Text(
                       searchTipsData[index],
                       textAlign: TextAlign.start,
                     ),
-                  ),
                 ),
-                Expanded(child: Container())
+                Container(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Image.asset(
+                    'assets/images/search_icon.png',
+                    width: 12.0,
+                    height: 12.0,
+                  ),
+                )
               ],
             ));
         return GestureDetector(

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class WidgetUtil {
-  static SliverList buildASingleSliver(Widget widget) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return widget;
-      }, childCount: 1),
-    );
+  static SliverToBoxAdapter buildASingleSliver(Widget widget) {
+//    return SliverList(
+//      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+//        return widget;
+//      }, childCount: 1),
+//    );
+  return SliverToBoxAdapter(
+    child: widget,
+  );
+
   }
 
   static SliverGrid buildASingleSliverGrid(Widget widget, int rowCount) {

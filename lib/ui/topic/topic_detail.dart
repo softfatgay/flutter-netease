@@ -126,7 +126,7 @@ class _TopicdetailState extends State<Topicdetail> {
               },
               childCount: commentList.length,
             )),
-            WidgetUtil.buildASingleSliver(buildFooter()),
+//            WidgetUtil.buildASingleSliver(buildFooter()),
           ],
         ),
       );

@@ -62,9 +62,10 @@ class _MainPageState extends State<MainPage> {
             pageController.jumpToPage(index);
           });
         },
-        iconSize: 24,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.red,
+        iconSize: 20,
         currentIndex: _tabIndex,
-        fixedColor: Color.fromARGB(255, 0, 188, 96),
         type: BottomNavigationBarType.fixed,
       ),
     );
@@ -93,17 +94,17 @@ class _MainPageState extends State<MainPage> {
           .map((item) => BottomNavigationBarItem(
                 icon: Image.asset(
                   item.normalIcon,
-                  width: 30.0,
-                  height: 30.0,
+                  width: 25.0,
+                  height: 25.0,
                 ),
                 title: Text(
                   item.name,
-                  style: TextStyle(fontSize: 14.0),
+                  style: TextStyle(fontSize: 16.0),
                 ),
                 activeIcon: Image.asset(
                   item.activeIcon,
-                  width: 30.0,
-                  height: 30.0,
+                  width: 25.0,
+                  height: 25.0,
                 ),
               ))
           .toList();

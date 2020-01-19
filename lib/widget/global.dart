@@ -9,13 +9,17 @@ BoxDecoration bottomBorder =
     BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[100], width: 0.5)));
 
 ///黑色字体
-Color textBlack = Colors.black;
+const Color textBlack = Colors.black;
 
 ///红色字体
-Color textRed = Colors.black;
+const Color textRed = Colors.red;
 
 ///右指向箭头
 Icon arrowRightIcon = Icon(Icons.keyboard_arrow_right,color: Colors.grey,);
+
+///icon颜色
+const Color iconColor = Colors.red;
+
 
 
 
