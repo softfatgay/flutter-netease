@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/utils/widget_util.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -140,7 +142,6 @@ class _TopicdetailState extends State<Topicdetail> {
     _getInitData();
     _scrollController.addListener((){
       var pixels = _scrollController.position.pixels;
-      print(pixels);
       setState(() {
         if (pixels>150) {
           titleColor = true;
@@ -156,6 +157,10 @@ class _TopicdetailState extends State<Topicdetail> {
     Response data1 = await Api.getTopicMsg(id: id);
     Response data2 =
         await Api.getTopicComment(valueId: id, typeId: 1, page: 1, size: 5);
+    print(id);
+
+    LogUtil.e(data2);
+
     setState(() {
       isLoading = false;
       goodMsg = data1.data;
@@ -179,8 +184,8 @@ class _TopicdetailState extends State<Topicdetail> {
       width: double.infinity,
       color: Colors.white,
       margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.symmetric(vertical: 15),
-      child: Text('留言',style: TextStyle(color: Colors.blue,fontSize: 18),textAlign: TextAlign.center,),
+      padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+      child: Text('留言',style: TextStyle(color: textBlack,fontSize: 18),),
     );
   }
 

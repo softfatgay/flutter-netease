@@ -14,6 +14,7 @@ import 'package:flutter_app/ui/setting/favorite.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/topic/topic_detail.dart';
+import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
 import 'package:flutter_app/widget/widget_list.dart';
@@ -35,6 +36,8 @@ class Router {
     Util.comment: (context, {arguments}) => CommentList(arguments: arguments),
     ///大图
     Util.image: (context, {arguments}) => FullScreenImage(arguments),
+    ///webView
+    Util.webView: (context, {arguments}) => WebViewPage(arguments),
     //专题详情
     Util.setting: (context, {arguments}) {
       var id = arguments['id'];

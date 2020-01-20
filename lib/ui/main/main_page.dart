@@ -79,7 +79,7 @@ class _MainPageState extends State<MainPage> {
     if (itemNames.isEmpty) {
       itemNames.add(_Item('首页', 'assets/images/ic_tab_home_active.png',
           'assets/images/ic_tab_home_normal.png'));
-      itemNames.add(_Item('专题', 'assets/images/ic_tab_subject_active.png',
+      itemNames.add(_Item('值得买', 'assets/images/ic_tab_subject_active.png',
           'assets/images/ic_tab_subject_normal.png'));
       itemNames.add(_Item('分类', 'assets/images/ic_tab_group_active.png',
           'assets/images/ic_tab_group_normal.png'));

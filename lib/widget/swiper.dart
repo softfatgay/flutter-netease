@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:toast/toast.dart' as prefix0;
 
+typedef void OnTap(int index);
 class SwiperView extends StatefulWidget {
   final List bannerImg;
+  final OnTap onTap;
 
   @override
   _SwiperViewState createState() => _SwiperViewState();
 
-  SwiperView(this.bannerImg);
+  SwiperView(this.bannerImg, {this.onTap});
 }
 
 class _SwiperViewState extends State<SwiperView> {
@@ -47,7 +49,9 @@ class _SwiperViewState extends State<SwiperView> {
         scrollDirection: Axis.horizontal,
         autoplay: true,
         autoplayDelay: 2000,
-        onTap: (index) =>{},
+        onTap: (index) =>{
+          widget.onTap(index)
+        },
       ),
     );
   }
