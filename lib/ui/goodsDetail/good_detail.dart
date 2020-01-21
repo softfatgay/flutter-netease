@@ -1028,7 +1028,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  SliverList buildIntro() {
+  Widget buildIntro() {
     return goodDetail.isEmpty
         ? WidgetUtil.buildASingleSliver(Container())
         : SliverList(
@@ -1077,7 +1077,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  SliverList buildReport() {
+  Widget buildReport() {
     return goodDetail['reportPicList'] == null
         ? WidgetUtil.buildASingleSliver(Container())
         : SliverList(
@@ -1093,7 +1093,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           );
   }
 
-  SliverList buildIssueList() {
+  Widget buildIssueList() {
     return goodDetail.isEmpty
         ? WidgetUtil.buildASingleSliver(Container())
         : SliverList(
