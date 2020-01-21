@@ -106,6 +106,11 @@ class _CommentListState extends State<CommentList> {
     DioManager.get(NetContants.commentTags, params, (data) {
       setState(() {
         commentTags = data['data'];
+        if(commentTags!=null&&commentTags.length>6){
+          showTagsNum = 6;
+        }else{
+          showTagsNum = commentTags.length;
+        }
       });
     });
   }
@@ -144,22 +149,26 @@ class _CommentListState extends State<CommentList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                showTagsNum == 6 ? '更多' : '收起',
+                showTagsNum == commentTags.length ? '收起' : '更多',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),
               Icon(
-                showTagsNum == 6 ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
+                showTagsNum == commentTags.length ?Icons.keyboard_arrow_up : Icons.keyboard_arrow_down ,
                 color: Colors.grey,
               )
             ],
           ),
           onTap: () {
             setState(() {
-              if (showTagsNum == 6) {
+              if (showTagsNum < commentTags.length) {
                 showTagsNum = commentTags.length;
               } else {
-                showTagsNum = 6;
+                if(commentTags.length<6) {
+                  showTagsNum = commentTags.length;
+                }else{
+                  showTagsNum = 6;
+                }
               }
             });
           },
