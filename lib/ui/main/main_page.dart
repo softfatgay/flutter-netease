@@ -94,17 +94,17 @@ class _MainPageState extends State<MainPage> {
           .map((item) => BottomNavigationBarItem(
                 icon: Image.asset(
                   item.normalIcon,
-                  width: 25.0,
-                  height: 25.0,
+                  width: 22.0,
+                  height: 22.0,
                 ),
                 title: Text(
                   item.name,
-                  style: TextStyle(fontSize: 16.0),
+                  style: TextStyle(fontSize: 14.0),
                 ),
                 activeIcon: Image.asset(
                   item.activeIcon,
-                  width: 25.0,
-                  height: 25.0,
+                  width: 22.0,
+                  height: 22.0,
                 ),
               ))
           .toList();

@@ -20,7 +20,7 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage> {
   final String icon = 'http://img2.imgtn.bdimg.com/it/u=664126570,3319232266&fm=26&gp=0.jpg';
 
-  final String imageAsset = 'assets/images/boduoxiaojie.png';
+  final String imageAsset = 'assets/images/sanjicaihua.png';
   File image;
 
   ScrollController _scrollController = ScrollController();
@@ -170,7 +170,7 @@ class _MinePageState extends State<MinePage> {
                       Container(
                         width: double.infinity,
                         child: Text(
-                          '波多老师',
+                          '三吉彩花',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -180,7 +180,7 @@ class _MinePageState extends State<MinePage> {
                         width: double.infinity,
                         margin: EdgeInsets.only(top: 10),
                         child: Text(
-                          '我是一头小毛驴,怎么都不会骑我是一头小毛驴,怎么都不会骑',
+                          '日本影视女演员、模特、歌手，隶属于Amuse演艺事务所，女子团体樱花学院一期生',
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -192,7 +192,7 @@ class _MinePageState extends State<MinePage> {
                   onTap: () {
                     Flutter2Activity.toActivity(Flutter2Activity.webView, arguments: {
                       'url':
-                          'https://baike.baidu.com/item/%E6%B3%A2%E5%A4%9A%E9%87%8E%E7%BB%93%E8%A1%A3/1505010?fr=aladdin'
+                          'https://baike.baidu.com/item/%E4%B8%89%E5%90%89%E5%BD%A9%E8%8A%B1/1462870?fr=aladdin'
                     });
                   },
                 ),
