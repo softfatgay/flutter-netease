@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/generated/i18n.dart';
+import 'package:flutter_app/index.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'index.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: Page(),
+        body: PageStart(),
       ),
     );
   }

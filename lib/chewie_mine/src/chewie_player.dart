@@ -123,7 +123,7 @@ class ChewieState extends State<Chewie> {
   Future<dynamic> _pushFullScreenWidget(BuildContext context) async {
     final isAndroid = Theme.of(context).platform == TargetPlatform.android;
     final TransitionRoute<Null> route = PageRouteBuilder<Null>(
-      settings: RouteSettings(isInitialRoute: false),
+      settings: RouteSettings(name: "",arguments: false),
       pageBuilder: _fullScreenRoutePageBuilder,
     );
 

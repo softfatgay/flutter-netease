@@ -3,11 +3,11 @@ import 'package:flutter_app/ui/main/main_page.dart';
 import 'dart:async';
 import 'package:flutter_app/ui/main/open_ad.dart';
 
-class Page extends StatefulWidget {
+class PageStart extends StatefulWidget {
   _Page createState() => _Page();
 }
 
-class _Page extends State<Page> {
+class _Page extends State<PageStart> {
   // 是否启用广告
   bool showAd = true;
 
