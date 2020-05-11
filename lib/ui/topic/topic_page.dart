@@ -24,7 +24,7 @@ class _TopicPageState extends State<TopicPage> {
   ///第一次加载
   bool isFirstloading = true;
   final int pageSize = 3;
-  int page = 2;
+  int page = 1;
 
   List dataList = [];
   List banner = [];
@@ -40,8 +40,7 @@ class _TopicPageState extends State<TopicPage> {
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         _getMore();
       }
     });
@@ -86,9 +85,8 @@ class _TopicPageState extends State<TopicPage> {
   _getMore() async {
 //    http://m.you.163.com/topic/v1/find/recAuto.json?page=3&size=5
     var params = {'page': page, 'size': pageSize};
-    Response response = await Dio().post(
-        'http://m.you.163.com/topic/v1/find/recAuto.json',
-        queryParameters: params);
+    Response response = await Dio()
+        .post('http://m.you.163.com/topic/v1/find/recAuto.json', queryParameters: params);
     Map<dynamic, dynamic> dataTopic = Map<dynamic, dynamic>.from(response.data);
     LogUtil.e(dataTopic);
     setState(() {
@@ -108,6 +106,20 @@ class _TopicPageState extends State<TopicPage> {
     );
   }
 
+  List<Widget> buildItem() {
+    return List.generate(dataList.length, (index) {
+      return GestureDetector(
+        child: Container(
+          width: double.infinity / 3,
+          child: CachedNetworkImage(
+            imageUrl: dataList[index]['picUrl'],
+          ),
+        ),
+        onTap: () {},
+      );
+    });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -122,16 +134,117 @@ class _TopicPageState extends State<TopicPage> {
     if (isFirstloading) {
       return Loading();
     } else {
-      return Container(
-        child: StaggeredGridView.countBuilder(
-            itemCount: dataList.length,
-            primary: false,
-            controller: _scrollController,
-            crossAxisCount: 4,
-            mainAxisSpacing: 4.0,
-            crossAxisSpacing: 4.0,
-            itemBuilder: (context, index) => buildCard(index),
-            staggeredTileBuilder: (index) => StaggeredTile.fit(2)),
+      return CustomScrollView(
+        controller: _scrollController,
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 200,
+            backgroundColor: Colors.white,
+            title: buildSearch(context),
+            centerTitle: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: buildTopBanner(),
+            ),
+          ),
+          SliverGrid(
+            delegate: SliverChildBuilderDelegate((context, index) {
+
+              Widget child = Container(
+                decoration: BoxDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(top: 5),
+                        width: double.infinity,
+                        child: CachedNetworkImage(
+                          imageUrl: dataList[index]['picUrl'],
+                          fit: BoxFit.fitWidth,
+                        ),
+                        decoration: BoxDecoration(color: Colors.transparent),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Text(
+                        dataList[index]['title'],
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          ClipOval(
+                            child: dataList[index]['avatar'] == null
+                                ? Container()
+                                : Container(
+                                    width: 30,
+                                    height: 30,
+                                    child: CachedNetworkImage(
+                                      imageUrl: dataList[index]['avatar'],
+                                      errorWidget: (context, url, error) {
+                                        return ClipOval(
+                                          child: Container(
+                                            width: 20,
+                                            height: 20,
+                                            decoration: BoxDecoration(color: Colors.grey),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 5),
+                                child: Text(dataList[index]['nickname'] == null
+                                    ? ''
+                                    : dataList[index]['nickname']),
+                              ),
+                            ),
+                          ),
+                          Container(
+                              child: dataList[index]['readCount'] == null
+                                  ? Container()
+                                  : Icon(
+                                      Icons.remove_red_eye,
+                                      color: Colors.grey,
+                                      size: 14,
+                                    )),
+                          Container(
+                            child: Text(dataList[index]['readCount'] == null
+                                ? ''
+                                : (dataList[index]['readCount'] > 1000
+                                    ? '${int.parse((dataList[index]['readCount'] / 1000).toStringAsFixed(0))}K'
+                                    : '${dataList[index]['readCount']}')),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+              String schemeUrl = dataList[index]['schemeUrl'];
+
+              if (!schemeUrl.startsWith('http')) {
+                schemeUrl = 'https://m.you.163.com$schemeUrl';
+              }
+              return Router.link(child, Util.webView, context, {'id': schemeUrl});
+            }, childCount: dataList.length),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5),
+          ),
+          SliverFooter(
+            hasMore: hasMore,
+          )
+        ],
       );
     }
   }
@@ -150,8 +263,7 @@ class _TopicPageState extends State<TopicPage> {
             ),
             child: Text(
               roundWords.length > 0 ? roundWords[rondomIndex] : '',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
+              style: TextStyle(color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
             ),
           ),
         ),
@@ -187,74 +299,8 @@ class _TopicPageState extends State<TopicPage> {
       autoplay: true,
       autoplayDelay: 4000,
       onTap: (index) => {
-        Router.push(Util.webView, context, {'id': dataList[index]['linkUrl']})
+        Router.push(Util.webView,context,{'id':dataList[index]['linkUrl']})
       },
-    );
-  }
-
-  buildCard(int index) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: CachedNetworkImage(
-              imageUrl: dataList[index]['picUrl'],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(3, 5, 3, 5),
-            child: Text(
-              dataList[index]['title'],
-              style: TextStyle(fontSize: 12, color: Colors.blueGrey),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-            child:Row(
-              children: <Widget>[
-                Container(
-                  width: 30,
-                  height: 30,
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      dataList[index]['avatar'] == null
-                          ? ""
-                          : dataList[index]['avatar'],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: Text(dataList[index]['nickname'] == null
-                          ? ''
-                          : dataList[index]['nickname'],style: TextStyle(fontSize: 12),),
-                    ),
-                  ),
-                ),
-                Container(
-                    child: dataList[index]['readCount'] == null
-                        ? Container()
-                        : Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
-                      size: 14,
-                    )),
-                Container(
-                  child: Text(dataList[index]['readCount'] == null
-                      ? ''
-                      : (dataList[index]['readCount'] > 1000
-                      ? '${int.parse((dataList[index]['readCount'] / 1000).toStringAsFixed(0))}K'
-                      : '${dataList[index]['readCount']}'),style: TextStyle(fontSize: 12),),
-                ),
-              ],
-            )
-          )
-        ],
-      ),
     );
   }
 }
