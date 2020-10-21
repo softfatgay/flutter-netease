@@ -14,7 +14,6 @@ class SwiperView extends StatefulWidget {
 }
 
 class _SwiperViewState extends State<SwiperView> {
-  List<Widget> imageList;
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +26,15 @@ class _SwiperViewState extends State<SwiperView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      imageList = widget.bannerImg;
-    });
   }
 
   Widget firstSwiperView() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 200,
+      height: 180,
       child: Swiper(
-        itemCount: imageList.length,
-        itemBuilder: (BuildContext context, int index) => (imageList[index]),
+        itemCount: widget.bannerImg.length,
+        itemBuilder: (BuildContext context, int index) => (widget.bannerImg[index]),
         pagination: SwiperPagination(
           alignment: Alignment.bottomCenter,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
@@ -50,7 +46,7 @@ class _SwiperViewState extends State<SwiperView> {
         autoplay: true,
         autoplayDelay: 2000,
         onTap: (index) =>{
-          widget.onTap(index)
+
         },
       ),
     );

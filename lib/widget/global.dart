@@ -11,9 +11,6 @@ BoxDecoration bottomBorder =
 ///黑色字体
 const Color textBlack = Colors.black;
 
-///红色字体
-const Color textRed = Colors.red;
-
 ///右指向箭头
 Icon arrowRightIcon = Icon(Icons.keyboard_arrow_right,color: Colors.grey,);
 

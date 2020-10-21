@@ -4,11 +4,12 @@
  * @Date: 2019-08-26 17:29:18
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/global.dart';
 
-const double opWidth = 80;
+const double opWidth = 90;
 
-const tabItemHeight = 40.0;
+const tabItemHeight = 45.0;
 
 const indexColor = iconColor;
 
@@ -77,8 +78,8 @@ class _VerticalTab extends State<VerticalTab> {
             '$item',
             style: TextStyle(
                 color: index == _currentIndex ? textRed : textBlack,
-                letterSpacing: 2,
-                fontSize: index == _currentIndex ? 18 : 16),
+                letterSpacing: 1,
+                fontSize: index == _currentIndex ? 16 : 16),
           ),
         ),
       ),
@@ -98,7 +99,6 @@ class _VerticalTab extends State<VerticalTab> {
       ),
       width: opWidth,
       height: double.infinity,
-
       child: tabList.isNotEmpty
           ? Stack(
               children: <Widget>[
@@ -112,7 +112,9 @@ class _VerticalTab extends State<VerticalTab> {
                 ),
                 AnimatedPositioned(
                     duration: Duration(milliseconds: isTap ? 100 : 0),
-                    top: -_scrollY + _currentIndex * tabItemHeight + tabItemHeight / 4,
+                    top: -_scrollY +
+                        _currentIndex * tabItemHeight +
+                        tabItemHeight / 4,
                     child: Container(
                       alignment: Alignment.center,
                       height: tabItemHeight / 2,

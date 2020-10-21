@@ -149,7 +149,6 @@ class _TopicPageState extends State<TopicPage> {
           ),
           SliverGrid(
             delegate: SliverChildBuilderDelegate((context, index) {
-
               Widget child = Container(
                 decoration: BoxDecoration(),
                 child: Column(
@@ -162,7 +161,7 @@ class _TopicPageState extends State<TopicPage> {
                         width: double.infinity,
                         child: CachedNetworkImage(
                           imageUrl: dataList[index]['picUrl'],
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.fitHeight,
                         ),
                         decoration: BoxDecoration(color: Colors.transparent),
                       ),
@@ -232,14 +231,13 @@ class _TopicPageState extends State<TopicPage> {
                 ),
               );
               String schemeUrl = dataList[index]['schemeUrl'];
-
               if (!schemeUrl.startsWith('http')) {
                 schemeUrl = 'https://m.you.163.com$schemeUrl';
               }
               return Router.link(child, Util.webView, context, {'id': schemeUrl});
             }, childCount: dataList.length),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5),
+                crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5,childAspectRatio: 0.65),
           ),
           SliverFooter(
             hasMore: hasMore,

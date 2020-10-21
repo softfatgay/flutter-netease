@@ -103,4 +103,14 @@ class Api {
         {'valueId': valueId, 'typeId': typeId, 'page': page, 'size': size});
   }
 
+
+
+
+
+
+  ///新首页数据
+  static Future getNewHomeData() async {
+    return await http.get('/');
+  }
+
 }

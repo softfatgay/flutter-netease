@@ -10,7 +10,6 @@ import 'package:flutter_app/widget/loading.dart';
 
 class CatalogGoods extends StatefulWidget {
   final int id;
-
   CatalogGoods(this.id);
 
   @override
@@ -49,8 +48,7 @@ class _CatalogGoodsState extends State<CatalogGoods>
   }
 
   _getInitData() async {
-    Response response =
-        await Api.getGoods(page: page, size: pageSize, categoryId: widget.id);
+    Response response = await Api.getGoods(page: page, size: pageSize, categoryId: widget.id);
     var data = response.data;
     var goodList = data['data'];
     setState(() {

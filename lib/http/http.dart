@@ -5,11 +5,14 @@ class HttpUtils {
   String baseApi = 'http://202.96.155.121:8888/api';
 
   String baseUrl = "http://202.96.155.121:8888/api";
+
+  String newBaseUrl = "https://m.you.163.com/xhr/index.json";
+
 //  https://pages.kaola.com/pages/region/advance/kaola123.html?type=2
 
   HttpUtils() {
     BaseOptions options = BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: newBaseUrl,
     );
     http = Dio(options);
     //添加拦截器
@@ -27,7 +30,7 @@ class HttpUtils {
       return error;
     }));
     // 开启日志
-     http.interceptors.add(LogInterceptor(responseBody: true));
+    http.interceptors.add(LogInterceptor(responseBody: true));
   }
 
   Future get(String url, [Map<String, dynamic> params]) {
@@ -50,7 +53,7 @@ class HttpUtils {
 
   Dio setToken(String token) {
     BaseOptions options = BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: newBaseUrl,
       headers: {
         'x-nideshop-token': token,
       },

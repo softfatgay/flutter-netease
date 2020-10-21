@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/brand/brand.dart';
 import 'package:flutter_app/ui/child_fenlei/child_fenlei.dart';
+import 'package:flutter_app/ui/child_fenlei/sort_list.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/mine/login.dart';
@@ -27,7 +28,7 @@ class Router {
     Util.goodDetailTag: (context, {arguments}) => GoodsDetail(arguments: arguments),
     //商品详情
     Util.brandTag: (context, {arguments}) => BrandCopy(arguments: arguments),
-    Util.catalogTag: (context, {arguments}) => SortChild(arguments: arguments),
+    Util.catalogTag: (context, {arguments}) => SortList(arguments: arguments),
     //子分类
     Util.topicDetail: (context, {arguments}) => Topicdetail(arguments: arguments),
     //专题详情

@@ -96,7 +96,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
     Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
     setState(() {
       goodDetailPre = dataMap;
-
 //      LogUtil.e(json.encode(goodDetailPre));
       //选择属性id
       var skuList = goodDetailPre['item']['skuList'];
@@ -104,7 +103,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
         skuId = skuList[0]['id'];
         skuList.forEach((item) {
           if (skuId == item['id']) {
-            price = item['retailPrice'];
+            price = double.parse(item['retailPrice'].toString());
             skuDec = item['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
             skuLimit = item['skuLimit'];
             promoTip = item['promoTip'];
@@ -517,7 +516,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                       ),
                                       Container(
                                         child: Text(
-                                          hdrkDetailVOList[0]['promLimitDesc'],
+                                          hdrkDetailVOList[0]['promLimitDesc'] == null?"":hdrkDetailVOList[0]['promLimitDesc'],
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                       )

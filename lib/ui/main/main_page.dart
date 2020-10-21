@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/i18n.dart';
+import 'package:flutter_app/ui/home/home_new.dart';
 import 'package:flutter_app/ui/mine/mine.dart';
 import 'package:flutter_app/ui/shoping_market/shop_market.dart';
 import 'package:flutter_app/ui/shoping_market/web_view.dart';
 import 'package:flutter_app/ui/sort/sort.dart';
+import 'package:flutter_app/ui/sort/sort_new.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/widget/wrapper.dart';
 
@@ -21,7 +23,7 @@ class _MainPageState extends State<MainPage> {
   int _tabIndex = 0;
 
   final pageList = [
-    WrapKeepState(Home()),
+    WrapKeepState(HomeNew()),
   ];
 
   @override
@@ -40,10 +42,10 @@ class _MainPageState extends State<MainPage> {
       body: PageView(
         children: <Widget>[
 //          WrapKeepState(Home()),
-          WrapKeepState(Home()),
+          WrapKeepState(HomeNew()),
           WrapKeepState(TopicPage()),
 //          TopicPage(),
-          WrapKeepState(Sort()),
+          WrapKeepState(SortNew()),
           WrapKeepState(WebView()),
           MinePage(),
         ],

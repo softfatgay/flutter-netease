@@ -55,9 +55,9 @@ class TabAppBar extends StatelessWidget {
           isScrollable: true,
           controller: this.controller,
           labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          labelColor: Colors.blue,
+          labelColor: Colors.red,
           unselectedLabelColor: Colors.black45,
-          indicatorColor: Colors.blue,
+          indicatorColor: Colors.red,
           indicatorWeight: 2,
           tabs: tabs.map((item) {
             return Container(
