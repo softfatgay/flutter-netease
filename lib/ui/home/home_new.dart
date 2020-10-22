@@ -7,7 +7,6 @@ import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
-import 'package:flutter_app/widget/topic.dart';
 
 class HomeNew extends StatefulWidget {
   @override
@@ -148,7 +147,9 @@ class _HomeState extends State<HomeNew> {
           margin: EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             "网易严选",
-            style: TextStyle(fontSize: 20, ),
+            style: TextStyle(
+              fontSize: 20,
+            ),
           ),
         ),
         Expanded(
@@ -161,12 +162,19 @@ class _HomeState extends State<HomeNew> {
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-            SizedBox(width: 10,),
-              Icon(Icons.search,size: 20,color: Color.fromARGB(255, 102, 102, 102),),
-              Expanded(child: Text(
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                Icons.search,
+                size: 20,
+                color: Color.fromARGB(255, 102, 102, 102),
+              ),
+              Expanded(
+                  child: Text(
                 "搜索商品，共43430款好物",
                 style: TextStyle(
                     color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
@@ -178,47 +186,41 @@ class _HomeState extends State<HomeNew> {
         ))
       ],
     );
-    return singleSliverList(
+    return singleSliverWidget(
         Router.link(widget, Util.search, context, {'id': "零食"}));
   }
 
   //轮播图
   _buildSwiper() {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return SwiperView(banner);
-      }, childCount: 1),
+    return SliverToBoxAdapter(
+      child: SwiperView(banner),
     );
   }
 
   _topTags(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: tagList
-              .map((item) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    height: 40,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CachedNetworkImage(
-                          width: 20,
-                          height: 20,
-                          imageUrl: item['icon'],
-                          fit: BoxFit.fill,
-                        ),
-                        Text(item["desc"])
-                      ],
+    return singleSliverWidget(Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: tagList
+          .map((item) => Container(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                height: 40,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      width: 20,
+                      height: 20,
+                      imageUrl: item['icon'],
+                      fit: BoxFit.fill,
                     ),
-                  ))
-              .toList(),
-        );
-      }, childCount: 1),
-    );
+                    Text(item["desc"])
+                  ],
+                ),
+              ))
+          .toList(),
+    ));
   }
 
   ///  分类
@@ -274,129 +276,121 @@ class _HomeState extends State<HomeNew> {
   }
 
   _bigPromotion(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Column(
-          children: bigPromotionModuleItems
-              .map((item) => CachedNetworkImage(
-                    height: 180,
-                    fit: BoxFit.fill,
-                    imageUrl: item["cells"][0]["picUrl"],
-                  ))
-              .toList(),
-        );
-      }, childCount: 1),
-    );
+    return singleSliverWidget(Column(
+      children: bigPromotionModuleItems
+          .map((item) => CachedNetworkImage(
+                height: 180,
+                fit: BoxFit.fill,
+                imageUrl: item["cells"][0]["picUrl"],
+              ))
+          .toList(),
+    ));
   }
 
   _splitLine() {
-    return singleSliverList(Container(
+    return singleSliverWidget(Container(
       height: 10,
       color: Color(0xFFEAEAEA),
     ));
   }
 
   _newcomerPack(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Column(children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    "- 新人专享礼包 -",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )
-              ],
+    return singleSliverWidget(Column(children: [
+      Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 15),
+              child: Text(
+                "- 新人专享礼包 -",
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          ],
+        ),
+      ),
+      Container(
+        height: 200,
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Container(
+                  height: 200,
+                  margin: EdgeInsets.only(top: 3),
+                  color: Color(0xFFF6E5C4),
+                  child: CachedNetworkImage(
+                      imageUrl:
+                      "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                )),
+            Container(
+              width: 3,
+              color: Colors.white,
             ),
-          ),
-          Container(
-            height: 200,
-            child: Row(
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 200,
-                      margin: EdgeInsets.only(top: 3),
-                      color: Color(0xFFF6E5C4),
-                      child: CachedNetworkImage(
-                          imageUrl:
-                              "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
-                    )),
-                Container(
-                  width: 3,
-                  color: Colors.white,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 200,
-                    child: Column(
-                        children: indexActivityModules
-                            .map(
-                              (item) => Stack(
-                                children: [
-                                  Container(
-                                    width: 180,
-                                    height: 97,
-                                    color: Color(0xFFF6E5C4),
-                                    margin: EdgeInsets.only(top: 3),
-                                    child: CachedNetworkImage(
-                                      fit: BoxFit.cover,
-                                      imageUrl: item["showPicUrl"],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item["title"],
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          item["subTitle"] == ""
-                                              ? item["tag"]
-                                              : item["subTitle"],
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                            .toList()),
-                  ),
-                ),
-              ],
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: 200,
+                child: Column(
+                    children: indexActivityModules
+                        .map(
+                          (item) => Stack(
+                        children: [
+                          Container(
+                            width: 180,
+                            height: 97,
+                            color: Color(0xFFF6E5C4),
+                            margin: EdgeInsets.only(top: 3),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: item["showPicUrl"],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item["title"],
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  item["subTitle"] == ""
+                                      ? item["tag"]
+                                      : item["subTitle"],
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        .toList()),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          )
-        ]);
-      }, childCount: 1),
-    );
+          ],
+        ),
+      ),
+      SizedBox(
+        height: 20,
+      )
+    ]));
   }
 
   _categoryHotSell(BuildContext context) {
     if (categoryHotSellModule == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-      sliver: singleSliverList(
+      sliver: singleSliverWidget(
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -504,7 +498,7 @@ class _HomeState extends State<HomeNew> {
 
   _categoryHotSellItem(BuildContext context) {
     if (categoryHotSellModule == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -552,11 +546,11 @@ class _HomeState extends State<HomeNew> {
 
   _flashSaleTitle(BuildContext context) {
     if (flashSaleModule == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-      sliver: singleSliverList(
+      sliver: singleSliverWidget(
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -586,7 +580,7 @@ class _HomeState extends State<HomeNew> {
 
   _flashSaleItem(BuildContext context) {
     if (flashSaleModuleItems == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -643,11 +637,11 @@ class _HomeState extends State<HomeNew> {
 
   _newModulTitle(BuildContext context) {
     if (newItemList == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-      sliver: singleSliverList(
+      sliver: singleSliverWidget(
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -677,7 +671,7 @@ class _HomeState extends State<HomeNew> {
 
   _newModulItem(BuildContext context) {
     if (newItemList == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -730,12 +724,12 @@ class _HomeState extends State<HomeNew> {
 
   _bottomView(BuildContext context) {
     if (sceneLightShoppingGuideModule == null) {
-      return singleSliverList(Container());
+      return singleSliverWidget(Container());
     }
 
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(10, 15, 15, 15),
-      sliver: singleSliverList(Row(
+      sliver: singleSliverWidget(Row(
         children: sceneLightShoppingGuideModule
             .map((item) => Expanded(
                   flex: 1,

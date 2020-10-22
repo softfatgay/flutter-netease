@@ -85,7 +85,7 @@ class _CatalogGoodsState extends State<SortListItem>
           slivers: <Widget>[
             SliverPadding(
               padding: EdgeInsets.symmetric(vertical: 15),
-              sliver: singleSliverList(Container(
+              sliver: singleSliverWidget(Container(
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
