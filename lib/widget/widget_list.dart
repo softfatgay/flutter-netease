@@ -1,14 +1,11 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:dropdown_menu/_src/drapdown_common.dart';
 import 'package:dropdown_menu/dropdown_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/search_widget.dart';
 import 'package:flutter_app/widget/search_widget_no_statusbar.dart';
 
 class WidgetList extends StatefulWidget {
@@ -32,20 +29,6 @@ class _WidgetListState extends State<WidgetList> {
     // TODO: implement initState
     super.initState();
     globalKey = GlobalKey();
-    _getInitData();
-  }
-
-  _getInitData() async {
-    Response response =
-        await Api.getGoods(page: page, size: pageSize, categoryId: 1005000);
-    var data = response.data;
-    var goodList = data['data'];
-    setState(() {
-      dataList.insertAll(dataList.length, goodList);
-      isLoading = false;
-      total = data['count'];
-      page = page + 1;
-    });
   }
 
   @override

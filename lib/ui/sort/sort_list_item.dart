@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/footer.dart';
-import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/slivers.dart';
 

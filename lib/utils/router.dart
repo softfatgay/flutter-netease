@@ -1,20 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/ui/brand/brand.dart';
-import 'package:flutter_app/ui/child_fenlei/child_fenlei.dart';
-import 'package:flutter_app/ui/child_fenlei/sort_list.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/mine/login.dart';
-import 'package:flutter_app/ui/mine/login_verification_code.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
 import 'package:flutter_app/ui/setting/favorite.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/sort/search.dart';
-import 'package:flutter_app/ui/topic/topic_detail.dart';
+import 'package:flutter_app/ui/sort/sort_list.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
@@ -27,10 +23,7 @@ class Router {
   static Map<String, Function> routes = {
     Util.goodDetailTag: (context, {arguments}) => GoodsDetail(arguments: arguments),
     //商品详情
-    Util.brandTag: (context, {arguments}) => BrandCopy(arguments: arguments),
     Util.catalogTag: (context, {arguments}) => SortList(arguments: arguments),
-    //子分类
-    Util.topicDetail: (context, {arguments}) => Topicdetail(arguments: arguments),
     //专题详情
     Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),
      //评论

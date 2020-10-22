@@ -1,14 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
-
 /// @Author: 一凨
 /// @Date: 2018-12-10 21:15:27
 /// @Last Modified by: 一凨
 /// @Last Modified time: 2018-12-10 21:16:05
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/http/api.dart';
-import 'package:flutter_app/widget/loading.dart';
 
 class ScrollViewDemo extends StatefulWidget {
   @override

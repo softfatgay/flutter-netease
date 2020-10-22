@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/ui/home/home_new.dart';
 import 'package:flutter_app/ui/mine/mine.dart';
-import 'package:flutter_app/ui/shoping_market/shop_market.dart';
 import 'package:flutter_app/ui/shoping_market/web_view.dart';
-import 'package:flutter_app/ui/sort/sort.dart';
 import 'package:flutter_app/ui/sort/sort_new.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/widget/wrapper.dart';
 
-import '../home/home.dart';
 
 class MainPage extends StatefulWidget {
   @override

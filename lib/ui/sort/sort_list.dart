@@ -1,12 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/http/api.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/child_fenlei/cataLog.dart';
-import 'package:flutter_app/ui/child_fenlei/sort_list_item.dart';
+import 'package:flutter_app/ui/sort/sort_list_item.dart';
 import 'package:flutter_app/utils/constans.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart' as prefix0;
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/tab_app_bar.dart' as prefix0;
 
 class SortList extends StatefulWidget {
   Map arguments;

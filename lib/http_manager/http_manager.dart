@@ -52,6 +52,7 @@ class HttpManager {
     // );
 
     Dio dio = Dio();
+
     Options options = Options(
       method: method,
       headers: headers,
