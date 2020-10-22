@@ -1,13 +1,7 @@
 # FlutterWant
 
->项目是基于 luoGuoXiong 的 easyMarketFlutter 而写的,其中前三个模块的接口也是其项目用的api，其次，再次非常感谢luoGuoXiong，作为一个初学者，给我提供了非常大的帮,希望对大家有用.
->
 #### 注意事项:
->项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),升级了全部的第三方库.最新的flutter插件创建项目android入口变了,注意;项目中使用了与安卓原生的交互,必要的库(lifecycle)在yaml文件中有注释,删除了相机相册使用的库image-picker,会导致release包无法打开,暂时没有找到原因
->
-### [Peroluo(给他点赞)](https://github.com/Peroluo) 
->
-### [easyMarketFlutter地址](https://github.com/Peroluo/easyMarketFlutter) 
+>项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),注意修改gradle文件。注意;项目中使用了与安卓原生的交互,必要的库(lifecycle)在yaml文件中有注释
 >
 >
 ## [关于我](https://github.com/softfatgay)
@@ -15,13 +9,13 @@
 ## [demo.apk下载地址](https://www.pgyer.com/QjBP)
 
 
-## 在此基础上增加的一些功能
+## 已更新到stable分枝，深度还原网易严选小程序端，api全部来自严选
 
->1.为了演示与luoGuoXiong使用的Dio网络库对比，把几个接口返回数据进行了封装，直接解析成大家比较直观的java Model类型
+>1.项目中使用了序列化的方式，解析成大家比较直观的java Model类型
 >
 >2.添加了flutter与安卓原生的交互，调用安卓activity，并为其传递参数
 >
->3.为了方便大家理解，项目目录重新划分，以文件的形式，把各个模块区分
+>3.为了方便大家理解，项目中一些重要的json文件都保存在相应文件夹下
 >
 >4.其中实现比较复杂的模块，使用了比较简单的形式实现
 >
@@ -54,8 +48,6 @@
 8. [image_picker](https://pub.flutter-io.cn/packages/image_picker)
 9. [common_utils](https://pub.flutter-io.cn/packages/common_utils)
 10. [package_info](https://pub.flutter-io.cn/packages/package_info)
->
->
 
 
 
