@@ -32,7 +32,6 @@ this.pinned = false,//标题栏是否固定
 this.snap = false,//配合floating使用
 })*/
 
-
 class HomeNew extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -218,7 +217,7 @@ class _HomeState extends State<HomeNew> {
   //轮播图
   _buildSwiper() {
     return SliverToBoxAdapter(
-      child: SwiperView(banner),
+      child: banner == null ? Container():SwiperView(banner),
     );
   }
 
@@ -257,7 +256,7 @@ class _HomeState extends State<HomeNew> {
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return Container(
+          Widget widget = Container(
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -293,6 +292,8 @@ class _HomeState extends State<HomeNew> {
               ],
             ),
           );
+          return Router.link(widget, Util.kingKong, context,
+              {"schemeUrl": kingKongModuleItems[index]["schemeUrl"]});
         },
         childCount:
             kingKongModuleItems == null ? 0 : kingKongModuleItems.length,
@@ -347,7 +348,7 @@ class _HomeState extends State<HomeNew> {
                   color: Color(0xFFF6E5C4),
                   child: CachedNetworkImage(
                       imageUrl:
-                      "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                          "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
                 )),
             Container(
               width: 3,
@@ -361,42 +362,41 @@ class _HomeState extends State<HomeNew> {
                     children: indexActivityModules
                         .map(
                           (item) => Stack(
-                        children: [
-                          Container(
-                            width: 180,
-                            height: 97,
-                            color: Color(0xFFF6E5C4),
-                            margin: EdgeInsets.only(top: 3),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: item["showPicUrl"],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item["title"],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                            children: [
+                              Container(
+                                width: 180,
+                                height: 97,
+                                color: Color(0xFFF6E5C4),
+                                margin: EdgeInsets.only(top: 3),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: item["showPicUrl"],
                                 ),
-                                Text(
-                                  item["subTitle"] == ""
-                                      ? item["tag"]
-                                      : item["subTitle"],
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.grey),
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item["title"],
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      item["subTitle"] == ""
+                                          ? item["tag"]
+                                          : item["subTitle"],
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )
+                        )
                         .toList()),
               ),
             ),

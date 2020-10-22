@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
+import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
@@ -24,6 +25,9 @@ class Router {
     Util.goodDetailTag: (context, {arguments}) => GoodsDetail(arguments: arguments),
     //商品详情
     Util.catalogTag: (context, {arguments}) => SortList(arguments: arguments),
+      //kingKong
+    Util.kingKong: (context, {arguments}) => KingKongPage(arguments: arguments),
+
     //专题详情
     Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),
      //评论

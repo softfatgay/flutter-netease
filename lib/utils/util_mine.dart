@@ -7,6 +7,7 @@ class Util {
   static String brandTag = 'brand';
   static String goodDetailTag = 'goodsDetail';
   static String catalogTag = 'catalog';
+  static String kingKong = 'kingKong';
   static String topicDetail = 'topicDetail';
   static String setting = 'setting';
   static String search = 'search';

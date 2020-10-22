@@ -14,5 +14,9 @@ Future<ResponseData> sortListData(Map<String, dynamic> parameters) async {
   return await HttpManager.get(URL_SORT_LIST_NEW, queryParameters: parameters);
 }
 
+Future<ResponseData> kingKongData(Map<String, dynamic> parameters) async {
+  return await HttpManager.get(URL_KING_KONG, queryParameters: parameters);
+}
+
 
 
