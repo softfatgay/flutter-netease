@@ -217,7 +217,7 @@ class _HomeState extends State<HomeNew> {
   //轮播图
   _buildSwiper() {
     return SliverToBoxAdapter(
-      child: banner == null ? Container():SwiperView(banner),
+      child: banner == null ? Container() : SwiperView(banner),
     );
   }
 
@@ -304,10 +304,16 @@ class _HomeState extends State<HomeNew> {
   _bigPromotion(BuildContext context) {
     return singleSliverWidget(Column(
       children: bigPromotionModuleItems
-          .map((item) => CachedNetworkImage(
-                height: 180,
-                fit: BoxFit.fill,
-                imageUrl: item["cells"][0]["picUrl"],
+          .map((item) => GestureDetector(
+                child: CachedNetworkImage(
+                  height: 180,
+                  fit: BoxFit.fill,
+                  imageUrl: item["cells"][0]["picUrl"],
+                ),
+                onTap: () {
+                  Router.push(Util.webView, context,
+                      {'id': item["cells"][0]["schemeUrl"]});
+                },
               ))
           .toList(),
     ));
