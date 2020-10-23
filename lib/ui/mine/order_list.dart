@@ -124,17 +124,18 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   }
 
   _buildOrderList({Map<String, Object> arguments}) {
-    return _orderList == null||_orderList.length == 0 ?Center(
-      child: Text("暂无订单"),
-    ): ListView.builder(
-      itemBuilder: (context, index) => _buildItem(context, index),
-      itemCount: _orderList.length,
-    );
+    return _orderList == null || _orderList.length == 0
+        ? Center(
+            child: Text("暂无订单"),
+          )
+        : ListView.builder(
+            itemBuilder: (context, index) => _buildItem(context, index),
+            itemCount: _orderList.length,
+          );
   }
 
   _buildItem(BuildContext context, int index) {
     var item = _orderList[index];
-    var packageList = item["packageList"];
     return Container(
       margin: EdgeInsets.only(top: 10),
       color: Colors.white,
@@ -146,21 +147,11 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
             margin: EdgeInsets.fromLTRB(15, 15, 0, 15),
             child: Text("订单编号：${item["no"]}"),
           ),
-          Container(
-            height: 1,
-            color: backGrey,
-            margin: EdgeInsets.only(left: 15),
-          ),
           _buildPackageItems(context, item, index),
-
-          _buildPayOption(context,item)
+          _buildPayOption(context, item)
         ],
       ),
     );
-  }
-
-  _buildSingleItem(BuildContext context, var item, int index) {
-    return Container();
   }
 
   _buildPackageItems(BuildContext context, var item, int index) {
@@ -174,13 +165,11 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
           if (picUrlList.length > 1) {
             ///包裹多个
             return Container(
-              padding: EdgeInsets.fromLTRB(15,15,15,10),
-
-              decoration: packageList.length - 1 == index
-                  ? BoxDecoration()
-                  : BoxDecoration(
+              padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
+              margin: EdgeInsets.only(left: 15),
+              decoration:  BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(color: backGrey, width: 1))),
+                          top: BorderSide(color: backGrey, width: 1))),
               child: Row(
                 children: [
                   Expanded(
@@ -200,6 +189,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("包裹${package["sequence"]}"),
+                      SizedBox(height: 3,),
                       Text(
                         item["payOption"] == true ? "待付款" : "已取消",
                         style: TextStyle(color: redColor, fontSize: 12),
@@ -211,14 +201,11 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
             );
           } else {
             return Container(
-              padding: EdgeInsets.fromLTRB(15,15,15,10),
-
+              padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
+              margin: EdgeInsets.only(left: 15),
               width: double.infinity,
-              decoration: packageList.length - 1 == index
-                  ? BoxDecoration()
-                  : BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: backGrey, width: 1))),
+              decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: backGrey, width: 1))),
               child: Row(
                 children: [
                   CachedNetworkImage(
@@ -232,6 +219,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(package["name"]),
+                      SizedBox(height: 3,),
                       Text(package["specDesc"]),
                     ],
                   )),
@@ -239,6 +227,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("包裹${package["sequence"]}"),
+                      SizedBox(height: 3,),
                       Text(
                         item["payOption"] == true ? "待付款" : "已取消",
                         style: TextStyle(color: redColor, fontSize: 12),
@@ -255,26 +244,28 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   }
 
   _buildPayOption(BuildContext context, item) {
-    return  item["payOption"] == true?Container(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-        child: Row(
-          children: [
-            Text("应付:  "),
-            Expanded(child: Text(
-                "${item["actualPrice"]}"
-            )),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: redColor,
-                borderRadius: BorderRadius.circular(4)
+    return item["payOption"] == true
+        ? Container(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+              child: Row(
+                children: [
+                  Text("应付:  "),
+                  Expanded(child: Text("${item["actualPrice"]}")),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: redColor,
+                        borderRadius: BorderRadius.circular(4)),
+                    child: Text(
+                      "付款",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
               ),
-              child: Text("付款",style: TextStyle(color: Colors.white),),
-            )
-          ],
-        ),
-      ),
-    ):Container();
+            ),
+          )
+        : Container();
   }
 }
