@@ -20,7 +20,7 @@ class KingKongPage extends StatefulWidget {
 }
 
 class _KingKongPageState extends State<KingKongPage> {
-  var banner, dataList, noIdData = List();
+  var banner, dataList = List();
   bool initLoading = true;
   var currentCategory;
 
@@ -59,14 +59,15 @@ class _KingKongPageState extends State<KingKongPage> {
         }
       }
     } else {
-      var responseData = await kingKongDataNoId({
-        "csrf_token": "61f57b79a343933be0cb10aa37a51cc8",
-        "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-      });
 
-      setState(() {
-        noIdData = responseData.data;
-      });
+      // var responseData = await kingKongDataNoId({
+      //   "csrf_token": "61f57b79a343933be0cb10aa37a51cc8",
+      //   "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
+      // });
+      //
+      // setState(() {
+      //   noIdData = responseData.data;
+      // });
     }
 
     var responseData = await kingKongData({

@@ -1,105 +1,75 @@
-{
-  "code": 200,
-  "data": [
-    {
-      "nickName": "用****8",
-      "retailPrice": "79.00",
-      "arriveTime": 1603348195044
-    },
-    {
-      "nickName": "用****5",
-      "retailPrice": "129.00",
-      "arriveTime": 1603348189594
-    },
-    {
-      "nickName": "用****0",
-      "retailPrice": "99.00",
-      "arriveTime": 1603348179514
-    },
-    {
-      "nickName": "用****1",
-      "retailPrice": "99.00",
-      "arriveTime": 1603348157075
-    },
-    {
-      "nickName": "用****6",
-      "retailPrice": "95.00",
-      "arriveTime": 1603348140363
-    },
-    {
-      "nickName": "用****5",
-      "retailPrice": "49.00",
-      "arriveTime": 1603348123632
-    },
-    {
-      "nickName": "用****4",
-      "retailPrice": "88.00",
-      "arriveTime": 1603348122682
-    },
-    {
-      "nickName": "墨****迹",
-      "retailPrice": "79.00",
-      "arriveTime": 1603348028932
-    },
-    {
-      "nickName": "o****7",
-      "retailPrice": "79.00",
-      "arriveTime": 1603348024178
-    },
-    {
-      "nickName": "1****2",
-      "retailPrice": "99.90",
-      "arriveTime": 1603348023344
-    },
-    {
-      "nickName": "用****7",
-      "retailPrice": "49.00",
-      "arriveTime": 1603347987535
-    },
-    {
-      "nickName": "2****2",
-      "retailPrice": "199.00",
-      "arriveTime": 1603347975328
-    },
-    {
-      "nickName": "用****4",
-      "retailPrice": "49.00",
-      "arriveTime": 1603347968534
-    },
-    {
-      "nickName": "o****e",
-      "retailPrice": "95.00",
-      "arriveTime": 1603347950570
-    },
-    {
-      "nickName": "g****e",
-      "retailPrice": "88.00",
-      "arriveTime": 1603347939030
-    },
-    {
-      "nickName": "托****鲸",
-      "retailPrice": "88.00",
-      "arriveTime": 1603347936778
-    },
-    {
-      "nickName": "用****3",
-      "retailPrice": "88.00",
-      "arriveTime": 1603347838234
-    },
-    {
-      "nickName": "o****2",
-      "retailPrice": "129.00",
-      "arriveTime": 1603347831230
-    },
-    {
-      "nickName": "梦****你",
-      "retailPrice": "128.00",
-      "arriveTime": 1603347828743
-    },
-    {
-      "nickName": "一****草",
-      "retailPrice": "129.00",
-      "arriveTime": 1603347814243
+[
+  {
+    "code": "200",
+    "data": {
+      "userSimpleVO": {
+        "avatar": null,
+        "nickname": "wan_tuan",
+        "memberLevel": 0,
+        "isNewUser": 1,
+        "hasInterestCategory": false,
+        "hasMemGift": false,
+        "pointsCnt": 0,
+        "mosaicUid": "wa****an@163.com",
+        "uniqueId": 28327067,
+        "hideQrCode": false,
+        "frontendAccountType": 0,
+        "mobile": null
+      },
+      "spmcEntrance": {
+        "open": true,
+        "status": 0,
+        "statusDesc": "立即试用",
+        "showGiftIcon": false
+      },
+      "bounsEntrance": null,
+      "monthCardEntrance": {
+        "title": "省钱月卡",
+        "content": "每月可领32元无门槛红包",
+        "url": "https://act.you.163.com/act/pub/xox9626F4cUJ.html",
+        "userType": 1,
+        "hasBuy": false
+      },
+      "welfareCardEntrance": null,
+      "welfareFissionInfo": null
     }
-  ]
-}
+  },
+  {
+    "code": "200",
+    "data": {
+      "userSimpleVO": {
+        "avatar": null,
+        "nickname": "wan_tuan",
+        "memberLevel": 0,
+        "isNewUser": 1,
+        "hasInterestCategory": false,
+        "hasMemGift": false,
+        "pointsCnt": 0,
+        "mosaicUid": "wa****an@163.com",
+        "uniqueId": 28327067,
+        "hideQrCode": false,
+        "frontendAccountType": 0,
+        "mobile": null
+      },
+      "spmcEntrance": {
+        "open": true,
+        "status": 0,
+        "statusDesc": "立即试用",
+        "showGiftIcon": false
+      },
+      "bounsEntrance": null,
+      "monthCardEntrance": {
+        "title": "省钱月卡",
+        "content": "每月可领32元无门槛红包",
+        "url": "https://act.you.163.com/act/pub/xox9626F4cUJ.html",
+        "userType": 1,
+        "hasBuy": false
+      },
+      "welfareCardEntrance": null,
+      "welfareFissionInfo": {
+        "picUrl": "https://yanxuan.nosdn.127.net/16026663361258937.png",
+        "schemeUrl": "https://act.you.163.com/act/pub/9cczTqN8scB9.html"
+      }
+    }
+  }
+]

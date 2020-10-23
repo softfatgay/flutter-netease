@@ -23,5 +23,9 @@ Future<ResponseData> kingKongDataNoId(Map<String, dynamic> parameters) async {
   return await HttpManager.get(URL_KING_KONG_NO_ID, queryParameters: parameters);
 }
 
+Future<ResponseData> getUserInfo(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(USER_INFO, queryParameters: parameters,headers: header);
+}
+
 
 

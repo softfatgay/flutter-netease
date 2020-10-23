@@ -8,7 +8,7 @@ class ResponseData<T> {
   final T status;
 
   /// AToken Server Message
-  final String code;
+  final T code;
 
   /// The corresponding request info.
   final HttpRequestOptions httpRequestOptions;

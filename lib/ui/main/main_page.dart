@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/home/home_new.dart';
 import 'package:flutter_app/ui/mine/mine.dart';
+import 'package:flutter_app/ui/mine/mine_new.dart';
 import 'package:flutter_app/ui/shoping_market/web_view.dart';
 import 'package:flutter_app/ui/sort/sort_new.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
@@ -43,7 +44,7 @@ class _MainPageState extends State<MainPage> {
 //          TopicPage(),
           WrapKeepState(SortNew()),
           WrapKeepState(WebView()),
-          MinePage(),
+          UserPage(),
         ],
         controller: pageController,
         onPageChanged: (index) {
