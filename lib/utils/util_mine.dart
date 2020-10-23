@@ -13,6 +13,8 @@ class Util {
   static String search = 'search';
   static String comment = 'comment';
   static String image = 'image';
+  static String orderList = 'orderList';
+  static String mineItems = 'mineItems';
 
 
   static const String flutter2activity = 'com.example.want.flutter2activity';

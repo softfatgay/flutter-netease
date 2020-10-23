@@ -38,13 +38,11 @@ class _MainPageState extends State<MainPage> {
       ),
       body: PageView(
         children: <Widget>[
-//          WrapKeepState(Home()),
           WrapKeepState(HomeNew()),
           WrapKeepState(TopicPage()),
-//          TopicPage(),
           WrapKeepState(SortNew()),
           WrapKeepState(WebView()),
-          UserPage(),
+          WrapKeepState(UserPage()),
         ],
         controller: pageController,
         onPageChanged: (index) {

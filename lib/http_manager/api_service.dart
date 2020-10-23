@@ -3,7 +3,9 @@ final String URL_SORT_NEW = "https://m.you.163.com/item/cateList.json";
 final String URL_SORT_LIST_NEW = "https://m.you.163.com/item/list.json";
 final String URL_KING_KONG = "https://m.you.163.com/item/list.json";
 final String URL_KING_KONG_NO_ID = "https://m.you.163.com/xhr/item/getPreNewItem.json";
-final String USER_INFO = "https://m.you.163.com/xhr/user/myFund.json";
+final String USER_INFO_ITEMS = "https://m.you.163.com/xhr/user/myFund.json";
+final String USER_INFO = "https://m.you.163.com/xhr/user/checkConfig.json";
+final String ORDER_LIST = "https://m.you.163.com/xhr/order/getList.json";
 
 
 
@@ -15,7 +17,8 @@ final String USER_INFO = "https://m.you.163.com/xhr/user/myFund.json";
 
 // https://m.you.163.com/xhr/user/myFund.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
 
-
+///订单列表
+// https://m.you.163.com/xhr/order/getList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&size=10&lastOrderId=0&status=0
 
 
 

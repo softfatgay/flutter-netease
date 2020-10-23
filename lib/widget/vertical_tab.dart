@@ -5,7 +5,6 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widget/colors.dart';
-import 'package:flutter_app/widget/global.dart';
 
 const double opWidth = 90;
 

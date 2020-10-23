@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/colors.dart';
@@ -52,7 +52,7 @@ class _CatalogGoodsState extends State<SortListItem>
 
   _getInitData() async {
     var map = {
-      "csrf_token": Constans.csrf_token,
+      "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryType": "0",
       "subCategoryId": widget.arguments["id"],
@@ -80,16 +80,18 @@ class _CatalogGoodsState extends State<SortListItem>
         child: CustomScrollView(
           controller: _scrollController,
           slivers: <Widget>[
-            SliverPadding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              sliver: singleSliverWidget(Container(
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: Text(category["frontName"]),
-                ),
-              )),
-            ),
+            category["frontName"] == null || category["frontName"] == ""
+                ? singleSliverWidget(Container())
+                : SliverPadding(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    sliver: singleSliverWidget(Container(
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: Text(category["frontName"]),
+                      ),
+                    )),
+                  ),
             SliverPadding(
               padding: EdgeInsets.all(8),
               sliver: SliverGrid(
@@ -240,7 +242,10 @@ class _CatalogGoodsState extends State<SortListItem>
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         border: Border.all(width: 1, color: redColor)),
-                    child: Text(item["name"],style: TextStyle(color: textRed,fontSize: 12),),
+                    child: Text(
+                      item["name"],
+                      style: TextStyle(color: textRed, fontSize: 12),
+                    ),
                   ))
               .toList(),
         )

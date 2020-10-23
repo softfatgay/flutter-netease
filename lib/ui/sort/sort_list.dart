@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/sort_list_item.dart';
-import 'package:flutter_app/utils/constans.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart' as prefix0;
 
@@ -55,7 +55,7 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
     // https://m.you.163.com/item/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603184092320&categoryType=0&subCategoryId=109284000&categoryId=1005002
     mController = TabController(length: catalogList.length, vsync: this);
     var responseData = await sortListData({
-      "csrf_token": Constans.csrf_token,
+      "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryType": "0",
       "subCategoryId": id,
@@ -90,7 +90,6 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
         activeIndex = mController.index;
         id = catalogList[activeIndex]["id"];
         category = catalogList[activeIndex];
-        // _getInitData();
       });
     });
   }

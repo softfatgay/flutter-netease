@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
+import 'package:flutter_app/widget/colors.dart';
 
 class TabAppBar extends StatelessWidget {
   const TabAppBar({this.tabs, this.controller, this.title});
@@ -55,9 +57,11 @@ class TabAppBar extends StatelessWidget {
           isScrollable: true,
           controller: this.controller,
           labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          labelColor: Colors.red,
+          labelColor: redColor,
           unselectedLabelColor: Colors.black45,
-          indicatorColor: Colors.red,
+          indicator: MyUnderlineTabIndicator(
+            borderSide: BorderSide(width: 2.0, color: redColor),
+          ),
           indicatorWeight: 2,
           tabs: tabs.map((item) {
             return Container(

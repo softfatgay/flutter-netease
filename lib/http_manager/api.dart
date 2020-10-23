@@ -23,8 +23,16 @@ Future<ResponseData> kingKongDataNoId(Map<String, dynamic> parameters) async {
   return await HttpManager.get(URL_KING_KONG_NO_ID, queryParameters: parameters);
 }
 
+Future<ResponseData> getUserInfoItems(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(USER_INFO_ITEMS, queryParameters: parameters,headers: header);
+}
+
 Future<ResponseData> getUserInfo(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
   return await HttpManager.get(USER_INFO, queryParameters: parameters,headers: header);
+}
+///订单列表
+Future<ResponseData> getOrderList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(ORDER_LIST, queryParameters: parameters,headers: header);
 }
 
 
