@@ -9,7 +9,7 @@
 ## [demo.apk下载地址](https://www.pgyer.com/QjBP)
 
 
-## 已更新到stable分枝，深度还原网易严选小程序端，api全部来自严选
+## 深度还原网易严选小程序端，api全部来自严选
 
 >1.项目中使用了序列化的方式，解析成大家比较直观的java Model类型
 >
