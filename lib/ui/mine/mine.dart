@@ -18,7 +18,8 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
-  final String icon = 'http://img2.imgtn.bdimg.com/it/u=664126570,3319232266&fm=26&gp=0.jpg';
+  final String icon =
+      'http://img2.imgtn.bdimg.com/it/u=664126570,3319232266&fm=26&gp=0.jpg';
 
   final String imageAsset = 'assets/images/sanjicaihua.png';
   File image;
@@ -34,7 +35,8 @@ class _MinePageState extends State<MinePage> {
     _ItemList(Icon(Icons.account_box, color: iconColor), '登录'),
     _ItemList(Icon(Icons.settings, color: iconColor), '设置'),
     _ItemList(Icon(Icons.list, color: iconColor), '搜索+下拉菜单'),
-    _ItemList(Icon(Icons.collections_bookmark, color: iconColor), 'PageView(垂直翻页效果)'),
+    _ItemList(
+        Icon(Icons.collections_bookmark, color: iconColor), 'PageView(垂直翻页效果)'),
     _ItemList(Icon(Icons.videocam, color: iconColor), '我的收藏(视频播放演示)'),
     _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
     _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
@@ -95,8 +97,9 @@ class _MinePageState extends State<MinePage> {
   Widget buildOrder() {
     return Container(
       margin: EdgeInsets.all(10),
-      decoration:
-          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(4))),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(4))),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -173,7 +176,9 @@ class _MinePageState extends State<MinePage> {
                           '三吉彩花',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       Container(
@@ -190,10 +195,11 @@ class _MinePageState extends State<MinePage> {
                     ],
                   ),
                   onTap: () {
-                    Flutter2Activity.toActivity(Flutter2Activity.webView, arguments: {
-                      'url':
-                          'https://baike.baidu.com/item/%E4%B8%89%E5%90%89%E5%BD%A9%E8%8A%B1/1462870?fr=aladdin'
-                    });
+                    Flutter2Activity.toActivity(Flutter2Activity.webView,
+                        arguments: {
+                          'url':
+                              'https://baike.baidu.com/item/%E4%B8%89%E5%90%89%E5%BD%A9%E8%8A%B1/1462870?fr=aladdin'
+                        });
                   },
                 ),
               ),
@@ -229,7 +235,8 @@ class _MinePageState extends State<MinePage> {
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       if (itemList.length > 0) {
         for (int i = 0; i < (itemList.length); i++) {
-          return Router.link(buildWidget(itemList, index), Util.setting, context, {'id': index});
+          return Routers.link(buildWidget(itemList, index), Util.setting,
+              context, {'id': index});
         }
       }
       return Container();
@@ -238,8 +245,9 @@ class _MinePageState extends State<MinePage> {
 
   Widget buildWidget(List itemList, int index) {
     Widget widget = Container(
-      decoration:
-          BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      decoration: BoxDecoration(
+          border:
+              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
       margin: EdgeInsets.only(left: 15),
       child: Row(

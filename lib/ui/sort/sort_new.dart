@@ -113,7 +113,7 @@ class _SortState extends State<SortNew> {
         ),
       ),
     );
-    return Router.link(
+    return Routers.link(
         widget, Util.search, context, {'id': roundWords[rondomIndex]});
   }
 
@@ -194,7 +194,7 @@ class _SortState extends State<SortNew> {
                                     ],
                                   ),
                                 );
-                                return Router.link(
+                                return Routers.link(
                                   widget,
                                   Util.catalogTag,
                                   context,

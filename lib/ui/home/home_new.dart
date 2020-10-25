@@ -211,7 +211,7 @@ class _HomeState extends State<HomeNew> {
       ],
     );
     return singleSliverWidget(
-        Router.link(widget, Util.search, context, {'id': "零食"}));
+        Routers.link(widget, Util.search, context, {'id': "零食"}));
   }
 
   //轮播图
@@ -292,7 +292,7 @@ class _HomeState extends State<HomeNew> {
               ],
             ),
           );
-          return Router.link(widget, Util.kingKong, context,
+          return Routers.link(widget, Util.kingKong, context,
               {"schemeUrl": kingKongModuleItems[index]["schemeUrl"]});
         },
         childCount:
@@ -311,7 +311,7 @@ class _HomeState extends State<HomeNew> {
                   imageUrl: item["cells"][0]["picUrl"],
                 ),
                 onTap: () {
-                  Router.push(Util.webView, context,
+                  Routers.push(Util.webView, context,
                       {'id': item["cells"][0]["schemeUrl"]});
                 },
               ))

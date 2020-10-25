@@ -30,21 +30,23 @@ class _MinePageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _firstLoading? Loading(): CustomScrollView(
-        slivers: <Widget>[
-          _buildTop(context),
-          _buildTitle(context),
-          _buildMineItems(context),
-          _buildMonthCard(context),
-          _line(10.0),
-          _buildActivity(context),
-          _buildAdapter(context),
-          _line(1),
-          _line(20.0),
-          _loginOut(context),
-          _line(10.0),
-        ],
-      ),
+      body: _firstLoading
+          ? Loading()
+          : CustomScrollView(
+              slivers: <Widget>[
+                _buildTop(context),
+                _buildTitle(context),
+                _buildMineItems(context),
+                _buildMonthCard(context),
+                _line(10.0),
+                _buildActivity(context),
+                _buildAdapter(context),
+                _line(1),
+                _line(20.0),
+                _loginOut(context),
+                _line(10.0),
+              ],
+            ),
     );
   }
 
@@ -260,7 +262,8 @@ class _MinePageState extends State<UserPage> {
             ],
           ),
         );
-        return Router.link(widget, Util.mineItems, context,{"id":item["id"]});
+        return Routers.link(
+            widget, Util.mineItems, context, {"id": item["id"]});
       }).toList(),
     );
   }

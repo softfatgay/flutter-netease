@@ -8,7 +8,6 @@ import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/swiper.dart';
 
 class KingKongPage extends StatefulWidget {
   final Map arguments;
@@ -59,7 +58,6 @@ class _KingKongPageState extends State<KingKongPage> {
         }
       }
     } else {
-
       // var responseData = await kingKongDataNoId({
       //   "csrf_token": "61f57b79a343933be0cb10aa37a51cc8",
       //   "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
@@ -123,7 +121,7 @@ class _KingKongPageState extends State<KingKongPage> {
     return BannerCacheImg(
       imageList: banner,
       onTap: (index) {
-        Router.push(Util.image, context, {'id': '${banner[index]}'});
+        Routers.push(Util.image, context, {'id': '${banner[index]}'});
       },
     );
   }
@@ -176,7 +174,7 @@ class _KingKongPageState extends State<KingKongPage> {
           return GestureDetector(
             child: widget,
             onTap: () {
-              Router.push(
+              Routers.push(
                   Util.goodDetailTag, context, {'id': itemList[index]['id']});
             },
           );

@@ -18,7 +18,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
 import 'package:flutter_app/widget/widget_list.dart';
 
-class Router {
+class Routers {
   static String plugin = Util.flutter2activity;
   static var demoPlugin = MethodChannel(plugin);
 
@@ -123,7 +123,7 @@ class Router {
   }
 
   static run(RouteSettings routeSettings) {
-    final Function pageContentBuilder = Router.routes[routeSettings.name];
+    final Function pageContentBuilder = Routers.routes[routeSettings.name];
     if (pageContentBuilder != null) {
       if (routeSettings.arguments != null) {
         return MaterialPageRoute(

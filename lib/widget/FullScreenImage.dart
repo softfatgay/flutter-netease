@@ -19,7 +19,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
     return Scaffold(
       body: Listener(
           onPointerMove: (move) {
-            Router.pop(context);
+            Routers.pop(context);
           },
           child: Stack(
             children: <Widget>[
