@@ -5,6 +5,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/ui/sort/good_item.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -328,7 +329,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           singleSliverWidget(goodDetail.isEmpty
               ? Container()
               : buildIssuTitle('-- 你可能还喜欢 --')),
-          buildrecommond(),
+          GoodItemWidget(dataList: rmdList) ,
         ],
       );
     }
@@ -1421,108 +1422,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  SliverGrid buildrecommond() {
-    return rmdList.isEmpty
-        ? buildASingleSliverGrid(Container(), 2)
-        : SliverGrid(
-      delegate:
-      SliverChildBuilderDelegate((BuildContext context, int index) {
-        Widget widget = Container(
-          padding: EdgeInsets.only(bottom: 5),
-          width: double.infinity,
-          decoration: BoxDecoration(color: Colors.grey[200]),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 7,
-                child: Container(
-                  child: Stack(
-                    overflow: Overflow.clip,
-                    children: <Widget>[
-                      CachedNetworkImage(
-                        imageUrl: rmdList[index]['primaryPicUrl'],
-                        fit: BoxFit.fill,
-                      ),
-                      rmdList[index]['listPromBanner'] != null
-                          ? buildImage(index)
-                          : buildBottomText(index)
-                    ],
-                  ),
-                  decoration: BoxDecoration(color: Colors.grey[200]),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding:
-                  EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                  child: Text(
-                    rmdList[index]['name'],
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      '￥${rmdList[index]['retailPrice']}',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Expanded(child: Container())
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  rmdList[index]['itemTagList'] == null
-                      ? Container()
-                      : Container(
-                    margin: EdgeInsets.only(top: 5),
-                    padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                            color: Colors.red, width: 0.5)),
-                    child: Text(
-                      '${rmdList[index]['itemTagList'][0]['name'] == null
-                          ? '年货特惠'
-                          : rmdList[index]['itemTagList'][0]['name']}',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontSize: 16, color: Colors.red),
-                    ),
-                  ),
-                  Expanded(child: Container())
-                ],
-              ),
-            ],
-          ),
-        );
-        return GestureDetector(
-          child: widget,
-          onTap: () {
-            Routers.pop(context);
-            Routers.push(Util.goodDetailTag, context,
-                {'id': rmdList[index]['id']});
-          },
-        );
-      }, childCount: rmdList.length),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.65,
-          mainAxisSpacing: 3,
-          crossAxisSpacing: 3),
-    );
-  }
 
   buildImage(int index) {
     return Positioned(
