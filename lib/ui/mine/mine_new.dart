@@ -157,7 +157,7 @@ class _MinePageState extends State<UserPage> {
                     children: [
                       Container(
                         child: Text(
-                          item["fundType"] == 0 || item["fundType"] == 3
+                          item["fundType"] == 1 || item["fundType"] == 4
                               ? "¥${item["fundValue"]}"
                               : "${item["fundValue"]}",
                           style: TextStyle(

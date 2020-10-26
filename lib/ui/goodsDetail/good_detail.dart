@@ -37,9 +37,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
   String promoTip = ''; //商品活动介绍
   String promotionDesc = ''; //商品活动介绍
   String skuTitle = ''; //选择描述
-  List couponShortNameList, itemTagList = []; //券活动/标签等
+  List couponShortNameList,
+      itemTagList = []; //券活动/标签等
   List hdrkDetailVOList; //促销
-
 
   var skuFreight; //邮费
   var monthlySavingCard; //省钱月卡
@@ -57,9 +57,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   var actvity = {
     "bannerTitleUrl":
-        "https://yanxuan.nosdn.127.net/d71e2460d062eaa21d5bdf97eba9da89.png",
+    "https://yanxuan.nosdn.127.net/d71e2460d062eaa21d5bdf97eba9da89.png",
     "bannerContentUrl":
-        "https://yanxuan.nosdn.127.net/c168892ef76f29971032dc1c12613720.png",
+    "https://yanxuan.nosdn.127.net/c168892ef76f29971032dc1c12613720.png",
   };
 
   @override
@@ -120,9 +120,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
             price = double.parse(item['retailPrice'].toString());
             counterPrice = double.parse(item['counterPrice'].toString());
 
-           List itemSkuSpecValueList =  item['itemSkuSpecValueList'];
+            List itemSkuSpecValueList = item['itemSkuSpecValueList'];
 
-           String  skuDecL = "" ;
+            String skuDecL = "";
             itemSkuSpecValueList.forEach((element) {
               skuDecL += element['skuSpecValue']['value'];
             });
@@ -193,23 +193,23 @@ class _GoodsDetailState extends State<GoodsDetail> {
         floatingActionButton: !isShowFloatBtn
             ? Container()
             : GestureDetector(
-                child: Container(
-                  height: 44,
-                  width: 44,
-                  margin: EdgeInsets.only(bottom: 50),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(22),
-                    color: Color(0xD9D6D6D6),
-                  ),
-                  child: Icon(
-                    Icons.arrow_upward,
-                    color: Colors.black38,
-                  ),
-                ),
-                onTap: () {
-                  _scrollController.position.jumpTo(0);
-                },
-              ));
+          child: Container(
+            height: 44,
+            width: 44,
+            margin: EdgeInsets.only(bottom: 50),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(22),
+              color: Color(0xD9D6D6D6),
+            ),
+            child: Icon(
+              Icons.arrow_upward,
+              color: Colors.black38,
+            ),
+          ),
+          onTap: () {
+            _scrollController.position.jumpTo(0);
+          },
+        ));
   }
 
   Widget buildFoot() {
@@ -291,7 +291,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   : '${goodDetailPre['item']['name']}',
               collapsedHeight: 50,
               expandedHeight: 250,
-              paddingTop: MediaQuery.of(context).padding.top,
+              paddingTop: MediaQuery
+                  .of(context)
+                  .padding
+                  .top,
               child: buildSwiper(context, banner),
             ),
           ),
@@ -344,13 +347,13 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return promoTip == null
         ? Container()
         : Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
-            child: Text(
-              promoTip == null ? '' : promoTip,
-              textAlign: TextAlign.start,
-              style: TextStyle(color: Color(0xFFF48F57)),
-            ));
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
+        child: Text(
+          promoTip == null ? '' : promoTip,
+          textAlign: TextAlign.start,
+          style: TextStyle(color: Color(0xFFF48F57)),
+        ));
   }
 
   Widget buildOneTab() {
@@ -417,12 +420,12 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   ),
                   Expanded(
                       child: Container(
-                    child: Wrap(
-                      spacing: 5,
-                      runSpacing: 5,
-                      children: buildSerVice(),
-                    ),
-                  )),
+                        child: Wrap(
+                          spacing: 5,
+                          runSpacing: 5,
+                          children: buildSerVice(),
+                        ),
+                      )),
                   Container(child: arrowRightIcon)
                 ],
               ),
@@ -446,18 +449,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
         children: <Widget>[
 
           ///省钱月卡
-          monthlySavingCard == null?Container():Container(
+          monthlySavingCard == null
+              ? Container()
+              : Container(
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: backGrey
-            ),
-            child:Container(
+            decoration: BoxDecoration(color: backGrey),
+            child: Container(
               padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Color(0xFFF8E4DF),
-              borderRadius: BorderRadius.circular(6)
-            ),
-              child:  Row(
+              decoration: BoxDecoration(
+                  color: Color(0xFFF8E4DF),
+                  borderRadius: BorderRadius.circular(6)),
+              child: Row(
                 children: [
                   Icon(
                     Icons.credit_card,
@@ -468,7 +470,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   ),
                   Text(
                     monthlySavingCard["title"],
-                    style: TextStyle(color: textRed, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: textRed, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     width: 2,
@@ -500,155 +503,155 @@ class _GoodsDetailState extends State<GoodsDetail> {
           (couponShortNameList == null || couponShortNameList.isEmpty)
               ? Container()
               : InkResponse(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    decoration: bottomBorder,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                            '领券:',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
-                          ),
-                        ),
-                        Expanded(
-                            child: Row(
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFFBBB65))),
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                              child: Text(
-                                couponShortNameList[0],
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          ],
-                        )),
-                        arrowRightIcon,
-                      ],
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: bottomBorder,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(right: 5),
+                    child: Text(
+                      '领券:',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ),
-                  onTap: () {
-                    Toast.show('您还没有登录', context);
-                  },
-                ),
+                  Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFFFBBB65))),
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: Text(
+                              couponShortNameList[0],
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      )),
+                  arrowRightIcon,
+                ],
+              ),
+            ),
+            onTap: () {
+              Toast.show('您还没有登录', context);
+            },
+          ),
 
           ///邮费
           skuFreight == null
               ? Container()
               : InkResponse(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    decoration: bottomBorder,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '${skuFreight['title']}:',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: Text(
-                              skuFreight['freightInfo'],
-                              style: TextStyle(color: textBlack),
-                            ),
-                          ),
-                        ),
-                        arrowRightIcon,
-                      ],
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: bottomBorder,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '${skuFreight['title']}:',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ),
-                  onTap: () {
-                    buildskuFreightDialog(context);
-                  },
-                ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        skuFreight['freightInfo'],
+                        style: TextStyle(color: textBlack),
+                      ),
+                    ),
+                  ),
+                  arrowRightIcon,
+                ],
+              ),
+            ),
+            onTap: () {
+              buildskuFreightDialog(context);
+            },
+          ),
 
           ///促销限制
           (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty)
               ? Container()
               : Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  decoration: bottomBorder,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '促销',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                            child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(right: 5),
-                              padding: EdgeInsets.all(1),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.red),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Text(
-                                hdrkDetailVOList[0]['activityType'],
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                hdrkDetailVOList[0]['name'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          ],
-                        )),
-                      ),
-                    ],
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            decoration: bottomBorder,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    '促销',
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(right: 6),
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.red),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              hdrkDetailVOList[0]['activityType'],
+                              style: TextStyle(color: Colors.red,fontSize: 12),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              hdrkDetailVOList[0]['name'],
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ),
+          ),
 
           ///购物反
           shoppingReward == null
               ? Container()
               : InkResponse(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    decoration: bottomBorder,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '${shoppingReward['name']}:',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(
-                            shoppingReward['rewardDesc'],
-                            style: TextStyle(color: textBlack),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              shoppingReward['rewardValue'],
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ),
-                        ),
-                        arrowRightIcon,
-                      ],
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: bottomBorder,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '${shoppingReward['name']}:',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ),
-                  onTap: () {
-                    buildActivityDialog(context);
-                  },
-                ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(
+                      shoppingReward['rewardDesc'],
+                      style: TextStyle(color: textBlack),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Text(
+                        shoppingReward['rewardValue'],
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                  arrowRightIcon,
+                ],
+              ),
+            ),
+            onTap: () {
+              buildActivityDialog(context);
+            },
+          ),
 
           Container(height: 10, color: backGrey),
 
@@ -694,26 +697,26 @@ class _GoodsDetailState extends State<GoodsDetail> {
           skuLimit == null
               ? Container()
               : Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  decoration: bottomBorder,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '限制:',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          skuLimit,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            decoration: bottomBorder,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    '限制:',
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    skuLimit,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -749,15 +752,15 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     ),
                     Expanded(
                         child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          goodCmtRate == null ? "" : goodCmtRate,
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        Text(goodCmtRate == null ? '查看全部' : '好评率'),
-                      ],
-                    )),
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              goodCmtRate == null ? "" : goodCmtRate,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            Text(goodCmtRate == null ? '查看全部' : '好评率'),
+                          ],
+                        )),
                     arrowRightIcon
                   ],
                 ),
@@ -771,105 +774,106 @@ class _GoodsDetailState extends State<GoodsDetail> {
             ),
             comments.length > 0
                 ? Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            ClipOval(
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      comments[0]['frontUserAvatar'] == null
-                                          ? ''
-                                          : comments[0]['frontUserAvatar'],
-                                  errorWidget: (context, url, error) {
-                                    return ClipOval(
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration:
-                                            BoxDecoration(color: Colors.grey),
-                                      ),
-                                    );
-                                  },
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: EdgeInsets.only(bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      ClipOval(
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                            comments[0]['frontUserAvatar'] == null
+                                ? ''
+                                : comments[0]['frontUserAvatar'],
+                            errorWidget: (context, url, error) {
+                              return ClipOval(
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration:
+                                  BoxDecoration(color: Colors.grey),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(comments[0]['frontUserName']),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 2),
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFB19C6D),
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      letterSpacing: -2),
-                                  children: [
-                                    TextSpan(
-                                      text: 'V',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontStyle: FontStyle.italic,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    TextSpan(
-                                        text: '${comments[0]['memberLevel']}',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 8,
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: StaticRatingBar(
-                                size: 15,
-                                rate: double.parse(
-                                    comments[0]['memberLevel'].toString()),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            '${DateUtil.getDateStrByMs(comments[0]['createTime']) + '   ' + comments[0]['skuInfo'][0]}',
-                            style: TextStyle(color: Colors.grey),
-                            maxLines: 2,
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
+                              );
+                            },
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          child: Text(comments[0]['content']),
+                      ),
+                      Container(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text(comments[0]['frontUserName']),
                         ),
-                        Wrap(
-                          spacing: 2,
-                          runSpacing: 5,
-                          children: commentPic(comments[0]['picList'] == null
-                              ? []
-                              : comments[0]['picList']),
-                        )
-                      ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 2),
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                            color: Color(0xFFB19C6D),
+                            borderRadius: BorderRadius.circular(2)),
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                letterSpacing: -2),
+                            children: [
+                              TextSpan(
+                                text: 'V',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                  text: '${comments[0]['memberLevel']}',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 8,
+                                      color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: StaticRatingBar(
+                          size: 15,
+                          rate: double.parse(
+                              comments[0]['memberLevel'].toString()),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      '${DateUtil.getDateStrByMs(comments[0]['createTime']) +
+                          '   ' + comments[0]['skuInfo'][0]}',
+                      style: TextStyle(color: Colors.grey),
+                      maxLines: 2,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    child: Text(comments[0]['content']),
+                  ),
+                  Wrap(
+                    spacing: 2,
+                    runSpacing: 5,
+                    children: commentPic(comments[0]['picList'] == null
+                        ? []
+                        : comments[0]['picList']),
                   )
+                ],
+              ),
+            )
                 : Container(),
           ],
         ));
@@ -904,6 +908,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
       alignment: Alignment.center,
     );
   }
+
   ///属性选择底部弹窗
   buildSizeModel(BuildContext context) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
@@ -938,9 +943,12 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child:Container(
+                        child: Container(
                           padding: EdgeInsets.all(10),
-                          child:  Icon(Icons.close,color: redColor,),
+                          child: Icon(
+                            Icons.close,
+                            color: redColor,
+                          ),
                         ),
                       ),
                     ),
@@ -958,43 +966,61 @@ class _GoodsDetailState extends State<GoodsDetail> {
                             width: 100,
                             color: Color(0x80F1F1F1),
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                promotionDesc == null?Container():  Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+                                (promotionDesc == null || promotionDesc == '')
+                                    ? Container()
+                                    : Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 2),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: Color(0xFFEF7C15)
+                                      borderRadius:
+                                      BorderRadius.circular(4),
+                                      color: Color(0xFFEF7C15)),
+                                  child: Text(
+                                    promotionDesc,
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  child: Text(promotionDesc,style: TextStyle(color: Colors.white),),),
+                                ),
                                 Container(
                                   margin: EdgeInsets.symmetric(vertical: 10),
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
-                                      Text("价格：",style: TextStyle(color: textRed),),
+                                      Text(
+                                        "价格：",
+                                        style: TextStyle(color: textRed),
+                                      ),
                                       Text(
                                         '￥${price.toString()}',
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                          color: Colors.red,),
+                                          color: Colors.red,
+                                        ),
                                       ),
-                                      Container(
+                                      price.toString() ==
+                                          counterPrice.toString()
+                                          ?
+                                          Container(): Container(
                                         child: Text(
                                           '￥${counterPrice.toString()}',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: textGrey,
-                                            decoration: TextDecoration.lineThrough,
+                                            decoration:
+                                            TextDecoration.lineThrough,
                                           ),
                                         ),
                                       ),
                                     ],
-                                  ),),
+                                  ),
+                                ),
                                 // 商品描述
                                 Container(
                                   child: Text(
@@ -1010,12 +1036,16 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         ],
                       ),
                     ),
-                    Container(margin: EdgeInsets.fromLTRB(0, 15, 0, 10),child: Text('规格'),),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                      child: Text('规格'),
+                    ),
                     goodDetailPre['item']['skuList'].isEmpty
                         ? Container()
                         : Container(
                       alignment: Alignment.centerLeft,
                       child: Wrap(
+
                         ///商品属性
                         spacing: 5,
                         runSpacing: 10,
@@ -1121,29 +1151,31 @@ class _GoodsDetailState extends State<GoodsDetail> {
               slivers: <Widget>[
                 SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(top: 5, bottom: 2),
-                          child: Text(
-                            policyList[index]['title'],
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                          ),
+                      return Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(top: 5, bottom: 2),
+                              child: Text(
+                                policyList[index]['title'],
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                policyList[index]['content'],
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 14),
+                              ),
+                            )
+                          ],
                         ),
-                        Container(
-                          child: Text(
-                            policyList[index]['content'],
-                            style: TextStyle(color: Colors.grey, fontSize: 14),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }, childCount: policyList.length))
+                      );
+                    }, childCount: policyList.length))
               ],
             ),
           );
@@ -1178,27 +1210,28 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: skuFreightList
-                    .map<Widget>((item) => Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(top: 10, bottom: 3),
-                              child: Text(
-                                item['title'],
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                item['content'],
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                              ),
-                            )
-                          ],
-                        ))
+                    .map<Widget>((item) =>
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(top: 10, bottom: 3),
+                          child: Text(
+                            item['title'],
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 16),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            item['content'],
+                            style:
+                            TextStyle(color: Colors.grey, fontSize: 14),
+                          ),
+                        )
+                      ],
+                    ))
                     .toList(),
               ),
             ),
@@ -1241,30 +1274,32 @@ class _GoodsDetailState extends State<GoodsDetail> {
               ),
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                var shoppingRewardRuleDetail = shoppingRewardRuleList[index];
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 2),
-                        child: Text(
-                          shoppingRewardRuleDetail['title'],
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
+                    var shoppingRewardRuleDetail = shoppingRewardRuleList[index];
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 5, bottom: 2),
+                            child: Text(
+                              shoppingRewardRuleDetail['title'],
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              shoppingRewardRuleDetail['content'],
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 14),
+                            ),
+                          )
+                        ],
                       ),
-                      Container(
-                        child: Text(
-                          shoppingRewardRuleDetail['content'],
-                          style: TextStyle(color: Colors.grey, fontSize: 14),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }, childCount: shoppingRewardRuleList.length)),
+                    );
+                  }, childCount: shoppingRewardRuleList.length)),
             ],
           ),
         );
@@ -1276,39 +1311,39 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return goodDetail.isEmpty
         ? singleSliverWidget(Container())
         : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: topBorder,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        child: Text(
-                            '${goodDetail['attrList'][index]['attrName']}'),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          '${goodDetail['attrList'][index]['attrValue']}',
-                        ),
-                      ),
-                    )
-                  ],
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: topBorder,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: Text(
+                      '${goodDetail['attrList'][index]['attrName']}'),
                 ),
-              );
-            },
-                childCount: goodDetail['attrList'] == null
-                    ? 0
-                    : goodDetail['attrList'].length),
-          );
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    '${goodDetail['attrList'][index]['attrValue']}',
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+          childCount: goodDetail['attrList'] == null
+              ? 0
+              : goodDetail['attrList'].length),
+    );
   }
 
   Widget builddetailTitle() {
@@ -1330,48 +1365,48 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return goodDetail['reportPicList'] == null
         ? singleSliverWidget(Container())
         : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Container(
-                width: double.infinity,
-                child: CachedNetworkImage(
-                  imageUrl: goodDetail['reportPicList'][index],
-                  fit: BoxFit.cover,
-                ),
-              );
-            }, childCount: goodDetail['reportPicList'].length),
-          );
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return Container(
+          width: double.infinity,
+          child: CachedNetworkImage(
+            imageUrl: goodDetail['reportPicList'][index],
+            fit: BoxFit.cover,
+          ),
+        );
+      }, childCount: goodDetail['reportPicList'].length),
+    );
   }
 
   Widget buildIssueList() {
     return goodDetail.isEmpty
         ? singleSliverWidget(Container())
         : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-            var issueList = goodDetail['issueList'];
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      issueList[index]['question'],
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          var issueList = goodDetail['issueList'];
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(color: Colors.white),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    issueList[index]['question'],
+                    style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      issueList[index]['answer'],
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    issueList[index]['answer'],
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
-                ],
-              ),
-            );
-          }, childCount: goodDetail['issueList'].length));
+                ),
+              ],
+            ),
+          );
+        }, childCount: goodDetail['issueList'].length));
   }
 
   buildIssuTitle(String title) {
@@ -1390,101 +1425,103 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return rmdList.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverGrid(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              Widget widget = Container(
-                padding: EdgeInsets.only(bottom: 5),
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 7,
-                      child: Container(
-                        child: Stack(
-                          overflow: Overflow.clip,
-                          children: <Widget>[
-                            CachedNetworkImage(
-                              imageUrl: rmdList[index]['primaryPicUrl'],
-                              fit: BoxFit.fill,
-                            ),
-                            rmdList[index]['listPromBanner'] != null
-                                ? buildImage(index)
-                                : buildBottomText(index)
-                          ],
-                        ),
-                        decoration: BoxDecoration(color: Colors.grey[200]),
+      delegate:
+      SliverChildBuilderDelegate((BuildContext context, int index) {
+        Widget widget = Container(
+          padding: EdgeInsets.only(bottom: 5),
+          width: double.infinity,
+          decoration: BoxDecoration(color: Colors.grey[200]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 7,
+                child: Container(
+                  child: Stack(
+                    overflow: Overflow.clip,
+                    children: <Widget>[
+                      CachedNetworkImage(
+                        imageUrl: rmdList[index]['primaryPicUrl'],
+                        fit: BoxFit.fill,
                       ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                        child: Text(
-                          rmdList[index]['name'],
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '￥${rmdList[index]['retailPrice']}',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(child: Container())
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        rmdList[index]['itemTagList'] == null
-                            ? Container()
-                            : Container(
-                                margin: EdgeInsets.only(top: 5),
-                                padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(
-                                        color: Colors.red, width: 0.5)),
-                                child: Text(
-                                  '${rmdList[index]['itemTagList'][0]['name'] == null ? '年货特惠' : rmdList[index]['itemTagList'][0]['name']}',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.red),
-                                ),
-                              ),
-                        Expanded(child: Container())
-                      ],
-                    ),
-                  ],
+                      rmdList[index]['listPromBanner'] != null
+                          ? buildImage(index)
+                          : buildBottomText(index)
+                    ],
+                  ),
+                  decoration: BoxDecoration(color: Colors.grey[200]),
                 ),
-              );
-              return GestureDetector(
-                child: widget,
-                onTap: () {
-                  Routers.pop(context);
-                  Routers.push(Util.goodDetailTag, context,
-                      {'id': rmdList[index]['id']});
-                },
-              );
-            }, childCount: rmdList.length),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.65,
-                mainAxisSpacing: 3,
-                crossAxisSpacing: 3),
-          );
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding:
+                  EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                  child: Text(
+                    rmdList[index]['name'],
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '￥${rmdList[index]['retailPrice']}',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(child: Container())
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  rmdList[index]['itemTagList'] == null
+                      ? Container()
+                      : Container(
+                    margin: EdgeInsets.only(top: 5),
+                    padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(
+                            color: Colors.red, width: 0.5)),
+                    child: Text(
+                      '${rmdList[index]['itemTagList'][0]['name'] == null
+                          ? '年货特惠'
+                          : rmdList[index]['itemTagList'][0]['name']}',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.red),
+                    ),
+                  ),
+                  Expanded(child: Container())
+                ],
+              ),
+            ],
+          ),
+        );
+        return GestureDetector(
+          child: widget,
+          onTap: () {
+            Routers.pop(context);
+            Routers.push(Util.goodDetailTag, context,
+                {'id': rmdList[index]['id']});
+          },
+        );
+      }, childCount: rmdList.length),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.65,
+          mainAxisSpacing: 3,
+          crossAxisSpacing: 3),
+    );
   }
 
   buildImage(int index) {
@@ -1501,7 +1538,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Container(
                       child: CachedNetworkImage(
                         imageUrl: rmdList[index]['listPromBanner']
-                            ['bannerContentUrl'],
+                        ['bannerContentUrl'],
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -1611,17 +1648,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
     var recommendReason = this.goodDetailPre['item']['recommendReason'];
     return recommendReason.isEmpty
         ? Container(
-            child: Text(this.goodDetailPre['item']['simpleDesc']),
-          )
+      child: Text(this.goodDetailPre['item']['simpleDesc']),
+    )
         : Wrap(
-            spacing: 5,
-            runSpacing: 5,
-            children: List.generate(recommendReason.length, (index) {
-              return Container(
-                child: Text(recommendReason[index]),
-              );
-            }),
-          );
+      spacing: 5,
+      runSpacing: 5,
+      children: List.generate(recommendReason.length, (index) {
+        return Container(
+          child: Text(recommendReason[index]),
+        );
+      }),
+    );
   }
 
   ///推荐理由
@@ -1629,27 +1666,29 @@ class _GoodsDetailState extends State<GoodsDetail> {
     var recommendReason = this.goodDetailPre['item']['recommendReason'];
     return recommendReason.isEmpty
         ? singleSliverWidget(
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: Colors.grey[100]),
-              child: Text(this.goodDetailPre['item']['simpleDesc']),
-            ),
-          )
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2),
+            color: Colors.grey[100]),
+        child: Text(this.goodDetailPre['item']['simpleDesc']),
+      ),
+    )
         : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-            return Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(color: Colors.white),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: Colors.grey[100]),
-                  child: Text(recommendReason[index]),
-                ));
-          }, childCount: recommendReason.length));
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    color: Colors.grey[100]),
+                child: Text('${index + 1} ${recommendReason[index]}'),
+              ));
+        }, childCount: recommendReason.length));
   }
 
   Widget buildTitle() {
@@ -1690,21 +1729,22 @@ class _GoodsDetailState extends State<GoodsDetail> {
             itemTagListGood == null
                 ? Container()
                 : Row(
-                    children: itemTagListGood
-                        .map<Widget>((item) => Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 1),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border:
-                                      Border.all(color: redColor, width: 0.5)),
-                              child: Text(
-                                item["name"],
-                                style: TextStyle(fontSize: 12, color: redColor),
-                              ),
-                            ))
-                        .toList(),
-                  ),
+              children: itemTagListGood
+                  .map<Widget>((item) =>
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5, vertical: 1),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border:
+                        Border.all(color: redColor, width: 0.5)),
+                    child: Text(
+                      item["name"],
+                      style: TextStyle(fontSize: 12, color: redColor),
+                    ),
+                  ))
+                  .toList(),
+            ),
 
             /// itemTagList
             Row(
@@ -1726,24 +1766,24 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 GestureDetector(
                   child: Container(
                       child: Row(
-                    children: <Widget>[
-                      goodCmtRate == null
-                          ? Text('查看评价')
-                          : Column(
-                              children: <Widget>[
-                                Text(goodCmtRate,
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                                Text('好评率',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 12))
-                              ],
-                            ),
-                      arrowRightIcon,
-                    ],
-                  )),
+                        children: <Widget>[
+                          goodCmtRate == null
+                              ? Text('查看评价')
+                              : Column(
+                            children: <Widget>[
+                              Text(goodCmtRate,
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15)),
+                              Text('好评率',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12))
+                            ],
+                          ),
+                          arrowRightIcon,
+                        ],
+                      )),
                   onTap: () {
                     Routers.push(
                         Util.comment, context, {'id': widget.arguments['id']});
@@ -1781,25 +1821,22 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 borderRadius: BorderRadius.all(Radius.circular(2)),
                 border: Border.all(
                     width: 1,
-                    color: skuId == skuList[index]['id']
-                        ? redColor
-                        : textBlack)),
+                    color:
+                    skuId == skuList[index]['id'] ? redColor : textBlack)),
             child: Text(
               '${_getSkuItemText(itemSkuSpecValueList)}',
               style: TextStyle(
-                  color: skuId == skuList[index]['id']
-                      ? redColor
-                      : textBlack),
+                  color: skuId == skuList[index]['id'] ? redColor : textBlack),
             ),
           ),
           onTap: () {
             setstate(() {
               skuId = skuList[index]['id'];
               price = double.parse(skuList[index]['retailPrice'].toString());
-              counterPrice = double.parse(skuList[index]['counterPrice'].toString());
+              counterPrice =
+                  double.parse(skuList[index]['counterPrice'].toString());
 
-
-              skuDec =  _getSkuItemText(itemSkuSpecValueList);
+              skuDec = _getSkuItemText(itemSkuSpecValueList);
 
               skuLimit = skuList[index]['skuLimit'];
               promoTip = skuList[index]['promoTip'];
@@ -1811,20 +1848,20 @@ class _GoodsDetailState extends State<GoodsDetail> {
             setState(() {
               skuId = skuList[index]['id'];
               price = double.parse(skuList[index]['retailPrice'].toString());
-              counterPrice = double.parse(skuList[index]['counterPrice'].toString());
+              counterPrice =
+                  double.parse(skuList[index]['counterPrice'].toString());
               // skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
 
+              List itemSkuSpecValueList =
+              skuList[index]['itemSkuSpecValueList'];
 
-              List itemSkuSpecValueList =  skuList[index]['itemSkuSpecValueList'];
-
-              skuDec =  _getSkuItemText(itemSkuSpecValueList);
+              skuDec = _getSkuItemText(itemSkuSpecValueList);
 
               // String  skuDecL = "" ;
               // itemSkuSpecValueList.forEach((element) {
               //   skuDecL += element['skuSpecValue']['value'];
               // });
               // skuDec = skuDecL;
-
 
               skuLimit = skuList[index]['skuLimit'];
               promoTip = skuList[index]['promoTip'];
@@ -1837,9 +1874,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
         );
       });
 
-
-  _getSkuItemText(List itemSkuSpecValueList){
-    String  skuDecL = "" ;
+  _getSkuItemText(List itemSkuSpecValueList) {
+    String skuDecL = "";
     itemSkuSpecValueList.forEach((element) {
       skuDecL += element['skuSpecValue']['value'];
     });

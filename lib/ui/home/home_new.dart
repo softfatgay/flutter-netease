@@ -394,7 +394,7 @@ class _HomeState extends State<HomeNew> {
                                 color: Color(0xFFF9DCC9),
                                 margin: EdgeInsets.only(top: 3),
                                 child: CachedNetworkImage(
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.bottomRight,
                                   fit: BoxFit.fitHeight,
                                   imageUrl: item["picUrl"],
                                 ),
@@ -411,13 +411,18 @@ class _HomeState extends State<HomeNew> {
                                           fontWeight: FontWeight.bold,color: textBlack),
                                     ),
                                     SizedBox(height: 6,),
-                                    Text(
-                                      item["subTitle"] == ""
-                                          ? item["tag"]
-                                          : item["subTitle"],
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.grey),
-                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: backGrey
+                                      ),
+                                      child: Text(
+                                        item["subTitle"] == ""
+                                            ? item["tag"]
+                                            : item["subTitle"],
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -761,8 +766,7 @@ class _HomeState extends State<HomeNew> {
                       "¥${item['retailPrice']}",
                       style: TextStyle(
                           color: textRed,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 16,),
                     ),
                     Row(
                       children: _newItemsTags(item),
@@ -846,11 +850,11 @@ class _HomeState extends State<HomeNew> {
               margin: EdgeInsets.only(right: 5),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(width: 1, color: redColor)),
+                  border: Border.all(width: 0.5, color: redColor)),
               child: Expanded(
                   child: Text(
                 item["name"],
-                style: TextStyle(color: textRed, fontSize: 12),
+                style: TextStyle(color: textRed, fontSize: 10),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               )),
