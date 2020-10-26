@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 
 class ResponseData<T> {
   /// Response body. may have been transformed, please refer to [ResponseType].
+
+  final T OData;
   final T data;
+  final T newItems;
 
   /// AToken Server Status
   final T status;
@@ -14,7 +17,9 @@ class ResponseData<T> {
   final HttpRequestOptions httpRequestOptions;
 
   const ResponseData({
+    this.OData,
     this.data,
+    this.newItems,
     this.status,
     this.code,
     this.httpRequestOptions,
@@ -22,7 +27,9 @@ class ResponseData<T> {
 
   static Future<ResponseData> convertData(Response response) {
     ResponseData responseData = ResponseData(
+      OData: response.data,
       data: response.data['data'],
+      newItems: response.data['newItems'],
       status: response.data['status'],
       code: response.data['code'],
       httpRequestOptions: HttpRequestOptions.convert(response.request),

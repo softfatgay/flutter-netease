@@ -126,7 +126,14 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   _buildOrderList({Map<String, Object> arguments}) {
     return _orderList == null || _orderList.length == 0
         ? Center(
-            child: Text("暂无订单"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(image: AssetImage("assets/images/order.png")),
+                Text("暂无订单",style: TextStyle(color: redColor),)
+              ],
+            ),
           )
         : ListView.builder(
             itemBuilder: (context, index) => _buildItem(context, index),
@@ -137,7 +144,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   _buildItem(BuildContext context, int index) {
     var item = _orderList[index];
     return Container(
-      margin: EdgeInsets.fromLTRB(15,10,15,0),
+      margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -1,15 +1,20 @@
 import 'package:flutter/cupertino.dart';
 
-SliverList singleSliverList(Widget child) {
-  return SliverList(
-    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return child;
-    }, childCount: 1),
-  );
-}
-
 SliverToBoxAdapter singleSliverWidget(Widget widget) {
   return SliverToBoxAdapter(
     child: widget,
+  );
+}
+
+SliverGrid buildASingleSliverGrid(Widget widget, int rowCount) {
+  return SliverGrid(
+    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+      return widget;
+    }),
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: rowCount,
+        childAspectRatio: 0.65,
+        mainAxisSpacing: 3,
+        crossAxisSpacing: 3),
   );
 }

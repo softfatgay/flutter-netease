@@ -18,6 +18,11 @@ Future<ResponseData> kingKongData(Map<String, dynamic> parameters) async {
   return await HttpManager.get(URL_KING_KONG, queryParameters: parameters);
 }
 
+///新品
+Future<ResponseData> kingKongNewItemData(Map<String, dynamic> parameters) async {
+  return await HttpManager.get(ORDER_NEW_ITEM, queryParameters: parameters);
+}
+
 
 Future<ResponseData> kingKongDataNoId(Map<String, dynamic> parameters) async {
   return await HttpManager.get(URL_KING_KONG_NO_ID, queryParameters: parameters);

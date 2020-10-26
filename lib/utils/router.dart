@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
+import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
@@ -28,7 +29,14 @@ class Routers {
     //商品详情
     Util.catalogTag: (context, {arguments}) => SortList(arguments: arguments),
     //kingKong
-    Util.kingKong: (context, {arguments}) => KingKongPage(arguments: arguments),
+    Util.kingKong: (context, {arguments}) {
+      String schemeUrl = arguments['schemeUrl'];
+      if (schemeUrl.contains("categoryId")) {
+       return KingKongPage(arguments: arguments);
+      }else{
+        return NewItemPage(arguments: arguments);
+      }
+    },
 
     //专题详情
     Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),

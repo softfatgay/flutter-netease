@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/utils/widget_util.dart';
-import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/widget/slivers.dart';
 
 //import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -87,7 +87,7 @@ class _MinePageState extends State<MinePage> {
               background: buildUserMsg(),
             ),
           ),
-          WidgetUtil.buildASingleSliver(buildges(buildWidget(itemList1, 0))),
+          singleSliverWidget(buildges(buildWidget(itemList1, 0))),
           buildOneBottomSliver(itemList),
         ],
       ),

@@ -4,7 +4,6 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/footer.dart';
 import 'package:flutter_app/widget/loading.dart';
@@ -118,7 +117,7 @@ class _CatalogGoodsState extends State<SortListItem>
                     crossAxisSpacing: 10),
               ),
             ),
-            WidgetUtil.buildASingleSliver(buildFooter()),
+            singleSliverWidget(buildFooter()),
           ],
         ),
       );

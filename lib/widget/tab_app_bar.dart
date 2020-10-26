@@ -25,7 +25,7 @@ class TabAppBar extends StatelessWidget {
                 child: Center(
                   child: Icon(
                     Icons.arrow_back,
-                    color: Colors.black,
+                    color: redColor,
                   ),
                 ),
               ),
@@ -46,7 +46,7 @@ class TabAppBar extends StatelessWidget {
             ),
           ],
         ),
-        height: 44,
+        height: 48,
       ),
     );
   }

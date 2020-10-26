@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/net/DioManager.dart';
-import 'package:flutter_app/utils/net_contants.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/start_widget.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
@@ -126,10 +126,10 @@ class _CommentListState extends State<CommentList> {
           : CustomScrollView(
               controller: _scrollController,
               slivers: <Widget>[
-                WidgetUtil.buildASingleSliver(buildPraise()),
-                WidgetUtil.buildASingleSliver(buildCommentTags()),
-                WidgetUtil.buildASingleSliver(buildTagControl()),
-                WidgetUtil.buildASingleSliver(buildLine()),
+                singleSliverWidget(buildPraise()),
+                singleSliverWidget(buildCommentTags()),
+                singleSliverWidget(buildTagControl()),
+                singleSliverWidget(buildLine()),
                 buildCommentList(),
                 SliverFooter(hasMore: pagination['totalPage'] > pagination['page'])
               ],
