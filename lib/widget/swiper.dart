@@ -46,7 +46,9 @@ class _SwiperViewState extends State<SwiperView> {
         autoplay: true,
         autoplayDelay: 2000,
         onTap: (index) =>{
-
+        if(widget.onTap!=null){
+          widget.onTap(index)
+        }
         },
       ),
     );

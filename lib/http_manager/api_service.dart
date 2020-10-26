@@ -23,3 +23,6 @@ final String ORDER_NEW_ITEM = "${NetContants.baseUrl}item/newItem.json";
 
 ///订单列表
 // https://m.you.163.com/xhr/order/getList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&size=10&lastOrderId=0&status=0
+
+///福利社
+// https://m.you.163.com/xhr/saleCenter/index.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8

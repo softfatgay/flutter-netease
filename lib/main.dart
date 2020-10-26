@@ -10,7 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   runApp(MyApp());
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarBrightness: Brightness.dark));
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarBrightness: Brightness.dark));
 }
 
 class MyApp extends StatelessWidget {

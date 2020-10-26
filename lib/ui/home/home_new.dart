@@ -5,6 +5,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
 
@@ -40,6 +41,7 @@ class HomeNew extends StatefulWidget {
 class _HomeState extends State<HomeNew> {
   bool isLoading = true;
   List banner,
+      bannerData,
       tagList,
       kingKongModuleItems,
       bigPromotionModuleItems,
@@ -72,7 +74,7 @@ class _HomeState extends State<HomeNew> {
     });
     var data = responseData.data;
     var homeModel = data["data"];
-    List bannerData = homeModel["focusList"];
+    bannerData = homeModel["focusList"];
     setState(() {
       banner = bannerData
           .map((item) => CachedNetworkImage(
@@ -217,7 +219,11 @@ class _HomeState extends State<HomeNew> {
   //轮播图
   _buildSwiper() {
     return SliverToBoxAdapter(
-      child: banner == null ? Container() : SwiperView(banner),
+      child: banner == null
+          ? Container()
+          : SwiperView(banner, onTap: (index) {
+              _goWebview('${bannerData[index]["targetUrl"]}');
+            }),
     );
   }
 
@@ -304,17 +310,21 @@ class _HomeState extends State<HomeNew> {
   _bigPromotion(BuildContext context) {
     return singleSliverWidget(Column(
       children: bigPromotionModuleItems
-          .map((item) => GestureDetector(
+          .map(
+            (item) => Container(
+              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+              child: GestureDetector(
                 child: CachedNetworkImage(
-                  height: 180,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitWidth,
                   imageUrl: item["cells"][0]["picUrl"],
                 ),
                 onTap: () {
                   Routers.push(Util.webView, context,
                       {'id': item["cells"][0]["schemeUrl"]});
                 },
-              ))
+              ),
+            ),
+          )
           .toList(),
     ));
   }
@@ -343,18 +353,27 @@ class _HomeState extends State<HomeNew> {
         ),
       ),
       Container(
-        height: 200,
+        height: 240,
         child: Row(
           children: [
             Expanded(
                 flex: 1,
-                child: Container(
-                  height: 200,
-                  margin: EdgeInsets.only(top: 3),
-                  color: Color(0xFFF6E5C4),
-                  child: CachedNetworkImage(
-                      imageUrl:
-                          "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                child: GestureDetector(
+                  child: Container(
+                    child: Container(
+                      height: 240,
+                      margin: EdgeInsets.only(top: 3),
+                      color: Color(0xFFF6E5C4),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.fitWidth,
+                          imageUrl:
+                              "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                    ),
+                  ),
+                  onTap: () {
+                    _goWebview(
+                        'https://act.you.163.com/act/pub/qAU4P437asfF.html');
+                  },
                 )),
             Container(
               width: 3,
@@ -363,20 +382,21 @@ class _HomeState extends State<HomeNew> {
             Expanded(
               flex: 1,
               child: Container(
-                height: 200,
+                height: 240,
                 child: Column(
                     children: indexActivityModules
                         .map(
                           (item) => Stack(
                             children: [
                               Container(
-                                width: 180,
-                                height: 97,
-                                color: Color(0xFFF6E5C4),
+                                width: double.infinity,
+                                height: 117,
+                                color: Color(0xFFF9DCC9),
                                 margin: EdgeInsets.only(top: 3),
                                 child: CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  imageUrl: item["showPicUrl"],
+                                  alignment: Alignment.centerRight,
+                                  fit: BoxFit.fitHeight,
+                                  imageUrl: item["picUrl"],
                                 ),
                               ),
                               Container(
@@ -388,8 +408,9 @@ class _HomeState extends State<HomeNew> {
                                       item["title"],
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,color: textBlack),
                                     ),
+                                    SizedBox(height: 6,),
                                     Text(
                                       item["subTitle"] == ""
                                           ? item["tag"]
@@ -835,5 +856,9 @@ class _HomeState extends State<HomeNew> {
               )),
             ))
         .toList();
+  }
+
+  _goWebview(String url) {
+    Routers.push(Util.webView, context, {'id': url});
   }
 }
