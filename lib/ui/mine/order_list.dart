@@ -137,7 +137,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   _buildItem(BuildContext context, int index) {
     var item = _orderList[index];
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.fromLTRB(15,10,15,0),
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

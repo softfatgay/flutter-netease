@@ -14,6 +14,7 @@ class TabAppBar extends StatelessWidget {
   Widget buildAppBar(BuildContext context) {
     return new Container(
       width: double.infinity,
+      color: Colors.white,
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: new Container(
         child: Row(
@@ -45,13 +46,18 @@ class TabAppBar extends StatelessWidget {
             ),
           ],
         ),
-        height: 50,
+        height: 44,
       ),
     );
   }
 
   Widget buildTabBar() {
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(width: 0.5,color: Color(0xFFEAEAEA)))
+      ),
+
         width: double.infinity,
         child: TabBar(
           isScrollable: true,
@@ -64,10 +70,11 @@ class TabAppBar extends StatelessWidget {
           ),
           indicatorWeight: 2,
           tabs: tabs.map((item) {
-            return Container(
+            return Expanded(
+                child: Container(
               height: 30,
               child: Center(child: Text(item)),
-            );
+            ));
           }).toList(),
         ));
   }
