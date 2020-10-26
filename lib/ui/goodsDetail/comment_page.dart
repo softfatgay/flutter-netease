@@ -40,13 +40,13 @@ class _CommentListState extends State<CommentList> {
     reset();
     super.initState();
 
-
 //    https://m.you.163.com/xhr/comment/listByItemByTag.json?itemId=1006013&page=1&tag=全部
 //    https://m.you.163.com/xhr/comment/itemGoodRates.json    好评率  itemId: 1023014
 //    https://m.you.163.com/xhr/comment/tags.json    //评价tag  itemId: 1023014
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         if (pagination.isNotEmpty) {
           if (pagination['totalPage'] > pagination['page']) {
             setState(() {
@@ -105,9 +105,9 @@ class _CommentListState extends State<CommentList> {
     DioManager.get(NetContants.commentTags, params, (data) {
       setState(() {
         commentTags = data['data'];
-        if(commentTags!=null&&commentTags.length>6){
+        if (commentTags != null && commentTags.length > 6) {
           showTagsNum = 6;
-        }else{
+        } else {
           showTagsNum = commentTags.length;
         }
       });
@@ -123,17 +123,22 @@ class _CommentListState extends State<CommentList> {
       ).build(context),
       body: isFirstLoading
           ? Loading()
-          : CustomScrollView(
-              controller: _scrollController,
-              slivers: <Widget>[
-                singleSliverWidget(buildPraise()),
-                singleSliverWidget(buildCommentTags()),
-                singleSliverWidget(buildTagControl()),
-                singleSliverWidget(buildLine()),
-                buildCommentList(),
-                SliverFooter(hasMore: pagination['totalPage'] > pagination['page'])
-              ],
-            ),
+          : (commentList == null || commentList.isEmpty)
+              ? Center(
+                  child: Text("暂无评价"),
+                )
+              : CustomScrollView(
+                  controller: _scrollController,
+                  slivers: <Widget>[
+                    singleSliverWidget(buildPraise()),
+                    singleSliverWidget(buildCommentTags()),
+                    singleSliverWidget(buildTagControl()),
+                    singleSliverWidget(buildLine()),
+                    buildCommentList(),
+                    SliverFooter(
+                        hasMore: pagination['totalPage'] > pagination['page'])
+                  ],
+                ),
     );
   }
 
@@ -153,7 +158,9 @@ class _CommentListState extends State<CommentList> {
                 style: TextStyle(color: Colors.grey),
               ),
               Icon(
-                showTagsNum == commentTags.length ?Icons.keyboard_arrow_up : Icons.keyboard_arrow_down ,
+                showTagsNum == commentTags.length
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
                 color: Colors.grey,
               )
             ],
@@ -163,9 +170,9 @@ class _CommentListState extends State<CommentList> {
               if (showTagsNum < commentTags.length) {
                 showTagsNum = commentTags.length;
               } else {
-                if(commentTags.length<6) {
+                if (commentTags.length < 6) {
                   showTagsNum = commentTags.length;
-                }else{
+                } else {
                   showTagsNum = 6;
                 }
               }
@@ -207,11 +214,11 @@ class _CommentListState extends State<CommentList> {
   }
 
   Widget buildCommentTags() {
-    if (commentTags == null||commentTags.isEmpty) {
+    if (commentTags == null || commentTags.isEmpty) {
       return Loading();
-    }else{
+    } else {
       List items = [];
-      commentTags.forEach((item){
+      commentTags.forEach((item) {
         items.add(item['name']);
       });
       return Container(
@@ -220,14 +227,13 @@ class _CommentListState extends State<CommentList> {
             items: items,
             checkedItem: tag,
             showItemCount: showTagsNum,
-            onTap: (index){
+            onTap: (index) {
               setState(() {
                 this.tag = commentTags[index]['name'];
               });
               reset();
             },
-          )
-      );
+          ));
     }
   }
 
@@ -243,8 +249,9 @@ class _CommentListState extends State<CommentList> {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return Container(
-        decoration:
-            BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         padding: EdgeInsets.only(bottom: 10),
         child: Column(
@@ -283,20 +290,26 @@ class _CommentListState extends State<CommentList> {
                   padding: EdgeInsets.symmetric(horizontal: 2),
                   margin: EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
-                    color: Color(0xFFB19C6D),
-                    borderRadius: BorderRadius.circular(2)
-                  ),
+                      color: Color(0xFFB19C6D),
+                      borderRadius: BorderRadius.circular(2)),
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(color: Colors.grey, fontSize: 14,letterSpacing: -2),
+                      style: TextStyle(
+                          color: Colors.grey, fontSize: 14, letterSpacing: -2),
                       children: [
                         TextSpan(
                           text: 'V',
-                          style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
                             text: '${commentList[index]['memberLevel']}',
-                            style: TextStyle(fontStyle: FontStyle.normal, fontSize: 8,color: Colors.white)),
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 8,
+                                color: Colors.white)),
                       ],
                     ),
                   ),
@@ -304,7 +317,8 @@ class _CommentListState extends State<CommentList> {
                 Container(
                   child: StaticRatingBar(
                     size: 15,
-                    rate: double.parse(commentList[index]['memberLevel'].toString()),
+                    rate: double.parse(
+                        commentList[index]['memberLevel'].toString()),
                   ),
                 ),
               ],
@@ -326,8 +340,9 @@ class _CommentListState extends State<CommentList> {
             Wrap(
               spacing: 2,
               runSpacing: 5,
-              children: commentPic(
-                  commentList[index]['picList'] == null ? [] : commentList[index]['picList']),
+              children: commentPic(commentList[index]['picList'] == null
+                  ? []
+                  : commentList[index]['picList']),
             ),
             buildCommentReplyVO(index),
             commentReplyVO(index),
@@ -337,7 +352,8 @@ class _CommentListState extends State<CommentList> {
     }, childCount: commentList.length));
   }
 
-  List<Widget> commentPic(List commentList) => List.generate(commentList.length, (indexC) {
+  List<Widget> commentPic(List commentList) =>
+      List.generate(commentList.length, (indexC) {
         Widget widget = Container(
           width: 100,
           height: 100,
@@ -346,7 +362,8 @@ class _CommentListState extends State<CommentList> {
             fit: BoxFit.cover,
           ),
         );
-        return Routers.link(widget, Util.image, context, {'id': '${commentList[indexC]}'});
+        return Routers.link(
+            widget, Util.image, context, {'id': '${commentList[indexC]}'});
       });
 
   ///追评
@@ -385,8 +402,9 @@ class _CommentListState extends State<CommentList> {
           Wrap(
             spacing: 2,
             runSpacing: 5,
-            children:
-                commentPic(appendCommentVO['picList'] == null ? [] : appendCommentVO['picList']),
+            children: commentPic(appendCommentVO['picList'] == null
+                ? []
+                : appendCommentVO['picList']),
           ),
         ],
       );
@@ -408,7 +426,8 @@ class _CommentListState extends State<CommentList> {
       return Container(
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(5)),
+        decoration: BoxDecoration(
+            color: Colors.grey[100], borderRadius: BorderRadius.circular(5)),
         child: RichText(
           text: TextSpan(
             style: TextStyle(color: Colors.grey, fontSize: 14),
