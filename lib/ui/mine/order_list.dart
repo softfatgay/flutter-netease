@@ -167,9 +167,8 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
             return Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
               margin: EdgeInsets.only(left: 15),
-              decoration:  BoxDecoration(
-                      border: Border(
-                          top: BorderSide(color: backGrey, width: 1))),
+              decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: backGrey, width: 1))),
               child: Row(
                 children: [
                   Expanded(
@@ -189,7 +188,9 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("包裹${package["sequence"]}"),
-                      SizedBox(height: 3,),
+                      SizedBox(
+                        height: 3,
+                      ),
                       Text(
                         item["payOption"] == true ? "待付款" : "已取消",
                         style: TextStyle(color: redColor, fontSize: 12),
@@ -219,7 +220,9 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(package["name"]),
-                      SizedBox(height: 3,),
+                      SizedBox(
+                        height: 3,
+                      ),
                       Text(package["specDesc"]),
                     ],
                   )),
@@ -227,7 +230,9 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("包裹${package["sequence"]}"),
-                      SizedBox(height: 3,),
+                      SizedBox(
+                        height: 3,
+                      ),
                       Text(
                         item["payOption"] == true ? "待付款" : "已取消",
                         style: TextStyle(color: redColor, fontSize: 12),

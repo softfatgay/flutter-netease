@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(backgroundColor: Colors.transparent),
       title: 'Flutter Demo',
       onGenerateRoute: (RouteSettings settings) {
-        return Router.run(settings);
+        return Routers.run(settings);
       },
 
       //国际化-----------------------------------------------

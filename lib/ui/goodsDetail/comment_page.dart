@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/net/DioManager.dart';
 import 'package:flutter_app/utils/net_contants.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/utils/widget_util.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
@@ -347,7 +346,7 @@ class _CommentListState extends State<CommentList> {
             fit: BoxFit.cover,
           ),
         );
-        return Router.link(widget, Util.image, context, {'id': '${commentList[indexC]}'});
+        return Routers.link(widget, Util.image, context, {'id': '${commentList[indexC]}'});
       });
 
   ///追评

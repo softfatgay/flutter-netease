@@ -29,15 +29,13 @@ class _AState extends State<AdPage> {
                 width: 60,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(100, 59, 70, 88),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))
-                ),
-
+                    color: Color.fromARGB(100, 59, 70, 88),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
                 child: Center(
-                  child: Text('${widget.time}',
-                  style: TextStyle(color: Colors.white),
+                  child: Text(
+                    '${widget.time}',
+                    style: TextStyle(color: Colors.white),
                   ),
-
                 ),
               ))
         ],

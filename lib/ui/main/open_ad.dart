@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 
 class OpenAd extends StatelessWidget {
   OpenAd(this.time);
+
   final int time;
+
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,

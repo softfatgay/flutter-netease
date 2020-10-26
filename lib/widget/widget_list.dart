@@ -115,7 +115,7 @@ class _WidgetListState extends State<WidgetList> {
                               ],
                             ),
                           );
-                          return Router.link(widget, Util.goodDetailTag,
+                          return Routers.link(widget, Util.goodDetailTag,
                               context, {'id': dataList[index]['id']});
                         }, childCount: dataList.length),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

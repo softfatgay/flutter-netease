@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/net/DioManager.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/search_widget.dart';
@@ -53,7 +51,8 @@ class _SearchGoodsState extends State<SearchGoods> {
     _getSearchTips();
     _scrollController.addListener(() {
       // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         if (hasMore) {
           isLoading = true;
           _getTipsResult();
@@ -94,8 +93,8 @@ class _SearchGoodsState extends State<SearchGoods> {
         }
         if (newDirectlyList.isNotEmpty) {
           searchTipsresultData.addAll(data['data']['directlyList']);
-          itemId =
-              searchTipsresultData[searchTipsresultData.length - 1]['itemTagList'][0]['itemId'];
+          itemId = searchTipsresultData[searchTipsresultData.length - 1]
+              ['itemTagList'][0]['itemId'];
           hasMore = data['data']['hasMore'];
           if (!hasMore) {
             bottomTipsText = '没有更多了';
@@ -170,7 +169,8 @@ class _SearchGoodsState extends State<SearchGoods> {
         controller: _scrollController,
         slivers: <Widget>[
           SliverList(
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
               return Container(
                 height: MediaQuery.of(context).padding.top + 50,
               );
@@ -202,7 +202,8 @@ class _SearchGoodsState extends State<SearchGoods> {
           Container(
             height: 30,
             child: CachedNetworkImage(
-              imageUrl: searchTipsresultData[index]['listPromBanner']['bannerContentUrl'],
+              imageUrl: searchTipsresultData[index]['listPromBanner']
+                  ['bannerContentUrl'],
               fit: BoxFit.fill,
             ),
           ),
@@ -210,7 +211,8 @@ class _SearchGoodsState extends State<SearchGoods> {
             width: 70,
             height: 35,
             child: CachedNetworkImage(
-              imageUrl: searchTipsresultData[index]['listPromBanner']['bannerTitleUrl'],
+              imageUrl: searchTipsresultData[index]['listPromBanner']
+                  ['bannerTitleUrl'],
               fit: BoxFit.fill,
             ),
           ),
@@ -226,18 +228,24 @@ class _SearchGoodsState extends State<SearchGoods> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          searchTipsresultData[index]['listPromBanner']['promoTitle'],
+                          searchTipsresultData[index]['listPromBanner']
+                              ['promoTitle'],
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
                         ),
                         Text(
-                          searchTipsresultData[index]['listPromBanner']['promoSubTitle'],
+                          searchTipsresultData[index]['listPromBanner']
+                              ['promoSubTitle'],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
                         ),
                       ],
                     ),
@@ -250,8 +258,12 @@ class _SearchGoodsState extends State<SearchGoods> {
             child: Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Center(
-                  child: Text(searchTipsresultData[index]['listPromBanner']['content'],
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 12)),
+                  child: Text(
+                      searchTipsresultData[index]['listPromBanner']['content'],
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12)),
                 )),
           ),
         ],
@@ -293,10 +305,10 @@ class _SearchGoodsState extends State<SearchGoods> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: Text(
-                      searchTipsData[index],
-                      textAlign: TextAlign.start,
-                    ),
+                  child: Text(
+                    searchTipsData[index],
+                    textAlign: TextAlign.start,
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(right: 10),
@@ -322,7 +334,10 @@ class _SearchGoodsState extends State<SearchGoods> {
         );
       }, childCount: searchTipsData.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1, childAspectRatio: 8, mainAxisSpacing: 0, crossAxisSpacing: 0),
+          crossAxisCount: 1,
+          childAspectRatio: 8,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 0),
     );
   }
 
@@ -370,7 +385,10 @@ class _SearchGoodsState extends State<SearchGoods> {
                 child: Text(
                   '￥${searchTipsresultData[index]['retailPrice']}',
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               searchTipsresultData[index]['itemTagList'] == null
@@ -393,20 +411,25 @@ class _SearchGoodsState extends State<SearchGoods> {
         return GestureDetector(
           child: widget,
           onTap: () {
-            Router.push(Util.goodDetailTag, context, {'id': searchTipsresultData[index]['id']});
+            Routers.push(Util.goodDetailTag, context,
+                {'id': searchTipsresultData[index]['id']});
           },
         );
       }, childCount: searchTipsresultData.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 0.65, mainAxisSpacing: 10, crossAxisSpacing: 10),
+          crossAxisCount: 2,
+          childAspectRatio: 0.65,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10),
     );
   }
 
   //获取详情
   void _getDetail() async {
 //    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio()
-        .post('https://m.you.163.com/xhr/item/detail.json', queryParameters: {'id': '1023000'});
+    Response response = await Dio().post(
+        'https://m.you.163.com/xhr/item/detail.json',
+        queryParameters: {'id': '1023000'});
     String dataStr = json.encode(response.data);
     Map<String, dynamic> dataMap = json.decode(dataStr);
     var dataMap2 = dataMap['data'];

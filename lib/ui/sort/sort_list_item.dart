@@ -106,7 +106,7 @@ class _CatalogGoodsState extends State<SortListItem>
                   return GestureDetector(
                     child: widget,
                     onTap: () {
-                      Router.push(Util.goodDetailTag, context,
+                      Routers.push(Util.goodDetailTag, context,
                           {'id': dataList[index]['id']});
                     },
                   );

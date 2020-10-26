@@ -5,12 +5,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/swiper.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class TopicPage extends StatefulWidget {
@@ -234,7 +231,7 @@ class _TopicPageState extends State<TopicPage> {
               if (!schemeUrl.startsWith('http')) {
                 schemeUrl = 'https://m.you.163.com$schemeUrl';
               }
-              return Router.link(child, Util.webView, context, {'id': schemeUrl});
+              return Routers.link(child, Util.webView, context, {'id': schemeUrl});
             }, childCount: dataList.length),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5,childAspectRatio: 0.65),
@@ -273,7 +270,7 @@ class _TopicPageState extends State<TopicPage> {
         )
       ],
     ));
-    return Router.link(widget, Util.search, context, {'id': ''});
+    return Routers.link(widget, Util.search, context, {'id': ''});
   }
 
   Widget buildTopBanner() {
@@ -297,7 +294,7 @@ class _TopicPageState extends State<TopicPage> {
       autoplay: true,
       autoplayDelay: 4000,
       onTap: (index) => {
-        Router.push(Util.webView,context,{'id':dataList[index]['linkUrl']})
+        Routers.push(Util.webView,context,{'id':dataList[index]['linkUrl']})
       },
     );
   }

@@ -16,7 +16,6 @@ import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/start_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 class GoodsDetail extends StatefulWidget {
   final Map arguments;
@@ -49,8 +48,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
   List banner = [];
 
   var actvity = {
-    "bannerTitleUrl": "https://yanxuan.nosdn.127.net/d71e2460d062eaa21d5bdf97eba9da89.png",
-    "bannerContentUrl": "https://yanxuan.nosdn.127.net/c168892ef76f29971032dc1c12613720.png",
+    "bannerTitleUrl":
+        "https://yanxuan.nosdn.127.net/d71e2460d062eaa21d5bdf97eba9da89.png",
+    "bannerContentUrl":
+        "https://yanxuan.nosdn.127.net/c168892ef76f29971032dc1c12613720.png",
   };
 
   @override
@@ -80,7 +81,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
   void _getDetail() async {
     //获取详情 页面下半部分详情数据
 //    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio().post('https://m.you.163.com/xhr/item/detail.json',
+    Response response = await Dio().post(
+        'https://m.you.163.com/xhr/item/detail.json',
         queryParameters: {'id': widget.arguments['id']});
     String dataStr = json.encode(response.data);
     Map<String, dynamic> dataMap = json.decode(dataStr);
@@ -91,7 +93,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   void _getDetailPageUp() async {
     //获取详情 页面上半部分详情数据
-    Response response = await Dio().get('https://m.you.163.com/item/detail.json',
+    Response response = await Dio().get(
+        'https://m.you.163.com/item/detail.json',
         queryParameters: {'id': widget.arguments['id']});
     Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
     setState(() {
@@ -133,7 +136,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
   void _getRMD() async {
     //获取推荐
 //    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio().post('https://m.you.163.com/xhr/wapitem/rcmd.json',
+    Response response = await Dio().post(
+        'https://m.you.163.com/xhr/wapitem/rcmd.json',
         queryParameters: {'id': widget.arguments['id']});
     String dataStr = json.encode(response.data);
     Map<String, dynamic> dataMap = json.decode(dataStr);
@@ -212,7 +216,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 onPressed: () {},
                 child: Text(
                   '马上购买',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
                 color: Colors.red,
               ),
@@ -227,7 +234,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 onPressed: () {},
                 child: Text(
                   '加入购物车',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
                 color: Colors.orange,
               ),
@@ -235,9 +245,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
           ),
         ],
       ),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.grey[300], blurRadius: 1, spreadRadius: 0.2)]),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(color: Colors.grey[300], blurRadius: 1, spreadRadius: 0.2)
+      ]),
     );
   }
 
@@ -252,7 +262,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
           SliverPersistentHeader(
             pinned: true,
             delegate: SliverCustomHeaderDelegate(
-              title: initLoading ? 'loading...' : '${goodDetailPre['item']['name']}',
+              title: initLoading
+                  ? 'loading...'
+                  : '${goodDetailPre['item']['name']}',
               collapsedHeight: 50,
               expandedHeight: 250,
               paddingTop: MediaQuery.of(context).padding.top,
@@ -260,31 +272,54 @@ class _GoodsDetailState extends State<GoodsDetail> {
             ),
           ),
           //banner底部活动
-          SliverToBoxAdapter(child: buildActivity(),),
+          SliverToBoxAdapter(
+            child: buildActivity(),
+          ),
           //商品名称
-          SliverToBoxAdapter(child: buildTitle(),),
+          SliverToBoxAdapter(
+            child: buildTitle(),
+          ),
           //推荐理由
-          SliverToBoxAdapter(child: buildOnlyText(),),
+          SliverToBoxAdapter(
+            child: buildOnlyText(),
+          ),
           buildRecommondReason(),
           //选择属性
-          SliverToBoxAdapter(child: buildSelectProperty(),),
+          SliverToBoxAdapter(
+            child: buildSelectProperty(),
+          ),
           //服务
-          SliverToBoxAdapter(child: buildDescription(),),
+          SliverToBoxAdapter(
+            child: buildDescription(),
+          ),
           //评论
-          SliverToBoxAdapter(child: buildComment(),),
+          SliverToBoxAdapter(
+            child: buildComment(),
+          ),
           //详情title
-          SliverToBoxAdapter(child: builddetailTitle(),),
+          SliverToBoxAdapter(
+            child: builddetailTitle(),
+          ),
           //成分
           buildIntro(),
           //商品详情
-          SliverToBoxAdapter(child: goodDetail.isEmpty ? Container() : buildGoodDetail(),),
+          SliverToBoxAdapter(
+            child: goodDetail.isEmpty ? Container() : buildGoodDetail(),
+          ),
           //报告
           buildReport(),
           //常见问题
-          SliverToBoxAdapter(child: goodDetail.isEmpty ? Container() : buildIssuTitle('-- 常见问题 --'),),
+          SliverToBoxAdapter(
+            child:
+                goodDetail.isEmpty ? Container() : buildIssuTitle('-- 常见问题 --'),
+          ),
           buildIssueList(),
           //推荐
-          SliverToBoxAdapter(child:  goodDetail.isEmpty ? Container() : buildIssuTitle('-- 你可能还喜欢 --'),),
+          SliverToBoxAdapter(
+            child: goodDetail.isEmpty
+                ? Container()
+                : buildIssuTitle('-- 你可能还喜欢 --'),
+          ),
           buildrecommond(),
         ],
       );
@@ -295,7 +330,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return BannerCacheImg(
       imageList: imgList,
       onTap: (index) {
-        Router.push(Util.image, context, {'id': '${imgList[index]}'});
+        Routers.push(Util.image, context, {'id': '${imgList[index]}'});
       },
     );
   }
@@ -323,19 +358,28 @@ class _GoodsDetailState extends State<GoodsDetail> {
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[Icon(Icons.star, color: Colors.red), Text('活动活动')],
+                children: <Widget>[
+                  Icon(Icons.star, color: Colors.red),
+                  Text('活动活动')
+                ],
               )),
           Expanded(
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[Icon(Icons.star, color: Colors.red), Text('活动活动')],
+                children: <Widget>[
+                  Icon(Icons.star, color: Colors.red),
+                  Text('活动活动')
+                ],
               )),
           Expanded(
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[Icon(Icons.star, color: Colors.red), Text('活动活动')],
+                children: <Widget>[
+                  Icon(Icons.star, color: Colors.red),
+                  Text('活动活动')
+                ],
               )),
         ],
       ),
@@ -373,9 +417,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       children: buildSerVice(),
                     ),
                   )),
-                  Container(
-                    child: arrowRightIcon
-                  )
+                  Container(child: arrowRightIcon)
                 ],
               ),
             ),
@@ -417,8 +459,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                             child: Row(
                           children: <Widget>[
                             Container(
-                              decoration:
-                                  BoxDecoration(border: Border.all(color: Color(0xFFFBBB65))),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Color(0xFFFBBB65))),
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Text(
                                 couponShortNameList[0],
@@ -474,7 +516,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   },
                 ),
           //促销限制
-          ((skuLimit == null) && (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty))
+          ((skuLimit == null) &&
+                  (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty))
               ? Container()
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 15),
@@ -483,7 +526,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty) ? '限制:' : '促销',
+                          (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty)
+                              ? '限制:'
+                              : '促销',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
@@ -506,7 +551,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         child: Text(
@@ -516,7 +562,12 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                       ),
                                       Container(
                                         child: Text(
-                                          hdrkDetailVOList[0]['promLimitDesc'] == null?"":hdrkDetailVOList[0]['promLimitDesc'],
+                                          hdrkDetailVOList[0]
+                                                      ['promLimitDesc'] ==
+                                                  null
+                                              ? ""
+                                              : hdrkDetailVOList[0]
+                                                  ['promLimitDesc'],
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                       )
@@ -536,7 +587,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           InkResponse(
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 15),
-              decoration:bottomBorder,
+              decoration: bottomBorder,
               child: Row(
                 children: <Widget>[
                   Container(
@@ -586,7 +637,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
               highlightColor: Colors.transparent,
               radius: 0,
               onTap: () {
-                Router.push(Util.comment, context, {'id': widget.arguments['id']});
+                Routers.push(
+                    Util.comment, context, {'id': widget.arguments['id']});
               },
               child: Container(
                 height: 50,
@@ -638,15 +690,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                 width: 30,
                                 height: 30,
                                 child: CachedNetworkImage(
-                                  imageUrl: comments[0]['frontUserAvatar'] == null
-                                      ? ''
-                                      : comments[0]['frontUserAvatar'],
+                                  imageUrl:
+                                      comments[0]['frontUserAvatar'] == null
+                                          ? ''
+                                          : comments[0]['frontUserAvatar'],
                                   errorWidget: (context, url, error) {
                                     return ClipOval(
                                       child: Container(
                                         width: 30,
                                         height: 30,
-                                        decoration: BoxDecoration(color: Colors.grey),
+                                        decoration:
+                                            BoxDecoration(color: Colors.grey),
                                       ),
                                     );
                                   },
@@ -663,11 +717,14 @@ class _GoodsDetailState extends State<GoodsDetail> {
                               padding: EdgeInsets.symmetric(horizontal: 2),
                               margin: EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
-                                  color: Color(0xFFB19C6D), borderRadius: BorderRadius.circular(2)),
+                                  color: Color(0xFFB19C6D),
+                                  borderRadius: BorderRadius.circular(2)),
                               child: RichText(
                                 text: TextSpan(
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 14, letterSpacing: -2),
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                      letterSpacing: -2),
                                   children: [
                                     TextSpan(
                                       text: 'V',
@@ -689,7 +746,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                             Container(
                               child: StaticRatingBar(
                                 size: 15,
-                                rate: double.parse(comments[0]['memberLevel'].toString()),
+                                rate: double.parse(
+                                    comments[0]['memberLevel'].toString()),
                               ),
                             ),
                           ],
@@ -711,8 +769,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         Wrap(
                           spacing: 2,
                           runSpacing: 5,
-                          children: commentPic(
-                              comments[0]['picList'] == null ? [] : comments[0]['picList']),
+                          children: commentPic(comments[0]['picList'] == null
+                              ? []
+                              : comments[0]['picList']),
                         )
                       ],
                     ),
@@ -722,7 +781,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
         ));
   }
 
-  List<Widget> commentPic(List commentList) => List.generate(commentList.length, (indexC) {
+  List<Widget> commentPic(List commentList) =>
+      List.generate(commentList.length, (indexC) {
         Widget widget = Container(
           width: 100,
           height: 100,
@@ -731,7 +791,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
             fit: BoxFit.cover,
           ),
         );
-        return Router.link(widget, Util.image, context, {'id': '${commentList[indexC]}'});
+        return Routers.link(
+            widget, Util.image, context, {'id': '${commentList[indexC]}'});
       });
 
   Widget buildGoodDetail() {
@@ -806,7 +867,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
                                     '￥${price.toString()}',
-                                    style: TextStyle(color: Colors.red, fontSize: 24),
+                                    style: TextStyle(
+                                        color: Colors.red, fontSize: 24),
                                   ),
                                 ),
                               ),
@@ -817,7 +879,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                   child: Text(
                                     '${goodDetailPre['item']['name']}',
                                     overflow: TextOverflow.clip,
-                                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 14),
                                   ),
                                 ),
                               ),
@@ -875,7 +938,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                               child: Text(
                                 '马上购买',
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                               color: Colors.red,
                             ),
@@ -890,7 +955,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                               child: Text(
                                 '加入购物车',
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                               color: Colors.orange,
                             ),
@@ -1042,7 +1109,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        child: Text('${goodDetail['attrList'][index]['attrName']}'),
+                        child: Text(
+                            '${goodDetail['attrList'][index]['attrName']}'),
                       ),
                     ),
                     Expanded(
@@ -1057,7 +1125,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   ],
                 ),
               );
-            }, childCount: goodDetail['attrList'] == null ? 0 : goodDetail['attrList'].length),
+            },
+                childCount: goodDetail['attrList'] == null
+                    ? 0
+                    : goodDetail['attrList'].length),
           );
   }
 
@@ -1071,7 +1142,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
       child: Text(
         '商品详情',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, color: Colors.orange, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            fontSize: 16, color: Colors.orange, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -1140,7 +1212,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return rmdList.isEmpty
         ? WidgetUtil.buildASingleSliverGrid(Container(), 2)
         : SliverGrid(
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
               Widget widget = Container(
                 padding: EdgeInsets.only(bottom: 5),
                 width: double.infinity,
@@ -1169,7 +1242,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 2),
                         child: Text(
                           rmdList[index]['name'],
                           textAlign: TextAlign.left,
@@ -1185,7 +1259,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                             '￥${rmdList[index]['retailPrice']}',
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold),
+                                fontSize: 16,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         Expanded(child: Container())
@@ -1199,12 +1275,15 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                 margin: EdgeInsets.only(top: 5),
                                 padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(color: Colors.red, width: 0.5)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    border: Border.all(
+                                        color: Colors.red, width: 0.5)),
                                 child: Text(
                                   '${rmdList[index]['itemTagList'][0]['name'] == null ? '年货特惠' : rmdList[index]['itemTagList'][0]['name']}',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16, color: Colors.red),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.red),
                                 ),
                               ),
                         Expanded(child: Container())
@@ -1216,13 +1295,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
               return GestureDetector(
                 child: widget,
                 onTap: () {
-                  Router.pop(context);
-                  Router.push(Util.goodDetailTag, context, {'id': rmdList[index]['id']});
+                  Routers.pop(context);
+                  Routers.push(Util.goodDetailTag, context,
+                      {'id': rmdList[index]['id']});
                 },
               );
             }, childCount: rmdList.length),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: 0.65, mainAxisSpacing: 3, crossAxisSpacing: 3),
+                crossAxisCount: 2,
+                childAspectRatio: 0.65,
+                mainAxisSpacing: 3,
+                crossAxisSpacing: 3),
           );
   }
 
@@ -1239,7 +1322,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   children: <Widget>[
                     Container(
                       child: CachedNetworkImage(
-                        imageUrl: rmdList[index]['listPromBanner']['bannerContentUrl'],
+                        imageUrl: rmdList[index]['listPromBanner']
+                            ['bannerContentUrl'],
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -1274,13 +1358,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
                             ),
                             Text(
                               rmdList[index]['listPromBanner']['promoSubTitle'],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
                             ),
                           ],
                         ),
@@ -1294,7 +1382,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     margin: EdgeInsets.only(top: 5),
                     child: Center(
                       child: Text(rmdList[index]['listPromBanner']['content'],
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
                     )),
               ),
             ],
@@ -1324,7 +1414,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
     _textEditingController.dispose();
   }
 
-  List<Widget> buildSerVice() => List.generate(goodDetailPre['policyList'].length, (index) {
+  List<Widget> buildSerVice() =>
+      List.generate(goodDetailPre['policyList'].length, (index) {
         List policyList = goodDetailPre['policyList'];
         return Container(
           padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
@@ -1361,8 +1452,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
         ? WidgetUtil.buildASingleSliver(
             Container(
               padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(2), color: Colors.grey[100]),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  color: Colors.grey[100]),
               child: Text(this.goodDetailPre['item']['simpleDesc']),
             ),
           )
@@ -1374,7 +1466,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2), color: Colors.grey[100]),
+                      borderRadius: BorderRadius.circular(2),
+                      color: Colors.grey[100]),
                   child: Text(recommendReason[index]),
                 ));
           }, childCount: recommendReason.length));
@@ -1406,7 +1499,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                           Text(
                             goodDetailPre['item']['goodCmtRate'],
                             style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
                           ),
                           Text(
                             '好评率',
@@ -1418,7 +1513,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     ],
                   )),
                   onTap: () {
-                    Router.push(Util.comment, context, {'id': widget.arguments['id']});
+                    Routers.push(
+                        Util.comment, context, {'id': widget.arguments['id']});
                   },
                 )
               ],
@@ -1432,8 +1528,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       child: Text(
                         '￥${price.toString()}',
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            TextStyle(fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -1465,17 +1563,23 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 borderRadius: BorderRadius.all(Radius.circular(2)),
                 border: Border.all(
                     width: 0.5,
-                    color: skuId == skuList[index]['id'] ? Colors.red : Colors.black54)),
+                    color: skuId == skuList[index]['id']
+                        ? Colors.red
+                        : Colors.black54)),
             child: Text(
               '${skuListDetail['skuSpecValue']['value']}',
-              style: TextStyle(color: skuId == skuList[index]['id'] ? Colors.red : Colors.black54),
+              style: TextStyle(
+                  color: skuId == skuList[index]['id']
+                      ? Colors.red
+                      : Colors.black54),
             ),
           ),
           onTap: () {
             setstate(() {
               skuId = skuList[index]['id'];
               price = skuList[index]['retailPrice'];
-              skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
+              skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']
+                  ['value'];
               skuLimit = skuList[index]['skuLimit'];
               promoTip = skuList[index]['promoTip'];
               couponShortNameList = skuList[index]['couponShortNameList'];
@@ -1484,7 +1588,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
             setState(() {
               skuId = skuList[index]['id'];
               price = skuList[index]['retailPrice'];
-              skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
+              skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']
+                  ['value'];
               skuLimit = skuList[index]['skuLimit'];
               promoTip = skuList[index]['promoTip'];
               couponShortNameList = skuList[index]['couponShortNameList'];

@@ -203,7 +203,7 @@ class _LoginState extends State<LoginForCode> {
                               if (!checked) {
                                 Toast.show('请勾选用户协议', context);
                               } else {
-                                Router.pop(context);
+                                Routers.pop(context);
                               }
                             }
                           }
@@ -226,7 +226,7 @@ class _LoginState extends State<LoginForCode> {
             child: Container(
                 child: GestureDetector(
               onTap: () {
-                Router.pop(context);
+                Routers.pop(context);
               },
               child: Text('密码登录'),
             )),
@@ -237,7 +237,7 @@ class _LoginState extends State<LoginForCode> {
   }
 
   void login(BuildContext context) {
-    Router.pop(context);
+    Routers.pop(context);
   }
 
   void _getVerification() {
@@ -264,7 +264,5 @@ class _LoginState extends State<LoginForCode> {
     _codeController.dispose();
   }
 
-  Widget buildbottom() {
-
-  }
+  Widget buildbottom() {}
 }

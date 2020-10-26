@@ -164,7 +164,7 @@ class _LoginState extends State<Login> {
                                   if (!checked) {
                                     Toast.show('请同意用户协议', context);
                                   } else {
-                                    Router.pop(context);
+                                    Routers.pop(context);
                                   }
                                 }
                               }
@@ -202,7 +202,7 @@ class _LoginState extends State<Login> {
   }
 
   void login(BuildContext context) {
-    Router.pop(context);
+    Routers.pop(context);
   }
 
   buildLogo(BuildContext context) {
