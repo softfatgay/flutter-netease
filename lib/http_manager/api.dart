@@ -40,5 +40,15 @@ Future<ResponseData> getOrderList(Map<String, dynamic> parameters,{Map<String, d
   return await HttpManager.get(ORDER_LIST, queryParameters: parameters,headers: header);
 }
 
+///地址列表
+Future<ResponseData> getLocationList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(LOCATION_LIST, queryParameters: parameters,headers: header);
+}
+
+///删除地址
+Future<ResponseData> deleteAddress(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(DELETE_ASSRESS, queryParameters: parameters,headers: header);
+}
+
 
 

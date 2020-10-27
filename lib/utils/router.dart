@@ -5,6 +5,8 @@ import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
+import 'package:flutter_app/ui/mine/for_services.dart';
+import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
@@ -32,8 +34,8 @@ class Routers {
     Util.kingKong: (context, {arguments}) {
       String schemeUrl = arguments['schemeUrl'];
       if (schemeUrl.contains("categoryId")) {
-       return KingKongPage(arguments: arguments);
-      }else{
+        return KingKongPage(arguments: arguments);
+      } else {
         return NewItemPage(arguments: arguments);
       }
     },
@@ -55,6 +57,12 @@ class Routers {
       switch (id) {
         case 0: //关于界面
           return OrderList();
+          break;
+        case 3:
+          return ForServices();
+          break;
+        case 8: //地址管理
+          return LocationManage();
           break;
       }
 

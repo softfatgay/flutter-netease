@@ -1,0 +1,43 @@
+{
+  "code": "200",
+  "data": [
+    {
+      "zipCode": "",
+      "townName": "七宝镇",
+      "address": "上海",
+      "incompleteDesc": "",
+      "districtName": "闵行区",
+      "mobile": "176****7088",
+      "cityId": 310100,
+      "completed": true,
+      "townId": 310112102000,
+      "provinceId": 310000,
+      "dft": true,
+      "districtId": 310112,
+      "cityName": "上海市",
+      "fullAddress": "上海市上海市闵行区七宝镇上海",
+      "name": "tuan wan",
+      "id": 84838034,
+      "provinceName": "上海市"
+    },
+    {
+      "zipCode": "",
+      "townName": "海滨镇",
+      "address": "阿花送激动啊设计大赛来的快",
+      "incompleteDesc": "",
+      "districtName": "北戴河区",
+      "mobile": "133****7634",
+      "cityId": 130300,
+      "completed": true,
+      "townId": 130304100000,
+      "provinceId": 130000,
+      "dft": false,
+      "districtId": 130304,
+      "cityName": "秦皇岛市",
+      "fullAddress": "河北省秦皇岛市北戴河区海滨镇阿花送激动啊设计大赛来的快",
+      "name": "跟投大师",
+      "id": 85723006,
+      "provinceName": "河北省"
+    }
+  ]
+}
