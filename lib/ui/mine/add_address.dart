@@ -136,6 +136,7 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                         ),
                       ),
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         _showAddress(context);
                       },
                     ),
