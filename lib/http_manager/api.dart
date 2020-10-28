@@ -85,5 +85,10 @@ Future<ResponseData> getTown(Map<String, dynamic> parameters,{Map<String, dynami
   return await HttpManager.get(TOWN_LIST, queryParameters: parameters,headers: header);
 }
 
+///添加地址
+Future<ResponseData> addAddress(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.post(ADD_ADDRESS, queryParameters: parameters,headers: header);
+}
+
 
 

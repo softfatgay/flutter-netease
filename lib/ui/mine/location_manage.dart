@@ -53,6 +53,78 @@ class _LocationManageState extends State<LocationManage> {
 
   _buildItem(BuildContext context, int index) {
     var item = _locationList[index];
+
+   Widget widget = Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(left: 15),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: backGrey, width: 1))),
+        padding: EdgeInsets.fromLTRB(0, 20, 15, 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 6),
+                    child: Text(
+                      '${item['name']} ${item['mobile']}',
+                      style: TextStyle(fontSize: 16, color: textBlack),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      item['dft'] == true
+                          ? Container(
+                        margin: EdgeInsets.only(right: 10),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 2),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: redColor),
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Text(
+                          item['dft'] == true ? '默认' : '',
+                          style: TextStyle(fontSize: 12, color: redColor),
+                        ),
+                      )
+                          : Container(
+                        width: 45,
+                      ),
+                      Expanded(
+                          child: Text(
+                            item['fullAddress'],
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            ),
+            IconButton(
+                icon: Icon(
+                  Icons.delete_forever,
+                  size: 30,
+                  color: textGrey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    addressId = item['id'];
+                  });
+                  _confimDialog(context);
+                })
+          ],
+        ),
+      ),
+    );
+
+    return Routers.link(widget, Util.addAddress, context, item,(){
+      print('////////////////');
+      _getLocations();
+    });
+
+
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: 15),
@@ -185,6 +257,9 @@ class _LocationManageState extends State<LocationManage> {
         ],
       ),
     );
-    return Routers.link(widget, Util.addAddress, context, {'address': null});
+    return Routers.link(widget, Util.addAddress, context, null,(){
+      print('////////////////');
+      _getLocations();
+    });
   }
 }

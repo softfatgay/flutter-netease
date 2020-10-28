@@ -18,6 +18,7 @@ final String PROVINCE_LIST = "${NetContants.baseUrl}xhr/address/getProvince.json
 final String CITY_LIST = "${NetContants.baseUrl}xhr/address/getCity.json";
 final String DIS_LIST = "${NetContants.baseUrl}xhr/address/getDistrict.json";
 final String TOWN_LIST = "${NetContants.baseUrl}xhr/address/getTown.json";
+final String ADD_ADDRESS = "${NetContants.baseUrl}xhr/address/upsertAddress.json";
 
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
@@ -61,3 +62,5 @@ final String TOWN_LIST = "${NetContants.baseUrl}xhr/address/getTown.json";
 //https://m.you.163.com/xhr/address/getDistrict.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&grandParentId=130000&parentId=130100
 ///街道
 //https://m.you.163.com/xhr/address/getTown.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&parentId=130104
+///添加地址
+//https://m.you.163.com/xhr/address/upsertAddress.json?csrf_token=e0c09646e43d88a4315216febe03ede5

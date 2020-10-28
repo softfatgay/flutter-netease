@@ -20,12 +20,16 @@ class HttpManager {
     Map<String, dynamic> headers,
   }) async {
     // get native data
+    Map<String, dynamic> postHeader = (headers == null) ? Map() : headers;
+
+    postHeader['Content-Type'] = 'application/x-www-form-urlencoded';
+
     Map<String, dynamic> header = (headers == null) ? Map() : headers;
     Dio dio = Dio();
 
     Options options = Options(
       method: method == "GET" ? "GET" : "POST",
-      headers: header,
+      headers: method == "GET" ? header : postHeader,
       sendTimeout: sendTimeout,
       receiveTimeout: receiveTimeout,
     );
@@ -43,6 +47,7 @@ class HttpManager {
         //   ///错误提醒
         //
         // }
+        print(response.data);
         if (_needApiFeedBack) {
           // TODO: 可在此添加错误收集接口
         }
