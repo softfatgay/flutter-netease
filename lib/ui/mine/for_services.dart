@@ -52,7 +52,7 @@ class _ForServicesState extends State<ForServices> {
                     ],
                   ),
                   Icon(
-                    Icons.arrow_forward_ios_outlined,
+                    Icons.arrow_forward_ios,
                     color: textGrey,
                     size: 16,
                   )
