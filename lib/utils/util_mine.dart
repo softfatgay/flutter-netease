@@ -15,6 +15,7 @@ class Util {
   static String image = 'image';
   static String orderList = 'orderList';
   static String mineItems = 'mineItems';
+  static String addAddress = 'addAddress';
 
 
   static const String flutter2activity = 'com.example.want.flutter2activity';

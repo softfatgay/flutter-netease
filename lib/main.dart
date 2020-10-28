@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(backgroundColor: Colors.transparent),
+      theme: ThemeData(backgroundColor: Colors.transparent,
+        primarySwatch: Colors.red,),
       title: 'Flutter Demo',
       onGenerateRoute: (RouteSettings settings) {
         return Routers.run(settings);

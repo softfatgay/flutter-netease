@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
@@ -31,7 +33,9 @@ class _LocationManageState extends State<LocationManage> {
       ).build(context),
       body: Column(
         children: [
-          Expanded(child: _locations(context),),
+          Expanded(
+            child: _locations(context),
+          ),
           _addAddress(context)
         ],
       ),
@@ -158,22 +162,29 @@ class _LocationManageState extends State<LocationManage> {
   }
 
   _addAddress(BuildContext context) {
-    return Container(
+    Widget widget = Container(
       margin: EdgeInsets.all(15),
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: backGrey,
-        border: Border.all(color: redColor,width: 0.5),
-        borderRadius: BorderRadius.circular(2)
-      ),
+          color: backGrey,
+          border: Border.all(color: redColor, width: 0.5),
+          borderRadius: BorderRadius.circular(2)),
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.add,color: redColor,size: 14,),
-          Text('新建地址',style: TextStyle(fontSize: 16,color: redColor),)
+          Icon(
+            Icons.add,
+            color: redColor,
+            size: 14,
+          ),
+          Text(
+            '新建地址',
+            style: TextStyle(fontSize: 16, color: redColor),
+          )
         ],
       ),
     );
+    return Routers.link(widget, Util.addAddress, context, {'address': null});
   }
 }

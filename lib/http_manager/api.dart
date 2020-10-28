@@ -66,5 +66,24 @@ Future<ResponseData> deleteAddress(Map<String, dynamic> parameters,{Map<String, 
   return await HttpManager.get(DELETE_ASSRESS, queryParameters: parameters,headers: header);
 }
 
+///省份
+Future<ResponseData> getProvenceList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(PROVINCE_LIST, queryParameters: parameters,headers: header);
+}
+
+///市
+Future<ResponseData> getCityList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(CITY_LIST, queryParameters: parameters,headers: header);
+}
+///区县
+Future<ResponseData> getDisList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(DIS_LIST, queryParameters: parameters,headers: header);
+}
+
+///街道
+Future<ResponseData> getTown(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(TOWN_LIST, queryParameters: parameters,headers: header);
+}
+
 
 

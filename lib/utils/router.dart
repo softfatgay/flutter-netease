@@ -5,6 +5,7 @@ import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
+import 'package:flutter_app/ui/mine/add_address.dart';
 import 'package:flutter_app/ui/mine/for_services.dart';
 import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
@@ -46,6 +47,9 @@ class Routers {
     Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),
     //评论
     Util.comment: (context, {arguments}) => CommentList(arguments: arguments),
+
+    //添加地址
+    Util.addAddress: (context, {arguments}) => AddAddress(arguments: arguments),
 
     ///大图
     Util.image: (context, {arguments}) => FullScreenImage(arguments),

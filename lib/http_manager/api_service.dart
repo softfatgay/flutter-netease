@@ -14,6 +14,10 @@ final String PIN_GROUP = "${NetContants.baseUrl}pin/group/item/index";
 final String PIN_GROUP_LIST = "${NetContants.baseUrl}pin/group/item/list";
 final String LOCATION_LIST = "${NetContants.baseUrl}xhr/address/list.json";
 final String DELETE_ASSRESS = "${NetContants.baseUrl}xhr/address/deleteAddress.json";
+final String PROVINCE_LIST = "${NetContants.baseUrl}xhr/address/getProvince.json";
+final String CITY_LIST = "${NetContants.baseUrl}xhr/address/getCity.json";
+final String DIS_LIST = "${NetContants.baseUrl}xhr/address/getDistrict.json";
+final String TOWN_LIST = "${NetContants.baseUrl}xhr/address/getTown.json";
 
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
@@ -49,3 +53,11 @@ final String DELETE_ASSRESS = "${NetContants.baseUrl}xhr/address/deleteAddress.j
 //https://m.you.163.com/xhr/address/deleteAddress.json?csrf_token=f3c512bd7f5e552a9cd72ddacde4ef83&id=85723006
 ///地址
 // https://m.you.163.com/xhr/address/list.json?csrf_token=f3c512bd7f5e552a9cd72ddacde4ef83
+///省
+// https://m.you.163.com/xhr/address/getProvince.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&withOverseasCountry=true
+///市
+//https://m.you.163.com/xhr/address/getCity.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&parentId=130000
+///区县
+//https://m.you.163.com/xhr/address/getDistrict.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&grandParentId=130000&parentId=130100
+///街道
+//https://m.you.163.com/xhr/address/getTown.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&parentId=130104
