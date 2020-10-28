@@ -5,6 +5,8 @@ import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
+import 'package:flutter_app/ui/mine/for_services.dart';
+import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
@@ -63,6 +65,12 @@ class Routers {
           break;
         case 2: //  账号管理
           return SaturdayTBuy();
+          break;
+        case 3:
+          return ForServices();
+          break;
+        case 8: //地址管理
+          return LocationManage();
           break;
       }
 

@@ -12,6 +12,9 @@ final String ORDER_NEW_ITEM = "${NetContants.baseUrl}item/newItem.json";
 final String USER_ALIASINFO = "${NetContants.baseUrl}xhr/user/aliasInfo.json";
 final String PIN_GROUP = "${NetContants.baseUrl}pin/group/item/index";
 final String PIN_GROUP_LIST = "${NetContants.baseUrl}pin/group/item/list";
+final String LOCATION_LIST = "${NetContants.baseUrl}xhr/address/list.json";
+final String DELETE_ASSRESS = "${NetContants.baseUrl}xhr/address/deleteAddress.json";
+
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
 
@@ -41,3 +44,8 @@ final String PIN_GROUP_LIST = "${NetContants.baseUrl}pin/group/item/list";
 // https://m.you.163.com/pin/group/item/list?csrf_token=61f57b79a343933be0cb10aa37a51cc8&categoryId=1005000&page=1&pageSize=10
 
 
+
+///删除地址
+//https://m.you.163.com/xhr/address/deleteAddress.json?csrf_token=f3c512bd7f5e552a9cd72ddacde4ef83&id=85723006
+///地址
+// https://m.you.163.com/xhr/address/list.json?csrf_token=f3c512bd7f5e552a9cd72ddacde4ef83
