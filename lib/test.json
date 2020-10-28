@@ -1,35 +1,273 @@
 {
   "code": "200",
-  "data": [
-    {
-      "fundType": 1,
-      "fundValue": "0",
-      "fundName": "回馈金",
-      "targetUrl": "/reward/index"
+  "data": {
+    "pagination": {
+      "page": 1,
+      "size": 10,
+      "total": 171,
+      "totalPage": 18
     },
-    {
-      "fundType": 2,
-      "fundValue": "5",
-      "fundName": "红包",
-      "targetUrl": "/redpacket"
-    },
-    {
-      "fundType": 3,
-      "fundValue": "1",
-      "fundName": "优惠券",
-      "targetUrl": "/coupon"
-    },
-    {
-      "fundType": 4,
-      "fundValue": "0",
-      "fundName": "津贴",
-      "targetUrl": "/bonus/index"
-    },
-    {
-      "fundType": 5,
-      "fundValue": "0",
-      "fundName": "礼品卡",
-      "targetUrl": "/giftCard/list"
-    }
-  ]
+    "result": [
+      {
+        "categoryId": 1011000,
+        "description": "专为学步期设计，瞬吸不起坨不断层",
+        "id": 2038972,
+        "itemId": 1604016,
+        "joinUsers": 3386,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 69.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/39f3eee54df57b0398bcf8de07a73b22.jpg",
+        "postageFree": true,
+        "price": 55.00,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "http://yanxuan.nosdn.127.net/eb23011cec1da008a880e7eca285dce2"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "薄至2.5mm，海量鲸吸婴儿拉拉裤学步裤",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005002,
+        "description": "松软棋格，浓醇蛋香",
+        "id": 2038987,
+        "itemId": 3815073,
+        "joinUsers": 2928,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 49.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/e68f05afb38a67a9d3ae24e54734390a.jpg",
+        "postageFree": true,
+        "price": 35.80,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/94dac0f27bef67f39fbcd0a78865518c.jpg",
+          "https://yanxuan.nosdn.127.net/80d6d4735e7a7e259a26dc619413677b.jpg",
+          "http://yanxuan.nosdn.127.net/6abc759bec7a4252ec127dcb89501276"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "你的元气早餐，黄油华夫饼 1千克",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1043000,
+        "description": "苹果7.5W快充 三星快充",
+        "id": 2038975,
+        "itemId": 3487028,
+        "joinUsers": 2889,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 59.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/63b66f387926f1056ea1696f1a1dbd8b.png",
+        "postageFree": true,
+        "price": 39.00,
+        "recentUsers": [
+          "http://yanxuan.nosdn.127.net/e2009fa50f3ec6f3a9611b6f2c8863b6",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "罗永浩推荐款！网易智造轻薄无线充电器",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005002,
+        "description": "原奶指标远优于欧盟标准",
+        "id": 2039008,
+        "itemId": 1535011,
+        "joinUsers": 2823,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 88.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/1fdbd160df259819513cb44ce87a9f11.jpg",
+        "postageFree": true,
+        "price": 75.80,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "远优于欧盟标准，纯牛奶 250 毫升*24盒",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005002,
+        "description": "网红礼罐，三色曲奇",
+        "id": 2039009,
+        "itemId": 1197009,
+        "joinUsers": 2814,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 98.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/150a8f87847eeea006ae68c358e2e6a0.jpg",
+        "postageFree": true,
+        "price": 78.00,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "经典三味，柔风黄油曲奇",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005000,
+        "description": "洁肤无刺激，居家大容量",
+        "id": 2038991,
+        "itemId": 1318005,
+        "joinUsers": 2808,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 49.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/cb448f1bd204de1bba426bcf717dd148.jpg",
+        "postageFree": true,
+        "price": 36.80,
+        "recentUsers": [
+          "http://yanxuan.nosdn.127.net/c78b34facb325c4bb0b117df2e452909",
+          "http://yanxuan.nosdn.127.net/67a8c469fee654aad1c29c945f5e4c1c",
+          "http://yanxuan.nosdn.127.net/916b89088f0fb88626f913e4f9b1c25b"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "干净清新，无须洗澡，宠物湿巾家庭装 100抽",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005000,
+        "description": "可视化收纳，拿取方便",
+        "id": 2038957,
+        "itemId": 1684011,
+        "joinUsers": 2706,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 79.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/38c34482c3312315caad4faf5c5a7143.jpg",
+        "postageFree": true,
+        "price": 59.25,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/770ba0857963d7dca0be093b6433851c.jpg"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "大容量可折叠布艺收纳箱",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1011000,
+        "description": "炫彩8色，轻盈材质，稳定护足",
+        "id": 2038974,
+        "itemId": 1662047,
+        "joinUsers": 2605,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 99.90,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/72a73065257be6c0bb483ae0eb5e9b40.jpg",
+        "postageFree": true,
+        "price": 27.90,
+        "recentUsers": [
+          "http://yanxuan.nosdn.127.net/053ebbd4f43e98d1a7890ffc3de9f0db",
+          "http://yanxuan.nosdn.127.net/3828581fa335f529eb22f22fea6fdde6",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "稳定护足，小海马儿童运动鞋 25-32码",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005002,
+        "description": "欧洲进口原油，清香少烟",
+        "id": 2039001,
+        "itemId": 1667007,
+        "joinUsers": 2562,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 78.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/fe8459e7c1d46e4df2b6dc3264629239.jpg",
+        "postageFree": true,
+        "price": 65.00,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/a90e7129609c78a803657fd3b2494d9e.jpg",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "滴滴阳光香，压榨一级葵花籽油 5升",
+        "userNum": 2
+      },
+      {
+        "categoryId": 1005002,
+        "description": "临安名产，当季新货",
+        "id": 2038997,
+        "itemId": 1116051,
+        "joinUsers": 2555,
+        "limitNewUser": true,
+        "limitPlatform": 3,
+        "limitTime": true,
+        "originPrice": 58.00,
+        "picUrl": "https://yanxuan-item.nosdn.127.net/9ab4a00ed39e249df7e2612b15d186d7.jpg",
+        "postageFree": true,
+        "price": 49.90,
+        "recentUsers": [
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/c3a03895c73694d922310c76e4915cdb.png",
+          "https://yanxuan.nosdn.127.net/66edd095d1adba10f9491200cb5fc3e5.jpg"
+        ],
+        "recommendRank": 0,
+        "skuNum": 1,
+        "startTime": 1603641600000,
+        "status": 0,
+        "tabId": 501,
+        "title": "白露时节临安采摘，原香山核桃仁 142克",
+        "userNum": 2
+      }
+    ]
+  }
 }

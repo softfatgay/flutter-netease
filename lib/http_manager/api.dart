@@ -40,5 +40,21 @@ Future<ResponseData> getOrderList(Map<String, dynamic> parameters,{Map<String, d
   return await HttpManager.get(ORDER_LIST, queryParameters: parameters,headers: header);
 }
 
+///用户账号相关
+Future<ResponseData> getUserAlias(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(USER_ALIASINFO, queryParameters: parameters,headers: header);
+}
+
+///周六一起拼
+Future<ResponseData> getPinCategoryList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(PIN_GROUP, queryParameters: parameters,headers: header);
+}
+
+
+///周六一起拼数据列表
+Future<ResponseData> getPinDataList(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.get(PIN_GROUP_LIST, queryParameters: parameters,headers: header);
+}
+
 
 

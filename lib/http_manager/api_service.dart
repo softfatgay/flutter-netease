@@ -9,7 +9,9 @@ final String USER_INFO_ITEMS = "${NetContants.baseUrl}xhr/user/myFund.json";
 final String USER_INFO = "${NetContants.baseUrl}xhr/user/checkConfig.json";
 final String ORDER_LIST = "${NetContants.baseUrl}xhr/order/getList.json";
 final String ORDER_NEW_ITEM = "${NetContants.baseUrl}item/newItem.json";
-
+final String USER_ALIASINFO = "${NetContants.baseUrl}xhr/user/aliasInfo.json";
+final String PIN_GROUP = "${NetContants.baseUrl}pin/group/item/index";
+final String PIN_GROUP_LIST = "${NetContants.baseUrl}pin/group/item/list";
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
 
@@ -26,3 +28,16 @@ final String ORDER_NEW_ITEM = "${NetContants.baseUrl}item/newItem.json";
 
 ///福利社
 // https://m.you.163.com/xhr/saleCenter/index.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+// https://m.you.163.com/xhr/user/aliasInfo.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+///周六一起拼
+// https://m.you.163.com/pin/group/item/index?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+
+///周六一起拼数据列表
+// https://m.you.163.com/pin/group/item/list?csrf_token=61f57b79a343933be0cb10aa37a51cc8&tabId=0&page=1&pageSize=10
+
+// https://m.you.163.com/pin/group/item/list?csrf_token=61f57b79a343933be0cb10aa37a51cc8&categoryId=1005000&page=1&pageSize=10
+
+

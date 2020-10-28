@@ -7,6 +7,8 @@ import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
+import 'package:flutter_app/ui/mine/saturday_buy.dart';
+import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
@@ -32,8 +34,8 @@ class Routers {
     Util.kingKong: (context, {arguments}) {
       String schemeUrl = arguments['schemeUrl'];
       if (schemeUrl.contains("categoryId")) {
-       return KingKongPage(arguments: arguments);
-      }else{
+        return KingKongPage(arguments: arguments);
+      } else {
         return NewItemPage(arguments: arguments);
       }
     },
@@ -53,8 +55,14 @@ class Routers {
     Util.mineItems: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
-        case 0: //关于界面
+        case 0: //订单界面
           return OrderList();
+          break;
+        case 1: //  账号管理
+          return UserSetting();
+          break;
+        case 2: //  账号管理
+          return SaturdayTBuy();
           break;
       }
 
@@ -88,6 +96,7 @@ class Routers {
   };
 
   ///组件跳转
+
   static link(Widget widget, String routeName, BuildContext context,
       [Map params, Function callBack]) {
     return GestureDetector(

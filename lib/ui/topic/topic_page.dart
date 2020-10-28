@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';

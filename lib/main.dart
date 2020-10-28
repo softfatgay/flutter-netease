@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/index.dart';
+import 'package:flutter_app/ui/main/main_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
 
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarBrightness: Brightness.dark));
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarBrightness: Brightness.light));
 }
 
 class MyApp extends StatelessWidget {
@@ -33,10 +34,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: S.delegate.supportedLocales,
       //国际化-----------------------------------------------
 
-      home: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: PageStart(),
-      ),
+      home: MainPage(),
     );
   }
 }

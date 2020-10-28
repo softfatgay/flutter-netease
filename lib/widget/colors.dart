@@ -11,7 +11,7 @@ const Color backGrey = Color(0xFFF1F1F1);
 const Color backWhite = Color(0xFFFFFFFF);
 const Color lineColor = Color(0xFFD0D0D0);
 const Color textBlack = Color(0xFF333333);
-const Color splitLineColor = Color(0xFFEEEEEE);
+const Color splitLineColor = Color(0xFFECECEC);
 
 
 ///icon颜色
