@@ -127,7 +127,7 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                             children: [
                               Text(addressTips),
                               Icon(
-                                Icons.arrow_forward_ios_outlined,
+                                Icons.arrow_forward_ios,
                                 size: 16,
                                 color: textGrey,
                               )

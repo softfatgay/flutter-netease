@@ -10,6 +10,7 @@ import 'package:flutter_app/ui/mine/for_services.dart';
 import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
+import 'package:flutter_app/ui/mine/qr_code_mine.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
@@ -73,9 +74,13 @@ class Routers {
         case 3:
           return ForServices();
           break;
+        case 4: //邀请返利
+          return QRCodeMine();
+          break;
         case 8: //地址管理
           return LocationManage();
           break;
+
       }
 
       return NoFoundPage();

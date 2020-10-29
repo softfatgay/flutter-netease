@@ -262,8 +262,8 @@ class _MinePageState extends State<UserPage> {
             ],
           ),
         );
-        return Routers.link(
-            widget, Util.mineItems, context, {"id": item["id"]});
+        return Routers.link(widget, Util.mineItems, context,
+            {"id": item["id"]});
       }).toList(),
     );
   }
