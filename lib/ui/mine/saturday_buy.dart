@@ -177,8 +177,8 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _tabController.dispose();
+    super.dispose();
   }
 
   void _getCategoryList() async {
@@ -377,4 +377,5 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
       ),
     );
   }
+
 }

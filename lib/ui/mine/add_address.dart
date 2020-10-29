@@ -490,4 +490,15 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
       }
     });
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _nameController.dispose();
+    _phoneC.dispose();
+    _addressC.dispose();
+    _tabController.dispose();
+    super.dispose();
+
+  }
 }

@@ -36,7 +36,7 @@ class TabAppBar extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  title,
+                  title == null?'':title,
                   style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
               ),

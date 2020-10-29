@@ -1,19 +1,600 @@
 {
-  "zipCode": "",
-  "townName": "七宝镇",
-  "address": "上海",
-  "incompleteDesc": "",
-  "districtName": "闵行区",
-  "mobile": "176****7088",
-  "cityId": 310100,
-  "completed": true,
-  "townId": 310112102000,
-  "provinceId": 310000,
-  "dft": false,
-  "districtId": 310112,
-  "cityName": "上海市",
-  "fullAddress": "上海市上海市闵行区七宝镇上海",
-  "name": "tuan wan",
-  "id": 84838034,
-  "provinceName": "上海市"
+  "data": {
+    "availablePoint": "0",
+    "pointList": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      3,
+      5
+    ],
+    "position": 0,
+    "signed": false,
+    "signReminder": false,
+    "memLevel": 0,
+    "signBackgroundUrl": "",
+    "goShoppingUrl": "/flashSale/index",
+    "exchangeModule": {
+      "title": "精选积分兑换",
+      "excluTitle": "Pro会员专属兑",
+      "pointCommodities": [
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/70446bde5c97e7a02b6b69f78760b3a9.png",
+          "name": "喷雾分装瓶",
+          "label": "",
+          "needPoint": "209",
+          "originPrice": "10.90",
+          "itemId": "1391010",
+          "sellOut": false,
+          "sellVolume": 114,
+          "maxAvailable": 200,
+          "source": 128259001,
+          "exchangeTimesType": 0
+        },
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/1cb30bd31ba269a61c88110e2ab2adc0.png",
+          "name": "起泡分装瓶",
+          "label": "",
+          "needPoint": "199",
+          "originPrice": "9.90",
+          "itemId": "1446001",
+          "sellOut": false,
+          "sellVolume": 572,
+          "maxAvailable": 600,
+          "source": 128259001,
+          "exchangeTimesType": 0
+        },
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/b46154b19a3783b73a9c315de1b8dddb.png",
+          "name": "乳液按压分装瓶",
+          "label": "",
+          "needPoint": "209",
+          "originPrice": "10.90",
+          "itemId": "1391011",
+          "sellOut": false,
+          "sellVolume": 335,
+          "maxAvailable": 400,
+          "source": 128259001,
+          "exchangeTimesType": 0
+        },
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/64dd8f0f7cafc11e9b8cb7b752e60c9d.png",
+          "name": "【游戏定制】小旋风手持小风扇IP出口版",
+          "label": "",
+          "needPoint": "990",
+          "originPrice": "89.00",
+          "itemId": "3991922",
+          "sellOut": false,
+          "sellVolume": 456,
+          "maxAvailable": 500,
+          "source": 128259001,
+          "exchangeTimesType": 0
+        }
+      ],
+      "exclusiveCommodities": [
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/956d967509bd8cb8b477a92db62480b9.png",
+          "name": "一衣两穿，小童可拆袖子棉服 1-8岁",
+          "label": "",
+          "needPoint": "3090",
+          "originPrice": "299.00",
+          "itemId": "1663035",
+          "sellOut": false,
+          "sellVolume": 5,
+          "maxAvailable": 9,
+          "source": 128282000,
+          "exchangeTimesType": 2
+        },
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/dc85adc560c946ffd6659fe6f41eb35c.png",
+          "name": "源于自然的丝滑亲肤，聚乳酸抗菌四件套",
+          "label": "",
+          "needPoint": "5790",
+          "originPrice": "569.00",
+          "itemId": "3988138",
+          "sellOut": false,
+          "sellVolume": 9,
+          "maxAvailable": 10,
+          "source": 128282000,
+          "exchangeTimesType": 2
+        },
+        {
+          "picUrl": "https://yanxuan-item.nosdn.127.net/f141cbd462b8c00997da124cb15e24f7.png",
+          "name": "琉璃橘光水润镜面唇釉",
+          "label": "",
+          "needPoint": "790",
+          "originPrice": "69.00",
+          "itemId": "3834002",
+          "sellOut": false,
+          "sellVolume": 139,
+          "maxAvailable": 160,
+          "source": 128282000,
+          "exchangeTimesType": 2
+        }
+      ],
+      "weekPoint": {
+        "title": "积分超值兑换（限兑1件/期）",
+        "currentWeekPointItemVO": {
+          "leftTime": -84930516,
+          "status": 2,
+          "pointCommodityVOList": [
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/2e402610845d1d240b71248f33f4aedb.png",
+              "name": "香酥可口奶香浓郁 越南奶油面包干160g",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "16.90",
+              "itemId": "3988459",
+              "sellOut": false,
+              "sellVolume": 339,
+              "maxAvailable": 600,
+              "source": 128258000,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/b54c0fb29d8e9af5ce8b5ddac58c294b.png",
+              "name": "来自泰式餐厅的味道，鲜脆泰式蟹片",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "12.00",
+              "itemId": "3412043",
+              "sellOut": false,
+              "sellVolume": 55,
+              "maxAvailable": 200,
+              "source": 128258000,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/7605c530b21df96751ac3262a4cf52ee.png",
+              "name": "大英博物馆 阿七小姐与土佐卫门浮世绘贴纸",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "18.00",
+              "itemId": "3453013",
+              "sellOut": false,
+              "sellVolume": 380,
+              "maxAvailable": 400,
+              "source": 128258000,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/b76ce15664441a86be4b4eb813ab2017.png",
+              "name": "脆而不硬，酥而不散，小麻花 108克",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "12.00",
+              "itemId": "3394030",
+              "sellOut": true,
+              "sellVolume": 0,
+              "maxAvailable": 500,
+              "source": 128258000,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/f392167a0e8bc452e1c73c7ffe43e810.png",
+              "name": "煎前吸水/炸后吸油 樱之梦厨房纸巾",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "12.90",
+              "itemId": "3987557",
+              "sellOut": true,
+              "sellVolume": 0,
+              "maxAvailable": 200,
+              "source": 128258000,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/de56de3bb034ffd1427880999652f106.png",
+              "name": "放进口袋的云软，云珍·轻软旅行长绒棉方巾",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "9.90",
+              "itemId": "3436033",
+              "sellOut": true,
+              "sellVolume": 0,
+              "maxAvailable": 200,
+              "source": 128258000,
+              "exchangeTimesType": 1
+            }
+          ],
+          "desp": null
+        },
+        "nextWeekPointItemVO": {
+          "leftTime": 210270484,
+          "status": 0,
+          "pointCommodityVOList": [
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/73bfbee7470051e2140086f28861fd30.png",
+              "name": "洗脸敷面膜化妆必备 蝴蝶结束发带 2色可选",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "14.90",
+              "itemId": "3990626",
+              "sellOut": false,
+              "sellVolume": 400,
+              "maxAvailable": 400,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/b0de9e9335eaaed0c3f0d9a94ddf6d56.png",
+              "name": "笑容由“齿”绽放 沁爽舒缓/洁白炫彩牙膏",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "15.90",
+              "itemId": "1199020",
+              "sellOut": false,
+              "sellVolume": 500,
+              "maxAvailable": 500,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/34bce299394ac79bf0a15440a84fbf56.png",
+              "name": "下饭神器 酸豆角 50克*10袋",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "16.00",
+              "itemId": "3419049",
+              "sellOut": false,
+              "sellVolume": 300,
+              "maxAvailable": 300,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/1125ca4bd90a8ca793ddb4bb35099643.png",
+              "name": "奶渍污渍不残留，婴儿木瓜酵素洗衣液",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "12.00",
+              "itemId": "1295000",
+              "sellOut": false,
+              "sellVolume": 102,
+              "maxAvailable": 500,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/1df997304875413f9844a26a2c42ff40.jpeg",
+              "name": "湿水好用 臻护倍韧4层迷你手帕纸 18包/条",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "8.90",
+              "itemId": "3814081",
+              "sellOut": false,
+              "sellVolume": 666,
+              "maxAvailable": 666,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/e077e01d2a362bdda02c3be7477df35b.png",
+              "name": "无添加蔗糖，苏打饼干 360克",
+              "label": "",
+              "needPoint": "99",
+              "originPrice": "12.80",
+              "itemId": "1513025",
+              "sellOut": false,
+              "sellVolume": 600,
+              "maxAvailable": 600,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/e3aca8d4c735e54286333c93f28bce47.png",
+              "name": "武夷大红袍 70克",
+              "label": "",
+              "needPoint": "999",
+              "originPrice": "98.00",
+              "itemId": "3817013",
+              "sellOut": false,
+              "sellVolume": 20,
+              "maxAvailable": 20,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/1eb445c4d78d9e2d25b61e99edc07a74.png",
+              "name": "精致质感颜值收纳，简约铁艺收纳筐",
+              "label": "",
+              "needPoint": "999",
+              "originPrice": "99.00",
+              "itemId": "3990320",
+              "sellOut": false,
+              "sellVolume": 30,
+              "maxAvailable": 30,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            },
+            {
+              "picUrl": "https://yanxuan-item.nosdn.127.net/c518d595aa71d5b14623ea8a6531d3a3.png",
+              "name": "自由拼接世界，儿童生日派对拼接爬行垫",
+              "label": "",
+              "needPoint": "999",
+              "originPrice": "115.00",
+              "itemId": "1585000",
+              "sellOut": false,
+              "sellVolume": 20,
+              "maxAvailable": 20,
+              "source": 128291001,
+              "exchangeTimesType": 1
+            }
+          ],
+          "desp": "11.1-11号 每天10点"
+        }
+      }
+    },
+    "memLayawayVO": {
+      "layawayList": [
+        {
+          "id": 126,
+          "name": "[季度套餐]避免细菌残留的懒人抹布",
+          "title": "用完即扔 洗碗打扫不用愁 定期包邮配送到家",
+          "phaseNum": 3,
+          "retailPrice": 267.00,
+          "favorPrice": 90.00,
+          "primaryPicUrl": "https://yanxuan.nosdn.127.net/eca2b89c89fb4c3e71be8f2530437187.jpg",
+          "listPicUrl": "https://yanxuan.nosdn.127.net/9be511307dec1c5d17be2cf240d59f6e.png",
+          "point": 26
+        },
+        {
+          "id": 124,
+          "name": "[年购套餐]儿童款 可调式鼻腔清洗器",
+          "title": "医用级洗鼻器，深度清洁疏通鼻腔，定期包邮配送到家",
+          "phaseNum": 4,
+          "retailPrice": 489.00,
+          "favorPrice": 87.00,
+          "primaryPicUrl": "https://yanxuan.nosdn.127.net/b7b2035e2648bf790eeec889619617ee.png",
+          "listPicUrl": "https://yanxuan.nosdn.127.net/5dc73d646a119b7c202d5c81497e59d2.jpg",
+          "point": 48
+        }
+      ]
+    },
+    "lotteryDays": [
+      1,
+      3,
+      6
+    ],
+    "todayActId": null,
+    "hasDrawLottery": false,
+    "lotteryCount": 0,
+    "userSimpleInfo": {
+      "userName": "wan_tuan",
+      "userAvatar": null,
+      "memberLevel": 0,
+      "userId": 28327067
+    },
+    "titleOfSignTop": "签到有礼",
+    "headImg": "",
+    "calendarBackColor": "",
+    "actRule": "<p>1.连续签到每天依次可获得相应积分：1、1、1、2、2、3、5；<br />\n2.连续签到第2天/第4天/第7天可参与抽奖，每次抽奖都有机会得红包（红包可与部分活动价叠加使用）；<br />\n3.连签7天为一个周期，若中途断签，记录累计天数自动清零；<br />\n4.本活动最终解释权在法律允许范围内归严选所有，与苹果公司无关。一旦发现恶意刷取积分行为，严选有权收回已发放的积分，并取消或收回利用积分参与活动获取的任何奖励。</p>",
+    "positionLotteryIconMap": {
+      "1": "https://yanxuan.nosdn.127.net/d733e664197bd71cdf32ecc4bd7007fb.png",
+      "3": "https://yanxuan.nosdn.127.net/1ec74dd31ac3d9d07bcd7f7568e544d6.png",
+      "6": "https://yanxuan.nosdn.127.net/f5addc0a69a7a51989a48107bf4a6c8c.png"
+    },
+    "positionHasLotteryIconMap": {
+      "1": "https://yanxuan.nosdn.127.net/1deca9f5eb1c732a902c902c2d16deee.png",
+      "3": "https://yanxuan.nosdn.127.net/a294b39499ca1d30660ce78e911e8a74.png",
+      "6": "https://yanxuan.nosdn.127.net/50bd8aea20175fcbed9c6408ba95e5cb.png"
+    },
+    "pointsExpiredTip": null,
+    "pointsExpiredTime": 0,
+    "pointsSignPushSwitch": false,
+    "ponitBanners": [
+      {
+        "title": null,
+        "subtitle": null,
+        "picUrl": "https://yanxuan.nosdn.127.net/49206fc3154c022a567ef7856e1da0cf.png",
+        "targetUrl": "https://m.you.163.com/sign/index",
+        "startTime": 1600876800000,
+        "endTime": 3093862400000
+      },
+      {
+        "title": null,
+        "subtitle": null,
+        "picUrl": "https://yanxuan.nosdn.127.net/b976c5e37cfac3acee2f7abe43bb78f4.png",
+        "targetUrl": "https://act.you.163.com/act/pub/oTqV04PBlkDL.html",
+        "startTime": 1603036800000,
+        "endTime": 1604160000000
+      },
+      {
+        "title": null,
+        "subtitle": null,
+        "picUrl": "https://yanxuan.nosdn.127.net/c29e17dbcbd1f9f7e50ee76b9b2edcc6.png",
+        "targetUrl": "https://act.you.163.com/act/pub/7Oz3r4tYIOZg.html",
+        "startTime": 1598889600000,
+        "endTime": 1609430399000
+      }
+    ],
+    "pointExclusiveExModule": null,
+    "pointExVirtualAct": {
+      "actId": 229,
+      "actType": 1,
+      "actName": "积分惊喜兑",
+      "actDesc": "每周四 10点开抢",
+      "actLimitCount": 1,
+      "beginTime": 1603936800000,
+      "endTime": 1603987199000,
+      "actPackets": [
+        {
+          "actPacketId": 1295,
+          "actPacketType": 1,
+          "actPacketGiftId": null,
+          "title": "5元满减红包",
+          "picUrl": "https://yanxuan.nosdn.127.net/4333b709fac8932bbf86a48ebb022e34.png",
+          "tag": "1",
+          "needPoint": 9,
+          "soldOut": false,
+          "price": null,
+          "sortNum": 1
+        },
+        {
+          "actPacketId": 1296,
+          "actPacketType": 1,
+          "actPacketGiftId": null,
+          "title": "7元满减红包",
+          "picUrl": "https://yanxuan.nosdn.127.net/4333b709fac8932bbf86a48ebb022e34.png",
+          "tag": "1",
+          "needPoint": 9,
+          "soldOut": false,
+          "price": null,
+          "sortNum": 2
+        },
+        {
+          "actPacketId": 1297,
+          "actPacketType": 1,
+          "actPacketGiftId": null,
+          "title": "15元满减",
+          "picUrl": "https://yanxuan.nosdn.127.net/4333b709fac8932bbf86a48ebb022e34.png",
+          "tag": "1",
+          "needPoint": 9,
+          "soldOut": false,
+          "price": null,
+          "sortNum": 3
+        },
+        {
+          "actPacketId": 1298,
+          "actPacketType": 2,
+          "actPacketGiftId": "240443328",
+          "title": "满99减10",
+          "picUrl": "https://yanxuan.nosdn.127.net/afe92d89c43a34b14f4659885bf8916e.png",
+          "tag": "1",
+          "needPoint": 9,
+          "soldOut": false,
+          "price": null,
+          "sortNum": 4
+        },
+        {
+          "actPacketId": 1299,
+          "actPacketType": 2,
+          "actPacketGiftId": "240448812",
+          "title": "满199减20",
+          "picUrl": "https://yanxuan.nosdn.127.net/afe92d89c43a34b14f4659885bf8916e.png",
+          "tag": "1",
+          "needPoint": 9,
+          "soldOut": false,
+          "price": null,
+          "sortNum": 5
+        },
+        {
+          "actPacketId": 1294,
+          "actPacketType": 4,
+          "actPacketGiftId": null,
+          "title": "1.00元礼品卡",
+          "picUrl": "https://yanxuan.nosdn.127.net/e9cd37803adb718f2dc71e2cec4b8500.png",
+          "tag": "1",
+          "needPoint": 9,
+          "soldOut": true,
+          "price": null,
+          "sortNum": 0
+        }
+      ]
+    },
+    "pointExExternalRights": {
+      "actId": 213,
+      "actType": 3,
+      "actName": "2积分兑生活权益",
+      "actDesc": "权益使用详见规则",
+      "actLimitCount": 10,
+      "beginTime": 1596607587000,
+      "endTime": 1604159999000,
+      "actPackets": [
+        {
+          "actPacketId": 1347,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "腾讯视频VIP月卡5折券",
+          "picUrl": "https://yanxuan.nosdn.127.net/6b634b049a7755f6784b9a025478b1c3.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 0
+        },
+        {
+          "actPacketId": 1348,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "腾讯视频VIP年卡5折券",
+          "picUrl": "https://yanxuan.nosdn.127.net/68f0c15c6c081b9b25d4e76447678841.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 1
+        },
+        {
+          "actPacketId": 1175,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "善诊免费双人体检",
+          "picUrl": "https://yanxuan.nosdn.127.net/3ae243a93f16162764a0ad0840b368b9.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 3
+        },
+        {
+          "actPacketId": 1176,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "塔读文学5000正版阅读卷",
+          "picUrl": "https://yanxuan.nosdn.127.net/49a4edfce72bdc5dfc686a96ce2cc310.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 4
+        },
+        {
+          "actPacketId": 1177,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "起点阅读90天读书会员",
+          "picUrl": "https://yanxuan.nosdn.127.net/a67d319fe78dfe4e297e5aa9aeae5a6a.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 5
+        },
+        {
+          "actPacketId": 1178,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "亚朵100元礼包",
+          "picUrl": "https://yanxuan.nosdn.127.net/9eff95fe9bf0eca002fd3811026f19a7.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 6
+        },
+        {
+          "actPacketId": 1181,
+          "actPacketType": 5,
+          "actPacketGiftId": null,
+          "title": "国际驾照免费翻译",
+          "picUrl": "https://yanxuan.nosdn.127.net/45f3be5225d98efc62ca0a9d51d9c5c2.jpg",
+          "tag": "",
+          "needPoint": 2,
+          "soldOut": false,
+          "price": "0",
+          "sortNum": 9
+        }
+      ]
+    },
+    "pointSignModule": null,
+    "billChecked": true,
+    "hasReceiveOnePoint": false,
+    "pointsPop": false,
+    "activityDay": false,
+    "serverTime": 1603985729537
+  },
+  "code": "200"
 }
