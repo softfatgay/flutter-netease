@@ -90,14 +90,19 @@ Future<ResponseData> addAddress(Map<String, dynamic> parameters,{Map<String, dyn
   return await HttpManager.post(ADD_ADDRESS, queryParameters: parameters,headers: header);
 }
 
-///添加地址
+///二维码
 Future<ResponseData> qrCode(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
   return await HttpManager.post(QR_CODE, queryParameters: parameters,headers: header);
 }
 
-///添加地址
+///
 Future<ResponseData> getUserSpmcInfo(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
   return await HttpManager.post(GET_USER_SPMCINFO, queryParameters: parameters,headers: header);
+}
+
+///热销好物
+Future<ResponseData> rewardRcmd(Map<String, dynamic> parameters,{Map<String, dynamic> header}) async {
+  return await HttpManager.post(REWARD_RCMD, queryParameters: parameters,headers: header);
 }
 
 

@@ -15,6 +15,7 @@ class Util {
   static String image = 'image';
   static String orderList = 'orderList';
   static String mineItems = 'mineItems';
+  static String mineTopItems = 'mineTopItems';
   static String addAddress = 'addAddress';
 
 

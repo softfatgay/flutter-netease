@@ -11,6 +11,7 @@ import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
 import 'package:flutter_app/ui/mine/qr_code_mine.dart';
+import 'package:flutter_app/ui/mine/reward_num.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
@@ -58,6 +59,27 @@ class Routers {
     ///webView
     Util.webView: (context, {arguments}) => WebViewPage(arguments),
 
+    ///回馈金等
+    Util.mineTopItems: (context, {arguments}) {
+      var id = arguments['id'];
+      switch (id) {
+        case 1: //  账号管理
+          return RewardNumPage(
+            arguments: arguments,
+          );
+          break;
+        case 2: //  账号管理
+          break;
+        case 3:
+          break;
+        case 4: //邀请返利
+          break;
+        case 5: //地址管理
+          break;
+      }
+      return NoFoundPage();
+    },
+
     ///orderList
     Util.mineItems: (context, {arguments}) {
       var id = arguments['id'];
@@ -80,7 +102,6 @@ class Routers {
         case 8: //地址管理
           return LocationManage();
           break;
-
       }
 
       return NoFoundPage();

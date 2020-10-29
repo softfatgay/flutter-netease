@@ -149,30 +149,31 @@ class _MinePageState extends State<UserPage> {
   _buildMineItems(BuildContext context) {
     return SliverGrid.count(
       crossAxisCount: 5,
-      children: mineItems
-          .map((item) => Container(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Text(
-                          item["fundType"] == 1 || item["fundType"] == 4
-                              ? "¥${item["fundValue"]}"
-                              : "${item["fundValue"]}",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(item["fundName"]),
-                      )
-                    ],
+      children: mineItems.map<Widget>((item) {
+        Widget widget = Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Text(
+                    item["fundType"] == 1 || item["fundType"] == 4
+                        ? "¥${item["fundValue"]}"
+                        : "${item["fundValue"]}",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-              ))
-          .toList(),
+                Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: Text(item["fundName"]),
+                )
+              ],
+            ),
+          ),
+        );
+        return Routers.link(widget, Util.mineTopItems, context,
+            {"id": item["fundType"], "value": item["fundValue"]});
+      }).toList(),
     );
   }
 
@@ -262,8 +263,8 @@ class _MinePageState extends State<UserPage> {
             ],
           ),
         );
-        return Routers.link(widget, Util.mineItems, context,
-            {"id": item["id"]});
+        return Routers.link(
+            widget, Util.mineItems, context, {"id": item["id"]});
       }).toList(),
     );
   }
