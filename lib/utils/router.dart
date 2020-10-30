@@ -11,6 +11,7 @@ import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
 import 'package:flutter_app/ui/mine/qr_code_mine.dart';
+import 'package:flutter_app/ui/mine/red_packet.dart';
 import 'package:flutter_app/ui/mine/reward_num.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
@@ -63,12 +64,13 @@ class Routers {
     Util.mineTopItems: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
-        case 1: //  账号管理
+        case 1: //  回馈金
           return RewardNumPage(
             arguments: arguments,
           );
           break;
-        case 2: //  账号管理
+        case 2: //
+          return RedPacket();
           break;
         case 3:
           break;

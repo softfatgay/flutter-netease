@@ -97,14 +97,12 @@ class _RewardNumPageState extends State<RewardNumPage> {
 
   Widget _buildTop(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 15),
       color: backRed,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 10,
-          ),
           Text('回馈金余额（元）', style: TextStyle(color: textWhite, fontSize: 16)),
           SizedBox(
             height: 10,
@@ -123,7 +121,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
             children: [
               Text('产看明细', style: TextStyle(color: textWhite, fontSize: 16)),
               Icon(
-                Icons.arrow_forward_ios_outlined,
+                Icons.arrow_forward_ios,
                 color: textWhite,
                 size: 14,
               )

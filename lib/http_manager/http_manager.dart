@@ -18,18 +18,40 @@ class HttpManager {
     String method = 'GET',
     Map<String, dynamic> queryParameters,
     Map<String, dynamic> headers,
+    String accept,
   }) async {
     // get native data
     Map<String, dynamic> postHeader = (headers == null) ? Map() : headers;
 
-    postHeader['Content-Type'] = 'application/x-www-form-urlencoded';
+    if (accept != null) {
+      postHeader['Content-Type'] = 'application/json';
+      postHeader['Accept'] = 'application/json,*/*';
+    } else {
+      postHeader['Content-Type'] = 'application/x-www-form-urlencoded';
+    }
 
     Map<String, dynamic> header = (headers == null) ? Map() : headers;
     Dio dio = Dio();
 
+    //添加拦截器
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+      print("请求之前");
+      // Do something before request is sent
+      return options; //continue
+    }, onResponse: (Response response) {
+      print("响应之前");
+      // Do something with response data
+      return response; // continue
+    }, onError: (DioError e) {
+      print("错误之前");
+      // Do something with response error
+      return e; //continue
+    }));
+
     Options options = Options(
       method: method == "GET" ? "GET" : "POST",
       headers: method == "GET" ? header : postHeader,
+      contentType: Headers.formUrlEncodedContentType,
       sendTimeout: sendTimeout,
       receiveTimeout: receiveTimeout,
     );
@@ -63,17 +85,25 @@ class HttpManager {
     path, {
     Map<String, dynamic> headers,
     Map<String, dynamic> queryParameters,
+    String accept,
   }) {
     return HttpManager.request(path,
-        queryParameters: queryParameters, method: 'POST', headers: headers);
+        queryParameters: queryParameters,
+        method: 'POST',
+        headers: headers,
+        accept: accept);
   }
 
   static Future<ResponseData> get(
     path, {
     Map<String, dynamic> headers,
     Map<String, dynamic> queryParameters,
+    String accept,
   }) {
     return HttpManager.request(path,
-        queryParameters: queryParameters, method: 'GET', headers: headers);
+        queryParameters: queryParameters,
+        method: 'GET',
+        headers: headers,
+        accept: accept);
   }
 }
