@@ -16,11 +16,11 @@ class _RedEnvelopeState extends State<RedPacket>
       'searchType': 1,
     },
     {
-      'name': '未使用',
+      'name': '已使用',
       'searchType': 2,
     },
     {
-      'name': '未使用',
+      'name': '已失效',
       'searchType': 3,
     },
   ];

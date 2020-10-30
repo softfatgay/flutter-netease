@@ -143,5 +143,12 @@ Future<ResponseData> rewardRcmd(Map<String, dynamic> parameters,
 Future<ResponseData> redPacket(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(RED_PACKET,
-      queryParameters: parameters, headers: header, accept: 'application/json');
+      queryParameters: parameters, headers: header);
+}
+
+///优惠券
+Future<ResponseData> couponList(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(COUPON_LIST,
+      queryParameters: parameters, headers: header);
 }

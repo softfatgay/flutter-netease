@@ -24,8 +24,8 @@ class HttpManager {
     Map<String, dynamic> postHeader = (headers == null) ? Map() : headers;
 
     if (accept != null) {
+      postHeader['Accept']  = 'application/json, text/javascript, */*; q=0.01';
       postHeader['Content-Type'] = 'application/json';
-      postHeader['Accept'] = 'application/json,*/*';
     } else {
       postHeader['Content-Type'] = 'application/x-www-form-urlencoded';
     }
@@ -33,20 +33,18 @@ class HttpManager {
     Map<String, dynamic> header = (headers == null) ? Map() : headers;
     Dio dio = Dio();
 
-    //添加拦截器
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-      print("请求之前");
-      // Do something before request is sent
-      return options; //continue
+    dio.interceptors
+        .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+      return options;
     }, onResponse: (Response response) {
-      print("响应之前");
-      // Do something with response data
-      return response; // continue
-    }, onError: (DioError e) {
-      print("错误之前");
-      // Do something with response error
-      return e; //continue
+      return response.data;
+    }, onError: (DioError error) {
+      print(error);
+      return error;
     }));
+    // 开启日志
+    dio.interceptors.add(LogInterceptor(responseBody: false));
+
 
     Options options = Options(
       method: method == "GET" ? "GET" : "POST",

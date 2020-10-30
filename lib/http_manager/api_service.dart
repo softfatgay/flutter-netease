@@ -23,6 +23,7 @@ final String QR_CODE = "${NetContants.baseUrl}xhr/user/qrCode.json";
 final String GET_USER_SPMCINFO = "${NetContants.baseUrl}xhr/supermc/getUserSpmcInfo.json";
 final String REWARD_RCMD = "${NetContants.baseUrl}xhr/bonus/rcmd.json";
 final String RED_PACKET = "${NetContants.baseUrl}xhr/redpacket/list.json";
+final String COUPON_LIST = "${NetContants.baseUrl}xhr/coupon/list.json";
 
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
@@ -77,3 +78,5 @@ final String RED_PACKET = "${NetContants.baseUrl}xhr/redpacket/list.json";
 // https://m.you.163.com/xhr/bonus/rcmd.json?csrf_token=6f1045179c0bd2422d7afc03edac1668
 ///红包
 //https://m.you.163.com/xhr/redpacket/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+///优惠券
+//https://m.you.163.com/xhr/coupon/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&searchType=3&page=1

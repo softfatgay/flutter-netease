@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Util {
   static String brandTag = 'brand';
@@ -39,7 +40,17 @@ class Util {
     FocusScope.of(context).requestFocus(FocusNode());
   }
 
-  static String long2Time(int time){
-    return DateTime.fromMillisecondsSinceEpoch(time).toString();
+
+  static String long2date(int tem) {
+    DateTime time =  DateTime.fromMicrosecondsSinceEpoch(tem);
+    var formatter = DateFormat('yyyy.MM.dd hh时');
+    return formatter.format(time);
   }
+
+  static String long2dateD(int tem) {
+    DateTime time =  DateTime.fromMicrosecondsSinceEpoch(tem);
+    var formatter = DateFormat('yyyy.MM.dd');
+    return formatter.format(time);
+  }
+
 }
