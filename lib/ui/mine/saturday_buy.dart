@@ -81,7 +81,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                   ),
                   SliverPersistentHeader(
                     delegate: new SliverTabBarDelegate(
-                        new TabBar(
+                        TabBar(
                           controller: _tabController,
                           tabs: tabTitle
                               .map((f) => Tab(text: f['name']))
@@ -208,9 +208,9 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
             bodyLoading = true;
             print(">>>>>>>>>>>>>>>>>>>>>>>");
             page = 1;
-            if (tabTitle[_tabController.index]['type']!=null) {
+            if (tabTitle[_tabController.index]['type'] != null) {
               tabIdType = 'tabId';
-            }else{
+            } else {
               tabIdType = 'categoryId';
             }
             tabId = tabTitle[_tabController.index]['id'];
@@ -377,5 +377,4 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
       ),
     );
   }
-
 }

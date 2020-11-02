@@ -3,7 +3,7 @@ import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/colors.dart';
 
 class TabAppBar extends StatelessWidget {
-  const TabAppBar({this.tabs, this.controller, this.title});
+  const TabAppBar({this.tabs, this.controller, this.title = ''});
 
   final List<String> tabs;
 
@@ -36,7 +36,7 @@ class TabAppBar extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  title == null?'':title,
+                  title == null ? '' : title,
                   style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
               ),
@@ -53,29 +53,31 @@ class TabAppBar extends StatelessWidget {
 
   Widget buildTabBar() {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(width: 0.5,color: Color(0xFFEAEAEA)))
-      ),
-
+        height: 32,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+                bottom: BorderSide(width: 0.5, color: Color(0xFFEAEAEA)))),
         width: double.infinity,
         child: TabBar(
           isScrollable: true,
           controller: this.controller,
-          labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(fontSize: 15),
           labelColor: redColor,
-          unselectedLabelColor: Colors.black45,
+          indicatorColor: Colors.red,
+          unselectedLabelColor: Colors.black,
           indicator: MyUnderlineTabIndicator(
             borderSide: BorderSide(width: 2.0, color: redColor),
           ),
-          indicatorWeight: 2,
-          tabs: tabs.map((item) {
-            return Expanded(
-                child: Container(
-              height: 30,
-              child: Center(child: Text(item)),
-            ));
-          }).toList(),
+          tabs: tabs
+              .map((f) => Tab(
+                    child: Container(
+                    alignment: Alignment.center,
+                      height: 32,
+                      child: Text(f),
+                    ),
+                  ))
+              .toList(),
         ));
   }
 

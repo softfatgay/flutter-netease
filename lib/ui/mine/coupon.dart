@@ -79,33 +79,52 @@ class _CouponState extends State<Coupon> {
   }
 
   _buildItem(BuildContext context, item) {
+
+
+    var topBackColor = item['albeToActivated'] ? backRed : Color(0xFFA8ABB5);
+    var backColor = item['albeToActivated'] ? backRed : Color(0xFFA9ADB6);
+    var bottomColor = item['albeToActivated'] ? backRed : Color(0xFF8D9096);
+
     return Container(
       margin: EdgeInsets.all(15),
       child: Stack(
         children: [
           Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
-            decoration: BoxDecoration(color: Color(0xFFE55A61),borderRadius: BorderRadius.circular(4)),
-            padding: EdgeInsets.fromLTRB(15, 30, 15, 10),
+            decoration: BoxDecoration(
+                color: topBackColor, borderRadius: BorderRadius.circular(4)),
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
+                decoration: BoxDecoration(
+                  color: topBackColor
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     children: [
                       Text(
                         '${_cashName(item)}',
                         style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w500,color: textWhite),
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            color: textWhite),
                       ),
-                      Text('元',style: TextStyle(color: textWhite),),
-                      Expanded(child: Container(
-                      margin: EdgeInsets.only(left: 20),
+                      Text(
+                        '元',
+                        style: TextStyle(color: textWhite),
+                      ),
+                      Expanded(
+                          child: Container(
+                        margin: EdgeInsets.only(left: 20),
                         child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(item['name'],style: TextStyle(color: textWhite)),
-                            Text('${_valueDate(item)}',style: TextStyle(color: textWhite)),
+                            Text(item['name'],
+                                style: TextStyle(color: textWhite)),
+                            Text('${_valueDate(item)}',
+                                style: TextStyle(color: textWhite)),
                           ],
                         ),
                       ))
@@ -113,20 +132,31 @@ class _CouponState extends State<Coupon> {
                   ),
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                    color: bottomColor
+                  ),
+                  width: double.infinity,
+                  height: 40,
+                  child: Image(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/coupon_line.png')),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
                   height: 60,
-                  child: Text(item['useCondition'],style: TextStyle(color: textWhite),),
+                  child: Text(
+                    item['useCondition'],
+                    style: TextStyle(color: textWhite),
+                  ),
                 )
               ],
             ),
           ),
-          
           Container(
-
             margin: EdgeInsets.only(top: 5),
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
-                color: Color(0xFFBE3D42),
-                borderRadius: BorderRadius.circular(2)),
+                color: bottomColor, borderRadius: BorderRadius.circular(2)),
             child: Text(
               item['newUserOnly'] == 1 ? '新人专享' : '优惠券',
               style: TextStyle(color: textWhite),
@@ -139,35 +169,35 @@ class _CouponState extends State<Coupon> {
 
   _buildTitle(BuildContext context) {
     return Container(
-      child: Text('已过期'),
+    alignment: Alignment.center,
+    padding: EdgeInsets.only(top: 20),
+      child: Text('已过期',style: TextStyle(color: textGrey,fontSize: 16),),
     );
   }
 
-  _valueDate(item){
-
+  _valueDate(item) {
     print(item['validEndTime']);
     print(item['validStartTime']);
     String end = '';
-    String start ='';
+    String start = '';
 
     if (item['validEndTime'] == null) {
       end = '已过期';
-    }else{
-      end = '${Util.long2dateD(item['validEndTime']*1000)}';
+    } else {
+      end = '${Util.long2dateD(item['validEndTime'] * 1000)}';
     }
 
     if (item['validStartTime'] == null) {
       start = '';
-    }else{
-      start = '${Util.long2dateD(item['validStartTime']*1000)}';
+    } else {
+      start = '${Util.long2dateD(item['validStartTime'] * 1000)}';
     }
 
     return '$start-$end';
   }
 
   _cashName(item) {
-
-    var cash = item['cash'] ~/ 1 ;
+    var cash = item['cash'] ~/ 1;
 
     return cash == 0 ? item['name'] : cash;
   }

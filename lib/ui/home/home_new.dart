@@ -312,7 +312,7 @@ class _HomeState extends State<HomeNew> {
       children: bigPromotionModuleItems
           .map(
             (item) => Container(
-              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: GestureDetector(
                 child: CachedNetworkImage(
                   fit: BoxFit.fitWidth,
@@ -365,7 +365,7 @@ class _HomeState extends State<HomeNew> {
                       margin: EdgeInsets.only(top: 3),
                       color: Color(0xFFF6E5C4),
                       child: CachedNetworkImage(
-                        fit: BoxFit.fitWidth,
+                          fit: BoxFit.fitWidth,
                           imageUrl:
                               "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
                     ),
@@ -408,13 +408,15 @@ class _HomeState extends State<HomeNew> {
                                       item["title"],
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.bold,color: textBlack),
+                                          fontWeight: FontWeight.bold,
+                                          color: textBlack),
                                     ),
-                                    SizedBox(height: 6,),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
                                     Container(
-                                      decoration: BoxDecoration(
-                                        color: backGrey
-                                      ),
+                                      decoration:
+                                          BoxDecoration(color: backGrey),
                                       child: Text(
                                         item["subTitle"] == ""
                                             ? item["tag"]
@@ -738,40 +740,41 @@ class _HomeState extends State<HomeNew> {
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
         children: newItemList
-            .map((item) => Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        color: Colors.white,
-                        child: Center(
+            .map((item) => Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
                           child: CachedNetworkImage(
+                            height: 300,
                             imageUrl: item['scenePicUrl'],
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        "${item['simpleDesc']}",
-                        style: TextStyle(fontSize: 14),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Text(
+                          "${item['simpleDesc']}",
+                          style: TextStyle(fontSize: 14),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "¥${item['retailPrice']}",
-                      style: TextStyle(
+                      Text(
+                        "¥${item['retailPrice']}",
+                        style: TextStyle(
                           color: textRed,
-                          fontSize: 16,),
-                    ),
-                    Row(
-                      children: _newItemsTags(item),
-                    )
-                  ],
+                          fontSize: 16,
+                        ),
+                      ),
+                      Row(
+                        children: _newItemsTags(item),
+                      )
+                    ],
+                  ),
                 ))
             .toList(),
       ),
