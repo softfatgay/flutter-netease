@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // flutter build appbundle --target-platform android-arm
       theme: ThemeData(backgroundColor: Colors.transparent,
         primarySwatch: Colors.red,),
       title: 'Flutter Demo',
