@@ -152,3 +152,10 @@ Future<ResponseData> couponList(Map<String, dynamic> parameters,
   return await HttpManager.get(COUPON_LIST,
       queryParameters: parameters, headers: header);
 }
+
+///商品详情
+Future<ResponseData> goodDetailData(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(GOOD_DETAIL,
+      queryParameters: parameters, headers: header);
+}

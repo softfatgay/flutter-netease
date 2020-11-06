@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) {
         return Routers.run(settings);
       },
-
+      // showPerformanceOverlay: true, // 开启
       //国际化-----------------------------------------------
         localizationsDelegates: [
           S.delegate,
