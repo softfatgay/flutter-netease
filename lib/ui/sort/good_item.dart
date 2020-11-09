@@ -81,22 +81,22 @@ class GoodItemWidget extends StatelessWidget {
                   ],
                 ),
                 dataList[index]["productPlace"] == null ||
-                    dataList[index]["productPlace"] == ""
+                        dataList[index]["productPlace"] == ""
                     ? Container()
                     : Container(
-                  padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                  decoration: BoxDecoration(
-                    border:
-                    Border.all(color: Color(0xFFA28C63), width: 1),
-                  ),
-                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                  child: Text(
-                    dataList[index]["productPlace"],
-                    style:
-                    TextStyle(color: Color(0xFFA28C63), fontSize: 12),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                        padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Color(0xFFA28C63), width: 1),
+                        ),
+                        margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                        child: Text(
+                          dataList[index]["productPlace"],
+                          style:
+                              TextStyle(color: Color(0xFFA28C63), fontSize: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
               ],
             ),
           ),
@@ -135,21 +135,21 @@ class GoodItemWidget extends StatelessWidget {
         (itemTagList == null || itemTagList.isEmpty)
             ? Container()
             : Row(
-          children: itemTagList
-              .map((item) => Container(
-            padding: EdgeInsets.fromLTRB(4, 1, 4, 1),
-            margin: EdgeInsets.only(right: 5),
-            decoration: BoxDecoration(
-                borderRadius:
-                BorderRadius.all(Radius.circular(10)),
-                border: Border.all(width: 1, color: redColor)),
-            child: Text(
-              item["name"],
-              style: TextStyle(color: textRed, fontSize: 12),
-            ),
-          ))
-              .toList(),
-        )
+                children: itemTagList
+                    .map((item) => Container(
+                          padding: EdgeInsets.fromLTRB(4, 1, 4, 1),
+                          margin: EdgeInsets.only(right: 5),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(width: 1, color: redColor)),
+                          child: Text(
+                            item["name"],
+                            style: TextStyle(color: textRed, fontSize: 12),
+                          ),
+                        ))
+                    .toList(),
+              )
       ],
     );
   }
@@ -206,12 +206,14 @@ class GoodItemWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              item["promoTitle"],
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: Text(
+                                item["promoTitle"],
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             Text(
                               item["promoSubTitle"],

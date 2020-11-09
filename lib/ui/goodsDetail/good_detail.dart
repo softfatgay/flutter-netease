@@ -5,7 +5,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
@@ -33,14 +32,11 @@ class GoodsDetail extends StatefulWidget {
 class _GoodsDetailState extends State<GoodsDetail> {
   int skuId = 0; //属性id
   int goodCount = 1; //商品数量
-  double price = 0; //商品价格
-  double counterPrice = 0; //商品价格
-  String skuDec = '规格'; //商品属性简介
+  String price = ''; //商品价格
+  String counterPrice = ''; //商品价格
   String skuLimit; //商品限制规则
   String promoTip = ''; //商品活动介绍
-  String promotionDesc = ''; //商品活动介绍
-  String skuTitle = ''; //选择描述
-  List couponShortNameList, itemTagList = []; //券活动/标签等
+  List couponShortNameList = []; //券活动/标签等
   List hdrkDetailVOList; //促销
 
   var skuFreight; //邮费
@@ -115,49 +111,23 @@ class _GoodsDetailState extends State<GoodsDetail> {
     Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
     setState(() {
       goodDetailPre = dataMap;
-//      LogUtil.e(json.encode(goodDetailPre));
       //选择属性id
-      var skuList = goodDetailPre['item']['skuList'];
-      monthlySavingCard = goodDetailPre['item']["monthlySavingCard"];
+      var goodData = goodDetailPre['item'];
+
+      var skuList = goodData['skuList'];
+      monthlySavingCard = goodData["monthlySavingCard"];
+      price = goodData["retailPrice"].toString();
+      counterPrice = goodData["counterPrice"].toString();
+
+      skuLimit = goodData['itemLimit'];
 
       ///选择属性/规格等
-      skuSpecList = goodDetailPre['item']['skuSpecList'];
-      skuMap = goodDetailPre['item']['skuMap'];
-
-      print('///////////////////');
-      print(skuSpecList);
-
-      if (skuList != null && skuList.isNotEmpty) {
-        skuId = skuList[0]['id'];
-        skuList.forEach((item) {
-          if (skuId == item['id']) {
-            price = double.parse(item['retailPrice'].toString());
-            counterPrice = double.parse(item['counterPrice'].toString());
-
-            List itemSkuSpecValueList = item['itemSkuSpecValueList'];
-
-            String skuDecL = "";
-            itemSkuSpecValueList.forEach((element) {
-              skuDecL += element['skuSpecValue']['value'];
-            });
-            skuDec = skuDecL;
-            // skuDec = item['itemSkuSpecValueList'][0]['skuSpecValue']['value']+;
-            skuLimit = item['skuLimit'];
-            promoTip = item['promoTip'];
-            promotionDesc = item['promotionDesc'];
-            skuTitle = item['skuTitle'];
-            couponShortNameList = item['couponShortNameList'];
-            hdrkDetailVOList = item['hdrkDetailVOList'];
-            itemTagList = item["itemTagList"];
-            skuFreight = item["skuFreight"];
-          }
-        });
-      } else {
-        price = goodDetailPre['item']['retailPrice'];
-        skuDec = goodDetailPre['item']['name'];
-      }
-
-      //默认属性
+      skuSpecList = goodData['skuSpecList'];
+      skuMap = goodData['skuMap'];
+      promoTip = goodData['promoTip'];
+      couponShortNameList = goodData['couponShortNameList'];
+      hdrkDetailVOList = goodData['hdrkDetailVOList'];
+      skuFreight = goodData['skuFreight'];
 
       ///banner
       var itemDetail = goodDetailPre['item']['itemDetail'];
@@ -343,7 +313,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
             child: Text(
-              promoTip == null ? '' : promoTip,
+              promoTip ?? '',
               textAlign: TextAlign.start,
               style: TextStyle(color: Color(0xFFF48F57)),
             ));
@@ -433,8 +403,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
   }
 
   Widget buildSelectProperty() {
+
     var shoppingReward = goodDetailPre['item']['shoppingReward'];
-    List skuList = goodDetailPre['item']['skuList'];
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(color: Colors.white),
@@ -689,7 +659,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           ),
 
           ///服务
-          skuLimit == null
+          (skuLimit == null || skuLimit == '')
               ? Container()
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -890,12 +860,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
   Widget buildGoodDetail() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      child: Column(
-        children: <Widget>[
-          Html(
-            data: goodDetail['html'].replaceAll('<p><br/></p>', ''),
-          )
-        ],
+      child: Html(
+        data: goodDetail['html'].replaceAll('<p><br/></p>', ''),
       ),
       color: Colors.white,
       width: double.infinity,
@@ -1374,7 +1340,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      '￥${price.toString()}',
+                      '￥$price',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 24,
@@ -1384,7 +1350,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Container(
                       padding: EdgeInsets.only(bottom: 4),
                       child: Text(
-                        '￥${counterPrice.toString()}',
+                        '￥$counterPrice',
                         style: TextStyle(
                           fontSize: 12,
                           color: textGrey,
@@ -1475,82 +1441,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  List<Widget> buildSkuList(BuildContext context, setstate) =>
-      List.generate(goodDetailPre['item']['skuList'].length, (index) {
-        var skuList = this.goodDetailPre['item']['skuList'];
-        var itemSkuSpecValueList = skuList[index]['itemSkuSpecValueList'];
-        var skuListDetail = skuList[index]['itemSkuSpecValueList'][0];
-        return GestureDetector(
-          child: Container(
-            margin: EdgeInsets.only(right: 5),
-            padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-                border: Border.all(
-                    width: 1,
-                    color:
-                        skuId == skuList[index]['id'] ? redColor : textBlack)),
-            child: Text(
-              '${_getSkuItemText(itemSkuSpecValueList)}',
-              style: TextStyle(
-                  color: skuId == skuList[index]['id'] ? redColor : textBlack),
-            ),
-          ),
-          onTap: () {
-            setstate(() {
-              skuId = skuList[index]['id'];
-              price = double.parse(skuList[index]['retailPrice'].toString());
-              counterPrice =
-                  double.parse(skuList[index]['counterPrice'].toString());
-
-              skuDec = _getSkuItemText(itemSkuSpecValueList);
-
-              skuLimit = skuList[index]['skuLimit'];
-              promoTip = skuList[index]['promoTip'];
-              promotionDesc = skuList[index]['promotionDesc'];
-              skuTitle = skuList[index]['skuTitle'];
-              couponShortNameList = skuList[index]['couponShortNameList'];
-              hdrkDetailVOList = skuList[index]['hdrkDetailVOList'];
-            });
-            setState(() {
-              skuId = skuList[index]['id'];
-              price = double.parse(skuList[index]['retailPrice'].toString());
-              counterPrice =
-                  double.parse(skuList[index]['counterPrice'].toString());
-              // skuDec = skuList[index]['itemSkuSpecValueList'][0]['skuSpecValue']['value'];
-
-              List itemSkuSpecValueList =
-                  skuList[index]['itemSkuSpecValueList'];
-
-              skuDec = _getSkuItemText(itemSkuSpecValueList);
-
-              // String  skuDecL = "" ;
-              // itemSkuSpecValueList.forEach((element) {
-              //   skuDecL += element['skuSpecValue']['value'];
-              // });
-              // skuDec = skuDecL;
-
-              skuLimit = skuList[index]['skuLimit'];
-              promoTip = skuList[index]['promoTip'];
-              promotionDesc = skuList[index]['promotionDesc'];
-              skuTitle = skuList[index]['skuTitle'];
-              couponShortNameList = skuList[index]['couponShortNameList'];
-              hdrkDetailVOList = skuList[index]['hdrkDetailVOList'];
-            });
-          },
-        );
-      });
-
-  _getSkuItemText(List itemSkuSpecValueList) {
-    String skuDecL = "";
-    itemSkuSpecValueList.forEach((element) {
-      skuDecL += element['skuSpecValue']['value'];
-    });
-    skuDec = skuDecL;
-
-    return skuDec;
-  }
-
   ///属性选择底部弹窗
   buildSizeModel(BuildContext context) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
@@ -1560,197 +1450,117 @@ class _GoodsDetailState extends State<GoodsDetail> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return StatefulBuilder(builder: (context, setstate) {
-          return Container(
-            constraints: BoxConstraints(maxHeight: 600),
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(5.0),
+        return Container(
+          child: StatefulBuilder(builder: (context, setstate) {
+            return Container(
+              constraints: BoxConstraints(maxHeight: 550),
+              color: Colors.red,
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(5.0),
+                    ),
                   ),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  //最小包裹高度
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    //定位右侧
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: InkResponse(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.close,
-                            color: redColor,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //最小包裹高度
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      //定位右侧
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: InkResponse(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.close,
+                              color: redColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    //商品描述
-                    Container(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            child: CachedNetworkImage(
-                              imageUrl: goodDetailPre['item']['primaryPicUrl'],
-                              fit: BoxFit.cover,
-                            ),
-                            height: 100,
-                            width: 100,
-                            color: Color(0x80F1F1F1),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                (promotionDesc == null || promotionDesc == '')
-                                    ? Container()
-                                    : Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 2),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            color: Color(0xFFEF7C15)),
-                                        child: Text(
-                                          promotionDesc,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                skuMapItem == null
-                                    ? Container
-                                    : Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: <Widget>[
-                                            Text(
-                                              "价格：",
-                                              style: TextStyle(color: textRed),
-                                            ),
-                                            Text(
-                                              '￥${skuMapItem['retailPrice']}',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                '￥${skuMapItem['counterPrice']}',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: textGrey,
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                // 商品描述
-                                Container(
+                      //商品描述
+                      _selectGoodDetail(context),
+                      _modelAndSize(context, setstate),
+                      //数量
+                      Container(
+                        margin: EdgeInsets.only(top: 15, bottom: 10),
+                        child: Text(
+                          '数量',
+                          style: TextStyle(color: Colors.black, fontSize: 14),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
+                        child: Count(
+                          number: goodCount,
+                          min: 1,
+                          max: 100,
+                          onChange: (index) {
+                            setstate(() {
+                              goodCount = index;
+                            });
+                            setState(() {
+                              goodCount = index;
+                            });
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 3),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: FlatButton(
+                                  onPressed: () {},
                                   child: Text(
-                                    '已选择：$selectedDecLeft $selectedDecRight',
-                                    overflow: TextOverflow.clip,
+                                    '马上购买',
                                     style: TextStyle(
-                                        color: textBlack, fontSize: 14),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
+                                  color: Colors.red,
                                 ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    _modelAndSize(context, setstate),
-                    //数量
-                    Container(
-                      margin: EdgeInsets.only(top: 15, bottom: 10),
-                      child: Text(
-                        '数量',
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
-                      child: Count(
-                        number: goodCount,
-                        min: 1,
-                        max: 100,
-                        onChange: (index) {
-                          setstate(() {
-                            goodCount = index;
-                          });
-                          setState(() {
-                            goodCount = index;
-                          });
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 3),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              margin: EdgeInsets.only(right: 5),
-                              child: FlatButton(
-                                onPressed: () {},
-                                child: Text(
-                                  '马上购买',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                color: Colors.red,
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              margin: EdgeInsets.only(left: 5),
-                              child: FlatButton(
-                                onPressed: () {},
-                                child: Text(
-                                  '加入购物车',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 5),
+                                child: FlatButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    '加入购物车',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  color: Colors.orange,
                                 ),
-                                color: Colors.orange,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+        );
       },
     );
   }
@@ -1881,5 +1691,89 @@ class _GoodsDetailState extends State<GoodsDetail> {
         },
       );
     }).toList();
+  }
+
+  _selectGoodDetail(BuildContext context) {
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            child: CachedNetworkImage(
+              imageUrl: skuMapItem == null
+                  ? goodDetailPre['item']['primaryPicUrl']
+                  : skuMapItem['pic'],
+              fit: BoxFit.cover,
+            ),
+            height: 100,
+            width: 100,
+            color: Color(0x80F1F1F1),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          skuMapItem == null
+              ? Container()
+              : Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      skuMapItem['promotionDesc'] == null
+                          ? Container()
+                          : Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 2),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: Color(0xFFEF7C15)),
+                              child: Text(
+                                skuMapItem['promotionDesc'],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              "价格：",
+                              style: TextStyle(color: textRed),
+                            ),
+                            Text(
+                              '￥${skuMapItem['retailPrice']}',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                '￥${skuMapItem['counterPrice']}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: textGrey,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      // 商品描述
+                      Container(
+                        child: Text(
+                          '已选择：$selectedDecLeft $selectedDecRight',
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(color: textBlack, fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+        ],
+      ),
+    );
   }
 }

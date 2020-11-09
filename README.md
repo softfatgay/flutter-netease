@@ -2,7 +2,7 @@
 
 #### 注意事项:
 >项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),注意修改gradle文件。注意;项目中使用了与安卓原生的交互,必要的库(lifecycle)在yaml文件中有注释
->
+#  注意：登陆的cookie和csrf_token容易过期，过期的话请自行在浏览器中打开网易严选登录，并拿到cookie（一般很长，有用的就两三个，在项目中user_config.dart文件中，自行替换）和csrf_token替换，最近在改版，没来得及开发完毕，大部分功能已实现
 >
 ## [关于我](https://github.com/softfatgay)
 
