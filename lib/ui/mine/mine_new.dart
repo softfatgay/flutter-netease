@@ -14,10 +14,14 @@ class UserPage extends StatefulWidget {
   _MinePageState createState() => _MinePageState();
 }
 
-class _MinePageState extends State<UserPage> {
+class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
   bool _firstLoading = true;
   List mineItems = [];
   var userInfo;
+
+  @override
+  bool get wantKeepAlive => true;
+
 
   @override
   void initState() {

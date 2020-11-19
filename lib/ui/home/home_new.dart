@@ -38,7 +38,7 @@ class HomeNew extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeNew> {
+class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
   bool isLoading = true;
   List banner,
       bannerData,
@@ -55,6 +55,7 @@ class _HomeState extends State<HomeNew> {
   var flashSaleModule;
   var kingKongModule;
   var bigPromotionModule;
+
 
   void _incrementCounter() {
     _getData();
@@ -868,4 +869,7 @@ class _HomeState extends State<HomeNew> {
   _goWebview(String url) {
     Routers.push(Util.webView, context, {'id': url});
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -15,7 +15,7 @@ class SortNew extends StatefulWidget {
   _SortState createState() => _SortState();
 }
 
-class _SortState extends State<SortNew> {
+class _SortState extends State<SortNew> with AutomaticKeepAliveClientMixin{
   List tabs = [];
 
   bool isLoading = true;
@@ -28,6 +28,10 @@ class _SortState extends State<SortNew> {
   int activityTab = 0;
   List banner = [];
   List categoryGroupList = [];
+
+  @override
+  bool get wantKeepAlive => true;
+
 
   @override
   Widget build(BuildContext context) {

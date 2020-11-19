@@ -22,6 +22,11 @@ class _MainPageState extends State<MainPage> {
     WrapKeepState(HomeNew()),
   ];
 
+  var homeNew = HomeNew();
+  var topicPage = TopicPage();
+  var sortNew = SortNew();
+  var shoppingCart = ShoppingCart();
+  var userPage = UserPage();
   @override
   Widget build(BuildContext context) {
     //获取屏幕宽高
@@ -37,11 +42,11 @@ class _MainPageState extends State<MainPage> {
       ),
       body: PageView(
         children: <Widget>[
-          WrapKeepState(HomeNew()),
-          WrapKeepState(TopicPage()),
-          WrapKeepState(SortNew()),
-          ShoppingCart(),
-          WrapKeepState(UserPage()),
+          homeNew,
+          topicPage,
+          sortNew,
+          shoppingCart,
+          userPage,
         ],
         controller: pageController,
         onPageChanged: (index) {

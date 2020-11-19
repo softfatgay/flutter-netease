@@ -16,7 +16,7 @@ class TopicPage extends StatefulWidget {
   _TopicPageState createState() => _TopicPageState();
 }
 
-class _TopicPageState extends State<TopicPage> {
+class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixin{
   ScrollController _scrollController = new ScrollController();
 
   ///第一次加载
@@ -32,6 +32,9 @@ class _TopicPageState extends State<TopicPage> {
   List roundWords = [];
   int rondomIndex = 0;
   var timer;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
