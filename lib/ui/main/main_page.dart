@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/home/home_new.dart';
 import 'package:flutter_app/ui/mine/mine_new.dart';
-import 'package:flutter_app/ui/shoping_market/web_view.dart';
+import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
+import 'package:flutter_app/ui/shopingcart/web_view.dart';
 import 'package:flutter_app/ui/sort/sort_new.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/widget/wrapper.dart';
@@ -39,7 +40,7 @@ class _MainPageState extends State<MainPage> {
           WrapKeepState(HomeNew()),
           WrapKeepState(TopicPage()),
           WrapKeepState(SortNew()),
-          WrapKeepState(WebView()),
+          ShoppingCart(),
           WrapKeepState(UserPage()),
         ],
         controller: pageController,
@@ -79,7 +80,7 @@ class _MainPageState extends State<MainPage> {
           'assets/images/ic_tab_subject_normal.png'));
       itemNames.add(_Item('分类', 'assets/images/ic_tab_group_active.png',
           'assets/images/ic_tab_group_normal.png'));
-      itemNames.add(_Item('webview', 'assets/images/ic_tab_shiji_active.png',
+      itemNames.add(_Item('购物车', 'assets/images/ic_tab_shiji_active.png',
           'assets/images/ic_tab_shiji_normal.png'));
       itemNames.add(_Item('我的', 'assets/images/ic_tab_profile_active.png',
           'assets/images/ic_tab_profile_normal.png'));

@@ -159,3 +159,10 @@ Future<ResponseData> goodDetailData(Map<String, dynamic> parameters,
   return await HttpManager.get(GOOD_DETAIL,
       queryParameters: parameters, headers: header);
 }
+
+///购物车
+Future<ResponseData> shoppingCart(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(SHOPPING_CART,
+      queryParameters: parameters, headers: header);
+}
