@@ -75,7 +75,7 @@ class GoodItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    item["listPromBanner"] == null
+                    (item["listPromBanner"] == null||!item["listPromBanner"]['valid'])
                         ? _buildTextDesc(item["simpleDesc"])
                         : _buildPromBanner(item["listPromBanner"]),
                   ],
@@ -208,7 +208,7 @@ class GoodItemWidget extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                item["promoTitle"],
+                                item["promoTitle"] ?? "",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
@@ -216,7 +216,7 @@ class GoodItemWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              item["promoSubTitle"],
+                              item["promoSubTitle"] ?? "",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -232,7 +232,7 @@ class GoodItemWidget extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Text(
-                      item["content"],
+                      item["content"] ?? "",
                       style: TextStyle(fontSize: 12, color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                     ),
