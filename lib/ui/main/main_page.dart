@@ -80,8 +80,8 @@ class _MainPageState extends State<MainPage> {
           'assets/images/ic_tab_subject_normal.png'));
       itemNames.add(_Item('分类', 'assets/images/ic_tab_group_active.png',
           'assets/images/ic_tab_group_normal.png'));
-      itemNames.add(_Item('购物车', 'assets/images/ic_tab_shiji_active.png',
-          'assets/images/ic_tab_shiji_normal.png'));
+      itemNames.add(_Item('购物车', 'assets/images/ic_tab_cart_active.png',
+          'assets/images/ic_tab_cart_normal.png'));
       itemNames.add(_Item('我的', 'assets/images/ic_tab_profile_active.png',
           'assets/images/ic_tab_profile_normal.png'));
     }

@@ -26,6 +26,9 @@ final String RED_PACKET = "${NetContants.baseUrl}xhr/redpacket/list.json";
 final String COUPON_LIST = "${NetContants.baseUrl}xhr/coupon/list.json";
 final String GOOD_DETAIL = "${NetContants.baseUrl}item/detail.json";
 final String SHOPPING_CART = "${NetContants.baseUrl}xhr/cart/getCarts.json";
+final String SHOPPING_CART_CHECK = "${NetContants.baseUrl}xhr/cart/selectAll.json";
+final String SHOPPING_CART_CHECK_ONE = "${NetContants.baseUrl}xhr/cart/updateCheck.json";
+final String SHOPPING_CART_CHECK_NUM = "${NetContants.baseUrl}xhr/cart/updateByNum.json";
 
 
 
@@ -88,3 +91,10 @@ final String SHOPPING_CART = "${NetContants.baseUrl}xhr/cart/getCarts.json";
 //https://m.you.163.com/item/detail.json?id=3986088
 ///购物车
 //https://m.you.163.com/xhr/cart/getCarts.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+///购物车全选/不选
+//https://m.you.163.com/xhr/cart/selectAll.json?csrf_token=36afe4bc43f0ab111759b0ebcbf5a684
+///购物车选/不选
+//https://m.you.163.com/xhr/cart/updateCheck.json?
+///购物车选购数量
+//https://m.you.163.com/xhr/cart/updateByNum.json
+

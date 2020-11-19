@@ -166,16 +166,20 @@ class _GoodsDetailState extends State<GoodsDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
+
+        body: Stack(
           children: <Widget>[
-            Expanded(
-              child: buildContent(),
-            ),
-            buildFoot(),
+            buildContent(),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child:   SafeArea(child: buildFoot(),),
+            )
           ],
         ),
         floatingActionButton:
-            !isShowFloatBtn ? Container() : floatingAB(_scrollController));
+        !isShowFloatBtn ? Container() : floatingAB(_scrollController));
   }
 
   Widget buildFoot() {
@@ -292,6 +296,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               ? Container()
               : buildIssuTitle('-- 你可能还喜欢 --')),
           GoodItemWidget(dataList: rmdList),
+          singleSliverWidget(Container(height: 100,)),
         ],
       );
     }

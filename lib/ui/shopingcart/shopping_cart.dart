@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/widget/content_loading.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
@@ -17,6 +19,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
   var _topItem;
   List _itemList = List();
   List _invalidCartGroupList = List();
+  double _price = 0;
+  double _promotionPrice = 0;
+  double _actualPrice = 0;
+
+  bool isChecked = false;
+  bool _isCheckedAll = false;
+
+  bool loading = false;
+  int _selectedNum = 0;
 
   @override
   void initState() {
@@ -32,15 +43,111 @@ class _ShoppingCartState extends State<ShoppingCart> {
     var responseData = await shoppingCart(params, header: header);
     setState(() {
       _data = responseData.data;
-      _cartGroupList = _data['cartGroupList'];
-      _invalidCartGroupList = _data['invalidCartGroupList'];
-      if (_cartGroupList.length > 0) {
-        _topItem = _cartGroupList[0];
-        if (_cartGroupList.length > 1) {
-          _itemList = _cartGroupList;
-          _itemList.removeAt(0);
+      setData(_data);
+    });
+  }
+
+  void setData(var _data) {
+    if (_data == null) {
+      _getData();
+    }
+    setState(() {
+      try {
+        loading = false;
+        _cartGroupList = _data['cartGroupList'];
+        _invalidCartGroupList = _data['invalidCartGroupList'];
+        _price = double.parse(_data['actualPrice'].toString());
+        _promotionPrice = double.parse(_data['promotionPrice'].toString());
+        _actualPrice = double.parse(_data['actualPrice'].toString());
+
+        if (_cartGroupList.length > 0) {
+          _topItem = _cartGroupList[0];
+          if (_cartGroupList.length > 1) {
+            _itemList = _cartGroupList;
+            _itemList.removeAt(0);
+
+            _selectedNum = 0;
+            for (int i = 0; i < _itemList.length; i++) {
+              List itemItems = _itemList[i]['cartItemList'];
+              for (int i = 0; i < itemItems.length; i++) {
+                if (itemItems[i]['checked']) {
+                  print('/////////////');
+                  _selectedNum += itemItems[i]['cnt'];
+                }
+              }
+            }
+
+            for (int i = 0; i < _itemList.length; i++) {
+              List itemItems = _itemList[i]['cartItemList'];
+              for (int i = 0; i < itemItems.length; i++) {
+                _isCheckedAll = true;
+                if (!itemItems[i]['checked']) {
+                  _isCheckedAll = false;
+                  return;
+                }
+              }
+            }
+          }
         }
+      } catch (e) {
+        loading = false;
       }
+    });
+  }
+
+  _check() async {
+    setState(() {
+      loading = true;
+    });
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      'isChecked': isChecked
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    var responseData = await shoppingCartCheck(params, header: header);
+    setState(() {
+      _data = responseData.data;
+      setData(_data);
+    });
+  }
+
+  _checkOne(int source, int type, int skuId, bool isChecked, var extId) async {
+    setState(() {
+      loading = true;
+    });
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      'source': source,
+      'type': type,
+      'skuId': skuId,
+      'isChecked': isChecked,
+      'extId': extId,
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    var responseData = await shoppingCartCheckOne(params, header: header);
+    setState(() {
+      _data = responseData.data;
+      setData(_data);
+    });
+  }
+
+  _checkOneNum(int source, int type, int skuId, int cnt, var extId) async {
+    setState(() {
+      loading = true;
+    });
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      'source': source,
+      'type': type,
+      'skuId': skuId,
+      'cnt': cnt,
+      'extId': extId,
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    var responseData = await shoppingCartCheckNum(params, header: header);
+    setState(() {
+      _data = responseData.data;
+      setData(_data);
     });
   }
 
@@ -50,28 +157,31 @@ class _ShoppingCartState extends State<ShoppingCart> {
       backgroundColor: Color(0xFFEAEAEA),
       body: Stack(
         children: [
-          Positioned(
-            child: CustomScrollView(
-              slivers: [
-                singleSliverWidget(_buildTitle()),
-                singleSliverWidget(_dataList()),
-                singleSliverWidget(_invalidList()),
-                singleSliverWidget(Container(
-                  height: 50,
-                ))
-              ],
-            ),
-            bottom: 50,
-            top: 0,
-            left: 0,
-            right: 0,
-          ),
+          _data == null
+              ? Loading()
+              : Positioned(
+                  child: CustomScrollView(
+                    slivers: [
+                      singleSliverWidget(_buildTitle()),
+                      singleSliverWidget(_dataList()),
+                      singleSliverWidget(_invalidList()),
+                      singleSliverWidget(Container(
+                        height: 50,
+                      ))
+                    ],
+                  ),
+                  bottom: 50,
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                ),
           Positioned(
             child: _buildBuy(),
             bottom: 0,
             left: 0,
             right: 0,
-          )
+          ),
+          loading ? Loading() : Container(),
         ],
       ),
     );
@@ -166,7 +276,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
               color: Color(0xFFFFF7F5),
               child: Row(
                 children: [
-                  Expanded(child: Text('去换购商品')),
+                  Expanded(
+                      child: Text(_actualPrice > 100 ? '去换购商品' : '查看换购商品')),
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 14,
@@ -208,7 +319,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       margin: EdgeInsets.only(bottom: 0.5),
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
-      child:  Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -217,24 +328,23 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 margin: EdgeInsets.only(right: 6),
                 child: InkWell(
                   onTap: () {
-                    setState(() {
-                      _checkedAll = !_checkedAll;
-                    });
+                    _checkOne(item['source'], item['type'], item['skuId'],
+                        !item['checked'], item['extId']);
                   },
                   child: Container(
                     child: Padding(
                       padding: EdgeInsets.all(2),
-                      child: _checkedAll
+                      child: item['checked']
                           ? Icon(
-                        Icons.check_circle,
-                        size: 25,
-                        color: Colors.red,
-                      )
+                              Icons.check_circle,
+                              size: 25,
+                              color: Colors.red,
+                            )
                           : Icon(
-                        Icons.brightness_1_outlined,
-                        size: 25,
-                        color: lineColor,
-                      ),
+                              Icons.brightness_1_outlined,
+                              size: 25,
+                              color: lineColor,
+                            ),
                     ),
                   ),
                 ),
@@ -274,19 +384,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           children: [
                             Expanded(
                                 child: Container(
-                                  child: Text(
-                                    '¥${item['retailPrice']}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 16),
-                                  ),
-                                )),
+                              child: Text(
+                                '¥${item['retailPrice']}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                            )),
                             Container(
                               child: CartCount(
                                 number: item['cnt'],
                                 min: 1,
                                 max: item['sellVolume'],
                                 onChange: (index) {
-                                  setState(() {});
+                                  _checkOneNum(item['source'], item['type'],
+                                      item['skuId'], index, item['extId']);
                                 },
                               ),
                             )
@@ -302,22 +413,22 @@ class _ShoppingCartState extends State<ShoppingCart> {
           (cartItemTips == null || cartItemTips.length == 0)
               ? Container()
               : Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(color: backGrey),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: cartItemTips.map((item) {
-                return Container(
-                  child: Text(
-                    '• ${item}',
-                    style: t12grey,
+                  width: double.infinity,
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.fromLTRB(35, 10, 0, 0),
+                  decoration: BoxDecoration(color: backGrey),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: cartItemTips.map((item) {
+                      return Container(
+                        child: Text(
+                          '• ${item}',
+                          style: t12grey,
+                        ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }).toList(),
-            ),
-          ),
+                ),
         ],
       ),
     );
@@ -458,13 +569,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  _checkedAll = !_checkedAll;
+                  _isCheckedAll = !_isCheckedAll;
+                  isChecked = !isChecked;
+                  _check();
                 });
               },
               child: Container(
                 child: Padding(
                   padding: EdgeInsets.all(2),
-                  child: _checkedAll
+                  child: _isCheckedAll
                       ? Icon(
                           Icons.check_circle,
                           size: 25,
@@ -483,7 +596,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
             child: Container(
               margin: EdgeInsets.only(bottom: 3),
               child: Text(
-                '已选(${allCount})',
+                '已选(${_selectedNum})',
                 style: t16black,
               ),
             ),
@@ -505,12 +618,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       style: t16red,
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      '已优惠：${_getPrice()}',
-                      style: t14grey,
-                    ),
-                  ),
+                  _promotionPrice == 0
+                      ? Container()
+                      : Container(
+                          child: Text(
+                            '已优惠：¥$_promotionPrice',
+                            style: t14grey,
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -532,6 +647,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   _getPrice() {
-    return 26182;
+    return _price;
   }
 }

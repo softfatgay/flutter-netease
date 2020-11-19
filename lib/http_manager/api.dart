@@ -166,3 +166,21 @@ Future<ResponseData> shoppingCart(Map<String, dynamic> parameters,
   return await HttpManager.post(SHOPPING_CART,
       queryParameters: parameters, headers: header);
 }
+///购物车 全选/不选
+Future<ResponseData> shoppingCartCheck(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(SHOPPING_CART_CHECK,
+      queryParameters: parameters, headers: header);
+}
+///购物车 选/不选
+Future<ResponseData> shoppingCartCheckOne(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(SHOPPING_CART_CHECK_ONE,
+      queryParameters: parameters, headers: header);
+}
+///购物车 选购数量
+Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(SHOPPING_CART_CHECK_NUM,
+      queryParameters: parameters, headers: header);
+}
