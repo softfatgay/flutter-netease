@@ -61,7 +61,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ))
               ],
             ),
-            bottom: 60,
+            bottom: 50,
             top: 0,
             left: 0,
             right: 0,
@@ -449,7 +449,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget _buildBuy() {
     return Container(
       color: Colors.white,
-      height: 60,
+      height: 50,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
