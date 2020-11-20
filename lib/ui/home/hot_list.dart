@@ -116,7 +116,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
       headerSliverBuilder: (context, bool) {
         return [
           SliverAppBar(
-            expandedHeight: 180.0,
+            expandedHeight: 160.0,
             floating: true,
             pinned: true,
             toolbarHeight: 0,
@@ -137,6 +137,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                           fontSize: 40),
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -228,18 +229,18 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(bottom: BorderSide(color: lineColor, width: 1))),
+          border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
       child: Stack(
         children: [
           Column(
             children: [
               Container(
-                height: 140,
+                height: 120,
                 child: Row(
                   children: [
                     Container(
-                      height: 140,
-                      width: 140,
+                      height: 120,
+                      width: 120,
                       child: CachedNetworkImage(
                         imageUrl: item['scenePicUrl'],
                       ),
@@ -262,15 +263,18 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                   BorderRadius.circular(10)),
                               child: Text('${item['promTag']}'),
                             ),
-                            Text(
-                              '${item['name']}',
-                              style: TextStyle(
-                                  color: textBlack,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                            Container(
+                              margin: EdgeInsets.only(top: 6),
+                              child: Text(
+                                '${item['name']}',
+                                style: TextStyle(
+                                    color: textBlack,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                             item['goodCmtRate'] == null?Container(): Container(
-                              margin: EdgeInsets.only(top: 4),
+                              margin: EdgeInsets.only(top: 6),
                               child: Text('${item['goodCmtRate']}好评率'),
                             ),
                             Expanded(
@@ -285,7 +289,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                             '¥${item['retailPrice']}',
                                             style: TextStyle(
                                                 color: textRed,
-                                                fontSize: 16,
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           (item['counterPrice'] ==
@@ -297,6 +301,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                             style: TextStyle(
                                               decoration:
                                               TextDecoration.lineThrough,
+                                              color: textGrey
                                             ),
                                           )
                                         ],
@@ -363,8 +368,8 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
             ],
           ),
           Container(
-            height: 30,
-            width: 30,
+            height: 20,
+            width: 20,
             margin: EdgeInsets.all(5),
             alignment: Alignment.center,
             decoration:
