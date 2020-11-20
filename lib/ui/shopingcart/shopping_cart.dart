@@ -596,7 +596,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
             child: Container(
               margin: EdgeInsets.only(bottom: 3),
               child: Text(
-                '已选(${_selectedNum})',
+                '已选($_selectedNum)',
                 style: t16black,
               ),
             ),

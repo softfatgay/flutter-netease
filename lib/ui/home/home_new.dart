@@ -480,7 +480,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
     return Expanded(
       flex: 1,
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           Routers.push(Util.hotlist, context);
         },
         child: Container(
@@ -495,7 +495,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                   children: [
                     Text(
                       categoryHotSellModuleItems[index]["categoryName"],
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
@@ -531,37 +532,42 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
             crossAxisCount: 4, crossAxisSpacing: 5, mainAxisSpacing: 5),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            return Column(
-              children: <Widget>[
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                        top: 4,
-                      ),
-                      color: Color(0xFFF2F2F2),
-                      child: Center(
-                        child: Text(
-                          categoryHotSellItems[index]['categoryName'],
-                          style: TextStyle(
-                              color: textBlack,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
+            return GestureDetector(
+              onTap: () {
+                Routers.push(Util.hotlist, context);
+              },
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          top: 4,
                         ),
-                      ),
-                    )),
-                Expanded(
-                    flex: 3,
-                    child: Container(
-                      color: Color(0xFFF2F2F2),
-                      child: Center(
-                        child: CachedNetworkImage(
-                          imageUrl: categoryHotSellItems[index]['picUrl'],
-                          fit: BoxFit.fitWidth,
+                        color: Color(0xFFF2F2F2),
+                        child: Center(
+                          child: Text(
+                            categoryHotSellItems[index]['categoryName'],
+                            style: TextStyle(
+                                color: textBlack,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                    )),
-              ],
+                      )),
+                  Expanded(
+                      flex: 3,
+                      child: Container(
+                        color: Color(0xFFF2F2F2),
+                        child: Center(
+                          child: CachedNetworkImage(
+                            imageUrl: categoryHotSellItems[index]['picUrl'],
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
             );
           },
           childCount: categoryHotSellItems.length,
@@ -623,7 +629,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
             childAspectRatio: 0.8),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            return Column(
+            Widget widget = Column(
               children: <Widget>[
                 Container(
                   color: Colors.white,
@@ -659,6 +665,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                 )
               ],
             );
+            return Routers.link(widget, Util.goodDetailTag, context,
+                {'id': flashSaleModuleItems[index]['itemId']});
           },
           childCount: flashSaleModuleItems.length,
         ),
@@ -719,7 +727,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               var item = newItemList[index];
-              return Container(
+              Widget widget = Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -756,6 +764,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                   ],
                 ),
               );
+              return Routers.link(
+                  widget, Util.goodDetailTag, context, {'id': item['id']});
             },
             childCount: newItemList.length > 6 ? 6 : newItemList.length,
           ),
@@ -770,54 +780,59 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(10, 15, 15, 15),
       sliver: singleSliverWidget(Row(
-        children: sceneLightShoppingGuideModule
-            .map((item) => Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: Color(0xFFF2F2F2),
-                    margin: EdgeInsets.only(left: 5),
+        children: sceneLightShoppingGuideModule.map((item) {
+        Widget widget = Expanded(
+          flex: 1,
+          child: GestureDetector(
+            onTap: (){
+              _goWebview(item["styleItem"]['targetUrl']);
+            },
+            child: Container(
+              color: Color(0xFFF2F2F2),
+              margin: EdgeInsets.only(left: 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item["styleItem"]["title"],
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                item["styleItem"]["desc"],
-                                style:
-                                    TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          item["styleItem"]["title"],
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: CachedNetworkImage(
-                              imageUrl: item["styleItem"]["picUrlList"][0],
-                            )),
-                            Expanded(
-                                child: CachedNetworkImage(
-                              imageUrl: item["styleItem"]["picUrlList"][1],
-                            )),
-                          ],
-                        )
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          item["styleItem"]["desc"],
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
                       ],
                     ),
                   ),
-                ))
-            .toList(),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: CachedNetworkImage(
+                            imageUrl: item["styleItem"]["picUrlList"][0],
+                          )),
+                      Expanded(
+                          child: CachedNetworkImage(
+                            imageUrl: item["styleItem"]["picUrlList"][1],
+                          )),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+          return widget;
+        }).toList(),
       )),
     );
   }
