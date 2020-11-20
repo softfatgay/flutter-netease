@@ -29,6 +29,8 @@ final String SHOPPING_CART = "${NetContants.baseUrl}xhr/cart/getCarts.json";
 final String SHOPPING_CART_CHECK = "${NetContants.baseUrl}xhr/cart/selectAll.json";
 final String SHOPPING_CART_CHECK_ONE = "${NetContants.baseUrl}xhr/cart/updateCheck.json";
 final String SHOPPING_CART_CHECK_NUM = "${NetContants.baseUrl}xhr/cart/updateByNum.json";
+final String HOT_LIST_CAT = "${NetContants.baseUrl}item/saleRank.json";
+final String HOT_LIST_LIST = "${NetContants.baseUrl}xhr/item/saleRankItems.json";
 
 
 
@@ -97,4 +99,12 @@ final String SHOPPING_CART_CHECK_NUM = "${NetContants.baseUrl}xhr/cart/updateByN
 //https://m.you.163.com/xhr/cart/updateCheck.json?
 ///购物车选购数量
 //https://m.you.163.com/xhr/cart/updateByNum.json
+
+///热销榜标题
+//https://m.you.163.com/item/saleRank.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1605864254678&categoryId=0&subCategoryId=0
+///热销榜条目
+//https://m.you.163.com/xhr/item/saleRankItems.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+
+
 

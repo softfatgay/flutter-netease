@@ -33,9 +33,6 @@ class _KingKongPageState extends State<NewItemPage> {
 
   void _getInitData() async {
     String schemeUrl = widget.arguments["schemeUrl"];
-    print("////////////////////////////////////");
-    print(schemeUrl);
-
     if (schemeUrl.contains("categoryId")) {
     } else {
       _getNewData();
@@ -45,7 +42,6 @@ class _KingKongPageState extends State<NewItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: initLoading
           ? Loading()
           : CustomScrollView(
@@ -83,7 +79,6 @@ class _KingKongPageState extends State<NewItemPage> {
   }
 
   void _getNewData() async {
-    print("!!!!!!!!!!!!!!!!!!!!!!");
     var responseData = await kingKongNewItemData({
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"

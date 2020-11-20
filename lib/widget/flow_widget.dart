@@ -31,8 +31,7 @@ class _FlowWidgetState extends State<FlowWidget> {
 
   List<Widget> buildItem() {
     return List.generate(widget.showItemCount == null?widget.items.length:widget.showItemCount, (index) {
-      Color checkColor =
-          widget.checkedItem == widget.items[index] ? widget.checkedColor : widget.unCheckColor;
+      Color checkColor = widget.checkedItem == widget.items[index] ? widget.checkedColor : widget.unCheckColor;
       return GestureDetector(
         child: Container(
           padding: EdgeInsets.fromLTRB(8, 5, 8, 5),

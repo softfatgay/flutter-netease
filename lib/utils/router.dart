@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
+import 'package:flutter_app/ui/home/hot_list.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/mine/add_address.dart';
@@ -54,6 +55,9 @@ class Routers {
 
     //添加地址
     Util.addAddress: (context, {arguments}) => AddAddress(arguments: arguments),
+
+    //热销榜
+    Util.hotlist: (context, {arguments}) => Hotlist(),
 
     ///大图
     Util.image: (context, {arguments}) => FullScreenImage(arguments),

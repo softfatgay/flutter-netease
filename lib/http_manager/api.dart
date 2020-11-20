@@ -184,3 +184,15 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> parameters,
   return await HttpManager.get(SHOPPING_CART_CHECK_NUM,
       queryParameters: parameters, headers: header);
 }
+///热销榜/标题
+Future<ResponseData> hotListCat(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(HOT_LIST_CAT,
+      queryParameters: parameters, headers: header);
+}
+///热销榜/条目
+Future<ResponseData> hotList(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(HOT_LIST_LIST,
+      queryParameters: parameters, headers: header);
+}

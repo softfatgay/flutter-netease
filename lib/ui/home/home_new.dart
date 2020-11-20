@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -38,7 +40,7 @@ class HomeNew extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
+class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
   List banner,
       bannerData,
@@ -55,7 +57,6 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
   var flashSaleModule;
   var kingKongModule;
   var bigPromotionModule;
-
 
   void _incrementCounter() {
     _getData();
@@ -180,37 +181,33 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
           ),
         ),
         Expanded(
-            child: Container(
-          height: 40,
-          width: double.infinity,
-          margin: EdgeInsets.fromLTRB(0, 10, 15, 10),
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 237, 237, 237),
-            borderRadius: BorderRadius.circular(5.0),
+          child: Container(
+            height: 35,
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(0, 10, 15, 10),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 237, 237, 237),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.search,
+                  size: 25,
+                  color: textGrey,
+                ),
+                Text(
+                  "搜索商品，共43430款好物",
+                  style: TextStyle(color: textGrey, fontSize: 16),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 10,
-              ),
-              Icon(
-                Icons.search,
-                size: 20,
-                color: Color.fromARGB(255, 102, 102, 102),
-              ),
-              Expanded(
-                  child: Text(
-                "搜索商品，共43430款好物",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ))
-            ],
-          ),
-        ))
+        )
       ],
     );
     return singleSliverWidget(
@@ -258,28 +255,26 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
   _kingkong(BuildContext context) {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 5,
-        childAspectRatio: 0.8,
-      ),
+          crossAxisCount: 5, childAspectRatio: 0.8),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           Widget widget = Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4), color: Colors.white),
             child: Column(
               children: <Widget>[
                 Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      color: Colors.white,
-                      child: Center(
-                        child: CachedNetworkImage(
-                          imageUrl: kingKongModuleItems[index]['picUrl'] == null
-                              ? ""
-                              : kingKongModuleItems[index]['picUrl'],
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    )),
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: CachedNetworkImage(
+                      imageUrl: kingKongModuleItems[index]['picUrl'] == null
+                          ? ""
+                          : kingKongModuleItems[index]['picUrl'],
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                  flex: 2,
+                ),
                 Expanded(
                     flex: 1,
                     child: Container(
@@ -313,10 +308,9 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
       children: bigPromotionModuleItems
           .map(
             (item) => Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
               child: GestureDetector(
                 child: CachedNetworkImage(
-                  fit: BoxFit.fitWidth,
                   imageUrl: item["cells"][0]["picUrl"],
                 ),
                 onTap: () {
@@ -383,57 +377,58 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
             Expanded(
               flex: 1,
               child: Container(
-                height: 240,
-                child: Column(
-                    children: indexActivityModules
-                        .map(
-                          (item) => Stack(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 117,
-                                color: Color(0xFFF9DCC9),
-                                margin: EdgeInsets.only(top: 3),
-                                child: CachedNetworkImage(
-                                  alignment: Alignment.bottomRight,
-                                  fit: BoxFit.fitHeight,
-                                  imageUrl: item["picUrl"],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item["title"],
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: textBlack),
-                                    ),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Container(
-                                      decoration:
-                                          BoxDecoration(color: backGrey),
-                                      child: Text(
-                                        item["subTitle"] == ""
-                                            ? item["tag"]
-                                            : item["subTitle"],
-                                        style: TextStyle(
-                                            fontSize: 14, color: Colors.grey),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
+                  height: 240,
+                  child: Column(
+                      children: indexActivityModules.map((item) {
+                    return GestureDetector(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: 117,
+                            color: Color(0xFFF9DCC9),
+                            margin: EdgeInsets.only(top: 3),
+                            child: CachedNetworkImage(
+                              alignment: Alignment.bottomRight,
+                              fit: BoxFit.fitHeight,
+                              imageUrl: item["picUrl"],
+                            ),
                           ),
-                        )
-                        .toList()),
-              ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item["title"],
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: textBlack),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(color: backGrey),
+                                  child: Text(
+                                    item["subTitle"] == ""
+                                        ? item["tag"]
+                                        : item["subTitle"],
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        _goWebview(item['targetUrl']);
+                      },
+                    );
+                  }).toList())),
             ),
           ],
         ),
@@ -449,7 +444,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
       return singleSliverWidget(Container());
     }
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+      padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
       sliver: singleSliverWidget(
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -465,92 +460,61 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
               ),
             ),
             Container(
-              height: 100,
               child: Row(
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Color(0xFFF7F1DD),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  categoryHotSellModuleItems[0]["categoryName"],
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  height: 2,
-                                  width: 30,
-                                  color: Colors.black,
-                                )
-                              ],
-                            ),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: categoryHotSellModuleItems[0]["picUrl"],
-                            ),
-                            flex: 3,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  _hotTopCell(0),
                   SizedBox(
                     width: 5,
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Color(0xFFE4E8F0),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  categoryHotSellModuleItems[1]["categoryName"],
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  height: 2,
-                                  width: 30,
-                                  color: Colors.black,
-                                )
-                              ],
-                            ),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: categoryHotSellModuleItems[1]["picUrl"],
-                            ),
-                            flex: 3,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  _hotTopCell(1),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Expanded _hotTopCell(int index) {
+    return Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: (){
+          Routers.push(Util.hotlist, context);
+        },
+        child: Container(
+          color: index == 0 ? Color(0xFFF7F1DD) : Color(0xFFE4E8F0),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      categoryHotSellModuleItems[index]["categoryName"],
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      height: 2,
+                      width: 30,
+                      color: Colors.black,
+                    )
+                  ],
+                ),
+                flex: 2,
+              ),
+              Expanded(
+                child: CachedNetworkImage(
+                  imageUrl: categoryHotSellModuleItems[index]["picUrl"],
+                ),
+                flex: 3,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -561,7 +525,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
       return singleSliverWidget(Container());
     }
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+      padding: EdgeInsets.fromLTRB(15, 5, 15, 10),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4, crossAxisSpacing: 5, mainAxisSpacing: 5),
@@ -580,7 +544,9 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
                         child: Text(
                           categoryHotSellItems[index]['categoryName'],
                           style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
+                              color: textBlack,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     )),
@@ -610,13 +576,15 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
     }
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-      sliver: singleSliverWidget(
-        Row(
+      sliver: singleSliverWidget(Container(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Container(
+                margin: EdgeInsets.only(bottom: 2),
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "限时购",
                   style: TextStyle(fontSize: 18),
@@ -625,16 +593,19 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
             ),
             Row(
               children: [
-                Text(
-                  "更多",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                Container(
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Text(
+                    "更多",
+                    style: t16black,
+                  ),
                 ),
                 Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
               ],
             )
           ],
         ),
-      ),
+      )),
     );
   }
 
@@ -708,6 +679,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
           children: [
             Expanded(
               child: Container(
+                margin: EdgeInsets.only(bottom: 2),
                 child: Text(
                   "新品首发",
                   style: TextStyle(fontSize: 18),
@@ -716,9 +688,12 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
             ),
             Row(
               children: [
-                Text(
-                  "更多",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                Container(
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Text(
+                    "更多",
+                    style: t16black,
+                  ),
                 ),
                 Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
               ],
@@ -734,52 +709,57 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
       return singleSliverWidget(Container());
     }
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-      sliver: SliverGrid.count(
-        crossAxisCount: 3,
-        childAspectRatio: 0.6,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
-        children: newItemList
-            .map((item) => Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          child: CachedNetworkImage(
-                            height: 300,
-                            imageUrl: item['scenePicUrl'],
-                            fit: BoxFit.cover,
-                          ),
+        padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+        sliver: SliverGrid(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+              childAspectRatio: 0.6),
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              var item = newItemList[index];
+              return Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: CachedNetworkImage(
+                          height: 210,
+                          imageUrl: item['scenePicUrl'],
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        child: Text(
-                          "${item['simpleDesc']}",
-                          style: TextStyle(fontSize: 14),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        "${item['simpleDesc']}",
+                        style: TextStyle(fontSize: 14),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        "¥${item['retailPrice']}",
-                        style: TextStyle(
-                          color: textRed,
-                          fontSize: 16,
-                        ),
+                    ),
+                    Text(
+                      "¥${item['retailPrice']}",
+                      style: TextStyle(
+                        color: textRed,
+                        fontSize: 18,
                       ),
-                      Row(
-                        children: _newItemsTags(item),
-                      )
-                    ],
-                  ),
-                ))
-            .toList(),
-      ),
-    );
+                    ),
+                    Container(
+                      constraints: BoxConstraints(minHeight: 18),
+                      child: _newItemsTags(item),
+                    )
+                  ],
+                ),
+              );
+            },
+            childCount: newItemList.length > 6 ? 6 : newItemList.length,
+          ),
+        ));
   }
 
   _bottomView(BuildContext context) {
@@ -794,7 +774,6 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
             .map((item) => Expanded(
                   flex: 1,
                   child: Container(
-                    height: 150,
                     color: Color(0xFFF2F2F2),
                     margin: EdgeInsets.only(left: 5),
                     child: Column(
@@ -804,6 +783,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
                         Container(
                           margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 item["styleItem"]["title"],
@@ -844,26 +824,24 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin{
 
   _newItemsTags(item) {
     List itemTagList = item["itemTagList"];
-    List mItem = List();
-    if (itemTagList != null && itemTagList.length > 0) {
-      mItem.add(itemTagList[0]);
+    if (itemTagList != null && itemTagList.length > 1) {
+      var itemD = itemTagList[itemTagList.length - 1];
+      return Container(
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            border: Border.all(width: 1, color: redColor)),
+        child: Text(
+          itemD["name"],
+          style: TextStyle(color: textRed, fontSize: 12),
+          maxLines: 1,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    } else {
+      return Container();
     }
-    return mItem
-        .map((item) => Container(
-              padding: EdgeInsets.fromLTRB(4, 1, 4, 1),
-              margin: EdgeInsets.only(right: 5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(width: 0.5, color: redColor)),
-              child: Expanded(
-                  child: Text(
-                item["name"],
-                style: TextStyle(color: textRed, fontSize: 10),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )),
-            ))
-        .toList();
   }
 
   _goWebview(String url) {

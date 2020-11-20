@@ -3,6 +3,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:toast/toast.dart' as prefix0;
 
 typedef void OnTap(int index);
+
 class SwiperView extends StatefulWidget {
   final List bannerImg;
   final OnTap onTap;
@@ -14,7 +15,6 @@ class SwiperView extends StatefulWidget {
 }
 
 class _SwiperViewState extends State<SwiperView> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +34,8 @@ class _SwiperViewState extends State<SwiperView> {
       height: 180,
       child: Swiper(
         itemCount: widget.bannerImg.length,
-        itemBuilder: (BuildContext context, int index) => (widget.bannerImg[index]),
+        itemBuilder: (BuildContext context, int index) =>
+            (widget.bannerImg[index]),
         pagination: SwiperPagination(
           alignment: Alignment.bottomCenter,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
@@ -45,10 +46,8 @@ class _SwiperViewState extends State<SwiperView> {
         scrollDirection: Axis.horizontal,
         autoplay: true,
         autoplayDelay: 2000,
-        onTap: (index) =>{
-        if(widget.onTap!=null){
-          widget.onTap(index)
-        }
+        onTap: (index) => {
+          if (widget.onTap != null) {widget.onTap(index)}
         },
       ),
     );

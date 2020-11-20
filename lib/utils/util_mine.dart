@@ -18,6 +18,7 @@ class Util {
   static String mineItems = 'mineItems';
   static String mineTopItems = 'mineTopItems';
   static String addAddress = 'addAddress';
+  static String hotlist = 'hotlist';
 
 
   static const String flutter2activity = 'com.example.want.flutter2activity';
