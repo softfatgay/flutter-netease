@@ -694,18 +694,24 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                 ),
               ),
             ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    "更多",
-                    style: t16black,
+            GestureDetector(
+              onTap: () {
+                return Routers.push(Util.kingKong, context,
+                    {"schemeUrl": "new"});
+              },
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      "更多",
+                      style: t16black,
+                    ),
                   ),
-                ),
-                Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
-              ],
-            )
+                  Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -781,56 +787,56 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
       padding: EdgeInsets.fromLTRB(10, 15, 15, 15),
       sliver: singleSliverWidget(Row(
         children: sceneLightShoppingGuideModule.map((item) {
-        Widget widget = Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: (){
-              _goWebview(item["styleItem"]['targetUrl']);
-            },
-            child: Container(
-              color: Color(0xFFF2F2F2),
-              margin: EdgeInsets.only(left: 5),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item["styleItem"]["title"],
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          item["styleItem"]["desc"],
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                      ],
+          Widget widget = Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {
+                _goWebview(item["styleItem"]['targetUrl']);
+              },
+              child: Container(
+                color: Color(0xFFF2F2F2),
+                margin: EdgeInsets.only(left: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item["styleItem"]["title"],
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            item["styleItem"]["desc"],
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: CachedNetworkImage(
-                            imageUrl: item["styleItem"]["picUrlList"][0],
-                          )),
-                      Expanded(
-                          child: CachedNetworkImage(
-                            imageUrl: item["styleItem"]["picUrlList"][1],
-                          )),
-                    ],
-                  )
-                ],
+                    Row(
+                      children: [
+                        Expanded(
+                            child: CachedNetworkImage(
+                          imageUrl: item["styleItem"]["picUrlList"][0],
+                        )),
+                        Expanded(
+                            child: CachedNetworkImage(
+                          imageUrl: item["styleItem"]["picUrlList"][1],
+                        )),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
           return widget;
         }).toList(),
       )),

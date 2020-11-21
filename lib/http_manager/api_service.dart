@@ -31,6 +31,7 @@ final String SHOPPING_CART_CHECK_ONE = "${NetContants.baseUrl}xhr/cart/updateChe
 final String SHOPPING_CART_CHECK_NUM = "${NetContants.baseUrl}xhr/cart/updateByNum.json";
 final String HOT_LIST_CAT = "${NetContants.baseUrl}item/saleRank.json";
 final String HOT_LIST_LIST = "${NetContants.baseUrl}xhr/item/saleRankItems.json";
+final String DELETE_ORDER = "${NetContants.baseUrl}xhr/order/delete.json";
 
 
 
@@ -104,6 +105,10 @@ final String HOT_LIST_LIST = "${NetContants.baseUrl}xhr/item/saleRankItems.json"
 //https://m.you.163.com/item/saleRank.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1605864254678&categoryId=0&subCategoryId=0
 ///热销榜条目
 //https://m.you.163.com/xhr/item/saleRankItems.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+///删除订单
+//https://m.you.163.com/xhr/order/delete.json?csrf_token=fc5917b2e05041552a566a1f31fab98a&orderId=200124805
+
+
 
 
 

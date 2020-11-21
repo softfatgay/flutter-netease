@@ -48,6 +48,13 @@ Future<ResponseData> getOrderList(Map<String, dynamic> parameters,
       queryParameters: parameters, headers: header);
 }
 
+///删除订单
+Future<ResponseData> deleteOrder(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(DELETE_ORDER,
+      queryParameters: parameters, headers: header);
+}
+
 ///用户账号相关
 Future<ResponseData> getUserAlias(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {

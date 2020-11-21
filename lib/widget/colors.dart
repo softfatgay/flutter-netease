@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 
 ///颜色
 const Color textWhite = Color(0xFFFFFFFF);
-const Color textRed = Color(0xFFD2001A);
-const Color textGrey = Color(0xFF636363);
+const Color textRed = Color(0xFFDD1A21);
+const Color textGrey = Color(0xFF666666);
+const Color textLightGrey = Color(0xFF7F7F7F);
 const Color redColor = Color(0xFFD2001A);
 const Color redLightColor = Color(0xFFF9684D);
-const Color backGrey = Color(0xFFE8EAEB);
-const Color backColor = Color(0xFFE8EAEB);
+const Color backGrey = Color(0xFFEEEEEE);
+const Color backColor = Color(0xFFEEEEEE);
 const Color backRed = Color(0xFFF29E94);
 const Color backYellow = Color(0xFFFFF6CF);
 const Color backWhite = Color(0xFFFFFFFF);
@@ -70,6 +71,17 @@ const TextStyle t12grey = TextStyle(
 
 const TextStyle t14grey = TextStyle(
   color: textGrey,
+  fontSize: 14
+);
+
+
+const TextStyle t12lgrey = TextStyle(
+  color: textLightGrey,
+  fontSize: 12
+);
+
+const TextStyle t14lgrey = TextStyle(
+  color: textLightGrey,
   fontSize: 14
 );
 

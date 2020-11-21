@@ -9,6 +9,7 @@ import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/mine/add_address.dart';
 import 'package:flutter_app/ui/mine/coupon.dart';
 import 'package:flutter_app/ui/mine/for_services.dart';
+import 'package:flutter_app/ui/mine/gift_card.dart';
 import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
@@ -80,9 +81,15 @@ class Routers {
         case 3:
           return Coupon();
           break;
-        case 4: //邀请返利
+        case 4: //津贴
+          return RewardNumPage(
+            arguments: arguments,
+          );
           break;
-        case 5: //地址管理
+        case 5: //礼品卡
+          return GiftCard(
+            arguments: arguments,
+          );
           break;
       }
       return NoFoundPage();

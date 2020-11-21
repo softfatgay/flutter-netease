@@ -300,9 +300,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
       shrinkWrap: true,
       physics: new NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        List itemList = _itemList[index]['cartItemList'];
+        var itemData = _itemList[index];
+        List itemList = itemData['cartItemList'];
         List<Widget> itemItems = itemList.map<Widget>((item) {
-          return _buildItem(item);
+          return _buildItem(itemData, item);
         }).toList();
         itemItems.add(line);
         return Column(
@@ -313,7 +314,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  Widget _buildItem(var item) {
+  Widget _buildItem(var itemData, var item) {
     List cartItemTips = item['cartItemTips'];
     return Container(
       margin: EdgeInsets.only(bottom: 0.5),
@@ -328,8 +329,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 margin: EdgeInsets.only(right: 6),
                 child: InkWell(
                   onTap: () {
-                    _checkOne(item['source'], item['type'], item['skuId'],
-                        !item['checked'], item['extId']);
+                    if (itemData['canCheck'] || item['checked']) {
+                      _checkOne(item['source'], item['type'], item['skuId'],
+                          !item['checked'], item['extId']);
+                    }
                   },
                   child: Container(
                     child: Padding(
@@ -343,7 +346,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           : Icon(
                               Icons.brightness_1_outlined,
                               size: 25,
-                              color: lineColor,
+                              color: itemData['canCheck']
+                                  ? lineColor
+                                  : Color(0xFFF7F6FA),
                             ),
                     ),
                   ),
@@ -353,8 +358,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 decoration: BoxDecoration(
                     color: Color(0xFFDBDBDB),
                     borderRadius: BorderRadius.circular(4)),
-                height: 90,
-                width: 90,
+                height: 100,
+                width:100,
                 child: CachedNetworkImage(imageUrl: item['pic']),
               ),
               Expanded(
@@ -381,15 +386,29 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       Container(
                         margin: EdgeInsets.only(left: 10),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Expanded(
-                                child: Container(
+                            Container(
                               child: Text(
-                                '¥${item['retailPrice']}',
+                                '¥${item['actualPrice'] == 0 ? item['actualPrice'] : item['retailPrice']}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
-                            )),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  item['retailPrice'] > item['actualPrice']
+                                      ? '¥${item['retailPrice']}'
+                                      : '',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: textGrey,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ),
+                            ),
                             Container(
                               child: CartCount(
                                 number: item['cnt'],
@@ -423,7 +442,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       return Container(
                         child: Text(
                           '• ${item}',
-                          style: t12grey,
+                          style: t12lgrey,
                         ),
                       );
                     }).toList(),
@@ -535,10 +554,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           ),
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              '¥${item['retailPrice']}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '¥${item['retailPrice']}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ],
                             ),
                           )
                         ],
@@ -614,7 +639,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 children: [
                   Container(
                     child: Text(
-                      '合计：${_getPrice()}',
+                      '合计：¥${_getPrice()}',
                       style: t16red,
                     ),
                   ),
@@ -633,7 +658,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
           Container(
             margin: EdgeInsets.only(left: 10),
             alignment: Alignment.center,
-            color: redColor,
+            color: _getPrice() > 0 ? redColor : Color(0xFFB4B4B4),
             padding: EdgeInsets.symmetric(horizontal: 40),
             height: double.infinity,
             child: Text(

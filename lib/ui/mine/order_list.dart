@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/widget/timer_text.dart';
 
 class OrderList extends StatefulWidget {
   final Map arguments;
@@ -75,12 +78,12 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
         if (_mController.index == _mController.animation.value) {
           _activeIndex = _mController.index;
           status = _tabItem[_activeIndex]["status"];
-          _getorderList();
+          _getorderList(false);
         }
       });
     });
 
-    _getorderList();
+    _getorderList(false);
   }
 
   @override
@@ -103,9 +106,11 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
     );
   }
 
-  void _getorderList() async {
+  void _getorderList(bool isdelete) async {
     setState(() {
-      _isLoading = true;
+      if (!isdelete) {
+        _isLoading = true;
+      }
     });
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
@@ -131,7 +136,10 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image(image: AssetImage("assets/images/order.png")),
-                Text("暂无订单",style: TextStyle(color: redColor),)
+                Text(
+                  "暂无订单",
+                  style: TextStyle(color: redColor),
+                )
               ],
             ),
           )
@@ -150,10 +158,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(15, 15, 0, 15),
-            child: Text("订单编号：${item["no"]}"),
-          ),
+          _buildOrderNum(context, item),
           _buildPackageItems(context, item, index),
           _buildPayOption(context, item)
         ],
@@ -222,21 +227,34 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                     height: 80,
                   ),
                   Expanded(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(10, 0, 30, 0),
                       child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(package["name"]),
-                      SizedBox(
-                        height: 3,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            package["name"],
+                            style: t14black,
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            package["specDesc"],
+                            style: t12grey,
+                          ),
+                        ],
                       ),
-                      Text(package["specDesc"]),
-                    ],
-                  )),
+                    ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("包裹${package["sequence"]}"),
+                      Text(
+                        "包裹${package["sequence"]}",
+                        style: t14black,
+                      ),
                       SizedBox(
                         height: 3,
                       ),
@@ -256,22 +274,28 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   }
 
   _buildPayOption(BuildContext context, item) {
-    return item["payOption"] == true
+    return (item["payOption"] == true && item['remainTime'] > 0)
         ? Container(
             child: Container(
               padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: Row(
                 children: [
                   Text("应付:  "),
-                  Expanded(child: Text("${item["actualPrice"]}")),
+                  Expanded(
+                      child: Text(
+                    "¥${item["actualPrice"]}",
+                    style: t14black,
+                  )),
                   Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: redColor,
                         borderRadius: BorderRadius.circular(4)),
-                    child: Text(
-                      "付款",
-                      style: TextStyle(color: Colors.white),
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: TimerText(time: item['remainTime'] ~/ 1000),
+                      ),
                     ),
                   )
                 ],
@@ -279,5 +303,74 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
             ),
           )
         : Container();
+  }
+
+  _buildOrderNum(BuildContext context, var item) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(15, 15, 0, 15),
+      child: Row(
+        children: [
+          Expanded(
+              child: Text(
+            "订单编号：${item["no"]}",
+            style: t14black,
+          )),
+          item['deleteOption']
+              ? Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      _deleteConfig(context, item);
+                    },
+                    child: Image.asset(
+                      'assets/images/delete.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
+    );
+  }
+
+  void _deleteConfig(BuildContext context, item) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('要删除此订单?'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('取消'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _deleteOrder(context, item);
+                },
+                textColor: textRed,
+                child: Text('确定'),
+              ),
+            ],
+          );
+        });
+  }
+
+  void _deleteOrder(BuildContext context, item) async {
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "orderId": item['no']
+    };
+
+    Map<String, dynamic> header = {"Cookie": cookie};
+
+    await deleteOrder(params, header: header).then((value) {
+      if (value.code == '200') {
+        _getorderList(true);
+      }
+    });
   }
 }

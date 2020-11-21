@@ -29,7 +29,6 @@ class _RewardNumPageState extends State<RewardNumPage> {
   bool isShowFloatBtn = false;
   var pagination;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +44,8 @@ class _RewardNumPageState extends State<RewardNumPage> {
       });
 
       // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         if (hasMore) {
           _getRcmd();
         }
@@ -71,7 +71,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
         dataList.insertAll(dataList.length, result);
         pagination = responseData.data['pagination'];
         hasMore = !pagination['lastPage'];
-        page = pagination['page']+1;
+        page = pagination['page'] + 1;
       });
     });
   }
@@ -79,20 +79,20 @@ class _RewardNumPageState extends State<RewardNumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
-        title: '回馈金',
-      ).build(context),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          singleSliverWidget(_buildTop(context)),
-          singleSliverWidget(_buildRcmdTitle(context)),
-          GoodItemWidget(dataList: dataList),
-          SliverFooter(hasMore: hasMore),
-        ],
-      ),
-      floatingActionButton:  !isShowFloatBtn ? Container() : floatingAB(_scrollController)
-    );
+        appBar: TabAppBar(
+          title: widget.arguments['id'] == 4 ? '津贴' : '回馈金',
+        ).build(context),
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            singleSliverWidget(_buildTop(context)),
+            singleSliverWidget(_buildRcmdTitle(context)),
+            GoodItemWidget(dataList: dataList),
+            SliverFooter(hasMore: hasMore),
+          ],
+        ),
+        floatingActionButton:
+            !isShowFloatBtn ? Container() : floatingAB(_scrollController));
   }
 
   Widget _buildTop(BuildContext context) {
@@ -103,7 +103,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('回馈金余额（元）', style: TextStyle(color: textWhite, fontSize: 16)),
+          Text(widget.arguments['id'] == 4 ? '津贴（元）' :'回馈金余额（元）', style: TextStyle(color: textWhite, fontSize: 16)),
           SizedBox(
             height: 10,
           ),
@@ -119,7 +119,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('产看明细', style: TextStyle(color: textWhite, fontSize: 16)),
+              Text('查看明细', style: TextStyle(color: textWhite, fontSize: 16)),
               Icon(
                 Icons.arrow_forward_ios,
                 color: textWhite,
@@ -127,7 +127,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
               )
             ],
           ),
-          Row(
+          widget.arguments['id'] == 4 ?Container(): Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -226,7 +226,10 @@ class _RewardNumPageState extends State<RewardNumPage> {
   Widget _buildRcmdTitle(BuildContext context) {
     return Column(
       children: [
-        Container(height: 10,color: backGrey,),
+        Container(
+          height: 10,
+          color: backGrey,
+        ),
         Container(
           alignment: Alignment.center,
           padding: EdgeInsets.all(15),

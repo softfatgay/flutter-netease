@@ -3,6 +3,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/MySeparator.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -73,16 +74,17 @@ class _CouponState extends State<Coupon> {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return _allDataList[index]['coupon_title_name'] == null
-          ? _buildItem(context, _allDataList[index])
+          ? _buildItem(context, _allDataList[index],index)
           : _buildTitle(context);
     }, childCount: _allDataList.length));
   }
 
-  _buildItem(BuildContext context, item) {
+  _buildItem(BuildContext context,var item,int index) {
 
 
     var topBackColor = item['albeToActivated'] ? backRed : Color(0xFFA8ABB5);
-    var backColor = item['albeToActivated'] ? backRed : Color(0xFFA9ADB6);
+    var backColor = index<_nowCoupon.length ? backRed : Color(0xFFA9ADB6);
+    var tipsColor = index<_nowCoupon.length ? Color(0xFFBE5A57) : Color(0xFFA3A5AD);
     var bottomColor = item['albeToActivated'] ? backRed : Color(0xFF8D9096);
 
     return Container(
@@ -92,14 +94,14 @@ class _CouponState extends State<Coupon> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
-                color: topBackColor, borderRadius: BorderRadius.circular(4)),
+                color: backColor, borderRadius: BorderRadius.circular(4)),
             padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                 decoration: BoxDecoration(
-                  color: topBackColor
+                  color: backColor
                 ),
                 margin: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
@@ -132,14 +134,10 @@ class _CouponState extends State<Coupon> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    color: bottomColor
-                  ),
+
                   width: double.infinity,
                   height: 40,
-                  child: Image(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/images/coupon_line.png')),
+                  child: MySeparator(),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
@@ -156,7 +154,7 @@ class _CouponState extends State<Coupon> {
             margin: EdgeInsets.only(top: 5),
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
-                color: bottomColor, borderRadius: BorderRadius.circular(2)),
+                color: tipsColor, borderRadius: BorderRadius.circular(2)),
             child: Text(
               item['newUserOnly'] == 1 ? '新人专享' : '优惠券',
               style: TextStyle(color: textWhite),
