@@ -9,3 +9,4 @@ const String csrf_token = "28f3b8193ba520fc96697b3a214c01bf";
 const String cookie = "NTES_YD_SESS=baevQyStVfyJB2Lm7KhwMIb9SC9eTwIakc6JKtUAr6tMiAPuiaN2.HtUJwFcV8rCO79ZGgCfZpfreQcqdHhn8ZnxqdHriM074Z0RnHWEl0KQdPiJmjSY9rFM7NsPFSH1Jg9QybTqLsGrgKz1j9tje86lp6MrHq9Ak3bIHjTPGsc8Ez.cwfPGFaLytmr3lbmp3ugyX0N15_BFaJswzoKNyGA2na1rua_NCw8yq0a8BGyod; P_INFO=17621577088|1606026438|1|yanxuan_web|00&99|null&null&null#shh&null#10#0|&0|null|17621577088; yx_csrf=28f3b8193ba520fc96697b3a214c01bf;";
 //yx_csrf;NTES_SESS
 //yx_csrf;NTES_YD_SESS;P_INFO
+//flutter build appbundle --target-platform android-arm

@@ -299,14 +299,18 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                         children: [
                           ClipOval(
                               child: Image.network(
-                            item['recentUsers'][0],
+                            item['recentUsers'] == null
+                                ? ''
+                                : item['recentUsers'][0],
                             width: 20,
                             height: 20,
                             fit: BoxFit.cover,
                           )),
                           ClipOval(
                               child: Image.network(
-                            item['recentUsers'][1],
+                            item['recentUsers'] == null
+                                ? ''
+                                : item['recentUsers'][1],
                             width: 20,
                             height: 20,
                             fit: BoxFit.cover,

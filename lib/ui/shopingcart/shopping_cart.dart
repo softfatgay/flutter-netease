@@ -171,15 +171,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 children: [
                   Expanded(
                       child: Text(
-                    '购物车',
-                    style: TextStyle(color: textBlack, fontSize: 18),
-                  )),
+                        '购物车',
+                        style: TextStyle(color: textBlack, fontSize: 18),
+                      )),
                   isEdit
                       ? Container()
                       : Text(
-                          '领券',
-                          style: TextStyle(color: textRed, fontSize: 14),
-                        ),
+                    '领券',
+                    style: TextStyle(color: textRed, fontSize: 14),
+                  ),
                   SizedBox(
                     width: 10,
                   ),
@@ -205,21 +205,21 @@ class _ShoppingCartState extends State<ShoppingCart> {
           _data == null
               ? Loading()
               : Positioned(
-                  child: CustomScrollView(
-                    slivers: [
-                      singleSliverWidget(_buildTitle()),
-                      singleSliverWidget(_dataList()),
-                      singleSliverWidget(_invalidList()),
-                      singleSliverWidget(Container(
-                        height: 50,
-                      ))
-                    ],
-                  ),
-                  bottom: 50,
-                  top: 44,
-                  left: 0,
-                  right: 0,
-                ),
+            child: CustomScrollView(
+              slivers: [
+                singleSliverWidget(_buildTitle()),
+                singleSliverWidget(_dataList()),
+                singleSliverWidget(_invalidList()),
+                singleSliverWidget(Container(
+                  height: 50,
+                ))
+              ],
+            ),
+            bottom: 50,
+            top: 44,
+            left: 0,
+            right: 0,
+          ),
           Positioned(
             child: _buildBuy(),
             bottom: 0,
@@ -266,12 +266,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
                 Expanded(
                     child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '${_topItem['promTip']}',
-                    style: t16black,
-                  ),
-                )),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${_topItem['promTip']}',
+                        style: t16black,
+                      ),
+                    )),
                 GestureDetector(
                   child: Row(
                     children: [
@@ -363,12 +363,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       isEdit
                           ? Container()
                           : Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                '${item['itemName']}',
-                                style: t14black,
-                              ),
-                            ),
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          '${item['itemName']}',
+                          style: t14black,
+                        ),
+                      ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
                         decoration: BoxDecoration(
@@ -387,7 +387,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           children: [
                             Container(
                               child: Text(
-                                '¥${item['actualPrice'] == 0 ? item['actualPrice'] : item['retailPrice']}',
+                                '¥${item['actualPrice'] == 0
+                                    ? item['actualPrice']
+                                    : item['retailPrice']}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 14),
                               ),
@@ -430,22 +432,22 @@ class _ShoppingCartState extends State<ShoppingCart> {
           (cartItemTips == null || cartItemTips.length == 0)
               ? Container()
               : Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.fromLTRB(35, 10, 0, 0),
-                  decoration: BoxDecoration(color: backGrey),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: cartItemTips.map((item) {
-                      return Container(
-                        child: Text(
-                          '• ${item}',
-                          style: t12lgrey,
-                        ),
-                      );
-                    }).toList(),
+            width: double.infinity,
+            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.fromLTRB(35, 10, 0, 0),
+            decoration: BoxDecoration(color: backGrey),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: cartItemTips.map((item) {
+                return Container(
+                  child: Text(
+                    '• ${item}',
+                    style: t12lgrey,
                   ),
-                ),
+                );
+              }).toList(),
+            ),
+          ),
         ],
       ),
     );
@@ -464,7 +466,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       specName += "; ";
     }
     var replaceRange =
-        specName.replaceRange(specName.length - 2, specName.length - 1, "");
+    specName.replaceRange(specName.length - 2, specName.length - 1, "");
     return replaceRange;
   }
 
@@ -472,42 +474,42 @@ class _ShoppingCartState extends State<ShoppingCart> {
     return (_invalidCartGroupList == null || _invalidCartGroupList.length == 0)
         ? Container()
         : Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                  bottom: BorderSide(color: lineColor, width: 0.3))),
+          child: Row(
             children: [
+              Expanded(
+                  child: Text(
+                    '失效商品',
+                    style: t16black,
+                  )),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                        bottom: BorderSide(color: lineColor, width: 0.3))),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      '失效商品',
-                      style: t16black,
-                    )),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: lineColor, width: 0.5)),
-                      child: Text(
-                        '清除失效商品',
-                        style: t14black,
-                      ),
-                    )
-                  ],
+                    border: Border.all(color: lineColor, width: 0.5)),
+                child: Text(
+                  '清除失效商品',
+                  style: t14black,
                 ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: new NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return _buildInvalidItem(_invalidCartGroupList[index]);
-                },
-                itemCount: _invalidCartGroupList.length,
-              ),
+              )
             ],
-          );
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: new NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return _buildInvalidItem(_invalidCartGroupList[index]);
+          },
+          itemCount: _invalidCartGroupList.length,
+        ),
+      ],
+    );
   }
 
   Widget _buildInvalidItem(var itemD) {
@@ -611,16 +613,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
               padding: EdgeInsets.all(2),
               child: item['checked']
                   ? Icon(
-                      Icons.check_circle,
-                      size: 22,
-                      color: Colors.red,
-                    )
+                Icons.check_circle,
+                size: 22,
+                color: Colors.red,
+              )
                   : Icon(
-                      Icons.brightness_1_outlined,
-                      size: 22,
-                      color:
-                          itemData['canCheck'] ? lineColor : Color(0xFFF7F6FA),
-                    ),
+                Icons.brightness_1_outlined,
+                size: 22,
+                color:
+                itemData['canCheck'] ? lineColor : Color(0xFFF7F6FA),
+              ),
             ),
           ),
         ),
@@ -714,15 +716,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     padding: EdgeInsets.all(2),
                     child: _isCheckedAll
                         ? Icon(
-                            Icons.check_circle,
-                            size: 22,
-                            color: Colors.red,
-                          )
+                      Icons.check_circle,
+                      size: 22,
+                      color: Colors.red,
+                    )
                         : Icon(
-                            Icons.brightness_1_outlined,
-                            size: 22,
-                            color: lineColor,
-                          ),
+                      Icons.brightness_1_outlined,
+                      size: 22,
+                      color: lineColor,
+                    ),
                   ),
                 ),
               ),
@@ -758,11 +760,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     _promotionPrice == 0
                         ? Container()
                         : Container(
-                            child: Text(
-                              '已优惠：¥$_promotionPrice',
-                              style: t14grey,
-                            ),
-                          ),
+                      child: Text(
+                        '已优惠：¥$_promotionPrice',
+                        style: t14grey,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -786,19 +788,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   void _deleteCart() async {
     Map<String, dynamic> item = {
-      'selectedSku': {
-        "skuList": checkList,
-      },
+      "skuList": checkList,
     };
     Map<String, dynamic> params = {
-      'selectedSku': item,
+      'selectedSku': json.encode(item),
+      "csrf_token": csrf_token,
     };
 
-    print(params);
 
     Map<String, dynamic> header = {
       "Cookie": cookie,
+      "csrf_token": csrf_token,
     };
+
+    print(params);
     var responseData = await deleteCart(params, header: header);
   }
 }

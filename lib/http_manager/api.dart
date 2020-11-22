@@ -195,8 +195,8 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> parameters,
 
 ///购物车 删除商品
 Future<ResponseData> deleteCart(Map<String, dynamic> parameters,
-    {Map<String, dynamic> header,String accept}) async {
-  return await HttpManager.post(DELETE_CART+'?csrf_token=$csrf_token', queryParameters: parameters,headers: header);
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(DELETE_CART, queryParameters: parameters,headers: header);
 }
 
 
