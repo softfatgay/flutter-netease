@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/colors.dart';
 
 typedef void ValueChanged(int count);
 Color borderColor = Colors.grey[200];
@@ -33,8 +34,8 @@ class _CartCountState extends State<CartCount> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 35,
-      width: 120,
+      height: 30,
+      width: 100,
       decoration: BoxDecoration(
           border: Border.all(
             color: borderColor,
@@ -43,16 +44,17 @@ class _CartCountState extends State<CartCount> {
       child: Row(
         children: <Widget>[
           Container(
-            width: 35,
+            width: 30,
             color:
-                widget.min >= num ? Colors.grey[200] : Colors.white,
+                widget.min >= num ? backColor : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
                   Icons.remove,
                   color: widget.min >= widget.number
-                      ? Colors.grey[500]
-                      : Colors.black,
+                      ? textLightGrey
+                      : textGrey,
+                  size: 18,
                 ),
               ),
               onTap: () {
@@ -70,23 +72,24 @@ class _CartCountState extends State<CartCount> {
               ),
               child: Center(
                 child: Text(
-                  '${num}',
+                  '$num',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
             ),
           ),
           Container(
-            width: 35,
+            width: 30,
             color:
-                widget.max <= num ? Colors.grey[200] : Colors.white,
+                widget.max <= num ? backColor : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
                   Icons.add,
                   color: widget.max <= widget.number
-                      ? Colors.grey[500]
-                      : Colors.black,
+                      ? textLightGrey
+                      : textGrey,
+                  size: 18,
                 ),
               ),
               onTap: () {

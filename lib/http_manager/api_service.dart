@@ -32,6 +32,7 @@ final String SHOPPING_CART_CHECK_NUM = "${NetContants.baseUrl}xhr/cart/updateByN
 final String HOT_LIST_CAT = "${NetContants.baseUrl}item/saleRank.json";
 final String HOT_LIST_LIST = "${NetContants.baseUrl}xhr/item/saleRankItems.json";
 final String DELETE_ORDER = "${NetContants.baseUrl}xhr/order/delete.json";
+final String DELETE_CART = "${NetContants.baseUrl}xhr/cart/delete.json";
 
 
 
@@ -108,6 +109,8 @@ final String DELETE_ORDER = "${NetContants.baseUrl}xhr/order/delete.json";
 ///删除订单
 //https://m.you.163.com/xhr/order/delete.json?csrf_token=fc5917b2e05041552a566a1f31fab98a&orderId=200124805
 
+///购物车删除商品
+//https://m.you.163.com/xhr/cart/delete.json?csrf_token=28f3b8193ba520fc96697b3a214c01bf
 
 
 

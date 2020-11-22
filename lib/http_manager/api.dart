@@ -1,6 +1,7 @@
 import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/http_manager/http_manager.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
+import 'package:flutter_app/utils/user_config.dart';
 
 Future<ResponseData> homeData(Map<String, dynamic> parameters) async {
   return await HttpManager.get(URL_HOME_NEW, queryParameters: parameters);
@@ -191,6 +192,14 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> parameters,
   return await HttpManager.get(SHOPPING_CART_CHECK_NUM,
       queryParameters: parameters, headers: header);
 }
+
+///购物车 删除商品
+Future<ResponseData> deleteCart(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header,String accept}) async {
+  return await HttpManager.post(DELETE_CART+'?csrf_token=$csrf_token', queryParameters: parameters,headers: header);
+}
+
+
 ///热销榜/标题
 Future<ResponseData> hotListCat(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {

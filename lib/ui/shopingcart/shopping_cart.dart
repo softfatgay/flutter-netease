@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/content_loading.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
@@ -28,6 +31,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   bool loading = false;
   int _selectedNum = 0;
+
+  bool isEdit = false;
 
   @override
   void initState() {
@@ -157,6 +162,46 @@ class _ShoppingCartState extends State<ShoppingCart> {
       backgroundColor: Color(0xFFEAEAEA),
       body: Stack(
         children: [
+          Positioned(
+            child: Container(
+              height: 44,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: Text(
+                    '购物车',
+                    style: TextStyle(color: textBlack, fontSize: 18),
+                  )),
+                  isEdit
+                      ? Container()
+                      : Text(
+                          '领券',
+                          style: TextStyle(color: textRed, fontSize: 14),
+                        ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        checkList.clear();
+                        isEdit = !isEdit;
+                      });
+                    },
+                    child: Text(
+                      isEdit ? '完成' : '编辑',
+                      style: TextStyle(color: textBlack, fontSize: 14),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            top: 0,
+            left: 0,
+            right: 0,
+          ),
           _data == null
               ? Loading()
               : Positioned(
@@ -171,7 +216,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     ],
                   ),
                   bottom: 50,
-                  top: 0,
+                  top: 44,
                   left: 0,
                   right: 0,
                 ),
@@ -193,30 +238,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                    child: Text(
-                  '购物车',
-                  style: TextStyle(color: textBlack, fontSize: 18),
-                )),
-                Text(
-                  '领券',
-                  style: TextStyle(color: textRed, fontSize: 14),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  '编辑',
-                  style: TextStyle(color: textBlack, fontSize: 14),
-                ),
-              ],
-            ),
-          ),
           Container(
             alignment: Alignment.centerLeft,
             color: backYellow,
@@ -303,7 +324,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
         var itemData = _itemList[index];
         List itemList = itemData['cartItemList'];
         List<Widget> itemItems = itemList.map<Widget>((item) {
-          return _buildItem(itemData, item);
+          return _buildItem(itemData, item, index);
         }).toList();
         itemItems.add(line);
         return Column(
@@ -314,7 +335,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  Widget _buildItem(var itemData, var item) {
+  Widget _buildItem(var itemData, var item, int index) {
     List cartItemTips = item['cartItemTips'];
     return Container(
       margin: EdgeInsets.only(bottom: 0.5),
@@ -325,41 +346,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
         children: [
           Row(
             children: [
-              Container(
-                margin: EdgeInsets.only(right: 6),
-                child: InkWell(
-                  onTap: () {
-                    if (itemData['canCheck'] || item['checked']) {
-                      _checkOne(item['source'], item['type'], item['skuId'],
-                          !item['checked'], item['extId']);
-                    }
-                  },
-                  child: Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(2),
-                      child: item['checked']
-                          ? Icon(
-                              Icons.check_circle,
-                              size: 25,
-                              color: Colors.red,
-                            )
-                          : Icon(
-                              Icons.brightness_1_outlined,
-                              size: 25,
-                              color: itemData['canCheck']
-                                  ? lineColor
-                                  : Color(0xFFF7F6FA),
-                            ),
-                    ),
-                  ),
-                ),
-              ),
+              _buildCheckBox(itemData, item, index),
               Container(
                 decoration: BoxDecoration(
                     color: Color(0xFFDBDBDB),
                     borderRadius: BorderRadius.circular(4)),
-                height: 100,
-                width:100,
+                height: 90,
+                width: 90,
                 child: CachedNetworkImage(imageUrl: item['pic']),
               ),
               Expanded(
@@ -367,20 +360,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          '${item['itemName']}',
-                          style: t16black,
-                        ),
-                      ),
+                      isEdit
+                          ? Container()
+                          : Container(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                '${item['itemName']}',
+                                style: t14black,
+                              ),
+                            ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
                         decoration: BoxDecoration(
                             border: Border.all(color: lineColor, width: 1)),
                         child: Text(
                           '${_specValue(item)}',
-                          style: t14grey,
+                          style: t12grey,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Container(
@@ -392,17 +389,18 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               child: Text(
                                 '¥${item['actualPrice'] == 0 ? item['actualPrice'] : item['retailPrice']}',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.bold, fontSize: 14),
                               ),
                             ),
                             Expanded(
                               child: Container(
+                                margin: EdgeInsets.only(left: 5),
                                 child: Text(
                                   item['retailPrice'] > item['actualPrice']
                                       ? '¥${item['retailPrice']}'
                                       : '',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: textGrey,
                                     decoration: TextDecoration.lineThrough,
                                   ),
@@ -579,99 +577,228 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  bool _checkedAll = false;
   int allCount = 0;
 
+  _getPrice() {
+    return _price;
+  }
+
+  List checkList = [];
+
+  ///左侧选择框，编辑框
+  _buildCheckBox(itemData, item, index) {
+    if (isEdit) {
+      return Container(
+        margin: EdgeInsets.only(right: 6),
+        child: CartCheckBox(
+          onCheckChanged: (check) {
+            _deleteCheckItem(check, itemData, item);
+          },
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.only(right: 6),
+        child: InkWell(
+          onTap: () {
+            if (itemData['canCheck'] || item['checked']) {
+              _checkOne(item['source'], item['type'], item['skuId'],
+                  !item['checked'], item['extId']);
+            }
+          },
+          child: Container(
+            child: Padding(
+              padding: EdgeInsets.all(2),
+              child: item['checked']
+                  ? Icon(
+                      Icons.check_circle,
+                      size: 22,
+                      color: Colors.red,
+                    )
+                  : Icon(
+                      Icons.brightness_1_outlined,
+                      size: 22,
+                      color:
+                          itemData['canCheck'] ? lineColor : Color(0xFFF7F6FA),
+                    ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  void _deleteCheckItem(bool check, itemData, item) {
+    if (check) {
+      var map = {
+        "type": item['type'],
+        "promId": itemData['promId'],
+        "addBuy": false,
+        "skuId": item['skuId'],
+        "extId": item['extId']
+      };
+      setState(() {
+        checkList.add(map);
+      });
+    } else {
+      if (checkList.length > 0) {
+        for (int i = 0; i < checkList.length; i++) {
+          if (checkList[i]['skuId'] == item['skuId']) {
+            setState(() {
+              checkList.removeAt(i);
+            });
+          }
+        }
+      }
+    }
+    print(checkList);
+  }
+
   Widget _buildBuy() {
-    return Container(
-      color: Colors.white,
-      height: 50,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 15),
-            child: InkWell(
+    if (isEdit) {
+      return Container(
+        color: Colors.white,
+        height: 50,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Text(
+                  '已选(${checkList.length})',
+                  style: t16black,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (checkList.length > 0) {
+                  _deleteCart();
+                }
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 10),
+                alignment: Alignment.center,
+                color: checkList.length > 0 ? redColor : Color(0xFFB4B4B4),
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                height: double.infinity,
+                child: Text(
+                  '删除所选',
+                  style: t14white,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        color: Colors.white,
+        height: 50,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    // _isCheckedAll = !_isCheckedAll;
+                    isChecked = !isChecked;
+                    _check();
+                  });
+                },
+                child: Container(
+                  child: Padding(
+                    padding: EdgeInsets.all(2),
+                    child: _isCheckedAll
+                        ? Icon(
+                            Icons.check_circle,
+                            size: 22,
+                            color: Colors.red,
+                          )
+                        : Icon(
+                            Icons.brightness_1_outlined,
+                            size: 22,
+                            color: lineColor,
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 3),
+                child: Text(
+                  '已选($_selectedNum)',
+                  style: t16black,
+                ),
+              ),
               onTap: () {
                 setState(() {
-                  _isCheckedAll = !_isCheckedAll;
+                  // _isCheckedAll = !_isCheckedAll;
                   isChecked = !isChecked;
                   _check();
                 });
               },
+            ),
+            Expanded(
               child: Container(
-                child: Padding(
-                  padding: EdgeInsets.all(2),
-                  child: _isCheckedAll
-                      ? Icon(
-                          Icons.check_circle,
-                          size: 25,
-                          color: Colors.red,
-                        )
-                      : Icon(
-                          Icons.brightness_1_outlined,
-                          size: 25,
-                          color: lineColor,
-                        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      child: Text(
+                        '合计：¥${_getPrice()}',
+                        style: t16red,
+                      ),
+                    ),
+                    _promotionPrice == 0
+                        ? Container()
+                        : Container(
+                            child: Text(
+                              '已优惠：¥$_promotionPrice',
+                              style: t14grey,
+                            ),
+                          ),
+                  ],
                 ),
               ),
             ),
-          ),
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(bottom: 3),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              alignment: Alignment.center,
+              color: _getPrice() > 0 ? redColor : Color(0xFFB4B4B4),
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              height: double.infinity,
               child: Text(
-                '已选($_selectedNum)',
-                style: t16black,
+                '下单',
+                style: t14white,
               ),
-            ),
-            onTap: () {
-              setState(() {
-                _checkedAll = !_checkedAll;
-              });
-            },
-          ),
-          Expanded(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    child: Text(
-                      '合计：¥${_getPrice()}',
-                      style: t16red,
-                    ),
-                  ),
-                  _promotionPrice == 0
-                      ? Container()
-                      : Container(
-                          child: Text(
-                            '已优惠：¥$_promotionPrice',
-                            style: t14grey,
-                          ),
-                        ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            alignment: Alignment.center,
-            color: _getPrice() > 0 ? redColor : Color(0xFFB4B4B4),
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            height: double.infinity,
-            child: Text(
-              '下单',
-              style: t14white,
-            ),
-          )
-        ],
-      ),
-    );
+            )
+          ],
+        ),
+      );
+    }
   }
 
-  _getPrice() {
-    return _price;
+  void _deleteCart() async {
+    Map<String, dynamic> item = {
+      'selectedSku': {
+        "skuList": checkList,
+      },
+    };
+    Map<String, dynamic> params = {
+      'selectedSku': item,
+    };
+
+    print(params);
+
+    Map<String, dynamic> header = {
+      "Cookie": cookie,
+    };
+    var responseData = await deleteCart(params, header: header);
   }
 }

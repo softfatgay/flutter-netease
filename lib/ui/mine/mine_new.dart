@@ -155,6 +155,7 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
       crossAxisCount: 5,
       children: mineItems.map<Widget>((item) {
         Widget widget = Container(
+        color: Colors.white,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

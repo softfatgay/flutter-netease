@@ -27,7 +27,7 @@ class HttpManager {
       postHeader['Accept'] = 'application/json, text/javascript, */*; q=0.01';
       postHeader['Content-Type'] = 'application/json';
     } else {
-      postHeader['Content-Type'] = 'application/x-www-form-urlencoded';
+      postHeader['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
     }
 
     try {
@@ -41,7 +41,7 @@ class HttpManager {
         return response.data;
       }, onError: (DioError error) {
         print(error);
-        return error;
+        return Future;
       }));
       // 开启日志
       dio.interceptors.add(LogInterceptor(responseBody: false));
