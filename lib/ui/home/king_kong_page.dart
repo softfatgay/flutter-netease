@@ -97,7 +97,7 @@ class _KingKongPageState extends State<KingKongPage> {
     List<Widget> slivers = [_buildTitle(context)];
     for (var value in dataList) {
       slivers.add(_bodyTitle(value));
-      slivers.add(GoodItemNewWidget(dataList: value["itemList"]));
+      slivers.add(GoodItemWidget(dataList: value["itemList"]));
     }
     return Scaffold(
       backgroundColor: backColor,

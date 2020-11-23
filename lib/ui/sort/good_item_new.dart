@@ -85,13 +85,17 @@ class GoodItemNewWidget extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text(dataList[index]["name"]),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Text(dataList[index]["name"]),
+        ),
         SizedBox(
           height: 5,
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(width: 5,),
             Text(
               "¥${dataList[index]["retailPrice"]}",
               style: TextStyle(color: textRed, fontSize: 16),
@@ -108,6 +112,7 @@ class GoodItemNewWidget extends StatelessWidget {
                   decoration: TextDecoration.lineThrough,
                   fontSize: 12),
             ),
+            SizedBox(width: 5,),
           ],
         ),
         SizedBox(
@@ -119,7 +124,7 @@ class GoodItemNewWidget extends StatelessWidget {
                 children: itemTagList
                     .map((item) => Container(
                           padding: EdgeInsets.fromLTRB(4, 1, 4, 1),
-                          margin: EdgeInsets.only(right: 5),
+                          margin: EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
