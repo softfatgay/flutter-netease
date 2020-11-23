@@ -212,3 +212,15 @@ Future<ResponseData> hotList(Map<String, dynamic> parameters,
   return await HttpManager.post(HOT_LIST_LIST,
       queryParameters: parameters, headers: header);
 }
+///值得买
+Future<ResponseData> topicData(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(TOPPIC,
+      queryParameters: parameters, headers: header);
+}
+///评论
+Future<ResponseData> commentListData(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(COMMENT_LIST,
+      queryParameters: parameters, headers: header);
+}

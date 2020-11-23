@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/net/DioManager.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
@@ -69,19 +71,21 @@ class _CommentListState extends State<CommentList> {
   }
 
   ///评价列表
-  void _getCommentList() {
-    var params = {
+  void _getCommentList() async {
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
       'itemId': widget.arguments['id'],
       'page': page,
       'tag': tag,
     };
-    DioManager.post(NetContants.commentList, params, (data) {
-      setState(() {
-        isFirstLoading = false;
-        pagination = data['data']['pagination'];
-        if (pagination['page'] == 1) {}
-        commentList.addAll(data['data']['result']);
-      });
+    Map<String, dynamic> header = {"Cookie": cookie};
+
+    var responseData = await commentListData(params, header: header);
+    setState(() {
+      isFirstLoading = false;
+      pagination = responseData.data['pagination'];
+      if (pagination['page'] == 1) {}
+      commentList.addAll(responseData.data['result']);
     });
   }
 
@@ -195,19 +199,23 @@ class _CommentListState extends State<CommentList> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          Container(
-            child: StaticRatingBar(
-              size: 15,
-              rate: (praise['star'] / 100) * 100,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              praise['goodCmtRate'],
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
+          praise['star'] == null
+              ? Container()
+              : Container(
+                  child: StaticRatingBar(
+                    size: 15,
+                    rate: (praise['star'] / 100) * 100,
+                  ),
+                ),
+          praise['goodCmtRate'] == null
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    praise['goodCmtRate'],
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
         ],
       ),
     );
@@ -318,7 +326,8 @@ class _CommentListState extends State<CommentList> {
                   child: StaticRatingBar(
                     size: 15,
                     rate: double.parse(
-                        commentList[index]['memberLevel'].toString()),
+                        commentList[index]['star'].toString() ??
+                            commentList[index]['star']),
                   ),
                 ),
               ],

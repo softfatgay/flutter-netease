@@ -33,6 +33,8 @@ final String HOT_LIST_CAT = "${NetContants.baseUrl}item/saleRank.json";
 final String HOT_LIST_LIST = "${NetContants.baseUrl}xhr/item/saleRankItems.json";
 final String DELETE_ORDER = "${NetContants.baseUrl}xhr/order/delete.json";
 final String DELETE_CART = "${NetContants.baseUrl}xhr/cart/delete.json";
+final String TOPPIC = "${NetContants.baseUrl}topic/index.json";
+final String COMMENT_LIST = "${NetContants.baseUrl}xhr/comment/listByItemByTag.json";
 
 
 

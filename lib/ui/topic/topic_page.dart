@@ -9,6 +9,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class TopicPage extends StatefulWidget {
@@ -16,7 +17,8 @@ class TopicPage extends StatefulWidget {
   _TopicPageState createState() => _TopicPageState();
 }
 
-class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixin{
+class _TopicPageState extends State<TopicPage>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = new ScrollController();
 
   ///第一次加载
@@ -41,7 +43,8 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         _getMore();
       }
     });
@@ -61,7 +64,7 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
   }
 
   void _getTopicData() async {
-    Response response = await Dio().post(
+    Response response = await Dio().get(
       'http://m.you.163.com/topic/index.json',
     );
     Map<String, dynamic> dataTopic = Map<String, dynamic>.from(response.data);
@@ -86,8 +89,9 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
   _getMore() async {
 //    http://m.you.163.com/topic/v1/find/recAuto.json?page=3&size=5
     var params = {'page': page, 'size': pageSize};
-    Response response = await Dio()
-        .post('http://m.you.163.com/topic/v1/find/recAuto.json', queryParameters: params);
+    Response response = await Dio().get(
+        'http://m.you.163.com/topic/v1/find/recAuto.json',
+        queryParameters: params);
     Map<dynamic, dynamic> dataTopic = Map<dynamic, dynamic>.from(response.data);
     LogUtil.e(dataTopic);
     setState(() {
@@ -103,6 +107,7 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backGrey,
       body: buildBody(),
     );
   }
@@ -135,116 +140,7 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
     if (isFirstloading) {
       return Loading();
     } else {
-      return CustomScrollView(
-        controller: _scrollController,
-        slivers: <Widget>[
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 200,
-            backgroundColor: Colors.white,
-            title: buildSearch(context),
-            centerTitle: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: buildTopBanner(),
-            ),
-          ),
-          SliverGrid(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              Widget child = Container(
-                decoration: BoxDecoration(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(top: 5),
-                        width: double.infinity,
-                        child: CachedNetworkImage(
-                          imageUrl: dataList[index]['picUrl'],
-                          fit: BoxFit.fitHeight,
-                        ),
-                        decoration: BoxDecoration(color: Colors.transparent),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 5),
-                      child: Text(
-                        dataList[index]['title'],
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          ClipOval(
-                            child: dataList[index]['avatar'] == null
-                                ? Container()
-                                : Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: CachedNetworkImage(
-                                      imageUrl: dataList[index]['avatar'],
-                                      errorWidget: (context, url, error) {
-                                        return ClipOval(
-                                          child: Container(
-                                            width: 20,
-                                            height: 20,
-                                            decoration: BoxDecoration(color: Colors.grey),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 5),
-                                child: Text(dataList[index]['nickname'] == null
-                                    ? ''
-                                    : dataList[index]['nickname']),
-                              ),
-                            ),
-                          ),
-                          Container(
-                              child: dataList[index]['readCount'] == null
-                                  ? Container()
-                                  : Icon(
-                                      Icons.remove_red_eye,
-                                      color: Colors.grey,
-                                      size: 14,
-                                    )),
-                          Container(
-                            child: Text(dataList[index]['readCount'] == null
-                                ? ''
-                                : (dataList[index]['readCount'] > 1000
-                                    ? '${int.parse((dataList[index]['readCount'] / 1000).toStringAsFixed(0))}K'
-                                    : '${dataList[index]['readCount']}')),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-              String schemeUrl = dataList[index]['schemeUrl'];
-              if (!schemeUrl.startsWith('http')) {
-                schemeUrl = 'https://m.you.163.com$schemeUrl';
-              }
-              return Routers.link(child, Util.webView, context, {'id': schemeUrl});
-            }, childCount: dataList.length),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5,childAspectRatio: 0.65),
-          ),
-          SliverFooter(
-            hasMore: hasMore,
-          )
-        ],
-      );
+      return _buildBodyData();
     }
   }
 
@@ -254,7 +150,7 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
       children: <Widget>[
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             margin: EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               color: Color(0x0D000000),
@@ -262,14 +158,14 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
             ),
             child: Text(
               roundWords.length > 0 ? roundWords[rondomIndex] : '',
-              style: TextStyle(color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
+              style: TextStyle(color: textGrey, fontSize: 14),
             ),
           ),
         ),
         Container(
           child: Text(
             '搜索',
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: textBlack, fontSize: 16),
           ),
         )
       ],
@@ -283,6 +179,7 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
       itemBuilder: (BuildContext context, int index) {
         return Container(
           child: CachedNetworkImage(
+            fit: BoxFit.cover,
             imageUrl: (banner[index]),
           ),
         );
@@ -298,8 +195,137 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
       autoplay: true,
       autoplayDelay: 4000,
       onTap: (index) => {
-        Routers.push(Util.webView,context,{'id':dataList[index]['linkUrl']})
+        Routers.push(Util.webView, context, {'id': dataList[index]['linkUrl']})
       },
+    );
+  }
+
+  _buildItem(var item) {
+    Widget widget =  Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+        borderRadius: BorderRadius.circular(4)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8)
+            ),
+            child: CachedNetworkImage(
+              height: 200,
+              imageUrl: item['picUrl'],
+              fit: BoxFit.cover,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(5),
+            child: Text(
+              item['title'],
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                ClipOval(
+                  child: item['avatar'] == null
+                      ? Container()
+                      : Container(
+                          width: 30,
+                          height: 30,
+                          child: CachedNetworkImage(
+                            imageUrl: item['avatar'],
+                            errorWidget: (context, url, error) {
+                              return ClipOval(
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(color: Colors.grey),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                ),
+                Expanded(
+                  child: Container(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: Text(
+                          item['nickname'] == null ? '' : item['nickname']),
+                    ),
+                  ),
+                ),
+                Container(
+                    child: item['readCount'] == null
+                        ? Container()
+                        : Icon(
+                            Icons.remove_red_eye,
+                            color: Colors.grey,
+                            size: 14,
+                          )),
+                Container(
+                  child: Text(item['readCount'] == null
+                      ? ''
+                      : (item['readCount'] > 1000
+                          ? '${int.parse((item['readCount'] / 1000).toStringAsFixed(0))}K'
+                          : '${item['readCount']}')),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+    String schemeUrl = item['schemeUrl'];
+    if (!schemeUrl.startsWith('http')) {
+      schemeUrl = 'https://m.you.163.com$schemeUrl';
+    }
+    return Routers.link(widget, Util.webView, context, {'id': schemeUrl});
+  }
+
+  _stagegeredGridview() {
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      sliver: SliverStaggeredGrid.countBuilder(
+        itemCount: dataList.length,
+        crossAxisCount: 2,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        staggeredTileBuilder: (index) => new StaggeredTile.fit(1),
+        itemBuilder: (context, index) {
+          return _buildItem(dataList[index]);
+        },
+      ),
+    );
+  }
+
+  _buildBodyData() {
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
+          expandedHeight: 200,
+          backgroundColor: Colors.white,
+          title: buildSearch(context),
+          centerTitle: true,
+          flexibleSpace: FlexibleSpaceBar(
+            background: buildTopBanner(),
+          ),
+        ),
+        _stagegeredGridview(),
+        SliverFooter(
+          hasMore: hasMore,
+        )
+      ],
     );
   }
 }
