@@ -75,7 +75,8 @@ class GoodItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    (item["listPromBanner"] == null||!item["listPromBanner"]['valid'])
+                    (item["listPromBanner"] == null ||
+                            !item["listPromBanner"]['valid'])
                         ? _buildTextDesc(item["simpleDesc"])
                         : _buildPromBanner(item["listPromBanner"]),
                   ],
@@ -202,24 +203,25 @@ class GoodItemWidget extends StatelessWidget {
                       ),
                       Container(
                         width: 60,
+                        height: 35,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: Text(
-                                item["promoTitle"] ?? "",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,
+                            Text(
+                              item["promoTitle"] ?? "",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               item["promoSubTitle"] ?? "",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
                               overflow: TextOverflow.ellipsis,
                             )
                           ],
