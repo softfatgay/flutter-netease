@@ -120,7 +120,6 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
 
   _buildGrid() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
       child: GridView.count(
         ///这两个属性起关键性作用，列表嵌套列表一定要有Container
         physics: const NeverScrollableScrollPhysics(),
@@ -142,9 +141,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
             widget,
             Util.goodDetailTag,
             context,
-            {
-              'id': item['id'],
-            },
+            {'id': item['id']},
           );
         }).toList(),
       ),
@@ -206,7 +203,6 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
         setState(() {
           if (_tabController.index == _tabController.animation.value) {
             bodyLoading = true;
-            print(">>>>>>>>>>>>>>>>>>>>>>>");
             page = 1;
             if (tabTitle[_tabController.index]['type'] != null) {
               tabIdType = 'tabId';

@@ -77,7 +77,6 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
       mineItems = userInfoItems.data;
       _firstLoading = false;
     });
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   }
 
   _buildTop(BuildContext context) {
@@ -95,7 +94,7 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
               borderRadius: BorderRadius.all(Radius.circular(50)),
               image: DecorationImage(
                 image: NetworkImage(
-                    "http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png"),
+                    "https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png"),
                 fit: BoxFit.cover,
               ),
             ), // 通过 container 实现圆角

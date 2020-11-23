@@ -35,8 +35,7 @@ class _MinePageState extends State<MinePage> {
     _ItemList(Icon(Icons.account_box, color: iconColor), '登录'),
     _ItemList(Icon(Icons.settings, color: iconColor), '设置'),
     _ItemList(Icon(Icons.list, color: iconColor), '搜索+下拉菜单'),
-    _ItemList(
-        Icon(Icons.collections_bookmark, color: iconColor), 'PageView(垂直翻页效果)'),
+    _ItemList(Icon(Icons.collections_bookmark, color: iconColor), 'PageView(垂直翻页效果)'),
     _ItemList(Icon(Icons.videocam, color: iconColor), '我的收藏(视频播放演示)'),
     _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
     _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/ui/sort/good_item_new.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -96,9 +97,10 @@ class _KingKongPageState extends State<KingKongPage> {
     List<Widget> slivers = [_buildTitle(context)];
     for (var value in dataList) {
       slivers.add(_bodyTitle(value));
-      slivers.add(GoodItemWidget(dataList: value["itemList"]));
+      slivers.add(GoodItemNewWidget(dataList: value["itemList"]));
     }
     return Scaffold(
+      backgroundColor: backColor,
       body: initLoading
           ? Loading()
           : CustomScrollView(
