@@ -8,6 +8,8 @@ import 'package:flutter_app/ui/main/main_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+// 提交测试
+
 void main() {
   runApp(MyApp());
 
