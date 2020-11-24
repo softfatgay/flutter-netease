@@ -14,14 +14,14 @@ class UserPage extends StatefulWidget {
   _MinePageState createState() => _MinePageState();
 }
 
-class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
+class _MinePageState extends State<UserPage>
+    with AutomaticKeepAliveClientMixin {
   bool _firstLoading = true;
   List mineItems = [];
   var userInfo;
 
   @override
   bool get wantKeepAlive => true;
-
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
                 _line(1),
                 _line(20.0),
                 _loginOut(context),
-                _line(10.0),
+                _line(50.0),
               ],
             ),
     );
@@ -81,9 +81,9 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
 
   _buildTop(BuildContext context) {
     return singleSliverWidget(Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: EdgeInsets.fromLTRB(15,  MediaQuery.of(context).padding.top, 15, 0),
       decoration: BoxDecoration(color: Color(0xFFF1BB6A)),
-      height: 120+MediaQuery.of(context).padding.top,
+      height: 140 + MediaQuery.of(context).padding.top,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -154,7 +154,7 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
       crossAxisCount: 5,
       children: mineItems.map<Widget>((item) {
         Widget widget = Container(
-        color: Colors.white,
+          color: Colors.white,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

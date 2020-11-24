@@ -133,101 +133,103 @@ class _SortState extends State<SortNew> with AutomaticKeepAliveClientMixin{
   Widget buildContent() {
     return isLoading
         ? Loading()
-        : CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            top: BorderSide(width: 1, color: splitLineColor))),
-                    padding: EdgeInsets.all(10),
-                    height: 120,
-                    child: CachedNetworkImage(
-                      imageUrl: banner[0]["picUrl"] == null
-                          ? ""
-                          : banner[0]["picUrl"],
-                      fit: BoxFit.fill,
-                    ),
-                  );
-                }, childCount: 1),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      List itemItem = categoryGroupList[index]["categoryList"];
-                      return Container(
+        : MediaQuery.removePadding(
+        removeTop: true,
+        context: context, child: CustomScrollView(
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(width: 1, color: splitLineColor))),
+                  padding: EdgeInsets.all(10),
+                  height: 120,
+                  child: CachedNetworkImage(
+                    imageUrl: banner[0]["picUrl"] == null
+                        ? ""
+                        : banner[0]["picUrl"],
+                    fit: BoxFit.fill,
+                  ),
+                );
+              }, childCount: 1),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                List itemItem = categoryGroupList[index]["categoryList"];
+                return Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${categoryGroupList[index]["name"] == null ? "" : categoryGroupList[index]["name"]}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 6),
-                                    height: 1,
-                                    color: splitLineColor,
-                                  ),
-                                ],
-                              ),
+                            Text(
+                              "${categoryGroupList[index]["name"] == null ? "" : categoryGroupList[index]["name"]}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
                             ),
-                            GridView.count(
-                              ///这两个属性起关键性作用，列表嵌套列表一定要有Container
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              crossAxisCount: 3,
-                              childAspectRatio: 0.8,
-                              children: itemItem.map<Widget>((item) {
-                                Widget widget = Container(
-                                  margin: EdgeInsets.symmetric(vertical: 10),
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                          child: CachedNetworkImage(
-                                        imageUrl: item["wapBannerUrl"],
-                                      )),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 6),
-                                        child: Text(
-                                          item["name"],
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                                return Routers.link(
-                                  widget,
-                                  Util.catalogTag,
-                                  context,
-                                  {
-                                    'subCategoryId': item['id'],
-                                    'categoryId': item['superCategoryId'],
-                                  },
-                                );
-                              }).toList(),
-                            )
+                            Container(
+                              margin: EdgeInsets.only(top: 6),
+                              height: 1,
+                              color: splitLineColor,
+                            ),
                           ],
                         ),
-                      );
-                    },
-                    childCount: categoryGroupList.length,
+                      ),
+                      GridView.count(
+                        ///这两个属性起关键性作用，列表嵌套列表一定要有Container
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 3,
+                        childAspectRatio: 0.8,
+                        children: itemItem.map<Widget>((item) {
+                          Widget widget = Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                    child: CachedNetworkImage(
+                                      imageUrl: item["wapBannerUrl"],
+                                    )),
+                                Container(
+                                  margin: EdgeInsets.only(top: 6),
+                                  child: Text(
+                                    item["name"],
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                          return Routers.link(
+                            widget,
+                            Util.catalogTag,
+                            context,
+                            {
+                              'subCategoryId': item['id'],
+                              'categoryId': item['superCategoryId'],
+                            },
+                          );
+                        }).toList(),
+                      )
+                    ],
                   ),
-                ),
-              )
-            ],
-          );
+                );
+              },
+              childCount: categoryGroupList.length,
+            ),
+          ),
+        )
+      ],
+    ));
   }
 
   @override
