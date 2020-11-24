@@ -139,6 +139,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
         tooltip: 'Increment',
         child: Icon(Icons.loop),
       ), //
+      // appBar: _buildSearch(context),
       body: isLoading
           ? Loading()
           : CustomScrollView(
@@ -210,8 +211,17 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
         )
       ],
     );
+    Widget navBar = Column(
+      children: [
+        Container(
+          color: Color.fromARGB(1, 250, 250, 250),
+          height: MediaQuery.of(context).padding.top,
+        ),
+        widget
+      ],
+    );
     return singleSliverWidget(
-        Routers.link(widget, Util.search, context, {'id': "零食"}));
+        Routers.link(navBar, Util.search, context, {'id': "零食"}));
   }
 
   //轮播图

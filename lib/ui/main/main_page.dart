@@ -31,15 +31,14 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     //获取屏幕宽高
     _saveScreenInfo(context);
-
     return Scaffold(
       backgroundColor: Color.fromARGB(1, 200, 200, 200),
-      appBar: new PreferredSize(
-        child: new Container(
-          color: Colors.transparent,
-        ),
-        preferredSize: new Size(MediaQuery.of(context).size.width, 0),
-      ),
+      // appBar: new PreferredSize(
+      //   child: new Container(
+      //     color: Colors.transparent,
+      //   ),
+      //   preferredSize: new Size(MediaQuery.of(context).size.width, 0),
+      // ),
       body: PageView(
         children: <Widget>[
           homeNew,

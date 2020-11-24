@@ -117,8 +117,17 @@ class _SortState extends State<SortNew> with AutomaticKeepAliveClientMixin{
         ),
       ),
     );
+    Widget navBar = Column(
+      children: [
+        Container(
+          color: Color.fromARGB(1, 255, 255, 255),
+          height: MediaQuery.of(context).padding.top,
+        ),
+        widget
+      ],
+    );
     return Routers.link(
-        widget, Util.search, context, {'id': roundWords[rondomIndex]});
+        navBar, Util.search, context, {'id': roundWords[rondomIndex]});
   }
 
   Widget buildContent() {

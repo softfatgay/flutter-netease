@@ -83,7 +83,7 @@ class _MinePageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
     return singleSliverWidget(Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(color: Color(0xFFF1BB6A)),
-      height: 120,
+      height: 120+MediaQuery.of(context).padding.top,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
