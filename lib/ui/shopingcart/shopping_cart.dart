@@ -160,52 +160,58 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backColor,
+      appBar: AppBar(
+          elevation: 1,
+          backgroundColor: Colors.white,
+          brightness: Brightness.light,
+          title: _navBar()
+      ),
       body: Stack(
         children: [
-          Positioned(
-            child: Container(
-              height: 46,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                border: Border(bottom: BorderSide(color: backColor,width: 1))
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: Text(
-                    '购物车',
-                    style: TextStyle(color: textBlack, fontSize: 18),
-                  )),
-                  isEdit
-                      ? Container()
-                      : Text(
-                          '领券',
-                          style: TextStyle(color: textRed, fontSize: 14),
-                        ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        checkList.clear();
-                        isEdit = !isEdit;
-                      });
-                    },
-                    child: Text(
-                      isEdit ? '完成' : '编辑',
-                      style: TextStyle(color: textBlack, fontSize: 14),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            top: MediaQuery.of(context).padding.top,
-            left: 0,
-            right: 0,
-          ),
+          // Positioned(
+          //   child: Container(
+          //     height: 46,
+          //     decoration: BoxDecoration(
+          //         color: Colors.white,
+          //       border: Border(bottom: BorderSide(color: backColor,width: 1))
+          //     ),
+          //     padding: EdgeInsets.symmetric(horizontal: 15),
+          //     child: Row(
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: [
+          //         Expanded(
+          //             child: Text(
+          //           '购物车',
+          //           style: TextStyle(color: textBlack, fontSize: 18),
+          //         )),
+          //         isEdit
+          //             ? Container()
+          //             : Text(
+          //                 '领券',
+          //                 style: TextStyle(color: textRed, fontSize: 14),
+          //               ),
+          //         SizedBox(
+          //           width: 10,
+          //         ),
+          //         GestureDetector(
+          //           onTap: () {
+          //             setState(() {
+          //               checkList.clear();
+          //               isEdit = !isEdit;
+          //             });
+          //           },
+          //           child: Text(
+          //             isEdit ? '完成' : '编辑',
+          //             style: TextStyle(color: textBlack, fontSize: 14),
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          //   top: MediaQuery.of(context).padding.top,
+          //   left: 0,
+          //   right: 0,
+          // ),
           _data == null
               ? Loading()
               : Positioned(
@@ -223,7 +229,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     ],
                   )),
                   bottom: 50,
-                  top: MediaQuery.of(context).padding.top + 46,
+                  top: 0, //MediaQuery.of(context).padding.top + 46,
                   left: 0,
                   right: 0,
                 ),
@@ -234,6 +240,48 @@ class _ShoppingCartState extends State<ShoppingCart> {
             right: 0,
           ),
           loading ? Loading() : Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget _navBar() {
+    return Container(
+      height: 46,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          // border: Border(bottom: BorderSide(color: backColor,width: 1))
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+              child: Text(
+                '购物车',
+                style: TextStyle(color: textBlack, fontSize: 18),
+              )),
+          isEdit
+              ? Container()
+              : Text(
+            '领券',
+            style: TextStyle(color: textRed, fontSize: 14),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                checkList.clear();
+                isEdit = !isEdit;
+              });
+            },
+            child: Text(
+              isEdit ? '完成' : '编辑',
+              style: TextStyle(color: textBlack, fontSize: 14),
+            ),
+          )
         ],
       ),
     );
