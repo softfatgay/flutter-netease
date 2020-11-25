@@ -16,7 +16,8 @@ dependencies:
   #  webview
   webview_flutter: ^0.3.21
   #状态管理
-  provider: ^3.2.0
+#  provider: ^3.2.0
+  flutter_bloc: ^6.1.1
 
   #工具类
   common_utils: ^1.1.3

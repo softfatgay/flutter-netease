@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -17,23 +18,33 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  var _data;
-  List _cartGroupList = List();
-  var _topItem;
-  List _itemList = List();
-  List _invalidCartGroupList = List();
-  double _price = 0;
-  double _promotionPrice = 0;
-  double _actualPrice = 0;
 
-  bool isChecked = false;
-  bool _isCheckedAll = false;
+  /*
+  *   属性
+  * */
+  var _data;  // 完整数据
+  List _cartGroupList = List();  // 有效的购物车组列表
+  var _topItem;  // 顶部商品数据
+  List _itemList = List();  // 显示的商品数据
+  List _invalidCartGroupList = List();  // 无效的购物车组列表
+  double _price = 0;  // 价格
+  double _promotionPrice = 0;  // 促销价
+  double _actualPrice = 0;  // 实际价格
 
-  bool loading = false;
-  int _selectedNum = 0;
+  bool isChecked = false;  // 是否全部勾选选中
+  bool _isCheckedAll = false;  // 是否全部勾选选中
 
-  bool isEdit = false;
+  bool loading = false;  // 是否正在加载
+  int _selectedNum = 0;  // 选中商品数量
 
+  bool isEdit = false;  // 是否正在编辑
+
+  int allCount = 0;
+  List checkList = [];
+
+  /*
+  *   初始化
+  * */
   @override
   void initState() {
     // TODO: implement initState
@@ -41,17 +52,25 @@ class _ShoppingCartState extends State<ShoppingCart> {
     _getData();
   }
 
+
+  /*
+  *   数据逻辑
+  * */
+
+  // 获取购物车数据
   void _getData() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    Map<String, dynamic> header = {"Cookie": cookie};
+    Map<String, dynamic> params = {"csrf_token": csrf_token}; // 参数
+    Map<String, dynamic> header = {"Cookie": cookie};  // 请求头
 
     var responseData = await shoppingCart(params, header: header);
+    print(responseData.toString());
     setState(() {
       _data = responseData.data;
       setData(_data);
     });
   }
 
+  // 更新状态机 刷新界面
   void setData(var _data) {
     if (_data == null) {
       _getData();
@@ -100,6 +119,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
+  // 购物车 全选/不选 网络请求
   _check() async {
     setState(() {
       loading = true;
@@ -116,6 +136,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
+  // 购物车  某个勾选框 选/不选 请求
   _checkOne(int source, int type, int skuId, bool isChecked, var extId) async {
     setState(() {
       loading = true;
@@ -136,6 +157,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
+  // 购物车  商品 选购数量变化 请求
   _checkOneNum(int source, int type, int skuId, int cnt, var extId) async {
     setState(() {
       loading = true;
@@ -156,6 +178,74 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
+  _specValue(var item) {
+    List specList = item['specList'];
+    String specName = '';
+    for (var value in specList) {
+      specName += value['specValue'];
+      specName += "; ";
+    }
+    var replaceRange =
+        specName.replaceRange(specName.length - 2, specName.length - 1, "");
+    return replaceRange;
+  }
+
+  // 获取价格
+  _getPrice() {
+    return _price;
+  }
+
+  // 编辑状态 删除
+  void _deleteCheckItem(bool check, itemData, item) {
+    if (check) {
+      var map = {
+        "type": item['type'],
+        "promId": itemData['promId'],
+        "addBuy": false,
+        "skuId": item['skuId'],
+        "extId": item['extId']
+      };
+      setState(() {
+        checkList.add(map);
+      });
+    } else {
+      if (checkList.length > 0) {
+        for (int i = 0; i < checkList.length; i++) {
+          if (checkList[i]['skuId'] == item['skuId']) {
+            setState(() {
+              checkList.removeAt(i);
+            });
+          }
+        }
+      }
+    }
+    print(checkList);
+  }
+
+  // 清空购物车
+  void _deleteCart() async {
+    Map<String, dynamic> item = {
+      "skuList": checkList,
+    };
+    Map<String, dynamic> params = {
+      'selectedSku': json.encode(item),
+      "csrf_token": csrf_token,
+    };
+
+    Map<String, dynamic> header = {
+      "Cookie": cookie,
+      "csrf_token": csrf_token,
+    };
+
+    print(params);
+    var responseData = await deleteCart(params, header: header);
+  }
+
+
+  /*
+  *       UI 部分
+  * */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,71 +258,27 @@ class _ShoppingCartState extends State<ShoppingCart> {
       ),
       body: Stack(
         children: [
-          // Positioned(
-          //   child: Container(
-          //     height: 46,
-          //     decoration: BoxDecoration(
-          //         color: Colors.white,
-          //       border: Border(bottom: BorderSide(color: backColor,width: 1))
-          //     ),
-          //     padding: EdgeInsets.symmetric(horizontal: 15),
-          //     child: Row(
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: [
-          //         Expanded(
-          //             child: Text(
-          //           '购物车',
-          //           style: TextStyle(color: textBlack, fontSize: 18),
-          //         )),
-          //         isEdit
-          //             ? Container()
-          //             : Text(
-          //                 '领券',
-          //                 style: TextStyle(color: textRed, fontSize: 14),
-          //               ),
-          //         SizedBox(
-          //           width: 10,
-          //         ),
-          //         GestureDetector(
-          //           onTap: () {
-          //             setState(() {
-          //               checkList.clear();
-          //               isEdit = !isEdit;
-          //             });
-          //           },
-          //           child: Text(
-          //             isEdit ? '完成' : '编辑',
-          //             style: TextStyle(color: textBlack, fontSize: 14),
-          //           ),
-          //         )
-          //       ],
-          //     ),
-          //   ),
-          //   top: MediaQuery.of(context).padding.top,
-          //   left: 0,
-          //   right: 0,
-          // ),
           _data == null
               ? Loading()
               : Positioned(
-                  child: MediaQuery.removePadding(
-                    removeTop: true,
-                    removeBottom: true,
-                      context: context, child: CustomScrollView(
-                    slivers: [
-                      singleSliverWidget(_buildTitle()),
-                      singleSliverWidget(_dataList()),
-                      singleSliverWidget(_invalidList()),
-                      singleSliverWidget(Container(
-                        height: 50,
-                      ))
-                    ],
-                  )),
-                  bottom: 50,
-                  top: 0, //MediaQuery.of(context).padding.top + 46,
-                  left: 0,
-                  right: 0,
-                ),
+            child: MediaQuery.removePadding(
+                removeTop: true,
+                removeBottom: true,
+                context: context, child: CustomScrollView(
+              slivers: [
+                singleSliverWidget(_buildTitle()),
+                singleSliverWidget(_dataList()),
+                singleSliverWidget(_invalidList()),
+                singleSliverWidget(Container(
+                  height: 50,
+                ))
+              ],
+            )),
+            bottom: 50,
+            top: 0, //MediaQuery.of(context).padding.top + 46,
+            left: 0,
+            right: 0,
+          ),
           Positioned(
             child: _buildBuy(),
             bottom: 0,
@@ -245,12 +291,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
+  //  导航头
   Widget _navBar() {
     return Container(
       height: 46,
       decoration: BoxDecoration(
-          color: Colors.white,
-          // border: Border(bottom: BorderSide(color: backColor,width: 1))
+        color: Colors.white,
+        // border: Border(bottom: BorderSide(color: backColor,width: 1))
       ),
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: Row(
@@ -287,6 +334,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
+  // 导航下面，商品上面  标题部分
   Widget _buildTitle() {
     return Container(
       color: Colors.white,
@@ -321,12 +369,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
                 Expanded(
                     child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '${_topItem['promTip']}',
-                    style: t16black,
-                  ),
-                )),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${_topItem['promTip']}',
+                        style: t16black,
+                      ),
+                    )),
                 GestureDetector(
                   child: Row(
                     children: [
@@ -371,6 +419,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
+  // 有效商品列表
   Widget _dataList() {
     return  ListView.builder(
       shrinkWrap: true,
@@ -389,7 +438,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       itemCount: _itemList.length,
     );
   }
-
+  // 有效商品列表Item
   Widget _buildItem(var itemData, var item, int index) {
     List cartItemTips = item['cartItemTips'];
     return Container(
@@ -418,12 +467,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       isEdit
                           ? Container()
                           : Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                '${item['itemName']}',
-                                style: t14black,
-                              ),
-                            ),
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          '${item['itemName']}',
+                          style: t14black,
+                        ),
+                      ),
                       Container(
                         margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
                         decoration: BoxDecoration(
@@ -485,86 +534,70 @@ class _ShoppingCartState extends State<ShoppingCart> {
           (cartItemTips == null || cartItemTips.length == 0)
               ? Container()
               : Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.fromLTRB(35, 10, 0, 0),
-                  decoration: BoxDecoration(color: backGrey),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: cartItemTips.map((item) {
-                      return Container(
-                        child: Text(
-                          '• ${item}',
-                          style: t12lgrey,
-                        ),
-                      );
-                    }).toList(),
+            width: double.infinity,
+            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.fromLTRB(35, 10, 0, 0),
+            decoration: BoxDecoration(color: backGrey),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: cartItemTips.map((item) {
+                return Container(
+                  child: Text(
+                    '• ${item}',
+                    style: t12lgrey,
                   ),
-                ),
+                );
+              }).toList(),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget line = Container(
-    height: 10,
-    color: Color(0xFFEAEAEA),
-  );
-
-  _specValue(var item) {
-    List specList = item['specList'];
-    String specName = '';
-    for (var value in specList) {
-      specName += value['specValue'];
-      specName += "; ";
-    }
-    var replaceRange =
-        specName.replaceRange(specName.length - 2, specName.length - 1, "");
-    return replaceRange;
-  }
-
+  // 无效商品列表
   Widget _invalidList() {
     return (_invalidCartGroupList == null || _invalidCartGroupList.length == 0)
         ? Container()
         : Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                  bottom: BorderSide(color: lineColor, width: 0.3))),
+          child: Row(
             children: [
+              Expanded(
+                  child: Text(
+                    '失效商品',
+                    style: t16black,
+                  )),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                        bottom: BorderSide(color: lineColor, width: 0.3))),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      '失效商品',
-                      style: t16black,
-                    )),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: lineColor, width: 0.5)),
-                      child: Text(
-                        '清除失效商品',
-                        style: t14black,
-                      ),
-                    )
-                  ],
+                    border: Border.all(color: lineColor, width: 0.5)),
+                child: Text(
+                  '清除失效商品',
+                  style: t14black,
                 ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: new NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return _buildInvalidItem(_invalidCartGroupList[index]);
-                },
-                itemCount: _invalidCartGroupList.length,
-              ),
+              )
             ],
-          );
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: new NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return _buildInvalidItem(_invalidCartGroupList[index]);
+          },
+          itemCount: _invalidCartGroupList.length,
+        ),
+      ],
+    );
   }
-
+  // 无效商品列表Item
   Widget _buildInvalidItem(var itemD) {
     List items = itemD['cartItemList'];
     return Column(
@@ -632,83 +665,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  int allCount = 0;
-
-  _getPrice() {
-    return _price;
-  }
-
-  List checkList = [];
-
-  ///左侧选择框，编辑框
-  _buildCheckBox(itemData, item, index) {
-    if (isEdit) {
-      return Container(
-        margin: EdgeInsets.only(right: 6),
-        child: CartCheckBox(
-          onCheckChanged: (check) {
-            _deleteCheckItem(check, itemData, item);
-          },
-        ),
-      );
-    } else {
-      return Container(
-        margin: EdgeInsets.only(right: 6),
-        child: InkWell(
-          onTap: () {
-            if (itemData['canCheck'] || item['checked']) {
-              _checkOne(item['source'], item['type'], item['skuId'],
-                  !item['checked'], item['extId']);
-            }
-          },
-          child: Container(
-            child: Padding(
-              padding: EdgeInsets.all(2),
-              child: item['checked']
-                  ? Icon(
-                      Icons.check_circle,
-                      size: 22,
-                      color: Colors.red,
-                    )
-                  : Icon(
-                      Icons.brightness_1_outlined,
-                      size: 22,
-                      color:
-                          itemData['canCheck'] ? lineColor : Color(0xFFF7F6FA),
-                    ),
-            ),
-          ),
-        ),
-      );
-    }
-  }
-
-  void _deleteCheckItem(bool check, itemData, item) {
-    if (check) {
-      var map = {
-        "type": item['type'],
-        "promId": itemData['promId'],
-        "addBuy": false,
-        "skuId": item['skuId'],
-        "extId": item['extId']
-      };
-      setState(() {
-        checkList.add(map);
-      });
-    } else {
-      if (checkList.length > 0) {
-        for (int i = 0; i < checkList.length; i++) {
-          if (checkList[i]['skuId'] == item['skuId']) {
-            setState(() {
-              checkList.removeAt(i);
-            });
-          }
-        }
-      }
-    }
-    print(checkList);
-  }
-
+  // 底部 商品勾选状态、价格信息、下单 部分
   Widget _buildBuy() {
     if (isEdit) {
       return Container(
@@ -769,15 +726,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     padding: EdgeInsets.all(2),
                     child: _isCheckedAll
                         ? Icon(
-                            Icons.check_circle,
-                            size: 22,
-                            color: Colors.red,
-                          )
+                      Icons.check_circle,
+                      size: 22,
+                      color: Colors.red,
+                    )
                         : Icon(
-                            Icons.brightness_1_outlined,
-                            size: 22,
-                            color: lineColor,
-                          ),
+                      Icons.brightness_1_outlined,
+                      size: 22,
+                      color: lineColor,
+                    ),
                   ),
                 ),
               ),
@@ -813,11 +770,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     _promotionPrice == 0
                         ? Container()
                         : Container(
-                            child: Text(
-                              '已优惠：¥$_promotionPrice',
-                              style: t14grey,
-                            ),
-                          ),
+                      child: Text(
+                        '已优惠：¥$_promotionPrice',
+                        style: t14grey,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -839,21 +796,52 @@ class _ShoppingCartState extends State<ShoppingCart> {
     }
   }
 
-  void _deleteCart() async {
-    Map<String, dynamic> item = {
-      "skuList": checkList,
-    };
-    Map<String, dynamic> params = {
-      'selectedSku': json.encode(item),
-      "csrf_token": csrf_token,
-    };
-
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
-
-    print(params);
-    var responseData = await deleteCart(params, header: header);
+  ///左侧选择框，编辑框
+  _buildCheckBox(itemData, item, index) {
+    if (isEdit) {
+      return Container(
+        margin: EdgeInsets.only(right: 6),
+        child: CartCheckBox(
+          onCheckChanged: (check) {
+            _deleteCheckItem(check, itemData, item);
+          },
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.only(right: 6),
+        child: InkWell(
+          onTap: () {
+            if (itemData['canCheck'] || item['checked']) {
+              _checkOne(item['source'], item['type'], item['skuId'],
+                  !item['checked'], item['extId']);
+            }
+          },
+          child: Container(
+            child: Padding(
+              padding: EdgeInsets.all(2),
+              child: item['checked']
+                  ? Icon(
+                Icons.check_circle,
+                size: 22,
+                color: Colors.red,
+              )
+                  : Icon(
+                Icons.brightness_1_outlined,
+                size: 22,
+                color:
+                itemData['canCheck'] ? lineColor : Color(0xFFF7F6FA),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
+
+  // 分割线
+  Widget line = Container(
+    height: 10,
+    color: Color(0xFFEAEAEA),
+  );
 }
