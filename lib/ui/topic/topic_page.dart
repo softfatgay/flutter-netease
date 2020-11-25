@@ -315,6 +315,7 @@ class _TopicPageState extends State<TopicPage>
           pinned: true,
           expandedHeight: 200,
           backgroundColor: Colors.white,
+          brightness: Brightness.light,
           title: buildSearch(context),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(
