@@ -237,7 +237,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
     print(params);
     var responseData = await deleteCart(params, header: header);
+
     if (responseData.code == 200) {
+      print('===============');
       _data = responseData.data;
       setData(_data);
     }
