@@ -1,7 +1,8 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/mine/red_packet_list.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
-import 'package:provider/provider.dart';
 
 class RedPacket extends StatefulWidget {
   @override
@@ -33,6 +34,17 @@ class _RedEnvelopeState extends State<RedPacket>
     _controller = TabController(length: tabs.length, vsync: this);
   }
 
+  _buildBody(BuildContext context) {
+    return TabBarView(
+      children: tabs.map((item) {
+        return RedPacketList(
+          searchType: item['searchType'],
+        );
+      }).toList(),
+      controller: _controller,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,17 +54,6 @@ class _RedEnvelopeState extends State<RedPacket>
         controller: _controller,
       ).build(context),
       body: _buildBody(context),
-    );
-  }
-
-  _buildBody(BuildContext context) {
-    return TabBarView(
-      children: tabs.map((item) {
-        return RedPacketList(
-          searchType: item['searchType'],
-        );
-      }).toList(),
-      controller: _controller,
     );
   }
 }
