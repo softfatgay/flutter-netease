@@ -274,16 +274,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   _buildData(BuildContext context) {
     return Positioned(
       child: (_data == null || _cartGroupList.isEmpty)
-          ? Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/cart_none.png'),
-                  Text('去添加点什么吧')
-                ],
-              ),
-            )
+          ? NoMoreData()
           : MediaQuery.removePadding(
               removeTop: true,
               removeBottom: true,
@@ -864,4 +855,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
     height: 10,
     color: Color(0xFFEAEAEA),
   );
+}
+
+class NoMoreData extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/cart_none.png',
+            width: 96,
+            height: 96,
+          ),
+          Padding(padding: EdgeInsets.all(8.0)),
+          Text("去添加点什么吧！")
+        ],
+      ),
+    );
+  }
 }
