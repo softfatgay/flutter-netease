@@ -238,7 +238,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     print(params);
     var responseData = await deleteCart(params, header: header);
 
-    if (responseData.code == 200) {
+    if (responseData.code == "200") {
       print('===============');
       _data = responseData.data;
       setData(_data);
@@ -275,7 +275,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   _buildData(BuildContext context) {
     return Positioned(
-      child: (_data == null || _cartGroupList.isEmpty)
+      child: (_data == null ||
+              _cartGroupList.isEmpty ||
+              _cartGroupList.length == 0)
           ? NoMoreData()
           : MediaQuery.removePadding(
               removeTop: true,
