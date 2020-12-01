@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
@@ -131,7 +132,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       floatingActionButton: FloatingActionButton(
         mini: true,
         backgroundColor: Color(0xB3D2001A),
@@ -139,33 +140,38 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
         tooltip: 'Increment',
         child: Icon(Icons.loop),
       ), //
-      // appBar: _buildSearch(context),
+      appBar: AppBar(
+          elevation: 1,
+          backgroundColor: Colors.white,
+          brightness: Brightness.light,
+          title: _buildSearch(context)
+      ),
       body: isLoading
           ? Loading()
           : CustomScrollView(
-              slivers: [
-                _buildSearch(context),
-                _buildSwiper(), //banner图
-                _topTags(context), //标签
-                _kingkong(context), //
-                _bigPromotion(context), //活动大图
-                _splitLine(),
-                _newcomerPack(context), //新人礼包
-                _splitLine(),
-                _categoryHotSell(context), //类目热销榜
-                _categoryHotSellItem(context), //类目热销榜条目
+        slivers: [
+          // _buildSearch(context),
+          _buildSwiper(), //banner图
+          _topTags(context), //标签
+          _kingkong(context), //
+          _bigPromotion(context), //活动大图
+          _splitLine(),
+          _newcomerPack(context), //新人礼包
+          _splitLine(),
+          _categoryHotSell(context), //类目热销榜
+          _categoryHotSellItem(context), //类目热销榜条目
 
-                _splitLine(),
-                _flashSaleTitle(context), //限时购
-                _flashSaleItem(context), //类目热销榜条目
+          _splitLine(),
+          _flashSaleTitle(context), //限时购
+          _flashSaleItem(context), //类目热销榜条目
 
-                _splitLine(),
-                _newModulTitle(context), //新品首发
-                _newModulItem(context), //新品首发条目
-                _splitLine(),
-                _bottomView(context),
-              ],
-            ),
+          _splitLine(),
+          _newModulTitle(context), //新品首发
+          _newModulItem(context), //新品首发条目
+          _splitLine(),
+          _bottomView(context),
+        ],
+      ),
     );
   }
 
@@ -178,6 +184,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
             "网易严选",
             style: TextStyle(
               fontSize: 20,
+              color: Colors.black54
             ),
           ),
         ),
@@ -211,17 +218,9 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
         )
       ],
     );
-    Widget navBar = Column(
-      children: [
-        Container(
-          color: Color.fromARGB(1, 250, 250, 250),
-          height: MediaQuery.of(context).padding.top,
-        ),
-        widget
-      ],
-    );
-    return singleSliverWidget(
-        Routers.link(navBar, Util.search, context, {'id': "零食"}));
+    return Routers.link(widget, Util.search, context, {'id': "零食"});
+    // return singleSliverWidget(
+    //     Routers.link(navBar, Util.search, context, {'id': "零食"}));
   }
 
   //轮播图

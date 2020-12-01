@@ -8,12 +8,11 @@ import 'package:flutter_app/ui/main/main_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-// 提交测试
-
 void main() {
   runApp(MyApp());
 
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarBrightness: Brightness.light));
+  // 导航的颜色为白色  设置状态栏文字黑色
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 }
 
 class MyApp extends StatelessWidget {

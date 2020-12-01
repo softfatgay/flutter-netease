@@ -33,12 +33,6 @@ class _MainPageState extends State<MainPage> {
     _saveScreenInfo(context);
     return Scaffold(
       backgroundColor: Color.fromARGB(1, 200, 200, 200),
-      // appBar: new PreferredSize(
-      //   child: new Container(
-      //     color: Colors.transparent,
-      //   ),
-      //   preferredSize: new Size(MediaQuery.of(context).size.width, 0),
-      // ),
       body: PageView(
         children: <Widget>[
           homeNew,
