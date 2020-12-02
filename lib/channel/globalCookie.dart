@@ -13,9 +13,9 @@ class GlobalCookie {
   static GlobalCookie _instance;
 
   /// Get globalCookieValue
-  Future<String> globalCookieValue() {
+  Future<String> globalCookieValue(String url) {
     return _channel
-        .invokeMethod<String>('globalCookieValue')
+        .invokeMethod<String>('globalCookieValue',{"url",url})
         .then<String>((String result) => result);
   }
 

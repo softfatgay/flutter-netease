@@ -68,7 +68,7 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
-            final updateCookie = await globalCookie.globalCookieValue();
+            final updateCookie = await globalCookie.globalCookieValue(url);
             print('更新Cookie========>');
             print(updateCookie);
             if (updateCookie.length > 0) {
