@@ -335,7 +335,7 @@ class _CommentListState extends State<CommentList> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 5),
               child: Text(
-                '${DateUtil.getDateStrByMs(commentList[index]['createTime']) + '   ' + commentList[index]['skuInfo'][0]}',
+                '${DateUtil.formatDateMs(commentList[index]['createTime']) + '   ' + commentList[index]['skuInfo'][0]}',
                 style: TextStyle(color: Colors.grey),
                 maxLines: 2,
                 textAlign: TextAlign.left,
@@ -395,7 +395,7 @@ class _CommentListState extends State<CommentList> {
           Container(
             margin: EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              '${DateUtil.getDateStrByMs(appendCommentVO['createTime'])}',
+              '${DateUtil.formatDateMs(appendCommentVO['createTime'])}',
               style: TextStyle(color: Colors.grey),
               maxLines: 2,
               textAlign: TextAlign.left,

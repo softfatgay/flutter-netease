@@ -22,7 +22,7 @@ dependencies:
   flutter_bloc: ^6.1.1
 
   #工具类
-  common_utils: ^1.1.3
+  common_utils: ^1.2.1
 
   #  图片
   cached_network_image: ^2.0.0-rc.1
