@@ -166,7 +166,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: Stack(
           children: <Widget>[
             buildContent(),
@@ -174,12 +173,14 @@ class _GoodsDetailState extends State<GoodsDetail> {
               bottom: 0,
               left: 0,
               right: 0,
-              child:   SafeArea(child: buildFoot(),),
+              child: SafeArea(
+                child: buildFoot(),
+              ),
             )
           ],
         ),
         floatingActionButton:
-        !isShowFloatBtn ? Container() : floatingAB(_scrollController));
+            !isShowFloatBtn ? Container() : floatingAB(_scrollController));
   }
 
   Widget buildFoot() {
@@ -296,7 +297,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
               ? Container()
               : buildIssuTitle('-- 你可能还喜欢 --')),
           GoodItemWidget(dataList: rmdList),
-          singleSliverWidget(Container(height: 100,)),
+          singleSliverWidget(Container(
+            height: 100,
+          )),
         ],
       );
     }
@@ -408,7 +411,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
   }
 
   Widget buildSelectProperty() {
-
     var shoppingReward = goodDetailPre['item']['shoppingReward'];
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -1705,7 +1707,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
         children: <Widget>[
           Container(
             child: CachedNetworkImage(
-              imageUrl: skuMapItem == null
+              imageUrl: (skuMapItem == null || skuMapItem['pic'] == null)
                   ? goodDetailPre['item']['primaryPicUrl']
                   : skuMapItem['pic'],
               fit: BoxFit.cover,
