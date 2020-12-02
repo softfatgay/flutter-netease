@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -32,26 +33,30 @@ class _MinePageState extends State<UserPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final islogin = cookie.length > 0;
+    return islogin ? Scaffold(
       backgroundColor: Colors.white,
       body: _firstLoading
           ? Loading()
           : CustomScrollView(
-              slivers: <Widget>[
-                _buildTop(context),
-                _buildTitle(context),
-                _buildMineItems(context),
-                _buildMonthCard(context),
-                _line(10.0),
-                _buildActivity(context),
-                _buildAdapter(context),
-                _line(1),
-                _line(20.0),
-                _loginOut(context),
-                _line(50.0),
-              ],
-            ),
-    );
+        slivers: <Widget>[
+          _buildTop(context),
+          _buildTitle(context),
+          _buildMineItems(context),
+          _buildMonthCard(context),
+          _line(10.0),
+          _buildActivity(context),
+          _buildAdapter(context),
+          _line(1),
+          _line(20.0),
+          _loginOut(context),
+          _line(50.0),
+        ],
+      ),
+    )
+        :
+        WebViewPage({'url': 'https://m.you.163.com/login'});
+     
   }
 
   @override
@@ -64,14 +69,13 @@ class _MinePageState extends State<UserPage>
     setState(() {
       _firstLoading = true;
     });
+
     Map<String, dynamic> params = {"csrf_token": csrf_token};
     Map<String, dynamic> header = {"Cookie": cookie};
-
     var responseData = await getUserInfo(params, header: header);
     setState(() {
       userInfo = responseData.data;
     });
-
     var userInfoItems = await getUserInfoItems(params, header: header);
     setState(() {
       mineItems = userInfoItems.data;

@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/channel/globalCookie.dart';
+import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 class WebViewPage extends StatefulWidget {
   final Map arguments;
@@ -13,9 +18,32 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  WebViewController _controller;
+  WebViewController _webController;
+  final cookieManager = WebviewCookieManager();
+  final globalCookie = GlobalCookie();
 
-  String _title = '';
+  String get _url {
+    return widget.arguments['url'];
+  }
+
+  final _title = '';
+
+  void setcookie() async {
+    await cookieManager.setCookies([
+      Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = true,
+      Cookie("P_INFO", CookieConfig.P_INFO)
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = false,
+      Cookie("yx_csrf", CookieConfig.token)
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = false
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +54,30 @@ class _WebViewPageState extends State<WebViewPage> {
       ).build(context),
       body: Container(
         child: WebView(
-          initialUrl: widget.arguments['id'],
+          initialUrl: _url,
           //JS执行模式 是否允许JS执行
           javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (controller) {
-            _controller = controller;
+          onWebViewCreated: (controller) async {
+            controller.loadUrl(
+              _url,
+              headers: {"Cookie": cookie},
+            );
+            _webController = controller;
           },
-          onPageFinished: (url) {
-            String cookie = '''
-          document.cookie = 'yx_csrf=61f57b79a343933be0cb10aa37a51cc8';
-          document.cookie = 'NTES_YD_SESS=CeSW42ks.2zHbRG87vm8zIICA6Iz26O2Tk1c.zRjbbU2JYRBJ0rMWQAa3mSPwzgyNUot7ky9t19g_sPefQ.FztFjefQgJZxUEtxTFQlvuxOtF9_xQk2bxRZJVe0syMAcjCrBL3xGbWLKBqtQrgTgVMSmCYedIbiww8fzdwKYU7RYDRwhNU2VYckSVJKddnEhim1Fd49owd8sWYhvaGCh18EjA17quaiQQEomqoyqIergf';
-          document.cookie = 'P_INFO=17621577088|1603968997|1|yanxuan_web';
-        ''';
-            _controller.evaluateJavascript(cookie);
-            _controller.evaluateJavascript("document.title").then((value) {
-              setState(() {
-                _title = value;
-              });
-            });
+          onPageStarted: (url) async {
+            setcookie();
+          },
+          onPageFinished: (url) async {
+            final updateCookie = await globalCookie.globalCookieValue();
+            print('更新Cookie========>');
+            print(updateCookie);
+            if (updateCookie.length > 0) {
+              CookieConfig.cookie = updateCookie;
+            }
           },
         ),
       ),
     );
   }
 }
+
