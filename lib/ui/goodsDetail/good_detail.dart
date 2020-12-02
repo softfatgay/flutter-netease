@@ -824,7 +824,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 5),
                           child: Text(
-                            '${DateUtil.getDateStrByMs(comments[0]['createTime']) + '   ' + comments[0]['skuInfo'][0]}',
+                            '${DateUtil.formatDateMs(comments[0]['createTime']) + '   ' + comments[0]['skuInfo'][0]}',
                             style: TextStyle(color: Colors.grey),
                             maxLines: 2,
                             textAlign: TextAlign.left,
