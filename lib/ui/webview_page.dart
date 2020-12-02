@@ -29,6 +29,9 @@ class _WebViewPageState extends State<WebViewPage> {
   final _title = '';
 
   void setcookie() async {
+    if (!Platform.isIOS) {
+      return;
+    }
     await cookieManager.setCookies([
       Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
         ..domain = '.163.com'
@@ -68,6 +71,15 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
+            if (!Platform.isIOS) {
+              // 打印安卓的cookie
+              final cookies = await cookieManager.getCookies(url);
+              print('打印安卓的cookie ===> ');
+              for (var item in cookies) {
+                print(item);
+              }
+              return;
+            }
             final updateCookie = await globalCookie.globalCookieValue();
             print('更新Cookie========>');
             print(updateCookie);

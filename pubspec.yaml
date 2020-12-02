@@ -12,7 +12,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   #网络
   dio: ^3.0.7
-  http: ^0.12.2
 
   #  webview
   webview_flutter: ^0.3.21
