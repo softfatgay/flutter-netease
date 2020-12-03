@@ -342,9 +342,10 @@ class _MinePageState extends State<UserPage>
         print(updateCookie);
         if (updateCookie.length > 0) {
           CookieConfig.cookie = updateCookie;
-          setState(() {
-            _islogin = CookieConfig.isLogin;
-          });
+          _islogin = CookieConfig.isLogin;
+          if (_islogin) {
+            _getUserInfo();
+          }
         }
       },
     );
