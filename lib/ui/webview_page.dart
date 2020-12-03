@@ -8,6 +8,8 @@ import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
+import '../utils/flutter_activity.dart';
+
 class WebViewPage extends StatefulWidget {
   final Map arguments;
 
@@ -69,7 +71,7 @@ class _WebViewPageState extends State<WebViewPage> {
           },
           onPageFinished: (url) async {
             final updateCookie = await globalCookie.globalCookieValue(url);
-            print('更新Cookie========>');
+            print('更新Cookie========================>');
             print(updateCookie);
             if (updateCookie.length > 0) {
               CookieConfig.cookie = updateCookie;

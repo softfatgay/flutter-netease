@@ -21,7 +21,7 @@ class Util {
   static String hotlist = 'hotlist';
 
 
-  static const String flutter2activity = 'com.example.want.flutter2activity';
+  static const String flutter2activity = 'plugins.want.flutter.io.GloableCookie';
   static const String flutter2activityParams = 'connect_params';
   static const String webView = 'webView';
 

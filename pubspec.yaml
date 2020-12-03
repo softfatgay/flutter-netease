@@ -15,7 +15,7 @@ dependencies:
   http: ^0.12.2
 
   #  webview
-  webview_flutter: ^0.3.21
+  webview_flutter: ^1.0.7
   webview_cookie_manager: ^1.0.5
   #状态管理
 #  provider: ^3.2.0
