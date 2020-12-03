@@ -31,9 +31,7 @@ class _WebViewPageState extends State<WebViewPage> {
   final _title = '';
 
   void setcookie() async {
-    assert(CookieConfig.NTES_YD_SESS.length > 0);
-    assert(CookieConfig.P_INFO.length > 0);
-    assert(CookieConfig.token.length > 0);
+    if (!CookieConfig.isLogin) return;
     await cookieManager.setCookies([
       Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
         ..domain = '.163.com'
@@ -57,6 +55,7 @@ class _WebViewPageState extends State<WebViewPage> {
         tabs: [],
         title: _title,
       ).build(context),
+      
       body: Container(
         child: WebView(
           initialUrl: _url,
@@ -76,7 +75,7 @@ class _WebViewPageState extends State<WebViewPage> {
             final updateCookie = await globalCookie.globalCookieValue(url);
             print('更新Cookie========================>');
             print(updateCookie);
-            if (updateCookie.length > 0) {
+            if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
               CookieConfig.cookie = updateCookie;
             }
           },
