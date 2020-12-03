@@ -9,6 +9,10 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../channel/globalCookie.dart';
+import '../../config/cookieConfig.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -17,6 +21,9 @@ class UserPage extends StatefulWidget {
 
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
+  final globalCookie = GlobalCookie();
+  bool _islogin = false;
+
   bool _firstLoading = true;
   List mineItems = [];
   var userInfo;
@@ -27,14 +34,20 @@ class _MinePageState extends State<UserPage>
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    _getUserInfo();
+    _islogin = CookieConfig.isLogin;
+    if (_islogin) {
+      super.initState();
+      _getUserInfo();
+    } else {
+      _firstLoading = false;
+      super.initState();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final islogin = cookie.length > 0;
-    return islogin ? Scaffold(
+
+    return _islogin ? Scaffold(
       backgroundColor: Colors.white,
       body: _firstLoading
           ? Loading()
@@ -55,7 +68,7 @@ class _MinePageState extends State<UserPage>
       ),
     )
         :
-        WebViewPage({'url': 'https://m.you.163.com/login'});
+        _LoginPage(context);
      
   }
 
@@ -313,6 +326,32 @@ class _MinePageState extends State<UserPage>
         ),
       ),
     ));
+  }
+
+  _LoginPage(BuildContext context) {
+    Widget webLogin = WebView(
+      //JS执行模式 是否允许JS执行
+      initialUrl: 'https://m.you.163.com/login',
+      javascriptMode: JavascriptMode.unrestricted,
+      onPageStarted: (url) async {
+
+      },
+      onPageFinished: (url) async {
+        final updateCookie = await globalCookie.globalCookieValue(url);
+        print('更新Cookie========================>');
+        print(updateCookie);
+        if (updateCookie.length > 0) {
+          CookieConfig.cookie = updateCookie;
+          setState(() {
+            _islogin = CookieConfig.isLogin;
+          });
+        }
+      },
+    );
+    return Container(
+      color: Colors.white,
+      child: webLogin,
+    );
   }
 }
 

@@ -31,6 +31,9 @@ class _WebViewPageState extends State<WebViewPage> {
   final _title = '';
 
   void setcookie() async {
+    assert(CookieConfig.NTES_YD_SESS.length > 0);
+    assert(CookieConfig.P_INFO.length > 0);
+    assert(CookieConfig.token.length > 0);
     await cookieManager.setCookies([
       Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
         ..domain = '.163.com'

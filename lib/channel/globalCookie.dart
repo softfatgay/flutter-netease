@@ -15,10 +15,10 @@ class GlobalCookie {
 
   /// Get globalCookieValue
   Future<String> globalCookieValue(String url) {
-    _channel.invokeMethod<String>('globalCookieValue', {'url', url}).then<String>((String result) {
-      print("---------------------------->");
-      print(result);
-      return result;
-    });
+   return  _channel
+       .invokeMethod<String>('globalCookieValue', {'url': url})
+       .then<String>((String result) {
+           return result;
+        });
   }
 }
