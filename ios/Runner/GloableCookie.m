@@ -13,7 +13,7 @@
     GloableCookie *instance = [[GloableCookie alloc] init];
 
   FlutterMethodChannel *channel =
-      [FlutterMethodChannel methodChannelWithName:@"plugins.want.flutter.io/GloableCookie"
+      [FlutterMethodChannel methodChannelWithName:@"plugins.want.flutter.io.GloableCookie"
                                   binaryMessenger:[registrar messenger]];
   [registrar addMethodCallDelegate:instance channel:channel];
 }

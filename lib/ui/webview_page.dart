@@ -8,6 +8,8 @@ import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
+import '../utils/flutter_activity.dart';
+
 class WebViewPage extends StatefulWidget {
   final Map arguments;
 
@@ -29,9 +31,6 @@ class _WebViewPageState extends State<WebViewPage> {
   final _title = '';
 
   void setcookie() async {
-    if (!Platform.isIOS) {
-      return;
-    }
     await cookieManager.setCookies([
       Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
         ..domain = '.163.com'
@@ -71,17 +70,8 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
-            if (!Platform.isIOS) {
-              // 打印安卓的cookie
-              final cookies = await cookieManager.getCookies(url);
-              print('打印安卓的cookie ===> ');
-              for (var item in cookies) {
-                print(item);
-              }
-              return;
-            }
-            final updateCookie = await globalCookie.globalCookieValue();
-            print('更新Cookie========>');
+            final updateCookie = await globalCookie.globalCookieValue(url);
+            print('更新Cookie========================>');
             print(updateCookie);
             if (updateCookie.length > 0) {
               CookieConfig.cookie = updateCookie;
