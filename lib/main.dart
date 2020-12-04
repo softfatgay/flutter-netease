@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _getCookie();
+    // _getCookie();
   }
 
   _getCookie() async {

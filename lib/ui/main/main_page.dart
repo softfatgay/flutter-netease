@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/mainContex.dart';
 import 'package:flutter_app/ui/home/home_new.dart';
 import 'package:flutter_app/ui/mine/mine_new.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/wrapper.dart';
+
+import '../../main.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -30,6 +33,7 @@ class _MainPageState extends State<MainPage> {
   var userPage = UserPage();
   @override
   Widget build(BuildContext context) {
+    mainContext = context;
     //获取屏幕宽高
     _saveScreenInfo(context);
     return Scaffold(

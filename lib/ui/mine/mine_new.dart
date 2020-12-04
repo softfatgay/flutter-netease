@@ -42,6 +42,7 @@ class _MinePageState extends State<UserPage>
       _firstLoading = false;
       super.initState();
     }
+
   }
 
   @override
@@ -51,7 +52,7 @@ class _MinePageState extends State<UserPage>
       backgroundColor: Colors.white,
       body: _firstLoading
           ? Loading()
-          : CustomScrollView(
+          : (userInfo == null ? Container() : CustomScrollView(
         slivers: <Widget>[
           _buildTop(context),
           _buildTitle(context),
@@ -65,7 +66,7 @@ class _MinePageState extends State<UserPage>
           _loginOut(context),
           _line(50.0),
         ],
-      ),
+      ))
     )
         :
         _LoginPage(context);
@@ -85,15 +86,24 @@ class _MinePageState extends State<UserPage>
 
     Map<String, dynamic> params = {"csrf_token": csrf_token};
     Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await getUserInfo(params, header: header);
-    setState(() {
-      userInfo = responseData.data;
-    });
-    var userInfoItems = await getUserInfoItems(params, header: header);
-    setState(() {
-      mineItems = userInfoItems.data;
-      _firstLoading = false;
-    });
+
+    try {
+      var responseData = await getUserInfo(params, header: header);
+      setState(() {
+        userInfo = responseData.data;
+      });
+      var userInfoItems = await getUserInfoItems(params, header: header);
+      setState(() {
+        mineItems = userInfoItems.data;
+        _firstLoading = false;
+      });
+    }
+    catch (e) {
+      setState(() {
+        _firstLoading = false;
+      });
+    }
+
   }
 
   _buildTop(BuildContext context) {

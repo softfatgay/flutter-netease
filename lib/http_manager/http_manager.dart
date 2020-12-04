@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
+import 'package:flutter_app/main/mainContex.dart';
 
-import '../utils/toast.dart';
+import '../ui/webview_page.dart';
 
 class HttpManager {
   static bool _needApiFeedBack = false;
@@ -63,11 +66,16 @@ class HttpManager {
       );
       if (response != null) {
         return response.then((Response response) {
-          // if (response.data['status'] == null || (response.data['status'] != 0 && _needToastMessage)) {
-          //   ///错误提醒
-          //
-          // }
-          print(response.data);
+          print(response.data.runtimeType.runtimeType);
+          if (response.data == '{"code":"403"}') {
+                // 拦截到Token失效
+            print('拦截到Token失效');
+            Navigator.push( mainContext,
+                MaterialPageRoute(builder: (context) {
+                  return WebViewPage({'url': 'https://m.you.163.com/login'});
+                }));
+            return ResponseData();
+          }
           if (_needApiFeedBack) {
             // TODO: 可在此添加错误收集接口
           }
