@@ -79,6 +79,7 @@ class HttpManager {
           if (_needApiFeedBack) {
             // TODO: 可在此添加错误收集接口
           }
+          print(response.data);
           return ResponseData.convertData(response);
         });
       } else {
