@@ -30,13 +30,13 @@ object ContectPlugins {
                             }
                             "globalCookieValue" -> {
                                 Log.e("=============","bbbbbbbbbbbbb")
-//                                val arguments = call.arguments as HashMap<*, *>
-//                                val url = arguments["url"] as String
-//                                val cookieManager = CookieManager.getInstance()
-//                                val CookieStr = cookieManager.getCookie(url)
-//                                Log.e("CookieStr", CookieStr)
+                                val arguments = call.arguments as HashMap<*, *>
+                                val url = arguments["url"] as String
+                                val cookieManager = CookieManager.getInstance()
+                                val cookieStr = cookieManager.getCookie(url)
+                                Log.e("CookieStr", cookieStr)
 
-                                result.success("CookieStr")
+                                result.success(cookieStr)
                             }
                             else -> result.success("")
                         }

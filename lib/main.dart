@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final globalCookie = GlobalCookie();
+  // final globalCookie = GlobalCookie();
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _getCookie() async {
-    CookieConfig.cookie = await globalCookie.globalCookieValue("https://m.you.163.com/");
+    // CookieConfig.cookie = await globalCookie.globalCookieValue("https://m.you.163.com/");
   }
 
   @override

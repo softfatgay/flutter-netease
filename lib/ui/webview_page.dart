@@ -24,8 +24,15 @@ class _WebViewPageState extends State<WebViewPage> {
   final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
-  String get _url {
-    return widget.arguments['url'];
+  String _url = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _url = widget.arguments['id'];
+    });
   }
 
   final _title = '';
@@ -55,7 +62,6 @@ class _WebViewPageState extends State<WebViewPage> {
         tabs: [],
         title: _title,
       ).build(context),
-      
       body: Container(
         child: WebView(
           initialUrl: _url,
@@ -84,4 +90,3 @@ class _WebViewPageState extends State<WebViewPage> {
     );
   }
 }
-

@@ -343,8 +343,8 @@ class _MinePageState extends State<UserPage>
       onPageStarted: (url) async {},
       onPageFinished: (url) async {
         final updateCookie = await globalCookie.globalCookieValue(url);
-        print('更新Cookie========================>');
-        print(updateCookie);
+        print('更新Cookie-------------->');
+        print(updateCookie.toString());
         if (updateCookie.length > 0) {
           setState(() {
             CookieConfig.cookie = updateCookie;
@@ -357,6 +357,7 @@ class _MinePageState extends State<UserPage>
       },
     );
     return Container(
+      padding: EdgeInsets.only(top: 28),
       color: Colors.white,
       child: webLogin,
     );
