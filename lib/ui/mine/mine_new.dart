@@ -42,35 +42,33 @@ class _MinePageState extends State<UserPage>
       _firstLoading = false;
       super.initState();
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return _islogin ? Scaffold(
-      backgroundColor: Colors.white,
-      body: _firstLoading
-          ? Loading()
-          : (userInfo == null ? Container() : CustomScrollView(
-        slivers: <Widget>[
-          _buildTop(context),
-          _buildTitle(context),
-          _buildMineItems(context),
-          _buildMonthCard(context),
-          _line(10.0),
-          _buildActivity(context),
-          _buildAdapter(context),
-          _line(1),
-          _line(20.0),
-          _loginOut(context),
-          _line(50.0),
-        ],
-      ))
-    )
-        :
-        _LoginPage(context);
-     
+    return _islogin
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            body: _firstLoading
+                ? Loading()
+                : (userInfo == null
+                    ? Container()
+                    : CustomScrollView(
+                        slivers: <Widget>[
+                          _buildTop(context),
+                          _buildTitle(context),
+                          _buildMineItems(context),
+                          _buildMonthCard(context),
+                          _line(10.0),
+                          _buildActivity(context),
+                          _buildAdapter(context),
+                          _line(1),
+                          _line(20.0),
+                          _loginOut(context),
+                          _line(50.0),
+                        ],
+                      )))
+        : _LoginPage(context);
   }
 
   @override
@@ -97,18 +95,17 @@ class _MinePageState extends State<UserPage>
         mineItems = userInfoItems.data;
         _firstLoading = false;
       });
-    }
-    catch (e) {
+    } catch (e) {
       setState(() {
         _firstLoading = false;
       });
     }
-
   }
 
   _buildTop(BuildContext context) {
     return singleSliverWidget(Container(
-      padding: EdgeInsets.fromLTRB(15,  MediaQuery.of(context).padding.top, 15, 0),
+      padding:
+          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
       decoration: BoxDecoration(color: Color(0xFFF1BB6A)),
       height: 140 + MediaQuery.of(context).padding.top,
       child: Row(
@@ -343,19 +340,19 @@ class _MinePageState extends State<UserPage>
       //JS执行模式 是否允许JS执行
       initialUrl: 'https://m.you.163.com/login',
       javascriptMode: JavascriptMode.unrestricted,
-      onPageStarted: (url) async {
-
-      },
+      onPageStarted: (url) async {},
       onPageFinished: (url) async {
         final updateCookie = await globalCookie.globalCookieValue(url);
         print('更新Cookie========================>');
         print(updateCookie);
         if (updateCookie.length > 0) {
-          CookieConfig.cookie = updateCookie;
-          _islogin = CookieConfig.isLogin;
-          if (_islogin) {
-            _getUserInfo();
-          }
+          setState(() {
+            CookieConfig.cookie = updateCookie;
+            _islogin = CookieConfig.isLogin;
+            if (_islogin) {
+              _getUserInfo();
+            }
+          });
         }
       },
     );
