@@ -48,6 +48,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   bool isShowFloatBtn = false;
   Map goodDetail = {};
+  List<String> detailImages = List<String>();
   Map goodDetailPre = {};
   List rmdList = [];
 
@@ -95,11 +96,29 @@ class _GoodsDetailState extends State<GoodsDetail> {
     Response response = await Dio().post(
         'https://m.you.163.com/xhr/item/detail.json',
         queryParameters: {'id': widget.arguments['id']});
+    print("获取详情 页面下半部分详情数据");
     String dataStr = json.encode(response.data);
-    Map<String, dynamic> dataMap = json.decode(dataStr);
+    print(dataStr);
+    RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
+    List<String> imageUrls = List<String>();
+    Iterable<Match> mobiles = exp.allMatches(dataStr);
+    for (Match m in mobiles) {
+      String match = m.group(0);
+      String imageUrl = 'https://yanxuan-item.nosdn.127.net/${match}';
+      if (!imageUrls.contains(imageUrl)) {
+        print(imageUrl);
+        imageUrls.add(imageUrl);
+      }
+    }
     setState(() {
-      goodDetail = dataMap['data'];
+      detailImages = imageUrls;
     });
+
+    
+    // Map<String, dynamic> dataMap = json.decode(dataStr);
+    // setState(() {
+    //   goodDetail = dataMap['data'];
+    // });
   }
 
   void _getDetailPageUp() async {
@@ -285,7 +304,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
           buildIntro(),
           //商品详情
           singleSliverWidget(
-              goodDetail.isEmpty ? Container() : buildGoodDetail()),
+              // goodDetail.isEmpty ? Container() : buildGoodDetail()),
+              detailImages.isEmpty ? Container() : buildGoodDetail()),
           //报告
           buildReport(),
           //常见问题
@@ -865,10 +885,23 @@ class _GoodsDetailState extends State<GoodsDetail> {
       });
 
   Widget buildGoodDetail() {
+    // return Container(
+    //   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+    //   child: Html(
+    //     data: goodDetail['html'].replaceAll('<p><br/></p>', ''),
+    //   ),
+    //   color: Colors.white,
+    //   width: double.infinity,
+    //   alignment: Alignment.center,
+    // );
+    final imgWidgts = detailImages.map<Widget>((e) => CachedNetworkImage(
+      imageUrl: e,
+      fit: BoxFit.cover,
+    )).toList();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      child: Html(
-        data: goodDetail['html'].replaceAll('<p><br/></p>', ''),
+      child: Column(
+        children: imgWidgts,
       ),
       color: Colors.white,
       width: double.infinity,

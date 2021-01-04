@@ -4,15 +4,15 @@ class CookieConfig {
   static var cookie = '';
 
   static String get token  {
-    return cookieMap['yx_csrf'];
+    return cookieMap['yx_csrf'] ?? "";
   }
 
   static String get P_INFO  {
-    return cookieMap['P_INFO'];
+    return cookieMap['P_INFO'] ?? "";
   }
 
   static String get NTES_YD_SESS  {
-    return cookieMap['NTES_YD_SESS'];
+    return cookieMap['NTES_YD_SESS'] ?? "";
   }
 
   static Map<String, String> get cookieMap  {
@@ -26,5 +26,9 @@ class CookieConfig {
       map[name] = value;
     }
     return map;
+  }
+
+  static bool get isLogin  {
+    return token.length > 0;
   }
 }

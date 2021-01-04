@@ -73,18 +73,21 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
   void _getData() async {
     var responseData = await homeData({
       "csrf_token": "61f57b79a343933be0cb10aa37a51cc8",
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
+      "__timestamp": "${DateTime
+          .now()
+          .millisecondsSinceEpoch}"
     });
     var data = responseData.data;
     var homeModel = data["data"];
     bannerData = homeModel["focusList"];
     setState(() {
       banner = bannerData
-          .map((item) => CachedNetworkImage(
-                imageUrl: item['picUrl'],
-                fit: BoxFit.fill,
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ))
+          .map((item) =>
+          CachedNetworkImage(
+            imageUrl: item['picUrl'],
+            fit: BoxFit.fill,
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ))
           .toList();
 
       tagList = homeModel["policyDescList"];
@@ -101,7 +104,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
       ///类目热销榜
       categoryHotSellModule = homeModel["categoryHotSellModule"];
       categoryHotSellModuleItems =
-          homeModel["categoryHotSellModule"]["categoryList"];
+      homeModel["categoryHotSellModule"]["categoryList"];
 
       var list = List();
       for (var i = 0; i < categoryHotSellModuleItems.length; i++) {
@@ -122,7 +125,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
 
       ///底部两个
       sceneLightShoppingGuideModule =
-          homeModel["sceneLightShoppingGuideModule"];
+      homeModel["sceneLightShoppingGuideModule"];
 
       isLoading = false;
     });
@@ -144,8 +147,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
           elevation: 1,
           backgroundColor: Colors.white,
           brightness: Brightness.light,
-          title: _buildSearch(context)
-      ),
+          title: _buildSearch(context)),
       body: isLoading
           ? Loading()
           : CustomScrollView(
@@ -182,10 +184,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
           margin: EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             "网易严选",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black54
-            ),
+            style: TextStyle(fontSize: 20, color: Colors.black54),
           ),
         ),
         Expanded(
@@ -201,17 +200,21 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(
+                  width: 5,
+                ),
                 Icon(
                   Icons.search,
                   size: 25,
                   color: textGrey,
                 ),
-                Text(
-                  "搜索商品，共43430款好物",
-                  style: TextStyle(color: textGrey, fontSize: 16),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                )
+                Expanded(
+                    child: Text(
+                      "搜索商品，共43430款好物",
+                      style: TextStyle(color: textGrey, fontSize: 14),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ))
               ],
             ),
           ),
@@ -229,8 +232,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
       child: banner == null
           ? Container()
           : SwiperView(banner, onTap: (index) {
-              _goWebview('${bannerData[index]["targetUrl"]}');
-            }),
+        _goWebview('${bannerData[index]["targetUrl"]}');
+      }),
     );
   }
 
@@ -239,23 +242,24 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: tagList
-          .map((item) => Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                height: 40,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CachedNetworkImage(
-                      width: 20,
-                      height: 20,
-                      imageUrl: item['icon'],
-                      fit: BoxFit.fill,
-                    ),
-                    Text(item["desc"])
-                  ],
+          .map((item) =>
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            height: 40,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CachedNetworkImage(
+                  width: 20,
+                  height: 20,
+                  imageUrl: item['icon'],
+                  fit: BoxFit.fill,
                 ),
-              ))
+                Text(item["desc"])
+              ],
+            ),
+          ))
           .toList(),
     ));
   }
@@ -266,7 +270,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5, childAspectRatio: 0.8),
       delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+            (BuildContext context, int index) {
           Widget widget = Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4), color: Colors.white),
@@ -307,7 +311,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
               {"schemeUrl": kingKongModuleItems[index]["schemeUrl"]});
         },
         childCount:
-            kingKongModuleItems == null ? 0 : kingKongModuleItems.length,
+        kingKongModuleItems == null ? 0 : kingKongModuleItems.length,
       ),
     );
   }
@@ -316,7 +320,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
     return singleSliverWidget(Column(
       children: bigPromotionModuleItems
           .map(
-            (item) => Container(
+            (item) =>
+            Container(
               margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
               child: GestureDetector(
                 child: CachedNetworkImage(
@@ -328,7 +333,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                 },
               ),
             ),
-          )
+      )
           .toList(),
     ));
   }
@@ -371,7 +376,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                       child: CachedNetworkImage(
                           fit: BoxFit.fitWidth,
                           imageUrl:
-                              "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                          "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
                     ),
                   ),
                   onTap: () {
@@ -389,55 +394,56 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                   height: 240,
                   child: Column(
                       children: indexActivityModules.map((item) {
-                    return GestureDetector(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 117,
-                            color: Color(0xFFF9DCC9),
-                            margin: EdgeInsets.only(top: 3),
-                            child: CachedNetworkImage(
-                              alignment: Alignment.bottomRight,
-                              fit: BoxFit.fitHeight,
-                              imageUrl: item["picUrl"],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item["title"],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: textBlack),
+                        return GestureDetector(
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 117,
+                                color: Color(0xFFF9DCC9),
+                                margin: EdgeInsets.only(top: 3),
+                                child: CachedNetworkImage(
+                                  alignment: Alignment.bottomRight,
+                                  fit: BoxFit.fitHeight,
+                                  imageUrl: item["picUrl"],
                                 ),
-                                SizedBox(
-                                  height: 6,
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item["title"],
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: textBlack),
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: backGrey),
+                                      child: Text(
+                                        item["subTitle"] == ""
+                                            ? item["tag"]
+                                            : item["subTitle"],
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(color: backGrey),
-                                  child: Text(
-                                    item["subTitle"] == ""
-                                        ? item["tag"]
-                                        : item["subTitle"],
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey),
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      onTap: () {
-                        _goWebview(item['targetUrl']);
-                      },
-                    );
-                  }).toList())),
+                          onTap: () {
+                            _goWebview(item['targetUrl']);
+                          },
+                        );
+                      }).toList())),
             ),
           ],
         ),
@@ -505,7 +511,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                     Text(
                       categoryHotSellModuleItems[index]["categoryName"],
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
@@ -540,7 +546,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4, crossAxisSpacing: 5, mainAxisSpacing: 5),
         delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
+              (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
                 Routers.push(Util.hotlist, context);
@@ -637,7 +643,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
             mainAxisSpacing: 5,
             childAspectRatio: 0.8),
         delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
+              (BuildContext context, int index) {
             Widget widget = Column(
               children: <Widget>[
                 Container(
@@ -705,8 +711,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
             ),
             GestureDetector(
               onTap: () {
-                return Routers.push(Util.kingKong, context,
-                    {"schemeUrl": "new"});
+                return Routers.push(
+                    Util.kingKong, context, {"schemeUrl": "new"});
               },
               child: Row(
                 children: [
@@ -740,7 +746,7 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
               mainAxisSpacing: 5,
               childAspectRatio: 0.6),
           delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+                (BuildContext context, int index) {
               var item = newItemList[index];
               Widget widget = Container(
                 child: Column(
@@ -833,12 +839,12 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
                       children: [
                         Expanded(
                             child: CachedNetworkImage(
-                          imageUrl: item["styleItem"]["picUrlList"][0],
-                        )),
+                              imageUrl: item["styleItem"]["picUrlList"][0],
+                            )),
                         Expanded(
                             child: CachedNetworkImage(
-                          imageUrl: item["styleItem"]["picUrlList"][1],
-                        )),
+                              imageUrl: item["styleItem"]["picUrlList"][1],
+                            )),
                       ],
                     )
                   ],
@@ -875,6 +881,8 @@ class _HomeState extends State<HomeNew> with AutomaticKeepAliveClientMixin {
   }
 
   _goWebview(String url) {
+    print("================");
+    print(url);
     Routers.push(Util.webView, context, {'id': url});
   }
 

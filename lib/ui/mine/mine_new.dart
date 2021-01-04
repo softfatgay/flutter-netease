@@ -9,6 +9,10 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../channel/globalCookie.dart';
+import '../../config/cookieConfig.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -17,6 +21,9 @@ class UserPage extends StatefulWidget {
 
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
+  final globalCookie = GlobalCookie();
+  bool _islogin = false;
+
   bool _firstLoading = true;
   List mineItems = [];
   var userInfo;
@@ -27,35 +34,41 @@ class _MinePageState extends State<UserPage>
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    _getUserInfo();
+    _islogin = CookieConfig.isLogin;
+    if (_islogin) {
+      super.initState();
+      _getUserInfo();
+    } else {
+      _firstLoading = false;
+      super.initState();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final islogin = cookie.length > 0;
-    return islogin
+    return _islogin
         ? Scaffold(
             backgroundColor: Colors.white,
             body: _firstLoading
                 ? Loading()
-                : CustomScrollView(
-                    slivers: <Widget>[
-                      _buildTop(context),
-                      _buildTitle(context),
-                      _buildMineItems(context),
-                      _buildMonthCard(context),
-                      _line(10.0),
-                      _buildActivity(context),
-                      _buildAdapter(context),
-                      _line(1),
-                      _line(20.0),
-                      _loginOut(context),
-                      _line(50.0),
-                    ],
-                  ),
-          )
-        : WebViewPage({'id': 'https://m.you.163.com/login', "type": -1});
+                : (userInfo == null
+                    ? Container()
+                    : CustomScrollView(
+                        slivers: <Widget>[
+                          _buildTop(context),
+                          _buildTitle(context),
+                          _buildMineItems(context),
+                          _buildMonthCard(context),
+                          _line(10.0),
+                          _buildActivity(context),
+                          _buildAdapter(context),
+                          _line(1),
+                          _line(20.0),
+                          _loginOut(context),
+                          _line(50.0),
+                        ],
+                      )))
+        : _LoginPage(context);
   }
 
   @override
@@ -71,15 +84,22 @@ class _MinePageState extends State<UserPage>
 
     Map<String, dynamic> params = {"csrf_token": csrf_token};
     Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await getUserInfo(params, header: header);
-    setState(() {
-      userInfo = responseData.data;
-    });
-    var userInfoItems = await getUserInfoItems(params, header: header);
-    setState(() {
-      mineItems = userInfoItems.data;
-      _firstLoading = false;
-    });
+
+    try {
+      var responseData = await getUserInfo(params, header: header);
+      setState(() {
+        userInfo = responseData.data;
+      });
+      var userInfoItems = await getUserInfoItems(params, header: header);
+      setState(() {
+        mineItems = userInfoItems.data;
+        _firstLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _firstLoading = false;
+      });
+    }
   }
 
   _buildTop(BuildContext context) {
@@ -313,6 +333,34 @@ class _MinePageState extends State<UserPage>
         ),
       ),
     ));
+  }
+
+  _LoginPage(BuildContext context) {
+    Widget webLogin = WebView(
+      //JS执行模式 是否允许JS执行
+      initialUrl: 'https://m.you.163.com/login',
+      javascriptMode: JavascriptMode.unrestricted,
+      onPageStarted: (url) async {},
+      onPageFinished: (url) async {
+        final updateCookie = await globalCookie.globalCookieValue(url);
+        print('更新Cookie-------------->');
+        print(updateCookie.toString());
+        if (updateCookie.length > 0) {
+          setState(() {
+            CookieConfig.cookie = updateCookie;
+            _islogin = CookieConfig.isLogin;
+            if (_islogin) {
+              _getUserInfo();
+            }
+          });
+        }
+      },
+    );
+    return Container(
+      padding: EdgeInsets.only(top: 28),
+      color: Colors.white,
+      child: webLogin,
+    );
   }
 }
 
