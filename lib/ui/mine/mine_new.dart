@@ -21,7 +21,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _MinePageState extends State<UserPage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin{
   final globalCookie = GlobalCookie();
   bool _islogin = false;
 

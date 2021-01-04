@@ -67,7 +67,6 @@ class HttpManager {
       );
       if (response != null) {
         return response.then((Response response) {
-          print(">>>>>>>>>>>>>>>>>>>111111");
           print(response.data);
           if (response.data == '{"code":"403"}' ||
               response.data == '{"code":"401"}') {
