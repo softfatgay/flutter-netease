@@ -114,6 +114,9 @@ class Routers {
         case 4: //邀请返利
           return QRCodeMine();
           break;
+        case 7: //会员俱乐部
+          return WebViewPage(arguments);
+          break;
         case 8: //地址管理
           return LocationManage();
           break;
