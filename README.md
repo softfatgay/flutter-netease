@@ -4,10 +4,8 @@
 
 ## 注意事项
 
-1. 项目中使用了kotlin,androidx(编译一直提示没有使用androidx,强迫症就修改了),注意修改gradle文件。注意;项目中使用了与安卓原生的交互,必要的库(lifecycle)在yaml文件中有注释
-2. 主分支的cookie和csrf_token容易过期，过期的话请自行在浏览器中打开网易严选登录，检查模式下查看，并拿到cookie（一般很长，有用的就两三个，在项目中user_config.dart文件中，自行替换）和csrf_token替换，最近在改版，没来得及开发完毕，大部分功能已实现
-3. 尝试将部分模块以 WebView+H5 进行混合开发。
-4. 后续会补充我在开发中遇到的问题，进行补充、和记录。
+1. 注意项目中使用了kotlin,androidx版本
+2. 主分支的cookie和csrf_token容易过期，过期的话请自行在浏览器中打开网易严选登录，检查模式下查看，并拿到cookie（一般很长，有用的就两三个，在项目中user_config.dart文件中，自行替换）和csrf_token替换
 
 ## 深度还原网易严选桌面小程序端，api全部来自严选
 
@@ -35,22 +33,22 @@
 - 本项目纯属学习项目,切勿涉及违法行为
 
 ## 使用的第三方库
-1. [Flutter中文网](https://flutterchina.club/) 
-2. [Dio](https://pub.flutter-io.cn/packages/dio)
-3. [webview_flutter](https://pub.flutter-io.cn/packages/webview_flutter)
-4. [cached_network_image](https://pub.flutter-io.cn/packages/cached_network_image)
-5. [flutter_swiper](https://pub.flutter-io.cn/packages/flutter_swiper) 
-6. [Toast](https://pub.flutter-io.cn/packages/toast)
-7. [flutter_html](https://pub.flutter-io.cn/packages/flutter_html)
-8. [image_picker](https://pub.flutter-io.cn/packages/image_picker)
-9. [common_utils](https://pub.flutter-io.cn/packages/common_utils)
-10. [package_info](https://pub.flutter-io.cn/packages/package_info)
+- [Flutter中文网](https://flutterchina.club/)
+- [Dio](https://pub.flutter-io.cn/packages/dio)
+- [webview_flutter](https://pub.flutter-io.cn/packages/webview_flutter)
+- [cached_network_image](https://pub.flutter-io.cn/packages/cached_network_image)
+- [flutter_swiper](https://pub.flutter-io.cn/packages/flutter_swiper)
+- [Toast](https://pub.flutter-io.cn/packages/toast)
+- [flutter_html](https://pub.flutter-io.cn/packages/flutter_html)
+- [image_picker](https://pub.flutter-io.cn/packages/image_picker)
+- [common_utils](https://pub.flutter-io.cn/packages/common_utils)
+- [package_info](https://pub.flutter-io.cn/packages/package_info)
 
 
 
 ## 最后
-*谢谢大家
->
-*站在巨人的肩上才能看的更远,一起学习
->
-*我的邮箱 1137856139@qq.com
+谢谢大家
+
+站在巨人的肩上才能看的更远,一起学习
+
+我的邮箱 1137856139@qq.com
