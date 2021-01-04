@@ -21,12 +21,17 @@ class _WebViewPageState extends State<WebViewPage> {
   WebViewController _webController;
   final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
-
-  String get _url {
-    return widget.arguments['url'];
-  }
-
+  String _url = "";
+  int _type = 0;
   final _title = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _url = widget.arguments['id'];
+    _type = widget.arguments['type'];
+  }
 
   void setcookie() async {
     await cookieManager.setCookies([
@@ -48,10 +53,12 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
-        tabs: [],
-        title: _title,
-      ).build(context),
+      appBar: _type == -1
+          ? null
+          : TabAppBar(
+              tabs: [],
+              title: _title,
+            ).build(context),
       body: Container(
         child: WebView(
           initialUrl: _url,
@@ -79,5 +86,11 @@ class _WebViewPageState extends State<WebViewPage> {
       ),
     );
   }
-}
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _webController.clearCache();
+    super.dispose();
+  }
+}

@@ -34,29 +34,28 @@ class _MinePageState extends State<UserPage>
   @override
   Widget build(BuildContext context) {
     final islogin = cookie.length > 0;
-    return islogin ? Scaffold(
-      backgroundColor: Colors.white,
-      body: _firstLoading
-          ? Loading()
-          : CustomScrollView(
-        slivers: <Widget>[
-          _buildTop(context),
-          _buildTitle(context),
-          _buildMineItems(context),
-          _buildMonthCard(context),
-          _line(10.0),
-          _buildActivity(context),
-          _buildAdapter(context),
-          _line(1),
-          _line(20.0),
-          _loginOut(context),
-          _line(50.0),
-        ],
-      ),
-    )
-        :
-        WebViewPage({'url': 'https://m.you.163.com/login'});
-     
+    return islogin
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            body: _firstLoading
+                ? Loading()
+                : CustomScrollView(
+                    slivers: <Widget>[
+                      _buildTop(context),
+                      _buildTitle(context),
+                      _buildMineItems(context),
+                      _buildMonthCard(context),
+                      _line(10.0),
+                      _buildActivity(context),
+                      _buildAdapter(context),
+                      _line(1),
+                      _line(20.0),
+                      _loginOut(context),
+                      _line(50.0),
+                    ],
+                  ),
+          )
+        : WebViewPage({'id': 'https://m.you.163.com/login', "type": -1});
   }
 
   @override
@@ -85,7 +84,8 @@ class _MinePageState extends State<UserPage>
 
   _buildTop(BuildContext context) {
     return singleSliverWidget(Container(
-      padding: EdgeInsets.fromLTRB(15,  MediaQuery.of(context).padding.top, 15, 0),
+      padding:
+          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
       decoration: BoxDecoration(color: Color(0xFFF1BB6A)),
       height: 140 + MediaQuery.of(context).padding.top,
       child: Row(

@@ -12,7 +12,7 @@ void main() {
   runApp(MyApp());
 
   // 导航的颜色为白色  设置状态栏文字黑色
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 }
 
 class MyApp extends StatelessWidget {
