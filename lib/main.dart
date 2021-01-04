@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/generated/i18n.dart';
+import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/ui/main/main_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,16 +21,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // final globalCookie = GlobalCookie();
+  final globalCookie = GlobalCookie();
 
   @override
   void initState() {
     super.initState();
-    // _getCookie();
+    _getCookie();
   }
 
   _getCookie() async {
-    // CookieConfig.cookie = await globalCookie.globalCookieValue("https://m.you.163.com/");
+    CookieConfig.cookie = await globalCookie.globalCookieValue(LOGIN_PAGE_URL);
   }
 
   @override

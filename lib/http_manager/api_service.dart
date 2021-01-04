@@ -1,5 +1,6 @@
 import 'package:flutter_app/http_manager/net_contants.dart';
 
+final String LOGIN_PAGE_URL = "${NetContants.baseUrl}login";
 final String URL_HOME_NEW = "${NetContants.baseUrl}xhr/index.json";
 final String URL_SORT_NEW = "${NetContants.baseUrl}item/cateList.json";
 final String URL_SORT_LIST_NEW = "${NetContants.baseUrl}item/list.json";

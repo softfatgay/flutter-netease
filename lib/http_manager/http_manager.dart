@@ -30,7 +30,8 @@ class HttpManager {
       postHeader['Accept'] = 'application/json, text/javascript, */*; q=0.01';
       postHeader['Content-Type'] = 'application/json';
     } else {
-      postHeader['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+      postHeader['Content-Type'] =
+          'application/x-www-form-urlencoded; charset=UTF-8';
     }
 
     try {
@@ -66,15 +67,17 @@ class HttpManager {
       );
       if (response != null) {
         return response.then((Response response) {
-          print(response.data.runtimeType.runtimeType);
-          if (response.data == '{"code":"403"}') {
-                // 拦截到Token失效
+          print(">>>>>>>>>>>>>>>>>>>111111");
+          print(response.data);
+          if (response.data == '{"code":"403"}' ||
+              response.data == '{"code":"401"}') {
+            // 拦截到Token失效
             print('拦截到Token失效');
-            Navigator.push( mainContext,
-                MaterialPageRoute(builder: (context) {
-                  return WebViewPage({'url': 'https://m.you.163.com/login'});
-                }));
-            return ResponseData();
+            Navigator.push(mainContext, MaterialPageRoute(builder: (context) {
+              return WebViewPage(
+                  {'id': 'https://m.you.163.com/login', "type": -1});
+            }));
+            return ResponseData.convertData(response);
           }
           if (_needApiFeedBack) {
             // TODO: 可在此添加错误收集接口
@@ -86,9 +89,7 @@ class HttpManager {
         Future<ResponseData> future = Future.value(ResponseData());
         return future;
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   static Future<ResponseData> post(

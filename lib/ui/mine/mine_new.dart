@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -68,7 +69,7 @@ class _MinePageState extends State<UserPage>
                           _line(50.0),
                         ],
                       )))
-        : _LoginPage(context);
+        : _loginPage(context);
   }
 
   @override
@@ -279,10 +280,10 @@ class _MinePageState extends State<UserPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.assignment,
-                color: Colors.black54,
-                size: 30,
+              Image.asset(
+                item["image"],
+                width: 30,
+                height: 30,
               ),
               SizedBox(
                 height: 5,
@@ -309,18 +310,78 @@ class _MinePageState extends State<UserPage>
   }
 
   var mineSettingItems = [
-    {"name": "我的订单", "status": "0", "id": 0},
-    {"name": "账号管理", "status": "0", "id": 1},
-    {"name": "周六一起拼", "status": "0", "id": 2},
-    {"name": "售后服务", "status": "0", "id": 3},
-    {"name": "邀请返利", "status": "0", "id": 4},
-    {"name": "优先购", "status": "0", "id": 5},
-    {"name": "积分中心", "status": "0", "id": 6},
-    {"name": "会员俱乐部", "status": "0", "id": 7},
-    {"name": "地址管理", "status": "0", "id": 8},
-    {"name": "支付安全", "status": "0", "id": 9},
-    {"name": "帮助与客服", "status": "0", "id": 10},
-    {"name": "意见反馈", "status": "0", "id": 11},
+    {
+      "name": "我的订单",
+      "status": "0",
+      "image": "assets/images/mine/dingdan.png",
+      "id": 0
+    },
+    {
+      "name": "账号管理",
+      "status": "0",
+      "image": "assets/images/mine/zhanghaoguanli.png",
+      "id": 1
+    },
+    {
+      "name": "周六一起拼",
+      "status": "0",
+      "image": "assets/images/mine/zhouliu.png",
+      "id": 2
+    },
+    {
+      "name": "售后服务",
+      "status": "0",
+      "image": "assets/images/mine/shouhoufuwu.png",
+      "id": 3
+    },
+    {
+      "name": "邀请返利",
+      "status": "0",
+      "image": "assets/images/mine/yaoqingfanli.png",
+      "id": 4
+    },
+    {
+      "name": "优先购",
+      "status": "0",
+      "image": "assets/images/mine/youxiangou.png",
+      "id": 5
+    },
+    {
+      "name": "积分中心",
+      "status": "0",
+      "image": "assets/images/mine/jifenzhongxin.png",
+      "id": 6
+    },
+    {
+      "name": "会员俱乐部",
+      "status": "0",
+      "image": "assets/images/mine/huiyuanzhongxin.png",
+      "id": 7
+    },
+    {
+      "name": "地址管理",
+      "status": "0",
+      "image": "assets/images/mine/dizhiguanli.png",
+      "id": 8
+    },
+    {
+      "name": "支付安全",
+      "status": "0",
+      "image": "assets/images/mine/zhifuanquan.png",
+      "id": 9
+    },
+    {
+      "name": "帮助与客服",
+      "status": "0",
+      "image": "assets/images/mine/kefu.png",
+      "id": 10
+    },
+    {
+      "name": "意见反馈",
+      "status": "0",
+      "image": "assets/images/mine/yijianfankui.png",
+      "id": 11
+    },
   ];
 
   _loginOut(BuildContext context) {
@@ -335,10 +396,10 @@ class _MinePageState extends State<UserPage>
     ));
   }
 
-  _LoginPage(BuildContext context) {
+  _loginPage(BuildContext context) {
     Widget webLogin = WebView(
       //JS执行模式 是否允许JS执行
-      initialUrl: 'https://m.you.163.com/login',
+      initialUrl: LOGIN_PAGE_URL,
       javascriptMode: JavascriptMode.unrestricted,
       onPageStarted: (url) async {},
       onPageFinished: (url) async {
