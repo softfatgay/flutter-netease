@@ -114,11 +114,11 @@ class _GoodsDetailState extends State<GoodsDetail> {
       detailImages = imageUrls;
     });
 
-    
-    // Map<String, dynamic> dataMap = json.decode(dataStr);
-    // setState(() {
-    //   goodDetail = dataMap['data'];
-    // });
+    ///商品详情数据
+    Map<String, dynamic> dataMap = json.decode(dataStr);
+    setState(() {
+      goodDetail = dataMap['data'];
+    });
   }
 
   void _getDetailPageUp() async {
@@ -1085,6 +1085,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
   }
 
   Widget buildIntro() {
+    List attrList = goodDetail['attrList'];
+    print("===============================");
+    print(attrList);
     return goodDetail.isEmpty
         ? singleSliverWidget(Container())
         : SliverList(
@@ -1101,7 +1104,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       flex: 1,
                       child: Container(
                         child: Text(
-                            '${goodDetail['attrList'][index]['attrName']}'),
+                            '${attrList[index]['attrName']}'),
                       ),
                     ),
                     Expanded(
@@ -1109,7 +1112,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          '${goodDetail['attrList'][index]['attrValue']}',
+                          '${attrList[index]['attrValue']}',
                         ),
                       ),
                     )
@@ -1117,9 +1120,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 ),
               );
             },
-                childCount: goodDetail['attrList'] == null
+                childCount: attrList == null
                     ? 0
-                    : goodDetail['attrList'].length),
+                    : attrList.length),
           );
   }
 
@@ -1131,7 +1134,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
       ),
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Text(
-        '产品参数',
+        '商品参数',
         style: TextStyle(
             fontSize: 16, color: textBlack, fontWeight: FontWeight.bold),
       ),
