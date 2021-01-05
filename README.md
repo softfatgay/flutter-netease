@@ -1,6 +1,6 @@
 ## [demo.apk下载地址](https://www.pgyer.com/QjBP)
 
-#### 新增stable分支，网页登录动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持
+#### 已更新-动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持
 
 ## 注意事项
 
@@ -13,7 +13,7 @@
 2. 瀑布流
 3. 地址操作
 4. 实现商品属性等选择
-5. 动态实现cookie获取(stable分支)
+5. 动态实现cookie获取
 6. 基础模块已基本实现完毕，后续有时间会持续更新
 
 

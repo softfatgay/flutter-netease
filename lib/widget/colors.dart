@@ -13,9 +13,11 @@ const Color redLightColor = Color(0xFFF9684D);
 const Color backGrey = Color(0xFFEEEEEE);
 const Color backColor = Color(0xFFEEEEEE);
 const Color backRed = Color(0xFFF29E94);
-const Color backYellow = Color(0xFFFFF6CF);
+const Color backYellow = Color(0xFFF1BB6A);
+const Color textYellow = Color(0xFFB69652);
+const Color textLightYellow = Color(0xFFEFDCB3);
 const Color backWhite = Color(0xFFFFFFFF);
-const Color lineColor = Color(0xFFD0D0D0);
+const Color lineColor = Color(0xFFEAEAEA);
 const Color textBlack = Color(0xFF333333);
 const Color themeColor = Color(0xFFF87676);
 const Color splitLineColor = Color(0xFFECECEC);
@@ -37,9 +39,26 @@ const TextStyle t14white = TextStyle(
   fontSize: 14
 );
 
+const TextStyle t12blackbold = TextStyle(
+  color: textBlack,
+  fontSize: 12,
+  fontWeight: FontWeight.bold
+);
+
+const TextStyle t12black = TextStyle(
+  color: textBlack,
+  fontSize: 12
+);
+
 const TextStyle t14black = TextStyle(
   color: textBlack,
   fontSize: 14
+);
+
+const TextStyle t14blackblod = TextStyle(
+  color: textBlack,
+  fontSize: 14,
+  fontWeight: FontWeight.bold
 );
 
 const TextStyle t16black = TextStyle(
@@ -47,9 +66,21 @@ const TextStyle t16black = TextStyle(
   fontSize: 16
 );
 
+const TextStyle t16blackbold = TextStyle(
+  color: textBlack,
+  fontSize: 16,
+  fontWeight: FontWeight.bold
+);
+
 const TextStyle t18black = TextStyle(
   color: textBlack,
   fontSize: 18
+);
+
+const TextStyle t18blackbold = TextStyle(
+  color: textBlack,
+  fontSize: 18,
+  fontWeight: FontWeight.bold
 );
 
 

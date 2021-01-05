@@ -13,11 +13,13 @@ import 'package:flutter_app/ui/mine/gift_card.dart';
 import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
+import 'package:flutter_app/ui/mine/points_center.dart';
 import 'package:flutter_app/ui/mine/qr_code_mine.dart';
 import 'package:flutter_app/ui/mine/red_packet.dart';
 import 'package:flutter_app/ui/mine/reward_num.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
+import 'package:flutter_app/ui/mine/vip_center.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
@@ -114,8 +116,15 @@ class Routers {
         case 4: //邀请返利
           return QRCodeMine();
           break;
+        case 5: //优先购
+          return WebViewPage({"id":"https://m.you.163.com/preemption/index.html"});
+          break;
+        case 6: //积分中心
+          return PointCenter();
+          break;
+
         case 7: //会员俱乐部
-          return WebViewPage(arguments);
+          return VipCenter();
           break;
         case 8: //地址管理
           return LocationManage();
