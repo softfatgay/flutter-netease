@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
+import 'package:flutter_app/main/mainContex.dart';
 
-import '../utils/toast.dart';
+import '../ui/webview_page.dart';
 
 class HttpManager {
   static bool _needApiFeedBack = false;
@@ -27,7 +30,8 @@ class HttpManager {
       postHeader['Accept'] = 'application/json, text/javascript, */*; q=0.01';
       postHeader['Content-Type'] = 'application/json';
     } else {
-      postHeader['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+      postHeader['Content-Type'] =
+          'application/x-www-form-urlencoded; charset=UTF-8';
     }
 
     try {
@@ -63,23 +67,28 @@ class HttpManager {
       );
       if (response != null) {
         return response.then((Response response) {
-          // if (response.data['status'] == null || (response.data['status'] != 0 && _needToastMessage)) {
-          //   ///错误提醒
-          //
-          // }
           print(response.data);
+          if (response.data == '{"code":"403"}' ||
+              response.data == '{"code":"401"}') {
+            // 拦截到Token失效
+            print('拦截到Token失效');
+            Navigator.push(mainContext, MaterialPageRoute(builder: (context) {
+              return WebViewPage(
+                  {'id': 'https://m.you.163.com/login', "type": -1});
+            }));
+            return ResponseData.convertData(response);
+          }
           if (_needApiFeedBack) {
             // TODO: 可在此添加错误收集接口
           }
+          print(response.data);
           return ResponseData.convertData(response);
         });
       } else {
         Future<ResponseData> future = Future.value(ResponseData());
         return future;
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   static Future<ResponseData> post(

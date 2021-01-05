@@ -14,7 +14,8 @@ dependencies:
   dio: ^3.0.7
 
   #  webview
-  webview_flutter: ^0.3.21
+  webview_flutter: ^1.0.7
+  webview_cookie_manager: ^1.0.5
   #状态管理
 #  provider: ^3.2.0
   flutter_bloc: ^6.1.1
@@ -70,7 +71,6 @@ dependencies:
 
   #二维码
   qr_flutter: ^3.2.0
-
   intl: ^0.16.1
 
 dev_dependencies:
@@ -83,3 +83,4 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/mine/

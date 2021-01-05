@@ -16,7 +16,7 @@ class OpenAd extends StatelessWidget {
       height: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/timg.jpg'),
+          image: AssetImage('assets/images/launch.jpg'),
           fit: BoxFit.cover,
         ),
       ),
