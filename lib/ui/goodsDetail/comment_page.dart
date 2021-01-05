@@ -7,6 +7,7 @@ import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
@@ -25,6 +26,8 @@ class CommentList extends StatefulWidget {
 
 class _CommentListState extends State<CommentList> {
   var tag = '全部';
+  var checkedItem = '全部';
+  var checkIndex = 0;
   int page = 1;
   var praise = {};
   bool isFirstLoading = true;
@@ -127,22 +130,24 @@ class _CommentListState extends State<CommentList> {
       ).build(context),
       body: isFirstLoading
           ? Loading()
-          : (commentList == null || commentList.isEmpty)
-              ? Center(
-                  child: Text("暂无评价"),
-                )
-              : CustomScrollView(
-                  controller: _scrollController,
-                  slivers: <Widget>[
-                    singleSliverWidget(buildPraise()),
-                    singleSliverWidget(buildCommentTags()),
-                    singleSliverWidget(buildTagControl()),
-                    singleSliverWidget(buildLine()),
-                    buildCommentList(),
-                    SliverFooter(
-                        hasMore: pagination['totalPage'] > pagination['page'])
-                  ],
-                ),
+          : CustomScrollView(
+              controller: _scrollController,
+              slivers: <Widget>[
+                singleSliverWidget(buildPraise()),
+                singleSliverWidget(buildCommentTags()),
+                singleSliverWidget(buildTagControl()),
+                singleSliverWidget(buildLine()),
+                (commentList == null || commentList.isEmpty)
+                    ? singleSliverWidget(Container(
+                        child: Center(
+                          child: Text("",style: t18blackbold,),
+                        ),
+                      ))
+                    : buildCommentList(),
+                SliverFooter(
+                    hasMore: pagination['totalPage'] > pagination['page'])
+              ],
+            ),
     );
   }
 
@@ -227,17 +232,19 @@ class _CommentListState extends State<CommentList> {
     } else {
       List items = [];
       commentTags.forEach((item) {
-        items.add(item['name']);
+        items.add('${item['name']}(${item['strCount']})');
       });
       return Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: FlowWidget(
             items: items,
-            checkedItem: tag,
+            checkedItem: checkedItem,
             showItemCount: showTagsNum,
             onTap: (index) {
               setState(() {
-                this.tag = commentTags[index]['name'];
+                this.checkIndex = index;
+                this.tag = '${commentTags[index]['name']}';
+                this.checkedItem = '${commentTags[index]['name']}(${commentTags[index]['strCount']})';
               });
               reset();
             },
@@ -325,9 +332,8 @@ class _CommentListState extends State<CommentList> {
                 Container(
                   child: StaticRatingBar(
                     size: 15,
-                    rate: double.parse(
-                        commentList[index]['star'].toString() ??
-                            commentList[index]['star']),
+                    rate: double.parse(commentList[index]['star'].toString() ??
+                        commentList[index]['star']),
                   ),
                 ),
               ],

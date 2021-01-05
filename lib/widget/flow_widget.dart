@@ -12,8 +12,15 @@ class FlowWidget<String> extends StatefulWidget {
   final double spacing;
   final double runSpacing;
 
-  FlowWidget({this.items, this.checkedColor = Colors.red, this.unCheckColor = Colors.grey, this.checkedItem, this.onTap,this.spacing = 10,this.runSpacing = 10,
-    this.showItemCount});
+  FlowWidget(
+      {this.items,
+      this.checkedColor = Colors.red,
+      this.unCheckColor = Colors.grey,
+      this.checkedItem,
+      this.onTap,
+      this.spacing = 10,
+      this.runSpacing = 10,
+      this.showItemCount});
 
   @override
   _FlowWidgetState createState() => _FlowWidgetState();
@@ -30,8 +37,13 @@ class _FlowWidgetState extends State<FlowWidget> {
   }
 
   List<Widget> buildItem() {
-    return List.generate(widget.showItemCount == null?widget.items.length:widget.showItemCount, (index) {
-      Color checkColor = widget.checkedItem == widget.items[index] ? widget.checkedColor : widget.unCheckColor;
+    return List.generate(
+        widget.showItemCount == null
+            ? widget.items.length
+            : widget.showItemCount, (index) {
+      Color checkColor = widget.checkedItem == widget.items[index]
+          ? widget.checkedColor
+          : widget.unCheckColor;
       return GestureDetector(
         child: Container(
           padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
