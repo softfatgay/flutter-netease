@@ -14,3 +14,7 @@ String get cookie {
 String get csrf_token {
   return CookieConfig.token;
 }
+
+//yx_csrf;NTES_SESS
+//yx_csrf;NTES_YD_SESS;P_INFO
+//flutter build apk --target-platform android-arm
