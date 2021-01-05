@@ -52,7 +52,7 @@ dependencies:
   video_player: ^0.10.10
 
   #shared_preferences插件
-  #  shared_preferences: ^0.5.4+8
+  shared_preferences: ^0.5.12+4
 
   screen: ^0.0.5
 

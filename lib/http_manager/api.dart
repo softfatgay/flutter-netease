@@ -224,3 +224,15 @@ Future<ResponseData> commentListData(Map<String, dynamic> parameters,
   return await HttpManager.post(COMMENT_LIST,
       queryParameters: parameters, headers: header);
 }
+///积分中心
+Future<ResponseData> pointCenter(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(POINT_CENTER,
+      queryParameters: parameters, headers: header);
+}
+///会员俱乐部
+Future<ResponseData> vipCenter(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(VIP_CENTER,
+      queryParameters: parameters, headers: header);
+}

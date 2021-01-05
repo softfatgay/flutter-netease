@@ -36,6 +36,8 @@ final String DELETE_ORDER = "${NetContants.baseUrl}xhr/order/delete.json";
 final String DELETE_CART = "${NetContants.baseUrl}xhr/cart/delete.json";
 final String TOPPIC = "${NetContants.baseUrl}topic/index.json";
 final String COMMENT_LIST = "${NetContants.baseUrl}xhr/comment/listByItemByTag.json";
+final String POINT_CENTER = "${NetContants.baseUrl}xhr/points/index.json";
+final String VIP_CENTER = "${NetContants.baseUrl}xhr/membership/indexPrivilege.json";
 
 
 
@@ -115,7 +117,9 @@ final String COMMENT_LIST = "${NetContants.baseUrl}xhr/comment/listByItemByTag.j
 ///购物车删除商品
 //https://m.you.163.com/xhr/cart/delete.json?csrf_token=28f3b8193ba520fc96697b3a214c01bf
 
+///积分中心
+//https://m.you.163.com/xhr/points/index.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
 
-
-
+///会员俱乐部
+//https://m.you.163.com/xhr/membership/indexPrivilege.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
 

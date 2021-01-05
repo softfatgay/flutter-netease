@@ -7,11 +7,12 @@ typedef void OnTap(int index);
 class SwiperView extends StatefulWidget {
   final List bannerImg;
   final OnTap onTap;
+  final double height;
 
   @override
   _SwiperViewState createState() => _SwiperViewState();
 
-  SwiperView(this.bannerImg, {this.onTap});
+  SwiperView(this.bannerImg, {this.onTap, this.height = 180});
 }
 
 class _SwiperViewState extends State<SwiperView> {
@@ -31,7 +32,7 @@ class _SwiperViewState extends State<SwiperView> {
   Widget firstSwiperView() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 180,
+      height: widget.height,
       child: Swiper(
         itemCount: widget.bannerImg.length,
         itemBuilder: (BuildContext context, int index) =>
@@ -40,12 +41,14 @@ class _SwiperViewState extends State<SwiperView> {
           alignment: Alignment.bottomCenter,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
           builder: DotSwiperPaginationBuilder(
-              color: Colors.grey[200], size: 8, activeColor: Colors.red[400]),
+              color: Colors.transparent,
+              size: 8,
+              activeColor: Colors.transparent),
         ),
         controller: SwiperController(),
         scrollDirection: Axis.horizontal,
-        autoplay: true,
-        autoplayDelay: 2000,
+        autoplay: widget.bannerImg.length > 1 ? true : false,
+        autoplayDelay: 5000,
         onTap: (index) => {
           if (widget.onTap != null) {widget.onTap(index)}
         },

@@ -10,6 +10,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../channel/globalCookie.dart';
@@ -21,7 +22,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _MinePageState extends State<UserPage>
-    with AutomaticKeepAliveClientMixin{
+    with AutomaticKeepAliveClientMixin {
   final globalCookie = GlobalCookie();
   bool _islogin = false;
 
@@ -90,6 +91,7 @@ class _MinePageState extends State<UserPage>
       var responseData = await getUserInfo(params, header: header);
       setState(() {
         userInfo = responseData.data;
+        setUserInfo();
       });
       var userInfoItems = await getUserInfoItems(params, header: header);
       setState(() {
@@ -107,7 +109,7 @@ class _MinePageState extends State<UserPage>
     return singleSliverWidget(Container(
       padding:
           EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
-      decoration: BoxDecoration(color: Color(0xFFF1BB6A)),
+      decoration: BoxDecoration(color: backYellow),
       height: 140 + MediaQuery.of(context).padding.top,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -422,6 +424,12 @@ class _MinePageState extends State<UserPage>
       color: Colors.white,
       child: webLogin,
     );
+  }
+
+  void setUserInfo() async{
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', userInfo['userSimpleVO']['nickname']);
+    await prefs.setString('pointsCnt', userInfo['userSimpleVO']['pointsCnt'].toString());
   }
 }
 
