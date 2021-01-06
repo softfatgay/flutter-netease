@@ -144,8 +144,7 @@ class _CommentListState extends State<CommentList> {
                         ),
                       ))
                     : buildCommentList(),
-                SliverFooter(
-                    hasMore: pagination['totalPage'] > pagination['page'])
+                SliverFooter(hasMore: pagination['totalPage'] > pagination['page']||(commentList.length==0))
               ],
             ),
     );
