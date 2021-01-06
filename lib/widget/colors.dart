@@ -117,4 +117,18 @@ const TextStyle t14lgrey = TextStyle(
 );
 
 
+const TextStyle t16white = TextStyle(
+    color: textWhite,
+    fontSize: 16
+);
+
+const TextStyle t16whiteblod = TextStyle(
+    color: textWhite,
+    fontSize: 16,
+    fontWeight: FontWeight.bold
+);
+
+
+
+
 

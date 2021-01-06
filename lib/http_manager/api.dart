@@ -236,3 +236,9 @@ Future<ResponseData> vipCenter(Map<String, dynamic> parameters,
   return await HttpManager.post(VIP_CENTER,
       queryParameters: parameters, headers: header);
 }
+///加入购物车
+Future<ResponseData> addCart(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(ADD_CART,
+      queryParameters: parameters, headers: header);
+}

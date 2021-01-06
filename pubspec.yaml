@@ -31,8 +31,6 @@ dependencies:
   #  banner
   flutter_swiper: ^1.1.6
 
-  toast: ^0.1.5
-
   #标签加载,类似html
   flutter_html: ^0.11.0
 

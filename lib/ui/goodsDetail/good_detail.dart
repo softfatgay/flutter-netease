@@ -5,9 +5,12 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/colors.dart';
@@ -18,7 +21,6 @@ import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/start_widget.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class GoodsDetail extends StatefulWidget {
   final Map arguments;
@@ -58,13 +60,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
   List skuSpecList = [];
   var skuMap;
   var skuMapItem;
-
-  var actvity = {
-    "bannerTitleUrl":
-        "https://yanxuan.nosdn.127.net/d71e2460d062eaa21d5bdf97eba9da89.png",
-    "bannerContentUrl":
-        "https://yanxuan.nosdn.127.net/c168892ef76f29971032dc1c12613720.png",
-  };
 
   @override
   void initState() {
@@ -200,69 +195,6 @@ class _GoodsDetailState extends State<GoodsDetail> {
         ),
         floatingActionButton:
             !isShowFloatBtn ? Container() : floatingAB(_scrollController));
-  }
-
-  Widget buildFoot() {
-    return Container(
-      height: 45,
-      width: double.infinity,
-      child: Row(
-        children: <Widget>[
-          //收藏
-          Container(
-            width: 50,
-            child: Column(
-              children: <Widget>[
-                Expanded(child: Icon(Icons.star_border)),
-                Text(
-                  '收藏',
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(color: Colors.red),
-              child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  '马上购买',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                color: Colors.red,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(color: Colors.orange),
-              child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  '加入购物车',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                color: Colors.orange,
-              ),
-            ),
-          ),
-        ],
-      ),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(color: Colors.grey[300], blurRadius: 1, spreadRadius: 0.2)
-      ]),
-    );
   }
 
   //内容
@@ -577,28 +509,38 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Container(
-                            child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(right: 6),
-                              padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.red),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text(
-                                hdrkDetailVOList[0]['activityType'],
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 12),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 6),
+                                padding: EdgeInsets.symmetric(horizontal: 2),
+                                decoration: BoxDecoration(
+                                    color: redLightColor,
+                                    border: Border.all(color: Colors.red),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Text(
+                                  hdrkDetailVOList[0]['activityType'],
+                                  style: t12white,
+                                ),
                               ),
-                            ),
-                            Container(
-                              child: Text(
-                                hdrkDetailVOList[0]['name'],
-                                style: TextStyle(color: Colors.black),
+                              Column(
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      hdrkDetailVOList[0]['name'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),Container(
+                                    child: Text(
+                                      hdrkDetailVOList[0]['promLimitDesc'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        )),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -762,7 +704,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               height: 0.5,
               width: double.infinity,
               margin: EdgeInsets.only(left: 10),
-              color: Colors.grey[100],
+              color: lineColor,
             ),
             comments.length > 0
                 ? Container(
@@ -894,10 +836,12 @@ class _GoodsDetailState extends State<GoodsDetail> {
     //   width: double.infinity,
     //   alignment: Alignment.center,
     // );
-    final imgWidgts = detailImages.map<Widget>((e) => CachedNetworkImage(
-      imageUrl: e,
-      fit: BoxFit.cover,
-    )).toList();
+    final imgWidgts = detailImages
+        .map<Widget>((e) => CachedNetworkImage(
+              imageUrl: e,
+              fit: BoxFit.cover,
+            ))
+        .toList();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       child: Column(
@@ -1103,8 +1047,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        child: Text(
-                            '${attrList[index]['attrName']}'),
+                        child: Text('${attrList[index]['attrName']}'),
                       ),
                     ),
                     Expanded(
@@ -1119,10 +1062,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   ],
                 ),
               );
-            },
-                childCount: attrList == null
-                    ? 0
-                    : attrList.length),
+            }, childCount: attrList == null ? 0 : attrList.length),
           );
   }
 
@@ -1393,7 +1333,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Container(
                       padding: EdgeInsets.only(bottom: 4),
                       child: Text(
-                        '￥$counterPrice',
+                        '${counterPrice == 'null' ? '' : '￥$counterPrice'}',
                         style: TextStyle(
                           fontSize: 12,
                           color: textGrey,
@@ -1496,110 +1436,83 @@ class _GoodsDetailState extends State<GoodsDetail> {
         return Container(
           child: StatefulBuilder(builder: (context, setstate) {
             return Container(
-              constraints: BoxConstraints(maxHeight: 550),
-              color: Colors.red,
-              child: SingleChildScrollView(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(5.0),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    //最小包裹高度
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      //定位右侧
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: InkResponse(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Icon(
-                              Icons.close,
-                              color: redColor,
+              constraints: BoxConstraints(maxHeight: 800),
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(5.0),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        //最小包裹高度
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          //定位右侧
+                          Container(
+                              child: Align(
+                            alignment: Alignment.topRight,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(
+                                  Icons.close,
+                                  color: redColor,
+                                ),
+                              ),
+                            ),
+                          )),
+                          //商品描述
+                          _selectGoodDetail(context),
+                          _modelAndSize(context, setstate),
+                          //数量
+                          Container(
+                            margin: EdgeInsets.only(top: 15, bottom: 10),
+                            child: Text(
+                              '数量',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14),
                             ),
                           ),
-                        ),
-                      ),
-                      //商品描述
-                      _selectGoodDetail(context),
-                      _modelAndSize(context, setstate),
-                      //数量
-                      Container(
-                        margin: EdgeInsets.only(top: 15, bottom: 10),
-                        child: Text(
-                          '数量',
-                          style: TextStyle(color: Colors.black, fontSize: 14),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
-                        child: Count(
-                          number: goodCount,
-                          min: 1,
-                          max: 100,
-                          onChange: (index) {
-                            setstate(() {
-                              goodCount = index;
-                            });
-                            setState(() {
-                              goodCount = index;
-                            });
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 3),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.only(right: 5),
-                                child: FlatButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    '马上购买',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                  color: Colors.red,
-                                ),
-                              ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
+                            child: Count(
+                              number: goodCount,
+                              min: 1,
+                              max: 100,
+                              onChange: (index) {
+                                setstate(() {
+                                  goodCount = index;
+                                });
+                                setState(() {
+                                  goodCount = index;
+                                });
+                              },
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 5),
-                                child: FlatButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    '加入购物车',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 45,
+                          )
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: buildFoot(),
+                  ),
+                ],
               ),
             );
           }),
@@ -1666,22 +1579,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(2)),
               border: Border.all(
-                  width:
-                      (selectedLId == item['id'] || selectedRId == item['id'])
-                          ? 2
-                          : 1,
+                  width: 1,
                   color:
                       (selectedLId == item['id'] || selectedRId == item['id'])
                           ? redColor
-                          : textBlack)),
+                          : textGrey)),
           child: Text(
             '${item['value']}',
             style: TextStyle(
-                color:
-                    (selectedLId == item['id'] || selectedRId == item['id']) ==
-                            item['id']
-                        ? redColor
-                        : textBlack),
+                color: (selectedLId == item['id'] || selectedRId == item['id'])
+                    ? redColor
+                    : textGrey),
             textAlign: TextAlign.center,
           ),
         ),
@@ -1704,6 +1612,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
               }
               skuMapItem =
                   skuMap['${property['leftId']};${property['rightId']}'];
+              price = skuMapItem['retailPrice'].toString();
+              counterPrice = skuMapItem['counterPrice'].toString();
             } else {
               selectedLId = item['id'];
               selectedDecLeft = item['value'];
@@ -1725,6 +1635,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
               }
               skuMapItem =
                   skuMap['${property['leftId']};${property['rightId']}'];
+              price = skuMapItem['retailPrice'].toString();
+              counterPrice = skuMapItem['counterPrice'].toString();
             } else {
               selectedLId = item['id'];
               selectedDecLeft = item['value'];
@@ -1818,5 +1730,203 @@ class _GoodsDetailState extends State<GoodsDetail> {
         ],
       ),
     );
+  }
+
+  ///底部展示
+  Widget buildFoot() {
+    if (skuMapItem == null) {
+      return _defaultBottomBtns();
+    } else {
+      int sellVolume = skuMapItem['sellVolume'];
+      int purchaseAttribute = skuMapItem['purchaseAttribute'];
+      if (sellVolume > 0) {
+        return _activityBtns(purchaseAttribute);
+      } else {
+        return _noGoodsSell();
+      }
+    }
+  }
+
+  ///默认展示形式
+  _defaultBottomBtns() {
+    return Container(
+      height: 45,
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          //客服
+          _kefuWidget(),
+          _buyButton(0),
+          _putCarShop(0)
+        ],
+      ),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(color: lineColor, blurRadius: 1, spreadRadius: 0.2)
+      ]),
+    );
+  }
+
+  _activityBtns(int purchaseAttribute) {
+    return Container(
+      height: 45,
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          //客服
+          _kefuWidget(),
+          _buyButton(purchaseAttribute),
+          _putCarShop(purchaseAttribute)
+        ],
+      ),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(color: lineColor, blurRadius: 1, spreadRadius: 0.2)
+      ]),
+    );
+  }
+
+  _kefuWidget() {
+    return GestureDetector(
+      child: Container(
+        width: 80,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+                child: Image.asset(
+              'assets/images/mine/kefu.png',
+              width: 30,
+              height: 30,
+            )),
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Util.webView, context,
+            {'id': 'https://cs.you.163.com/client?k=$kefuKey'});
+      },
+    );
+  }
+
+  _buyButton(int purchaseAttribute) {
+    String text = '立即购买';
+    if (skuMapItem != null &&
+        skuMapItem['buyTitle'] != null &&
+        purchaseAttribute == 1) {
+      var buyTitle = skuMapItem['buyTitle'];
+      text = '${buyTitle['title']}${buyTitle['subTitle']}';
+    }
+    return Expanded(
+      flex: 1,
+      child: Container(
+        height: 45,
+        decoration: BoxDecoration(
+            border: Border(left: BorderSide(color: lineColor, width: 1))),
+        child: FlatButton(
+          onPressed: () {
+            if (skuMapItem == null) {
+              buildSizeModel(context);
+            } else {
+              //加入购物车
+              _buyGoods();
+            }
+          },
+          child: Text(
+            '$text',
+            style: purchaseAttribute == 0 ? t16blackbold : t16white,
+          ),
+          color: purchaseAttribute == 0 ? Colors.white : redColor,
+        ),
+      ),
+    );
+  }
+
+  _putCarShop(int purchaseAttribute) {
+    return purchaseAttribute == 1
+        ? Container()
+        : Expanded(
+            flex: 1,
+            child: Container(
+              height: 45,
+              child: FlatButton(
+                onPressed: () {
+                  if (skuMapItem == null) {
+                    buildSizeModel(context);
+                  } else {
+                    //加入购物车
+                    _addShoppingCart();
+                  }
+                },
+                child: Text(
+                  '加入购物车',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                color: redColor,
+              ),
+            ),
+          );
+  }
+
+  ///不可售
+  _noGoodsSell() {
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              decoration:
+                  BoxDecoration(border: Border.all(color: lineColor, width: 1)),
+              height: 45,
+              child: FlatButton(
+                onPressed: () {},
+                child: Text(
+                  '到货提醒',
+                  style: t16black,
+                ),
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: 45,
+              child: FlatButton(
+                onPressed: () {},
+                child: Text(
+                  '售罄',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                color: lineColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///加入购物车
+  void _addShoppingCart() async {
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "cnt": goodCount,
+      "skuId": skuMapItem['id']
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    await addCart(params, header: header).then((value) {
+      Toast.show('添加成功', context);
+      // _getDetailPageUp();
+    });
+  }
+
+  ///购买
+  void _buyGoods() {
+
   }
 }

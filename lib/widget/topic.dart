@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:toast/toast.dart';
 
 class Topic extends StatelessWidget {
   final List data;
@@ -63,12 +62,9 @@ class Topic extends StatelessWidget {
             ),
           );
         },
-
         controller: SwiperController(),
         scrollDirection: Axis.horizontal,
-        onTap: (index){
-          Toast.show('点击了$index', context);
-        },
+        onTap: (index) {},
         viewportFraction: 0.8,
       ),
     );

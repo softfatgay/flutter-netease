@@ -38,6 +38,7 @@ final String TOPPIC = "${NetContants.baseUrl}topic/index.json";
 final String COMMENT_LIST = "${NetContants.baseUrl}xhr/comment/listByItemByTag.json";
 final String POINT_CENTER = "${NetContants.baseUrl}xhr/points/index.json";
 final String VIP_CENTER = "${NetContants.baseUrl}xhr/membership/indexPrivilege.json";
+final String ADD_CART = "${NetContants.baseUrl}xhr/cart/add.json";
 
 
 
@@ -123,3 +124,5 @@ final String VIP_CENTER = "${NetContants.baseUrl}xhr/membership/indexPrivilege.j
 ///会员俱乐部
 //https://m.you.163.com/xhr/membership/indexPrivilege.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
 
+///加入购物车
+//https://m.you.163.com/xhr/cart/add.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&cnt=1&skuId=3628032

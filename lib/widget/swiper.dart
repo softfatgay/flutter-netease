@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:toast/toast.dart' as prefix0;
 
 typedef void OnTap(int index);
 
