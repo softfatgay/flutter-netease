@@ -1610,10 +1610,11 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 selectedDecRight = item['value'];
                 print('rightId----------${item['id']}');
               }
-              skuMapItem =
-                  skuMap['${property['leftId']};${property['rightId']}'];
-              price = skuMapItem['retailPrice'].toString();
-              counterPrice = skuMapItem['counterPrice'].toString();
+              skuMapItem = skuMap['${property['leftId']};${property['rightId']}'];
+              if (skuMapItem!=null) {
+                price = skuMapItem['retailPrice'].toString();
+                counterPrice = skuMapItem['counterPrice'].toString();
+              }
             } else {
               selectedLId = item['id'];
               selectedDecLeft = item['value'];
@@ -1635,8 +1636,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
               }
               skuMapItem =
                   skuMap['${property['leftId']};${property['rightId']}'];
-              price = skuMapItem['retailPrice'].toString();
-              counterPrice = skuMapItem['counterPrice'].toString();
+              if (skuMapItem!=null) {
+                price = skuMapItem['retailPrice'].toString();
+                counterPrice = skuMapItem['counterPrice'].toString();
+              }
             } else {
               selectedLId = item['id'];
               selectedDecLeft = item['value'];
