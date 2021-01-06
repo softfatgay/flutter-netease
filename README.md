@@ -5,7 +5,7 @@
 ## 注意事项
 
 1. 注意项目中使用的kotlin,androidx版本
-2. 主分支的cookie和csrf_token容易过期，过期的话请自行在浏览器中打开网易严选登录，检查模式下查看，并拿到cookie（一般很长，有用的就两三个，在项目中user_config.dart文件中，自行替换）和csrf_token替换
+2. cookie和csrf_token已实现动态更新，网页登录即可
 
 ## 深度还原网易严web-app，api全部来自严选
 
@@ -25,7 +25,7 @@
 - 视频播放(chewie,更改了源码,添加全屏标题返回键,双击手势等一些UI改动。已改版项目中没有使用到，代码在)
 - 增加搜索功能(联想词),封装有StafulWidget的组件,带回调参数的,供大家参考(搜索框)
 - 网络请求的封装
-- stable分支增加网易严选web登录页面（过期和第一次登录），动态获取cookie
+- 新增网易严选web登录页面（过期和第一次登录），动态获取cookie
 - 项目中接口全部使用了网易API接口数据,真实数据,请勿用于商业/恶意攻击等违法行为,否则后果自负
 - 本项目纯属学习项目,切勿涉及违法行为
 - 数据来之不易，如若有帮助，请帮忙点个👍
@@ -37,7 +37,6 @@
 - [webview_flutter](https://pub.flutter-io.cn/packages/webview_flutter)
 - [cached_network_image](https://pub.flutter-io.cn/packages/cached_network_image)
 - [flutter_swiper](https://pub.flutter-io.cn/packages/flutter_swiper)
-- [Toast](https://pub.flutter-io.cn/packages/toast)
 - [flutter_html](https://pub.flutter-io.cn/packages/flutter_html)
 - [image_picker](https://pub.flutter-io.cn/packages/image_picker)
 - [common_utils](https://pub.flutter-io.cn/packages/common_utils)
