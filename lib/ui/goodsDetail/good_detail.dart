@@ -44,6 +44,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
   var _fullRefundPolicy; //规则
 
   var _skuFreight; //邮费
+  var _isGoodSelectDialogShow = false;
 
   bool _initLoading = true;
   ScrollController _scrollController = ScrollController();
@@ -642,7 +643,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               ),
             ),
             onTap: () {
-              buildSizeModel(context);
+              _buildSizeModel(context);
             },
           ),
 
@@ -1277,7 +1278,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
   }
 
   ///属性选择底部弹窗
-  buildSizeModel(BuildContext context) {
+  _buildSizeModel(BuildContext context) {
+    setState(() {
+      _isGoodSelectDialogShow = true;
+    });
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     return showModalBottomSheet(
       //设置true,不会造成底部溢出
@@ -1860,7 +1864,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
         child: FlatButton(
           onPressed: () {
             if (skuMapItem == null) {
-              buildSizeModel(context);
+              _buildSizeModel(context);
             } else {
               //加入购物车
               _buyGoods();
@@ -1886,7 +1890,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               child: FlatButton(
                 onPressed: () {
                   if (skuMapItem == null) {
-                    buildSizeModel(context);
+                    _buildSizeModel(context);
                   } else {
                     //加入购物车
                     _addShoppingCart();
@@ -1965,7 +1969,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
   ///购买
   void _buyGoods() {
     Toast.show('暂未开发', context);
-  return;
+    return;
     List cartItemList = [];
     Map<String, dynamic> cartItem = {
       'uniqueKey': null,
