@@ -25,6 +25,7 @@ import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
 import 'package:flutter_app/ui/setting/favorite.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
+import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/sort/sort_list.dart';
 import 'package:flutter_app/ui/webview_page.dart';
@@ -64,6 +65,9 @@ class Routers {
 
     ///大图
     Util.image: (context, {arguments}) => FullScreenImage(arguments),
+
+    ///确认订单
+    Util.orderInit: (context, {arguments}) => PaymentPage(arguments: arguments,),
 
     ///webView
     Util.webView: (context, {arguments}) => WebViewPage(arguments),

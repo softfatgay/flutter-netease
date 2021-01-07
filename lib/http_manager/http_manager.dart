@@ -27,8 +27,8 @@ class HttpManager {
     Map<String, dynamic> postHeader = (headers == null) ? Map() : headers;
 
     if (accept != null) {
-      postHeader['Accept'] = 'application/json, text/javascript, */*; q=0.01';
-      postHeader['Content-Type'] = 'application/json';
+      postHeader['accept'] = 'application/json, text/javascript, */*; q=0.01';
+      postHeader['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
     } else {
       postHeader['Content-Type'] =
           'application/x-www-form-urlencoded; charset=UTF-8';

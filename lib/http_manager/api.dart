@@ -242,3 +242,9 @@ Future<ResponseData> addCart(Map<String, dynamic> parameters,
   return await HttpManager.get(ADD_CART,
       queryParameters: parameters, headers: header);
 }
+///订单确认界面
+Future<ResponseData> orderInit(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(ORDER_INIT,
+      queryParameters: parameters, headers: header);
+}

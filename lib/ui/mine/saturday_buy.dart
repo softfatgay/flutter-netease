@@ -121,6 +121,8 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   _buildGrid() {
     return Container(
       child: GridView.count(
+        padding: EdgeInsets.all(10),
+
         ///这两个属性起关键性作用，列表嵌套列表一定要有Container
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -139,9 +141,12 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
           }
           return Routers.link(
             widget,
-            Util.goodDetailTag,
+            Util.webView,
             context,
-            {'id': item['id']},
+            {
+              'id':
+                  'https://m.you.163.com/pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item['id']}'
+            },
           );
         }).toList(),
       ),
@@ -256,7 +261,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
             height: 130,
             child: CachedNetworkImage(
               imageUrl: item['picUrl'],
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
             ),
           ),
           Expanded(

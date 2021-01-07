@@ -152,7 +152,7 @@ class _CommentListState extends State<CommentList> {
 
   Widget buildTagControl() {
     if (commentTags.length < 6) {
-      return Container();
+      return Container(height: 20,);
     } else {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),

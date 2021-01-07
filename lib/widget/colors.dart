@@ -84,6 +84,11 @@ const TextStyle t18blackbold = TextStyle(
 );
 
 
+const TextStyle t12red = TextStyle(
+  color: textRed,
+  fontSize: 12
+);
+
 const TextStyle t14red = TextStyle(
   color: textRed,
   fontSize: 14

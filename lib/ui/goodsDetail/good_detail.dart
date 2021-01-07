@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -32,23 +33,23 @@ class GoodsDetail extends StatefulWidget {
 }
 
 class _GoodsDetailState extends State<GoodsDetail> {
-  int skuId = 0; //属性id
-  int goodCount = 1; //商品数量
-  String price = ''; //商品价格
-  String counterPrice = ''; //商品价格
-  String skuLimit; //商品限制规则
-  String promoTip = ''; //商品活动介绍
-  List couponShortNameList = []; //券活动/标签等
-  List hdrkDetailVOList; //促销
+  int _goodCount = 1; //商品数量
+  String _price = ''; //商品价格
+  String _counterPrice = ''; //商品价格
+  String _skuLimit; //商品限制规则
+  String _promoTip = ''; //商品活动介绍
+  var _featuredSeries; //banner下面图片
+  List _couponShortNameList = []; //券活动/标签等
+  List _hdrkDetailVOList; //促销
+  var _fullRefundPolicy; //规则
 
-  var skuFreight; //邮费
-  var monthlySavingCard; //省钱月卡
+  var _skuFreight; //邮费
 
-  bool initLoading = true;
+  bool _initLoading = true;
   ScrollController _scrollController = ScrollController();
   TextEditingController _textEditingController = TextEditingController();
 
-  bool isShowFloatBtn = false;
+  bool _isShowFloatBtn = false;
   Map goodDetail = {};
   List<String> detailImages = List<String>();
   Map goodDetailPre = {};
@@ -73,15 +74,15 @@ class _GoodsDetailState extends State<GoodsDetail> {
     _scrollController.addListener(() {
       setState(() {
         if (_scrollController.position.pixels > 500) {
-          isShowFloatBtn = true;
+          _isShowFloatBtn = true;
         } else {
-          isShowFloatBtn = false;
+          _isShowFloatBtn = false;
         }
       });
     });
 
     _textEditingController.addListener(() {
-      _textEditingController.text = goodCount.toString();
+      _textEditingController.text = _goodCount.toString();
     });
   }
 
@@ -129,19 +130,20 @@ class _GoodsDetailState extends State<GoodsDetail> {
       var goodData = goodDetailPre['item'];
 
       var skuList = goodData['skuList'];
-      monthlySavingCard = goodData["monthlySavingCard"];
-      price = goodData["retailPrice"].toString();
-      counterPrice = goodData["counterPrice"].toString();
+      _price = goodData["retailPrice"].toString();
+      _counterPrice = goodData["counterPrice"].toString();
 
-      skuLimit = goodData['itemLimit'];
+      _skuLimit = goodData['itemLimit'];
 
       ///选择属性/规格等
       skuSpecList = goodData['skuSpecList'];
       skuMap = goodData['skuMap'];
-      promoTip = goodData['promoTip'];
-      couponShortNameList = goodData['couponShortNameList'];
-      hdrkDetailVOList = goodData['hdrkDetailVOList'];
-      skuFreight = goodData['skuFreight'];
+      _promoTip = goodData['promoTip'];
+      _featuredSeries = goodData['featuredSeries'];
+      _couponShortNameList = goodData['couponShortNameList'];
+      _hdrkDetailVOList = goodData['hdrkDetailVOList'];
+      _skuFreight = goodData['skuFreight'];
+      _fullRefundPolicy = goodData['fullRefundPolicy'];
 
       ///banner
       var itemDetail = goodDetailPre['item']['itemDetail'];
@@ -151,7 +153,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           banner.add(image);
         }
       });
-      initLoading = false;
+      _initLoading = false;
     });
   }
 
@@ -194,12 +196,12 @@ class _GoodsDetailState extends State<GoodsDetail> {
           ],
         ),
         floatingActionButton:
-            !isShowFloatBtn ? Container() : floatingAB(_scrollController));
+            !_isShowFloatBtn ? Container() : floatingAB(_scrollController));
   }
 
   //内容
   Widget buildContent() {
-    if (initLoading) {
+    if (_initLoading) {
       return Loading();
     } else {
       return CustomScrollView(
@@ -208,7 +210,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           SliverPersistentHeader(
             pinned: true,
             delegate: SliverCustomHeaderDelegate(
-              title: initLoading
+              title: _initLoading
                   ? 'loading...'
                   : '${goodDetailPre['item']['name']}',
               collapsedHeight: 50,
@@ -218,36 +220,41 @@ class _GoodsDetailState extends State<GoodsDetail> {
             ),
           ),
           // banner底部活动
-          singleSliverWidget(buildActivity()),
+          singleSliverWidget(_buildActivity()),
+          //banner下面图片
+          singleSliverWidget(_featuredSeriesWidget()),
           //商品名称
-          singleSliverWidget(buildTitle()),
+          singleSliverWidget(_buildTitle()),
           //推荐理由
-          singleSliverWidget(buildOnlyText()),
-          buildRecommondReason(),
+          singleSliverWidget(_buildOnlyText()),
+          _buildRecommondReason(),
+          singleSliverWidget(Container(
+            height: 15,
+            color: Colors.white,
+          )),
           //选择属性
-          singleSliverWidget(buildSelectProperty()),
+          singleSliverWidget(_buildSelectProperty()),
           // //服务
-          singleSliverWidget(buildDescription()),
+          singleSliverWidget(_buildDescription()),
           //评论
-          singleSliverWidget(buildComment()),
+          singleSliverWidget(_buildComment()),
           //详情title
-          singleSliverWidget(builddetailTitle()),
+          singleSliverWidget(_builddetailTitle()),
           //成分
-          buildIntro(),
+          _buildIntro(),
           //商品详情
           singleSliverWidget(
-              // goodDetail.isEmpty ? Container() : buildGoodDetail()),
-              detailImages.isEmpty ? Container() : buildGoodDetail()),
+              detailImages.isEmpty ? Container() : _buildGoodDetail()),
           //报告
-          buildReport(),
+          _buildReport(),
           //常见问题
           singleSliverWidget(
-              goodDetail.isEmpty ? Container() : buildIssuTitle('-- 常见问题 --')),
-          buildIssueList(),
+              goodDetail.isEmpty ? Container() : _buildIssuTitle('-- 常见问题 --')),
+          _buildIssueList(),
           //推荐
           singleSliverWidget(goodDetail.isEmpty
               ? Container()
-              : buildIssuTitle('-- 你可能还喜欢 --')),
+              : _buildIssuTitle('-- 你可能还喜欢 --')),
           GoodItemWidget(dataList: rmdList),
           singleSliverWidget(Container(
             height: 100,
@@ -266,17 +273,34 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  buildActivity() {
-    return promoTip == null
+  _buildActivity() {
+    return _promoTip == null
         ? Container()
         : Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
             child: Text(
-              promoTip ?? '',
+              _promoTip ?? '',
               textAlign: TextAlign.start,
               style: TextStyle(color: Color(0xFFF48F57)),
             ));
+  }
+
+  _featuredSeriesWidget() {
+    return _featuredSeries == null
+        ? Container()
+        : Container(
+            child: GestureDetector(
+            child: CachedNetworkImage(
+              imageUrl: _featuredSeries['detailPicUrl'],
+            ),
+            onTap: () {
+              Routers.push(Util.webView, context, {
+                'id':
+                    'https://m.you.163.com/featuredSeries/detail?id=${_featuredSeries['id']}'
+              });
+            },
+          ));
   }
 
   Widget buildOneTab() {
@@ -317,18 +341,18 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  Widget buildDescription() {
-    return Container(
-      color: Colors.white,
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          GestureDetector(
-            child: Container(
+  _buildDescription() {
+    return GestureDetector(
+      child: Container(
+        color: Colors.white,
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
               padding: EdgeInsets.symmetric(vertical: 10),
               margin: EdgeInsets.only(top: 10),
               child: Row(
@@ -338,7 +362,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     margin: EdgeInsets.only(right: 10),
                     child: Text(
                       '服务:',
-                      style: TextStyle(color: Colors.grey),
+                      style: t14grey,
                     ),
                   ),
                   Expanded(
@@ -346,82 +370,72 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     child: Wrap(
                       spacing: 5,
                       runSpacing: 5,
-                      children: buildSerVice(),
+                      children: _buildSerVice(),
                     ),
                   )),
                   Container(child: arrowRightIcon)
                 ],
               ),
-            ),
-            onTap: () {
-              buildServiceDialog(context);
-            },
-          )
-        ],
+            )
+          ],
+        ),
       ),
+      onTap: () {
+        List policyList = goodDetailPre['policyList'];
+        _buildskuFreightDialog(context, '服务', policyList);
+      },
     );
   }
 
-  Widget buildSelectProperty() {
+  _buildSelectProperty() {
     var shoppingReward = goodDetailPre['item']['shoppingReward'];
+    String policyTitle = '';
+    if (_fullRefundPolicy != null) {
+      List fullRefundPolicyTitle = _fullRefundPolicy['titles'];
+      if (fullRefundPolicyTitle != null && fullRefundPolicyTitle.isNotEmpty) {
+        fullRefundPolicyTitle.forEach((element) {
+          policyTitle += '▪$element ';
+        });
+      }
+    }
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
-          ///省钱月卡
-          monthlySavingCard == null
+          ///规则
+          _fullRefundPolicy == null
               ? Container()
-              : Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(color: backGrey),
+              : InkResponse(
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFF8E4DF),
-                        borderRadius: BorderRadius.circular(6)),
+                    decoration: bottomBorder,
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.credit_card,
-                          color: redColor,
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
                         Text(
-                          monthlySavingCard["title"],
-                          style: TextStyle(
-                              color: textRed, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Container(
-                          color: redColor,
-                          height: 15,
-                          width: 1,
-                        ),
-                        SizedBox(
-                          width: 2,
+                          '规则：',
+                          style: t14grey,
                         ),
                         Expanded(
                           child: Text(
-                            monthlySavingCard["desc"],
-                            style: TextStyle(
-                              color: textRed,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            '$policyTitle',
+                            style: t14black,
                           ),
                         ),
+                        arrowRightIcon
                       ],
                     ),
                   ),
+                  onTap: () {
+                    _buildBottomDecDialog(
+                        context,
+                        _fullRefundPolicy['detailTitle'],
+                        _fullRefundPolicy['content']);
+                  },
                 ),
 
           //领券
-          (couponShortNameList == null || couponShortNameList.isEmpty)
+          (_couponShortNameList == null || _couponShortNameList.isEmpty)
               ? Container()
               : InkResponse(
                   child: Container(
@@ -432,8 +446,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         Container(
                           margin: EdgeInsets.only(right: 5),
                           child: Text(
-                            '领券:',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                            '领券：',
+                            style: t14grey,
                           ),
                         ),
                         Expanded(
@@ -444,7 +458,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                   border: Border.all(color: Color(0xFFFBBB65))),
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Text(
-                                couponShortNameList[0],
+                                _couponShortNameList[0],
                                 style: TextStyle(color: Colors.red),
                               ),
                             ),
@@ -454,13 +468,11 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       ],
                     ),
                   ),
-                  onTap: () {
-                    Toast.show('您还没有登录', context);
-                  },
+                  onTap: () {},
                 ),
 
           ///邮费
-          skuFreight == null
+          _skuFreight == null
               ? Container()
               : InkResponse(
                   child: Container(
@@ -470,15 +482,15 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${skuFreight['title']}:',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                            '${_skuFreight['title']}：',
+                            style: t14grey,
                           ),
                         ),
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                              skuFreight['freightInfo'],
+                              _skuFreight['freightInfo'],
                               style: TextStyle(color: textBlack),
                             ),
                           ),
@@ -488,12 +500,14 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     ),
                   ),
                   onTap: () {
-                    buildskuFreightDialog(context);
+                    var title = _skuFreight['title'];
+                    List policyList = _skuFreight['policyList'];
+                    _buildskuFreightDialog(context, title, policyList);
                   },
                 ),
 
           ///促销限制
-          (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty)
+          (_hdrkDetailVOList == null || _hdrkDetailVOList.isEmpty)
               ? Container()
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -502,8 +516,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          '促销',
-                          style: TextStyle(color: Colors.grey),
+                          '促销：',
+                          style: t14grey,
                         ),
                       ),
                       Container(
@@ -519,21 +533,23 @@ class _GoodsDetailState extends State<GoodsDetail> {
                                     border: Border.all(color: Colors.red),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Text(
-                                  hdrkDetailVOList[0]['activityType'],
+                                  _hdrkDetailVOList[0]['activityType'],
                                   style: t12white,
                                 ),
                               ),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     child: Text(
-                                      hdrkDetailVOList[0]['name'],
-                                      style: TextStyle(color: Colors.black),
+                                      _hdrkDetailVOList[0]['name'],
+                                      style: t14black,
                                     ),
-                                  ),Container(
+                                  ),
+                                  Container(
                                     child: Text(
-                                      hdrkDetailVOList[0]['promLimitDesc'],
-                                      style: TextStyle(color: Colors.black),
+                                      _hdrkDetailVOList[0]['promLimitDesc'],
+                                      style: t14grey,
                                     ),
                                   ),
                                 ],
@@ -557,8 +573,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${shoppingReward['name']}:',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                            '${shoppingReward['name']}：',
+                            style: t14grey,
                           ),
                         ),
                         Container(
@@ -581,7 +597,10 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     ),
                   ),
                   onTap: () {
-                    buildActivityDialog(context);
+                    var shoppingRewardRule =
+                        goodDetailPre['item']['shoppingRewardRule'];
+                    _buildskuFreightDialog(context, shoppingRewardRule['title'],
+                        shoppingRewardRule['ruleList']);
                   },
                 ),
 
@@ -596,8 +615,8 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 children: <Widget>[
                   Container(
                     child: Text(
-                      '已选:',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      '已选：',
+                      style: t14grey,
                     ),
                   ),
                   Expanded(
@@ -614,7 +633,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   ),
                   Container(
                     child: Text(
-                      'x$goodCount',
+                      'x$_goodCount',
                       style: TextStyle(fontSize: 14, color: Colors.red),
                     ),
                   ),
@@ -628,7 +647,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           ),
 
           ///服务
-          (skuLimit == null || skuLimit == '')
+          (_skuLimit == null || _skuLimit == '')
               ? Container()
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -637,14 +656,14 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          '限制:',
-                          style: TextStyle(color: Colors.grey),
+                          '限制：',
+                          style: t14grey,
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          skuLimit,
+                          _skuLimit,
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -656,7 +675,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  Widget buildComment() {
+  _buildComment() {
     var commentCount = goodDetailPre['commentCount'];
     List comments = goodDetailPre['item']['comments'];
     var goodCmtRate = goodDetailPre['item']['goodCmtRate'];
@@ -675,13 +694,13 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 height: 50,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       child: Text(
                         '用户评论($commentCount)',
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
+                        style: t16black,
                       ),
                     ),
                     Expanded(
@@ -690,9 +709,14 @@ class _GoodsDetailState extends State<GoodsDetail> {
                       children: <Widget>[
                         Text(
                           goodCmtRate == null ? "" : goodCmtRate,
-                          style: TextStyle(color: Colors.red),
+                          style: t16red,
                         ),
-                        Text(goodCmtRate == null ? '查看全部' : '好评率'),
+                        Text(
+                          (goodCmtRate == null || goodCmtRate == '')
+                              ? '查看全部'
+                              : '好评率',
+                          style: t16black,
+                        ),
                       ],
                     )),
                     arrowRightIcon
@@ -826,7 +850,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
             widget, Util.image, context, {'id': '${commentList[indexC]}'});
       });
 
-  Widget buildGoodDetail() {
+  _buildGoodDetail() {
     // return Container(
     //   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
     //   child: Html(
@@ -853,182 +877,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  ///服务弹窗
-  buildServiceDialog(BuildContext context) {
-    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return StatefulBuilder(builder: (context, setstate) {
-          List policyList = goodDetailPre['policyList'];
-          return Container(
-            height: 300,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(5.0),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(top: 5, bottom: 2),
-                          child: Text(
-                            policyList[index]['title'],
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            policyList[index]['content'],
-                            style: TextStyle(color: Colors.grey, fontSize: 14),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }, childCount: policyList.length))
-              ],
-            ),
-          );
-        });
-      },
-    );
-  }
-
-  ///邮费
-  buildskuFreightDialog(BuildContext context) {
-    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
-    List skuFreightList = skuFreight['policyList'];
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          constraints: BoxConstraints(maxHeight: 350),
-          child: SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(minHeight: 250),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(5.0),
-                ),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: skuFreightList
-                    .map<Widget>((item) => Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(top: 10, bottom: 3),
-                              child: Text(
-                                item['title'],
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                item['content'],
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                              ),
-                            )
-                          ],
-                        ))
-                    .toList(),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  ///活动规则
-  buildActivityDialog(BuildContext context) {
-    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
-    var shoppingRewardRule = goodDetailPre['item']['shoppingRewardRule'];
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        List shoppingRewardRuleList = shoppingRewardRule['ruleList'];
-        return Container(
-          height: 350,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(5.0),
-            ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: CustomScrollView(
-            slivers: <Widget>[
-              singleSliverWidget(
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${shoppingRewardRule['title']}',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                ),
-              ),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                var shoppingRewardRuleDetail = shoppingRewardRuleList[index];
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 2),
-                        child: Text(
-                          shoppingRewardRuleDetail['title'],
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          shoppingRewardRuleDetail['content'],
-                          style: TextStyle(color: Colors.grey, fontSize: 14),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }, childCount: shoppingRewardRuleList.length)),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget buildIntro() {
+  _buildIntro() {
     List attrList = goodDetail['attrList'];
     print("===============================");
     print(attrList);
@@ -1066,7 +915,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           );
   }
 
-  Widget builddetailTitle() {
+  _builddetailTitle() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
@@ -1081,7 +930,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
-  Widget buildReport() {
+  _buildReport() {
     return goodDetail['reportPicList'] == null
         ? singleSliverWidget(Container())
         : SliverList(
@@ -1097,7 +946,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           );
   }
 
-  Widget buildIssueList() {
+  _buildIssueList() {
     return goodDetail.isEmpty
         ? singleSliverWidget(Container())
         : SliverList(
@@ -1129,7 +978,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
           }, childCount: goodDetail['issueList'].length));
   }
 
-  buildIssuTitle(String title) {
+  _buildIssuTitle(String title) {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -1246,17 +1095,17 @@ class _GoodsDetailState extends State<GoodsDetail> {
     _textEditingController.dispose();
   }
 
-  List<Widget> buildSerVice() =>
+  List<Widget> _buildSerVice() =>
       List.generate(goodDetailPre['policyList'].length, (index) {
         List policyList = goodDetailPre['policyList'];
         return Container(
           padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(2)),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               border: Border.all(width: 0.5, color: Colors.grey[200])),
           child: Text(
             '${policyList[index]['title']}',
-            style: TextStyle(color: Colors.black54),
+            style: t14black,
           ),
         );
       });
@@ -1279,7 +1128,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
   }
 
   ///推荐理由
-  buildRecommondReason() {
+  _buildRecommondReason() {
     var recommendReason = this.goodDetailPre['item']['recommendReason'];
     return recommendReason.isEmpty
         ? singleSliverWidget(
@@ -1300,15 +1149,13 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 ),
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: Colors.grey[100]),
-                  child: Text('${index + 1} ${recommendReason[index]}'),
+                  decoration: BoxDecoration(color: Colors.grey[100]),
+                  child: Text('${index + 1} .${recommendReason[index]}'),
                 ));
           }, childCount: recommendReason.length));
   }
 
-  Widget buildTitle() {
+  _buildTitle() {
     var goodCmtRate = goodDetailPre['item']['goodCmtRate'];
     List itemTagListGood = goodDetailPre['item']['itemTagList'];
     return Container(
@@ -1323,7 +1170,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      '￥$price',
+                      '￥$_price',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 24,
@@ -1333,9 +1180,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     Container(
                       padding: EdgeInsets.only(bottom: 4),
                       child: Text(
-                        '${counterPrice == 'null' ? '' : '￥$counterPrice'}',
+                        '${_counterPrice == 'null' ? '' : '￥$_counterPrice'}',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: textGrey,
                           decoration: TextDecoration.lineThrough,
                         ),
@@ -1348,78 +1195,83 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 : Row(
                     children: itemTagListGood
                         .map<Widget>((item) => Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 1),
+                              margin: EdgeInsets.only(right: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 6),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(12),
                                   border:
-                                      Border.all(color: redColor, width: 0.5)),
+                                      Border.all(color: redColor, width: 1)),
                               child: Text(
                                 item["name"],
-                                style: TextStyle(fontSize: 12, color: redColor),
+                                style: t12red,
                               ),
                             ))
                         .toList(),
                   ),
 
             /// itemTagList
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    goodDetailPre['item']['name'],
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: textBlack,
-                        fontWeight: FontWeight.bold),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      goodDetailPre['item']['name'],
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: textBlack,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  child: Container(
-                      child: Row(
-                    children: <Widget>[
-                      goodCmtRate == null
-                          ? Text('查看评价')
-                          : Column(
-                              children: <Widget>[
-                                Text(goodCmtRate,
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                                Text('好评率',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 12))
-                              ],
-                            ),
-                      arrowRightIcon,
-                    ],
-                  )),
-                  onTap: () {
-                    Routers.push(
-                        Util.comment, context, {'id': widget.arguments['id']});
-                  },
-                )
-              ],
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    child: Container(
+                        child: Row(
+                      children: <Widget>[
+                        (goodCmtRate == null || goodCmtRate == '')
+                            ? Text(
+                                '查看评价',
+                                style: t14black,
+                              )
+                            : Column(
+                                children: <Widget>[
+                                  Text(goodCmtRate,
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15)),
+                                  Text('好评率',
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 12))
+                                ],
+                              ),
+                        arrowRightIcon,
+                      ],
+                    )),
+                    onTap: () {
+                      Routers.push(Util.comment, context,
+                          {'id': widget.arguments['id']});
+                    },
+                  )
+                ],
+              ),
             ),
           ],
         ));
   }
 
-  Widget buildOnlyText() {
+  _buildOnlyText() {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      margin: EdgeInsets.only(bottom: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Text(
         '推荐理由',
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: 14, color: Colors.grey),
+        style: t14black,
       ),
     );
   }
@@ -1456,21 +1308,22 @@ class _GoodsDetailState extends State<GoodsDetail> {
                         children: <Widget>[
                           //定位右侧
                           Container(
-                              child: Align(
-                            alignment: Alignment.topRight,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Icon(
-                                  Icons.close,
-                                  color: redColor,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: InkResponse(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: redColor,
+                                  ),
                                 ),
                               ),
                             ),
-                          )),
+                          ),
                           //商品描述
                           _selectGoodDetail(context),
                           _modelAndSize(context, setstate),
@@ -1486,15 +1339,15 @@ class _GoodsDetailState extends State<GoodsDetail> {
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
                             child: Count(
-                              number: goodCount,
+                              number: _goodCount,
                               min: 1,
                               max: 100,
                               onChange: (index) {
                                 setstate(() {
-                                  goodCount = index;
+                                  _goodCount = index;
                                 });
                                 setState(() {
-                                  goodCount = index;
+                                  _goodCount = index;
                                 });
                               },
                             ),
@@ -1610,10 +1463,11 @@ class _GoodsDetailState extends State<GoodsDetail> {
                 selectedDecRight = item['value'];
                 print('rightId----------${item['id']}');
               }
-              skuMapItem = skuMap['${property['leftId']};${property['rightId']}'];
-              if (skuMapItem!=null) {
-                price = skuMapItem['retailPrice'].toString();
-                counterPrice = skuMapItem['counterPrice'].toString();
+              skuMapItem =
+                  skuMap['${property['leftId']};${property['rightId']}'];
+              if (skuMapItem != null) {
+                _price = skuMapItem['retailPrice'].toString();
+                _counterPrice = skuMapItem['counterPrice'].toString();
               }
             } else {
               selectedLId = item['id'];
@@ -1636,9 +1490,9 @@ class _GoodsDetailState extends State<GoodsDetail> {
               }
               skuMapItem =
                   skuMap['${property['leftId']};${property['rightId']}'];
-              if (skuMapItem!=null) {
-                price = skuMapItem['retailPrice'].toString();
-                counterPrice = skuMapItem['counterPrice'].toString();
+              if (skuMapItem != null) {
+                _price = skuMapItem['retailPrice'].toString();
+                _counterPrice = skuMapItem['counterPrice'].toString();
               }
             } else {
               selectedLId = item['id'];
@@ -1735,6 +1589,186 @@ class _GoodsDetailState extends State<GoodsDetail> {
     );
   }
 
+  ///------------------------------------------邮费-购物反-服务综合弹窗------------------------------------------
+  _buildskuFreightDialog(BuildContext context, String title, List contentList) {
+    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
+    return showModalBottomSheet(
+      //设置true,不会造成底部溢出
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          constraints: BoxConstraints(maxHeight: 500),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(5.0),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Center(
+                          child: Text(
+                            '$title',
+                            style: t18black,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: InkResponse(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.close,
+                              color: redColor,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  color: lineColor,
+                ),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: contentList
+                        .map<Widget>((item) => Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(top: 10, bottom: 3),
+                                  child: Text(
+                                    item['title'],
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 16),
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    item['content'],
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 14),
+                                  ),
+                                )
+                              ],
+                            ))
+                        .toList(),
+                  ),
+                ))
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ///------------------------------------------规则弹窗解释------------------------------------------------------------------------------------------------------
+  _buildBottomDecDialog(BuildContext context, String title, List content) {
+    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
+    return showModalBottomSheet(
+      //设置true,不会造成底部溢出
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          width: double.infinity,
+          constraints: BoxConstraints(maxHeight: 500),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(5.0),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Center(
+                          child: Text(
+                            '$title',
+                            style: t18black,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: Container(
+                          child: Center(
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(
+                                  Icons.close,
+                                  color: redColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  color: lineColor,
+                ),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    children: content.map<Widget>((item) {
+                      return Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          item,
+                          style: t14grey,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ))
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ///------------------------------------------底部按钮------------------------------------------------------------------------------------------------------
   ///底部展示
   Widget buildFoot() {
     if (skuMapItem == null) {
@@ -1918,7 +1952,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
   void _addShoppingCart() async {
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
-      "cnt": goodCount,
+      "cnt": _goodCount,
       "skuId": skuMapItem['id']
     };
     Map<String, dynamic> header = {"Cookie": cookie};
@@ -1930,6 +1964,32 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   ///购买
   void _buyGoods() {
+    Toast.show('暂未开发', context);
+  return;
+    List cartItemList = [];
+    Map<String, dynamic> cartItem = {
+      'uniqueKey': null,
+      'skuId': skuMapItem['itemSkuSpecValueList'][0]['skuId'],
+      'count': _goodCount,
+      'source': 0,
+      'sources': [],
+      'isPreSell': false,
+      'extId': "{\"proDiscountExtId\":\"1\",\"cartExtId\":\"0\"}",
+      'type': 0,
+      'cartDepositVO': null,
+      'services': [],
+      'checkExt': "{\"firstOrderRefundExtId\":\"true\"}",
+    };
+    cartItemList.add(cartItem);
 
+    Map<String, dynamic> goodItems = {
+      'promId': skuMapItem['promId'],
+      'promSatisfy': false,
+      'giftItemList': null,
+      'addBuyItemList': null,
+      'cartItemList': cartItemList,
+    };
+
+    Routers.push(Util.orderInit, context, goodItems);
   }
 }

@@ -19,6 +19,7 @@ class Util {
   static String mineTopItems = 'mineTopItems';
   static String addAddress = 'addAddress';
   static String hotlist = 'hotlist';
+  static String orderInit = 'orderInit';
 
 
   static const String flutter2activity = 'plugins.want.flutter.io.GloableCookie';
