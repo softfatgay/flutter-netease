@@ -1,4 +1,5 @@
 import 'package:flutter_app/http_manager/net_contants.dart';
+import 'package:flutter_app/utils/user_config.dart';
 
 final String LOGIN_PAGE_URL = "${NetContants.baseUrl}login";
 final String URL_HOME_NEW = "${NetContants.baseUrl}xhr/index.json";
@@ -39,6 +40,7 @@ final String COMMENT_LIST = "${NetContants.baseUrl}xhr/comment/listByItemByTag.j
 final String POINT_CENTER = "${NetContants.baseUrl}xhr/points/index.json";
 final String VIP_CENTER = "${NetContants.baseUrl}xhr/membership/indexPrivilege.json";
 final String ADD_CART = "${NetContants.baseUrl}xhr/cart/add.json";
+final String ORDER_INIT = "${NetContants.baseUrl}xhr/order/init.json?csrf_token=$csrf_token";
 
 
 
@@ -126,3 +128,6 @@ final String ADD_CART = "${NetContants.baseUrl}xhr/cart/add.json";
 
 ///加入购物车
 //https://m.you.163.com/xhr/cart/add.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&cnt=1&skuId=3628032
+
+///确认订单
+//https://m.you.163.com/xhr/order/init.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8

@@ -15,7 +15,7 @@ object ContectPlugins {
                     run {
                         when (call.method) {
                             pluginParams -> {
-                                Log.e("=============","aaaaaaaaaaaaa")
+                                Log.e("=============", "aaaaaaaaaaaaa")
                                 if (call.hasArgument("url")) {
                                     //跳转到指定Activity
                                     val intent = Intent(mainActivity, WebViewActivity::class.java)
@@ -29,7 +29,7 @@ object ContectPlugins {
                                 }
                             }
                             "globalCookieValue" -> {
-                                Log.e("=============","bbbbbbbbbbbbb")
+                                Log.e("=============", "bbbbbbbbbbbbb")
                                 val arguments = call.arguments as HashMap<*, *>
                                 val url = arguments["url"] as String
                                 val cookieManager = CookieManager.getInstance()
