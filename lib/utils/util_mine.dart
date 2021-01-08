@@ -20,6 +20,7 @@ class Util {
   static String addAddress = 'addAddress';
   static String hotlist = 'hotlist';
   static String orderInit = 'orderInit';
+  static String shoppingCart = 'shoppingCart';
 
 
   static const String flutter2activity = 'plugins.want.flutter.io.GloableCookie';

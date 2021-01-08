@@ -185,23 +185,24 @@ class _GoodsDetailState extends State<GoodsDetail> {
     return Scaffold(
         body: Stack(
           children: <Widget>[
-            buildContent(),
+            _buildContent(),
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: SafeArea(
-                child: buildFoot(),
+                child: _buildFoot(),
               ),
             )
           ],
         ),
-        floatingActionButton:
-            !_isShowFloatBtn ? Container() : floatingAB(_scrollController));
+        floatingActionButton: !_isShowFloatBtn
+            ? floatingABCart(context, _scrollController)
+            : floatingAB(_scrollController));
   }
 
   //内容
-  Widget buildContent() {
+  Widget _buildContent() {
     if (_initLoading) {
       return Loading();
     } else {
@@ -217,7 +218,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
               collapsedHeight: 50,
               expandedHeight: 250,
               paddingTop: MediaQuery.of(context).padding.top,
-              child: buildSwiper(context, banner),
+              child: _buildSwiper(context, banner),
             ),
           ),
           // banner底部活动
@@ -265,7 +266,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
     }
   }
 
-  Widget buildSwiper(BuildContext context, List imgList) {
+  Widget _buildSwiper(BuildContext context, List imgList) {
     return BannerCacheImg(
       imageList: imgList,
       onTap: (index) {
@@ -1367,7 +1368,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: buildFoot(),
+                    child: _buildFoot(),
                   ),
                 ],
               ),
@@ -1774,7 +1775,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
 
   ///------------------------------------------底部按钮------------------------------------------------------------------------------------------------------
   ///底部展示
-  Widget buildFoot() {
+  Widget _buildFoot() {
     if (skuMapItem == null) {
       return _defaultBottomBtns();
     } else {

@@ -4,7 +4,10 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/colors.dart';
@@ -13,6 +16,10 @@ import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
 class ShoppingCart extends StatefulWidget {
+  final Map argument;
+
+  const ShoppingCart({Key key, this.argument}) : super(key: key);
+
   @override
   _ShoppingCartState createState() => _ShoppingCartState();
 }
@@ -251,13 +258,28 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
+    var argument = widget.argument;
+
     return Scaffold(
       backgroundColor: backColor,
       appBar: AppBar(
-          elevation: 1,
-          backgroundColor: Colors.white,
-          brightness: Brightness.light,
-          title: _navBar()),
+        elevation: 1,
+        backgroundColor: Colors.white,
+        brightness: Brightness.light,
+        centerTitle: true,
+        title: _navBar(),
+        leading: argument == null
+            ? Container()
+            : GestureDetector(
+                child: Icon(
+                  Icons.arrow_back,
+                  color: redColor,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+      ),
       body: Stack(
         children: [
           _data == null ? Loading() : _buildData(context),
@@ -311,13 +333,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
       ),
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
+            child: Center(
               child: Text(
-            '购物车',
-            style: TextStyle(color: textBlack, fontSize: 18),
-          )),
+                '购物车',
+                style: t18black,
+              ),
+            ),
+          ),
           isEdit
               ? Container()
               : Text(
@@ -465,82 +489,96 @@ class _ShoppingCartState extends State<ShoppingCart> {
           Row(
             children: [
               _buildCheckBox(itemData, item, index),
-              Container(
-                decoration: BoxDecoration(
-                    color: Color(0xFFDBDBDB),
-                    borderRadius: BorderRadius.circular(4)),
-                height: 90,
-                width: 90,
-                child: CachedNetworkImage(imageUrl: item['pic']),
+              GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xFFDBDBDB),
+                      borderRadius: BorderRadius.circular(4)),
+                  height: 90,
+                  width: 90,
+                  child: CachedNetworkImage(imageUrl: item['pic']),
+                ),
+                onTap: () {
+                  _goDetail(item);
+                },
               ),
               Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      isEdit
-                          ? Container()
-                          : Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                '${item['itemName']}',
-                                style: t14black,
-                              ),
-                            ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: lineColor, width: 1)),
-                        child: Text(
-                          '${_specValue(item)}',
-                          style: t12grey,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                              child: Text(
-                                '¥${item['actualPrice'] == 0 ? item['actualPrice'] : item['retailPrice']}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 14),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 5),
+                child: GestureDetector(
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        isEdit
+                            ? Container()
+                            : Container(
+                                padding: EdgeInsets.only(left: 10),
                                 child: Text(
-                                  item['retailPrice'] > item['actualPrice']
-                                      ? '¥${item['retailPrice']}'
-                                      : '',
+                                  '${item['itemName']}',
+                                  style: t14black,
+                                ),
+                              ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: lineColor, width: 1)),
+                          child: Text(
+                            '${_specValue(item)}',
+                            style: t12grey,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                child: Text(
+                                  '¥${item['actualPrice'] == 0 ? item['actualPrice'] : item['retailPrice']}',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    color: textGrey,
-                                    decoration: TextDecoration.lineThrough,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    item['retailPrice'] > item['actualPrice']
+                                        ? '¥${item['retailPrice']}'
+                                        : '',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: textGrey,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              child: CartCount(
-                                number: item['cnt'],
-                                min: 1,
-                                max: item['sellVolume'],
-                                onChange: (index) {
-                                  _checkOneNum(item['source'], item['type'],
-                                      item['skuId'], index, item['extId']);
-                                },
-                              ),
-                            )
-                          ],
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3, vertical: 3),
+                                child: CartCount(
+                                  number: item['cnt'],
+                                  min: 1,
+                                  max: item['sellVolume'],
+                                  onChange: (index) {
+                                    _checkOneNum(item['source'], item['type'],
+                                        item['skuId'], index, item['extId']);
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  onTap: () {
+                    _goDetail(item);
+                  },
                 ),
               )
             ],
@@ -794,16 +832,22 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              alignment: Alignment.center,
-              color: _getPrice() > 0 ? redColor : Color(0xFFB4B4B4),
-              padding: EdgeInsets.symmetric(horizontal: 40),
-              height: double.infinity,
-              child: Text(
-                '下单',
-                style: t14white,
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(left: 10),
+                alignment: Alignment.center,
+                color: _getPrice() > 0 ? redColor : Color(0xFFB4B4B4),
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                height: double.infinity,
+                child: Text(
+                  '下单',
+                  style: t14white,
+                ),
               ),
+              onTap: (){
+                Toast.show('暂未开发', context);
+                // Routers.push(Util.webView, context,{'id':'https://m.you.163.com/order/confirm?sfrom=3995230&_stat_referer=itemDetail_buy'});
+              },
             )
           ],
         ),
@@ -859,6 +903,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
     height: 10,
     color: Color(0xFFEAEAEA),
   );
+
+  void _goDetail(var itemData) {
+    Routers.push(
+        Util.goodDetailTag, context, {'id': itemData['itemId'].toString()});
+  }
 }
 
 class NoMoreData extends StatelessWidget {

@@ -26,6 +26,7 @@ import 'package:flutter_app/ui/setting/about.dart';
 import 'package:flutter_app/ui/setting/favorite.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
+import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/sort/sort_list.dart';
 import 'package:flutter_app/ui/webview_page.dart';
@@ -71,6 +72,9 @@ class Routers {
 
     ///webView
     Util.webView: (context, {arguments}) => WebViewPage(arguments),
+
+    ///购物车
+    Util.shoppingCart: (context, {arguments}) => ShoppingCart(argument: arguments,),
 
     ///回馈金等
     Util.mineTopItems: (context, {arguments}) {

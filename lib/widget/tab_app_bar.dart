@@ -17,6 +17,9 @@ class TabAppBar extends StatelessWidget {
       color: Colors.white,
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: new Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: lineColor,width: 0.5))
+        ),
         child: Row(
           children: <Widget>[
             InkResponse(
@@ -37,7 +40,9 @@ class TabAppBar extends StatelessWidget {
               child: Center(
                 child: Text(
                   title == null ? '' : title,
-                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  style: t18black,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
@@ -46,14 +51,14 @@ class TabAppBar extends StatelessWidget {
             ),
           ],
         ),
-        height: 48,
+        height: 54,
       ),
     );
   }
 
   Widget buildTabBar() {
     return Container(
-        height: 32,
+        height: 34,
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border(
@@ -73,7 +78,7 @@ class TabAppBar extends StatelessWidget {
               .map((f) => Tab(
                     child: Container(
                     alignment: Alignment.center,
-                      height: 32,
+                      height: 34,
                       child: Text(f),
                     ),
                   ))
@@ -91,7 +96,7 @@ class TabAppBar extends StatelessWidget {
       ),
       preferredSize: Size(
         MediaQuery.of(context).size.width,
-        tabs != null && tabs.length > 0 ? 82 : 50,
+        tabs != null && tabs.length > 0 ? 88 : 56,
       ),
     );
   }
