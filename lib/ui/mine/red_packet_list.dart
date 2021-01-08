@@ -26,10 +26,9 @@ class _RedEnvelopeListState extends State<RedPacketList> {
   bool hasMore = false;
   var dataList = List();
 
-
   ScrollController _scrollController = new ScrollController();
   bool isLoading = true;
-var banner;
+  var banner;
   var pagination;
 
   @override
@@ -39,7 +38,9 @@ var banner;
         : CustomScrollView(
             controller: _scrollController,
             slivers: [
-             banner == null?singleSliverWidget(Container()) :_topBanner(context),
+              banner == null
+                  ? singleSliverWidget(Container())
+                  : _topBanner(context),
               _buildItems(context),
               SliverFooter(hasMore: hasMore),
             ],
@@ -57,9 +58,10 @@ var banner;
         children: dataList.map((item) {
           return Container(
             decoration: BoxDecoration(
-                color: widget.searchType == 1 ? redColor : Color(0xFFA5AAB6),
+                color:
+                    widget.searchType == 1 ? redLightColor : Color(0xFFA5AAB6),
                 borderRadius: BorderRadius.circular(8)),
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,9 +82,9 @@ var banner;
                     Text(
                       '${item['price']}',
                       style: TextStyle(
-                          color: textWhite,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500),
+                        color: textWhite,
+                        fontSize: 24,
+                      ),
                     ),
                     Text(
                       '元',
@@ -94,28 +96,31 @@ var banner;
                   height: 10,
                 ),
                 Text(
-                  '${Util.long2date(item['validStartTime'] * 1000)}\n-${Util.long2date(item['validEndTime'] * 1000)}',
-                  style: TextStyle(color: textWhite, fontSize: 12),
+                  '${Util.long2date(item['validStartTime'] * 1000)}-${Util.long2date(item['validEndTime'] * 1000)}',
+                  style: TextStyle(color: textWhite, fontSize: 10),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    '------------------------------------------------------',
+                    '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -',
                     style: TextStyle(color: textWhite),
                     maxLines: 1,
                   ),
                 ),
                 Expanded(
-                    child: Container(
-                  child: Text(
-                    '满${item['condition']}元可用：${item['rule']}',
-                    style: TextStyle(color: textWhite),
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      '满${item['condition']}元可用：${item['rule']}',
+                      style: TextStyle(color: textWhite),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ))
+                )
               ],
             ),
           );
@@ -177,37 +182,42 @@ var banner;
   }
 
   _topBanner(BuildContext context) {
-    return SliverPadding(padding: EdgeInsets.symmetric(horizontal: 10),sliver: SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.only(top: 10),
-        alignment: Alignment.centerLeft,
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
-              height: 40,
-              child: CachedNetworkImage(imageUrl: banner['backgroundPic'],fit: BoxFit.cover,),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xFFE55A61)
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      sliver: SliverToBoxAdapter(
+        child: Container(
+          margin: EdgeInsets.only(top: 10),
+          alignment: Alignment.centerLeft,
+          child: Stack(
+            children: [
+              Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(6)),
+                height: 40,
+                child: CachedNetworkImage(
+                  imageUrl: banner['backgroundPic'],
+                  fit: BoxFit.cover,
+                ),
               ),
-              height: 40,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 25,
-                    width: 25,
-                    child: CachedNetworkImage(imageUrl: banner['icon']),
-                  ),
-                  Text('${banner['title']}')
-                ],
+              Container(
+                decoration: BoxDecoration(color: Color(0xFFE55A61)),
+                height: 40,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 25,
+                      width: 25,
+                      child: CachedNetworkImage(imageUrl: banner['icon']),
+                    ),
+                    Text('${banner['title']}')
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),);
+    );
   }
 }

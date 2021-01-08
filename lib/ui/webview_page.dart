@@ -35,7 +35,7 @@ class _WebViewPageState extends State<WebViewPage> {
     });
   }
 
-  final _title = '';
+  var _title = '';
 
   void setcookie() async {
     if (!CookieConfig.isLogin) return;
@@ -78,6 +78,10 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
+            String aa = await _webController.getTitle();
+            setState(() {
+              _title = aa;
+            });
             final updateCookie = await globalCookie.globalCookieValue(url);
             print('更新Cookie========================>');
             print(updateCookie);

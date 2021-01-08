@@ -5,6 +5,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/widget/m_textfiled.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class AddAddress extends StatefulWidget {
@@ -52,12 +53,12 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        backgroundColor: backGrey,
+        backgroundColor: backColor,
         appBar: TabAppBar(
           title: '地址管理',
         ).build(context),
@@ -70,43 +71,23 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                   children: [
                     Container(
                       color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextField(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: MTextFiled(
+                        keyboardType: TextInputType.text,
                         controller: _nameController,
-                        maxLines: 1,
-                        cursorColor: redColor,
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: redColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(2)),
-                          hintText: '姓名',
-                          filled: true,
-                        ),
+                        hintText: '姓名',
                       ),
                     ),
                     Container(
                       color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextField(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: MTextFiled(
                         keyboardType: TextInputType.number,
                         controller: _phoneC,
-                        maxLines: 1,
-                        cursorColor: redColor,
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: redColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(2)),
-                          hintText: '手机号',
-                          filled: true,
-                        ),
+                        maxLength: 11,
+                        hintText: '手机号',
                       ),
                     ),
                     GestureDetector(
@@ -115,21 +96,28 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                         child: Container(
                           width: double.infinity,
                           margin: EdgeInsets.only(left: 10),
-                          padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border(
-                                  bottom:
-                                  BorderSide(width: 0.5, color: textGrey))),
+                                  bottom: BorderSide(
+                                      width: 0.5, color: lineColor))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(addressTips),
+                              Text(
+                                addressTips,
+                                style: TextStyle(
+                                    color: addressTips == '省份 城市 区县'
+                                        ? textHint
+                                        : textBlack,
+                                    fontSize: 16),
+                              ),
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 16,
-                                color: textGrey,
+                                color: textHint,
                               )
                             ],
                           ),
@@ -142,48 +130,43 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                     ),
                     Container(
                       color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextField(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: MTextFiled(
+                        keyboardType: TextInputType.text,
                         controller: _addressC,
-                        maxLines: 1,
-                        cursorColor: redColor,
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: redColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(2)),
-                          hintText: '详细地址 街道 楼盘号等',
-                          filled: true,
-                        ),
+                        hintText: '详细地址 街道 楼盘号等',
                       ),
                     ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: _check,
-                            //选中时的颜色
-                            activeColor: Colors.red,
-                            onChanged: (value) {
-                              setState(() {
-                                _check = !_check;
-                              });
-                            },
-                          ),
-                          GestureDetector(
-                            child: Text('设为默认'),
-                            onTap: () {
-                              setState(() {
-                                _check = !_check;
-                              });
-                            },
-                          )
-                        ],
+                    GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(color: Color(0xFFFEFEFE),border: Border.all(color: lineColor,width: 1)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                              value: _check,
+                              //选中时的颜色
+                              activeColor: Colors.red,
+                              onChanged: (value) {
+                                setState(() {
+                                  _check = !_check;
+                                });
+                              },
+                            ),
+                            Text(
+                              '设为默认',
+                              style: t16black,
+                            )
+                          ],
+                        ),
                       ),
-                    )
+                      onTap: () {
+                        setState(() {
+                          _check = !_check;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -499,6 +482,5 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
     _addressC.dispose();
     _tabController.dispose();
     super.dispose();
-
   }
 }

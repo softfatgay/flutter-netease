@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -176,7 +178,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
           List picUrlList = package["picUrlList"];
           if (picUrlList.length > 1) {
             ///包裹多个
-            return Container(
+            Widget widget = Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
               margin: EdgeInsets.only(left: 15),
               decoration: BoxDecoration(
@@ -212,8 +214,11 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                 ],
               ),
             );
+
+            return Routers.link(
+                widget, Util.goodDetailTag, context, {'id': package['itemId']});
           } else {
-            return Container(
+            Widget widget =  Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
               margin: EdgeInsets.only(left: 15),
               width: double.infinity,
@@ -267,6 +272,8 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                 ],
               ),
             );
+            return Routers.link(
+                widget, Util.goodDetailTag, context, {'id': package['itemId']});
           }
         }).toList(),
       ),

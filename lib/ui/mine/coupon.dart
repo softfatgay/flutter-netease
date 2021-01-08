@@ -109,7 +109,7 @@ class _CouponState extends State<Coupon> {
                       Text(
                         '${_cashName(item)}',
                         style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 40,
                             fontWeight: FontWeight.w500,
                             color: textWhite),
                       ),
@@ -124,9 +124,9 @@ class _CouponState extends State<Coupon> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(item['name'],
-                                style: TextStyle(color: textWhite)),
+                                style: t16white),
                             Text('${_valueDate(item)}',
-                                style: TextStyle(color: textWhite)),
+                                style: t14white),
                           ],
                         ),
                       ))
@@ -134,7 +134,7 @@ class _CouponState extends State<Coupon> {
                   ),
                 ),
                 Container(
-
+                  padding: EdgeInsets.symmetric(horizontal: 15),
                   width: double.infinity,
                   height: 40,
                   child: MySeparator(),
@@ -144,7 +144,9 @@ class _CouponState extends State<Coupon> {
                   height: 60,
                   child: Text(
                     item['useCondition'],
-                    style: TextStyle(color: textWhite),
+                    style: t14white,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 )
               ],
@@ -169,7 +171,7 @@ class _CouponState extends State<Coupon> {
     return Container(
     alignment: Alignment.center,
     padding: EdgeInsets.only(top: 20),
-      child: Text('已过期',style: TextStyle(color: textGrey,fontSize: 16),),
+      child: Text('已过期',style: t18black,),
     );
   }
 

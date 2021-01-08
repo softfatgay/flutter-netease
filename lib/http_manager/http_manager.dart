@@ -68,6 +68,7 @@ class HttpManager {
       if (response != null) {
         return response.then((Response response) {
           print(response.data);
+
           if (response.data == '{"code":"403"}' ||
               response.data == '{"code":"401"}') {
             // 拦截到Token失效

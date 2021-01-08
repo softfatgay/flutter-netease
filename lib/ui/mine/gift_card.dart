@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -29,8 +31,9 @@ class _GiftCardState extends State<GiftCard> {
             child: _noCard(),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, MediaQuery.of(context).padding.bottom),
-            height: 60+MediaQuery.of(context).padding.bottom,
+            padding: EdgeInsets.fromLTRB(
+                10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
+            height: 70 + MediaQuery.of(context).padding.bottom,
             color: Colors.white,
             child: Container(
               decoration: BoxDecoration(
@@ -39,8 +42,15 @@ class _GiftCardState extends State<GiftCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add,size: 16,color: textRed,),
-                  Text('添加礼品卡',style: t16red,)
+                  Icon(
+                    Icons.add,
+                    size: 16,
+                    color: textRed,
+                  ),
+                  Text(
+                    '添加礼品卡',
+                    style: t16red,
+                  )
                 ],
               ),
             ),
@@ -73,21 +83,27 @@ class _GiftCardState extends State<GiftCard> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 1),
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Text(
-                    '支付安全',
-                    style: TextStyle(color: textWhite, fontSize: 14),
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(4)),
+                    child: Text(
+                      '支付安全',
+                      style: TextStyle(color: textWhite, fontSize: 14),
+                    ),
                   ),
+                  onTap: () {
+                    _goWebView('https://m.you.163.com/user/securityCenter');
+                  },
                 )
               ],
             ),
           ),
           Positioned(
-              right: 15,
+            right: 15,
+            child: GestureDetector(
               child: Container(
                 child: Row(
                   children: [
@@ -102,10 +118,20 @@ class _GiftCardState extends State<GiftCard> {
                     )
                   ],
                 ),
-              ))
+              ),
+              onTap: () {
+                _goWebView(
+                    'https://m.you.163.com/giftCard/records?giftCardGroup=0');
+              },
+            ),
+          )
         ],
       ),
     );
+  }
+
+  _goWebView(String url) {
+    Routers.push(Util.webViewPageAPP, context, {'id': url});
   }
 
   _noCard() {
@@ -129,21 +155,27 @@ class _GiftCardState extends State<GiftCard> {
                   style: t14grey,
                 ),
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '了解详情',
-                      style: t14grey,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 14,
-                      color: textGrey,
-                    )
-                  ],
+              GestureDetector(
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '了解详情',
+                        style: t14grey,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 14,
+                        color: textGrey,
+                      )
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  Routers.push(Util.webView, context,
+                      {'id': 'https://m.you.163.com/help/new#/29'});
+                },
               )
             ],
           ),

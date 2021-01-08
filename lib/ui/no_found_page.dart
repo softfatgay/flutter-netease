@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class NoFoundPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '未索引页面',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: true,
-      ),
+      appBar: TabAppBar(
+        title: '未索引页面',
+      ).build(context),
       body: Material(
         child: Center(
           child: Text(

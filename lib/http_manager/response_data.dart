@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_app/main/mainContex.dart';
+import 'package:flutter_app/utils/toast.dart';
 
 class ResponseData<T> {
   /// Response body. may have been transformed, please refer to [ResponseType].
@@ -12,6 +14,7 @@ class ResponseData<T> {
 
   /// AToken Server Message
   final T code;
+  final T errorCode;
 
   /// The corresponding request info.
   final HttpRequestOptions httpRequestOptions;
@@ -23,6 +26,7 @@ class ResponseData<T> {
     this.status,
     this.code,
     this.httpRequestOptions,
+    this.errorCode,
   });
 
   static Future<ResponseData> convertData(Response response) {
@@ -32,8 +36,12 @@ class ResponseData<T> {
       newItems: response.data['newItems'],
       status: response.data['status'],
       code: response.data['code'],
+      errorCode: response.data['errorCode'],
       httpRequestOptions: HttpRequestOptions.convert(response.request),
     );
+    if (responseData.code !=200&&responseData.errorCode!=null) {
+      Toast.show(responseData.errorCode, mainContext);
+    }
     Future<ResponseData> future;
     future = Future.value(responseData);
     return future;
@@ -50,6 +58,7 @@ class HttpRequestOptions {
   final Map<String, dynamic> queryParameters;
   final ProgressCallback onReceiveProgress;
   final ProgressCallback onSendProgress;
+
   const HttpRequestOptions({
     this.method,
     this.sendTimeout,
@@ -61,6 +70,7 @@ class HttpRequestOptions {
     this.onReceiveProgress,
     this.onSendProgress,
   });
+
   factory HttpRequestOptions.convert(RequestOptions requestOptions) {
     return HttpRequestOptions(
       method: requestOptions.method,
