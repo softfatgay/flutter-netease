@@ -26,6 +26,7 @@ class Util {
   static const String flutter2activity = 'plugins.want.flutter.io.GloableCookie';
   static const String flutter2activityParams = 'connect_params';
   static const String webView = 'webView';
+  static const String webViewPageAPP = 'WebViewPageAPP';
 
   ///网络返回转换
   static response2Json(Response response) {

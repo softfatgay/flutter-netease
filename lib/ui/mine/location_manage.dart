@@ -62,51 +62,63 @@ class _LocationManageState extends State<LocationManage> {
             border: Border(bottom: BorderSide(color: backGrey, width: 1))),
         padding: EdgeInsets.fromLTRB(0, 20, 15, 20),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+          Expanded(
+            flex: 1,
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 6),
+                child: Text(
+                  '${item['name']}',
+                  style: t16black,
+                ),
+              ),
+              item['dft'] == true
+                  ? Container(
+                margin: EdgeInsets.only(right: 10),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 5, vertical: 0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: redColor),
+                    borderRadius: BorderRadius.circular(2)),
+                child: Text(
+                  item['dft'] == true ? '默认' : '',
+                  style: t12red,
+                ),
+              )
+                  : Container(
+                width: 45,
+              )
+            ],
+          )),
             Expanded(
+              flex: 4,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     margin: EdgeInsets.only(bottom: 6),
                     child: Text(
-                      '${item['name']} ${item['mobile']}',
-                      style: TextStyle(fontSize: 16, color: textBlack),
+                      '${item['mobile']}',
+                      style: t16black,
                     ),
                   ),
-                  Row(
-                    children: [
-                      item['dft'] == true
-                          ? Container(
-                        margin: EdgeInsets.only(right: 10),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 2),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: redColor),
-                            borderRadius: BorderRadius.circular(2)),
-                        child: Text(
-                          item['dft'] == true ? '默认' : '',
-                          style: TextStyle(fontSize: 12, color: redColor),
-                        ),
-                      )
-                          : Container(
-                        width: 45,
-                      ),
-                      Expanded(
-                          child: Text(
-                            item['fullAddress'],
-                          ))
-                    ],
+                  Text(
+                    '${item['fullAddress']}',
+                    style: t14grey,
                   )
                 ],
               ),
             ),
             IconButton(
-                icon: Icon(
-                  Icons.delete_forever,
-                  size: 30,
-                  color: textGrey,
+                icon: Image.asset(
+                  'assets/images/delete.png'
                 ),
                 onPressed: () {
                   setState(() {
@@ -120,75 +132,8 @@ class _LocationManageState extends State<LocationManage> {
     );
 
     return Routers.link(widget, Util.addAddress, context, item,(){
-      print('////////////////');
       _getLocations();
     });
-
-
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.only(left: 15),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: backGrey, width: 1))),
-        padding: EdgeInsets.fromLTRB(0, 20, 15, 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 6),
-                    child: Text(
-                      '${item['name']} ${item['mobile']}',
-                      style: TextStyle(fontSize: 16, color: textBlack),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      item['dft'] == true
-                          ? Container(
-                              margin: EdgeInsets.only(right: 10),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: redColor),
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: Text(
-                                item['dft'] == true ? '默认' : '',
-                                style: TextStyle(fontSize: 12, color: redColor),
-                              ),
-                            )
-                          : Container(
-                              width: 45,
-                            ),
-                      Expanded(
-                          child: Text(
-                        item['fullAddress'],
-                      ))
-                    ],
-                  )
-                ],
-              ),
-            ),
-            IconButton(
-                icon: Icon(
-                  Icons.delete_forever,
-                  size: 30,
-                  color: textGrey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    addressId = item['id'];
-                  });
-                  _confimDialog(context);
-                })
-          ],
-        ),
-      ),
-    );
   }
 
   void _getLocations() async {
@@ -252,7 +197,7 @@ class _LocationManageState extends State<LocationManage> {
           ),
           Text(
             '新建地址',
-            style: TextStyle(fontSize: 16, color: redColor),
+            style: t16red,
           )
         ],
       ),

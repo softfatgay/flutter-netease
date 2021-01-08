@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/floatingActionButton.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
@@ -115,17 +117,28 @@ class _RewardNumPageState extends State<RewardNumPage> {
           SizedBox(
             height: 5,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('查看明细', style: TextStyle(color: textWhite, fontSize: 16)),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: textWhite,
-                size: 14,
-              )
-            ],
+          GestureDetector(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('明细', style: TextStyle(color: textWhite, fontSize: 16)),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: textWhite,
+                  size: 14,
+                )
+              ],
+            ),
+            onTap: (){
+              String url = '';
+              if (widget.arguments['id'] == 4) {
+                url = 'https://m.you.163.com/bonus/detail';
+              }else{
+                url = 'https://m.you.163.com/reward/detail';
+              }
+              Routers.push(Util.webViewPageAPP, context,{'id':url});
+            },
           ),
           widget.arguments['id'] == 4 ?Container(): Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

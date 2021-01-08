@@ -29,6 +29,7 @@ import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
 import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/sort/sort_list.dart';
+import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
@@ -39,9 +40,9 @@ class Routers {
   static var demoPlugin = MethodChannel(plugin);
 
   static Map<String, Function> routes = {
+    //商品详情
     Util.goodDetailTag: (context, {arguments}) =>
         GoodsDetail(arguments: arguments),
-    //商品详情
     Util.catalogTag: (context, {arguments}) => SortList(arguments: arguments),
     //kingKong
     Util.kingKong: (context, {arguments}) {
@@ -72,6 +73,9 @@ class Routers {
 
     ///webView
     Util.webView: (context, {arguments}) => WebViewPage(arguments),
+
+    ///webView
+    Util.webViewPageAPP: (context, {arguments}) => WebViewPageAPP(arguments),
 
     ///购物车
     Util.shoppingCart: (context, {arguments}) => ShoppingCart(argument: arguments,),

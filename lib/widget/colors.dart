@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 const Color textWhite = Color(0xFFFFFFFF);
 const Color textRed = Color(0xFFDD1A21);
 const Color textGrey = Color(0xFF666666);
+const Color textHint = Color(0xFF999999);
 const Color textLightGrey = Color(0xFF7F7F7F);
 const Color redColor = Color(0xFFD2001A);
 const Color redLightColor = Color(0xFFF9684D);
@@ -21,6 +22,7 @@ const Color lineColor = Color(0xFFEAEAEA);
 const Color textBlack = Color(0xFF333333);
 const Color themeColor = Color(0xFFF87676);
 const Color splitLineColor = Color(0xFFECECEC);
+const Color lightBlue = Color(0xFF84A8E2);
 
 
 ///icon颜色
