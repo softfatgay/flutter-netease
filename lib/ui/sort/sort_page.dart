@@ -10,12 +10,12 @@ import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/vertical_tab.dart';
 
 ///分类
-class SortNew extends StatefulWidget {
+class SortPage extends StatefulWidget {
   @override
   _SortState createState() => _SortState();
 }
 
-class _SortState extends State<SortNew> with AutomaticKeepAliveClientMixin{
+class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
   List tabs = [];
 
   bool isLoading = true;

@@ -86,7 +86,9 @@ class _WebViewPageState extends State<WebViewPage> {
             print('更新Cookie========================>');
             print(updateCookie);
             if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
-              CookieConfig.cookie = updateCookie;
+              setState(() {
+                CookieConfig.cookie = updateCookie;
+              });
             }
           },
         ),

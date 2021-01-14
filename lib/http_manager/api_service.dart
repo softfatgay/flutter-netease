@@ -2,6 +2,7 @@ import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
 final String LOGIN_PAGE_URL = "${NetContants.baseUrl}login";
+final String CHECK_LOGIN = "${NetContants.baseUrl}xhr/common/checklogin.json";
 final String URL_HOME_NEW = "${NetContants.baseUrl}xhr/index.json";
 final String URL_SORT_NEW = "${NetContants.baseUrl}item/cateList.json";
 final String URL_SORT_LIST_NEW = "${NetContants.baseUrl}item/list.json";
@@ -131,3 +132,6 @@ final String ORDER_INIT = "${NetContants.baseUrl}xhr/order/init.json?csrf_token=
 
 ///确认订单
 //https://m.you.163.com/xhr/order/init.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+///检查登录GET
+//https://m.you.163.com/xhr/common/checklogin.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1610603146879&

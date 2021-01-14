@@ -13,6 +13,7 @@ import 'package:flutter_app/ui/mine/gift_card.dart';
 import 'package:flutter_app/ui/mine/location_manage.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list.dart';
+import 'package:flutter_app/ui/mine/pay_safe.dart';
 import 'package:flutter_app/ui/mine/points_center.dart';
 import 'package:flutter_app/ui/mine/qr_code_mine.dart';
 import 'package:flutter_app/ui/mine/red_packet.dart';
@@ -31,8 +32,10 @@ import 'package:flutter_app/ui/sort/search.dart';
 import 'package:flutter_app/ui/sort/sort_list.dart';
 import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
+import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_app/widget/widget_list.dart';
 
 class Routers {
@@ -69,7 +72,9 @@ class Routers {
     Util.image: (context, {arguments}) => FullScreenImage(arguments),
 
     ///确认订单
-    Util.orderInit: (context, {arguments}) => PaymentPage(arguments: arguments,),
+    Util.orderInit: (context, {arguments}) => PaymentPage(
+          arguments: arguments,
+        ),
 
     ///webView
     Util.webView: (context, {arguments}) => WebViewPage(arguments),
@@ -78,7 +83,9 @@ class Routers {
     Util.webViewPageAPP: (context, {arguments}) => WebViewPageAPP(arguments),
 
     ///购物车
-    Util.shoppingCart: (context, {arguments}) => ShoppingCart(argument: arguments,),
+    Util.shoppingCart: (context, {arguments}) => ShoppingCart(
+          argument: arguments,
+        ),
 
     ///回馈金等
     Util.mineTopItems: (context, {arguments}) {
@@ -129,7 +136,8 @@ class Routers {
           return QRCodeMine();
           break;
         case 5: //优先购
-          return WebViewPage({"id":"https://m.you.163.com/preemption/index.html"});
+          return WebViewPage(
+              {"id": "https://m.you.163.com/preemption/index.html"});
           break;
         case 6: //积分中心
           return PointCenter();
@@ -140,6 +148,12 @@ class Routers {
           break;
         case 8: //地址管理
           return LocationManage();
+          break;
+        case 9: //支付安全
+          return PaySafeCenter();
+          break;
+        case 10: //帮助客服
+          return WebViewPage({'id': 'https://cs.you.163.com/client?k=$kefuKey'});
           break;
       }
 

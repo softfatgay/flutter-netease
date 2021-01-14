@@ -248,3 +248,9 @@ Future<ResponseData> orderInit(Map<String, dynamic> parameters,
   return await HttpManager.post(ORDER_INIT,
       queryParameters: parameters, headers: header);
 }
+///检查登录
+Future<ResponseData> checkLogin(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(CHECK_LOGIN,
+      queryParameters: parameters, headers: header);
+}

@@ -21,12 +21,14 @@ class Util {
   static String hotlist = 'hotlist';
   static String orderInit = 'orderInit';
   static String shoppingCart = 'shoppingCart';
+  static String webLogin = 'webLogin';
 
 
   static const String flutter2activity = 'plugins.want.flutter.io.GloableCookie';
   static const String flutter2activityParams = 'connect_params';
   static const String webView = 'webView';
   static const String webViewPageAPP = 'WebViewPageAPP';
+  static const String paySafeCenter = 'paySafeCenter';
 
   ///网络返回转换
   static response2Json(Response response) {

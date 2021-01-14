@@ -10,6 +10,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -24,7 +25,7 @@ class UserPage extends StatefulWidget {
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
   final globalCookie = GlobalCookie();
-  bool _islogin = false;
+  bool _islogin = true;
 
   bool _firstLoading = true;
   List mineItems = [];
@@ -35,14 +36,26 @@ class _MinePageState extends State<UserPage>
 
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
-    _islogin = CookieConfig.isLogin;
-    if (_islogin) {
-      super.initState();
+    _checkLogin();
+  }
+
+  ///检查是否登录
+  _checkLogin() async {
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    var responseData = await checkLogin(params, header: header);
+    var isLogin = responseData.data;
+    if (isLogin) {
       _getUserInfo();
     } else {
-      _firstLoading = false;
-      super.initState();
+      setState(() {
+        _islogin = false;
+      });
     }
   }
 
@@ -311,6 +324,73 @@ class _MinePageState extends State<UserPage>
           ));
   }
 
+  _loginOut(BuildContext context) {
+    return singleSliverWidget(
+      GestureDetector(
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: Text(
+              "退出登录",
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+        onTap: (){
+
+        },
+      ),
+    );
+  }
+
+  _loginPage(BuildContext context) {
+    // Routers.push(Util.webLogin, context,{},_callback);
+
+    return WebLoginWidget(
+      onValueChanged: (value) {
+        if (value) {
+          setState(() {
+            _islogin = value;
+          });
+          _getUserInfo();
+        }
+      },
+    );
+
+    Widget webLogin = WebView(
+      //JS执行模式 是否允许JS执行
+      initialUrl: LOGIN_PAGE_URL,
+      javascriptMode: JavascriptMode.unrestricted,
+      onPageStarted: (url) async {},
+      onPageFinished: (url) async {
+        final updateCookie = await globalCookie.globalCookieValue(url);
+        print('更新Cookie-------------->');
+        print(updateCookie.toString());
+        if (updateCookie.length > 0) {
+          setState(() {
+            CookieConfig.cookie = updateCookie;
+            _islogin = CookieConfig.isLogin;
+            if (_islogin) {
+              _getUserInfo();
+            }
+          });
+        }
+      },
+    );
+    return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      color: Colors.white,
+      child: webLogin,
+    );
+  }
+
+  void setUserInfo() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', userInfo['userSimpleVO']['nickname']);
+    await prefs.setString(
+        'pointsCnt', userInfo['userSimpleVO']['pointsCnt'].toString());
+  }
+
   var mineSettingItems = [
     {
       "name": "我的订单",
@@ -385,52 +465,6 @@ class _MinePageState extends State<UserPage>
       "id": 11
     },
   ];
-
-  _loginOut(BuildContext context) {
-    return singleSliverWidget(Container(
-      padding: EdgeInsets.all(16),
-      child: Center(
-        child: Text(
-          "退出登录",
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    ));
-  }
-
-  _loginPage(BuildContext context) {
-    Widget webLogin = WebView(
-      //JS执行模式 是否允许JS执行
-      initialUrl: LOGIN_PAGE_URL,
-      javascriptMode: JavascriptMode.unrestricted,
-      onPageStarted: (url) async {},
-      onPageFinished: (url) async {
-        final updateCookie = await globalCookie.globalCookieValue(url);
-        print('更新Cookie-------------->');
-        print(updateCookie.toString());
-        if (updateCookie.length > 0) {
-          setState(() {
-            CookieConfig.cookie = updateCookie;
-            _islogin = CookieConfig.isLogin;
-            if (_islogin) {
-              _getUserInfo();
-            }
-          });
-        }
-      },
-    );
-    return Container(
-      padding: EdgeInsets.only(top: 28),
-      color: Colors.white,
-      child: webLogin,
-    );
-  }
-
-  void setUserInfo() async{
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', userInfo['userSimpleVO']['nickname']);
-    await prefs.setString('pointsCnt', userInfo['userSimpleVO']['pointsCnt'].toString());
-  }
 }
 
 //https://m.you.163.com/xhr/order/getList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&size=10&lastOrderId=0&status=5
