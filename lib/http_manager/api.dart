@@ -254,3 +254,27 @@ Future<ResponseData> checkLogin(Map<String, dynamic> parameters,
   return await HttpManager.get(CHECK_LOGIN,
       queryParameters: parameters, headers: header);
 }
+///获取用户手机号
+Future<ResponseData> userMobile(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(USER_MOBILE,
+      queryParameters: parameters, headers: header);
+}
+///反馈类型
+Future<ResponseData> feedbackType(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(FEEDBACK_TYPE,
+      queryParameters: parameters, headers: header);
+}
+///反馈提交
+Future<ResponseData> feedbackSubmit(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(FEEDBACK_SUBMIT,
+      queryParameters: parameters, headers: header);
+}
+///反馈提交
+Future<ResponseData> getPhone(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(USERMOBILE,
+      queryParameters: parameters, headers: header);
+}

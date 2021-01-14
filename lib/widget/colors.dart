@@ -113,6 +113,12 @@ const TextStyle t14grey = TextStyle(
 );
 
 
+const TextStyle t16grey = TextStyle(
+  color: textGrey,
+  fontSize: 16
+);
+
+
 const TextStyle t12lgrey = TextStyle(
   color: textLightGrey,
   fontSize: 12

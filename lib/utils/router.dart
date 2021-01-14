@@ -8,6 +8,7 @@ import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/mine/add_address.dart';
 import 'package:flutter_app/ui/mine/coupon.dart';
+import 'package:flutter_app/ui/mine/feedback_page.dart';
 import 'package:flutter_app/ui/mine/for_services.dart';
 import 'package:flutter_app/ui/mine/gift_card.dart';
 import 'package:flutter_app/ui/mine/location_manage.dart';
@@ -153,7 +154,11 @@ class Routers {
           return PaySafeCenter();
           break;
         case 10: //帮助客服
-          return WebViewPage({'id': 'https://cs.you.163.com/client?k=$kefuKey'});
+          return WebViewPage(
+              {'id': 'https://cs.you.163.com/client?k=$kefuKey'});
+          break;
+        case 11: //反馈
+          return FeedBack();
           break;
       }
 

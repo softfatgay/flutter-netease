@@ -42,6 +42,10 @@ final String POINT_CENTER = "${NetContants.baseUrl}xhr/points/index.json";
 final String VIP_CENTER = "${NetContants.baseUrl}xhr/membership/indexPrivilege.json";
 final String ADD_CART = "${NetContants.baseUrl}xhr/cart/add.json";
 final String ORDER_INIT = "${NetContants.baseUrl}xhr/order/init.json?csrf_token=$csrf_token";
+final String USER_MOBILE = "${NetContants.baseUrl}xhr/feedback/getUserMobile.json?csrf_token=$csrf_token";
+final String FEEDBACK_TYPE = "${NetContants.baseUrl}xhr/feedback/typeList.json";
+final String FEEDBACK_SUBMIT = "${NetContants.baseUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
+final String USERMOBILE = "${NetContants.baseUrl}xhr/userMobile/getStatus.json?csrf_token=$csrf_token";
 
 
 
@@ -135,3 +139,15 @@ final String ORDER_INIT = "${NetContants.baseUrl}xhr/order/init.json?csrf_token=
 
 ///检查登录GET
 //https://m.you.163.com/xhr/common/checklogin.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1610603146879&
+
+///获取手机号
+//https://m.you.163.com/xhr/feedback/getUserMobile.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+///反馈类型
+//https://m.you.163.com/xhr/feedback/typeList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+///反馈提交
+//https://m.you.163.com/xhr/feedback/submit.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+///获取手机号
+// https://m.you.163.com/xhr/userMobile/getStatus.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
