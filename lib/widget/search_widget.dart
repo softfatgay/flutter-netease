@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/colors.dart';
 
 typedef void OnValueChanged(String value);
 typedef void OnSearchBtnClick(String value);
@@ -151,7 +152,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                 },
                 child: Text(
                   '搜索',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  style: t16grey,
                 ),
                 color: Colors.white,
                 elevation: 0,

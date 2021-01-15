@@ -46,6 +46,10 @@ final String USER_MOBILE = "${NetContants.baseUrl}xhr/feedback/getUserMobile.jso
 final String FEEDBACK_TYPE = "${NetContants.baseUrl}xhr/feedback/typeList.json";
 final String FEEDBACK_SUBMIT = "${NetContants.baseUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
 final String USERMOBILE = "${NetContants.baseUrl}xhr/userMobile/getStatus.json?csrf_token=$csrf_token";
+final String SEARCH_TIPS = "${NetContants.baseUrl}xhr/search/searchAutoComplete.json";
+final String SEARCH_SEARCH = "${NetContants.baseUrl}xhr/search/search.json.json";
+final String FIND_REC_AUTO = "${NetContants.baseUrl}topic/v1/find/recAuto.json";
+final String KNOW_NAVWAP = "${NetContants.baseUrl}topic/v1/know/navWap.json";
 
 
 
@@ -151,3 +155,9 @@ final String USERMOBILE = "${NetContants.baseUrl}xhr/userMobile/getStatus.json?c
 
 ///获取手机号
 // https://m.you.163.com/xhr/userMobile/getStatus.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8
+
+///值得买
+//https://m.you.163.com/topic/v1/find/recAuto.json?page=1&size=2&exceptIds=
+
+///值得买头部nav
+//https://m.you.163.com/topic/v1/know/navWap.json

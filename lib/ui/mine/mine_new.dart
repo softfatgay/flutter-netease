@@ -11,6 +11,7 @@ import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -120,10 +121,16 @@ class _MinePageState extends State<UserPage>
 
   _buildTop(BuildContext context) {
     return singleSliverWidget(Container(
-      padding:
-          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
-      decoration: BoxDecoration(color: backYellow),
-      height: 140 + MediaQuery.of(context).padding.top,
+      padding: EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
+      decoration: BoxDecoration(gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFEFB965),
+          Color(0xFFFFD883),
+        ],
+      ),),
+      height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

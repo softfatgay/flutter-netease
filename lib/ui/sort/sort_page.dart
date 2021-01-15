@@ -102,19 +102,32 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
 
   Widget buildSearch(BuildContext context) {
     Widget widget = Container(
-      height: 40,
+      height: 35,
       width: double.infinity,
       margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 237, 237, 237),
         borderRadius: BorderRadius.circular(5.0),
       ),
-      child: Center(
-        child: Text(
-          roundWords[rondomIndex],
-          style: TextStyle(
-              color: Color.fromARGB(255, 102, 102, 102), fontSize: 16),
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 5,
+          ),
+          Icon(
+            Icons.search,
+            size: 20,
+            color: textGrey,
+          ),
+          Text(
+            "搜索商品，共30000+款好物",
+            style: t14grey,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
       ),
     );
     Widget navBar = Column(

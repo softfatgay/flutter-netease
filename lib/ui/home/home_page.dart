@@ -151,6 +151,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         mini: true,
         backgroundColor: Color(0xB3D2001A),
@@ -196,10 +197,10 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     Widget widget = Row(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 15),
+          margin: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             "网易严选",
-            style: TextStyle(fontSize: 20, color: Colors.black54),
+            style: t18black,
           ),
         ),
         Expanded(
@@ -220,13 +221,13 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                 ),
                 Icon(
                   Icons.search,
-                  size: 25,
+                  size: 20,
                   color: textGrey,
                 ),
                 Expanded(
                     child: Text(
-                  "搜索商品，共43430款好物",
-                  style: TextStyle(color: textGrey, fontSize: 14),
+                  "搜索商品，共30000+款好物",
+                  style: t14grey,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ))
@@ -375,6 +376,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         ),
       ),
       Container(
+        padding: EdgeInsets.symmetric(horizontal: 15),
         height: 240,
         child: Row(
           children: [
@@ -382,14 +384,26 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                 flex: 1,
                 child: GestureDetector(
                   child: Container(
-                    child: Container(
-                      height: 240,
-                      margin: EdgeInsets.only(top: 3),
-                      color: Color(0xFFF6E5C4),
-                      child: CachedNetworkImage(
-                          fit: BoxFit.fitWidth,
-                          imageUrl:
+                    child: Stack(
+                      children: [
+                        Container(
+                        padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
+                          height: 237,
+                          margin: EdgeInsets.only(top: 3),
+                          color: Color(0xFFF6E5C4),
+                          child: CachedNetworkImage(
+                            fit: BoxFit.fitWidth,
+                              imageUrl:
                               "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                        ),
+                        Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                          child: Text(
+                            '新人专享礼包',
+                            style: t14blackblod,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   onTap: () {
@@ -411,14 +425,14 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                       child: Stack(
                         children: [
                           Container(
-                            width: double.infinity,
+                            width: double.infinity/2,
                             height: 117,
                             color: Color(0xFFF9DCC9),
                             margin: EdgeInsets.only(top: 3),
                             child: CachedNetworkImage(
                               alignment: Alignment.bottomRight,
                               fit: BoxFit.fitHeight,
-                              imageUrl: item["picUrl"],
+                              imageUrl: item["showPicUrl"],
                             ),
                           ),
                           Container(
@@ -428,22 +442,17 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                               children: [
                                 Text(
                                   item["title"],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: textBlack),
+                                  style: t14blackblod,
                                 ),
                                 SizedBox(
                                   height: 6,
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(color: backGrey),
                                   child: Text(
                                     item["subTitle"] == ""
                                         ? item["tag"]
                                         : item["subTitle"],
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey),
+                                    style: t12grey,
                                   ),
                                 )
                               ],
@@ -756,7 +765,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               crossAxisCount: 3,
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
-              childAspectRatio: 0.6),
+              childAspectRatio: 0.58),
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               var item = newItemList[index];
@@ -785,12 +794,10 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                     ),
                     Text(
                       "¥${item['retailPrice']}",
-                      style: TextStyle(
-                        color: textRed,
-                        fontSize: 18,
-                      ),
+                      style: t16red,
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 5),
                       constraints: BoxConstraints(minHeight: 18),
                       child: _newItemsTags(item),
                     )
@@ -878,12 +885,11 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            border: Border.all(width: 1, color: redColor)),
+            border: Border.all(width: 0.5, color: redColor)),
         child: Text(
           itemD["name"],
-          style: TextStyle(color: textRed, fontSize: 12),
+          style: t12red,
           maxLines: 1,
-          textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
         ),
       );

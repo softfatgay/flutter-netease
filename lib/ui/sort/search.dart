@@ -1,11 +1,9 @@
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/net/DioManager.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/search_widget.dart';
@@ -63,8 +61,12 @@ class _SearchGoodsState extends State<SearchGoods> {
 
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=0&floorPrice=-1&upperPrice=-1&size=40&itemId=0&stillSearch=false&searchWordSource=1&needPopWindow=true&_stat_search=userhand
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=1&floorPrice=-1&upperPrice=-1&size=40&itemId=3827056&stillSearch=false&searchWordSource=1&needPopWindow=false
-  void _getTipsResult() {
+  void _getTipsResult() async {
+
     var params = {
+      'csrf_token': csrf_token,
+      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
+      '_stat_search':'autoComplete',
       'keyword': keyword,
       'sortType': '0',
       'descSorted': 'false',
@@ -78,34 +80,37 @@ class _SearchGoodsState extends State<SearchGoods> {
       'searchWordSource': '7',
       'needPopWindow': 'false'
     };
+    Map<String, dynamic> header = {
+      "cookie": cookie,
+    };
     if (!hasMore) {
       params.addAll({'_stat_search': 'userhand'});
     } else {
       params.remove('_stat_search');
     }
-    DioManager.get('xhr/search/search.json', params, (data) {
-      setState(() {
-        isLoading = false;
-        var newDirectlyList = [];
-        var directlyList = data['data']['directlyList'];
-        if (directlyList != null) {
-          newDirectlyList.addAll(directlyList);
+    var responseData = await searchSearch(params, header: header);
+    setState(() {
+      isLoading = false;
+      var data = responseData.data;
+      var newDirectlyList = [];
+      var directlyList = data['directlyList'];
+      if (directlyList != null) {
+        newDirectlyList.addAll(directlyList);
+      }
+      if (newDirectlyList.isNotEmpty) {
+        searchTipsresultData.addAll(data['directlyList']);
+        itemId = searchTipsresultData[searchTipsresultData.length - 1]
+        ['itemTagList'][0]['itemId'];
+        hasMore = data['hasMore'];
+        if (!hasMore) {
+          bottomTipsText = '没有更多了';
         }
-        if (newDirectlyList.isNotEmpty) {
-          searchTipsresultData.addAll(data['data']['directlyList']);
-          itemId = searchTipsresultData[searchTipsresultData.length - 1]
-              ['itemTagList'][0]['itemId'];
-          hasMore = data['data']['hasMore'];
-          if (!hasMore) {
-            bottomTipsText = '没有更多了';
-          }
-          serachResult = true;
-        } else {
-          hasMore = false;
-          isFirstLoading = true;
-          bottomTipsText = '没有找到您想要的内容';
-        }
-      });
+        serachResult = true;
+      } else {
+        hasMore = false;
+        isFirstLoading = true;
+        bottomTipsText = '没有找到您想要的内容';
+      }
     });
   }
 
@@ -113,24 +118,22 @@ class _SearchGoodsState extends State<SearchGoods> {
     setState(() {
       isLoading = true;
     });
-    var params = {'keywordPrefix': textValue};
-    DioManager.post(
-      'xhr/search/searchAutoComplete.json',
-      params,
-      (data) {
-        setState(() {
-          isLoading = false;
-          searchTipsData = data['data'];
-          serachResult = false;
-          hasMore = false;
-          if (searchTipsData.length == 0) {
-            bottomTipsText = '暂时没有您想要的内容';
-          } else {
-            bottomTipsText = '搜索更大的世界';
-          }
-        });
-      },
-    );
+    Map<String, dynamic> header = {
+      "cookie": cookie,
+    };
+    Map<String, dynamic> params = {'keywordPrefix': textValue};
+    var responseData = await searchTips(params, header: header);
+    setState(() {
+      isLoading = false;
+      searchTipsData = responseData.data;
+      serachResult = false;
+      hasMore = false;
+      if (searchTipsData.length == 0) {
+        bottomTipsText = '暂时没有您想要的内容';
+      } else {
+        bottomTipsText = '搜索更大的世界';
+      }
+    });
   }
 
   @override
@@ -144,7 +147,7 @@ class _SearchGoodsState extends State<SearchGoods> {
             decoration: BoxDecoration(color: Colors.white),
             child: SearchWidget(
               textValue: textValue,
-              hintText: '输入搜索',
+              hintText: '请输入商品名称',
               controller: controller,
               onValueChangedCallBack: (value) {
                 textValue = value;
@@ -177,7 +180,7 @@ class _SearchGoodsState extends State<SearchGoods> {
             }, childCount: 1),
           ),
           serachResult ? buildNullSliver() : buildSearchTips(),
-          !serachResult ? buildNullSliver() : buildSearchResult(),
+          !serachResult ? buildNullSliver() : GoodItemWidget(dataList: searchTipsresultData),
           SliverFooter(hasMore: hasMore, tipsText: bottomTipsText),
         ],
       ),
@@ -339,100 +342,5 @@ class _SearchGoodsState extends State<SearchGoods> {
           mainAxisSpacing: 0,
           crossAxisSpacing: 0),
     );
-  }
-
-  SliverGrid buildSearchResult() {
-    return SliverGrid(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        Widget widget = Container(
-          padding: EdgeInsets.only(bottom: 5),
-          width: double.infinity,
-          decoration: BoxDecoration(color: Colors.transparent),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 7,
-                child: Container(
-                  width: double.infinity,
-                  child: CachedNetworkImage(
-                    imageUrl: searchTipsresultData[index]['primaryPicUrl'],
-                    fit: BoxFit.fill,
-                  ),
-                  decoration: BoxDecoration(color: Colors.grey[200]),
-                ),
-              ),
-              searchTipsresultData[index]['listPromBanner'] != null
-                  ? buildImage(index)
-                  : Expanded(
-                      flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        child: buildBottomText(index),
-                      )),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 5),
-                child: Text(
-                  searchTipsresultData[index]['name'],
-                  textAlign: TextAlign.left,
-                  maxLines: 2,
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Container(
-                child: Text(
-                  '￥${searchTipsresultData[index]['retailPrice']}',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              searchTipsresultData[index]['itemTagList'] == null
-                  ? Container()
-                  : Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(color: Colors.red, width: 0.5)),
-                      child: Text(
-                        '${searchTipsresultData[index]['itemTagList'][0]['name'] == null ? '年货特惠' : searchTipsresultData[index]['itemTagList'][0]['name']}',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 12, color: Colors.red),
-                      ),
-                    ),
-            ],
-          ),
-        );
-        return GestureDetector(
-          child: widget,
-          onTap: () {
-            Routers.push(Util.goodDetailTag, context,
-                {'id': searchTipsresultData[index]['id']});
-          },
-        );
-      }, childCount: searchTipsresultData.length),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.65,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10),
-    );
-  }
-
-  //获取详情
-  void _getDetail() async {
-//    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio().post(
-        'https://m.you.163.com/xhr/item/detail.json',
-        queryParameters: {'id': '1023000'});
-    String dataStr = json.encode(response.data);
-    Map<String, dynamic> dataMap = json.decode(dataStr);
-    var dataMap2 = dataMap['data'];
-    LogUtil.e(json.encode(dataMap), tag: "////");
   }
 }

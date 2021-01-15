@@ -11,12 +11,12 @@ const Color textHint = Color(0xFF999999);
 const Color textLightGrey = Color(0xFF7F7F7F);
 const Color redColor = Color(0xFFD2001A);
 const Color redLightColor = Color(0xFFF9684D);
-const Color backGrey = Color(0xFFEEEEEE);
+const Color backGrey = Color(0xFFF1F1F1);
 const Color backColor = Color(0xFFEEEEEE);
 const Color backRed = Color(0xFFF29E94);
 const Color backYellow = Color(0xFFF1BB6A);
 const Color textYellow = Color(0xFFB69652);
-const Color textLightYellow = Color(0xFFEFDCB3);
+const Color textLightYellow = Color(0xFFFFF6CF);
 const Color backWhite = Color(0xFFFFFFFF);
 const Color lineColor = Color(0xFFEAEAEA);
 const Color textBlack = Color(0xFF333333);
@@ -101,6 +101,11 @@ const TextStyle t16red = TextStyle(
   fontSize: 16
 );
 
+
+const TextStyle t10grey = TextStyle(
+  color: textGrey,
+  fontSize: 10
+);
 
 const TextStyle t12grey = TextStyle(
   color: textGrey,

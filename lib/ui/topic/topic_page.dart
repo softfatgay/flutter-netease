@@ -4,11 +4,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -20,6 +23,7 @@ class TopicPage extends StatefulWidget {
 class _TopicPageState extends State<TopicPage>
     with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollBarController = new ScrollController();
 
   ///第一次加载
   bool isFirstloading = true;
@@ -27,13 +31,13 @@ class _TopicPageState extends State<TopicPage>
   int page = 1;
 
   List dataList = [];
-  List banner = [];
-  List topDataList = [];
+  List navList = [];
   bool hasMore = true;
-
   List roundWords = [];
   int rondomIndex = 0;
   var timer;
+
+  var _alignmentY = 0.0;
 
   @override
   bool get wantKeepAlive => true;
@@ -64,40 +68,64 @@ class _TopicPageState extends State<TopicPage>
   }
 
   void _getTopicData() async {
-    Response response = await Dio().get(
-      'http://m.you.163.com/topic/index.json',
-    );
-    Map<String, dynamic> dataTopic = Map<String, dynamic>.from(response.data);
+    var responseData = await knowNavwap({});
     setState(() {
       isFirstloading = false;
-      dataList.addAll(dataTopic['data']['recommendList']);
+      var data = responseData.data;
+      navList = data['navList'];
 
-      List findMore = dataTopic['data']['findMore'];
-      if (findMore == null || findMore.isEmpty) {
-        banner.add(dataTopic['data']['recommendOne']['picUrl']);
-        topDataList.add(dataTopic['data']['recommendOne']['picUrl']);
-      } else {
-        findMore.forEach((item) {
-          banner.add(item['itemPicUrl']);
-          roundWords.add(item['subtitle']);
-        });
-        topDataList.addAll(findMore);
-      }
+      // List findMore = data['findMore'];
+      // if (findMore == null || findMore.isEmpty) {
+      //   banner.add(data['recommendOne']['picUrl']);
+      //   topDataList.add(data['recommendOne']['picUrl']);
+      // } else {
+      //   findMore.forEach((item) {
+      //     banner.add(item['itemPicUrl']);
+      //     roundWords.add(item['subtitle']);
+      //   });
+      //   topDataList.addAll(findMore);
+      // }
     });
+
+    //
+    // Response response = await Dio().get(
+    //   'http://m.you.163.com/topic/index.json',
+    // );
+    // Map<String, dynamic> dataTopic = Map<String, dynamic>.from(response.data);
+    // setState(() {
+    //   isFirstloading = false;
+    //
+    //   List findMore = dataTopic['data']['findMore'];
+    //   if (findMore == null || findMore.isEmpty) {
+    //     banner.add(dataTopic['data']['recommendOne']['picUrl']);
+    //     topDataList.add(dataTopic['data']['recommendOne']['picUrl']);
+    //   } else {
+    //     findMore.forEach((item) {
+    //       banner.add(item['itemPicUrl']);
+    //       roundWords.add(item['subtitle']);
+    //     });
+    //     topDataList.addAll(findMore);
+    //   }
+    // });
   }
 
   _getMore() async {
-//    http://m.you.163.com/topic/v1/find/recAuto.json?page=3&size=5
-    var params = {'page': page, 'size': pageSize};
-    Response response = await Dio().get(
-        'http://m.you.163.com/topic/v1/find/recAuto.json',
-        queryParameters: params);
-    Map<dynamic, dynamic> dataTopic = Map<dynamic, dynamic>.from(response.data);
-    LogUtil.e(dataTopic);
+    Map<String, dynamic> header = {
+      "Cookie": cookie,
+      "csrf_token": csrf_token,
+    };
+    Map<String, dynamic> params = {
+      'page': page,
+      'size': pageSize,
+      'exceptIds': ''
+    };
+
+    var responseData = await findRecAuto(params, header: header);
     setState(() {
       page++;
-      hasMore = dataTopic['data']['hasMore'];
-      List result = dataTopic['data']['result'];
+      var data = responseData.data;
+      hasMore = data['hasMore'];
+      List result = data['result'];
       result.forEach((item) {
         dataList.addAll(item['topics']);
       });
@@ -112,25 +140,12 @@ class _TopicPageState extends State<TopicPage>
     );
   }
 
-  List<Widget> buildItem() {
-    return List.generate(dataList.length, (index) {
-      return GestureDetector(
-        child: Container(
-          width: double.infinity / 3,
-          child: CachedNetworkImage(
-            imageUrl: dataList[index]['picUrl'],
-          ),
-        ),
-        onTap: () {},
-      );
-    });
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
+    _scrollBarController.dispose();
     if (timer != null) {
       timer.cancel();
     }
@@ -144,13 +159,13 @@ class _TopicPageState extends State<TopicPage>
     }
   }
 
-  Widget buildSearch(BuildContext context) {
+  _buildSearch(BuildContext context) {
     Widget widget = Container(
         child: Row(
       children: <Widget>[
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
             margin: EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               color: Color(0x0D000000),
@@ -165,7 +180,7 @@ class _TopicPageState extends State<TopicPage>
         Container(
           child: Text(
             '搜索',
-            style: TextStyle(color: textBlack, fontSize: 16),
+            style: t16grey,
           ),
         )
       ],
@@ -173,50 +188,21 @@ class _TopicPageState extends State<TopicPage>
     return Routers.link(widget, Util.search, context, {'id': ''});
   }
 
-  Widget buildTopBanner() {
-    return Swiper(
-      itemCount: banner.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            imageUrl: (banner[index]),
-          ),
-        );
-      },
-      pagination: SwiperPagination(
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(right: 5),
-        builder: DotSwiperPaginationBuilder(
-            color: Colors.grey[200], size: 8, activeColor: Colors.red[400]),
-      ),
-      controller: SwiperController(),
-      scrollDirection: Axis.horizontal,
-      autoplay: true,
-      autoplayDelay: 4000,
-      onTap: (index) => {
-        Routers.push(Util.webView, context, {'id': dataList[index]['linkUrl']})
-      },
-    );
-  }
-
   _buildItem(var item) {
-    Widget widget =  Container(
+    var buyNow = item['buyNow'];
+    Widget widget = Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-        borderRadius: BorderRadius.circular(4)
-      ),
+          color: Colors.white, borderRadius: BorderRadius.circular(4)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
+            width: double.infinity,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8)
-            ),
+                color: Colors.white, borderRadius: BorderRadius.circular(8)),
             child: CachedNetworkImage(
-              height: 200,
+              height: ScreenUtil().setHeight(150),
               imageUrl: item['picUrl'],
               fit: BoxFit.cover,
             ),
@@ -226,11 +212,11 @@ class _TopicPageState extends State<TopicPage>
             child: Text(
               item['title'],
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 16, color: Colors.black),
+              style: t14black,
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -238,8 +224,8 @@ class _TopicPageState extends State<TopicPage>
                   child: item['avatar'] == null
                       ? Container()
                       : Container(
-                          width: 30,
-                          height: 30,
+                          width: 25,
+                          height: 25,
                           child: CachedNetworkImage(
                             imageUrl: item['avatar'],
                             errorWidget: (context, url, error) {
@@ -259,7 +245,9 @@ class _TopicPageState extends State<TopicPage>
                     child: Container(
                       margin: EdgeInsets.only(left: 5),
                       child: Text(
-                          item['nickname'] == null ? '' : item['nickname']),
+                        item['nickname'] == null ? '' : item['nickname'],
+                        style: t12grey,
+                      ),
                     ),
                   ),
                 ),
@@ -268,19 +256,60 @@ class _TopicPageState extends State<TopicPage>
                         ? Container()
                         : Icon(
                             Icons.remove_red_eye,
-                            color: Colors.grey,
+                            color: textGrey,
                             size: 14,
                           )),
                 Container(
-                  child: Text(item['readCount'] == null
-                      ? ''
-                      : (item['readCount'] > 1000
-                          ? '${int.parse((item['readCount'] / 1000).toStringAsFixed(0))}K'
-                          : '${item['readCount']}')),
+                  child: Text(
+                    item['readCount'] == null
+                        ? ''
+                        : (item['readCount'] > 1000
+                            ? '${int.parse((item['readCount'] / 1000).toStringAsFixed(0))}K'
+                            : '${item['readCount']}'),
+                    style: t12grey,
+                  ),
                 ),
               ],
             ),
-          )
+          ),
+          buyNow == null
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  height: 1,
+                  color: lineColor,
+                ),
+          buyNow == null
+              ? Container()
+              : GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Text(
+                          '${item['buyNow']['itemName']}',
+                          style: t12black,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                        Text(
+                          '去购买',
+                          style: t12red,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 12,
+                          color: textRed,
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Routers.push(Util.goodDetailTag, context,
+                        {'id': '${item['buyNow']['itemId']}'});
+                  },
+                )
         ],
       ),
     );
@@ -293,7 +322,7 @@ class _TopicPageState extends State<TopicPage>
 
   _stagegeredGridview() {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       sliver: SliverStaggeredGrid.countBuilder(
         itemCount: dataList.length,
         crossAxisCount: 2,
@@ -313,13 +342,13 @@ class _TopicPageState extends State<TopicPage>
       slivers: <Widget>[
         SliverAppBar(
           pinned: true,
-          expandedHeight: 200,
+          expandedHeight: ScreenUtil().setHeight(220),
           backgroundColor: Colors.white,
           brightness: Brightness.light,
-          title: buildSearch(context),
+          title: _buildSearch(context),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(
-            background: buildTopBanner(),
+            background: _buildNav(),
           ),
         ),
         _stagegeredGridview(),
@@ -327,6 +356,102 @@ class _TopicPageState extends State<TopicPage>
           hasMore: hasMore,
         )
       ],
+    );
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    final ScrollMetrics metrics = notification.metrics;
+    print('滚动组件最大滚动距离:${metrics.maxScrollExtent}');
+    print('当前滚动位置:${metrics.pixels}');
+    setState(() {
+      _alignmentY = -1 + (metrics.pixels / metrics.maxScrollExtent) * 2;
+    });
+    return true;
+  }
+
+  _buildNav() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFBB9554),
+            Colors.white,
+          ],
+        ),
+      ),
+      padding:
+          EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 60, 0, 5),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: _handleScrollNotification,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            GridView.count(
+              crossAxisCount: 2,
+              scrollDirection: Axis.horizontal,
+              children: navList.map((item) {
+                return GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          height: ScreenUtil().setHeight(50),
+                          width: ScreenUtil().setHeight(50),
+                          child: CachedNetworkImage(
+                            imageUrl: item['picUrl'],
+                          ),
+                        )),
+                        Container(
+                          margin: EdgeInsets.only(top: 2),
+                          child: Text('${item['mainTitle']}',
+                              style: TextStyle(
+                                  fontSize: ScreenUtil()
+                                      .setSp(12, allowFontScalingSelf: false),
+                                  color: textBlack),
+                              maxLines: 1),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 2),
+                          child: Text(
+                            '${item['viceTitle']}',
+                            style: TextStyle(
+                                fontSize: ScreenUtil()
+                                    .setSp(11, allowFontScalingSelf: false),
+                                color: textGrey),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Routers.push(
+                        Util.webView, context, {'id': '${item['columnUrl']}'});
+                  },
+                );
+              }).toList(),
+            ),
+            Container(
+              height: 4,
+              decoration: BoxDecoration(
+                  color: lineColor, borderRadius: BorderRadius.circular(2)),
+              width: 150,
+              alignment: Alignment(_alignmentY, 1),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: redColor, borderRadius: BorderRadius.circular(2)),
+                height: 4,
+                width: 50,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
