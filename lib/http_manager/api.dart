@@ -290,3 +290,15 @@ Future<ResponseData> searchSearch(Map<String, dynamic> parameters,
   return await HttpManager.post(SEARCH_SEARCH,
       queryParameters: parameters, headers: header);
 }
+///值得买列表
+Future<ResponseData> findRecAuto(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(FIND_REC_AUTO,
+      queryParameters: parameters, headers: header);
+}
+///值得买头部nav
+Future<ResponseData> knowNavwap(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.get(KNOW_NAVWAP,
+      queryParameters: parameters, headers: header);
+}
