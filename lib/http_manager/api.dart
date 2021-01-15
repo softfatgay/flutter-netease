@@ -278,3 +278,15 @@ Future<ResponseData> getPhone(Map<String, dynamic> parameters,
   return await HttpManager.post(USERMOBILE,
       queryParameters: parameters, headers: header);
 }
+///模糊搜索
+Future<ResponseData> searchTips(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(SEARCH_TIPS,
+      queryParameters: parameters, headers: header);
+}
+///搜索关键字
+Future<ResponseData> searchSearch(Map<String, dynamic> parameters,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(SEARCH_SEARCH,
+      queryParameters: parameters, headers: header);
+}

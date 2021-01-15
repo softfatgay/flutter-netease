@@ -4,6 +4,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GoodItemWidget extends StatelessWidget {
   final List dataList;
@@ -205,13 +206,13 @@ class GoodItemWidget extends StatelessWidget {
                         width: 60,
                         height: 35,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               item["promoTitle"] ?? "",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: ScreenUtil().setSp(12, allowFontScalingSelf: false),
                                 color: Colors.white,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -219,7 +220,7 @@ class GoodItemWidget extends StatelessWidget {
                             Text(
                               item["promoSubTitle"] ?? "",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: ScreenUtil().setSp(12, allowFontScalingSelf: false),
                                 color: Colors.white,
                               ),
                               overflow: TextOverflow.ellipsis,

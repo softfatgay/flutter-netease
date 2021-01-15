@@ -46,6 +46,8 @@ final String USER_MOBILE = "${NetContants.baseUrl}xhr/feedback/getUserMobile.jso
 final String FEEDBACK_TYPE = "${NetContants.baseUrl}xhr/feedback/typeList.json";
 final String FEEDBACK_SUBMIT = "${NetContants.baseUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
 final String USERMOBILE = "${NetContants.baseUrl}xhr/userMobile/getStatus.json?csrf_token=$csrf_token";
+final String SEARCH_TIPS = "${NetContants.baseUrl}xhr/search/searchAutoComplete.json";
+final String SEARCH_SEARCH = "${NetContants.baseUrl}xhr/search/search.json.json";
 
 
 
