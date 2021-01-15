@@ -221,12 +221,12 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                 ),
                 Icon(
                   Icons.search,
-                  size: 25,
+                  size: 20,
                   color: textGrey,
                 ),
                 Expanded(
                     child: Text(
-                  "搜索商品，共43430款好物",
+                  "搜索商品，共30000+款好物",
                   style: t14grey,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -888,9 +888,8 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             border: Border.all(width: 0.5, color: redColor)),
         child: Text(
           itemD["name"],
-          style: TextStyle(color: textRed, fontSize: 12),
+          style: t12red,
           maxLines: 1,
-          textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
         ),
       );

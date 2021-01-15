@@ -11,6 +11,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -164,7 +165,7 @@ class _TopicPageState extends State<TopicPage>
       children: <Widget>[
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
             margin: EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               color: Color(0x0D000000),
@@ -201,7 +202,7 @@ class _TopicPageState extends State<TopicPage>
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(8)),
             child: CachedNetworkImage(
-              height: 180,
+              height: ScreenUtil().setHeight(150),
               imageUrl: item['picUrl'],
               fit: BoxFit.cover,
             ),
@@ -341,7 +342,7 @@ class _TopicPageState extends State<TopicPage>
       slivers: <Widget>[
         SliverAppBar(
           pinned: true,
-          expandedHeight: 220,
+          expandedHeight: ScreenUtil().setHeight(220),
           backgroundColor: Colors.white,
           brightness: Brightness.light,
           title: _buildSearch(context),
@@ -381,7 +382,8 @@ class _TopicPageState extends State<TopicPage>
           ],
         ),
       ),
-      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 60, 0, 10),
+      padding:
+          EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 60, 0, 5),
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: Stack(
@@ -391,20 +393,46 @@ class _TopicPageState extends State<TopicPage>
               crossAxisCount: 2,
               scrollDirection: Axis.horizontal,
               children: navList.map((item) {
-                return Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        child: CachedNetworkImage(
-                          imageUrl: item['picUrl'],
+                return GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          height: ScreenUtil().setHeight(50),
+                          width: ScreenUtil().setHeight(50),
+                          child: CachedNetworkImage(
+                            imageUrl: item['picUrl'],
+                          ),
+                        )),
+                        Container(
+                          margin: EdgeInsets.only(top: 2),
+                          child: Text('${item['mainTitle']}',
+                              style: TextStyle(
+                                  fontSize: ScreenUtil()
+                                      .setSp(12, allowFontScalingSelf: false),
+                                  color: textBlack),
+                              maxLines: 1),
                         ),
-                      ),
-                      Container()
-
-                    ],
+                        Container(
+                          margin: EdgeInsets.only(top: 2),
+                          child: Text(
+                            '${item['viceTitle']}',
+                            style: TextStyle(
+                                fontSize: ScreenUtil()
+                                    .setSp(11, allowFontScalingSelf: false),
+                                color: textGrey),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  onTap: () {
+                    Routers.push(
+                        Util.webView, context, {'id': '${item['columnUrl']}'});
+                  },
                 );
               }).toList(),
             ),
@@ -414,7 +442,6 @@ class _TopicPageState extends State<TopicPage>
                   color: lineColor, borderRadius: BorderRadius.circular(2)),
               width: 150,
               alignment: Alignment(_alignmentY, 1),
-              padding: EdgeInsets.only(right: 5),
               child: Container(
                 decoration: BoxDecoration(
                     color: redColor, borderRadius: BorderRadius.circular(2)),

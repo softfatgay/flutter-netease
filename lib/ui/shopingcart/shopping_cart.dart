@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,9 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/colors.dart';
-import 'package:flutter_app/widget/content_loading.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShoppingCart extends StatefulWidget {
   final Map argument;
@@ -344,9 +343,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ),
           isEdit
               ? Container()
-              : Text(
-                  '领券',
-                  style: TextStyle(color: textRed, fontSize: 14),
+              : Container(
+              padding: EdgeInsets.symmetric(horizontal: 6,vertical: 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    color: backRed
+                  ),
+                  child: Text(
+                    '领券',
+                    style: t14white,
+                  ),
                 ),
           SizedBox(
             width: 10,
@@ -360,7 +366,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
             },
             child: Text(
               isEdit ? '完成' : '编辑',
-              style: TextStyle(color: textBlack, fontSize: 14),
+              style: t14black,
             ),
           )
         ],
@@ -379,18 +385,18 @@ class _ShoppingCartState extends State<ShoppingCart> {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  color: backYellow,
+                  color: textLightYellow,
                   padding: EdgeInsets.only(left: 15),
-                  height: 44,
+                  height: ScreenUtil().setHeight(40),
                   child: Text(
                     '${_data['postageVO']['postageTip']}',
-                    style: TextStyle(color: textRed, fontSize: 16),
+                    style: t14red,
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         margin: EdgeInsets.only(right: 6),
@@ -408,7 +414,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '${_topItem['promTip']}',
-                          style: t16black,
+                          style: t14black,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       )),
                       GestureDetector(
@@ -420,7 +428,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             ),
                             Icon(
                               Icons.arrow_forward_ios,
-                              color: textGrey,
+                              color: textRed,
                               size: 14,
                             )
                           ],
@@ -431,14 +439,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
                 GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                     margin: EdgeInsets.fromLTRB(50, 0, 15, 0),
                     color: Color(0xFFFFF7F5),
                     child: Row(
                       children: [
                         Expanded(
                             child:
-                                Text(_actualPrice > 100 ? '去换购商品' : '查看换购商品')),
+                                Text(_actualPrice > 100 ? '去换购商品' : '查看换购商品',style: t12black,)),
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 14,
@@ -492,7 +500,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xFFDBDBDB),
+                      color: backGrey,
                       borderRadius: BorderRadius.circular(4)),
                   height: 90,
                   width: 90,
@@ -537,9 +545,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               Container(
                                 child: Text(
                                   '¥${item['actualPrice'] == 0 ? item['actualPrice'] : item['retailPrice']}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                  style: t14blackblod,
                                 ),
                               ),
                               Expanded(
@@ -588,8 +594,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
               : Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.fromLTRB(35, 10, 0, 0),
-                  decoration: BoxDecoration(color: backGrey),
+                  margin: EdgeInsets.fromLTRB(32, 10, 0, 0),
+                  decoration: BoxDecoration(color: backGrey,borderRadius: BorderRadius.circular(4)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: cartItemTips.map((item) {
@@ -666,7 +672,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        color: Color(0xFFDBDBDB),
+                        color: backGrey,
                         borderRadius: BorderRadius.circular(4)),
                     height: 90,
                     width: 90,
@@ -681,7 +687,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             padding: EdgeInsets.only(left: 10),
                             child: Text(
                               '${item['itemName']}',
-                              style: t16black,
+                              style: t16grey,
                             ),
                           ),
                           Container(
@@ -698,9 +704,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               children: [
                                 Text(
                                   '¥${item['retailPrice']}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                  style: t14grey,
                                 ),
                               ],
                             ),
@@ -723,7 +727,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     if (isEdit) {
       return Container(
         color: Colors.white,
-        height: 50,
+        height: ScreenUtil().setHeight(50),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -732,7 +736,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 margin: EdgeInsets.only(left: 15),
                 child: Text(
                   '已选(${checkList.length})',
-                  style: t16black,
+                  style: t14grey,
                 ),
               ),
             ),
@@ -797,7 +801,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 margin: EdgeInsets.only(bottom: 3),
                 child: Text(
                   '已选($_selectedNum)',
-                  style: t16black,
+                  style: t14grey,
                 ),
               ),
               onTap: () {
@@ -844,7 +848,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   style: t14white,
                 ),
               ),
-              onTap: (){
+              onTap: () {
                 Toast.show('暂未开发', context);
                 // Routers.push(Util.webView, context,{'id':'https://m.you.163.com/order/confirm?sfrom=3995230&_stat_referer=itemDetail_buy'});
               },

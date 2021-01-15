@@ -147,7 +147,7 @@ class _SearchGoodsState extends State<SearchGoods> {
             decoration: BoxDecoration(color: Colors.white),
             child: SearchWidget(
               textValue: textValue,
-              hintText: '输入搜索',
+              hintText: '请输入商品名称',
               controller: controller,
               onValueChangedCallBack: (value) {
                 textValue = value;
