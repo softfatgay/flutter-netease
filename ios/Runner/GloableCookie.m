@@ -26,6 +26,8 @@ NSString *COOKIESAVEKEY = @"FlutterUseCookie";
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
   if ([[call method] isEqualToString:@"globalCookieValue"]) {
       [self globalCookieValue:result];
+  } else if ([[call method] isEqualToString:@"clearGlobalCookie"]) {
+      [self clearGlobalCookieValue:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -40,6 +42,12 @@ NSString *COOKIESAVEKEY = @"FlutterUseCookie";
     } else {
         result(@"");
     }
+}
+
+- (void)clearGlobalCookieValue:(FlutterResult)result {
+    NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
+    [standard setValue:nil forKey:COOKIESAVEKEY];
+    result(@"1");
 }
 
 - (void)aspectMethod {

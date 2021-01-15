@@ -21,4 +21,12 @@ class GlobalCookie {
            return result;
         });
   }
+
+  Future<String> clearGlobalCookie(String url) {
+    return  _channel
+        .invokeMethod<String>('clearGlobalCookie', {'url': url})
+        .then<String>((String result) {
+      return result;
+    });
+  }
 }
