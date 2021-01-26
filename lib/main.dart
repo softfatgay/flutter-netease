@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
 
   _getCookie() async {
     CookieConfig.cookie = await globalCookie.globalCookieValue(LOGIN_PAGE_URL);
+
   }
 
   @override

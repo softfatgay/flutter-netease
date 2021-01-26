@@ -345,6 +345,7 @@ class _TopicPageState extends State<TopicPage>
           expandedHeight: ScreenUtil().setHeight(220),
           backgroundColor: Colors.white,
           brightness: Brightness.light,
+          toolbarHeight: 0,
           title: _buildSearch(context),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(

@@ -133,7 +133,11 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
       ///限时购
       flashSaleModule = homeModel["flashSaleModule"];
-      flashSaleModuleItems = homeModel["flashSaleModule"]["itemList"];
+      if(flashSaleModule == null || flashSaleModule.isEmpty()) {
+        flashSaleModuleItems = [];
+      }else{
+        flashSaleModuleItems = flashSaleModule['itemList'];
+      }
 
       ///新品首发
       newItemList = homeModel["newItemList"];
@@ -652,7 +656,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _flashSaleItem(BuildContext context) {
-    if (flashSaleModuleItems == null) {
+    if (flashSaleModuleItems == null||flashSaleModuleItems.isEmpty) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
