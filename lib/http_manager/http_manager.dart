@@ -38,8 +38,7 @@ class HttpManager {
       Map<String, dynamic> header = (headers == null) ? Map() : headers;
       Dio dio = Dio();
 
-      dio.interceptors
-          .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+      dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
         return options;
       }, onResponse: (Response response) {
         return response.data;
