@@ -12,6 +12,7 @@ import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShoppingCart extends StatefulWidget {
@@ -44,6 +45,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   bool isEdit = false; // 是否正在编辑
 
+  bool _islogin = true;
   int allCount = 0;
   List checkList = [];
 
@@ -54,7 +56,26 @@ class _ShoppingCartState extends State<ShoppingCart> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getData();
+
+    _checkLogin();
+  }
+
+  ///检查是否登录
+  _checkLogin() async {
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    var responseData = await checkLogin(params, header: header);
+    var isLogin = responseData.data;
+    if (isLogin) {
+      _getData();
+    } else {
+      setState(() {
+        _islogin = false;
+      });
+    }
   }
 
   /*
@@ -258,39 +279,54 @@ class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
     var argument = widget.argument;
-
-    return Scaffold(
-      backgroundColor: backColor,
-      appBar: AppBar(
-        elevation: 1,
-        backgroundColor: Colors.white,
-        brightness: Brightness.light,
-        centerTitle: true,
-        title: _navBar(),
-        leading: argument == null
-            ? Container()
-            : GestureDetector(
-                child: Icon(
-                  Icons.arrow_back,
-                  color: redColor,
+    return _islogin
+        ? Scaffold(
+            backgroundColor: backColor,
+            appBar: AppBar(
+              elevation: 1,
+              backgroundColor: Colors.white,
+              brightness: Brightness.light,
+              centerTitle: true,
+              title: _navBar(),
+              leading: argument == null
+                  ? Container()
+                  : GestureDetector(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: redColor,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+            ),
+            body: Stack(
+              children: [
+                _data == null ? Loading() : _buildData(context),
+                Positioned(
+                  child: _buildBuy(),
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-      ),
-      body: Stack(
-        children: [
-          _data == null ? Loading() : _buildData(context),
-          Positioned(
-            child: _buildBuy(),
-            bottom: 0,
-            left: 0,
-            right: 0,
-          ),
-          loading ? Loading() : Container(),
-        ],
-      ),
+                loading ? Loading() : Container(),
+              ],
+            ),
+          )
+        : _loginPage(context);
+  }
+
+  _loginPage(BuildContext context) {
+    // Routers.push(Util.webLogin, context,{},_callback);
+    return WebLoginWidget(
+      onValueChanged: (value) {
+        if (value) {
+          setState(() {
+            _islogin = value;
+          });
+          _checkLogin();
+        }
+      },
     );
   }
 
@@ -344,11 +380,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
           isEdit
               ? Container()
               : Container(
-              padding: EdgeInsets.symmetric(horizontal: 6,vertical: 2),
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2),
-                    color: backRed
-                  ),
+                      borderRadius: BorderRadius.circular(2), color: backRed),
                   child: Text(
                     '领券',
                     style: t14white,
@@ -445,8 +479,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     child: Row(
                       children: [
                         Expanded(
-                            child:
-                                Text(_actualPrice > 100 ? '去换购商品' : '查看换购商品',style: t12black,)),
+                            child: Text(
+                          _actualPrice > 100 ? '去换购商品' : '查看换购商品',
+                          style: t12black,
+                        )),
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 14,
@@ -500,8 +536,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: backGrey,
-                      borderRadius: BorderRadius.circular(4)),
+                      color: backGrey, borderRadius: BorderRadius.circular(4)),
                   height: 90,
                   width: 90,
                   child: CachedNetworkImage(imageUrl: item['pic']),
@@ -595,7 +630,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   width: double.infinity,
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.fromLTRB(32, 10, 0, 0),
-                  decoration: BoxDecoration(color: backGrey,borderRadius: BorderRadius.circular(4)),
+                  decoration: BoxDecoration(
+                      color: backGrey, borderRadius: BorderRadius.circular(4)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: cartItemTips.map((item) {
