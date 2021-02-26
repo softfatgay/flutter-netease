@@ -541,17 +541,12 @@ class _GoodsDetailState extends State<GoodsDetail> {
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
                                     child: Text(
-                                      _hdrkDetailVOList[0]['name'],
+                                      '${_hdrkDetailVOList[0]['name']}',
                                       style: t14black,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      _hdrkDetailVOList[0]['promLimitDesc'],
-                                      style: t14grey,
                                     ),
                                   ),
                                 ],

@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
@@ -13,7 +11,6 @@ import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 class TopicPage extends StatefulWidget {
   @override
@@ -73,40 +70,7 @@ class _TopicPageState extends State<TopicPage>
       isFirstloading = false;
       var data = responseData.data;
       navList = data['navList'];
-
-      // List findMore = data['findMore'];
-      // if (findMore == null || findMore.isEmpty) {
-      //   banner.add(data['recommendOne']['picUrl']);
-      //   topDataList.add(data['recommendOne']['picUrl']);
-      // } else {
-      //   findMore.forEach((item) {
-      //     banner.add(item['itemPicUrl']);
-      //     roundWords.add(item['subtitle']);
-      //   });
-      //   topDataList.addAll(findMore);
-      // }
     });
-
-    //
-    // Response response = await Dio().get(
-    //   'http://m.you.163.com/topic/index.json',
-    // );
-    // Map<String, dynamic> dataTopic = Map<String, dynamic>.from(response.data);
-    // setState(() {
-    //   isFirstloading = false;
-    //
-    //   List findMore = dataTopic['data']['findMore'];
-    //   if (findMore == null || findMore.isEmpty) {
-    //     banner.add(dataTopic['data']['recommendOne']['picUrl']);
-    //     topDataList.add(dataTopic['data']['recommendOne']['picUrl']);
-    //   } else {
-    //     findMore.forEach((item) {
-    //       banner.add(item['itemPicUrl']);
-    //       roundWords.add(item['subtitle']);
-    //     });
-    //     topDataList.addAll(findMore);
-    //   }
-    // });
   }
 
   _getMore() async {
@@ -342,7 +306,7 @@ class _TopicPageState extends State<TopicPage>
       slivers: <Widget>[
         SliverAppBar(
           pinned: true,
-          expandedHeight: ScreenUtil().setHeight(220),
+          expandedHeight: ScreenUtil().setHeight(180),
           backgroundColor: Colors.white,
           brightness: Brightness.light,
           toolbarHeight: 0,
@@ -384,7 +348,7 @@ class _TopicPageState extends State<TopicPage>
         ),
       ),
       padding:
-          EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 60, 0, 5),
+          EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 10, 0, 5),
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: Stack(

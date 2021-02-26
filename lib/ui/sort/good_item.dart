@@ -203,7 +203,7 @@ class GoodItemWidget extends StatelessWidget {
                         fit: BoxFit.fill,
                       ),
                       Container(
-                        width: 60,
+                        width: 65,
                         height: 35,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -212,7 +212,7 @@ class GoodItemWidget extends StatelessWidget {
                             Text(
                               item["promoTitle"] ?? "",
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12, allowFontScalingSelf: false),
+                                fontSize: 12,
                                 color: Colors.white,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -220,7 +220,7 @@ class GoodItemWidget extends StatelessWidget {
                             Text(
                               item["promoSubTitle"] ?? "",
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12, allowFontScalingSelf: false),
+                                fontSize: 12,
                                 color: Colors.white,
                               ),
                               overflow: TextOverflow.ellipsis,
