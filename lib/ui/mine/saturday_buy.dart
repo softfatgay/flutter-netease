@@ -267,15 +267,16 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.fromLTRB(6, 10, 0, 0),
                   padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                   decoration: BoxDecoration(
-                      color: redColor, borderRadius: BorderRadius.circular(8)),
+                      color: redColor, borderRadius: BorderRadius.circular(12)),
                   child: Text(
                     '降! ¥${(NumUtil.getNumByValueDouble(item['originPrice'] - item['price'], 1)).toStringAsFixed(0)}',
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: t12white,
                   ),
                 ),
                 Container(
@@ -370,7 +371,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(
                         '去开团',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: t14white,
                       ),
                     )
                   ],
