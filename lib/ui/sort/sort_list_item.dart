@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/ui/sort/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/model/goodItem.dart';
+import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/footer.dart';
 import 'package:flutter_app/widget/loading.dart';
@@ -20,7 +22,7 @@ class _CatalogGoodsState extends State<SortListItem>
     with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
   int total = 0;
-  List dataList = [];
+  // List dataList = [];
 
   bool moreLoading = false;
 
@@ -28,6 +30,9 @@ class _CatalogGoodsState extends State<SortListItem>
 
   List itemList = [];
   var category;
+
+  ///商品
+  List<GoodItem> _itemList;
 
   @override
   void initState() {
@@ -39,7 +44,7 @@ class _CatalogGoodsState extends State<SortListItem>
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (!moreLoading && (total > dataList.length)) {
+        if (!moreLoading && (total > _itemList.length)) {
           // _getMore();
         }
       }
@@ -55,14 +60,15 @@ class _CatalogGoodsState extends State<SortListItem>
       "categoryId": widget.arguments["superCategoryId"],
     };
     var responseData = await sortListData(map);
-    print("========================================");
-    print(responseData.data);
     var data = responseData.data;
+    var sortListDataModel = SortListData.fromJson(data);
+
     setState(() {
-      dataList = data["categoryItems"]["itemList"];
+      _itemList = sortListDataModel.categoryItems.itemList;
+
       category = data["categoryItems"]["category"];
       isLoading = false;
-      total = dataList.length;
+      total = _itemList.length;
     });
   }
 
@@ -88,7 +94,7 @@ class _CatalogGoodsState extends State<SortListItem>
                       ),
                     )),
                   ),
-            GoodItemWidget(dataList: dataList),
+            GoodItemWidget(dataList: _itemList),
             singleSliverWidget(buildFooter()),
           ],
         ),
@@ -101,7 +107,7 @@ class _CatalogGoodsState extends State<SortListItem>
   }
 
   Widget buildFooter() {
-    if (dataList.length == total) {
+    if (_itemList.length == total) {
       return NoMoreText();
     } else {
       return Loading();
@@ -118,5 +124,4 @@ class _CatalogGoodsState extends State<SortListItem>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-
 }

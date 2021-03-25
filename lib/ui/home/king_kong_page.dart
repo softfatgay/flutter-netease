@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
-import 'package:flutter_app/ui/sort/good_item_new.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -31,7 +30,6 @@ class _KingKongPageState extends State<KingKongPage> {
     super.initState();
 
     _getInitData();
-
   }
 
   // https://m.you.163.com/item/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603334436519&style=pd&categoryId=1005002
@@ -47,7 +45,6 @@ class _KingKongPageState extends State<KingKongPage> {
     String schemeUrl = widget.arguments["schemeUrl"];
     print("////////////////////////////////////");
     print(schemeUrl);
-
 
     if (schemeUrl.contains("categoryId")) {
       var split = schemeUrl.split("?");
@@ -165,13 +162,11 @@ class _KingKongPageState extends State<KingKongPage> {
     ));
   }
 
-  void _getNewData() async{
+  void _getNewData() async {
     var responseData = await kingKongNewItemData({
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     });
-
-
 
     print(responseData.newItems);
   }

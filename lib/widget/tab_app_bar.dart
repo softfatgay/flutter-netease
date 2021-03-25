@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
-import 'package:flutter_app/widget/colors.dart';
 
 class TabAppBar extends StatelessWidget {
   const TabAppBar({this.tabs, this.controller, this.title = ''});
@@ -26,8 +27,8 @@ class TabAppBar extends StatelessWidget {
                 width: 50,
                 child: Center(
                   child: Icon(
-                    Icons.arrow_back,
-                    color: redColor,
+                    Icons.arrow_back_ios,
+                    color: textBlack,
                   ),
                 ),
               ),
@@ -39,7 +40,7 @@ class TabAppBar extends StatelessWidget {
               child: Center(
                 child: Text(
                   title == null ? '' : title,
-                  style: t18black,
+                  style: t16black,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -57,7 +58,7 @@ class TabAppBar extends StatelessWidget {
 
   Widget buildTabBar() {
     return Container(
-        height:40,
+        height: 40,
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border(
@@ -78,7 +79,10 @@ class TabAppBar extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       height: 34,
-                      child: Text(f),
+                      child: Text(
+                        f,
+                        style: TextStyle(fontSize: 14),
+                      ),
                     ),
                   ))
               .toList(),

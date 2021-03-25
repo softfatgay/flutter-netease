@@ -61,10 +61,6 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
       "subCategoryId": id,
       "categoryId": widget.arguments["categoryId"],
     });
-
-    print("========================================");
-    print(responseData.data);
-
     var data = responseData.data;
     setState(() {
       catalogList = data["categoryL2List"];
