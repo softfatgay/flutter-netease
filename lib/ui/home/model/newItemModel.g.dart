@@ -1,0 +1,29 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'newItemModel.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+NewItemModel _$NewItemModelFromJson(Map<String, dynamic> json) {
+  return NewItemModel()
+    ..scenePicUrl = json['scenePicUrl'] as String
+    ..simpleDesc = json['simpleDesc'] as String
+    ..retailPrice = json['retailPrice'] as num
+    ..itemTagList = (json['itemTagList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : NewItemTagModel.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..id = json['id'] as int;
+}
+
+Map<String, dynamic> _$NewItemModelToJson(NewItemModel instance) =>
+    <String, dynamic>{
+      'scenePicUrl': instance.scenePicUrl,
+      'simpleDesc': instance.simpleDesc,
+      'retailPrice': instance.retailPrice,
+      'itemTagList': instance.itemTagList,
+      'id': instance.id,
+    };

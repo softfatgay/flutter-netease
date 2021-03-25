@@ -1,0 +1,21 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'topicData.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+TopicData _$TopicDataFromJson(Map<String, dynamic> json) {
+  return TopicData()
+    ..hasMore = json['hasMore'] as bool
+    ..result = (json['result'] as List)
+        ?.map((e) =>
+            e == null ? null : Result.fromJson(e as Map<String, dynamic>))
+        ?.toList();
+}
+
+Map<String, dynamic> _$TopicDataToJson(TopicData instance) => <String, dynamic>{
+      'hasMore': instance.hasMore,
+      'result': instance.result,
+    };
