@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 
 class Hotlist extends StatefulWidget {
   @override
@@ -133,8 +134,8 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                       '网易严选热销榜',
                       style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 40),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 35),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 4),
@@ -150,7 +151,6 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                       ),
                     ),
                     Container(
-                      alignment: Alignment.center,
                       width: 150,
                       padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
@@ -159,7 +159,9 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                       margin: EdgeInsets.only(top: 20),
                       child: Text(
                         '${seller[rondomIndex]}',
-                        style: t14white,
+                        style: t12white,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
                       ),
                     )
                   ],
@@ -187,13 +189,13 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
           ),
         ];
       },
-      body:  Container(
-              child: NotificationListener(
-                onNotification: (ScrollNotification scrollInfo) =>
-                    _onScrollNotification(scrollInfo),
-                child: _buildGrid(),
-              ),
-            ),
+      body: Container(
+        child: NotificationListener(
+          onNotification: (ScrollNotification scrollInfo) =>
+              _onScrollNotification(scrollInfo),
+          child: _buildGrid(),
+        ),
+      ),
     );
   }
 
@@ -225,7 +227,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
 
   Widget _buildItem(index) {
     var item = itemList[index];
-   Widget widget =  Container(
+    Widget widget = Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -235,12 +237,12 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
           Column(
             children: [
               Container(
-                height: 120,
+                height: 140,
                 child: Row(
                   children: [
                     Container(
-                      height: 120,
-                      width: 120,
+                      height: 140,
+                      width: 140,
                       child: CachedNetworkImage(
                         imageUrl: item['scenePicUrl'],
                       ),
@@ -254,15 +256,18 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                             (item['promTag'] == null || item['promTag'] == '')
                                 ? Container()
                                 : Container(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: redColor, width: 1),
-                                  borderRadius:
-                                  BorderRadius.circular(10)),
-                              child: Text('${item['promTag']}'),
-                            ),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: redColor, width: 1),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Text(
+                                      '${item['promTag']}',
+                                      style: t12red,
+                                    ),
+                                  ),
                             Container(
                               margin: EdgeInsets.only(top: 6),
                               child: Text(
@@ -270,55 +275,54 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                 style: TextStyle(
                                     color: textBlack,
                                     fontSize: 16,
+                                    height: 1.1,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            item['goodCmtRate'] == null?Container(): Container(
-                              margin: EdgeInsets.only(top: 6),
-                              child: Text('${item['goodCmtRate']}好评率'),
-                            ),
+                            item['goodCmtRate'] == null
+                                ? Container()
+                                : Container(
+                                    margin: EdgeInsets.only(top: 6),
+                                    child: Text('${item['goodCmtRate']}好评率'),
+                                  ),
                             Expanded(
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Expanded(
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            '¥${item['retailPrice']}',
-                                            style: TextStyle(
-                                                color: textRed,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          (item['counterPrice'] ==
-                                              item['retailPrice'] ||
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '¥${item['retailPrice']}',
+                                        style: TextStyle(
+                                            color: textRed,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      (item['counterPrice'] ==
+                                                  item['retailPrice'] ||
                                               item['counterPrice'] == 0)
-                                              ? Container()
-                                              : Text(
-                                            '¥${item['counterPrice']}',
-                                            style: TextStyle(
-                                              decoration:
-                                              TextDecoration.lineThrough,
-                                              color: textGrey
-                                            ),
-                                          )
-                                        ],
-                                      )),
+                                          ? Container()
+                                          : Text(
+                                              '¥${item['counterPrice']}',
+                                              style: TextStyle(
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  color: textGrey),
+                                            )
+                                    ],
+                                  )),
                                   Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: 10, vertical: 3),
                                     decoration: BoxDecoration(
                                         color: redColor,
                                         borderRadius:
-                                        BorderRadius.circular(15)),
+                                            BorderRadius.circular(15)),
                                     child: Text(
                                       '马上抢',
-                                      style: TextStyle(
-                                          color: textWhite,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                      style: t16whiteblod,
                                     ),
                                   )
                                 ],
@@ -334,37 +338,38 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
               item['hotSaleListBottomInfo'] == null
                   ? Container()
                   : Container(
-                padding:
-                EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                margin: EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                    color: Color(0xFFF6F6F6),
-                    borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                  children: [
-                    ClipOval(
-                      child: Image.network(
-                        '${item['hotSaleListBottomInfo']['iconUrl']}',
-                        height: 20,
-                        width: 20,
-                        fit: BoxFit.cover,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFF6F6F6),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        children: [
+                          ClipOval(
+                            child: Image.network(
+                              '${item['hotSaleListBottomInfo']['iconUrl']}',
+                              height: 20,
+                              width: 20,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Expanded(
+                              child: Text(
+                            '${item['hotSaleListBottomInfo']['content']}',
+                            style: t12grey,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          )),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 12,
+                            color: textGrey,
+                          )
+                        ],
                       ),
                     ),
-                    Expanded(
-                        child: Text(
-                          '${item['hotSaleListBottomInfo']['content']}',
-                          style: t12grey,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12,
-                      color: textGrey,
-                    )
-                  ],
-                ),
-              ),
             ],
           ),
           Container(
@@ -373,7 +378,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
             margin: EdgeInsets.all(5),
             alignment: Alignment.center,
             decoration:
-            BoxDecoration(shape: BoxShape.circle, color: Color(0xFFD2D3D2)),
+                BoxDecoration(shape: BoxShape.circle, color: Color(0xFFD2D3D2)),
             child: Text(
               '${index + 1}',
               style: t14white,
@@ -382,8 +387,8 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
         ],
       ),
     );
-   return Routers.link(widget,
-        Util.goodDetailTag, context, {'id': item['id']});
+    return Routers.link(
+        widget, Util.goodDetailTag, context, {'id': item['id']});
   }
 
   @override
