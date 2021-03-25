@@ -2,10 +2,17 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/sort/model/bannerItem.dart';
+import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
+import 'package:flutter_app/ui/sort/model/categoryItem.dart';
+import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
+import 'package:flutter_app/ui/sort/model/sortData.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/vertical_tab.dart';
 
@@ -15,28 +22,36 @@ class SortPage extends StatefulWidget {
   _SortState createState() => _SortState();
 }
 
-class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
-  List tabs = [];
+class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
+  // List tabs = [];
 
-  bool isLoading = true;
+  bool _isLoading = true;
 
-  List roundWords = ['零食', '茅台酒', '床上用品', '衣服', '玩具', '奶粉', '背包'];
-  int rondomIndex = 0;
+  List _roundWords = ['零食', '茅台酒', '床上用品', '衣服', '玩具', '奶粉', '背包'];
+  int _rondomIndex = 0;
   var timer;
 
-  String categoryId = "";
-  int activityTab = 0;
-  List banner = [];
-  List categoryGroupList = [];
+  String _categoryId = "";
+  int _activityTab = 0;
+
+  ///左侧tab
+  List<CategoryL1Item> _categoryL1List;
+
+  ///右侧头部banner
+  List<BannerItem> _bannerList;
+
+  ///body数据
+  List<CategoryGroupItem> _categoryGroupList;
 
   @override
   bool get wantKeepAlive => true;
 
-
   @override
   Widget build(BuildContext context) {
     List<String> newTabs = [];
-    tabs.forEach((item) => newTabs.add(item['name']));
+    if (_categoryL1List != null) {
+      _categoryL1List.forEach((item) => newTabs.add(item.name));
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -48,13 +63,13 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
                 VerticalTab(
                   tabs: newTabs,
                   onTabChange: (index) {
-                    activityTab = index;
+                    _activityTab = index;
                     if (index == 0) {
-                      categoryId = "";
+                      _categoryId = "";
                     } else {
-                      categoryId = "${tabs[index]["id"]}";
+                      _categoryId = "${_categoryL1List[index].id}";
                     }
-                    _getInitData(categoryId);
+                    _getInitData(_categoryId);
                   },
                   activeIndex: 0,
                 ),
@@ -76,27 +91,29 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
     _getInitData("");
     timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
       setState(() {
-        rondomIndex++;
-        if (rondomIndex >= 7) {
-          rondomIndex = 0;
+        _rondomIndex++;
+        if (_rondomIndex >= 7) {
+          _rondomIndex = 0;
         }
       });
     });
   }
 
   _getInitData(String id) async {
-    isLoading = true;
+    _isLoading = true;
     var responseData = await sortData({
-      "csrf_token": "61f57b79a343933be0cb10aa37a51cc8",
+      "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryId": "$id"
     });
     var data = responseData.data;
+    var sortDataModel = SortData.fromJson(data);
+
     setState(() {
-      isLoading = false;
-      tabs = data["categoryL1List"];
-      banner = data["currentCategory"]["bannerList"];
-      categoryGroupList = data["categoryGroupList"];
+      _isLoading = false;
+      _categoryL1List = sortDataModel.categoryL1List;
+      _bannerList = sortDataModel.currentCategory.bannerList;
+      _categoryGroupList = sortDataModel.categoryGroupList;
     });
   }
 
@@ -123,7 +140,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
           ),
           Text(
             "搜索商品，共30000+款好物",
-            style: t14grey,
+            style: t12grey,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           )
@@ -140,109 +157,106 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin{
       ],
     );
     return Routers.link(
-        navBar, Util.search, context, {'id': roundWords[rondomIndex]});
+        navBar, Util.search, context, {'id': _roundWords[_rondomIndex]});
   }
 
   Widget buildContent() {
-    return isLoading
+    return _isLoading
         ? Loading()
         : MediaQuery.removePadding(
-        removeTop: true,
-        context: context, child: CustomScrollView(
-      slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                          top: BorderSide(width: 1, color: splitLineColor))),
-                  padding: EdgeInsets.all(10),
-                  height: 120,
-                  child: CachedNetworkImage(
-                    imageUrl: banner[0]["picUrl"] == null
-                        ? ""
-                        : banner[0]["picUrl"],
-                    fit: BoxFit.fill,
-                  ),
-                );
-              }, childCount: 1),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                List itemItem = categoryGroupList[index]["categoryList"];
-                return Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${categoryGroupList[index]["name"] == null ? "" : categoryGroupList[index]["name"]}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 6),
-                              height: 1,
-                              color: splitLineColor,
-                            ),
-                          ],
-                        ),
+            removeTop: true,
+            context: context,
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top:
+                                  BorderSide(width: 1, color: splitLineColor))),
+                      padding: EdgeInsets.all(10),
+                      height: 120,
+                      child: CachedNetworkImage(
+                        imageUrl: _bannerList[0].picUrl ?? '',
+                        fit: BoxFit.fill,
                       ),
-                      GridView.count(
-                        ///这两个属性起关键性作用，列表嵌套列表一定要有Container
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 3,
-                        childAspectRatio: 0.8,
-                        children: itemItem.map<Widget>((item) {
-                          Widget widget = Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                    child: CachedNetworkImage(
-                                      imageUrl: item["wapBannerUrl"],
-                                    )),
-                                Container(
-                                  margin: EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    item["name"],
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                          return Routers.link(
-                            widget,
-                            Util.catalogTag,
-                            context,
-                            {
-                              'subCategoryId': item['id'],
-                              'categoryId': item['superCategoryId'],
-                            },
-                          );
-                        }).toList(),
-                      )
-                    ],
+                    );
+                  }, childCount: 1),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        List<CategoryItem> itemItem =
+                            _categoryGroupList[index].categoryList;
+                        // List itemItem = _categoryGroupList[index].categoryList;
+                        return Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${_categoryGroupList[index].name ?? ''}",
+                                      style: t16blackbold,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 6),
+                                      height: 1,
+                                      color: splitLineColor,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              GridView.count(
+                                ///这两个属性起关键性作用，列表嵌套列表一定要有Container
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                crossAxisCount: 3,
+                                childAspectRatio: 0.8,
+                                children: itemItem.map<Widget>((item) {
+                                  Widget widget = Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                            child: CachedNetworkImage(
+                                          imageUrl: item.wapBannerUrl,
+                                        )),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 6),
+                                          child: Text(
+                                            item.name,
+                                            style: t12black,
+                                            maxLines: 1,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                  return Routers.link(
+                                      widget, Util.catalogTag, context, {
+                                    'subCategoryId': item.id,
+                                    'categoryId': item.superCategoryId,
+                                  });
+                                }).toList(),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      childCount: _categoryGroupList.length,
+                    ),
                   ),
-                );
-              },
-              childCount: categoryGroupList.length,
-            ),
-          ),
-        )
-      ],
-    ));
+                )
+              ],
+            ));
   }
 
   @override

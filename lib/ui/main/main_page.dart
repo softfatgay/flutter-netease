@@ -4,6 +4,7 @@ import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/mine/mine_new.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
 import 'package:flutter_app/ui/sort/sort_page.dart';
+import 'package:flutter_app/ui/topic/test.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/user_config.dart';

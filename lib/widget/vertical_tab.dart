@@ -78,7 +78,7 @@ class _VerticalTab extends State<VerticalTab> {
             style: TextStyle(
                 color: index == _currentIndex ? textRed : textBlack,
                 letterSpacing: 1,
-                fontSize: index == _currentIndex ? 16 : 16),
+                fontSize: index == _currentIndex ? 14 : 14),
           ),
         ),
       ),

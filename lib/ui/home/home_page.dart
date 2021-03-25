@@ -1,41 +1,33 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
+import 'package:flutter_app/ui/home/model/categoryItem.dart';
+import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
+import 'package:flutter_app/ui/home/model/flashSaleModuleItem.dart';
+import 'package:flutter_app/ui/home/model/floorItem.dart';
+import 'package:flutter_app/ui/home/model/focusItem.dart';
+import 'package:flutter_app/ui/home/model/homeModel.dart';
+import 'package:flutter_app/ui/home/model/indexActivityModule.dart';
+import 'package:flutter_app/ui/home/model/kingKongModule.dart';
+import 'package:flutter_app/ui/home/model/newItemModel.dart';
+import 'package:flutter_app/ui/home/model/policyDescItem.dart';
+import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
-
-/*const SliverAppBar({
-Key key,
-this.leading,//左侧的图标或文字，多为返回箭头
-this.automaticallyImplyLeading = true,//没有leading为true的时候，默认返回箭头，没有leading且为false，则显示title
-this.title,//标题
-this.actions,//标题右侧的操作
-this.flexibleSpace,//可以理解为SliverAppBar的背景内容区
-this.bottom,//SliverAppBar的底部区
-this.elevation,//阴影
-this.forceElevated = false,//是否显示阴影
-this.backgroundColor,//背景颜色
-this.brightness,//状态栏主题，默认Brightness.dark，可选参数light
-this.iconTheme,//SliverAppBar图标主题
-this.actionsIconTheme,//action图标主题
-this.textTheme,//文字主题
-this.primary = true,//是否显示在状态栏的下面,false就会占领状态栏的高度
-this.centerTitle,//标题是否居中显示
-this.titleSpacing = NavigationToolbar.kMiddleSpacing,//标题横向间距
-this.expandedHeight,//合并的高度，默认是状态栏的高度加AppBar的高度
-this.floating = false,//滑动时是否悬浮
-this.pinned = false,//标题栏是否固定
-this.snap = false,//配合floating使用
-})*/
 
 class HomePage extends StatefulWidget {
   @override
@@ -44,21 +36,36 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
-  List banner,
-      bannerData,
-      tagList,
-      kingKongModuleItems,
-      bigPromotionModuleItems,
-      categoryHotSellModuleItems,
-      categoryHotSellItems,
-      flashSaleModuleItems,
-      indexActivityModules,
-      newItemList,
-      sceneLightShoppingGuideModule = List();
-  var categoryHotSellModule;
-  var flashSaleModule;
-  var kingKongModule;
-  var bigPromotionModule;
+
+  ///banner数据
+  List<FocusItem> _focusList;
+
+  ///banner下面tag
+  List<PolicyDescItem> _policyDescList;
+
+  ///kingkong
+  List<KingKongItem> _kingKongList;
+
+  ///活动大图
+  List<FloorItem> _floorList;
+
+  ///新人礼包
+  List<IndexActivityModule> _indexActivityModule;
+
+  ///类目热销榜
+  CategoryHotSellModule _categoryHotSellModule;
+
+  List<CategoryItem> _categoryList;
+
+  ///限时购
+  FlashSaleModule _flashSaleModule;
+  List<FlashSaleModuleItem> _flashSaleModuleItemList;
+
+  ///新品首发
+  List<NewItemModel> _newItemList;
+
+  ///底部数据
+  List<SceneLightShoppingGuideModule> _sceneLightShoppingGuideModule;
 
   @override
   void initState() {
@@ -67,7 +74,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     _getData();
     _checkLogin();
   }
-
 
   ///检查是否登录
   _checkLogin() async {
@@ -80,7 +86,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     var responseData = await checkLogin(params, header: header);
     final globalCookie = GlobalCookie();
     var isLogin = responseData.data;
-
   }
 
   void _incrementCounter() {
@@ -94,62 +99,30 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     };
     var responseData = await homeData(params);
     var data = responseData.data;
-    var homeModel = data["data"];
-    bannerData = homeModel["focusList"];
+    var homeModel = HomeModel.fromJson(data['data']);
+    setData(homeModel);
+  }
+
+  void setData(HomeModel homeModel) {
     setState(() {
-      banner = bannerData
-          .map((item) => CachedNetworkImage(
-                imageUrl: item['picUrl'],
-                fit: BoxFit.fill,
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ))
-          .toList();
-
-      tagList = homeModel["policyDescList"];
-      kingKongModule = homeModel["kingKongModule"];
-      kingKongModuleItems = homeModel["kingKongModule"]["kingKongList"];
-
-      ///金刚位下面大图，列表
-      bigPromotionModule = homeModel["bigPromotionModule"];
-      bigPromotionModuleItems = homeModel["bigPromotionModule"]["floorList"];
-
-      ///新人专享礼包左侧图片写死的   yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png
-      indexActivityModules = homeModel["indexActivityModule"];
-
-      ///类目热销榜
-      categoryHotSellModule = homeModel["categoryHotSellModule"];
-      categoryHotSellModuleItems =
-          homeModel["categoryHotSellModule"]["categoryList"];
-
-      var list = List();
-      for (var i = 0; i < categoryHotSellModuleItems.length; i++) {
-        if (i != 0 && i != 1) {
-          list.add(categoryHotSellModuleItems[i]);
-        }
+      _focusList = homeModel.focusList;
+      _policyDescList = homeModel.policyDescList;
+      _kingKongList = homeModel.kingKongModule.kingKongList;
+      _floorList = homeModel.bigPromotionModule.floorList;
+      _indexActivityModule = homeModel.indexActivityModule;
+      _categoryHotSellModule = homeModel.categoryHotSellModule;
+      if (_categoryHotSellModule != null) {
+        _categoryList = _categoryHotSellModule.categoryList;
       }
-      categoryHotSellItems = list;
-      print("===============================================");
-      print(categoryHotSellItems);
-
-      ///限时购
-      flashSaleModule = homeModel["flashSaleModule"];
-      if(flashSaleModule == null || flashSaleModule.isEmpty()) {
-        flashSaleModuleItems = [];
-      }else{
-        flashSaleModuleItems = flashSaleModule['itemList'];
+      _flashSaleModule = homeModel.flashSaleModule;
+      if (_flashSaleModule != null) {
+        _flashSaleModuleItemList = _flashSaleModule.itemList;
       }
-
-      ///新品首发
-      newItemList = homeModel["newItemList"];
-
-      ///底部两个
-      sceneLightShoppingGuideModule =
-          homeModel["sceneLightShoppingGuideModule"];
+      _newItemList = homeModel.newItemList;
+      _sceneLightShoppingGuideModule = homeModel.sceneLightShoppingGuideModule;
 
       isLoading = false;
     });
-
-    print(banner);
   }
 
   @override
@@ -169,31 +142,35 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           brightness: Brightness.light,
           title: _buildSearch(context)),
       body: isLoading
-          ? Loading()
+          ? _loadingView()
           : CustomScrollView(
               slivers: [
-                // _buildSearch(context),
                 _buildSwiper(), //banner图
                 _topTags(context), //标签
                 _kingkong(context), //
-                _bigPromotion(context), //活动大图
+                _bigPromotion(context), //活动
                 _splitLine(),
                 _newcomerPack(context), //新人礼包
                 _splitLine(),
                 _categoryHotSell(context), //类目热销榜
                 _categoryHotSellItem(context), //类目热销榜条目
 
-                _splitLine(),
-                _flashSaleTitle(context), //限时购
+                _normalTitle(context, '限时购'), //限时购
                 _flashSaleItem(context), //类目热销榜条目
 
-                _splitLine(),
-                _newModulTitle(context), //新品首发
+                _normalTitle(context, '新品首发'), //新品首发
                 _newModulItem(context), //新品首发条目
+
                 _splitLine(),
                 _bottomView(context),
               ],
             ),
+    );
+  }
+
+  _loadingView() {
+    return Container(
+      child: Image.asset('assets/images/home_loading.png'),
     );
   }
 
@@ -204,7 +181,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             "网易严选",
-            style: t18black,
+            style: t16black,
           ),
         ),
         Expanded(
@@ -229,12 +206,13 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                   color: textGrey,
                 ),
                 Expanded(
-                    child: Text(
-                  "搜索商品，共30000+款好物",
-                  style: t14grey,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ))
+                  child: Text(
+                    "搜索商品，共30000+款好物",
+                    style: t12grey,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
               ],
             ),
           ),
@@ -246,48 +224,62 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     //     Routers.link(navBar, Util.search, context, {'id': "零食"}));
   }
 
-  //轮播图
   _buildSwiper() {
-    return SliverToBoxAdapter(
-      child: banner == null
-          ? Container()
-          : SwiperView(banner, onTap: (index) {
-              _goWebview('${bannerData[index]["targetUrl"]}');
-            }),
-    );
+    return singleSliverWidget(CarouselSlider(
+      items: _focusList.map<Widget>((e) {
+        return Container(
+          child: CachedNetworkImage(
+            imageUrl: e.picUrl,
+            fit: BoxFit.fitWidth,
+          ),
+        );
+      }).toList(),
+      options: CarouselOptions(
+          height: 200,
+          autoPlay: true,
+          viewportFraction: 1.0,
+          enlargeCenterPage: true,
+          onPageChanged: (index, reason) {
+            setState(() {});
+          }),
+    ));
   }
 
   _topTags(BuildContext context) {
-    return singleSliverWidget(Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: tagList
-          .map((item) => Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                height: 40,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CachedNetworkImage(
-                      width: 20,
-                      height: 20,
-                      imageUrl: item['icon'],
-                      fit: BoxFit.fill,
+    return singleSliverWidget(
+      Container(
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _policyDescList
+              .map((item) => Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CachedNetworkImage(
+                          width: 20,
+                          height: 20,
+                          imageUrl: item.icon,
+                        ),
+                        Text(
+                          item.desc,
+                          style: t12black,
+                        )
+                      ],
                     ),
-                    Text(item["desc"])
-                  ],
-                ),
-              ))
-          .toList(),
-    ));
+                  ))
+              .toList(),
+        ),
+      ),
+    );
   }
 
   ///  分类
   _kingkong(BuildContext context) {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5, childAspectRatio: 0.8),
+          crossAxisCount: 5, childAspectRatio: 1),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           Widget widget = Container(
@@ -299,9 +291,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                   child: Container(
                     padding: EdgeInsets.all(5),
                     child: CachedNetworkImage(
-                      imageUrl: kingKongModuleItems[index]['picUrl'] == null
-                          ? ""
-                          : kingKongModuleItems[index]['picUrl'],
+                      imageUrl: _kingKongList[index].picUrl ?? "",
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -316,10 +306,8 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                       color: Colors.white,
                       child: Center(
                         child: Text(
-                          kingKongModuleItems[index]['text'] == null
-                              ? ""
-                              : kingKongModuleItems[index]['text'],
-                          style: TextStyle(fontSize: 14),
+                          _kingKongList[index].text ?? "",
+                          style: t12black,
                         ),
                       ),
                     )),
@@ -327,39 +315,78 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             ),
           );
           return Routers.link(widget, Util.kingKong, context,
-              {"schemeUrl": kingKongModuleItems[index]["schemeUrl"]});
+              {"schemeUrl": _kingKongList[index].schemeUrl});
         },
-        childCount:
-            kingKongModuleItems == null ? 0 : kingKongModuleItems.length,
+        childCount: _kingKongList == null ? 0 : _kingKongList.length,
       ),
     );
   }
 
   _bigPromotion(BuildContext context) {
     return singleSliverWidget(Column(
-      children: bigPromotionModuleItems
+      children: _floorList
           .map(
             (item) => Container(
-              margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-              child: GestureDetector(
-                child: CachedNetworkImage(
-                  imageUrl: item["cells"][0]["picUrl"],
-                ),
-                onTap: () {
-                  Routers.push(Util.webView, context,
-                      {'id': item["cells"][0]["schemeUrl"]});
-                },
-              ),
+              width: double.infinity,
+              constraints: BoxConstraints(maxHeight: 180),
+              margin: EdgeInsets.symmetric(vertical: 5),
+              child: _huoDong(item),
             ),
           )
           .toList(),
     ));
   }
 
+  _huoDong(FloorItem item) {
+    if (item.cells != null && item.cells.length > 1) {
+      return Container(
+        width: double.infinity,
+        constraints: BoxConstraints(maxHeight: 180),
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+        child: Row(
+          children: item.cells.map((e) {
+            return Expanded(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 6),
+                child: GestureDetector(
+                  child: CachedNetworkImage(
+                    imageUrl: item.cells.length > 1 ? e.picUrl : e.picUrl,
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () {
+                    Routers.push(Util.webView, context, {'id': e.schemeUrl});
+                  },
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      );
+    } else if (item.cells != null && item.cells.isNotEmpty) {
+      return Container(
+        width: double.infinity,
+        child: GestureDetector(
+          child: CachedNetworkImage(
+            imageUrl: item.cells[0].picUrl,
+            fit: BoxFit.cover,
+          ),
+          onTap: () {
+            Routers.push(
+                Util.webView, context, {'id': item.cells[0].schemeUrl});
+          },
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   _splitLine() {
     return singleSliverWidget(Container(
       height: 10,
-      color: Color(0xFFEAEAEA),
+      color: Color(0xFFF5F5F5),
     ));
   }
 
@@ -370,10 +397,10 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 12),
               child: Text(
                 "- 新人专享礼包 -",
-                style: TextStyle(fontSize: 18),
+                style: t16black,
               ),
             )
           ],
@@ -381,27 +408,27 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       ),
       Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
-        height: 240,
+        height: 200,
         child: Row(
           children: [
             Expanded(
                 flex: 1,
                 child: GestureDetector(
                   child: Container(
+                    margin: EdgeInsets.only(top: 3),
+                    color: Color(0xFFF6E5C4),
                     child: Stack(
                       children: [
                         Container(
-                        padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                          height: 237,
-                          margin: EdgeInsets.only(top: 3),
-                          color: Color(0xFFF6E5C4),
+                          padding: EdgeInsets.fromLTRB(40, 60, 20, 20),
+                          height: 197,
                           child: CachedNetworkImage(
-                            fit: BoxFit.fitWidth,
+                              fit: BoxFit.cover,
                               imageUrl:
-                              "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                                  "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
                         ),
                         Container(
-                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                           child: Text(
                             '新人专享礼包',
                             style: t14blackblod,
@@ -422,21 +449,21 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             Expanded(
               flex: 1,
               child: Container(
-                  height: 240,
+                  height: 200,
                   child: Column(
-                      children: indexActivityModules.map((item) {
+                      children: _indexActivityModule.map((item) {
                     return GestureDetector(
                       child: Stack(
                         children: [
                           Container(
-                            width: double.infinity/2,
-                            height: 117,
+                            width: double.infinity / 2,
+                            height: 97,
                             color: Color(0xFFF9DCC9),
                             margin: EdgeInsets.only(top: 3),
                             child: CachedNetworkImage(
                               alignment: Alignment.bottomRight,
                               fit: BoxFit.fitHeight,
-                              imageUrl: item["showPicUrl"],
+                              imageUrl: item.showPicUrl,
                             ),
                           ),
                           Container(
@@ -445,17 +472,17 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item["title"],
+                                  item.title,
                                   style: t14blackblod,
                                 ),
                                 SizedBox(
-                                  height: 6,
+                                  height: 2,
                                 ),
                                 Container(
                                   child: Text(
-                                    item["subTitle"] == ""
-                                        ? item["tag"]
-                                        : item["subTitle"],
+                                    item.subTitle == ""
+                                        ? item.tag
+                                        : item.subTitle,
                                     style: t12grey,
                                   ),
                                 )
@@ -465,7 +492,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                         ],
                       ),
                       onTap: () {
-                        _goWebview(item['targetUrl']);
+                        _goWebview(item.targetUrl);
                       },
                     );
                   }).toList())),
@@ -480,23 +507,21 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _categoryHotSell(BuildContext context) {
-    if (categoryHotSellModule == null) {
+    if (_categoryHotSellModule == null) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+      padding: EdgeInsets.fromLTRB(15, 7, 15, 0),
       sliver: singleSliverWidget(
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.fromLTRB(0, 5, 15, 15),
+              padding: EdgeInsets.fromLTRB(0, 5, 12, 12),
               child: Text(
-                categoryHotSellModule == null
-                    ? ""
-                    : categoryHotSellModule["title"],
-                style: TextStyle(fontSize: 18),
+                _categoryHotSellModule.title,
+                style: t16black,
               ),
             ),
             Container(
@@ -534,12 +559,11 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      categoryHotSellModuleItems[index]["categoryName"],
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      _categoryList[index].categoryName,
+                      style: t12blackbold,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(top: 5),
                       height: 2,
                       width: 30,
                       color: Colors.black,
@@ -550,7 +574,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               ),
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: categoryHotSellModuleItems[index]["picUrl"],
+                  imageUrl: _categoryList[index].picUrl,
                 ),
                 flex: 3,
               ),
@@ -562,7 +586,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _categoryHotSellItem(BuildContext context) {
-    if (categoryHotSellModule == null) {
+    if (_categoryHotSellModule == null) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
@@ -587,7 +611,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                         color: Color(0xFFF2F2F2),
                         child: Center(
                           child: Text(
-                            categoryHotSellItems[index]['categoryName'],
+                            _categoryList[index].categoryName,
                             style: TextStyle(
                                 color: textBlack,
                                 fontSize: 12,
@@ -601,7 +625,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                         color: Color(0xFFF2F2F2),
                         child: Center(
                           child: CachedNetworkImage(
-                            imageUrl: categoryHotSellItems[index]['picUrl'],
+                            imageUrl: _categoryList[index].picUrl,
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -610,53 +634,41 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               ),
             );
           },
-          childCount: categoryHotSellItems.length,
+          childCount: _categoryList.length > 8 ? 8 : _categoryList.length,
         ),
       ),
     );
   }
 
-  _flashSaleTitle(BuildContext context) {
-    if (flashSaleModule == null) {
+  _normalTitle(BuildContext context, String title) {
+    if (_flashSaleModule == null && title == '限时购') {
+      return singleSliverWidget(Container());
+    } else if ((_newItemList == null || _newItemList.isEmpty) &&
+        title == '新品首发') {
       return singleSliverWidget(Container());
     }
-    return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-      sliver: singleSliverWidget(Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(bottom: 2),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "限时购",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          Container(
+            height: 10,
+            color: Color(0xFFF5F5F5),
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(15, 12, 15, 4),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "$title",
+              style: t16black,
             ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    "更多",
-                    style: t16black,
-                  ),
-                ),
-                Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
-              ],
-            )
-          ],
-        ),
-      )),
+          ),
+        ],
+      ),
     );
   }
 
   _flashSaleItem(BuildContext context) {
-    if (flashSaleModuleItems == null||flashSaleModuleItems.isEmpty) {
+    if (_flashSaleModuleItemList == null || _flashSaleModuleItemList.isEmpty) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
@@ -675,7 +687,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                   color: Colors.white,
                   child: Center(
                     child: CachedNetworkImage(
-                      imageUrl: flashSaleModuleItems[index]['picUrl'],
+                      imageUrl: _flashSaleModuleItemList[index].picUrl,
                     ),
                   ),
                 ),
@@ -686,17 +698,17 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "¥${flashSaleModuleItems[index]['activityPrice']}",
-                        style: TextStyle(fontSize: 14, color: Colors.red),
+                        "¥${_flashSaleModuleItemList[index].activityPrice}",
+                        style: t14red,
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
-                        "¥${flashSaleModuleItems[index]['originPrice']}",
+                        "¥${_flashSaleModuleItemList[index].originPrice}",
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: textGrey,
                           decoration: TextDecoration.lineThrough,
                         ),
                       )
@@ -706,60 +718,16 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               ],
             );
             return Routers.link(widget, Util.goodDetailTag, context,
-                {'id': flashSaleModuleItems[index]['itemId']});
+                {'id': _flashSaleModuleItemList[index].itemId});
           },
-          childCount: flashSaleModuleItems.length,
-        ),
-      ),
-    );
-  }
-
-  _newModulTitle(BuildContext context) {
-    if (newItemList == null) {
-      return singleSliverWidget(Container());
-    }
-    return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-      sliver: singleSliverWidget(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(bottom: 2),
-                child: Text(
-                  "新品首发",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                return Routers.push(
-                    Util.kingKong, context, {"schemeUrl": "new"});
-              },
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 2),
-                    child: Text(
-                      "更多",
-                      style: t16black,
-                    ),
-                  ),
-                  Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
-                ],
-              ),
-            ),
-          ],
+          childCount: _flashSaleModuleItemList.length,
         ),
       ),
     );
   }
 
   _newModulItem(BuildContext context) {
-    if (newItemList == null) {
+    if (_newItemList == null || _newItemList.isEmpty) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
@@ -772,7 +740,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               childAspectRatio: 0.58),
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              var item = newItemList[index];
+              var item = _newItemList[index];
               Widget widget = Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -782,7 +750,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                       child: Container(
                         child: CachedNetworkImage(
                           height: 210,
-                          imageUrl: item['scenePicUrl'],
+                          imageUrl: item.scenePicUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -790,15 +758,15 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 5),
                       child: Text(
-                        "${item['simpleDesc']}",
-                        style: TextStyle(fontSize: 14),
+                        "${item.simpleDesc}",
+                        style: t12black,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
-                      "¥${item['retailPrice']}",
-                      style: t16red,
+                      "¥${item.retailPrice}",
+                      style: t14red,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 5),
@@ -809,27 +777,49 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                 ),
               );
               return Routers.link(
-                  widget, Util.goodDetailTag, context, {'id': item['id']});
+                  widget, Util.goodDetailTag, context, {'id': item.id});
             },
-            childCount: newItemList.length > 6 ? 6 : newItemList.length,
+            childCount: _newItemList.length > 6 ? 6 : _newItemList.length,
           ),
         ));
   }
 
+  _newItemsTags(NewItemModel item) {
+    var itemTagList = item.itemTagList;
+    if (itemTagList != null && itemTagList.length > 1) {
+      var itemD = itemTagList[itemTagList.length - 1];
+      return Container(
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            border: Border.all(width: 0.5, color: redColor)),
+        child: Text(
+          itemD.name,
+          style: t12red,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   _bottomView(BuildContext context) {
-    if (sceneLightShoppingGuideModule == null) {
+    if (_sceneLightShoppingGuideModule == null ||
+        _sceneLightShoppingGuideModule.isEmpty) {
       return singleSliverWidget(Container());
     }
 
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(10, 15, 15, 15),
       sliver: singleSliverWidget(Row(
-        children: sceneLightShoppingGuideModule.map((item) {
+        children: _sceneLightShoppingGuideModule.map((item) {
           Widget widget = Expanded(
             flex: 1,
             child: GestureDetector(
               onTap: () {
-                _goWebview(item["styleItem"]['targetUrl']);
+                _goWebview(item.styleItem.targetUrl);
               },
               child: Container(
                 color: Color(0xFFF2F2F2),
@@ -844,31 +834,34 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item["styleItem"]["title"],
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                            item.styleItem.title,
+                            style: t14blackblod,
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 2,
                           ),
                           Text(
-                            item["styleItem"]["desc"],
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            item.styleItem.desc,
+                            style: t12warmingRed,
                           ),
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: CachedNetworkImage(
-                          imageUrl: item["styleItem"]["picUrlList"][0],
-                        )),
-                        Expanded(
-                            child: CachedNetworkImage(
-                          imageUrl: item["styleItem"]["picUrlList"][1],
-                        )),
-                      ],
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: CachedNetworkImage(
+                            imageUrl: item.styleItem.picUrlList[0] ?? '',
+                          )),
+                          Expanded(
+                              child: CachedNetworkImage(
+                            imageUrl: item.styleItem.picUrlList[1] ?? '',
+                          )),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -881,30 +874,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  _newItemsTags(item) {
-    List itemTagList = item["itemTagList"];
-    if (itemTagList != null && itemTagList.length > 1) {
-      var itemD = itemTagList[itemTagList.length - 1];
-      return Container(
-        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            border: Border.all(width: 0.5, color: redColor)),
-        child: Text(
-          itemD["name"],
-          style: t12red,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
-
   _goWebview(String url) {
-    print("================");
-    print(url);
     Routers.push(Util.webView, context, {'id': url});
   }
 

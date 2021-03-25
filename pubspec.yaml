@@ -17,7 +17,7 @@ dependencies:
   webview_flutter: ^1.0.7
   webview_cookie_manager: ^1.0.5
   #状态管理
-#  provider: ^3.2.0
+  #  provider: ^3.2.0
   flutter_bloc: ^6.1.1
 
   #工具类
@@ -72,10 +72,17 @@ dependencies:
   #二维码
   qr_flutter: ^3.2.0
   intl: ^0.16.1
+  #轮播
+  carousel_slider: ^3.0.0
+  #高性能json序列化
+  json_annotation: ^3.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  #  json序列化需要的库，只需要dev
+  build_runner: ^1.0.0
+  json_serializable: ^3.2.0
 
 flutter:
 
@@ -84,3 +91,4 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mine/
+    - assets/json/home_data_json.json
