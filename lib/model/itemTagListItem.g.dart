@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'itemTagItem.dart';
+part of 'itemTagListItem.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemTagItem _$ItemTagItemFromJson(Map<String, dynamic> json) {
-  return ItemTagItem()
+ItemTagListItem _$ItemTagListItemFromJson(Map<String, dynamic> json) {
+  return ItemTagListItem()
     ..type = json['type'] as num
     ..subType = json['subType'] as num
     ..tagId = json['tagId'] as num
@@ -17,7 +17,7 @@ ItemTagItem _$ItemTagItemFromJson(Map<String, dynamic> json) {
     ..freshmanExclusive = json['freshmanExclusive'] as bool;
 }
 
-Map<String, dynamic> _$ItemTagItemToJson(ItemTagItem instance) =>
+Map<String, dynamic> _$ItemTagListItemToJson(ItemTagListItem instance) =>
     <String, dynamic>{
       'type': instance.type,
       'subType': instance.subType,

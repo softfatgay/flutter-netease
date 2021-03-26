@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'goodItem.dart';
+part of 'itemListItem.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GoodItem _$GoodItemFromJson(Map<String, dynamic> json) {
-  return GoodItem()
+ItemListItem _$ItemListItemFromJson(Map<String, dynamic> json) {
+  return ItemListItem()
     ..id = json['id'] as num
     ..listPicUrl = json['listPicUrl'] as String
     ..name = json['name'] as String
@@ -19,9 +19,19 @@ GoodItem _$GoodItemFromJson(Map<String, dynamic> json) {
     ..primarySkuId = json['primarySkuId'] as num
     ..retailPrice = json['retailPrice'] as num
     ..status = json['status'] as num
+    ..soldOut = json['soldOut'] as bool
+    ..underShelf = json['underShelf'] as bool
+    ..scenePicUrl = json['scenePicUrl'] as String
+    ..promTag = json['promTag'] as String
+    ..goodCmtRate = json['goodCmtRate'] as String
+    ..hotSaleListBottomInfo = json['hotSaleListBottomInfo'] == null
+        ? null
+        : HotSaleListBottomInfo.fromJson(
+            json['hotSaleListBottomInfo'] as Map<String, dynamic>)
     ..itemTagList = (json['itemTagList'] as List)
-        ?.map((e) =>
-            e == null ? null : ItemTagItem.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : ItemTagListItem.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..listPromBanner = json['listPromBanner'] == null
         ? null
@@ -29,7 +39,8 @@ GoodItem _$GoodItemFromJson(Map<String, dynamic> json) {
             json['listPromBanner'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$GoodItemToJson(GoodItem instance) => <String, dynamic>{
+Map<String, dynamic> _$ItemListItemToJson(ItemListItem instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'listPicUrl': instance.listPicUrl,
       'name': instance.name,
@@ -41,6 +52,12 @@ Map<String, dynamic> _$GoodItemToJson(GoodItem instance) => <String, dynamic>{
       'primarySkuId': instance.primarySkuId,
       'retailPrice': instance.retailPrice,
       'status': instance.status,
+      'soldOut': instance.soldOut,
+      'underShelf': instance.underShelf,
+      'scenePicUrl': instance.scenePicUrl,
+      'promTag': instance.promTag,
+      'goodCmtRate': instance.goodCmtRate,
+      'hotSaleListBottomInfo': instance.hotSaleListBottomInfo,
       'itemTagList': instance.itemTagList,
       'listPromBanner': instance.listPromBanner,
     };
