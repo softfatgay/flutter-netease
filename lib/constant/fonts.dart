@@ -30,36 +30,42 @@ const TextStyle t10white = TextStyle(
   color: textWhite,
   fontSize: 10,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t12white = TextStyle(
   color: textWhite,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t12whiteA3 = TextStyle(
   color: Color(0xB3FFFFFF),
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t12white70 = TextStyle(
   color: textWhite70,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t12whiteA7 = TextStyle(
   color: Color(0xB3FFFFFF),
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14white = TextStyle(
   color: textWhite,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t20whitebold = TextStyle(
@@ -80,12 +86,21 @@ const TextStyle t12black = TextStyle(
   color: textBlack,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
+const TextStyle t13black = TextStyle(
+  color: textBlack,
+  fontSize: 13,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14black = TextStyle(
   color: textBlack,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14blackblod = TextStyle(
@@ -99,6 +114,7 @@ const TextStyle t16black = TextStyle(
   color: textBlack,
   fontSize: 16,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t16blackbold = TextStyle(
@@ -112,6 +128,7 @@ const TextStyle t18black = TextStyle(
   color: textBlack,
   fontSize: 18,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t18blackbold = TextStyle(
@@ -125,6 +142,7 @@ const TextStyle t20black = TextStyle(
   color: textBlack,
   fontSize: 20,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t20blackBold = TextStyle(
@@ -159,24 +177,28 @@ const TextStyle t12red = TextStyle(
   color: textRed,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14red = TextStyle(
   color: textRed,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t16red = TextStyle(
   color: textRed,
   fontSize: 16,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t10grey = TextStyle(
   color: textGrey,
   fontSize: 10,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t12grey = TextStyle(
@@ -197,54 +219,63 @@ const TextStyle t12darkGrey = TextStyle(
   color: textDarkGrey,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t12lightGrey = TextStyle(
   color: textHint,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14grey = TextStyle(
   color: textGrey,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14darkGrey = TextStyle(
   color: textDarkGrey,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t16grey = TextStyle(
   color: textGrey,
   fontSize: 16,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t16darkGrey = TextStyle(
   color: textDarkGrey,
   fontSize: 16,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t18grey = TextStyle(
   color: textGrey,
   fontSize: 18,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14lightGrey = TextStyle(
   color: textLightGrey,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t16white = TextStyle(
   color: textWhite,
   fontSize: 16,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t16whiteblod = TextStyle(
@@ -258,6 +289,7 @@ const TextStyle t24white = TextStyle(
   color: textWhite,
   fontSize: 24,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t24whiteblod = TextStyle(
@@ -271,12 +303,14 @@ const TextStyle t12blue = TextStyle(
   color: textBlue,
   fontSize: 12,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14blue = TextStyle(
   color: textBlue,
   fontSize: 14,
   decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
 );
 
 const TextStyle t14blueBold = TextStyle(
@@ -289,30 +323,35 @@ const TextStyle t14blueBold = TextStyle(
 const TextStyle t16blue = TextStyle(
   color: textBlue,
   fontSize: 16,
+  fontWeight: fontWeightRegular,
   decoration: TextDecoration.none,
 );
 
 const TextStyle t18blue = TextStyle(
   color: textBlue,
   fontSize: 18,
+  fontWeight: fontWeightRegular,
   decoration: TextDecoration.none,
 );
 
 const TextStyle t24blue = TextStyle(
   color: textBlue,
   fontSize: 24,
+  fontWeight: fontWeightRegular,
   decoration: TextDecoration.none,
 );
 
 const TextStyle t12hintText = TextStyle(
   color: textHint,
   fontSize: 12,
+  fontWeight: fontWeightRegular,
   decoration: TextDecoration.none,
 );
 
 const TextStyle t14hintText = TextStyle(
   color: textHint,
   fontSize: 14,
+  fontWeight: fontWeightRegular,
   decoration: TextDecoration.none,
 );
 

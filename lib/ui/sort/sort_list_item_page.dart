@@ -9,17 +9,17 @@ import 'package:flutter_app/widget/footer.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
-class SortListItem extends StatefulWidget {
+class SortListItemPage extends StatefulWidget {
   var arguments;
 
-  SortListItem({this.arguments});
+  SortListItemPage({this.arguments});
 
   @override
   _CatalogGoodsState createState() => _CatalogGoodsState();
 }
 
 ///AutomaticKeepAliveClientMixin  保持滑动不刷新  重写方法 bool get wantKeepAlive => true;
-class _CatalogGoodsState extends State<SortListItem>
+class _CatalogGoodsState extends State<SortListItemPage>
     with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
   int total = 0;

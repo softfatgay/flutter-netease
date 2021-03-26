@@ -174,18 +174,21 @@ Future<ResponseData> shoppingCart(Map<String, dynamic> parameters,
   return await HttpManager.post(SHOPPING_CART,
       queryParameters: parameters, headers: header);
 }
+
 ///购物车 全选/不选
 Future<ResponseData> shoppingCartCheck(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(SHOPPING_CART_CHECK,
       queryParameters: parameters, headers: header);
 }
+
 ///购物车 选/不选
 Future<ResponseData> shoppingCartCheckOne(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.get(SHOPPING_CART_CHECK_ONE,
       queryParameters: parameters, headers: header);
 }
+
 ///购物车 选购数量
 Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
@@ -196,9 +199,9 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> parameters,
 ///购物车 删除商品
 Future<ResponseData> deleteCart(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
-  return await HttpManager.post(DELETE_CART, queryParameters: parameters,headers: header);
+  return await HttpManager.post(DELETE_CART,
+      queryParameters: parameters, headers: header);
 }
-
 
 ///热销榜/标题
 Future<ResponseData> hotListCat(Map<String, dynamic> parameters,
@@ -206,96 +209,112 @@ Future<ResponseData> hotListCat(Map<String, dynamic> parameters,
   return await HttpManager.get(HOT_LIST_CAT,
       queryParameters: parameters, headers: header);
 }
+
 ///热销榜/条目
 Future<ResponseData> hotList(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(HOT_LIST_LIST,
       queryParameters: parameters, headers: header);
 }
+
 ///值得买
 Future<ResponseData> topicData(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(TOPPIC,
       queryParameters: parameters, headers: header);
 }
+
 ///评论
 Future<ResponseData> commentListData(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(COMMENT_LIST,
       queryParameters: parameters, headers: header);
 }
+
 ///积分中心
 Future<ResponseData> pointCenter(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(POINT_CENTER,
       queryParameters: parameters, headers: header);
 }
+
 ///会员俱乐部
 Future<ResponseData> vipCenter(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(VIP_CENTER,
       queryParameters: parameters, headers: header);
 }
+
 ///加入购物车
 Future<ResponseData> addCart(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.get(ADD_CART,
       queryParameters: parameters, headers: header);
 }
+
 ///订单确认界面
 Future<ResponseData> orderInit(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(ORDER_INIT,
       queryParameters: parameters, headers: header);
 }
+
 ///检查登录
 Future<ResponseData> checkLogin(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.get(CHECK_LOGIN,
       queryParameters: parameters, headers: header);
 }
+
 ///获取用户手机号
 Future<ResponseData> userMobile(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(USER_MOBILE,
       queryParameters: parameters, headers: header);
 }
+
 ///反馈类型
 Future<ResponseData> feedbackType(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(FEEDBACK_TYPE,
       queryParameters: parameters, headers: header);
 }
+
 ///反馈提交
 Future<ResponseData> feedbackSubmit(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(FEEDBACK_SUBMIT,
       queryParameters: parameters, headers: header);
 }
+
 ///反馈提交
 Future<ResponseData> getPhone(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(USERMOBILE,
       queryParameters: parameters, headers: header);
 }
+
 ///模糊搜索
 Future<ResponseData> searchTips(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(SEARCH_TIPS,
       queryParameters: parameters, headers: header);
 }
+
 ///搜索关键字
 Future<ResponseData> searchSearch(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(SEARCH_SEARCH,
       queryParameters: parameters, headers: header);
 }
+
 ///值得买列表
 Future<ResponseData> findRecAuto(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {
   return await HttpManager.get(FIND_REC_AUTO,
       queryParameters: parameters, headers: header);
 }
+
 ///值得买头部nav
 Future<ResponseData> knowNavwap(Map<String, dynamic> parameters,
     {Map<String, dynamic> header}) async {

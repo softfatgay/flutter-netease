@@ -7,6 +7,7 @@ import 'package:flutter_app/ui/sort/sort_page.dart';
 import 'package:flutter_app/ui/topic/test.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
+import 'package:flutter_app/utils/HosEventBusUtils.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/wrapper.dart';
 
@@ -58,6 +59,9 @@ class _MainPageState extends State<MainPage> {
             _tabIndex = index;
             pageController.jumpToPage(index);
           });
+          if (_tabIndex == 3) {
+            HosEventBusUtils.fire('refresh');
+          }
         },
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.red,

@@ -29,8 +29,8 @@ import 'package:flutter_app/ui/setting/favorite.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
-import 'package:flutter_app/ui/sort/search.dart';
-import 'package:flutter_app/ui/sort/sort_list.dart';
+import 'package:flutter_app/ui/sort/search_page.dart';
+import 'package:flutter_app/ui/sort/sort_list_page.dart';
 import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
@@ -47,7 +47,8 @@ class Routers {
     //商品详情
     Util.goodDetailTag: (context, {arguments}) =>
         GoodsDetail(arguments: arguments),
-    Util.catalogTag: (context, {arguments}) => SortList(arguments: arguments),
+    Util.catalogTag: (context, {arguments}) =>
+        SortListPage(arguments: arguments),
     //kingKong
     Util.kingKong: (context, {arguments}) {
       String schemeUrl = arguments['schemeUrl'];
@@ -59,7 +60,8 @@ class Routers {
     },
 
     //专题详情
-    Util.search: (context, {arguments}) => SearchGoods(arguments: arguments),
+    Util.search: (context, {arguments}) =>
+        SearchGoodsPage(arguments: arguments),
     //评论
     Util.comment: (context, {arguments}) => CommentList(arguments: arguments),
 

@@ -77,3 +77,5 @@ const Color backGrey = Color(0xFFF1F1F1);
 
 ///线条颜色
 const Color splitLineColor = Color(0xFFECECEC);
+const Color textLightYellow = Color(0xFFFFF6CF);
+const Color redLightColor = Color(0xFFF9684D);

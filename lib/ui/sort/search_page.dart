@@ -1,48 +1,55 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/sort/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/search_widget.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 
-class SearchGoods extends StatefulWidget {
+class SearchGoodsPage extends StatefulWidget {
   final Map arguments;
 
-  SearchGoods({this.arguments});
+  SearchGoodsPage({this.arguments});
 
   @override
-  _SearchGoodsState createState() => _SearchGoodsState();
+  _SearchGoodsPageState createState() => _SearchGoodsPageState();
 }
 
-class _SearchGoodsState extends State<SearchGoods> {
-  TextEditingController controller = TextEditingController();
+class _SearchGoodsPageState extends State<SearchGoodsPage> {
+  TextEditingController _controller = TextEditingController();
   ScrollController _scrollController = new ScrollController();
-  bool isLoading = false;
-  String textValue = '';
-  var searchTipsData = [];
-  var searchTipsresultData = [];
+  bool _isLoading = false;
+  String _textValue = '';
 
-  var serachResult = false;
+  ///搜索提示
+  var _searchTipsData = [];
+
+  var _serachResult = false;
 
   //初始化,状态
   var isFirstLoading = true;
-  var hasMore = false;
-  var bottomTipsText = '搜索更大的世界';
+  var _bottomTipsText = '搜索更大的世界';
 
   //请求是以这个参数为加载更多
   var paeSize = 40;
   var itemId = 0;
   var keyword = '';
 
+  ///搜索结果
+  List<ItemListItem> _directlyList = [];
+  var _itemId = 0;
+  var _hasMore = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      textValue = widget.arguments['id'];
+      _textValue = widget.arguments['id'];
     });
 
     _getSearchTips();
@@ -50,8 +57,8 @@ class _SearchGoodsState extends State<SearchGoods> {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (hasMore) {
-          isLoading = true;
+        if (_hasMore) {
+          _isLoading = true;
           _getTipsResult();
         }
       }
@@ -81,55 +88,50 @@ class _SearchGoodsState extends State<SearchGoods> {
     Map<String, dynamic> header = {
       "cookie": cookie,
     };
-    if (!hasMore) {
+    if (!_hasMore) {
       params.addAll({'_stat_search': 'userhand'});
     } else {
       params.remove('_stat_search');
     }
     var responseData = await searchSearch(params, header: header);
+    var data = responseData.data;
+    var searchResultModel = SearchResultModel.fromJson(data);
     setState(() {
-      isLoading = false;
-      var data = responseData.data;
-      var newDirectlyList = [];
-      var directlyList = data['directlyList'];
-      if (directlyList != null) {
-        newDirectlyList.addAll(directlyList);
-      }
-      if (newDirectlyList.isNotEmpty) {
-        searchTipsresultData.addAll(data['directlyList']);
-        itemId = searchTipsresultData[searchTipsresultData.length - 1]
-            ['itemTagList'][0]['itemId'];
-        hasMore = data['hasMore'];
-        if (!hasMore) {
-          bottomTipsText = '没有更多了';
-        }
-        serachResult = true;
-      } else {
-        hasMore = false;
+      var directlyList = searchResultModel.directlyList;
+      _hasMore = searchResultModel.hasMore;
+      if (directlyList == null || directlyList.isEmpty) {
         isFirstLoading = true;
-        bottomTipsText = '没有找到您想要的内容';
+        _bottomTipsText = '没有找到您想要的内容';
+      } else {
+        _directlyList.addAll(directlyList);
+        _itemId = _directlyList[_directlyList.length - 1].itemTagList[0].itemId;
+        if (!_hasMore) {
+          _bottomTipsText = '没有更多了';
+        }
+        _isLoading = false;
+        _serachResult = true;
       }
     });
   }
 
   void _getSearchTips() async {
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
     Map<String, dynamic> header = {
       "cookie": cookie,
     };
-    Map<String, dynamic> params = {'keywordPrefix': textValue};
+    Map<String, dynamic> params = {'keywordPrefix': _textValue};
     var responseData = await searchTips(params, header: header);
     setState(() {
-      isLoading = false;
-      searchTipsData = responseData.data;
-      serachResult = false;
-      hasMore = false;
-      if (searchTipsData.length == 0) {
-        bottomTipsText = '暂时没有您想要的内容';
+      _isLoading = false;
+      _searchTipsData = responseData.data;
+      _serachResult = false;
+      _hasMore = false;
+      if (_searchTipsData.length == 0) {
+        _bottomTipsText = '暂时没有您想要的内容';
       } else {
-        bottomTipsText = '搜索更大的世界';
+        _bottomTipsText = '搜索更大的世界';
       }
     });
   }
@@ -140,20 +142,20 @@ class _SearchGoodsState extends State<SearchGoods> {
       child: Stack(
         children: <Widget>[
 //          _showPop(),
-          isLoading ? Loading() : _showPop(),
+          _isLoading ? Loading() : _showPop(),
           Container(
             decoration: BoxDecoration(color: Colors.white),
             child: SearchWidget(
-              textValue: textValue,
+              textValue: _textValue,
               hintText: '请输入商品名称',
-              controller: controller,
+              controller: _controller,
               onValueChangedCallBack: (value) {
-                textValue = value;
+                _textValue = value;
                 _getSearchTips();
               },
               onSearchBtnClick: (value) {
                 Util.hideKeyBord(context);
-                textValue = value;
+                _textValue = value;
                 _getSearchTips();
               },
             ),
@@ -177,11 +179,11 @@ class _SearchGoodsState extends State<SearchGoods> {
               );
             }, childCount: 1),
           ),
-          serachResult ? buildNullSliver() : buildSearchTips(),
-          !serachResult
+          _serachResult ? buildNullSliver() : buildSearchTips(),
+          !_serachResult
               ? buildNullSliver()
-              : GoodItemWidget(dataList: searchTipsresultData),
-          SliverFooter(hasMore: hasMore, tipsText: bottomTipsText),
+              : GoodItemWidget(dataList: _directlyList),
+          SliverFooter(hasMore: _hasMore, tipsText: _bottomTipsText),
         ],
       ),
     );
@@ -191,7 +193,7 @@ class _SearchGoodsState extends State<SearchGoods> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    controller.dispose();
+    _controller.dispose();
     _scrollController.dispose();
   }
 
@@ -205,8 +207,8 @@ class _SearchGoodsState extends State<SearchGoods> {
           Container(
             height: 30,
             child: CachedNetworkImage(
-              imageUrl: searchTipsresultData[index]['listPromBanner']
-                  ['bannerContentUrl'],
+              imageUrl:
+                  _directlyList[index].listPromBanner.bannerContentUrl ?? '',
               fit: BoxFit.fill,
             ),
           ),
@@ -214,8 +216,8 @@ class _SearchGoodsState extends State<SearchGoods> {
             width: 70,
             height: 35,
             child: CachedNetworkImage(
-              imageUrl: searchTipsresultData[index]['listPromBanner']
-                  ['bannerTitleUrl'],
+              imageUrl:
+                  _directlyList[index].listPromBanner.bannerTitleUrl ?? '',
               fit: BoxFit.fill,
             ),
           ),
@@ -231,8 +233,7 @@ class _SearchGoodsState extends State<SearchGoods> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          searchTipsresultData[index]['listPromBanner']
-                              ['promoTitle'],
+                          _directlyList[index].listPromBanner.promoTitle ?? '',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -242,8 +243,8 @@ class _SearchGoodsState extends State<SearchGoods> {
                               fontSize: 14),
                         ),
                         Text(
-                          searchTipsresultData[index]['listPromBanner']
-                              ['promoSubTitle'],
+                          _directlyList[index].listPromBanner.promoSubTitle ??
+                              '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
@@ -261,8 +262,7 @@ class _SearchGoodsState extends State<SearchGoods> {
             child: Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Center(
-                  child: Text(
-                      searchTipsresultData[index]['listPromBanner']['content'],
+                  child: Text(_directlyList[index].listPromBanner.content,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -280,7 +280,7 @@ class _SearchGoodsState extends State<SearchGoods> {
       padding: EdgeInsets.symmetric(horizontal: 5),
       alignment: Alignment.centerLeft,
       child: Text(
-        searchTipsresultData[index]['simpleDesc'],
+        _directlyList[index].simpleDesc,
         style: TextStyle(color: Color(0XFF875D2A), fontSize: 14),
         overflow: TextOverflow.ellipsis,
       ),
@@ -309,7 +309,7 @@ class _SearchGoodsState extends State<SearchGoods> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    searchTipsData[index],
+                    _searchTipsData[index],
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -327,15 +327,15 @@ class _SearchGoodsState extends State<SearchGoods> {
           child: widget,
           onTap: () {
             setState(() {
-              searchTipsresultData = [];
+              _directlyList = [];
               Util.hideKeyBord(context);
-              keyword = searchTipsData[index];
-              isLoading = true;
+              keyword = _searchTipsData[index];
+              _isLoading = true;
               _getTipsResult();
             });
           },
         );
-      }, childCount: searchTipsData.length),
+      }, childCount: _searchTipsData.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: 8,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,129 +22,57 @@ const Color themeColor = Color(0xFFF87676);
 const Color splitLineColor = Color(0xFFECECEC);
 const Color lightBlue = Color(0xFF84A8E2);
 
-
 ///icon颜色
 const Color iconColor = Colors.red;
 
-
 ///TextStyle
 
-const TextStyle t12white = TextStyle(
-  color: textWhite,
-  fontSize: 12
-);
+const TextStyle t12white = TextStyle(color: textWhite, fontSize: 12);
 
-const TextStyle t14white = TextStyle(
-  color: textWhite,
-  fontSize: 14
-);
+const TextStyle t14white = TextStyle(color: textWhite, fontSize: 14);
 
-const TextStyle t12blackbold = TextStyle(
-  color: textBlack,
-  fontSize: 12,
-  fontWeight: FontWeight.bold
-);
+const TextStyle t12blackbold =
+    TextStyle(color: textBlack, fontSize: 12, fontWeight: FontWeight.bold);
 
-const TextStyle t12black = TextStyle(
-  color: textBlack,
-  fontSize: 12
-);
+const TextStyle t12black = TextStyle(color: textBlack, fontSize: 12);
 
 const TextStyle t14black = TextStyle(
   color: textBlack,
-  fontSize: 14
-);
-
-const TextStyle t14blackblod = TextStyle(
-  color: textBlack,
   fontSize: 14,
-  fontWeight: FontWeight.bold
 );
 
-const TextStyle t16black = TextStyle(
-  color: textBlack,
-  fontSize: 16
-);
+const TextStyle t14blackblod =
+    TextStyle(color: textBlack, fontSize: 14, fontWeight: FontWeight.bold);
 
-const TextStyle t16blackbold = TextStyle(
-  color: textBlack,
-  fontSize: 16,
-  fontWeight: FontWeight.bold
-);
+const TextStyle t16black = TextStyle(color: textBlack, fontSize: 16);
 
-const TextStyle t18black = TextStyle(
-  color: textBlack,
-  fontSize: 18
-);
+const TextStyle t16blackbold =
+    TextStyle(color: textBlack, fontSize: 16, fontWeight: FontWeight.bold);
 
-const TextStyle t18blackbold = TextStyle(
-  color: textBlack,
-  fontSize: 18,
-  fontWeight: FontWeight.bold
-);
+const TextStyle t18black = TextStyle(color: textBlack, fontSize: 18);
 
+const TextStyle t18blackbold =
+    TextStyle(color: textBlack, fontSize: 18, fontWeight: FontWeight.bold);
 
-const TextStyle t12red = TextStyle(
-  color: textRed,
-  fontSize: 12
-);
+const TextStyle t12red = TextStyle(color: textRed, fontSize: 12);
 
-const TextStyle t14red = TextStyle(
-  color: textRed,
-  fontSize: 14
-);
+const TextStyle t14red = TextStyle(color: textRed, fontSize: 14);
 
-const TextStyle t16red = TextStyle(
-  color: textRed,
-  fontSize: 16
-);
+const TextStyle t16red = TextStyle(color: textRed, fontSize: 16);
 
+const TextStyle t10grey = TextStyle(color: textGrey, fontSize: 10);
 
-const TextStyle t10grey = TextStyle(
-  color: textGrey,
-  fontSize: 10
-);
+const TextStyle t12grey = TextStyle(color: textGrey, fontSize: 12);
 
-const TextStyle t12grey = TextStyle(
-  color: textGrey,
-  fontSize: 12
-);
+const TextStyle t14grey = TextStyle(color: textGrey, fontSize: 14);
 
-const TextStyle t14grey = TextStyle(
-  color: textGrey,
-  fontSize: 14
-);
+const TextStyle t16grey = TextStyle(color: textGrey, fontSize: 16);
 
+const TextStyle t12lgrey = TextStyle(color: textLightGrey, fontSize: 12);
 
-const TextStyle t16grey = TextStyle(
-  color: textGrey,
-  fontSize: 16
-);
+const TextStyle t14lgrey = TextStyle(color: textLightGrey, fontSize: 14);
 
+const TextStyle t16white = TextStyle(color: textWhite, fontSize: 16);
 
-const TextStyle t12lgrey = TextStyle(
-  color: textLightGrey,
-  fontSize: 12
-);
-
-const TextStyle t14lgrey = TextStyle(
-  color: textLightGrey,
-  fontSize: 14
-);
-
-
-const TextStyle t16white = TextStyle(
-    color: textWhite,
-    fontSize: 16
-);
-
-const TextStyle t16whiteblod = TextStyle(
-    color: textWhite,
-    fontSize: 16,
-    fontWeight: FontWeight.bold
-);
-
-
-
-
-
+const TextStyle t16whiteblod =
+    TextStyle(color: textWhite, fontSize: 16, fontWeight: FontWeight.bold);

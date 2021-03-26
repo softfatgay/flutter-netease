@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
-import 'package:flutter_app/ui/sort/sort_list_item.dart';
+import 'package:flutter_app/ui/sort/sort_list_item_page.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart' as prefix0;
 
-class SortList extends StatefulWidget {
+class SortListPage extends StatefulWidget {
   Map arguments;
 
-  SortList({this.arguments});
+  SortListPage({this.arguments});
 
   @override
   _SortChildState createState() => _SortChildState();
 }
 
-class _SortChildState extends State<SortList> with TickerProviderStateMixin {
+class _SortChildState extends State<SortListPage>
+    with TickerProviderStateMixin {
   bool _isLoading = true;
   bool _firstLoading = true;
 
@@ -98,7 +99,7 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
           ? Loading()
           : TabBarView(
               children: _catalogList.map((item) {
-                return SortListItem(arguments: item);
+                return SortListItemPage(arguments: item);
               }).toList(),
               controller: _mController,
             ),
