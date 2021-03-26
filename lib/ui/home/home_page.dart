@@ -24,6 +24,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -31,6 +32,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  ScrollController _scrollController = new ScrollController();
+
   bool isLoading = true;
 
   ///banner数据
@@ -63,10 +66,23 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   ///底部数据
   List<SceneLightShoppingGuideModule> _sceneLightShoppingGuideModule;
 
+  var toolbarHeight = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels > 160) {
+        setState(() {
+          toolbarHeight = 50;
+        });
+      } else {
+        setState(() {
+          toolbarHeight = 0;
+        });
+      }
+    });
     _getData();
     _checkLogin();
   }
@@ -132,16 +148,25 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         tooltip: 'Increment',
         child: Icon(Icons.loop),
       ), //
-      appBar: AppBar(
-          elevation: 1,
-          backgroundColor: Colors.white,
-          brightness: Brightness.light,
-          title: _buildSearch(context)),
+
       body: isLoading
           ? _loadingView()
           : CustomScrollView(
-              slivers: [
-                _buildSwiper(), //banner图
+              controller: _scrollController,
+              slivers: <Widget>[
+                SliverAppBar(
+                  pinned: true,
+                  expandedHeight: 160,
+                  backgroundColor: Colors.white,
+                  brightness: Brightness.light,
+                  toolbarHeight: double.parse(toolbarHeight.toString()),
+                  title: _buildSearch(context),
+                  centerTitle: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: _buildSwiper(), //banner图
+                  ),
+                ),
+
                 _topTags(context), //标签
                 _kingkong(context), //
                 _bigPromotion(context), //活动
@@ -221,13 +246,18 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _buildSwiper() {
-    return singleSliverWidget(CarouselSlider(
+    return CarouselSlider(
       items: _focusList.map<Widget>((e) {
-        return Container(
-          child: CachedNetworkImage(
-            imageUrl: e.picUrl,
-            fit: BoxFit.fitWidth,
+        return GestureDetector(
+          child: Container(
+            child: CachedNetworkImage(
+              imageUrl: e.picUrl,
+              fit: BoxFit.fitWidth,
+            ),
           ),
+          onTap: () {
+            Routers.push(Util.webView, context, {'id': e.targetUrl});
+          },
         );
       }).toList(),
       options: CarouselOptions(
@@ -238,7 +268,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           onPageChanged: (index, reason) {
             setState(() {});
           }),
-    ));
+    );
   }
 
   _topTags(BuildContext context) {

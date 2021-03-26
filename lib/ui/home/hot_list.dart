@@ -122,6 +122,10 @@ class _HotListPageState extends State<HotListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back_ios),
+          onPressed: () => {Navigator.of(context).pop()},
+        ),
         backgroundColor: redColor,
         title: Text(
           '热销榜',

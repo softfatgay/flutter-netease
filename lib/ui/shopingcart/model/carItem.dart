@@ -9,7 +9,7 @@ class CarItem {
   num promType;
   List<CartItemListItem> cartItemList;
   String promTip;
-  List<String> promTipList;
+  Object promTipList;
   bool promSatisfy;
   bool checked;
   bool canCheck;

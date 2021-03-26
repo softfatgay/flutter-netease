@@ -14,6 +14,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/search.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -52,11 +53,24 @@ class _TopicPageState extends State<TopicPage>
   @override
   bool get wantKeepAlive => true;
 
+  var toolbarHeight = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
+      print(_scrollController.position.pixels);
+      if (_scrollController.position.pixels > 180) {
+        setState(() {
+          toolbarHeight = 50;
+        });
+      } else {
+        setState(() {
+          toolbarHeight = 0;
+        });
+      }
+
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _getMore();
@@ -325,8 +339,8 @@ class _TopicPageState extends State<TopicPage>
           expandedHeight: ScreenUtil().setHeight(180),
           backgroundColor: Colors.white,
           brightness: Brightness.light,
-          toolbarHeight: 0,
-          title: _buildSearch(context),
+          toolbarHeight: double.parse(toolbarHeight.toString()),
+          title: SearchWidget(),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(
             background: _buildNav(),

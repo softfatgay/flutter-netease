@@ -16,8 +16,7 @@ CarItem _$CarItemFromJson(Map<String, dynamic> json) {
             : CartItemListItem.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..promTip = json['promTip'] as String
-    ..promTipList =
-        (json['promTipList'] as List)?.map((e) => e as String)?.toList()
+    ..promTipList = json['promTipList']
     ..promSatisfy = json['promSatisfy'] as bool
     ..checked = json['checked'] as bool
     ..canCheck = json['canCheck'] as bool
