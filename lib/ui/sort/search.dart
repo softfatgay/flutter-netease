@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -62,11 +61,10 @@ class _SearchGoodsState extends State<SearchGoods> {
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=0&floorPrice=-1&upperPrice=-1&size=40&itemId=0&stillSearch=false&searchWordSource=1&needPopWindow=true&_stat_search=userhand
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=1&floorPrice=-1&upperPrice=-1&size=40&itemId=3827056&stillSearch=false&searchWordSource=1&needPopWindow=false
   void _getTipsResult() async {
-
     var params = {
       'csrf_token': csrf_token,
       '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
-      '_stat_search':'autoComplete',
+      '_stat_search': 'autoComplete',
       'keyword': keyword,
       'sortType': '0',
       'descSorted': 'false',
@@ -100,7 +98,7 @@ class _SearchGoodsState extends State<SearchGoods> {
       if (newDirectlyList.isNotEmpty) {
         searchTipsresultData.addAll(data['directlyList']);
         itemId = searchTipsresultData[searchTipsresultData.length - 1]
-        ['itemTagList'][0]['itemId'];
+            ['itemTagList'][0]['itemId'];
         hasMore = data['hasMore'];
         if (!hasMore) {
           bottomTipsText = '没有更多了';
@@ -180,7 +178,9 @@ class _SearchGoodsState extends State<SearchGoods> {
             }, childCount: 1),
           ),
           serachResult ? buildNullSliver() : buildSearchTips(),
-          !serachResult ? buildNullSliver() : GoodItemWidget(dataList: searchTipsresultData),
+          !serachResult
+              ? buildNullSliver()
+              : GoodItemWidget(dataList: searchTipsresultData),
           SliverFooter(hasMore: hasMore, tipsText: bottomTipsText),
         ],
       ),

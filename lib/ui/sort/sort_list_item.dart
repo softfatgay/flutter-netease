@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/category.dart';
+import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
-import 'package:flutter_app/ui/sort/model/goodItem.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/footer.dart';
@@ -22,6 +23,7 @@ class _CatalogGoodsState extends State<SortListItem>
     with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
   int total = 0;
+
   // List dataList = [];
 
   bool moreLoading = false;
@@ -29,10 +31,10 @@ class _CatalogGoodsState extends State<SortListItem>
   ScrollController _scrollController = new ScrollController();
 
   List itemList = [];
-  var category;
+  Category category;
 
   ///商品
-  List<GoodItem> _itemList;
+  List<ItemListItem> _itemList;
 
   @override
   void initState() {
@@ -56,8 +58,8 @@ class _CatalogGoodsState extends State<SortListItem>
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryType": "0",
-      "subCategoryId": widget.arguments["id"],
-      "categoryId": widget.arguments["superCategoryId"],
+      "subCategoryId": widget.arguments.id,
+      "categoryId": widget.arguments.superCategoryId,
     };
     var responseData = await sortListData(map);
     var data = responseData.data;
@@ -66,7 +68,9 @@ class _CatalogGoodsState extends State<SortListItem>
     setState(() {
       _itemList = sortListDataModel.categoryItems.itemList;
 
-      category = data["categoryItems"]["category"];
+      category = sortListDataModel.categoryItems.category;
+
+      // category = data["categoryItems"]["category"];
       isLoading = false;
       total = _itemList.length;
     });
@@ -82,7 +86,7 @@ class _CatalogGoodsState extends State<SortListItem>
         child: CustomScrollView(
           controller: _scrollController,
           slivers: <Widget>[
-            category["frontName"] == null || category["frontName"] == ""
+            category.frontName == null || category.frontName == ""
                 ? singleSliverWidget(Container())
                 : SliverPadding(
                     padding: EdgeInsets.symmetric(vertical: 15),
@@ -90,7 +94,7 @@ class _CatalogGoodsState extends State<SortListItem>
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.center,
-                        child: Text(category["frontName"]),
+                        child: Text(category.frontName),
                       ),
                     )),
                   ),

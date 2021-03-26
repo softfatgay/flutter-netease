@@ -14,7 +14,7 @@ SortListData _$SortListDataFromJson(Map<String, dynamic> json) {
             json['categoryItems'] as Map<String, dynamic>)
     ..categoryL2List = (json['categoryL2List'] as List)
         ?.map((e) =>
-            e == null ? null : CategoryItem.fromJson(e as Map<String, dynamic>))
+            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 

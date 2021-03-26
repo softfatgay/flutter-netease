@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/sort/model/hotListModel.dart';
+import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -12,13 +15,13 @@ import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 
-class Hotlist extends StatefulWidget {
+class HotListPage extends StatefulWidget {
   @override
-  _HotlistState createState() => _HotlistState();
+  _HotListPageState createState() => _HotListPageState();
 }
 
-class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
-  List currentCategory, itemList = List();
+class _HotListPageState extends State<HotListPage>
+    with TickerProviderStateMixin {
   int currentCategoryId = 0;
   int currentSubCategoryId = 0;
 
@@ -31,6 +34,12 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
 
   Timer timer;
   int rondomIndex = 0;
+
+  ///头部
+  List<SubCateListItem> _subCateList;
+
+  ///数据
+  List<ItemListItem> _dataList = [];
 
   @override
   void initState() {
@@ -63,20 +72,21 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
     Map<String, dynamic> header = {"Cookie": cookie};
 
     var responseData = await hotListCat(params, header: header);
+    var oData = responseData.OData;
+    var hotListModel = HotListModel.fromJson(oData);
+
     setState(() {
-      currentCategory = responseData.OData['currentCategory']['subCateList'];
-      _tabController =
-          TabController(length: currentCategory.length, vsync: this);
+      _subCateList = hotListModel.currentCategory.subCateList;
+      _tabController = TabController(length: _subCateList.length, vsync: this);
       isFirstLoading = false;
       _tabController.addListener(() {
         setState(() {
           if (_tabController.index == _tabController.animation.value) {
             bodyLoading = true;
-            print(">>>>>>>>>>>>>>>>>>>>>>>");
             page = 1;
-            currentCategoryId = currentCategory[_tabController.index]['id'];
+            currentCategoryId = _subCateList[_tabController.index].id;
             currentSubCategoryId =
-                currentCategory[_tabController.index]['superCategoryId'];
+                _subCateList[_tabController.index].superCategoryId;
             _getItemList();
           }
         });
@@ -96,8 +106,14 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
     Map<String, dynamic> header = {"Cookie": cookie};
 
     var responseData = await hotList(params, header: header);
+    List<ItemListItem> dataList = [];
+    List data = responseData.data['itemList'];
+    data.forEach((element) {
+      dataList.add(ItemListItem.fromJson(element));
+    });
+
     setState(() {
-      itemList = responseData.data['itemList'];
+      _dataList = dataList;
       bodyLoading = false;
     });
   }
@@ -106,7 +122,11 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('热销榜'),
+        backgroundColor: redColor,
+        title: Text(
+          '热销榜',
+          style: t16white,
+        ),
       ),
       body: isFirstLoading ? Loading() : _buildBody(),
     );
@@ -126,7 +146,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
             backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
-                color: Colors.red,
+                color: redColor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -173,8 +193,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
             delegate: new SliverTabBarDelegate(
                 TabBar(
                   controller: _tabController,
-                  tabs:
-                      currentCategory.map((f) => Tab(text: f['name'])).toList(),
+                  tabs: _subCateList.map((f) => Tab(text: f.name)).toList(),
                   indicator: MyUnderlineTabIndicator(
                     borderSide: BorderSide(width: 2.0, color: redColor),
                   ),
@@ -220,13 +239,13 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
         itemBuilder: (context, index) {
           return _buildItem(index);
         },
-        itemCount: itemList.length,
+        itemCount: _dataList.length,
       ),
     );
   }
 
-  Widget _buildItem(index) {
-    var item = itemList[index];
+  Widget _buildItem(int index) {
+    var item = _dataList[index];
     Widget widget = Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -244,7 +263,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                       height: 140,
                       width: 140,
                       child: CachedNetworkImage(
-                        imageUrl: item['scenePicUrl'],
+                        imageUrl: item.scenePicUrl,
                       ),
                     ),
                     Expanded(
@@ -253,7 +272,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            (item['promTag'] == null || item['promTag'] == '')
+                            (item.promTag == null || item.promTag == '')
                                 ? Container()
                                 : Container(
                                     padding:
@@ -264,14 +283,14 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                         borderRadius:
                                             BorderRadius.circular(15)),
                                     child: Text(
-                                      '${item['promTag']}',
+                                      '${item.promTag}',
                                       style: t12red,
                                     ),
                                   ),
                             Container(
                               margin: EdgeInsets.only(top: 6),
                               child: Text(
-                                '${item['name']}',
+                                '${item.name}',
                                 style: TextStyle(
                                     color: textBlack,
                                     fontSize: 16,
@@ -279,11 +298,11 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            item['goodCmtRate'] == null
+                            item.goodCmtRate == null
                                 ? Container()
                                 : Container(
                                     margin: EdgeInsets.only(top: 6),
-                                    child: Text('${item['goodCmtRate']}好评率'),
+                                    child: Text('${item.goodCmtRate}好评率'),
                                   ),
                             Expanded(
                               child: Row(
@@ -294,18 +313,17 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        '¥${item['retailPrice']}',
+                                        '¥${item.retailPrice}',
                                         style: TextStyle(
                                             color: textRed,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      (item['counterPrice'] ==
-                                                  item['retailPrice'] ||
-                                              item['counterPrice'] == 0)
+                                      (item.counterPrice == item.retailPrice ||
+                                              item.counterPrice == 0)
                                           ? Container()
                                           : Text(
-                                              '¥${item['counterPrice']}',
+                                              '¥${item.counterPrice}',
                                               style: TextStyle(
                                                   decoration: TextDecoration
                                                       .lineThrough,
@@ -335,7 +353,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              item['hotSaleListBottomInfo'] == null
+              item.hotSaleListBottomInfo == null
                   ? Container()
                   : Container(
                       padding:
@@ -348,7 +366,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                         children: [
                           ClipOval(
                             child: Image.network(
-                              '${item['hotSaleListBottomInfo']['iconUrl']}',
+                              '${item.hotSaleListBottomInfo.iconUrl ?? ''}',
                               height: 20,
                               width: 20,
                               fit: BoxFit.cover,
@@ -357,7 +375,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
                           SizedBox(width: 5),
                           Expanded(
                               child: Text(
-                            '${item['hotSaleListBottomInfo']['content']}',
+                            '${item.hotSaleListBottomInfo.content ?? ''}',
                             style: t12grey,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -387,8 +405,7 @@ class _HotlistState extends State<Hotlist> with TickerProviderStateMixin {
         ],
       ),
     );
-    return Routers.link(
-        widget, Util.goodDetailTag, context, {'id': item['id']});
+    return Routers.link(widget, Util.goodDetailTag, context, {'id': item.id});
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:flutter_app/ui/sort/model/categoryItem.dart';
+import 'package:flutter_app/model/category.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'categoryGroupItem.g.dart';
@@ -7,7 +7,7 @@ part 'categoryGroupItem.g.dart';
 class CategoryGroupItem {
   num id;
   String name;
-  List<CategoryItem> categoryList;
+  List<Category> categoryList;
 
   CategoryGroupItem();
 

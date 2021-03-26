@@ -1,4 +1,5 @@
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
+import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'currentCategory.g.dart';
@@ -10,6 +11,7 @@ class CurrentCategory {
   num showIndex;
   String name;
   List<BannerItem> bannerList;
+  List<SubCateListItem> subCateList;
 
   CurrentCategory();
 

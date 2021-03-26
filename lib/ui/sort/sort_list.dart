@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/category.dart';
+import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/ui/sort/sort_list_item.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/loading.dart';
@@ -15,29 +17,24 @@ class SortList extends StatefulWidget {
 }
 
 class _SortChildState extends State<SortList> with TickerProviderStateMixin {
-  bool isLoading = true;
-  bool firstLoading = true;
+  bool _isLoading = true;
+  bool _firstLoading = true;
 
-  bool footLoading = true;
-  List catalogList = [];
-  int activeIndex = 0;
-  TabController mController;
-
-  List itemList = [];
-  var category;
+  int _activeIndex = 0;
+  TabController _mController;
+  List<Category> _catalogList = [];
   int id = 0;
-
   @override
   Widget build(BuildContext context) {
     List<String> tabItem = [];
-    for (int i = 0; i < (catalogList.length); i++) {
-      tabItem.add(catalogList[i]["name"]);
+    for (int i = 0; i < (_catalogList.length); i++) {
+      tabItem.add(_catalogList[i].name);
     }
     return Scaffold(
       appBar: prefix0.TabAppBar(
-        controller: mController,
+        controller: _mController,
         tabs: tabItem,
-        title: '${tabItem.length > 0 ? tabItem[activeIndex] : ''}',
+        title: '${tabItem.length > 0 ? tabItem[_activeIndex] : ''}',
       ).build(context),
       body: _buildBody(context),
     );
@@ -53,7 +50,7 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
 
   _getInitData() async {
     // https://m.you.163.com/item/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603184092320&categoryType=0&subCategoryId=109284000&categoryId=1005002
-    mController = TabController(length: catalogList.length, vsync: this);
+    _mController = TabController(length: _catalogList.length, vsync: this);
     var responseData = await sortListData({
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
@@ -62,30 +59,28 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
       "categoryId": widget.arguments["categoryId"],
     });
     var data = responseData.data;
-    setState(() {
-      catalogList = data["categoryL2List"];
-      itemList = data["categoryItems"]["itemList"];
-      category = data["categoryItems"]["category"];
-      isLoading = false;
+    var sortListDataModel = SortListData.fromJson(data);
 
-      if (firstLoading) {
-        for (int i = 0; i < (catalogList.length); i++) {
-          if (widget.arguments['subCategoryId'] == catalogList[i]['id']) {
-            activeIndex = i;
+    setState(() {
+      _catalogList = sortListDataModel.categoryL2List;
+      _isLoading = false;
+
+      if (_firstLoading) {
+        for (int i = 0; i < (_catalogList.length); i++) {
+          if (widget.arguments['subCategoryId'] == _catalogList[i].id) {
+            _activeIndex = i;
           }
         }
-        firstLoading = false;
+        _firstLoading = false;
       }
 
-      mController = TabController(
-          length: catalogList.length, vsync: this, initialIndex: activeIndex);
+      _mController = TabController(
+          length: _catalogList.length, vsync: this, initialIndex: _activeIndex);
     });
-
-    mController.addListener(() {
+    _mController.addListener(() {
       setState(() {
-        activeIndex = mController.index;
-        id = catalogList[activeIndex]["id"];
-        category = catalogList[activeIndex];
+        _activeIndex = _mController.index;
+        id = _catalogList[_activeIndex].id;
       });
     });
   }
@@ -94,18 +89,18 @@ class _SortChildState extends State<SortList> with TickerProviderStateMixin {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    mController.dispose();
+    _mController.dispose();
   }
 
   _buildBody(BuildContext context) {
     return Container(
-      child: isLoading
+      child: _isLoading
           ? Loading()
           : TabBarView(
-              children: catalogList.map((item) {
+              children: _catalogList.map((item) {
                 return SortListItem(arguments: item);
               }).toList(),
-              controller: mController,
+              controller: _mController,
             ),
     );
   }

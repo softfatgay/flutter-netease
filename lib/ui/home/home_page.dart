@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,8 +8,8 @@ import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
-import 'package:flutter_app/ui/home/model/categoryItem.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModuleItem.dart';
 import 'package:flutter_app/ui/home/model/floorItem.dart';
@@ -25,9 +23,7 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/swiper.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -55,7 +51,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   ///类目热销榜
   CategoryHotSellModule _categoryHotSellModule;
 
-  List<CategoryItem> _categoryList;
+  List<Category> _categoryList;
 
   ///限时购
   FlashSaleModule _flashSaleModule;

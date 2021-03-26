@@ -12,7 +12,7 @@ CategoryGroupItem _$CategoryGroupItemFromJson(Map<String, dynamic> json) {
     ..name = json['name'] as String
     ..categoryList = (json['categoryList'] as List)
         ?.map((e) =>
-            e == null ? null : CategoryItem.fromJson(e as Map<String, dynamic>))
+            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 

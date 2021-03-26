@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/model/category.dart';
+import 'package:flutter_app/ui/home/model/categoryItemListItem.dart';
+import 'package:flutter_app/ui/home/model/kingkongModel.dart';
+import 'package:flutter_app/ui/sort/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -20,9 +25,15 @@ class KingKongPage extends StatefulWidget {
 }
 
 class _KingKongPageState extends State<KingKongPage> {
-  var banner, dataList = List();
-  bool initLoading = true;
-  var currentCategory;
+  var _banner = List();
+  bool _initLoading = true;
+  Category _currentCategory;
+
+  ///数据
+  List<CategoryItemListItem> _categoryItemList;
+
+  ///_banner
+  List<BannerItem> _bannerList;
 
   @override
   void initState() {
@@ -43,9 +54,6 @@ class _KingKongPageState extends State<KingKongPage> {
     var categoryId;
 
     String schemeUrl = widget.arguments["schemeUrl"];
-    print("////////////////////////////////////");
-    print(schemeUrl);
-
     if (schemeUrl.contains("categoryId")) {
       var split = schemeUrl.split("?");
       var params = split[1];
@@ -60,14 +68,6 @@ class _KingKongPageState extends State<KingKongPage> {
       }
     } else {
       _getNewData();
-      // var responseData = await kingKongDataNoId({
-      //   "csrf_token": "61f57b79a343933be0cb10aa37a51cc8",
-      //   "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-      // });
-      //
-      // setState(() {
-      //   noIdData = responseData.data;
-      // });
     }
 
     var responseData = await kingKongData({
@@ -78,12 +78,19 @@ class _KingKongPageState extends State<KingKongPage> {
     });
 
     var data = responseData.data;
+
+    var kingkongModel = KingkongModel.fromJson(data);
+
     setState(() {
-      var bannerList = data["currentCategory"]["bannerList"];
-      dataList = data["categoryItemList"];
-      currentCategory = data["currentCategory"];
-      banner = bannerList.map((item) => item['picUrl']).toList();
-      initLoading = false;
+      _currentCategory = kingkongModel.currentCategory;
+
+      _bannerList = kingkongModel.currentCategory.bannerList;
+      _categoryItemList = kingkongModel.categoryItemList;
+
+      // dataList = data["categoryItemList"];
+      // currentCategory = data["currentCategory"];
+      _banner = _bannerList.map((item) => item.picUrl).toList();
+      _initLoading = false;
     });
 
     print(responseData.data);
@@ -92,13 +99,15 @@ class _KingKongPageState extends State<KingKongPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> slivers = [_buildTitle(context)];
-    for (var value in dataList) {
-      slivers.add(_bodyTitle(value));
-      slivers.add(GoodItemWidget(dataList: value["itemList"]));
+    if (_categoryItemList != null) {
+      for (var value in _categoryItemList) {
+        slivers.add(_bodyTitle(value));
+        slivers.add(GoodItemWidget(dataList: value.itemList));
+      }
     }
     return Scaffold(
       backgroundColor: backColor,
-      body: initLoading
+      body: _initLoading
           ? Loading()
           : CustomScrollView(
               slivers: slivers,
@@ -110,7 +119,7 @@ class _KingKongPageState extends State<KingKongPage> {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverCustomHeaderDelegate(
-        title: initLoading ? 'loading...' : '${currentCategory['name']}',
+        title: _initLoading ? 'loading...' : '${_currentCategory.name}',
         collapsedHeight: 50,
         expandedHeight: 200,
         paddingTop: MediaQuery.of(context).padding.top,
@@ -122,15 +131,15 @@ class _KingKongPageState extends State<KingKongPage> {
   //轮播图
   _buildSwiper(BuildContext context) {
     return BannerCacheImg(
-      imageList: banner,
+      imageList: _banner,
       onTap: (index) {
-        Routers.push(Util.image, context, {'id': '${banner[index]}'});
+        Routers.push(Util.image, context, {'id': '${_banner[index]}'});
       },
     );
   }
 
-  _bodyTitle(value) {
-    var category = value["category"];
+  _bodyTitle(CategoryItemListItem value) {
+    Category category = value.category;
     return singleSliverWidget(Container(
       child: Container(
         child: Column(
@@ -140,18 +149,15 @@ class _KingKongPageState extends State<KingKongPage> {
               color: backGrey,
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Text(
-              category["name"],
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 5,
+              category.name,
+              style: t16black,
             ),
             Text(
-              category["frontName"],
-              style: TextStyle(color: textGrey),
+              category.frontName,
+              style: t12grey,
             ),
             SizedBox(
               height: 10,
@@ -167,7 +173,5 @@ class _KingKongPageState extends State<KingKongPage> {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     });
-
-    print(responseData.newItems);
   }
 }

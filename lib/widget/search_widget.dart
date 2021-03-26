@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:math';
-import 'dart:ui';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 
 typedef void OnValueChanged(String value);
 typedef void OnSearchBtnClick(String value);
@@ -51,8 +50,9 @@ class _SearchGoodsState extends State<SearchWidget> {
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
-      decoration:
-          BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      decoration: BoxDecoration(
+          border:
+              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
           GestureDetector(
@@ -60,8 +60,8 @@ class _SearchGoodsState extends State<SearchWidget> {
               height: widget.textFiledHeight,
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Icon(
-                Icons.arrow_back,
-                color: Colors.grey,
+                Icons.arrow_back_ios,
+                color: textBlack,
               ),
             ),
             onTap: () {
@@ -79,12 +79,13 @@ class _SearchGoodsState extends State<SearchWidget> {
                   margin: EdgeInsets.symmetric(vertical: 7),
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(left: 5),
                       child: Icon(
-                        Icons.search,
-                        size: 22,
+                        Icons.search_outlined,
+                        size: 20,
                         color: Colors.grey,
                       ),
                     ),
@@ -93,9 +94,11 @@ class _SearchGoodsState extends State<SearchWidget> {
                           margin: EdgeInsets.symmetric(horizontal: 8),
                           height: widget.textFiledHeight,
                           child: TextField(
-                            style: TextStyle(textBaseline: TextBaseline.alphabetic, fontSize: 16),
+                            style: t14black,
                             decoration: InputDecoration(
-                                hintText: TextUtil.isEmpty(widget.hintText) ? '' : widget.hintText,
+                                hintText: TextUtil.isEmpty(widget.hintText)
+                                    ? ''
+                                    : widget.hintText,
                                 border: InputBorder.none),
                             textInputAction: TextInputAction.search,
                             onSubmitted: (text) {
@@ -143,8 +146,10 @@ class _SearchGoodsState extends State<SearchWidget> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Center(
               child: RaisedButton(
+                color: Color(0x1AD2001A),
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 onPressed: () {
                   if (widget.onSearchBtnClick != null && text.isNotEmpty) {
                     widget.onSearchBtnClick(text);
@@ -152,9 +157,8 @@ class _SearchGoodsState extends State<SearchWidget> {
                 },
                 child: Text(
                   '搜索',
-                  style: t16grey,
+                  style: t12black,
                 ),
-                color: Colors.white,
                 elevation: 0,
               ),
             ),

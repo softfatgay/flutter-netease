@@ -2,15 +2,15 @@ import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'sortlistCategoryItem.g.dart';
+part 'categoryItemListItem.g.dart';
 
 @JsonSerializable()
-class SortlistCategoryItem {
+class CategoryItemListItem {
   Category category;
   List<ItemListItem> itemList;
 
-  SortlistCategoryItem();
+  CategoryItemListItem();
 
-  factory SortlistCategoryItem.fromJson(Map<String, dynamic> json) =>
-      _$SortlistCategoryItemFromJson(json);
+  factory CategoryItemListItem.fromJson(Map<String, dynamic> json) =>
+      _$CategoryItemListItemFromJson(json);
 }

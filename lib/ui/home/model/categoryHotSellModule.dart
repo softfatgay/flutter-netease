@@ -1,4 +1,4 @@
-import 'package:flutter_app/ui/home/model/categoryItem.dart';
+import 'package:flutter_app/model/category.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'categoryHotSellModule.g.dart';
@@ -8,7 +8,7 @@ class CategoryHotSellModule {
   String titleTargetUrl;
   String title;
 
-  List<CategoryItem> categoryList;
+  List<Category> categoryList;
 
   CategoryHotSellModule();
 

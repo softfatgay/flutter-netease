@@ -10,10 +10,10 @@ SortlistCategoryItem _$SortlistCategoryItemFromJson(Map<String, dynamic> json) {
   return SortlistCategoryItem()
     ..category = json['category'] == null
         ? null
-        : CategoryItem.fromJson(json['category'] as Map<String, dynamic>)
+        : Category.fromJson(json['category'] as Map<String, dynamic>)
     ..itemList = (json['itemList'] as List)
         ?.map((e) =>
-            e == null ? null : GoodItem.fromJson(e as Map<String, dynamic>))
+            e == null ? null : ItemListItem.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 

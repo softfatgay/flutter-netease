@@ -15,6 +15,11 @@ CurrentCategory _$CurrentCategoryFromJson(Map<String, dynamic> json) {
     ..bannerList = (json['bannerList'] as List)
         ?.map((e) =>
             e == null ? null : BannerItem.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..subCateList = (json['subCateList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SubCateListItem.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 
@@ -25,4 +30,5 @@ Map<String, dynamic> _$CurrentCategoryToJson(CurrentCategory instance) =>
       'showIndex': instance.showIndex,
       'name': instance.name,
       'bannerList': instance.bannerList,
+      'subCateList': instance.subCateList,
     };

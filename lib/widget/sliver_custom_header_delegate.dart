@@ -75,7 +75,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(
-                          Icons.arrow_back,
+                          Icons.arrow_back_ios,
                           color: this
                               .makeStickyHeaderTextColor(shrinkOffset, false),
                         ),
@@ -85,11 +85,12 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                           child: Text(
                         this.title,
                         style: TextStyle(
-                            fontSize: 18,
-                            color: this.makeStickyHeaderTextColor(
-                                shrinkOffset, false),),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          fontSize: 16,
+                          color: this
+                              .makeStickyHeaderTextColor(shrinkOffset, false),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       )),
                     ],
                   ),

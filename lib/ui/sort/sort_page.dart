@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
-import 'package:flutter_app/ui/sort/model/categoryItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/sortData.dart';
 import 'package:flutter_app/utils/router.dart';
@@ -190,7 +190,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
-                        List<CategoryItem> itemItem =
+                        List<Category> itemItem =
                             _categoryGroupList[index].categoryList;
                         // List itemItem = _categoryGroupList[index].categoryList;
                         return Container(

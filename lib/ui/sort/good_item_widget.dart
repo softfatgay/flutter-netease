@@ -2,15 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/sort/model/goodItem.dart';
+import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GoodItemWidget extends StatelessWidget {
-  final List<GoodItem> dataList;
+  final List<ItemListItem> dataList;
 
   const GoodItemWidget({Key key, this.dataList}) : super(key: key);
 
@@ -19,7 +18,7 @@ class GoodItemWidget extends StatelessWidget {
     return _buildrecommond(dataList);
   }
 
-  _buildrecommond(List data) {
+  _buildrecommond(List<ItemListItem> data) {
     return data.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverPadding(
@@ -37,7 +36,7 @@ class GoodItemWidget extends StatelessWidget {
                   child: widget,
                   onTap: () {
                     Routers.push(
-                        Util.goodDetailTag, context, {'id': data[index]['id']});
+                        Util.goodDetailTag, context, {'id': data[index].id});
                   },
                 );
               }, childCount: data.length),
@@ -50,7 +49,7 @@ class GoodItemWidget extends StatelessWidget {
           );
   }
 
-  _buildGoodItem(BuildContext context, int index, List<GoodItem> dataList) {
+  _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
     var item = dataList[index];
     var itemTagList = dataList[index].itemTagList;
     return Column(
