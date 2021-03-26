@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main/mainContex.dart';
 import 'package:flutter_app/ui/home/home_page.dart';
-import 'package:flutter_app/ui/mine/mine_new.dart';
+import 'package:flutter_app/ui/mine/user_pge.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
 import 'package:flutter_app/ui/sort/sort_page.dart';
 import 'package:flutter_app/ui/topic/test.dart';

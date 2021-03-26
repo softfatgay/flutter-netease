@@ -1,22 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/http_manager/api_service.dart';
-import 'package:flutter_app/ui/webview_page.dart';
+import 'package:flutter_app/ui/mine/model/minePageItems.dart';
+import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
-import '../../channel/globalCookie.dart';
-import '../../config/cookieConfig.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -25,12 +22,11 @@ class UserPage extends StatefulWidget {
 
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
-  final globalCookie = GlobalCookie();
   bool _islogin = true;
 
   bool _firstLoading = true;
-  List mineItems = [];
-  var userInfo;
+  List<MinePageItems> _mineItems = [];
+  UserModel _userInfo;
 
   @override
   bool get wantKeepAlive => true;
@@ -67,14 +63,16 @@ class _MinePageState extends State<UserPage>
             backgroundColor: Colors.white,
             body: _firstLoading
                 ? Loading()
-                : (userInfo == null
+                : (_userInfo == null
                     ? Container()
                     : CustomScrollView(
                         slivers: <Widget>[
                           _buildTop(context),
                           _buildTitle(context),
                           _buildMineItems(context),
-                          _buildMonthCard(context),
+                          _buildMonthCard(context, _userInfo.monthCardEntrance),
+                          _buildMonthCard(
+                              context, _userInfo.welfareCardEntrance),
                           _line(10.0),
                           _buildActivity(context),
                           _buildAdapter(context),
@@ -104,12 +102,18 @@ class _MinePageState extends State<UserPage>
     try {
       var responseData = await getUserInfo(params, header: header);
       setState(() {
-        userInfo = responseData.data;
+        _userInfo = UserModel.fromJson(responseData.data);
         setUserInfo();
       });
       var userInfoItems = await getUserInfoItems(params, header: header);
+      List data = userInfoItems.data;
+      List<MinePageItems> mineItems = [];
+
+      data.forEach((element) {
+        mineItems.add(MinePageItems.fromJson(element));
+      });
       setState(() {
-        mineItems = userInfoItems.data;
+        _mineItems = mineItems;
         _firstLoading = false;
       });
     } catch (e) {
@@ -121,15 +125,18 @@ class _MinePageState extends State<UserPage>
 
   _buildTop(BuildContext context) {
     return singleSliverWidget(Container(
-      padding: EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
-      decoration: BoxDecoration(gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color(0xFFEFB965),
-          Color(0xFFFFD883),
-        ],
-      ),),
+      padding:
+          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFEFB965),
+            Color(0xFFFFD883),
+          ],
+        ),
+      ),
       height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,16 +160,14 @@ class _MinePageState extends State<UserPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userInfo["userSimpleVO"]["nickname"],
+                  _userInfo.userSimpleVO.nickname,
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
-                  userInfo["userSimpleVO"]["memberLevel"] == 0
-                      ? "普通用户"
-                      : "vip用户",
+                  _userInfo.userSimpleVO.memberLevel == 0 ? "普通用户" : "vip用户",
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 )
               ],
@@ -199,7 +204,7 @@ class _MinePageState extends State<UserPage>
   _buildMineItems(BuildContext context) {
     return SliverGrid.count(
       crossAxisCount: 5,
-      children: mineItems.map<Widget>((item) {
+      children: _mineItems.map<Widget>((item) {
         Widget widget = Container(
           color: Colors.white,
           child: Center(
@@ -208,78 +213,89 @@ class _MinePageState extends State<UserPage>
               children: [
                 Container(
                   child: Text(
-                    item["fundType"] == 1 || item["fundType"] == 4
-                        ? "¥${item["fundValue"]}"
-                        : "${item["fundValue"]}",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    item.fundType == 1 || item.fundType == 4
+                        ? "¥${item.fundValue}"
+                        : "${item.fundValue}",
+                    style: t16blackbold,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 5),
-                  child: Text(item["fundName"]),
+                  child: Text(
+                    item.fundName,
+                    style: t12black,
+                  ),
                 )
               ],
             ),
           ),
         );
         return Routers.link(widget, Util.mineTopItems, context,
-            {"id": item["fundType"], "value": item["fundValue"]});
+            {"id": item.fundType, "value": item.fundValue});
       }).toList(),
     );
   }
 
-  _buildMonthCard(BuildContext context) {
-    var monthCardEntrance = userInfo["monthCardEntrance"];
-    return singleSliverWidget(monthCardEntrance == null
-        ? Container()
-        : Container(
-            margin: EdgeInsets.all(15),
-            padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Color(0xFFF8E4DF)),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.credit_card,
-                  color: redColor,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  monthCardEntrance["title"],
-                  style: TextStyle(color: textRed, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  color: redColor,
-                  height: 15,
-                  width: 1,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    monthCardEntrance["content"],
-                    style: TextStyle(
-                      color: textRed,
+  _buildMonthCard(BuildContext context, WelfareCardEntrance monthCardEntrance) {
+    return singleSliverWidget(
+      monthCardEntrance == null
+          ? Container()
+          : GestureDetector(
+              child: Container(
+                margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xFFF8E4DF)),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: monthCardEntrance.iconPicUrl ?? '',
+                      height: 30,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
+                    CachedNetworkImage(
+                      imageUrl: monthCardEntrance.titleUrl ?? '',
+                      height: 20,
+                      fit: BoxFit.fitWidth,
+                    ),
+                    Text(
+                      monthCardEntrance.title ?? '',
+                      style: t14black,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      color: textBlack,
+                      height: 15,
+                      width: 1,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Text(
+                        monthCardEntrance.content,
+                        style: t14black,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: redColor,
+                      size: 16,
+                    )
+                  ],
                 ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: redColor,
-                  size: 16,
-                )
-              ],
+              ),
+              onTap: () {
+                Routers.push(
+                    Util.webView, context, {'id': monthCardEntrance.url});
+              },
             ),
-          ));
+    );
   }
 
   _line(double height) {
@@ -310,7 +326,10 @@ class _MinePageState extends State<UserPage>
               SizedBox(
                 height: 5,
               ),
-              Text(item["name"]),
+              Text(
+                item["name"],
+                style: t12black,
+              ),
             ],
           ),
         );
@@ -321,13 +340,12 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildActivity(BuildContext context) {
-    var welfareFissionInfo = userInfo["welfareFissionInfo"];
+    WelfareFissionInfo welfareFissionInfo = _userInfo.welfareFissionInfo;
     return singleSliverWidget(welfareFissionInfo == null
         ? Container()
         : Container(
             margin: EdgeInsets.all(10),
-            child: CachedNetworkImage(
-                imageUrl: userInfo["welfareFissionInfo"]["picUrl"]),
+            child: CachedNetworkImage(imageUrl: welfareFissionInfo.picUrl),
           ));
   }
 
@@ -343,9 +361,7 @@ class _MinePageState extends State<UserPage>
             ),
           ),
         ),
-        onTap: (){
-
-        },
+        onTap: () {},
       ),
     );
   }
@@ -363,39 +379,13 @@ class _MinePageState extends State<UserPage>
         }
       },
     );
-
-    Widget webLogin = WebView(
-      //JS执行模式 是否允许JS执行
-      initialUrl: LOGIN_PAGE_URL,
-      javascriptMode: JavascriptMode.unrestricted,
-      onPageStarted: (url) async {},
-      onPageFinished: (url) async {
-        final updateCookie = await globalCookie.globalCookieValue(url);
-        print('更新Cookie-------------->');
-        print(updateCookie.toString());
-        if (updateCookie.length > 0) {
-          setState(() {
-            CookieConfig.cookie = updateCookie;
-            _islogin = CookieConfig.isLogin;
-            if (_islogin) {
-              _getUserInfo();
-            }
-          });
-        }
-      },
-    );
-    return Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      color: Colors.white,
-      child: webLogin,
-    );
   }
 
   void setUserInfo() async {
     var prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', userInfo['userSimpleVO']['nickname']);
+    await prefs.setString('name', _userInfo.userSimpleVO.nickname);
     await prefs.setString(
-        'pointsCnt', userInfo['userSimpleVO']['pointsCnt'].toString());
+        'pointsCnt', _userInfo.userSimpleVO.pointsCnt.toString());
   }
 
   var mineSettingItems = [

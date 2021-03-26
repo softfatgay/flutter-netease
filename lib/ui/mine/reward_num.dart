@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/floatingActionButton.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -100,19 +101,19 @@ class _RewardNumPageState extends State<RewardNumPage> {
   Widget _buildTop(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
-      color: backRed,
+      color: redLightColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(widget.arguments['id'] == 4 ? '津贴（元）' :'回馈金余额（元）', style: TextStyle(color: textWhite, fontSize: 16)),
+          Text(widget.arguments['id'] == 4 ? '津贴（元）' : '回馈金余额（元）',
+              style: t14white),
           SizedBox(
             height: 10,
           ),
           Text(
             '¥${widget.arguments['value']}',
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: textWhite),
+            style: t20whitebold,
           ),
           SizedBox(
             height: 5,
@@ -122,7 +123,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('明细', style: TextStyle(color: textWhite, fontSize: 16)),
+                Text('明细', style: t14white),
                 Icon(
                   Icons.arrow_forward_ios,
                   color: textWhite,
@@ -130,107 +131,112 @@ class _RewardNumPageState extends State<RewardNumPage> {
                 )
               ],
             ),
-            onTap: (){
+            onTap: () {
               String url = '';
               if (widget.arguments['id'] == 4) {
                 url = 'https://m.you.163.com/bonus/detail';
-              }else{
+              } else {
                 url = 'https://m.you.163.com/reward/detail';
               }
-              Routers.push(Util.webViewPageAPP, context,{'id':url});
+              Routers.push(Util.webViewPageAPP, context, {'id': url});
             },
           ),
-          widget.arguments['id'] == 4 ?Container(): Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '即将过期',
-                          style: TextStyle(color: textWhite, fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '¥${widget.arguments['value']}',
-                          style: TextStyle(
-                              color: textWhite,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        )
-                      ],
+          widget.arguments['id'] == 4
+              ? Container()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '即将过期',
+                                style:
+                                    TextStyle(color: textWhite, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '¥${widget.arguments['value']}',
+                                style: TextStyle(
+                                    color: textWhite,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                        )),
+                    Container(
+                      height: 20,
+                      width: 1,
+                      color: backWhite,
                     ),
-                  )),
-              Container(
-                height: 20,
-                width: 1,
-                color: backWhite,
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '待发放',
-                          style: TextStyle(color: textWhite, fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '¥${widget.arguments['value']}',
-                          style: TextStyle(
-                              color: textWhite,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        )
-                      ],
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '待发放',
+                                style:
+                                    TextStyle(color: textWhite, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '¥${widget.arguments['value']}',
+                                style: TextStyle(
+                                    color: textWhite,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                        )),
+                    Container(
+                      height: 20,
+                      width: 1,
+                      color: backWhite,
                     ),
-                  )),
-              Container(
-                height: 20,
-                width: 1,
-                color: backWhite,
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '累计获得',
-                          style: TextStyle(color: textWhite, fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '¥${widget.arguments['value']}',
-                          style: TextStyle(
-                              color: textWhite,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        )
-                      ],
-                    ),
-                  )),
-            ],
-          )
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '累计获得',
+                                style:
+                                    TextStyle(color: textWhite, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '¥${widget.arguments['value']}',
+                                style: TextStyle(
+                                    color: textWhite,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                        )),
+                  ],
+                )
         ],
       ),
     );
