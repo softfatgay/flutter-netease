@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
-import 'package:flutter_app/ui/goodsDetail/good_detail.dart';
+import 'package:flutter_app/ui/goodsDetail/good_detail_page.dart';
 import 'package:flutter_app/ui/home/hot_list.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
@@ -46,7 +46,7 @@ class Routers {
   static Map<String, Function> routes = {
     //商品详情
     Util.goodDetailTag: (context, {arguments}) =>
-        GoodsDetail(arguments: arguments),
+        GoodsDetailPage(arguments: arguments),
     Util.catalogTag: (context, {arguments}) =>
         SortListPage(arguments: arguments),
     //kingKong

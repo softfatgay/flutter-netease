@@ -22,9 +22,7 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..soldOut = json['soldOut'] as bool
     ..underShelf = json['underShelf'] as bool
     ..updateTime = json['updateTime'] as num
-    ..itemDetail = json['itemDetail'] == null
-        ? null
-        : ItemDetail.fromJson(json['itemDetail'] as Map<String, dynamic>)
+    ..itemDetail = json['itemDetail'] as Map<String, dynamic>
     ..skuList = (json['skuList'] as List)
         ?.map((e) =>
             e == null ? null : SkuListItem.fromJson(e as Map<String, dynamic>))
@@ -124,7 +122,10 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..fullRefundPolicy = json['fullRefundPolicy'] == null
         ? null
         : FullRefundPolicy.fromJson(
-            json['fullRefundPolicy'] as Map<String, dynamic>);
+            json['fullRefundPolicy'] as Map<String, dynamic>)
+    ..couponShortNameList = (json['couponShortNameList'] as List)
+        ?.map((e) => e as String)
+        ?.toList();
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -197,6 +198,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'recommendReason': instance.recommendReason,
       'skuFreight': instance.skuFreight,
       'fullRefundPolicy': instance.fullRefundPolicy,
+      'couponShortNameList': instance.couponShortNameList,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -264,10 +266,14 @@ Map<String, dynamic> _$FeaturedSeriesToJson(FeaturedSeries instance) =>
 
 FullRefundPolicy _$FullRefundPolicyFromJson(Map<String, dynamic> json) {
   return FullRefundPolicy()
-    ..titles = (json['titles'] as List)?.map((e) => e as String)?.toList();
+    ..detailTitle = json['detailTitle'] as String
+    ..titles = (json['titles'] as List)?.map((e) => e as String)?.toList()
+    ..content = (json['content'] as List)?.map((e) => e as String)?.toList();
 }
 
 Map<String, dynamic> _$FullRefundPolicyToJson(FullRefundPolicy instance) =>
     <String, dynamic>{
+      'detailTitle': instance.detailTitle,
       'titles': instance.titles,
+      'content': instance.content,
     };

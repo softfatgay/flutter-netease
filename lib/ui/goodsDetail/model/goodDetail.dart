@@ -29,7 +29,7 @@ class GoodDetail {
   bool underShelf;
   num updateTime;
 
-  ItemDetail itemDetail;
+  Map<String,dynamic> itemDetail;
 
   List<SkuListItem> skuList;
 
@@ -92,6 +92,7 @@ class GoodDetail {
   SkuFreight skuFreight;
 
   FullRefundPolicy fullRefundPolicy;
+  List<String> couponShortNameList;
 
 
 
@@ -158,7 +159,9 @@ class FeaturedSeries {
 @JsonSerializable()
 class FullRefundPolicy{
 
+  String detailTitle;
   List<String > titles;
+  List<String > content;
 
   FullRefundPolicy();
 

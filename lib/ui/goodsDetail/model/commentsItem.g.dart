@@ -16,6 +16,7 @@ CommentsItem _$CommentsItemFromJson(Map<String, dynamic> json) {
     ..itemIconUrl = json['itemIconUrl'] as String
     ..skuInfo = (json['skuInfo'] as List)?.map((e) => e as String)?.toList()
     ..frontUserName = json['frontUserName'] as String
+    ..frontUserAvatar = json['frontUserAvatar'] as String
     ..content = json['content'] as String
     ..createTime = json['createTime'] as num
     ..picList = (json['picList'] as List)?.map((e) => e as String)?.toList()
@@ -36,6 +37,7 @@ Map<String, dynamic> _$CommentsItemToJson(CommentsItem instance) =>
       'itemIconUrl': instance.itemIconUrl,
       'skuInfo': instance.skuInfo,
       'frontUserName': instance.frontUserName,
+      'frontUserAvatar': instance.frontUserAvatar,
       'content': instance.content,
       'createTime': instance.createTime,
       'picList': instance.picList,

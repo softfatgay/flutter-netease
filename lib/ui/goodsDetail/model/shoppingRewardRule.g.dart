@@ -10,8 +10,9 @@ ShoppingRewardRule _$ShoppingRewardRuleFromJson(Map<String, dynamic> json) {
   return ShoppingRewardRule()
     ..title = json['title'] as String
     ..ruleList = (json['ruleList'] as List)
-        ?.map((e) =>
-            e == null ? null : RuleListItem.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : PolicyListItem.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 

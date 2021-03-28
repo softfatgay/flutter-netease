@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/DashedDecoration.dart';
-import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/constant/colors.dart';
 
 ///底部边框
 BoxDecoration bottomBorder = BoxDecoration(
@@ -15,7 +14,8 @@ BoxDecoration topBorder = BoxDecoration(
 ///右指向箭头
 Icon arrowRightIcon = Icon(
   Icons.keyboard_arrow_right,
-  color: Colors.grey,
+  color: textGrey,
+  size: 14,
 );
 
 ///icon颜色

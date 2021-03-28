@@ -50,8 +50,7 @@ class SkuMapValue {
   String skuLimit;
   num operationAttribute;
   SkuFreight skuFreight;
-
-
+  BuyTitle buyTitle;
 
   SkuMapValue();
 
@@ -75,9 +74,8 @@ class ItemSkuSpecValueListItem {
       _$ItemSkuSpecValueListItemFromJson(json);
 }
 
-
 @JsonSerializable()
-class SkuFreight{
+class SkuFreight {
   String title;
   String freightInfo;
   String vipFreightInfo;
@@ -91,14 +89,25 @@ class SkuFreight{
 }
 
 @JsonSerializable()
-class PolicyListItem{
-String title;
-String content;
-String distributionArea;
+class PolicyListItem {
+  num id;
+  String title;
+  String content;
+  String distributionArea;
 
-PolicyListItem();
+  PolicyListItem();
 
-factory PolicyListItem.fromJson(Map<String, dynamic> json) =>
-    _$PolicyListItemFromJson(json);
+  factory PolicyListItem.fromJson(Map<String, dynamic> json) =>
+      _$PolicyListItemFromJson(json);
+}
 
+@JsonSerializable()
+class BuyTitle {
+  String title;
+  String subTitle;
+
+  BuyTitle();
+
+  factory BuyTitle.fromJson(Map<String, dynamic> json) =>
+      _$BuyTitleFromJson(json);
 }

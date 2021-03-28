@@ -12,6 +12,7 @@ class CommentsItem {
   String itemIconUrl;
   List<String> skuInfo;
   String frontUserName;
+  String frontUserAvatar;
 
   String content;
 

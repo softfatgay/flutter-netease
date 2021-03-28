@@ -63,7 +63,10 @@ SkuMapValue _$SkuMapValueFromJson(Map<String, dynamic> json) {
     ..operationAttribute = json['operationAttribute'] as num
     ..skuFreight = json['skuFreight'] == null
         ? null
-        : SkuFreight.fromJson(json['skuFreight'] as Map<String, dynamic>);
+        : SkuFreight.fromJson(json['skuFreight'] as Map<String, dynamic>)
+    ..buyTitle = json['buyTitle'] == null
+        ? null
+        : BuyTitle.fromJson(json['buyTitle'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$SkuMapValueToJson(SkuMapValue instance) =>
@@ -107,6 +110,7 @@ Map<String, dynamic> _$SkuMapValueToJson(SkuMapValue instance) =>
       'skuLimit': instance.skuLimit,
       'operationAttribute': instance.operationAttribute,
       'skuFreight': instance.skuFreight,
+      'buyTitle': instance.buyTitle,
     };
 
 ItemSkuSpecValueListItem _$ItemSkuSpecValueListItemFromJson(
@@ -159,6 +163,7 @@ Map<String, dynamic> _$SkuFreightToJson(SkuFreight instance) =>
 
 PolicyListItem _$PolicyListItemFromJson(Map<String, dynamic> json) {
   return PolicyListItem()
+    ..id = json['id'] as num
     ..title = json['title'] as String
     ..content = json['content'] as String
     ..distributionArea = json['distributionArea'] as String;
@@ -166,7 +171,19 @@ PolicyListItem _$PolicyListItemFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PolicyListItemToJson(PolicyListItem instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'content': instance.content,
       'distributionArea': instance.distributionArea,
+    };
+
+BuyTitle _$BuyTitleFromJson(Map<String, dynamic> json) {
+  return BuyTitle()
+    ..title = json['title'] as String
+    ..subTitle = json['subTitle'] as String;
+}
+
+Map<String, dynamic> _$BuyTitleToJson(BuyTitle instance) => <String, dynamic>{
+      'title': instance.title,
+      'subTitle': instance.subTitle,
     };
