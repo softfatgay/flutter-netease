@@ -4,14 +4,8 @@ import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/mine/user_pge.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
 import 'package:flutter_app/ui/sort/sort_page.dart';
-import 'package:flutter_app/ui/topic/test.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
-import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/HosEventBusUtils.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/wrapper.dart';
-
-import '../../main.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -29,6 +23,7 @@ class _MainPageState extends State<MainPage> {
   var sortNew = SortPage();
   var shoppingCart = ShoppingCart();
   var userPage = UserPage();
+
   @override
   Widget build(BuildContext context) {
     mainContext = context;

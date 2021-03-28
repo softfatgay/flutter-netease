@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="FlutterWant"
+        android:label="网易严选"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
