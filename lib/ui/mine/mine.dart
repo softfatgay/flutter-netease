@@ -3,10 +3,10 @@ import 'dart:ui' as prefix0;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
 //import 'package:image_picker/image_picker.dart';
@@ -28,25 +28,26 @@ class _MinePageState extends State<MinePage> {
   String title = '';
 
   List itemList1 = [
-    _ItemList(Icon(Icons.headset, color: iconColor), '我的客服'),
+    _ItemList(Icon(Icons.headset, color: textGrey), '我的客服'),
   ];
   List itemList = [
-    _ItemList(Icon(Icons.info_outline, color: iconColor), '关于'),
-    _ItemList(Icon(Icons.account_box, color: iconColor), '登录'),
-    _ItemList(Icon(Icons.settings, color: iconColor), '设置'),
-    _ItemList(Icon(Icons.list, color: iconColor), '搜索+下拉菜单'),
-    _ItemList(Icon(Icons.collections_bookmark, color: iconColor), 'PageView(垂直翻页效果)'),
-    _ItemList(Icon(Icons.videocam, color: iconColor), '我的收藏(视频播放演示)'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
-    _ItemList(Icon(Icons.last_page, color: iconColor), '展示条目'),
+    _ItemList(Icon(Icons.info_outline, color: textGrey), '关于'),
+    _ItemList(Icon(Icons.account_box, color: textGrey), '登录'),
+    _ItemList(Icon(Icons.settings, color: textGrey), '设置'),
+    _ItemList(Icon(Icons.list, color: textGrey), '搜索+下拉菜单'),
+    _ItemList(
+        Icon(Icons.collections_bookmark, color: textGrey), 'PageView(垂直翻页效果)'),
+    _ItemList(Icon(Icons.videocam, color: textGrey), '我的收藏(视频播放演示)'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
+    _ItemList(Icon(Icons.last_page, color: textGrey), '展示条目'),
   ];
 
   @override
@@ -79,7 +80,7 @@ class _MinePageState extends State<MinePage> {
             backgroundColor: Colors.white,
             title: Text(
               title,
-              style: TextStyle(color: iconColor),
+              style: TextStyle(color: textGrey),
             ),
             centerTitle: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -120,7 +121,7 @@ class _MinePageState extends State<MinePage> {
               child: Text(
                 '运输中',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: iconColor),
+                style: TextStyle(color: textGrey),
               ),
             ),
           ),
@@ -131,7 +132,7 @@ class _MinePageState extends State<MinePage> {
               child: Text(
                 '待支付',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: iconColor),
+                style: TextStyle(color: textGrey),
               ),
             ),
           ),

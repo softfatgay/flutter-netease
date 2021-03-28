@@ -41,7 +41,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
-  var _itemId = 0;
+  // var _itemId = 0;
   var _hasMore = false;
 
   @override
@@ -104,7 +104,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
         _bottomTipsText = '没有找到您想要的内容';
       } else {
         _directlyList.addAll(directlyList);
-        _itemId = _directlyList[_directlyList.length - 1].itemTagList[0].itemId;
+        // _itemId = _directlyList[_directlyList.length - 1].itemTagList[0].itemId;
         if (!_hasMore) {
           _bottomTipsText = '没有更多了';
         }
@@ -167,7 +167,6 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
 
   Widget _showPop() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[

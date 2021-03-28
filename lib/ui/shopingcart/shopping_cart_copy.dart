@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/shopingcart/cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
@@ -648,7 +648,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       return Container(
                         child: Text(
                           '• $item',
-                          style: t12lgrey,
+                          style: t12lightGrey,
                         ),
                       );
                     }).toList(),

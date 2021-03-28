@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class UserSetting extends StatefulWidget {
@@ -25,7 +25,7 @@ class _UserSettingState extends State<UserSetting> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> items =_buildItems();
+    List<Widget> items = _buildItems();
     items.add(_buildBottom());
 
     return Scaffold(
@@ -40,58 +40,57 @@ class _UserSettingState extends State<UserSetting> {
     );
   }
 
-  _buildItems(){
+  _buildItems() {
     return tabs
         .map<Widget>((item) => Container(
-      color: Colors.white,
-      child: Container(
-        margin: EdgeInsets.only(left: 15),
-        padding: EdgeInsets.fromLTRB(0, 10, 15, 10),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom:
-                BorderSide(color: splitLineColor, width: 0.5))),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                border: Border.all(width: 1, color: textGrey),
-              ),
-              height: 26,
-              width: 26,
-              child: Image(
-                image: AssetImage(item['icon']),
-                color: textGrey,
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              child: Text(
-                item['name'],
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            Expanded(
+              color: Colors.white,
               child: Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  item['value'],
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: item['value'] == '未关联'
-                          ? textGrey
-                          : textBlack),
+                margin: EdgeInsets.only(left: 15),
+                padding: EdgeInsets.fromLTRB(0, 10, 15, 10),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: lineColor, width: 0.5))),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(13),
+                        border: Border.all(width: 1, color: textGrey),
+                      ),
+                      height: 26,
+                      width: 26,
+                      child: Image(
+                        image: AssetImage(item['icon']),
+                        color: textGrey,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: Text(
+                        item['name'],
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          item['value'],
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: item['value'] == '未关联'
+                                  ? textGrey
+                                  : textBlack),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    ))
+            ))
         .toList();
   }
 
@@ -125,7 +124,10 @@ class _UserSettingState extends State<UserSetting> {
   _buildBottom() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
-      child:
-      Text('以上关联仅作为登录方式使用',style: TextStyle(color: textGrey,fontSize: 12),),);
+      child: Text(
+        '以上关联仅作为登录方式使用',
+        style: TextStyle(color: textGrey, fontSize: 12),
+      ),
+    );
   }
 }

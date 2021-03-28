@@ -27,6 +27,7 @@ final String GET_USER_SPMCINFO = "${NetContants.baseUrl}xhr/supermc/getUserSpmcI
 final String REWARD_RCMD = "${NetContants.baseUrl}xhr/bonus/rcmd.json";
 final String RED_PACKET = "${NetContants.baseUrl}xhr/redpacket/list.json";
 final String COUPON_LIST = "${NetContants.baseUrl}xhr/coupon/list.json";
+///商品详情
 final String GOOD_DETAIL = "${NetContants.baseUrl}item/detail.json";
 final String SHOPPING_CART = "${NetContants.baseUrl}xhr/cart/getCarts.json";
 final String SHOPPING_CART_CHECK = "${NetContants.baseUrl}xhr/cart/selectAll.json";
@@ -50,8 +51,13 @@ final String SEARCH_TIPS = "${NetContants.baseUrl}xhr/search/searchAutoComplete.
 final String SEARCH_SEARCH = "${NetContants.baseUrl}xhr/search/search.json.json";
 final String FIND_REC_AUTO = "${NetContants.baseUrl}topic/v1/find/recAuto.json";
 final String KNOW_NAVWAP = "${NetContants.baseUrl}topic/v1/know/navWap.json";
+///好评率
+final String COMMENT_PRAISE = '${NetContants.baseUrl}xhr/comment/itemGoodRates.json';
+///评价tags
+final String COMMENT_TAGS = '${NetContants.baseUrl}xhr/comment/tags.json';
 
-
+///商品详情下半部分
+final String GOOD_DETAIL_DOWN = '${NetContants.baseUrl}xhr/item/detail.json';
 
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&

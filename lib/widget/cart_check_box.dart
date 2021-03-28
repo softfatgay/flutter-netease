@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/constant/colors.dart';
 
 typedef void OnCheckChanged(bool check);
 

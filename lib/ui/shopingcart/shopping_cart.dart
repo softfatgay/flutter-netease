@@ -315,6 +315,9 @@ class _ShoppingCartState extends State<ShoppingCart>
     // Routers.push(Util.webLogin, context,{},_callback);
     return WebLoginWidget(
       onValueChanged: (value) {
+        print(value);
+        print('111111111111');
+
         if (value) {
           setState(() {
             _islogin = value;

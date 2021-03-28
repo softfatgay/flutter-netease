@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/constant/colors.dart';
 
 typedef void ValueChanged(int count);
+
 Color borderColor = Colors.grey[200];
+
 class CartCount extends StatefulWidget {
   CartCount({
     this.number,
@@ -45,15 +47,12 @@ class _CartCountState extends State<CartCount> {
         children: <Widget>[
           Container(
             width: 30,
-            color:
-                widget.min >= num ? backColor : Colors.white,
+            color: widget.min >= num ? backColor : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
                   Icons.remove,
-                  color: widget.min >= widget.number
-                      ? textLightGrey
-                      : textGrey,
+                  color: widget.min >= widget.number ? textLightGrey : textGrey,
                   size: 18,
                 ),
               ),
@@ -80,15 +79,12 @@ class _CartCountState extends State<CartCount> {
           ),
           Container(
             width: 30,
-            color:
-                widget.max <= num ? backColor : Colors.white,
+            color: widget.max <= num ? backColor : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
                   Icons.add,
-                  color: widget.max <= widget.number
-                      ? textLightGrey
-                      : textGrey,
+                  color: widget.max <= widget.number ? textLightGrey : textGrey,
                   size: 18,
                 ),
               ),

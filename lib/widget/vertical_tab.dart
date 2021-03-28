@@ -4,13 +4,13 @@
  * @Date: 2019-08-26 17:29:18
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/constant/colors.dart';
 
 const double opWidth = 90;
 
 const tabItemHeight = 45.0;
 
-const indexColor = iconColor;
+const indexColor = textGrey;
 
 class VerticalTab extends StatefulWidget {
   VerticalTab({Key key, this.tabs, this.onTabChange, this.activeIndex});

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MySeparator.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
@@ -74,18 +75,15 @@ class _CouponState extends State<Coupon> {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return _allDataList[index]['coupon_title_name'] == null
-          ? _buildItem(context, _allDataList[index],index)
+          ? _buildItem(context, _allDataList[index], index)
           : _buildTitle(context);
     }, childCount: _allDataList.length));
   }
 
-  _buildItem(BuildContext context,var item,int index) {
-
-
-    var topBackColor = item['albeToActivated'] ? backRed : Color(0xFFA8ABB5);
-    var backColor = index<_nowCoupon.length ? backRed : Color(0xFFA9ADB6);
-    var tipsColor = index<_nowCoupon.length ? Color(0xFFBE5A57) : Color(0xFFA3A5AD);
-    var bottomColor = item['albeToActivated'] ? backRed : Color(0xFF8D9096);
+  _buildItem(BuildContext context, var item, int index) {
+    var backColor = index < _nowCoupon.length ? backRed : Color(0xFFA9ADB6);
+    var tipsColor =
+        index < _nowCoupon.length ? Color(0xFFBE5A57) : Color(0xFFA3A5AD);
 
     return Container(
       margin: EdgeInsets.all(15),
@@ -100,10 +98,8 @@ class _CouponState extends State<Coupon> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                decoration: BoxDecoration(
-                  color: backColor
-                ),
-                margin: EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(color: backColor),
+                  margin: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     children: [
                       Text(
@@ -123,10 +119,8 @@ class _CouponState extends State<Coupon> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(item['name'],
-                                style: t16white),
-                            Text('${_valueDate(item)}',
-                                style: t14white),
+                            Text(item['name'], style: t16white),
+                            Text('${_valueDate(item)}', style: t14white),
                           ],
                         ),
                       ))
@@ -169,9 +163,12 @@ class _CouponState extends State<Coupon> {
 
   _buildTitle(BuildContext context) {
     return Container(
-    alignment: Alignment.center,
-    padding: EdgeInsets.only(top: 20),
-      child: Text('已过期',style: t18black,),
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(top: 20),
+      child: Text(
+        '已过期',
+        style: t18black,
+      ),
     );
   }
 

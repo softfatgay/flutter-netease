@@ -1,13 +1,12 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:flutter_app/widget/timer_text.dart';
 
@@ -218,7 +217,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
             return Routers.link(
                 widget, Util.goodDetailTag, context, {'id': package['itemId']});
           } else {
-            Widget widget =  Container(
+            Widget widget = Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
               margin: EdgeInsets.only(left: 15),
               width: double.infinity,

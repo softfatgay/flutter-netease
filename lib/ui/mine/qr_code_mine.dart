@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -147,7 +147,7 @@ class _QRCodeMineState extends State<QRCodeMine> {
         "csrf_token": csrf_token,
       };
 
-       qrCode(params, header: header).then((responseData) {
+      qrCode(params, header: header).then((responseData) {
         setState(() {
           qrCodeDate = responseData.data;
         });

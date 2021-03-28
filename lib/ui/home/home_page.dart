@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -24,7 +23,6 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -84,7 +82,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       }
     });
     _getData();
-    _checkLogin();
+    // _checkLogin();
   }
 
   ///检查是否登录
@@ -95,9 +93,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     };
     Map<String, dynamic> header = {"Cookie": cookie};
 
-    var responseData = await checkLogin(params, header: header);
-    final globalCookie = GlobalCookie();
-    var isLogin = responseData.data;
   }
 
   void _incrementCounter() {
@@ -907,4 +902,11 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
+  }
 }

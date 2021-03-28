@@ -7,6 +7,7 @@ class ResponseData<T> {
 
   final T OData;
   final T data;
+  final T item;
   final T newItems;
 
   /// AToken Server Status
@@ -20,6 +21,7 @@ class ResponseData<T> {
   final HttpRequestOptions httpRequestOptions;
 
   const ResponseData({
+    this.item,
     this.OData,
     this.data,
     this.newItems,
@@ -31,6 +33,7 @@ class ResponseData<T> {
 
   static Future<ResponseData> convertData(Response response) {
     ResponseData responseData = ResponseData(
+      item: response.data['item'],
       OData: response.data,
       data: response.data['data'],
       newItems: response.data['newItems'],
@@ -39,7 +42,7 @@ class ResponseData<T> {
       errorCode: response.data['errorCode'],
       httpRequestOptions: HttpRequestOptions.convert(response.request),
     );
-    if (responseData.code !=200&&responseData.errorCode!=null) {
+    if (responseData.code != '200' && responseData.errorCode != null) {
       Toast.show(responseData.errorCode, mainContext);
     }
     Future<ResponseData> future;

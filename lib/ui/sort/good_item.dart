@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GoodItemWidget extends StatelessWidget {
   final List dataList;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
@@ -23,8 +24,6 @@ class SortPage extends StatefulWidget {
 }
 
 class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
-  // List tabs = [];
-
   bool _isLoading = true;
 
   List _roundWords = ['零食', '茅台酒', '床上用品', '衣服', '玩具', '奶粉', '背包'];
@@ -173,14 +172,25 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                       (BuildContext context, int index) {
                     return Container(
                       decoration: BoxDecoration(
-                          border: Border(
-                              top:
-                                  BorderSide(width: 1, color: splitLineColor))),
+                        border: Border(
+                            top: BorderSide(width: 1, color: splitLineColor)),
+                      ),
                       padding: EdgeInsets.all(10),
                       height: 120,
-                      child: CachedNetworkImage(
-                        imageUrl: _bannerList[0].picUrl ?? '',
-                        fit: BoxFit.fill,
+                      child: GestureDetector(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: backColor,
+                              borderRadius: BorderRadius.circular(4)
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: _bannerList[0].picUrl ?? '',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        onTap: (){
+                          Routers.push(Util.webView, context,{'id':'${NetContants.baseUrl}${_bannerList[0].targetUrl}'});
+                        },
                       ),
                     );
                   }, childCount: 1),

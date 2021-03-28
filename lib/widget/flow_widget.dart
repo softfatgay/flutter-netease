@@ -11,6 +11,7 @@ class FlowWidget<String> extends StatefulWidget {
   final int showItemCount;
   final double spacing;
   final double runSpacing;
+  final int checkindex;
 
   FlowWidget(
       {this.items,
@@ -20,7 +21,8 @@ class FlowWidget<String> extends StatefulWidget {
       this.onTap,
       this.spacing = 10,
       this.runSpacing = 10,
-      this.showItemCount});
+      this.showItemCount,
+      this.checkindex = 0});
 
   @override
   _FlowWidgetState createState() => _FlowWidgetState();

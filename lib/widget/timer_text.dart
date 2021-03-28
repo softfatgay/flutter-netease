@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/widget/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 
 class TimerText extends StatefulWidget {
   final int time;

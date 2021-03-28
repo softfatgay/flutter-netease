@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/sort/good_item.dart';
 import 'package:flutter_app/utils/constans.dart';
@@ -14,7 +16,6 @@ import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/count.dart';
 import 'package:flutter_app/widget/floatingActionButton.dart';
 import 'package:flutter_app/widget/global.dart';
@@ -601,7 +602,7 @@ class _GoodsDetailState extends State<GoodsDetail> {
                   },
                 ),
 
-          Container(height: 10, color: backGrey),
+          Container(height: 10, color: backColor),
 
           ///选择属性
           InkResponse(

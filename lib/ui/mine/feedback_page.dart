@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class FeedBack extends StatefulWidget {
@@ -64,7 +65,6 @@ class _FeedBackState extends State<FeedBack> {
     setState(() {
       _phone = responseData.data['mobile'];
     });
-
   }
 
   void _submit() async {
@@ -75,7 +75,6 @@ class _FeedBackState extends State<FeedBack> {
       "type": selectType['type'],
       "content": _tvController.text,
       "mobile": _phone,
-
     };
     var feedback = await feedbackSubmit(params, header: header);
     setState(() {
@@ -182,10 +181,13 @@ class _FeedBackState extends State<FeedBack> {
               color: redColor,
               padding: EdgeInsets.symmetric(vertical: 15),
               child: Center(
-                child: Text('提交',style: t16white,),
+                child: Text(
+                  '提交',
+                  style: t16white,
+                ),
               ),
             ),
-            onTap: (){
+            onTap: () {
               _submit();
               Navigator.pop(context);
             },
@@ -224,7 +226,9 @@ class _FeedBackState extends State<FeedBack> {
                     child: Center(
                       child: Text(
                         item['desc'],
-                        style:selectType['desc'] ==  item['desc']?t14red: t14grey,
+                        style: selectType['desc'] == item['desc']
+                            ? t14red
+                            : t14grey,
                       ),
                     ),
                   ),

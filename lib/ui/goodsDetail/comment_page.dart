@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/net/DioManager.dart';
-import 'package:flutter_app/http_manager/net_contants.dart';
+import 'package:flutter_app/model/pagination.dart';
+import 'package:flutter_app/ui/goodsDetail/model/commentItem.dart';
+import 'package:flutter_app/ui/goodsDetail/model/commondPageModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
@@ -29,14 +30,21 @@ class _CommentListState extends State<CommentList> {
   var checkedItem = '全部';
   var checkIndex = 0;
   int page = 1;
-  var praise = {};
+  Praise _praise = Praise();
   bool isFirstLoading = true;
-  var commentTags = [];
-  var commentList = [];
-  var pagination = {};
+
   var showTagsNum = 6;
 
+  List<CommentItem> _commentTags = [];
+
   ScrollController _scrollController = ScrollController();
+
+  ///总数据
+  CommondPageModel _commondPageModel;
+  Pagination _pagination;
+
+  ///数据列表
+  List<ResultItem> _commentList = [];
 
   @override
   void initState() {
@@ -52,8 +60,8 @@ class _CommentListState extends State<CommentList> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (pagination.isNotEmpty) {
-          if (pagination['totalPage'] > pagination['page']) {
+        if (_pagination != null) {
+          if (_pagination.totalPage > _pagination.page) {
             setState(() {
               page++;
             });
@@ -67,8 +75,8 @@ class _CommentListState extends State<CommentList> {
   void reset() {
     setState(() {
       page = 1;
-      commentList.clear();
-      commentList = [];
+      _commentList.clear();
+      _commentList = [];
     });
     _getCommentList();
   }
@@ -82,42 +90,46 @@ class _CommentListState extends State<CommentList> {
       'tag': tag,
     };
     Map<String, dynamic> header = {"Cookie": cookie};
-
     var responseData = await commentListData(params, header: header);
+
     setState(() {
       isFirstLoading = false;
-      pagination = responseData.data['pagination'];
-      if (pagination['page'] == 1) {}
-      commentList.addAll(responseData.data['result']);
+      _commondPageModel = CommondPageModel.fromJson(responseData.data);
+      _pagination = _commondPageModel.pagination;
+      List<ResultItem> commentList = _commondPageModel.result;
+      _commentList.addAll(commentList);
     });
   }
 
   ///好评率
-  void _getCommentPraise() {
+  void _getCommentPraise() async {
     var params = {
       'itemId': widget.arguments['id'],
     };
-    DioManager.post(NetContants.commentPraise, params, (data) {
-      setState(() {
-        praise = data['data'];
-      });
+    var responseData = await commentPraiseApi(params);
+    setState(() {
+      _praise = Praise.fromJson(responseData.data);
     });
   }
 
   ///评价Tag
-  void _getCommentTags() {
+  void _getCommentTags() async {
     var params = {
       'itemId': widget.arguments['id'],
     };
-    DioManager.get(NetContants.commentTags, params, (data) {
-      setState(() {
-        commentTags = data['data'];
-        if (commentTags != null && commentTags.length > 6) {
-          showTagsNum = 6;
-        } else {
-          showTagsNum = commentTags.length;
-        }
-      });
+    var responseData = await commentTagsApi(params);
+    List data = responseData.data;
+    List<CommentItem> list = [];
+    data.forEach((element) {
+      list.add(CommentItem.fromJson(element));
+    });
+    setState(() {
+      _commentTags = list;
+      if (_commentTags != null && _commentTags.length > 6) {
+        showTagsNum = 6;
+      } else {
+        showTagsNum = _commentTags.length;
+      }
     });
   }
 
@@ -137,22 +149,27 @@ class _CommentListState extends State<CommentList> {
                 singleSliverWidget(buildCommentTags()),
                 singleSliverWidget(buildTagControl()),
                 singleSliverWidget(buildLine()),
-                (commentList == null || commentList.isEmpty)
+                (_commentList == null || _commentList.isEmpty)
                     ? singleSliverWidget(Container(
                         child: Center(
-                          child: Text("",style: t18blackbold,),
+                          child: Text(
+                            "",
+                            style: t18blackbold,
+                          ),
                         ),
                       ))
                     : buildCommentList(),
-                SliverFooter(hasMore: pagination['totalPage'] > pagination['page']||(commentList.length==0))
+                SliverFooter(
+                    hasMore: _pagination.totalPage > _pagination.page ||
+                        (_commentList.length == 0))
               ],
             ),
     );
   }
 
   Widget buildTagControl() {
-    if (commentTags.length < 6) {
-      return Container(height: 20,);
+    if (_commentTags.length < 6) {
+      return Container(height: 20);
     } else {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -161,12 +178,12 @@ class _CommentListState extends State<CommentList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                showTagsNum == commentTags.length ? '收起' : '更多',
+                showTagsNum == _commentTags.length ? '收起' : '更多',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),
               Icon(
-                showTagsNum == commentTags.length
+                showTagsNum == _commentTags.length
                     ? Icons.keyboard_arrow_up
                     : Icons.keyboard_arrow_down,
                 color: Colors.grey,
@@ -175,11 +192,11 @@ class _CommentListState extends State<CommentList> {
           ),
           onTap: () {
             setState(() {
-              if (showTagsNum < commentTags.length) {
-                showTagsNum = commentTags.length;
+              if (showTagsNum < _commentTags.length) {
+                showTagsNum = _commentTags.length;
               } else {
-                if (commentTags.length < 6) {
-                  showTagsNum = commentTags.length;
+                if (_commentTags.length < 6) {
+                  showTagsNum = _commentTags.length;
                 } else {
                   showTagsNum = 6;
                 }
@@ -203,20 +220,20 @@ class _CommentListState extends State<CommentList> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          praise['star'] == null
+          _praise.star == null
               ? Container()
               : Container(
                   child: StaticRatingBar(
                     size: 15,
-                    rate: (praise['star'] / 100) * 100,
+                    rate: (_praise.star / 100) * 100,
                   ),
                 ),
-          praise['goodCmtRate'] == null
+          _praise.goodCmtRate == null
               ? Container()
               : Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    praise['goodCmtRate'],
+                    _praise.goodCmtRate,
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -226,13 +243,14 @@ class _CommentListState extends State<CommentList> {
   }
 
   Widget buildCommentTags() {
-    if (commentTags == null || commentTags.isEmpty) {
+    if (_commentTags == null || _commentTags.isEmpty) {
       return Loading();
     } else {
       List items = [];
-      commentTags.forEach((item) {
-        items.add('${item['name']}(${item['strCount']})');
+      _commentTags.forEach((item) {
+        items.add('${item.name}(${item.strCount})');
       });
+      // checkedItem = items[0];
       return Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: FlowWidget(
@@ -242,8 +260,9 @@ class _CommentListState extends State<CommentList> {
             onTap: (index) {
               setState(() {
                 this.checkIndex = index;
-                this.tag = '${commentTags[index]['name']}';
-                this.checkedItem = '${commentTags[index]['name']}(${commentTags[index]['strCount']})';
+                this.tag = '${_commentTags[index].name}';
+                this.checkedItem =
+                    '${_commentTags[index].name}(${_commentTags[index].strCount})';
               });
               reset();
             },
@@ -279,9 +298,9 @@ class _CommentListState extends State<CommentList> {
                     width: 30,
                     height: 30,
                     child: CachedNetworkImage(
-                      imageUrl: commentList[index]['frontUserAvatar'] == null
+                      imageUrl: _commentList[index].frontUserAvatar == null
                           ? ''
-                          : commentList[index]['frontUserAvatar'],
+                          : _commentList[index].frontUserAvatar,
                       errorWidget: (context, url, error) {
                         return ClipOval(
                           child: Container(
@@ -297,7 +316,7 @@ class _CommentListState extends State<CommentList> {
                 Container(
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
-                    child: Text(commentList[index]['frontUserName']),
+                    child: Text(_commentList[index].frontUserName),
                   ),
                 ),
                 Container(
@@ -319,7 +338,7 @@ class _CommentListState extends State<CommentList> {
                               fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                            text: '${commentList[index]['memberLevel']}',
+                            text: '${_commentList[index].memberLevel}',
                             style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontSize: 8,
@@ -331,8 +350,8 @@ class _CommentListState extends State<CommentList> {
                 Container(
                   child: StaticRatingBar(
                     size: 15,
-                    rate: double.parse(commentList[index]['star'].toString() ??
-                        commentList[index]['star']),
+                    rate: double.parse(_commentList[index].star.toString() ??
+                        _commentList[index].star.toString()),
                   ),
                 ),
               ],
@@ -340,7 +359,7 @@ class _CommentListState extends State<CommentList> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 5),
               child: Text(
-                '${DateUtil.formatDateMs(commentList[index]['createTime']) + '   ' + commentList[index]['skuInfo'][0]}',
+                '${DateUtil.formatDateMs(_commentList[index].createTime) + '   ' + _commentList[index].skuInfo[0]}',
                 style: TextStyle(color: Colors.grey),
                 maxLines: 2,
                 textAlign: TextAlign.left,
@@ -349,40 +368,40 @@ class _CommentListState extends State<CommentList> {
             ),
             Container(
               margin: EdgeInsets.only(bottom: 5),
-              child: Text(commentList[index]['content']),
+              child: Text(_commentList[index].content),
             ),
             Wrap(
               spacing: 2,
               runSpacing: 5,
-              children: commentPic(commentList[index]['picList'] == null
+              children: commentPic(_commentList[index].picList == null
                   ? []
-                  : commentList[index]['picList']),
+                  : _commentList[index].picList),
             ),
             buildCommentReplyVO(index),
             commentReplyVO(index),
           ],
         ),
       );
-    }, childCount: commentList.length));
+    }, childCount: _commentList.length));
   }
 
-  List<Widget> commentPic(List commentList) =>
-      List.generate(commentList.length, (indexC) {
+  List<Widget> commentPic(List _commentList) =>
+      List.generate(_commentList.length, (indexC) {
         Widget widget = Container(
           width: 100,
           height: 100,
           child: CachedNetworkImage(
-            imageUrl: commentList[indexC],
+            imageUrl: _commentList[indexC],
             fit: BoxFit.cover,
           ),
         );
         return Routers.link(
-            widget, Util.image, context, {'id': '${commentList[indexC]}'});
+            widget, Util.image, context, {'id': '${_commentList[indexC]}'});
       });
 
   ///追评
   Widget buildCommentReplyVO(int index) {
-    var appendCommentVO = this.commentList[index]['appendCommentVO'];
+    var appendCommentVO = this._commentList[index].appendCommentVO;
     if (appendCommentVO == null) {
       return Container();
     } else {
@@ -400,7 +419,7 @@ class _CommentListState extends State<CommentList> {
           Container(
             margin: EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              '${DateUtil.formatDateMs(appendCommentVO['createTime'])}',
+              '${DateUtil.formatDateMs(appendCommentVO.createTime)}',
               style: TextStyle(color: Colors.grey),
               maxLines: 2,
               textAlign: TextAlign.left,
@@ -409,16 +428,15 @@ class _CommentListState extends State<CommentList> {
           ),
           Container(
             margin: EdgeInsets.only(bottom: 2),
-            child: appendCommentVO['content'].isNotEmpty
-                ? Text('${appendCommentVO['content']}')
+            child: appendCommentVO.content.isNotEmpty
+                ? Text('${appendCommentVO.content}')
                 : Container(),
           ),
           Wrap(
             spacing: 2,
             runSpacing: 5,
-            children: commentPic(appendCommentVO['picList'] == null
-                ? []
-                : appendCommentVO['picList']),
+            children: commentPic(
+                appendCommentVO.picList == null ? [] : appendCommentVO.picList),
           ),
         ],
       );
@@ -428,13 +446,13 @@ class _CommentListState extends State<CommentList> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _scrollController.dispose();
+    super.dispose();
   }
 
   ///老板回复
   commentReplyVO(int index) {
-    if (commentList[index]['commentReplyVO'] == null) {
+    if (_commentList[index].commentReplyVO == null) {
       return Container();
     } else {
       return Container(
@@ -451,7 +469,7 @@ class _CommentListState extends State<CommentList> {
                 style: TextStyle(color: Colors.black),
               ),
               TextSpan(
-                text: '${commentList[index]['commentReplyVO']['replyContent']}',
+                text: '${_commentList[index].commentReplyVO.replyContent}',
               ),
             ],
           ),

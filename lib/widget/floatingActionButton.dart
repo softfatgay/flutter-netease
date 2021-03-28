@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/colors.dart';
 
 FloatingActionButton floatingActionButton(ScrollController _scrollController) {
   return FloatingActionButton(
@@ -28,7 +28,7 @@ Widget floatingAB(ScrollController _scrollController) {
         borderRadius: BorderRadius.circular(20),
         color: Color(0x80D2001A),
       ),
-      child:  Icon(
+      child: Icon(
         Icons.arrow_upward,
         color: backWhite,
       ),
@@ -39,7 +39,8 @@ Widget floatingAB(ScrollController _scrollController) {
   );
 }
 
-Widget floatingABCart(BuildContext context,ScrollController _scrollController) {
+Widget floatingABCart(
+    BuildContext context, ScrollController _scrollController) {
   return GestureDetector(
     child: Container(
       height: 40,
@@ -49,13 +50,13 @@ Widget floatingABCart(BuildContext context,ScrollController _scrollController) {
         borderRadius: BorderRadius.circular(20),
         color: Color(0x80D2001A),
       ),
-      child:  Icon(
+      child: Icon(
         Icons.shopping_cart_outlined,
         color: backWhite,
       ),
     ),
     onTap: () {
-      Routers.push(Util.shoppingCart, context,{'from':'detail'});
+      Routers.push(Util.shoppingCart, context, {'from': 'detail'});
     },
   );
 }

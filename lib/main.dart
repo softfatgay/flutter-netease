@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.transparent,
           primarySwatch: Colors.red,
         ),
-        title: 'Flutter Demo',
+        title: 'FlutterWant',
         onGenerateRoute: (RouteSettings settings) {
           return Routers.run(settings);
         },

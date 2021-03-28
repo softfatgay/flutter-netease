@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
@@ -25,7 +25,6 @@ import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/count.dart';
 import 'package:flutter_app/widget/floatingActionButton.dart';
 import 'package:flutter_app/widget/global.dart';
@@ -44,8 +43,6 @@ class GoodsDetailPage extends StatefulWidget {
 }
 
 class _GoodsDetailPageState extends State<GoodsDetailPage> {
-  var _isGoodSelectDialogShow = false;
-
   ScrollController _scrollController = ScrollController();
   TextEditingController _textEditingController = TextEditingController();
 
@@ -85,7 +82,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///底部推荐列表
   List<ItemListItem> _rmdList = [];
 
-
   ///banner
   List<String> _banner = [];
 
@@ -114,16 +110,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getDetail() async {
-    //获取详情 页面下半部分详情数据
-//    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio().post(
-        'https://m.you.163.com/xhr/item/detail.json',
-        queryParameters: {'id': widget.arguments['id']});
-
-    var data = response.data;
+    Map<String, dynamic> param = {'id': widget.arguments['id']};
+    var responseData = await goodDetailDownApi(param);
+    var data = responseData.data;
 
     ///商品详情数据
-    var goodDetailDownData = GoodDetailDownData.fromJson(data['data']);
+    var goodDetailDownData = GoodDetailDownData.fromJson(data);
     var html = goodDetailDownData.html;
     RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
     List<String> imageUrls = List<String>();
@@ -141,13 +133,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       _goodDetailDownData = goodDetailDownData;
       _detailImages = imageUrls;
     });
-
-
   }
 
   void _getDetailPageUp() async {
     //3996494
     //获取详情 页面上半部分详情数据
+    // Map<String, dynamic> params =  {'id': widget.arguments['id']};
+    //
+    //
+    // var responseData = await goodDetailApi(params);
+    //
+
     Response response = await Dio().get(
         'https://m.you.163.com/item/detail.json',
         queryParameters: {'id': widget.arguments['id']});
@@ -1055,7 +1051,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   children: <Widget>[
                     Container(
                       child: CachedNetworkImage(
-                        imageUrl: _rmdList[index].listPromBanner.bannerContentUrl,
+                        imageUrl:
+                            _rmdList[index].listPromBanner.bannerContentUrl,
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -1329,9 +1326,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///属性选择底部弹窗
   _buildSizeModel(BuildContext context) {
-    setState(() {
-      _isGoodSelectDialogShow = true;
-    });
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     return showModalBottomSheet(
       //设置true,不会造成底部溢出
