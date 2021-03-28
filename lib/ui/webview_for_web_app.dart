@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/colors.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
-
-import '../utils/flutter_activity.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPageAPP extends StatefulWidget {
   final Map arguments;
@@ -59,7 +57,7 @@ class _WebViewPageState extends State<WebViewPageAPP> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Container(
+      body: Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Stack(
           children: [
@@ -85,26 +83,27 @@ class _WebViewPageState extends State<WebViewPageAPP> {
                 final updateCookie = await globalCookie.globalCookieValue(url);
                 print('更新Cookie========================>');
                 print(updateCookie);
-                if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
+                if (updateCookie.length > 0 &&
+                    updateCookie.contains('yx_csrf')) {
                   CookieConfig.cookie = updateCookie;
                 }
               },
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: lineColor,width: 0.5))
-              ),
-              height: 50,
-              child:  Row(
+                  color: Colors.white,
+                  border:
+                      Border(bottom: BorderSide(color: lineColor, width: 0.5))),
+              height: 46,
+              child: Row(
                 children: <Widget>[
                   InkResponse(
                     child: Container(
                       width: 50,
                       child: Center(
                         child: Icon(
-                          Icons.arrow_back,
-                          color: redColor,
+                          Icons.arrow_back_ios,
+                          color: textBlack,
                         ),
                       ),
                     ),
@@ -116,7 +115,7 @@ class _WebViewPageState extends State<WebViewPageAPP> {
                     child: Center(
                       child: Text(
                         _title == null ? '' : _title,
-                        style: t18black,
+                        style: t16black,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

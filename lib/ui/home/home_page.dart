@@ -251,8 +251,9 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         return GestureDetector(
           child: Container(
             child: CachedNetworkImage(
+              height: 160,
               imageUrl: e.picUrl,
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
             ),
           ),
           onTap: () {

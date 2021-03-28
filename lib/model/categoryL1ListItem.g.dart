@@ -14,7 +14,13 @@ CategoryL1ListItem _$CategoryL1ListItemFromJson(Map<String, dynamic> json) {
     ..name = json['name'] as String
     ..frontName = json['frontName'] as String
     ..frontDesc = json['frontDesc'] as String
-    ..wapBannerUrl = json['wapBannerUrl'] as String;
+    ..bannerUrl = json['bannerUrl'] as String
+    ..wapBannerUrl = json['wapBannerUrl'] as String
+    ..iconUrl = json['iconUrl'] as String
+    ..imgUrl = json['imgUrl'] as String
+    ..level = json['level'] as String
+    ..type = json['type'] as num
+    ..categoryType = json['categoryType'] as num;
 }
 
 Map<String, dynamic> _$CategoryL1ListItemToJson(CategoryL1ListItem instance) =>
@@ -25,5 +31,11 @@ Map<String, dynamic> _$CategoryL1ListItemToJson(CategoryL1ListItem instance) =>
       'name': instance.name,
       'frontName': instance.frontName,
       'frontDesc': instance.frontDesc,
+      'bannerUrl': instance.bannerUrl,
       'wapBannerUrl': instance.wapBannerUrl,
+      'iconUrl': instance.iconUrl,
+      'imgUrl': instance.imgUrl,
+      'level': instance.level,
+      'type': instance.type,
+      'categoryType': instance.categoryType,
     };

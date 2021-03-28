@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -8,8 +10,6 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
-import 'package:flutter_app/widget/footer.dart';
 
 class SaturdayTBuy extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEAEAEA),
+      backgroundColor: backColor,
       body: isFirstLoading
           ? Loading()
           : NestedScrollView(
@@ -45,17 +45,18 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                     expandedHeight: 100.0,
                     floating: true,
                     pinned: true,
-                    toolbarHeight: 0,
+                    toolbarHeight: 50,
+                    brightness: Brightness.light,
                     automaticallyImplyLeading: false,
-                    shadowColor: Colors.transparent,
+                    shadowColor:redColor,
                     title: Container(
                       child: Row(
                         children: [
                           GestureDetector(
                             child: Icon(
-                              Icons.keyboard_backspace,
-                              color: textBlack,
-                              size: 28,
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 20,
                             ),
                             onTap: () {
                               Navigator.pop(context);
@@ -66,12 +67,12 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                           ),
                           Text(
                             '拼团',
-                            style: TextStyle(color: textBlack),
+                            style: t16white,
                           )
                         ],
                       ),
                     ),
-                    backgroundColor: Colors.white,
+                    backgroundColor: redColor,
                     flexibleSpace: FlexibleSpaceBar(
                         // centerTitle: true,
                         background: Image(
@@ -95,7 +96,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                           isScrollable: true,
                         ),
                         color: Colors.white,
-                        back: Icon(Icons.keyboard_backspace)),
+                        back: Icon(Icons.arrow_back_ios)),
                     pinned: true,
                   ),
                 ];
@@ -304,17 +305,18 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                             item['recentUsers'] == null
                                 ? ''
                                 : item['recentUsers'][0],
-                            width: 20,
-                            height: 20,
+                            width: 16,
+                            height: 16,
                             fit: BoxFit.cover,
                           )),
+                          SizedBox(width: 2),
                           ClipOval(
                               child: Image.network(
                             item['recentUsers'] == null
                                 ? ''
                                 : item['recentUsers'][1],
-                            width: 20,
-                            height: 20,
+                                width: 16,
+                                height: 16,
                             fit: BoxFit.cover,
                           )),
                           Expanded(
@@ -332,7 +334,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                         child: Row(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 ///账户中没有礼品卡，暂时无法写详细页面
@@ -33,7 +34,7 @@ class _GiftCardState extends State<GiftCard> {
           Container(
             padding: EdgeInsets.fromLTRB(
                 10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
-            height: 70 + MediaQuery.of(context).padding.bottom,
+            height: 60 + MediaQuery.of(context).padding.bottom,
             color: Colors.white,
             child: Container(
               decoration: BoxDecoration(
@@ -76,22 +77,23 @@ class _GiftCardState extends State<GiftCard> {
                   '礼品卡余额',
                   style: TextStyle(color: textWhite, fontSize: 14),
                 ),
+                SizedBox(height: 5),
                 Text(
                   '¥${widget.arguments['value']}',
-                  style: TextStyle(color: textWhite, fontSize: 40),
+                  style: t24white,
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: 1),
                         borderRadius: BorderRadius.circular(4)),
                     child: Text(
                       '支付安全',
-                      style: TextStyle(color: textWhite, fontSize: 14),
+                      style: t12white,
                     ),
                   ),
                   onTap: () {
@@ -109,11 +111,11 @@ class _GiftCardState extends State<GiftCard> {
                   children: [
                     Text(
                       '交易记录',
-                      style: t14white,
+                      style: t12white,
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
-                      size: 14,
+                      size: 12,
                       color: Colors.white,
                     )
                   ],

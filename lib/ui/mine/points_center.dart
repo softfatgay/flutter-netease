@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
@@ -58,6 +59,7 @@ class _PointCenterState extends State<PointCenter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TabAppBar(
         title: '积分中心',
       ).build(context),
@@ -115,14 +117,11 @@ class _PointCenterState extends State<PointCenter> {
             children: [
               Text(
                 '你的可用积分：${data['availablePoint']}',
-                style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                style: t16whiteblod,
               ),
               Container(
                 margin: EdgeInsets.only(top: 5),
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
                     borderRadius: BorderRadius.circular(10)),
@@ -182,12 +181,13 @@ class _PointCenterState extends State<PointCenter> {
                   ? Container()
                   : Container(
                       margin: EdgeInsets.only(left: 5),
+                      padding: EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: redLightColor, width: 1)),
+                          border: Border.all(color: textYellow, width: 1)),
                       child: Text(
                         '$act',
-                        style: TextStyle(color: redLightColor, fontSize: 12),
+                        style: TextStyle(color: textYellow, fontSize: 10),
                       ),
                     ),
               SizedBox(
@@ -195,6 +195,7 @@ class _PointCenterState extends State<PointCenter> {
               )
             ],
           ),
+          SizedBox(height: 5,),
           Container(
             margin: EdgeInsets.only(left: 15),
             child: Text('$dec'),
@@ -223,10 +224,10 @@ class _PointCenterState extends State<PointCenter> {
             children: [
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 15),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: redLightColor, width: 1)),
+                      border: Border.all(color: textYellow, width: 0.5)),
                   child: ClipOval(
                     child: CachedNetworkImage(
                       imageUrl: item['picUrl'],
@@ -245,7 +246,7 @@ class _PointCenterState extends State<PointCenter> {
               Text(
                 '${item['needPoint']}积分兑',
                 style: TextStyle(
-                    color: redLightColor,
+                    color: textYellow,
                     fontSize: 12,
                     fontWeight: FontWeight.bold),
               ),
@@ -279,13 +280,13 @@ class _PointCenterState extends State<PointCenter> {
                   BoxShadow(
                       color: lineColor,
                       offset: Offset(0.0, 5.0), //阴影y轴偏移量
-                      blurRadius: 0, //阴影模糊程度
-                      spreadRadius: -3 //阴影扩散程度
+                      blurRadius: 1, //阴影模糊程度
+                      spreadRadius: -4 //阴影扩散程度
                       )
                 ]),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                     child: CachedNetworkImage(
@@ -307,7 +308,7 @@ class _PointCenterState extends State<PointCenter> {
                   child: Text(
                     '${item['needPoint']}积分兑',
                     style: TextStyle(
-                        color: redLightColor,
+                        color: textYellow,
                         fontSize: 12,
                         fontWeight: FontWeight.bold),
                   ),

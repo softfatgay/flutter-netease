@@ -140,7 +140,7 @@ class CartItemWidget extends StatelessWidget {
                                         ? '¥${item.retailPrice}'
                                         : '',
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       color: textGrey,
                                       decoration: TextDecoration.lineThrough,
                                     ),

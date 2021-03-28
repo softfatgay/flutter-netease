@@ -10,7 +10,14 @@ class CategoryL1ListItem {
   String name;
   String frontName;
   String frontDesc;
+  String bannerUrl;
   String wapBannerUrl;
+  String iconUrl;
+  String imgUrl;
+  String level;
+  num type;
+  num categoryType;
+
 
   CategoryL1ListItem();
 

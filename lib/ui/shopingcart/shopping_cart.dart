@@ -14,6 +14,7 @@ import 'package:flutter_app/utils/HosEventBusUtils.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/service_tag_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +31,8 @@ class ShoppingCart extends StatefulWidget {
 class _ShoppingCartState extends State<ShoppingCart>
     with AutomaticKeepAliveClientMixin {
   var _data; // 完整数据
+  ShoppingCartModel _shoppingCartModel;
+
   List<CarItem> _cartGroupList = []; // 有效的购物车组列表
   CarItem _topItem; // 顶部商品数据
   List<CarItem> _itemList = []; // 显示的商品数据
@@ -111,6 +114,7 @@ class _ShoppingCartState extends State<ShoppingCart>
     var shoppingCartModel = ShoppingCartModel.fromJson(_data);
     setState(() {
       loading = false;
+      _shoppingCartModel = shoppingCartModel;
       _cartGroupList = shoppingCartModel.cartGroupList;
 
       _invalidCartGroupList = shoppingCartModel.invalidCartGroupList;
@@ -283,8 +287,8 @@ class _ShoppingCartState extends State<ShoppingCart>
                   ? Container()
                   : GestureDetector(
                       child: Icon(
-                        Icons.arrow_back,
-                        color: redColor,
+                        Icons.arrow_back_ios,
+                        color: textBlack,
                       ),
                       onTap: () {
                         Navigator.pop(context);
@@ -401,7 +405,7 @@ class _ShoppingCartState extends State<ShoppingCart>
     );
   }
 
-  // 导航下面，商品上面  标题部分
+  /// 导航下面，商品上面  标题部分
   Widget _buildTitle() {
     return _topItem == null
         ? Container()
@@ -410,16 +414,18 @@ class _ShoppingCartState extends State<ShoppingCart>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  color: textLightYellow,
-                  padding: EdgeInsets.only(left: 15),
-                  height: ScreenUtil().setHeight(40),
-                  child: Text(
-                    '${_data['postageVO']['postageTip']}',
-                    style: t14red,
-                  ),
-                ),
+                _shoppingCartModel.postageVO.postageTip == null
+                    ? ServiceTagWidget()
+                    : Container(
+                        alignment: Alignment.centerLeft,
+                        color: textLightYellow,
+                        padding: EdgeInsets.only(left: 15),
+                        height: ScreenUtil().setHeight(40),
+                        child: Text(
+                          '${_data['postageVO']['postageTip']}',
+                          style: t14red,
+                        ),
+                      ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(

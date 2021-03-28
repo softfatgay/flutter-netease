@@ -21,7 +21,7 @@ import 'package:flutter_app/constant/colors.dart';
 
 const FontWeight fontWeightLight = FontWeight.w300; // light
 const FontWeight fontWeightRegular = FontWeight.w400; // normal/default
-const FontWeight fontWeightMedium = FontWeight.w500;
+const FontWeight fontWeightMedium = FontWeight.w600;
 const FontWeight fontWeightSemibold = FontWeight.w600;
 const FontWeight fontWeightBold = FontWeight.w700; // 系统bold
 const double textHeight = 1.1;

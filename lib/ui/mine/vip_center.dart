@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/colors.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -99,11 +100,10 @@ class _VipCenterState extends State<VipCenter> {
           ),
           Text(
             '普通会员',
-            style: TextStyle(
-                color: Colors.white, fontSize: 35, fontWeight: FontWeight.w400),
+            style: t24white,
           ),
           SizedBox(
-            height: 10,
+            height: 18,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +112,6 @@ class _VipCenterState extends State<VipCenter> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       color: Color(0xFFEFDCB3),
@@ -136,7 +135,6 @@ class _VipCenterState extends State<VipCenter> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       color: Color(0xFFEFDCB3),
@@ -172,17 +170,17 @@ class _VipCenterState extends State<VipCenter> {
             Expanded(
                 child: Text(
               title,
-              style: t18blackbold,
+              style: t16blackbold,
             )),
             Row(
               children: [
                 Text(
                   '查看全部',
-                  style: t14grey,
+                  style: t12grey,
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
-                  size: 14,
+                  size: 12,
                   color: textGrey,
                 )
               ],
