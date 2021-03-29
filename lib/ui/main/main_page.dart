@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/main/mainContex.dart';
 import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/mine/user_pge.dart';
@@ -30,12 +32,12 @@ class _MainPageState extends State<MainPage> {
     //获取屏幕宽高
     _saveScreenInfo(context);
     return Scaffold(
-      backgroundColor: Color.fromARGB(1, 200, 200, 200),
+      backgroundColor: backColor,
       body: PageView(
         children: <Widget>[
           homeNew,
-          topicPage,
           sortNew,
+          topicPage,
           shoppingCart,
           userPage,
         ],
@@ -75,13 +77,13 @@ class _MainPageState extends State<MainPage> {
     if (itemNames.isEmpty) {
       itemNames.add(_Item('首页', 'assets/images/ic_tab_home_active.png',
           'assets/images/ic_tab_home_normal.png'));
-      itemNames.add(_Item('值得买', 'assets/images/ic_tab_subject_active.png',
-          'assets/images/ic_tab_subject_normal.png'));
       itemNames.add(_Item('分类', 'assets/images/ic_tab_group_active.png',
           'assets/images/ic_tab_group_normal.png'));
+      itemNames.add(_Item('值得买', 'assets/images/ic_tab_subject_active.png',
+          'assets/images/ic_tab_subject_normal.png'));
       itemNames.add(_Item('购物车', 'assets/images/ic_tab_cart_active.png',
           'assets/images/ic_tab_cart_normal.png'));
-      itemNames.add(_Item('我的', 'assets/images/ic_tab_profile_active.png',
+      itemNames.add(_Item('个人', 'assets/images/ic_tab_profile_active.png',
           'assets/images/ic_tab_profile_normal.png'));
     }
 
@@ -93,10 +95,11 @@ class _MainPageState extends State<MainPage> {
                   width: 22.0,
                   height: 22.0,
                 ),
-                title: Text(
-                  item.name,
-                  style: TextStyle(fontSize: 14.0),
-                ),
+                // title: Text(
+                //   item.name,
+                //   style: t13black,
+                // ),
+                label: item.name,
                 activeIcon: Image.asset(
                   item.activeIcon,
                   width: 22.0,

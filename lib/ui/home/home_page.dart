@@ -71,6 +71,8 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
+      print(_scrollController.position.pixels);
+
       if (_scrollController.position.pixels > 160) {
         setState(() {
           toolbarHeight = 50;
@@ -92,7 +94,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     };
     Map<String, dynamic> header = {"Cookie": cookie};
-
   }
 
   void _incrementCounter() {

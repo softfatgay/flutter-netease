@@ -57,7 +57,7 @@ class HttpManager {
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
       if (showProgress ?? true) {
-        // BotToast.showLoading(clickClose: true);
+        BotToast.showLoading(clickClose: true);
       }
       print("----------------------- 请求数据 -----------------------\n");
       print("method = ${options.method.toString()}");
@@ -66,7 +66,9 @@ class HttpManager {
       print("params = ${options.queryParameters}");
       print("body = ${options.data}");
     }, onResponse: (Response response) {
-      // BotToast.closeAllLoading();
+      if (showProgress ?? true) {
+        BotToast.closeAllLoading();
+      }
       print("----------------------- 响应开始 -----------------------\n");
       print("code = ${response.statusCode}");
       print("data = ${json.encode(response.data)}");
@@ -74,7 +76,9 @@ class HttpManager {
 
       print("----------------------- 响应结束 -----------------------\n");
     }, onError: (DioError e) {
-      // BotToast.closeAllLoading();
+      if (showProgress ?? true) {
+        BotToast.closeAllLoading();
+      }
       print("-----------------------错误响应数据 -----------------------\n");
       print("type = ${e.type}");
       print("message = ${e.message}");
@@ -123,7 +127,7 @@ class HttpManager {
     bool needCommonParameters,
     bool needCommonHeaders,
     String accept,
-    bool showProgress = true,
+    bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) {
     return HttpManager.request(
@@ -156,7 +160,7 @@ class HttpManager {
     bool needCommonParameters,
     bool needCommonHeaders,
     String accept,
-    bool showProgress = true,
+    bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) {
     print('<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');

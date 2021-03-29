@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/constant/statusbar_style.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
       designSize: Size(360, 690),
       allowFontScaling: false,
       child: MaterialApp(
+        builder: BotToastInit(),
         // flutter build appbundle --target-platform android-arm
         theme: ThemeData(
           backgroundColor: Colors.transparent,

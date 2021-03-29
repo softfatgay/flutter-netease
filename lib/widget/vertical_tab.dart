@@ -10,7 +10,7 @@ const double opWidth = 90;
 
 const tabItemHeight = 45.0;
 
-const indexColor = textGrey;
+const indexColor = textRed;
 
 class VerticalTab extends StatefulWidget {
   VerticalTab({Key key, this.tabs, this.onTabChange, this.activeIndex});
@@ -117,7 +117,7 @@ class _VerticalTab extends State<VerticalTab> {
                     child: Container(
                       alignment: Alignment.center,
                       height: tabItemHeight / 2,
-                      width: 3,
+                      width: 2,
                       color: indexColor,
                     ))
               ],
