@@ -1577,11 +1577,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       return GestureDetector(
         child: Container(
           margin: EdgeInsets.only(right: 5),
-          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+          padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(2)),
               border: Border.all(
-                  width: 1,
+                  width: 0.5,
                   color: (selectedLId == item.id || selectedRId == item.id)
                       ? redColor
                       : textGrey)),
@@ -1590,7 +1590,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             style: TextStyle(
                 color: (selectedLId == item.id || selectedRId == item.id)
                     ? redColor
-                    : textGrey),
+                    : textGrey,
+                fontSize: 12),
             textAlign: TextAlign.center,
           ),
         ),
@@ -1683,30 +1684,28 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                           ? Container()
                           : Container(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 2),
+                                  horizontal: 10, vertical: 1),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
                                   color: Color(0xFFEF7C15)),
                               child: Text(
                                 _skuMapItem.promotionDesc,
-                                style: TextStyle(color: Colors.white),
+                                style: t12white,
                               ),
                             ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
+                        margin: EdgeInsets.symmetric(vertical: 6),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text(
                               "价格：",
-                              style: TextStyle(color: textRed),
+                              style: t14red,
                             ),
                             Text(
                               '￥${_skuMapItem.retailPrice}',
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
+                              style: t14red,
                             ),
                             Container(
                               child: Text(

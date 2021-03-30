@@ -50,6 +50,7 @@ class _MainPageState extends State<MainPage> {
         physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         items: itemList,
         onTap: (int index) {
           setState(() {
