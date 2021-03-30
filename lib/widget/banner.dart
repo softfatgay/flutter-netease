@@ -52,7 +52,9 @@ class BannerCacheImg extends StatelessWidget {
             scrollDirection: scrollDirection,
             autoplay: autoplay,
             onIndexChanged: (index) {
-              onIndexChanged(index);
+              if (onIndexChanged != null) {
+                onIndexChanged(index);
+              }
             },
             autoplayDelay: autoplayDelay,
             onTap: (index) => onTap(index),
