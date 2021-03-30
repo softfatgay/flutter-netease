@@ -16,11 +16,11 @@
 
 |         首页         |        分类         |         值得买         |         购物车         |
 | :------------------: | :-------------------: | :----------------------: | :----------------------: |
-| ![](./screenShot/wechatimg95.jpeg) | ![](./screenShot/wechatimg93.jpeg) | ![](./screenShot/wechatimg94.jpeg) | ![](./screenShot/wechatimg89.jpeg) |
+| ![](./screenshot/wechatimg95.jpeg) | ![](./screenshot/wechatimg93.jpeg) | ![](./screenshot/wechatimg94.jpeg) | ![](./screenshot/wechatimg89.jpeg) |
 
 |         个人          |        商品详情        |         添加购物车        |          评论           |
 | :-------------------: | :-------------------------: | :----------------------------: | :-------------------------: |
-| ![](./screenShot/wechatimg87.jpeg) | ![](./screenShot/wechatimg92.jpeg) | ![](./screenShot/wechatimg91.jpeg) | ![](./screenShot/wechatimg98.jpeg) |
+| ![](./screenshot/wechatimg87.jpeg) | ![](./screenshot/wechatimg92.jpeg) | ![](./screenshot/wechatimg91.jpeg) | ![](./screenshot/wechatimg98.jpeg) |
 
 
 ## 主要功能点
