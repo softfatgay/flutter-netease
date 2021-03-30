@@ -12,6 +12,17 @@
 1. 首页，值得买，分类，购物车，我的，搜索，商品详情等等，都已实现（除了下单之后的逻辑）
 2. 登录功能已实现
 
+## Screenshots
+
+|         首页         |        分类         |         值得买         |         购物车         |
+| :------------------: | :-------------------: | :----------------------: | :----------------------: |
+| ![](./screenShot/wechatimg95.jpeg) | ![](./screenShot/wechatimg93.jpeg) | ![](./screenShot/wechatimg94.jpeg) | ![](./screenShot/wechatimg89.jpeg) |
+
+|         个人          |          商品详情           |            添加购物车            |          评论           |
+| :-------------------: | :-------------------------: | :----------------------------: | :-------------------------: |
+| ![](./screenShot/wechatimg87.jpeg) | ![](./screenShot/wechatimg92.jpeg) | ![](./screenShot/WechatIMG91.jpeg) | ![](./screenShot/wechatimg98.jpeg) |
+
+
 ## 主要功能点
 - 网络请求的封装，数据返回请求解析成model模型
 - flutter与原生的交互
