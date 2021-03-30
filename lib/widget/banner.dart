@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 typedef void OnTap(int value);
+typedef void OnIndexChanged(int index);
 
 class BannerCacheImg extends StatelessWidget {
   final List imageList;
@@ -14,6 +15,7 @@ class BannerCacheImg extends StatelessWidget {
   final BoxFit boxFit;
   final SwiperController controller;
   final String localImagePath;
+  final OnIndexChanged onIndexChanged;
 
   BannerCacheImg(
       {this.imageList,
@@ -24,7 +26,8 @@ class BannerCacheImg extends StatelessWidget {
       this.onTap,
       this.boxFit = BoxFit.cover,
       this.localImagePath = 'assets/images/no_banner.png',
-      this.controller});
+      this.controller,
+      this.onIndexChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,9 @@ class BannerCacheImg extends StatelessWidget {
             controller: controller,
             scrollDirection: scrollDirection,
             autoplay: autoplay,
+            onIndexChanged: (index) {
+              onIndexChanged(index);
+            },
             autoplayDelay: autoplayDelay,
             onTap: (index) => onTap(index),
           );

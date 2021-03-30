@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
@@ -68,6 +70,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   SkuMapValue _skuMapItem;
   String _promoTip = ''; //商品活动介绍
   FeaturedSeries _featuredSeries; //banner下面图片
+  WelfareCardVO _welfareCardVO;
+
+  ///推荐理由下面
   List<HdrkDetailVOListItem> _hdrkDetailVOList; //促销
   SkuFreight _skuFreight; //邮费
   FullRefundPolicy _fullRefundPolicy; //规则
@@ -76,6 +81,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   int _goodCount = 1; //商品数量
   String _price = ''; //商品价格
+  ///banner下面活动
+  DetailPromBanner _detailPromBanner;
   String _counterPrice = ''; //商品价格
   String _skuLimit; //商品限制规则
 
@@ -85,6 +92,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///banner
   List<String> _banner = [];
 
+  int _bannerIndex = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -93,6 +102,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     _getDetailPageUp();
     _getDetail();
     _getRMD();
+
+    ///配送信息
+    _wapitemDelivery();
 
     _scrollController.addListener(() {
       setState(() {
@@ -153,6 +165,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       _goodDetailPre = GoodDetailPre.fromJson(dataMap);
 
       _goodDetail = _goodDetailPre.item;
+      _detailPromBanner = _goodDetail.detailPromBanner;
+      _welfareCardVO = _goodDetail.welfareCardVO;
       _price = _goodDetail.retailPrice.toString();
       _counterPrice = _goodDetail.counterPrice.toString();
       _skuLimit = _goodDetail.itemLimit;
@@ -175,56 +189,25 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       });
       _initLoading = false;
     });
-
-    setState(() {
-      // goodDetailPre = dataMap;
-      // //选择属性id
-      // var goodData = goodDetailPre['item'];
-
-      // var skuList = goodData['skuList'];
-      // _price = goodData["retailPrice"].toString();
-      // _counterPrice = goodData["counterPrice"].toString();
-      // _skuLimit = goodData['itemLimit'];
-
-      ///选择属性/规格等
-      // skuSpecList = goodData['skuSpecList'];
-      // skuMap = goodData['skuMap'];
-      // _promoTip = goodData['promoTip'];
-      // _featuredSeries = goodData['featuredSeries'];
-      // _couponShortNameList = goodData['couponShortNameList'];
-      // _hdrkDetailVOList = goodData['hdrkDetailVOList'];
-      // _skuFreight = goodData['skuFreight'];
-      // _fullRefundPolicy = goodData['fullRefundPolicy'];
-
-      ///banner
-      // var itemDetail = goodDetailPre['item']['itemDetail'];
-      // List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
-      // bannerList.forEach((image) {
-      //   if (image.toString().startsWith('https://')) {
-      //     banner.add(image);
-      //   }
-      // });
-      // _initLoading = false;
-    });
   }
 
   void _getRMD() async {
-    //获取推荐
-//    https://m.you.163.com/xhr/item/detail.json
-    Response response = await Dio().post(
-        'https://m.you.163.com/xhr/wapitem/rcmd.json',
-        queryParameters: {'id': widget.arguments['id']});
-    // String dataStr = json.encode(response.data);
-    // Map<String, dynamic> dataMap = json.decode(dataStr);
-    List recomdData = response.data['data']['items'];
+    Map<String, dynamic> params = {'id': widget.arguments['id']};
+    var responseData = await wapitemRcmdApi(params);
+    List item = responseData.data['items'];
+    print('---------------------------');
+    print(json.encode(item));
+
     List<ItemListItem> rmdList = [];
-    recomdData.forEach((element) {
+    item.forEach((element) {
       rmdList.add(ItemListItem.fromJson(element));
     });
     setState(() {
       _rmdList = rmdList;
     });
   }
+
+  void _wapitemDelivery() async {}
 
   // 获取某规格的商品信息
   getGoodsMsgById(List productList, String id) {
@@ -275,6 +258,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             ),
           ),
           // banner底部活动
+          singleSliverWidget(_detailPromBannerWidget()),
           singleSliverWidget(_buildActivity()),
           //banner下面图片
           singleSliverWidget(_featuredSeriesWidget()),
@@ -287,6 +271,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             height: 15,
             color: Colors.white,
           )),
+
+          ///活动卡
+          singleSliverWidget(_buildwelfareCardVO()),
           //选择属性
           singleSliverWidget(_buildSelectProperty()),
           // //服务
@@ -321,12 +308,111 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   Widget _buildSwiper(BuildContext context, List imgList) {
-    return BannerCacheImg(
-      imageList: imgList,
-      onTap: (index) {
-        Routers.push(Util.image, context, {'id': '${imgList[index]}'});
-      },
+    return Stack(
+      children: [
+        BannerCacheImg(
+          imageList: imgList,
+          onIndexChanged: (index) {
+            setState(() {
+              _bannerIndex = index;
+            });
+          },
+          onTap: (index) {
+            Routers.push(Util.image, context, {'id': '${imgList[index]}'});
+          },
+        ),
+        Positioned(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 2),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(2)),
+            child: Text(
+              '$_bannerIndex/${imgList.length}',
+              style: t12grey,
+            ),
+          ),
+          right: 10,
+          bottom: 15,
+        ),
+      ],
     );
+  }
+
+  ///huodong
+  _detailPromBannerWidget() {
+    return _detailPromBanner == null
+        ? Container()
+        : Container(
+            decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
+            child: Row(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: _detailPromBanner.bannerTitleUrl,
+                  height: 50,
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: _detailPromBanner.bannerContentUrl,
+                        height: 50,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        height: 50,
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    '${_detailPromBanner.promoTitle}',
+                                    textAlign: TextAlign.center,
+                                    style: t12white,
+                                  ),
+                                ),
+                                Text(
+                                  '￥${_detailPromBanner.activityPrice}',
+                                  style: t16whiteblod,
+                                )
+                              ],
+                            ),
+                            Text(
+                              '${_detailPromBanner.startTime ?? ''}',
+                              style: t14white,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+  }
+
+  ///huodong
+  _buildwelfareCardVO() {
+    return _welfareCardVO == null
+        ? Container()
+        : Container(
+            decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
+            child: GestureDetector(
+              child: CachedNetworkImage(
+                imageUrl: _welfareCardVO.picUrl,
+              ),
+              onTap: () {
+                Routers.push(Util.webViewPageAPP, context,
+                    {'id': _welfareCardVO.schemeUrl});
+              },
+            ),
+          );
   }
 
   _buildActivity() {
@@ -507,19 +593,22 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                           ),
                         ),
                         Expanded(
-                            child: Row(
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFFBBB65))),
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                              child: Text(
-                                _couponShortNameList[0],
-                                style: TextStyle(color: Colors.red),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Color(0xFFFBBB65)),
+                                    borderRadius: BorderRadius.circular(2)),
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Text(
+                                  _couponShortNameList[0],
+                                  style: t12red,
+                                ),
                               ),
-                            ),
-                          ],
-                        )),
+                            ],
+                          ),
+                        ),
                         arrowRightIcon,
                       ],
                     ),
@@ -535,6 +624,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                     decoration: bottomBorder,
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
                           child: Text(
@@ -547,7 +637,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
                               _skuFreight.freightInfo,
-                              style: TextStyle(color: textBlack),
+                              style: t14black,
                             ),
                           ),
                         ),
@@ -580,6 +670,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Container(
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.only(right: 6),
@@ -587,7 +678,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                                 decoration: BoxDecoration(
                                     color: redLightColor,
                                     border: Border.all(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(14)),
                                 child: Text(
                                   _hdrkDetailVOList[0].activityType,
                                   style: t12white,
@@ -629,17 +720,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: EdgeInsets.only(left: 5),
                           child: Text(
                             '${shoppingReward.rewardDesc ?? ''}',
-                            style: TextStyle(color: textBlack),
+                            style: t14black,
                           ),
                         ),
                         Expanded(
                           child: Container(
                             child: Text(
                               '${shoppingReward.rewardValue ?? ''}',
-                              style: TextStyle(color: Colors.red),
+                              style: t14red,
                             ),
                           ),
                         ),
@@ -749,8 +840,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   children: <Widget>[
                     Container(
                       child: Text(
-                        '用户评论($commentCount)',
-                        style: t16black,
+                        '用户评价($commentCount)',
+                        style: t14black,
                       ),
                     ),
                     Expanded(
@@ -765,7 +856,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                           (goodCmtRate == null || goodCmtRate == '')
                               ? '查看全部'
                               : '好评率',
-                          style: t14black,
+                          style: t12black,
                         ),
                       ],
                     )),
@@ -1147,13 +1238,21 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       List.generate(_goodDetailPre.policyList.length, (index) {
         List<PolicyListItem> policyList = _goodDetailPre.policyList;
         return Container(
-          padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-              border: Border.all(width: 0.5, color: Colors.grey[200])),
-          child: Text(
-            '${policyList[index].title}',
-            style: t14black,
+          padding: EdgeInsets.fromLTRB(8, 0, 8, 5),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 4,
+                height: 4,
+                color: textRed,
+              ),
+              SizedBox(width: 2),
+              Text(
+                '${policyList[index].title}',
+                style: t12black,
+              )
+            ],
           ),
         );
       });
@@ -1198,7 +1297,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
                   decoration: BoxDecoration(color: Colors.grey[100]),
-                  child: Text('${index + 1} .${recommendReason[index]}'),
+                  child: Text(
+                    '${index + 1} .${recommendReason[index]}',
+                    style: t12black,
+                  ),
                 ));
           }, childCount: recommendReason.length));
   }
@@ -1212,7 +1314,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         child: Column(
           children: <Widget>[
             Container(
-                margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,

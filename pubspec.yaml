@@ -61,9 +61,6 @@ dependencies:
   #下拉菜单
   dropdown_menu: ^1.1.1
 
-  #与安卓原生交互必须的库
-  flutter_plugin_android_lifecycle: ^1.0.7
-
   #  瀑布流
   flutter_staggered_grid_view: ^0.3.2
 

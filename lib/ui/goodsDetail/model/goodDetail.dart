@@ -29,7 +29,7 @@ class GoodDetail {
   bool underShelf;
   num updateTime;
 
-  Map<String,dynamic> itemDetail;
+  Map<String, dynamic> itemDetail;
 
   List<SkuListItem> skuList;
 
@@ -93,9 +93,8 @@ class GoodDetail {
 
   FullRefundPolicy fullRefundPolicy;
   List<String> couponShortNameList;
-
-
-
+  DetailPromBanner detailPromBanner;
+  WelfareCardVO welfareCardVO;
 
   GoodDetail();
 
@@ -155,16 +154,41 @@ class FeaturedSeries {
       _$FeaturedSeriesFromJson(json);
 }
 
-
 @JsonSerializable()
-class FullRefundPolicy{
-
+class FullRefundPolicy {
   String detailTitle;
-  List<String > titles;
-  List<String > content;
+  List<String> titles;
+  List<String> content;
 
   FullRefundPolicy();
 
   factory FullRefundPolicy.fromJson(Map<String, dynamic> json) =>
       _$FullRefundPolicyFromJson(json);
+}
+
+@JsonSerializable()
+class DetailPromBanner {
+  num bannerType;
+  String bannerTitleUrl;
+  String bannerContentUrl;
+  String promoTitle;
+  String promoSubTitle;
+  String startTime;
+  String activityPrice;
+
+  DetailPromBanner();
+
+  factory DetailPromBanner.fromJson(Map<String, dynamic> json) =>
+      _$DetailPromBannerFromJson(json);
+}
+
+@JsonSerializable()
+class WelfareCardVO {
+  String picUrl;
+  String schemeUrl;
+
+  WelfareCardVO();
+
+  factory WelfareCardVO.fromJson(Map<String, dynamic> json) =>
+      _$WelfareCardVOFromJson(json);
 }

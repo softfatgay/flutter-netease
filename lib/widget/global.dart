@@ -12,10 +12,10 @@ BoxDecoration topBorder = BoxDecoration(
 );
 
 ///右指向箭头
-Icon arrowRightIcon = Icon(
-  Icons.keyboard_arrow_right,
-  color: textGrey,
-  size: 14,
+Widget arrowRightIcon = Image.asset(
+  'assets/images/arrow_right.png',
+  width: 12,
+  height: 12,
 );
 
 ///icon颜色

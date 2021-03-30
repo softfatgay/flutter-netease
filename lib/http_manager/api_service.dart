@@ -7,7 +7,8 @@ final String URL_HOME_NEW = "${NetContants.baseUrl}xhr/index.json";
 final String URL_SORT_NEW = "${NetContants.baseUrl}item/cateList.json";
 final String URL_SORT_LIST_NEW = "${NetContants.baseUrl}item/list.json";
 final String URL_KING_KONG = "${NetContants.baseUrl}item/list.json";
-final String URL_KING_KONG_NO_ID = "${NetContants.baseUrl}xhr/item/getPreNewItem.json";
+final String URL_KING_KONG_NO_ID =
+    "${NetContants.baseUrl}xhr/item/getPreNewItem.json";
 final String USER_INFO_ITEMS = "${NetContants.baseUrl}xhr/user/myFund.json";
 final String USER_INFO = "${NetContants.baseUrl}xhr/user/checkConfig.json";
 final String ORDER_LIST = "${NetContants.baseUrl}xhr/order/getList.json";
@@ -16,52 +17,80 @@ final String USER_ALIASINFO = "${NetContants.baseUrl}xhr/user/aliasInfo.json";
 final String PIN_GROUP = "${NetContants.baseUrl}pin/group/item/index";
 final String PIN_GROUP_LIST = "${NetContants.baseUrl}pin/group/item/list";
 final String LOCATION_LIST = "${NetContants.baseUrl}xhr/address/list.json";
-final String DELETE_ASSRESS = "${NetContants.baseUrl}xhr/address/deleteAddress.json";
-final String PROVINCE_LIST = "${NetContants.baseUrl}xhr/address/getProvince.json";
+final String DELETE_ASSRESS =
+    "${NetContants.baseUrl}xhr/address/deleteAddress.json";
+final String PROVINCE_LIST =
+    "${NetContants.baseUrl}xhr/address/getProvince.json";
 final String CITY_LIST = "${NetContants.baseUrl}xhr/address/getCity.json";
 final String DIS_LIST = "${NetContants.baseUrl}xhr/address/getDistrict.json";
 final String TOWN_LIST = "${NetContants.baseUrl}xhr/address/getTown.json";
-final String ADD_ADDRESS = "${NetContants.baseUrl}xhr/address/upsertAddress.json";
+final String ADD_ADDRESS =
+    "${NetContants.baseUrl}xhr/address/upsertAddress.json";
 final String QR_CODE = "${NetContants.baseUrl}xhr/user/qrCode.json";
-final String GET_USER_SPMCINFO = "${NetContants.baseUrl}xhr/supermc/getUserSpmcInfo.json";
+final String GET_USER_SPMCINFO =
+    "${NetContants.baseUrl}xhr/supermc/getUserSpmcInfo.json";
 final String REWARD_RCMD = "${NetContants.baseUrl}xhr/bonus/rcmd.json";
 final String RED_PACKET = "${NetContants.baseUrl}xhr/redpacket/list.json";
 final String COUPON_LIST = "${NetContants.baseUrl}xhr/coupon/list.json";
+
 ///商品详情
 final String GOOD_DETAIL = "${NetContants.baseUrl}item/detail.json";
 final String SHOPPING_CART = "${NetContants.baseUrl}xhr/cart/getCarts.json";
-final String SHOPPING_CART_CHECK = "${NetContants.baseUrl}xhr/cart/selectAll.json";
-final String SHOPPING_CART_CHECK_ONE = "${NetContants.baseUrl}xhr/cart/updateCheck.json";
-final String SHOPPING_CART_CHECK_NUM = "${NetContants.baseUrl}xhr/cart/updateByNum.json";
+final String SHOPPING_CART_CHECK =
+    "${NetContants.baseUrl}xhr/cart/selectAll.json";
+final String SHOPPING_CART_CHECK_ONE =
+    "${NetContants.baseUrl}xhr/cart/updateCheck.json";
+final String SHOPPING_CART_CHECK_NUM =
+    "${NetContants.baseUrl}xhr/cart/updateByNum.json";
 final String HOT_LIST_CAT = "${NetContants.baseUrl}item/saleRank.json";
-final String HOT_LIST_LIST = "${NetContants.baseUrl}xhr/item/saleRankItems.json";
+final String HOT_LIST_LIST =
+    "${NetContants.baseUrl}xhr/item/saleRankItems.json";
 final String DELETE_ORDER = "${NetContants.baseUrl}xhr/order/delete.json";
 final String DELETE_CART = "${NetContants.baseUrl}xhr/cart/delete.json";
 final String TOPPIC = "${NetContants.baseUrl}topic/index.json";
-final String COMMENT_LIST = "${NetContants.baseUrl}xhr/comment/listByItemByTag.json";
+final String COMMENT_LIST =
+    "${NetContants.baseUrl}xhr/comment/listByItemByTag.json";
 final String POINT_CENTER = "${NetContants.baseUrl}xhr/points/index.json";
-final String VIP_CENTER = "${NetContants.baseUrl}xhr/membership/indexPrivilege.json";
+final String VIP_CENTER =
+    "${NetContants.baseUrl}xhr/membership/indexPrivilege.json";
 final String ADD_CART = "${NetContants.baseUrl}xhr/cart/add.json";
-final String ORDER_INIT = "${NetContants.baseUrl}xhr/order/init.json?csrf_token=$csrf_token";
-final String USER_MOBILE = "${NetContants.baseUrl}xhr/feedback/getUserMobile.json?csrf_token=$csrf_token";
+final String ORDER_INIT =
+    "${NetContants.baseUrl}xhr/order/init.json?csrf_token=$csrf_token";
+final String USER_MOBILE =
+    "${NetContants.baseUrl}xhr/feedback/getUserMobile.json?csrf_token=$csrf_token";
 final String FEEDBACK_TYPE = "${NetContants.baseUrl}xhr/feedback/typeList.json";
-final String FEEDBACK_SUBMIT = "${NetContants.baseUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
-final String USERMOBILE = "${NetContants.baseUrl}xhr/userMobile/getStatus.json?csrf_token=$csrf_token";
-final String SEARCH_TIPS = "${NetContants.baseUrl}xhr/search/searchAutoComplete.json";
-final String SEARCH_SEARCH = "${NetContants.baseUrl}xhr/search/search.json.json";
+final String FEEDBACK_SUBMIT =
+    "${NetContants.baseUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
+final String USERMOBILE =
+    "${NetContants.baseUrl}xhr/userMobile/getStatus.json?csrf_token=$csrf_token";
+final String SEARCH_TIPS =
+    "${NetContants.baseUrl}xhr/search/searchAutoComplete.json";
+final String SEARCH_SEARCH =
+    "${NetContants.baseUrl}xhr/search/search.json.json";
 final String FIND_REC_AUTO = "${NetContants.baseUrl}topic/v1/find/recAuto.json";
 final String KNOW_NAVWAP = "${NetContants.baseUrl}topic/v1/know/navWap.json";
+
 ///好评率
-final String COMMENT_PRAISE = '${NetContants.baseUrl}xhr/comment/itemGoodRates.json';
+final String COMMENT_PRAISE =
+    '${NetContants.baseUrl}xhr/comment/itemGoodRates.json';
+
 ///评价tags
 final String COMMENT_TAGS = '${NetContants.baseUrl}xhr/comment/tags.json';
 
 ///商品详情下半部分
 final String GOOD_DETAIL_DOWN = '${NetContants.baseUrl}xhr/item/detail.json';
 
+///商品详情推荐
+final String WAPITEM_RCMD = '${NetContants.baseUrl}xhr/wapitem/rcmd.json';
+
+///配送信息
+final String WAPITEM_DELIVERY =
+    '${NetContants.baseUrl}xhr/wapitem/delivery.json';
+
+///配送信息
+///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
-
 
 // https://m.you.163.com/item/cateList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603173469343&categoryId=
 
@@ -81,13 +110,10 @@ final String GOOD_DETAIL_DOWN = '${NetContants.baseUrl}xhr/item/detail.json';
 ///周六一起拼
 // https://m.you.163.com/pin/group/item/index?csrf_token=61f57b79a343933be0cb10aa37a51cc8
 
-
 ///周六一起拼数据列表
 // https://m.you.163.com/pin/group/item/list?csrf_token=61f57b79a343933be0cb10aa37a51cc8&tabId=0&page=1&pageSize=10
 
 // https://m.you.163.com/pin/group/item/list?csrf_token=61f57b79a343933be0cb10aa37a51cc8&categoryId=1005000&page=1&pageSize=10
-
-
 
 ///删除地址
 //https://m.you.163.com/xhr/address/deleteAddress.json?csrf_token=f3c512bd7f5e552a9cd72ddacde4ef83&id=85723006
@@ -167,3 +193,5 @@ final String GOOD_DETAIL_DOWN = '${NetContants.baseUrl}xhr/item/detail.json';
 
 ///值得买头部nav
 //https://m.you.163.com/topic/v1/know/navWap.json
+
+//https://m.you.163.com/xhr/address/list.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a&from=1

@@ -123,9 +123,15 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
         ? null
         : FullRefundPolicy.fromJson(
             json['fullRefundPolicy'] as Map<String, dynamic>)
-    ..couponShortNameList = (json['couponShortNameList'] as List)
-        ?.map((e) => e as String)
-        ?.toList();
+    ..couponShortNameList =
+        (json['couponShortNameList'] as List)?.map((e) => e as String)?.toList()
+    ..detailPromBanner = json['detailPromBanner'] == null
+        ? null
+        : DetailPromBanner.fromJson(
+            json['detailPromBanner'] as Map<String, dynamic>)
+    ..welfareCardVO = json['welfareCardVO'] == null
+        ? null
+        : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -199,6 +205,8 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'skuFreight': instance.skuFreight,
       'fullRefundPolicy': instance.fullRefundPolicy,
       'couponShortNameList': instance.couponShortNameList,
+      'detailPromBanner': instance.detailPromBanner,
+      'welfareCardVO': instance.welfareCardVO,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -276,4 +284,38 @@ Map<String, dynamic> _$FullRefundPolicyToJson(FullRefundPolicy instance) =>
       'detailTitle': instance.detailTitle,
       'titles': instance.titles,
       'content': instance.content,
+    };
+
+DetailPromBanner _$DetailPromBannerFromJson(Map<String, dynamic> json) {
+  return DetailPromBanner()
+    ..bannerType = json['bannerType'] as num
+    ..bannerTitleUrl = json['bannerTitleUrl'] as String
+    ..bannerContentUrl = json['bannerContentUrl'] as String
+    ..promoTitle = json['promoTitle'] as String
+    ..promoSubTitle = json['promoSubTitle'] as String
+    ..startTime = json['startTime'] as String
+    ..activityPrice = json['activityPrice'] as String;
+}
+
+Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
+    <String, dynamic>{
+      'bannerType': instance.bannerType,
+      'bannerTitleUrl': instance.bannerTitleUrl,
+      'bannerContentUrl': instance.bannerContentUrl,
+      'promoTitle': instance.promoTitle,
+      'promoSubTitle': instance.promoSubTitle,
+      'startTime': instance.startTime,
+      'activityPrice': instance.activityPrice,
+    };
+
+WelfareCardVO _$WelfareCardVOFromJson(Map<String, dynamic> json) {
+  return WelfareCardVO()
+    ..picUrl = json['picUrl'] as String
+    ..schemeUrl = json['schemeUrl'] as String;
+}
+
+Map<String, dynamic> _$WelfareCardVOToJson(WelfareCardVO instance) =>
+    <String, dynamic>{
+      'picUrl': instance.picUrl,
+      'schemeUrl': instance.schemeUrl,
     };
