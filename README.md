@@ -20,7 +20,7 @@
 
 |         个人          |        商品详情        |         添加购物车        |          评论           |
 | :-------------------: | :-------------------------: | :----------------------------: | :-------------------------: |
-| ![](./screenShot/wechatimg87.jpeg) | ![](./screenShot/wechatimg92.jpeg) | ![](./screenShot/WechatIMG91.jpeg) | ![](./screenShot/wechatimg98.jpeg) |
+| ![](./screenShot/wechatimg87.jpeg) | ![](./screenShot/wechatimg92.jpeg) | ![](./screenShot/wechatimg91.jpeg) | ![](./screenShot/wechatimg98.jpeg) |
 
 
 ## 主要功能点
