@@ -16,7 +16,7 @@ class Appbar extends StatelessWidget {
                 width: 50,
                 child: Center(
                   child: Icon(
-                    Icons.arrow_back,
+                    Icons.arrow_back_ios,
                     color: Colors.black,
                   ),
                 ),

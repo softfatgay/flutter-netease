@@ -47,7 +47,9 @@ class _KingKongPageState extends State<NewItemPage> {
           : CustomScrollView(
               slivers: [
                 _buildTitle(context),
-                singleSliverWidget(Container(height: 20,)),
+                singleSliverWidget(Container(
+                  height: 20,
+                )),
                 GoodItemWidget(dataList: dataList)
               ],
             ),
@@ -67,13 +69,12 @@ class _KingKongPageState extends State<NewItemPage> {
     );
   }
 
-
   //轮播图
   _buildSwiper(BuildContext context) {
     return BannerCacheImg(
       imageList: banner,
       onTap: (index) {
-        Routers.push(Util.image, context, {'id': '${banner[index]}'});
+        Routers.push(Util.image, context, {'images': banner});
       },
     );
   }
@@ -91,5 +92,4 @@ class _KingKongPageState extends State<NewItemPage> {
       initLoading = false;
     });
   }
-
 }

@@ -133,7 +133,7 @@ class _KingKongPageState extends State<KingKongPage> {
     return BannerCacheImg(
       imageList: _banner,
       onTap: (index) {
-        Routers.push(Util.image, context, {'id': '${_banner[index]}'});
+        Routers.push(Util.image, context, {'images': _banner});
       },
     );
   }

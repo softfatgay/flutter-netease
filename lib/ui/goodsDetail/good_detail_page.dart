@@ -318,7 +318,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             });
           },
           onTap: (index) {
-            Routers.push(Util.image, context, {'id': '${imgList[index]}'});
+            Routers.push(Util.image, context, {'images': imgList});
           },
         ),
         Positioned(
@@ -986,7 +986,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ),
         );
         return Routers.link(
-            widget, Util.image, context, {'id': '${commentList[indexC]}'});
+            widget, Util.image, context, {'images': commentList});
       });
 
   _buildGoodDetail() {
@@ -1101,14 +1101,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   Container(
                     child: Text(
                       issueList[index].question,
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      style: t14black,
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       issueList[index].answer,
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                      style: t12grey,
                     ),
                   ),
                 ],
