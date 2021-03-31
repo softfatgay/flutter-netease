@@ -25,6 +25,7 @@ class _WebViewPageState extends State<WebViewPage> {
   final globalCookie = GlobalCookie();
 
   String _url = '';
+  bool hide = true;
 
   @override
   void initState() {
@@ -94,9 +95,7 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
-            _webController.evaluateJavascript(setJs()).then((result) {
-              print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-            });
+            print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
             String aa = await _webController.getTitle();
             setState(() {
               _title = aa;
@@ -109,18 +108,21 @@ class _WebViewPageState extends State<WebViewPage> {
                 CookieConfig.cookie = updateCookie;
               });
             }
+
+            hideTop();
           },
         ),
       ),
     );
   }
 
-  //自定义js脚本
+  //
   String setJs() {
     var js = "document.querySelector('.hdWraper').style.display = 'none';";
-    // var js = "document.getElementsByClassName('class1').style.visibility = 'hidden';";
-    // var js =
-    //     "document.getElementsByClassName('m-hd');var header = document.getElementsByClassName('imgWrap');daddy.remove(header)";
     return js;
+  }
+
+  void hideTop() {
+    _webController.evaluateJavascript(setJs()).then((result) {});
   }
 }
