@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -123,6 +124,8 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   void hideTop() {
-    _webController.evaluateJavascript(setJs()).then((result) {});
+    Timer.periodic(Duration(milliseconds: 10), (timer) {
+      _webController.evaluateJavascript(setJs()).then((result) {});
+    });
   }
 }
