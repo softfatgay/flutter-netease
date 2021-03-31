@@ -96,7 +96,6 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
-            print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
             String aa = await _webController.getTitle();
             setState(() {
               _title = aa;
@@ -127,5 +126,14 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer.periodic(Duration(milliseconds: 10), (timer) {
       _webController.evaluateJavascript(setJs()).then((result) {});
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (_webController != null) {
+      _webController.clearCache();
+    }
+    super.dispose();
   }
 }

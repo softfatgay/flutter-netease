@@ -138,7 +138,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
               } else {
                 url = 'https://m.you.163.com/reward/detail';
               }
-              Routers.push(Util.webViewPageAPP, context, {'id': url});
+              Routers.push(Util.webViewPageAPP, context, {'url': url});
             },
           ),
           widget.arguments['id'] == 4

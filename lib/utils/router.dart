@@ -21,7 +21,6 @@ import 'package:flutter_app/ui/mine/red_packet.dart';
 import 'package:flutter_app/ui/mine/reward_num.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
-import 'package:flutter_app/ui/mine/vip_center.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
@@ -31,12 +30,10 @@ import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
 import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
-import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
-import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_app/widget/widget_list.dart';
 
 class Routers {
@@ -83,12 +80,11 @@ class Routers {
     Util.webView: (context, {arguments}) => WebViewPage(arguments),
 
     ///webView
-    Util.webViewPageAPP: (context, {arguments}) => WebViewPageAPP(arguments),
+    Util.webViewPageAPP: (context, {arguments}) => WebViewPage(arguments),
 
     ///购物车
-    Util.shoppingCart: (context, {arguments}) => ShoppingCart(
-          argument: arguments,
-        ),
+    Util.shoppingCart: (context, {arguments}) =>
+        ShoppingCart(argument: arguments),
 
     ///回馈金等
     Util.mineTopItems: (context, {arguments}) {

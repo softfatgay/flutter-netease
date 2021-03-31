@@ -87,7 +87,7 @@ class _GiftCardState extends State<GiftCard> {
                 ),
                 GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: 1),
                         borderRadius: BorderRadius.circular(4)),
@@ -133,7 +133,7 @@ class _GiftCardState extends State<GiftCard> {
   }
 
   _goWebView(String url) {
-    Routers.push(Util.webViewPageAPP, context, {'id': url});
+    Routers.push(Util.webViewPageAPP, context, {'url': url});
   }
 
   _noCard() {
