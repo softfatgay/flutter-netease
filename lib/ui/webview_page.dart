@@ -116,7 +116,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   //自定义js脚本
   String setJs() {
-    var js = "document.getElementsByClassName('.m-hd').style.display = 'none';";
+    var js = "document.querySelector('.hdWraper').style.display = 'none';";
     // var js = "document.getElementsByClassName('class1').style.visibility = 'hidden';";
     // var js =
     //     "document.getElementsByClassName('m-hd');var header = document.getElementsByClassName('imgWrap');daddy.remove(header)";
