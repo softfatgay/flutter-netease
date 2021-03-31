@@ -147,8 +147,8 @@ class Routers {
           break;
 
         case 7: //会员俱乐部
-          return VipCenter();
-          // return WebViewPage({"id": "https://m.you.163.com/membership/index"});
+          // return VipCenter();
+          return WebViewPage({"id": "https://m.you.163.com/membership/index"});
           break;
         case 8: //地址管理
           return LocationManage();
