@@ -94,6 +94,9 @@ class _WebViewPageState extends State<WebViewPage> {
             setcookie();
           },
           onPageFinished: (url) async {
+            _webController.evaluateJavascript(setJs()).then((result) {
+              print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            });
             String aa = await _webController.getTitle();
             setState(() {
               _title = aa;
@@ -106,8 +109,6 @@ class _WebViewPageState extends State<WebViewPage> {
                 CookieConfig.cookie = updateCookie;
               });
             }
-
-            _webController.evaluateJavascript(setJs()).then((result) {});
           },
         ),
       ),
