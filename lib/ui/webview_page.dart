@@ -51,7 +51,23 @@ class _WebViewPageState extends State<WebViewPage> {
       Cookie("yx_csrf", CookieConfig.token)
         ..domain = '.163.com'
         ..path = '/'
-        ..httpOnly = false
+        ..httpOnly = false,
+      Cookie("yx_app_type", 'android')
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = false,
+      Cookie("yx_app_chann", 'aos_market_oppo')
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = false,
+      Cookie("yx_from", '')
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = false,
+      Cookie("YX_SUPPORT_WEBP", '')
+        ..domain = '.163.com'
+        ..path = '/'
+        ..httpOnly = false,
     ]);
   }
 

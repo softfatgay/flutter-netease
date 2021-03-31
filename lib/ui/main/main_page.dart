@@ -90,23 +90,21 @@ class _MainPageState extends State<MainPage> {
 
     if (itemList == null) {
       itemList = itemNames
-          .map((item) => BottomNavigationBarItem(
-                icon: Image.asset(
-                  item.normalIcon,
-                  width: 22.0,
-                  height: 22.0,
-                ),
-                // title: Text(
-                //   item.name,
-                //   style: t13black,
-                // ),
-                label: item.name,
-                activeIcon: Image.asset(
-                  item.activeIcon,
-                  width: 22.0,
-                  height: 22.0,
-                ),
-              ))
+          .map(
+            (item) => BottomNavigationBarItem(
+              icon: Image.asset(
+                item.normalIcon,
+                width: 22.0,
+                height: 22.0,
+              ),
+              label: item.name,
+              activeIcon: Image.asset(
+                item.activeIcon,
+                width: 22.0,
+                height: 22.0,
+              ),
+            ),
+          )
           .toList();
     }
   }

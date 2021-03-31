@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/channel/globalCookie.dart';
+import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -361,7 +363,14 @@ class _MinePageState extends State<UserPage>
             ),
           ),
         ),
-        onTap: () {},
+        onTap: () async {
+          var globalCookie = GlobalCookie();
+          var bool = await globalCookie.clearCookie();
+          if (bool) {
+            CookieConfig.cookie = '';
+            _checkLogin();
+          }
+        },
       ),
     );
   }

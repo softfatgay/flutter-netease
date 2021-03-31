@@ -195,3 +195,6 @@ final String WAPITEM_DELIVERY =
 //https://m.you.163.com/topic/v1/know/navWap.json
 
 //https://m.you.163.com/xhr/address/list.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a&from=1
+
+///推荐POST
+///xhr/wapitem/relatedRcmd.json
