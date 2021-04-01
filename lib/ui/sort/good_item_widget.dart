@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class GoodItemWidget extends StatelessWidget {
   final List<ItemListItem> dataList;
@@ -15,38 +17,62 @@ class GoodItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildrecommond(dataList);
+    return _buildItems(dataList);
   }
 
-  _buildrecommond(List<ItemListItem> data) {
+  _buildItems(List<ItemListItem> data) {
     return data.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            sliver: SliverGrid(
-              delegate:
-                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                Widget widget = Container(
-                  padding: EdgeInsets.only(bottom: 5),
-                  width: double.infinity,
-                  decoration: BoxDecoration(color: Colors.transparent),
-                  child: _buildGoodItem(context, index, data),
-                );
-                return GestureDetector(
-                  child: widget,
-                  onTap: () {
-                    Routers.push(
-                        Util.goodDetailTag, context, {'id': data[index].id});
-                  },
-                );
-              }, childCount: data.length),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.52,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10),
-            ),
+            sliver: _buildGrid(data),
           );
+  }
+
+  _buildGridview(List<ItemListItem> data) {
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+        Widget widget = Container(
+          padding: EdgeInsets.only(bottom: 5),
+          width: double.infinity,
+          decoration: BoxDecoration(color: Colors.transparent),
+          child: _buildGoodItem(context, index, data),
+        );
+        return GestureDetector(
+          child: widget,
+          onTap: () {
+            Routers.push(Util.goodDetailTag, context, {'id': data[index].id});
+          },
+        );
+      }, childCount: data.length),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.52,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10),
+    );
+  }
+
+  _buildGrid(List<ItemListItem> data) {
+    return SliverStaggeredGrid.countBuilder(
+        itemCount: data.length,
+        crossAxisCount: 2,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        staggeredTileBuilder: (index) => new StaggeredTile.count(
+            1,
+            (data[index].itemTagList == null || data[index].itemTagList.isEmpty)
+                ? 1.5
+                : 1.7),
+        itemBuilder: (context, index) {
+          var buildGoodItem = _buildGoodItem(context, index, data);
+          return GestureDetector(
+            child: buildGoodItem,
+            onTap: () {
+              Routers.push(Util.goodDetailTag, context, {'id': data[index].id});
+            },
+          );
+        });
   }
 
   _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
@@ -107,16 +133,23 @@ class GoodItemWidget extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text(dataList[index].name),
+        Text(
+          dataList[index].name,
+          style: t14blackBold,
+        ),
         SizedBox(
           height: 5,
+        ),
+        _buildTags(itemTagList),
+        SizedBox(
+          height: 10,
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               "¥${dataList[index].retailPrice}",
-              style: t16red,
+              style: t18redBold,
             ),
             SizedBox(
               width: 5,
@@ -126,35 +159,43 @@ class GoodItemWidget extends StatelessWidget {
                   ? ""
                   : "¥${dataList[index].counterPrice}",
               style: TextStyle(
-                  color: Colors.grey,
+                  color: textGrey,
                   decoration: TextDecoration.lineThrough,
                   fontSize: 12),
             ),
           ],
         ),
-        SizedBox(
-          height: 5,
-        ),
-        (itemTagList == null || itemTagList.isEmpty)
-            ? Container()
-            : Row(
-                children: itemTagList
-                    .map((item) => Container(
-                          padding: EdgeInsets.fromLTRB(4, 1, 4, 1),
-                          margin: EdgeInsets.only(right: 5),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              border: Border.all(width: 1, color: redColor)),
-                          child: Text(
-                            item.name,
-                            style: t12red,
-                          ),
-                        ))
-                    .toList(),
-              )
       ],
     );
+  }
+
+  _buildTags(List<ItemTagListItem> itemTagList) {
+    if (itemTagList.length > 3) {
+      itemTagList.removeRange(2, itemTagList.length - 1);
+    }
+    if (itemTagList == null || itemTagList.isEmpty) {
+      return Container();
+    } else {
+      return Row(
+        children: itemTagList
+            .map((item) => Container(
+                  padding: EdgeInsets.fromLTRB(4, 2, 4, 1),
+                  margin: EdgeInsets.only(right: 5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                      color: backLightRed),
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: textRed,
+                      height: 1.1,
+                    ),
+                  ),
+                ))
+            .toList(),
+      );
+    }
   }
 
   ///仅描述

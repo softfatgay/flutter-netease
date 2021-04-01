@@ -181,15 +181,17 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                         child: Container(
                           decoration: BoxDecoration(
                               color: backColor,
-                              borderRadius: BorderRadius.circular(4)
-                          ),
+                              borderRadius: BorderRadius.circular(4)),
                           child: CachedNetworkImage(
                             imageUrl: _bannerList[0].picUrl ?? '',
                             fit: BoxFit.fill,
                           ),
                         ),
-                        onTap: (){
-                          Routers.push(Util.webView, context,{'id':'${NetContants.baseUrl}${_bannerList[0].targetUrl}'});
+                        onTap: () {
+                          Routers.push(Util.webView, context, {
+                            'url':
+                                '${NetContants.baseUrl}${_bannerList[0].targetUrl}'
+                          });
                         },
                       ),
                     );

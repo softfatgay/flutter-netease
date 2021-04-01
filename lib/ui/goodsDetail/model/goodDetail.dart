@@ -96,6 +96,8 @@ class GoodDetail {
   DetailPromBanner detailPromBanner;
   WelfareCardVO welfareCardVO;
 
+  SpmcBanner spmcBanner;
+
   GoodDetail();
 
   factory GoodDetail.fromJson(Map<String, dynamic> json) =>
@@ -175,6 +177,7 @@ class DetailPromBanner {
   String promoSubTitle;
   String startTime;
   String activityPrice;
+  String retailPrice;
 
   DetailPromBanner();
 
@@ -191,4 +194,19 @@ class WelfareCardVO {
 
   factory WelfareCardVO.fromJson(Map<String, dynamic> json) =>
       _$WelfareCardVOFromJson(json);
+}
+
+@JsonSerializable()
+class SpmcBanner {
+  String spmcDesc;
+  String spmcPrice;
+  String spmcPrivilegeMess;
+  String spmcEconomizePrice;
+  String spmcTagDesc;
+  String spmcLinkUrl;
+
+  SpmcBanner();
+
+  factory SpmcBanner.fromJson(Map<String, dynamic> json) =>
+      _$SpmcBannerFromJson(json);
 }

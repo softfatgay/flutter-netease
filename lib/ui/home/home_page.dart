@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,16 +73,18 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
-      print(_scrollController.position.pixels);
-
       if (_scrollController.position.pixels > 160) {
-        setState(() {
-          toolbarHeight = 50;
-        });
+        if (toolbarHeight == 0) {
+          setState(() {
+            toolbarHeight = 50;
+          });
+        }
       } else {
-        setState(() {
-          toolbarHeight = 0;
-        });
+        if (toolbarHeight == 50) {
+          setState(() {
+            toolbarHeight = 0;
+          });
+        }
       }
     });
     _getData();
@@ -101,6 +105,12 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   void _getData() async {
+    // String loadString = await DefaultAssetBundle.of(context)
+    //     .loadString("assets/json/home_data_json.json");
+    //
+    // var decode = json.decode(loadString);
+    // var homeModel = HomeModel.fromJson(decode['data']['data']);
+
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
@@ -253,7 +263,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             ),
           ),
           onTap: () {
-            Routers.push(Util.webView, context, {'id': e.targetUrl});
+            Routers.push(Util.webView, context, {'url': e.targetUrl});
           },
         );
       }).toList(),
@@ -379,7 +389,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
-                    Routers.push(Util.webView, context, {'id': e.schemeUrl});
+                    Routers.push(Util.webView, context, {'url': e.schemeUrl});
                   },
                 ),
               ),
@@ -397,7 +407,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           ),
           onTap: () {
             Routers.push(
-                Util.webView, context, {'id': item.cells[0].schemeUrl});
+                Util.webView, context, {'url': item.cells[0].schemeUrl});
           },
         ),
       );
@@ -454,7 +464,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                           child: Text(
                             '新人专享礼包',
-                            style: t14blackblod,
+                            style: t14blackBold,
                           ),
                         ),
                       ],
@@ -496,7 +506,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                               children: [
                                 Text(
                                   item.title,
-                                  style: t14blackblod,
+                                  style: t14blackBold,
                                 ),
                                 SizedBox(
                                   height: 2,
@@ -858,7 +868,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                         children: [
                           Text(
                             item.styleItem.title,
-                            style: t14blackblod,
+                            style: t14blackBold,
                           ),
                           SizedBox(
                             height: 2,
@@ -898,7 +908,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _goWebview(String url) {
-    Routers.push(Util.webView, context, {'id': url});
+    Routers.push(Util.webView, context, {'url': url});
   }
 
   @override

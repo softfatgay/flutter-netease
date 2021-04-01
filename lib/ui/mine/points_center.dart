@@ -121,7 +121,7 @@ class _PointCenterState extends State<PointCenter> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 5),
-                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
                     borderRadius: BorderRadius.circular(10)),
@@ -154,7 +154,7 @@ class _PointCenterState extends State<PointCenter> {
 
   _goWebview(String url) {
     print(url);
-    Routers.push(Util.webView, context, {'id': url});
+    Routers.push(Util.webView, context, {'url': url});
   }
 
   _buildTitle(String title, String dec, String act) {
@@ -175,7 +175,7 @@ class _PointCenterState extends State<PointCenter> {
               ),
               Text(
                 '$title',
-                style: t14blackblod,
+                style: t14blackBold,
               ),
               act == ''
                   ? Container()
@@ -195,7 +195,9 @@ class _PointCenterState extends State<PointCenter> {
               )
             ],
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Container(
             margin: EdgeInsets.only(left: 15),
             child: Text('$dec'),
@@ -382,8 +384,8 @@ class _PointCenterState extends State<PointCenter> {
               ],
             ),
           );
-          return Routers.link(widget, Util.goodDetailTag,
-              context, {'id': item['itemId']});
+          return Routers.link(
+              widget, Util.goodDetailTag, context, {'id': item['itemId']});
         }).toList(),
       ),
     );

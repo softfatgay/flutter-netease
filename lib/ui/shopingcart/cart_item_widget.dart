@@ -129,7 +129,7 @@ class CartItemWidget extends StatelessWidget {
                               Container(
                                 child: Text(
                                   '¥${item.actualPrice == 0 ? item.actualPrice : item.retailPrice}',
-                                  style: t14blackblod,
+                                  style: t14blackBold,
                                 ),
                               ),
                               Expanded(

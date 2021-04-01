@@ -131,7 +131,9 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
             json['detailPromBanner'] as Map<String, dynamic>)
     ..welfareCardVO = json['welfareCardVO'] == null
         ? null
-        : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>);
+        : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
+    ..spmcBanner =
+        json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -207,6 +209,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'couponShortNameList': instance.couponShortNameList,
       'detailPromBanner': instance.detailPromBanner,
       'welfareCardVO': instance.welfareCardVO,
+      'spmcBanner': instance.spmcBanner,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -294,7 +297,8 @@ DetailPromBanner _$DetailPromBannerFromJson(Map<String, dynamic> json) {
     ..promoTitle = json['promoTitle'] as String
     ..promoSubTitle = json['promoSubTitle'] as String
     ..startTime = json['startTime'] as String
-    ..activityPrice = json['activityPrice'] as String;
+    ..activityPrice = json['activityPrice'] as String
+    ..retailPrice = json['retailPrice'] as String;
 }
 
 Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
@@ -306,6 +310,7 @@ Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
       'promoSubTitle': instance.promoSubTitle,
       'startTime': instance.startTime,
       'activityPrice': instance.activityPrice,
+      'retailPrice': instance.retailPrice,
     };
 
 WelfareCardVO _$WelfareCardVOFromJson(Map<String, dynamic> json) {
@@ -318,4 +323,24 @@ Map<String, dynamic> _$WelfareCardVOToJson(WelfareCardVO instance) =>
     <String, dynamic>{
       'picUrl': instance.picUrl,
       'schemeUrl': instance.schemeUrl,
+    };
+
+SpmcBanner _$SpmcBannerFromJson(Map<String, dynamic> json) {
+  return SpmcBanner()
+    ..spmcDesc = json['spmcDesc'] as String
+    ..spmcPrice = json['spmcPrice'] as String
+    ..spmcPrivilegeMess = json['spmcPrivilegeMess'] as String
+    ..spmcEconomizePrice = json['spmcEconomizePrice'] as String
+    ..spmcTagDesc = json['spmcTagDesc'] as String
+    ..spmcLinkUrl = json['spmcLinkUrl'] as String;
+}
+
+Map<String, dynamic> _$SpmcBannerToJson(SpmcBanner instance) =>
+    <String, dynamic>{
+      'spmcDesc': instance.spmcDesc,
+      'spmcPrice': instance.spmcPrice,
+      'spmcPrivilegeMess': instance.spmcPrivilegeMess,
+      'spmcEconomizePrice': instance.spmcEconomizePrice,
+      'spmcTagDesc': instance.spmcTagDesc,
+      'spmcLinkUrl': instance.spmcLinkUrl,
     };

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -19,9 +20,11 @@ class NewItemPage extends StatefulWidget {
 }
 
 class _KingKongPageState extends State<NewItemPage> {
-  var banner, dataList = List();
+  var banner = List();
   bool initLoading = true;
   var currentCategory;
+
+  List<ItemListItem> _dataList;
 
   @override
   void initState() {
@@ -50,7 +53,7 @@ class _KingKongPageState extends State<NewItemPage> {
                 singleSliverWidget(Container(
                   height: 20,
                 )),
-                GoodItemWidget(dataList: dataList)
+                GoodItemWidget(dataList: _dataList)
               ],
             ),
     );
@@ -84,11 +87,15 @@ class _KingKongPageState extends State<NewItemPage> {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     });
+    List data = responseData.newItems["itemList"];
+    List<ItemListItem> dataList = [];
+    data.forEach((element) {
+      dataList.add(ItemListItem.fromJson(element));
+    });
     setState(() {
-      dataList = responseData.newItems["itemList"];
+      _dataList = dataList;
       List bannerList = responseData.OData["newItemAds"];
       banner = bannerList.map((item) => item["picUrl"]).toList();
-
       initLoading = false;
     });
   }

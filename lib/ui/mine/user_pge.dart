@@ -294,7 +294,7 @@ class _MinePageState extends State<UserPage>
               ),
               onTap: () {
                 Routers.push(
-                    Util.webView, context, {'id': monthCardEntrance.url});
+                    Util.webView, context, {'url': monthCardEntrance.url});
               },
             ),
     );

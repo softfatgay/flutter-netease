@@ -62,13 +62,17 @@ class _TopicPageState extends State<TopicPage>
     _scrollController.addListener(() {
       print(_scrollController.position.pixels);
       if (_scrollController.position.pixels > 180) {
-        setState(() {
-          toolbarHeight = 50;
-        });
+        if (toolbarHeight == 0) {
+          setState(() {
+            toolbarHeight = 50;
+          });
+        }
       } else {
-        setState(() {
-          toolbarHeight = 0;
-        });
+        if (toolbarHeight == 50) {
+          setState(() {
+            toolbarHeight = 0;
+          });
+        }
       }
 
       if (_scrollController.position.pixels ==
@@ -127,14 +131,6 @@ class _TopicPageState extends State<TopicPage>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backGrey,
-      body: buildBody(),
-    );
-  }
-
-  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
@@ -145,41 +141,20 @@ class _TopicPageState extends State<TopicPage>
     }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: backGrey,
+      body: buildBody(),
+    );
+  }
+
   buildBody() {
     if (_isFirstLoading) {
       return Loading();
     } else {
       return _buildBodyData();
     }
-  }
-
-  _buildSearch(BuildContext context) {
-    Widget widget = Container(
-        child: Row(
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-            margin: EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              color: Color(0x0D000000),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Text(
-              _roundWords.length > 0 ? _roundWords[_rondomIndex] : '',
-              style: TextStyle(color: textGrey, fontSize: 14),
-            ),
-          ),
-        ),
-        Container(
-          child: Text(
-            '搜索',
-            style: t16grey,
-          ),
-        )
-      ],
-    ));
-    return Routers.link(widget, Util.search, context, {'id': ''});
   }
 
   _buildItem(TopicItem item) {
@@ -191,14 +166,16 @@ class _TopicPageState extends State<TopicPage>
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(8)),
-            child: CachedNetworkImage(
-              height: ScreenUtil().setHeight(150),
-              imageUrl: item.picUrl,
-              fit: BoxFit.cover,
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+              child: CachedNetworkImage(
+                height: ScreenUtil().setHeight(150),
+                imageUrl: item.picUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Container(
@@ -207,6 +184,8 @@ class _TopicPageState extends State<TopicPage>
               item.title,
               textAlign: TextAlign.left,
               style: t12black,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Container(
@@ -218,8 +197,8 @@ class _TopicPageState extends State<TopicPage>
                   child: item.avatar == null
                       ? Container()
                       : Container(
-                          width: 25,
-                          height: 25,
+                          width: 20,
+                          height: 20,
                           child: CachedNetworkImage(
                             imageUrl: item.avatar,
                             errorWidget: (context, url, error) {
@@ -322,7 +301,8 @@ class _TopicPageState extends State<TopicPage>
         crossAxisCount: 2,
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
-        staggeredTileBuilder: (index) => new StaggeredTile.fit(1),
+        staggeredTileBuilder: (index) => new StaggeredTile.count(
+            1, _dataList[index].buyNow == null ? 1.5 : 1.7),
         itemBuilder: (context, index) {
           return _buildItem(_dataList[index]);
         },
@@ -428,7 +408,7 @@ class _TopicPageState extends State<TopicPage>
                   ),
                   onTap: () {
                     Routers.push(
-                        Util.webView, context, {'id': '${item.columnUrl}'});
+                        Util.webView, context, {'url': '${item.columnUrl}'});
                   },
                 );
               }).toList(),
