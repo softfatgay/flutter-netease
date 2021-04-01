@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/sort/good_item.dart';
+import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -26,11 +27,11 @@ class _RewardNumPageState extends State<RewardNumPage> {
   int page = 1;
   int size = 20;
 
-  var dataList = List();
-
   var hasMore = false;
   bool isShowFloatBtn = false;
   var pagination;
+
+  List<ItemListItem> _dataList = [];
 
   @override
   void initState() {
@@ -38,14 +39,19 @@ class _RewardNumPageState extends State<RewardNumPage> {
     super.initState();
 
     _scrollController.addListener(() {
-      setState(() {
-        if (_scrollController.position.pixels > 500) {
-          isShowFloatBtn = true;
-        } else {
-          isShowFloatBtn = false;
+      if (_scrollController.position.pixels > 500) {
+        if (!isShowFloatBtn) {
+          setState(() {
+            isShowFloatBtn = true;
+          });
         }
-      });
-
+      } else {
+        if (isShowFloatBtn) {
+          setState(() {
+            isShowFloatBtn = false;
+          });
+        }
+      }
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -69,9 +75,15 @@ class _RewardNumPageState extends State<RewardNumPage> {
     };
 
     await rewardRcmd(params, header: header).then((responseData) {
-      var result = responseData.data['result'];
+      List result = responseData.data['result'];
+      List<ItemListItem> dataList = [];
+
+      result.forEach((element) {
+        dataList.add(ItemListItem.fromJson(element));
+      });
+
       setState(() {
-        dataList.insertAll(dataList.length, result);
+        _dataList.addAll(dataList);
         pagination = responseData.data['pagination'];
         hasMore = !pagination['lastPage'];
         page = pagination['page'] + 1;
@@ -90,7 +102,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
           slivers: [
             singleSliverWidget(_buildTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
-            GoodItemWidget(dataList: dataList),
+            GoodItemWidget(dataList: _dataList),
             SliverFooter(hasMore: hasMore),
           ],
         ),
