@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
-
-import '../utils/flutter_activity.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
   final Map arguments;
@@ -34,6 +34,7 @@ class _WebViewPageState extends State<WebViewPage> {
     super.initState();
     setState(() {
       _url = widget.arguments['id'];
+      print('url=$_url');
     });
   }
 
@@ -111,29 +112,44 @@ class _WebViewPageState extends State<WebViewPage> {
 
             hideTop();
           },
+          navigationDelegate: (NavigationRequest request) {
+            var url = request.url;
+            if (url.startsWith('https://m.you.163.com/item/detail?id=')) {
+              var split = url.split('id=');
+              var split2 = split[1];
+              var split3 = split2.split('&')[0];
+              if (split3 != null && split3.isNotEmpty) {
+                Routers.push(Util.goodDetailTag, context, {'id': '$split3'});
+              }
+              return NavigationDecision.prevent;
+            } else {
+              return NavigationDecision.navigate;
+            }
+          },
         ),
       ),
     );
   }
 
-  //
+  //隐藏头部
   String setJs() {
     var js = "document.querySelector('.hdWraper').style.display = 'none';";
     return js;
   }
 
   void hideTop() {
-    Timer.periodic(Duration(milliseconds: 10), (timer) {
-      _webController.evaluateJavascript(setJs()).then((result) {});
+    Timer.periodic(Duration(milliseconds: 10), (timer) async {
+      try {
+        if (_webController != null && await _webController.canGoBack()) {
+          _webController.evaluateJavascript(setJs()).then((result) {});
+        }
+      } catch (e) {}
     });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    if (_webController != null) {
-      _webController.clearCache();
-    }
     super.dispose();
   }
 }
