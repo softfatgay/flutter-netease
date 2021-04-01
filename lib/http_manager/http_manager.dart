@@ -163,7 +163,6 @@ class HttpManager {
     bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) {
-    print('<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     return HttpManager.request(
       path,
       queryParameters: params,

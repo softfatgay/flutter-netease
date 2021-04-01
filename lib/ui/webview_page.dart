@@ -95,8 +95,10 @@ class _WebViewPageState extends State<WebViewPage> {
           },
           onPageStarted: (url) async {
             setcookie();
+            hideTop();
           },
           onPageFinished: (url) async {
+            hideTop();
             String aa = await _webController.getTitle();
             setState(() {
               _title = aa;
@@ -109,8 +111,6 @@ class _WebViewPageState extends State<WebViewPage> {
                 CookieConfig.cookie = updateCookie;
               });
             }
-
-            hideTop();
           },
           navigationDelegate: (NavigationRequest request) {
             var url = request.url;
@@ -140,8 +140,11 @@ class _WebViewPageState extends State<WebViewPage> {
   void hideTop() {
     Timer.periodic(Duration(milliseconds: 10), (timer) async {
       try {
-        if (_webController != null && await _webController.canGoBack()) {
-          _webController.evaluateJavascript(setJs()).then((result) {});
+        if (_webController != null) {
+          _webController.evaluateJavascript(setJs()).then((result) {
+            print('>>>>>>>>>>>>>>>>>>>>>>>');
+            print(result);
+          });
         }
       } catch (e) {}
     });

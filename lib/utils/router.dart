@@ -136,7 +136,7 @@ class Routers {
           break;
         case 5: //优先购
           return WebViewPage(
-              {"id": "https://m.you.163.com/preemption/index.html"});
+              {"url": "https://m.you.163.com/preemption/index.html"});
           break;
         case 6: //积分中心
           return PointCenter();
@@ -144,7 +144,7 @@ class Routers {
 
         case 7: //会员俱乐部
           // return VipCenter();
-          return WebViewPage({"id": "https://m.you.163.com/membership/index"});
+          return WebViewPage({"url": "https://m.you.163.com/membership/index"});
           break;
         case 8: //地址管理
           return LocationManage();
@@ -154,7 +154,7 @@ class Routers {
           break;
         case 10: //帮助客服
           return WebViewPage(
-              {'id': 'https://cs.you.163.com/client?k=$kefuKey'});
+              {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
           break;
         case 11: //反馈
           return FeedBack();

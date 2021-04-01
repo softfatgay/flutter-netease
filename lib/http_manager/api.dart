@@ -4,7 +4,6 @@ import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
 Future<ResponseData> homeData(Map<String, dynamic> params) async {
-  print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
   return await HttpManager.get(URL_HOME_NEW, params: params);
 }
 

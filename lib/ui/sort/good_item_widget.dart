@@ -170,12 +170,12 @@ class GoodItemWidget extends StatelessWidget {
   }
 
   _buildTags(List<ItemTagListItem> itemTagList) {
-    if (itemTagList.length > 3) {
-      itemTagList.removeRange(2, itemTagList.length - 1);
-    }
     if (itemTagList == null || itemTagList.isEmpty) {
       return Container();
     } else {
+      if (itemTagList.length > 3) {
+        itemTagList.removeRange(2, itemTagList.length - 1);
+      }
       return Row(
         children: itemTagList
             .map((item) => Container(
