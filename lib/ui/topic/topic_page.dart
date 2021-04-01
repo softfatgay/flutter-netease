@@ -290,7 +290,7 @@ class _TopicPageState extends State<TopicPage>
     if (!schemeUrl.startsWith('http')) {
       schemeUrl = 'https://m.you.163.com$schemeUrl';
     }
-    return Routers.link(widget, Util.webView, context, {'id': schemeUrl});
+    return Routers.link(widget, Util.webView, context, {'url': schemeUrl});
   }
 
   _stagegeredGridview() {

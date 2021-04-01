@@ -256,7 +256,7 @@ class _PointCenterState extends State<PointCenter> {
           ),
         );
         return Routers.link(widget, Util.webView, context, {
-          "id":
+          "url":
               'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct['actId']}&actPacketId=${item['actPacketId']}&actPacketGiftId=${item['actPacketGiftId']}'
         });
       }).toList(),
@@ -319,7 +319,7 @@ class _PointCenterState extends State<PointCenter> {
             ),
           );
           return Routers.link(widget, Util.webView, context, {
-            "id":
+            "url":
                 'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct['actId']}&actPacketId=${item['actPacketId']}&actPacketGiftId=${item['actPacketGiftId']}'
           });
         }).toList(),
