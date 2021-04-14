@@ -60,31 +60,44 @@ class _MinePageState extends State<UserPage>
 
   @override
   Widget build(BuildContext context) {
+    return _buildRefresh();
+  }
+
+  _buildRefresh() {
+    return RefreshIndicator(
+        child: _buildbody(),
+        onRefresh: () async {
+          _checkLogin();
+        });
+  }
+
+  _buildbody() {
     return _islogin
         ? Scaffold(
             backgroundColor: Colors.white,
             body: _firstLoading
                 ? Loading()
-                : (_userInfo == null
-                    ? Container()
-                    : CustomScrollView(
-                        slivers: <Widget>[
-                          _buildTop(context),
-                          _buildTitle(context),
-                          _buildMineItems(context),
-                          _buildMonthCard(context, _userInfo.monthCardEntrance),
-                          _buildMonthCard(
-                              context, _userInfo.welfareCardEntrance),
-                          _line(10.0),
-                          _buildActivity(context),
-                          _buildAdapter(context),
-                          _line(1),
-                          _line(20.0),
-                          _loginOut(context),
-                          _line(50.0),
-                        ],
-                      )))
+                : (_userInfo == null ? Container() : _buildContent()))
         : _loginPage(context);
+  }
+
+  _buildContent() {
+    return CustomScrollView(
+      slivers: <Widget>[
+        _buildTop(context),
+        _buildTitle(context),
+        _buildMineItems(context),
+        _buildMonthCard(context, _userInfo.monthCardEntrance),
+        _buildMonthCard(context, _userInfo.welfareCardEntrance),
+        _line(10.0),
+        _buildActivity(context),
+        _buildAdapter(context),
+        _line(1),
+        _line(20.0),
+        _loginOut(context),
+        _line(50.0),
+      ],
+    );
   }
 
   @override
@@ -94,10 +107,6 @@ class _MinePageState extends State<UserPage>
   }
 
   void _getUserInfo() async {
-    setState(() {
-      _firstLoading = true;
-    });
-
     Map<String, dynamic> params = {"csrf_token": csrf_token};
     Map<String, dynamic> header = {"Cookie": cookie};
 

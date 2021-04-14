@@ -155,43 +155,53 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         child: Icon(Icons.loop),
       ), //
 
-      body: isLoading
-          ? _loadingView()
-          : CustomScrollView(
-              controller: _scrollController,
-              slivers: <Widget>[
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: 160,
-                  backgroundColor: Colors.white,
-                  brightness: Brightness.light,
-                  toolbarHeight: double.parse(toolbarHeight.toString()),
-                  title: _buildSearch(context),
-                  centerTitle: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: _buildSwiper(), //banner图
-                  ),
-                ),
+      body: isLoading ? _loadingView() : _refresh(),
+    );
+  }
 
-                _topTags(context), //标签
-                _kingkong(context), //
-                _bigPromotion(context), //活动
-                _splitLine(),
-                _newcomerPack(context), //新人礼包
-                _splitLine(),
-                _categoryHotSell(context), //类目热销榜
-                _categoryHotSellItem(context), //类目热销榜条目
+  _refresh() {
+    return RefreshIndicator(
+        child: _contentBody(),
+        onRefresh: () async {
+          _getData();
+        });
+  }
 
-                _normalTitle(context, '限时购'), //限时购
-                _flashSaleItem(context), //类目热销榜条目
+  _contentBody() {
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
+          expandedHeight: 160,
+          backgroundColor: Colors.white,
+          brightness: Brightness.light,
+          toolbarHeight: double.parse(toolbarHeight.toString()),
+          title: _buildSearch(context),
+          centerTitle: true,
+          flexibleSpace: FlexibleSpaceBar(
+            background: _buildSwiper(), //banner图
+          ),
+        ),
 
-                _normalTitle(context, '新品首发'), //新品首发
-                _newModulItem(context), //新品首发条目
+        _topTags(context), //标签
+        _kingkong(context), //
+        _bigPromotion(context), //活动
+        _splitLine(),
+        _newcomerPack(context), //新人礼包
+        _splitLine(),
+        _categoryHotSell(context), //类目热销榜
+        _categoryHotSellItem(context), //类目热销榜条目
 
-                _splitLine(),
-                _bottomView(context),
-              ],
-            ),
+        _normalTitle(context, '限时购'), //限时购
+        _flashSaleItem(context), //类目热销榜条目
+
+        _normalTitle(context, '新品首发'), //新品首发
+        _newModulItem(context), //新品首发条目
+
+        _splitLine(),
+        _bottomView(context),
+      ],
     );
   }
 
