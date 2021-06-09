@@ -177,13 +177,13 @@ class Routers {
           return Setting();
           break;
         case 3: //组件
-          return WidgetList();
+          return NoFoundPage();
           break;
         case 4: //组件
           return ScrollViewDemo();
           break;
         case 5: //收藏界面
-          return Favorite();
+          return NoFoundPage();
           break;
       }
       return NoFoundPage();

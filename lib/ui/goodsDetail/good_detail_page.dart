@@ -386,6 +386,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                                 Row(
                                   crossAxisAlignment:
                                       CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.ideographic,
                                   children: [
                                     Text(
                                       '￥',
@@ -1354,6 +1355,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
                         Text(
                           '￥',

@@ -126,7 +126,11 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       _focusList = homeModel.focusList;
       _policyDescList = homeModel.policyDescList;
       _kingKongList = homeModel.kingKongModule.kingKongList;
-      _floorList = homeModel.bigPromotionModule.floorList;
+      if (homeModel.bigPromotionModule != null) {
+        _floorList = homeModel.bigPromotionModule.floorList;
+      } else {
+        _floorList = [];
+      }
       _indexActivityModule = homeModel.indexActivityModule;
       _categoryHotSellModule = homeModel.categoryHotSellModule;
       if (_categoryHotSellModule != null) {

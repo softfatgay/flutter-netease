@@ -386,8 +386,7 @@ class _TopicPageState extends State<TopicPage>
                           margin: EdgeInsets.only(top: 2),
                           child: Text('${item.mainTitle}',
                               style: TextStyle(
-                                  fontSize: ScreenUtil()
-                                      .setSp(12, allowFontScalingSelf: false),
+                                  fontSize: 12,
                                   color: textBlack,
                                   fontWeight: FontWeight.w500),
                               maxLines: 1),
@@ -396,10 +395,8 @@ class _TopicPageState extends State<TopicPage>
                           margin: EdgeInsets.only(top: 2),
                           child: Text(
                             '${item.viceTitle}',
-                            style: TextStyle(
-                                fontSize: ScreenUtil()
-                                    .setSp(10, allowFontScalingSelf: false),
-                                color: textLightGrey),
+                            style:
+                                TextStyle(fontSize: 10, color: textLightGrey),
                             maxLines: 1,
                           ),
                         ),

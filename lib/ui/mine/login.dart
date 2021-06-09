@@ -38,7 +38,6 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[

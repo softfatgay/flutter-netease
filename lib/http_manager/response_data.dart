@@ -40,7 +40,7 @@ class ResponseData<T> {
       status: response.data['status'],
       code: response.data['code'],
       errorCode: response.data['errorCode'],
-      httpRequestOptions: HttpRequestOptions.convert(response.request),
+      httpRequestOptions: HttpRequestOptions.convert(response.requestOptions),
     );
     if (responseData.code != '200' && responseData.errorCode != null) {
       Toast.show(responseData.errorCode, mainContext);

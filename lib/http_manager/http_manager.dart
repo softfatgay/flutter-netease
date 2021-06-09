@@ -51,11 +51,9 @@ class HttpManager {
     if (needCommonHeaders ?? true) {
       headers.addAll(commonHeaders());
     }
-
     Dio dio = Dio();
-
-    dio.interceptors
-        .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+    dio.interceptors.add(InterceptorsWrapper(
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
       if (showProgress ?? true) {
         BotToast.showLoading(clickClose: true);
       }
@@ -65,7 +63,9 @@ class HttpManager {
       print("headers = ${options.headers}");
       print("params = ${options.queryParameters}");
       print("body = ${options.data}");
-    }, onResponse: (Response response) {
+
+      handler.next(options);
+    }, onResponse: (Response response, ResponseInterceptorHandler handler) {
       if (showProgress ?? true) {
         BotToast.closeAllLoading();
       }
@@ -73,9 +73,9 @@ class HttpManager {
       print("code = ${response.statusCode}");
       print("data = ${json.encode(response.data)}");
       LogUtil.v("data = ${json.encode(response.data)}"); //打印长Log
-
+      handler.next(response);
       print("----------------------- 响应结束 -----------------------\n");
-    }, onError: (DioError e) {
+    }, onError: (DioError e, ErrorInterceptorHandler handler) {
       if (showProgress ?? true) {
         BotToast.closeAllLoading();
       }
@@ -84,6 +84,7 @@ class HttpManager {
       print("message = ${e.message}");
       print("stackTrace = ${e.message}");
       print("\n");
+      handler.next(e);
     }));
 
     ///注意代理必须配置到await dio.request之后，否则不打开抓包工具时无法访问网络

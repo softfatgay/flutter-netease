@@ -39,8 +39,7 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(statusBarDark);
     return ScreenUtilInit(
       designSize: Size(360, 690),
-      allowFontScaling: false,
-      child: MaterialApp(
+      builder: () => MaterialApp(
         builder: BotToastInit(),
         // flutter build appbundle --target-platform android-arm
         theme: ThemeData(

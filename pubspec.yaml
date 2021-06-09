@@ -3,28 +3,28 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.2
   #网络
-  dio: ^3.0.7
+  dio: ^4.0.0
 
   #  webview
-  webview_flutter: ^1.0.7
-  webview_cookie_manager: ^1.0.5
+  webview_flutter: ^2.0.8
+  webview_cookie_manager: ^2.0.0
   #状态管理
   #  provider: ^3.2.0
-  flutter_bloc: ^6.1.1
+  flutter_bloc: ^7.0.1
 
   #工具类
-  common_utils: ^1.2.1
+  common_utils: ^2.0.2
 
   #  图片
-  cached_network_image: ^2.0.0-rc.1
+  cached_network_image: ^3.0.0
   #如果package get报错,改成下面的版本
   #  cached_network_image: ^2.0.0-rc.1
 
@@ -32,7 +32,7 @@ dependencies:
   flutter_swiper: ^1.1.6
 
   #标签加载,类似html
-  flutter_html: ^0.11.0
+  flutter_html: ^2.0.0
 
   #语言包
   flutter_localizations:
@@ -41,49 +41,49 @@ dependencies:
   #  image_picker: ^0.6.3+1
 
   #包信息
-  package_info: ^0.4.0+17
+  package_info: ^2.0.2
 
-  url_launcher: ^5.4.5
+  url_launcher: ^6.0.6
 
   #视频播放切勿改动
   #  chewie: ^0.9.8+1 项目中已把chewie的源码拿出来改动过了,请不要再次dependencie
-  video_player: ^0.10.10
+  video_player: ^2.1.4
 
   #shared_preferences插件
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.6
 
   screen: ^0.0.5
 
   open_iconic_flutter: ^0.3.0
 
-  english_words: ^3.1.5
+  english_words: ^4.0.0
 
   #下拉菜单
-  dropdown_menu: ^1.1.1
+#  dropdown_menu: ^1.1.1
 
   #  瀑布流
-  flutter_staggered_grid_view: ^0.3.2
+  flutter_staggered_grid_view: ^0.4.0
 
-  flutter_screenutil: ^4.0.2+5
+  flutter_screenutil: ^5.0.0+2
 
   #二维码
-  qr_flutter: ^3.2.0
-  intl: ^0.16.1
+  qr_flutter: ^4.0.0
+  intl: ^0.17.0
   #轮播
   carousel_slider: ^3.0.0
   #高性能json序列化
-  json_annotation: ^3.1.1
+  json_annotation: ^4.0.1
 
   #  对话框
-  bot_toast: 3.0.5
-  event_bus: 1.1.1
+  bot_toast: 4.0.1
+  event_bus: 2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   #  json序列化需要的库，只需要dev
-  build_runner: ^1.0.0
-  json_serializable: ^3.2.0
+  build_runner: ^2.0.4
+  json_serializable: ^4.1.3
 
 flutter:
 

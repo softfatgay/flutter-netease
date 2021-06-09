@@ -32,7 +32,7 @@
 - 数据来之不易，如若有帮助，请帮忙点个👍
 
 
-## 使用的第三方库
+## 使用的三方库
 - [Flutter中文网](https://flutterchina.club/)
 - [Dio](https://pub.flutter-io.cn/packages/dio)
 - [json_annotation](https://pub.flutter-io.cn/packages/json_annotation)
