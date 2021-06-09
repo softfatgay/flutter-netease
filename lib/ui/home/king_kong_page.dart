@@ -5,7 +5,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/home/model/categoryItemListItem.dart';
 import 'package:flutter_app/ui/home/model/kingkongModel.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -102,7 +102,7 @@ class _KingKongPageState extends State<KingKongPage> {
     if (_categoryItemList != null) {
       for (var value in _categoryItemList) {
         slivers.add(_bodyTitle(value));
-        slivers.add(GoodItemWidget(dataList: value.itemList));
+        slivers.add(GoodItemNormalWidget(dataList: value.itemList));
       }
     }
     return Scaffold(

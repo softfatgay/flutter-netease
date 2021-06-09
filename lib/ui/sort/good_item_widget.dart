@@ -7,6 +7,7 @@ import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/MyVerticalText.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -27,30 +28,6 @@ class GoodItemWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             sliver: _buildGrid(data),
           );
-  }
-
-  _buildGridview(List<ItemListItem> data) {
-    return SliverGrid(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        Widget widget = Container(
-          padding: EdgeInsets.only(bottom: 5),
-          width: double.infinity,
-          decoration: BoxDecoration(color: Colors.transparent),
-          child: _buildGoodItem(context, index, data),
-        );
-        return GestureDetector(
-          child: widget,
-          onTap: () {
-            Routers.push(Util.goodDetailTag, context, {'id': data[index].id});
-          },
-        );
-      }, childCount: data.length),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.52,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10),
-    );
   }
 
   _buildGrid(List<ItemListItem> data) {
@@ -104,7 +81,7 @@ class GoodItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    (item.listPromBanner == null || !item.listPromBanner.valid)
+                    (item.promTag == null || item.listPromBanner == null)
                         ? _buildTextDesc(item.simpleDesc)
                         : _buildPromBanner(item.listPromBanner),
                   ],
@@ -113,19 +90,14 @@ class GoodItemWidget extends StatelessWidget {
                         dataList[index].productPlace == ""
                     ? Container()
                     : Container(
-                        padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                        padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
                         decoration: BoxDecoration(
                           border:
                               Border.all(color: Color(0xFFA28C63), width: 1),
                         ),
                         margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                        child: Text(
-                          dataList[index].productPlace,
-                          style:
-                              TextStyle(color: Color(0xFFA28C63), fontSize: 12),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                        child: MyVerticalText(dataList[index].productPlace,
+                            TextStyle(color: Color(0xFFA28C63), fontSize: 12))),
               ],
             ),
           ),

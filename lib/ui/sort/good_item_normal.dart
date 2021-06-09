@@ -1,14 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/MyVerticalText.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
-class GoodItemWidget extends StatelessWidget {
+class GoodItemNormalWidget extends StatelessWidget {
   final List dataList;
 
-  const GoodItemWidget({Key key, this.dataList}) : super(key: key);
+  const GoodItemNormalWidget({Key key, this.dataList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +51,9 @@ class GoodItemWidget extends StatelessWidget {
           );
   }
 
-  _buildGoodItem(BuildContext context, int index, List<dynamic> dataList) {
+  _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
     var item = dataList[index];
-    List itemTagList = dataList[index]["itemTagList"];
+    var itemTagList = dataList[index].itemTagList;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,7 +71,7 @@ class GoodItemWidget extends StatelessWidget {
                           child: CachedNetworkImage(
                             height: 300,
                             width: double.infinity,
-                            imageUrl: item['listPicUrl'],
+                            imageUrl: item.listPicUrl,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -75,28 +80,23 @@ class GoodItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    (item["listPromBanner"] == null ||
-                            !item["listPromBanner"]['valid'])
-                        ? _buildTextDesc(item["simpleDesc"])
-                        : _buildPromBanner(item["listPromBanner"]),
+                    (item.promTag == null || item.listPromBanner == null)
+                        ? _buildTextDesc(item.simpleDesc)
+                        : _buildPromBanner(item.listPromBanner),
                   ],
                 ),
-                dataList[index]["productPlace"] == null ||
-                        dataList[index]["productPlace"] == ""
+                dataList[index].productPlace == null ||
+                        dataList[index].productPlace == ""
                     ? Container()
                     : Container(
-                        padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                        padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
                         decoration: BoxDecoration(
                           border:
                               Border.all(color: Color(0xFFA28C63), width: 1),
                         ),
                         margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                        child: Text(
-                          dataList[index]["productPlace"],
-                          style:
-                              TextStyle(color: Color(0xFFA28C63), fontSize: 12),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        child: MyVerticalText(dataList[index].productPlace,
+                            TextStyle(color: Color(0xFFA28C63), fontSize: 12)),
                       ),
               ],
             ),
@@ -105,54 +105,69 @@ class GoodItemWidget extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text(dataList[index]["name"]),
+        Text(
+          dataList[index].name,
+          style: t14blackBold,
+        ),
         SizedBox(
           height: 5,
+        ),
+        _buildTags(itemTagList),
+        SizedBox(
+          height: 10,
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "¥${dataList[index]["retailPrice"]}",
-              style: TextStyle(color: textRed, fontSize: 16),
+              "¥${dataList[index].retailPrice}",
+              style: t18redBold,
             ),
             SizedBox(
               width: 5,
             ),
             Text(
-              dataList[index]["counterPrice"] == null
+              dataList[index].counterPrice == null
                   ? ""
-                  : "¥${dataList[index]["counterPrice"]}",
+                  : "¥${dataList[index].counterPrice}",
               style: TextStyle(
-                  color: Colors.grey,
+                  color: textGrey,
                   decoration: TextDecoration.lineThrough,
                   fontSize: 12),
             ),
           ],
         ),
-        SizedBox(
-          height: 5,
-        ),
-        (itemTagList == null || itemTagList.isEmpty)
-            ? Container()
-            : Row(
-                children: itemTagList
-                    .map((item) => Container(
-                          padding: EdgeInsets.fromLTRB(4, 1, 4, 1),
-                          margin: EdgeInsets.only(right: 5),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              border: Border.all(width: 1, color: redColor)),
-                          child: Text(
-                            item["name"],
-                            style: TextStyle(color: textRed, fontSize: 12),
-                          ),
-                        ))
-                    .toList(),
-              )
       ],
     );
+  }
+
+  _buildTags(List<ItemTagListItem> itemTagList) {
+    if (itemTagList == null || itemTagList.isEmpty) {
+      return Container();
+    } else {
+      if (itemTagList.length > 3) {
+        itemTagList.removeRange(2, itemTagList.length - 1);
+      }
+      return Row(
+        children: itemTagList
+            .map((item) => Container(
+                  padding: EdgeInsets.fromLTRB(4, 2, 4, 1),
+                  margin: EdgeInsets.only(right: 5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                      color: backLightRed),
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: textRed,
+                      height: 1.1,
+                    ),
+                  ),
+                ))
+            .toList(),
+      );
+    }
   }
 
   ///仅描述
@@ -173,7 +188,7 @@ class GoodItemWidget extends StatelessWidget {
   }
 
   ///特价描述
-  _buildPromBanner(item) {
+  _buildPromBanner(ListPromBanner item) {
     return Container(
       height: 35,
       width: double.infinity,
@@ -184,7 +199,7 @@ class GoodItemWidget extends StatelessWidget {
             width: double.infinity,
             height: 30,
             child: CachedNetworkImage(
-              imageUrl: item["bannerContentUrl"],
+              imageUrl: item.bannerContentUrl,
               fit: BoxFit.fill,
             ),
           ),
@@ -199,7 +214,7 @@ class GoodItemWidget extends StatelessWidget {
                         constraints: BoxConstraints(maxWidth: 80),
                         width: 60,
                         child: CachedNetworkImage(
-                          imageUrl: item["bannerTitleUrl"],
+                          imageUrl: item.bannerTitleUrl,
                           height: 35,
                           fit: BoxFit.fill,
                         ),
@@ -214,7 +229,7 @@ class GoodItemWidget extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                item["promoTitle"] ?? "",
+                                item.promoTitle ?? "",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 12,
@@ -227,7 +242,7 @@ class GoodItemWidget extends StatelessWidget {
                               child: Container(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  item["promoSubTitle"] ?? "",
+                                  item.promoSubTitle ?? "",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 12,
@@ -248,7 +263,7 @@ class GoodItemWidget extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Text(
-                      item["content"] ?? "",
+                      item.content ?? "",
                       style: TextStyle(fontSize: 12, color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                     ),
