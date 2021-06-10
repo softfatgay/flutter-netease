@@ -1,0 +1,17 @@
+# vcb
+序列化组件创建model
+示例 profileModel.dart
+严格按照这个model创建，命令行下面语句，自动生成   .g.dart文件
+两种方式，terminal输入：
+flutter packages pub run build_runner build（一次生成）
+flutter packages pub run build_runner watch（实时检测）
+
+
+安卓端打包（realease）：
+签名文件已配置好，terminal输入：
+flutter build apk --target-platform android-arm
+回车，直接生成生产包
+
+pub finished with exit code 78执行以下命令：
+flutter packages pub run build_runner build --delete-conflicting-outputs
+

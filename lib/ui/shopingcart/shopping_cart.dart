@@ -11,8 +11,10 @@ import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/HosEventBusUtils.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -66,6 +68,7 @@ class _ShoppingCartState extends State<ShoppingCart>
     super.initState();
     HosEventBusUtils.on((event) {
       if (event == 'refresh') {
+        print("-----------------");
         _getData();
       }
     });
@@ -101,7 +104,9 @@ class _ShoppingCartState extends State<ShoppingCart>
     var responseData = await shoppingCart(params, header: header);
     setState(() {
       _data = responseData.data;
-      setData(_data);
+      if (_data != null) {
+        setData(_data);
+      }
     });
   }
 
@@ -493,6 +498,9 @@ class _ShoppingCartState extends State<ShoppingCart>
                       ],
                     ),
                   ),
+                  onTap: () {
+                    Routers.push(Util.getCarsPage, context);
+                  },
                 ),
                 SizedBox(
                   height: 6,

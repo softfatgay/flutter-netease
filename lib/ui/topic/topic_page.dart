@@ -101,8 +101,10 @@ class _TopicPageState extends State<TopicPage>
     setState(() {
       _isFirstLoading = false;
       var data = responseData.data;
-      var topData = TopData.fromJson(data);
-      _navList = topData.navList;
+      if (data != null) {
+        var topData = TopData.fromJson(data);
+        _navList = topData.navList;
+      }
     });
   }
 
@@ -119,15 +121,17 @@ class _TopicPageState extends State<TopicPage>
 
     var responseData = await findRecAuto(params, header: header);
     var data = responseData.data;
-    var topicData = TopicData.fromJson(data);
-    setState(() {
-      _page++;
-      _hasMore = topicData.hasMore;
-      _result = topicData.result;
-      _result.forEach((element) {
-        _dataList.addAll(element.topics);
+    if (data != null) {
+      var topicData = TopicData.fromJson(data);
+      setState(() {
+        _page++;
+        _hasMore = topicData.hasMore;
+        _result = topicData.result;
+        _result.forEach((element) {
+          _dataList.addAll(element.topics);
+        });
       });
-    });
+    }
   }
 
   @override
@@ -345,6 +349,9 @@ class _TopicPageState extends State<TopicPage>
   }
 
   _buildNav() {
+    if (_navList == null) {
+      return Container();
+    }
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(

@@ -88,6 +88,9 @@ final String WAPITEM_DELIVERY =
     '${NetContants.baseUrl}xhr/wapitem/delivery.json';
 
 ///配送信息
+final String GET_CARTS = '${NetContants.baseUrl}xhr/cart/getCarts.json';
+
+///配送信息
 ///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 
 // https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603704250732&
@@ -198,3 +201,6 @@ final String WAPITEM_DELIVERY =
 
 ///推荐POST
 ///xhr/wapitem/relatedRcmd.json
+
+///购物车换购
+///https://m.you.163.com/xhr/cart/getCarts.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a

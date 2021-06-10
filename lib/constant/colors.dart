@@ -82,3 +82,5 @@ const Color textLightYellow = Color(0xFFFFF6CF);
 const Color redLightColor = Color(0xFFF9684D);
 const Color textYellow = Color(0xFFDEBB75);
 const Color backYellow = Color(0xFFF1BB6A);
+const Color backLightYellow = Color(0xFFF5EED0);
+const Color aaa = Color(0xFFE5E5E5);

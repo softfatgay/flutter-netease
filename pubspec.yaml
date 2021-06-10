@@ -72,7 +72,7 @@ dependencies:
   #轮播
   carousel_slider: ^3.0.0
   #高性能json序列化
-  json_annotation: ^4.0.1
+  json_annotation: ^3.1.1
 
   #  对话框
   bot_toast: 4.0.1
@@ -82,8 +82,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   #  json序列化需要的库，只需要dev
-  build_runner: ^2.0.4
-  json_serializable: ^4.1.3
+  build_runner: ^1.0.0
+  json_serializable: ^3.5.1
 
 flutter:
 

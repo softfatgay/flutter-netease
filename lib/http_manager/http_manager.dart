@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
@@ -81,6 +84,16 @@ class HttpManager {
       }
       print("-----------------------错误响应数据 -----------------------\n");
       print("type = ${e.type}");
+      if (e.type == DioErrorType.other) {
+        BotToast.showSimpleNotification(
+            title: "请检查网络是否连接",
+            backgroundColor: backYellow,
+            titleStyle: t16white,
+            closeIcon: Icon(
+              Icons.cancel,
+              color: textWhite,
+            ));
+      }
       print("message = ${e.message}");
       print("stackTrace = ${e.message}");
       print("\n");

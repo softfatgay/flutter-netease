@@ -105,15 +105,16 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryId": "$id"
     });
-    var data = responseData.data;
-    var sortDataModel = SortData.fromJson(data);
-
-    setState(() {
-      _isLoading = false;
-      _categoryL1List = sortDataModel.categoryL1List;
-      _bannerList = sortDataModel.currentCategory.bannerList;
-      _categoryGroupList = sortDataModel.categoryGroupList;
-    });
+    if (responseData.data != null) {
+      var data = responseData.data;
+      var sortDataModel = SortData.fromJson(data);
+      setState(() {
+        _isLoading = false;
+        _categoryL1List = sortDataModel.categoryL1List;
+        _bannerList = sortDataModel.currentCategory.bannerList;
+        _categoryGroupList = sortDataModel.categoryGroupList;
+      });
+    }
   }
 
   Widget buildSearch(BuildContext context) {

@@ -117,8 +117,10 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     };
     var responseData = await homeData(params);
     var data = responseData.data;
-    var homeModel = HomeModel.fromJson(data['data']);
-    setData(homeModel);
+    if (data != null) {
+      var homeModel = HomeModel.fromJson(data['data']);
+      setData(homeModel);
+    }
   }
 
   void setData(HomeModel homeModel) {
