@@ -416,6 +416,20 @@ const TextStyle t14warmingYellow = TextStyle(
   decoration: TextDecoration.none,
 );
 
+const TextStyle t12Yellow = TextStyle(
+  color: textYellow,
+  fontSize: 12,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
+const TextStyle t14Yellow = TextStyle(
+  color: textYellow,
+  fontSize: 14,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 ///-------------------------数字字体----------------------------
 
 ///-------------------------白色----------------------------

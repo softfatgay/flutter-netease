@@ -23,8 +23,11 @@ class CartItemListItem {
   String itemName;
   String pic;
   String extId;
+  String promTag;
+  String priceReductDesc;
   bool valid;
   bool checked;
+  int stepNo;
   List<SpecListItem> specList;
   List<String> cartItemTips;
 

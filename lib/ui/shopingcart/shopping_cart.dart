@@ -132,7 +132,7 @@ class _ShoppingCartState extends State<ShoppingCart>
         _topItem = _cartGroupList[0];
         if (_cartGroupList.length > 1) {
           _itemList = _cartGroupList;
-          _itemList.removeAt(0);
+          // _itemList.removeAt(0);
           _selectedNum = 0;
 
           ///获取选择的数量
@@ -317,12 +317,8 @@ class _ShoppingCartState extends State<ShoppingCart>
   }
 
   _loginPage(BuildContext context) {
-    // Routers.push(Util.webLogin, context,{},_callback);
     return WebLoginWidget(
       onValueChanged: (value) {
-        print(value);
-        print('111111111111');
-
         if (value) {
           setState(() {
             _islogin = value;
@@ -434,74 +430,6 @@ class _ShoppingCartState extends State<ShoppingCart>
                           style: t14red,
                         ),
                       ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        padding: EdgeInsets.fromLTRB(5, 1, 5, 2),
-                        decoration: BoxDecoration(
-                            color: redLightColor,
-                            borderRadius: BorderRadius.circular(2)),
-                        child: Text(
-                          '全场换购',
-                          style: t12white,
-                        ),
-                      ),
-                      Expanded(
-                          child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${_topItem.promTip}',
-                          style: t14black,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )),
-                      GestureDetector(
-                        child: Row(
-                          children: [
-                            Text(
-                              '${_topItem.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
-                              style: t14red,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: textRed,
-                              size: 14,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                    margin: EdgeInsets.fromLTRB(50, 0, 15, 0),
-                    color: Color(0xFFFFF7F5),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Text(
-                          _actualPrice > 100 ? '去换购商品' : '查看换购商品',
-                          style: t12black,
-                        )),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 14,
-                          color: textGrey,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Util.getCarsPage, context);
-                  },
-                ),
                 SizedBox(
                   height: 6,
                 )
@@ -513,7 +441,8 @@ class _ShoppingCartState extends State<ShoppingCart>
   /// 有效商品列表
   Widget _dataList() {
     return CartItemWidget(
-      checkOne: (num source, num type, num skuId, bool check, String extId) {
+      checkOne: (CarItem itemData, num source, num type, num skuId, bool check,
+          String extId) {
         _checkOne(source, type, skuId, check, extId);
       },
       deleteCheckItem: (bool check, CarItem itemData, CartItemListItem item) {
@@ -521,6 +450,11 @@ class _ShoppingCartState extends State<ShoppingCart>
       },
       numChange: (num source, num type, num skuId, num cnt, String extId) {
         _checkOneNum(source, type, skuId, cnt, extId);
+      },
+      goRedeem: (CarItem itemData) {
+        Routers.push(Util.getCarsPage, context, {'data': itemData}, () {
+          _getData();
+        });
       },
       isEdit: isEdit,
       itemList: _itemList,

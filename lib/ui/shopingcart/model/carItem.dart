@@ -1,10 +1,12 @@
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'carItem.g.dart';
 
 @JsonSerializable()
 class CarItem {
+  num id;
   num promId;
   num promType;
   List<CartItemListItem> cartItemList;
@@ -15,6 +17,8 @@ class CarItem {
   bool canCheck;
   num promNotSatisfyType;
   num promotionBtn;
+  int allowCount;
+  List<AddBuyStepListItem> addBuyStepList;
 
   CarItem();
 

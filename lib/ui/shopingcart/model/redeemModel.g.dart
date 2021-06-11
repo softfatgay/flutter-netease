@@ -56,7 +56,7 @@ AddBuyStepListItem _$AddBuyStepListItemFromJson(Map<String, dynamic> json) {
     ..addBuyItemList = (json['addBuyItemList'] as List)
         ?.map((e) => e == null
             ? null
-            : AddBuyItemListItem.fromJson(e as Map<String, dynamic>))
+            : CartItemListItem.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 
@@ -89,7 +89,8 @@ AddBuyItemListItem _$AddBuyItemListItemFromJson(Map<String, dynamic> json) {
     ..actualPrice = json['actualPrice'] as num
     ..subtotalPrice = json['subtotalPrice'] as num
     ..extId = json['extId'] as String
-    ..checked = json['checked'] as bool;
+    ..checked = json['checked'] as bool
+    ..promId = json['promId'] as num;
 }
 
 Map<String, dynamic> _$AddBuyItemListItemToJson(AddBuyItemListItem instance) =>
@@ -111,4 +112,5 @@ Map<String, dynamic> _$AddBuyItemListItemToJson(AddBuyItemListItem instance) =>
       'subtotalPrice': instance.subtotalPrice,
       'extId': instance.extId,
       'checked': instance.checked,
+      'promId': instance.promId,
     };

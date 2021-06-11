@@ -4,21 +4,24 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 
 typedef void NumChange(num source, num type, num skuId, num cnt, String extId);
-typedef void CheckOne(
-    num source, num type, num skuId, bool check, String extId);
+typedef void CheckOne(CarItem itemData, num source, num type, num skuId,
+    bool check, String extId);
 
 typedef void DeleteCheckItem(
     bool check, CarItem itemData, CartItemListItem item);
+typedef void GoRedeem(CarItem itemData);
 
 class CartItemWidget extends StatelessWidget {
   final NumChange numChange;
   final CheckOne checkOne;
+  final GoRedeem goRedeem;
   final DeleteCheckItem deleteCheckItem;
   final List<CarItem> itemList;
   final bool isEdit;
@@ -27,6 +30,7 @@ class CartItemWidget extends StatelessWidget {
       {Key key,
       this.numChange,
       this.checkOne,
+      this.goRedeem,
       this.deleteCheckItem,
       this.itemList,
       this.isEdit})
@@ -39,9 +43,31 @@ class CartItemWidget extends StatelessWidget {
       physics: new NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         CarItem itemData = itemList[index];
-        List<CartItemListItem> _itemList = itemData.cartItemList;
+        List<CartItemListItem> _itemList = [];
+
+        ///换购
+        List<AddBuyStepListItem> addBuyStepList = itemData.addBuyStepList;
+        if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
+          addBuyStepList.forEach((element_1) {
+            var addBuyItemList = element_1.addBuyItemList;
+            if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
+              addBuyItemList.forEach((element_2) {
+                if (element_2.checked) {
+                  _itemList.add(element_2);
+                }
+              });
+            }
+          });
+        }
+        var cartItemList = itemData.cartItemList;
+        _itemList.addAll(cartItemList);
+        // List<CartItemListItem> _itemList = itemData.cartItemList;
+
         List<Widget> itemItems = [];
-        itemItems.add(_line());
+        if (index != 0) {
+          itemItems.add(_line());
+        }
+        itemItems.add(_redeem(itemData, index, context));
         List<Widget> goodWidget = _itemList.map<Widget>((item) {
           return _buildItem(context, itemData, item, index);
         }).toList();
@@ -94,14 +120,14 @@ class CartItemWidget extends StatelessWidget {
                             ? Container()
                             : Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  '${item.itemName ?? ''}',
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: textBlack,
-                                      height: 1.1),
-                                ),
-                              ),
+                                child: RichText(
+                                  text: TextSpan(style: t14black, children: [
+                                    TextSpan(
+                                        text: '${item.promTag ?? ''}',
+                                        style: t14Yellow),
+                                    TextSpan(text: '${item.itemName ?? ''}'),
+                                  ]),
+                                )),
                         Container(
                           margin: EdgeInsets.fromLTRB(10, 3, 0, 0),
                           padding:
@@ -128,7 +154,7 @@ class CartItemWidget extends StatelessWidget {
                             children: [
                               Container(
                                 child: Text(
-                                  '¥${item.actualPrice == 0 ? item.actualPrice : item.retailPrice}',
+                                  '¥${item.actualPrice}',
                                   style: t14blackBold,
                                 ),
                               ),
@@ -177,6 +203,18 @@ class CartItemWidget extends StatelessWidget {
               )
             ],
           ),
+          item.priceReductDesc == null || item.priceReductDesc.isEmpty
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(left: 130),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: backYellow, width: 1),
+                      borderRadius: BorderRadius.circular(2)),
+                  child: Text(
+                    '${item.priceReductDesc}',
+                    style: t12Yellow,
+                  ),
+                ),
           (cartItemTips == null || cartItemTips.length == 0)
               ? Container()
               : Container(
@@ -222,32 +260,123 @@ class CartItemWidget extends StatelessWidget {
           onTap: () {
             if (itemData.canCheck || item.checked) {
               if (checkOne != null) {
-                checkOne(item.source, item.type, item.skuId, !item.checked,
-                    item.extId);
+                if (item.id != 0 && item.id != null) {
+                  checkOne(itemData, item.source, item.type, item.skuId,
+                      !item.checked, item.extId);
+                }
               }
             }
           },
           child: Container(
             child: Padding(
               padding: EdgeInsets.all(2),
-              child: item.checked
-                  ? Icon(
+              child: item.id == 0
+                  ? (Icon(
                       Icons.check_circle,
                       size: 22,
-                      color: redColor,
-                    )
-                  : Icon(
-                      Icons.brightness_1_outlined,
-                      size: 22,
-                      color: itemData.canCheck
-                          ? Color(0xFFDBDBDB)
-                          : Color(0xFFF7F6FA),
-                    ),
+                      color: Color(0xFFDBDBDB),
+                    ))
+                  : (item.checked
+                      ? Icon(
+                          Icons.check_circle,
+                          size: 22,
+                          color: redColor,
+                        )
+                      : Icon(
+                          Icons.brightness_1_outlined,
+                          size: 22,
+                          color: itemData.canCheck
+                              ? Color(0xFFDBDBDB)
+                              : Color(0xFFF7F6FA),
+                        )),
             ),
           ),
         ),
       );
     }
+  }
+
+  ///换购
+  _redeem(CarItem itemData, int index, BuildContext context) {
+    return itemData.promTip == null || itemData.addBuyStepList == null
+        ? Container()
+        : Container(
+            color: backWhite,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(right: 6),
+                        padding: EdgeInsets.fromLTRB(5, 1, 5, 2),
+                        decoration: BoxDecoration(
+                            color: redLightColor,
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Text(
+                          index == 0 ? '全场换购' : '换购',
+                          style: t12white,
+                        ),
+                      ),
+                      Expanded(
+                          child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${itemData.promTip}',
+                          style: t14black,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )),
+                      GestureDetector(
+                        child: Row(
+                          children: [
+                            Text(
+                              '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
+                              style: t14red,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: textRed,
+                              size: 14,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    margin: EdgeInsets.fromLTRB(50, 0, 15, 0),
+                    color: Color(0xFFFFF7F5),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Text(
+                          itemData.promSatisfy ? '去换购商品' : '查看换购商品',
+                          style: t12black,
+                        )),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
+                          color: textGrey,
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    if (goRedeem != null) {
+                      goRedeem(itemData);
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
   }
 
   _specValue(CartItemListItem item) {

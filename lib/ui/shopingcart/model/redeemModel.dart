@@ -35,7 +35,7 @@ class AddBuyStepListItem {
   num stepNo;
   String title;
   bool isSatisfy;
-  List<AddBuyItemListItem> addBuyItemList;
+  List<CartItemListItem> addBuyItemList;
 
   AddBuyStepListItem();
 
@@ -62,6 +62,7 @@ class AddBuyItemListItem {
   num subtotalPrice;
   String extId;
   bool checked;
+  num promId;
 
   AddBuyItemListItem();
 

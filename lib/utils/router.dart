@@ -88,7 +88,9 @@ class Routers {
         ShoppingCart(argument: arguments),
 
     ///购物车换购
-    Util.getCarsPage: (context, {arguments}) => GetCarsPage(),
+    Util.getCarsPage: (context, {arguments}) => GetCarsPage(
+          param: arguments,
+        ),
 
     ///回馈金等
     Util.mineTopItems: (context, {arguments}) {

@@ -321,7 +321,15 @@ Future<ResponseData> wapitemDeliveryApi(Map<String, dynamic> params,
       params: params, header: header);
 }
 
-///购物车换购
-Future<ResponseData> getCarts({Map<String, dynamic> header}) async {
+///购物车换购列表
+Future<ResponseData> getCarts(Map<String, dynamic> params,
+    {Map<String, dynamic> header}) async {
   return await HttpManager.post(GET_CARTS, header: header);
+}
+
+///购物车换购
+Future<ResponseData> getCartsSubmit(Map<String, dynamic> params,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(GET_CARTS_SUBMIT,
+      params: params, header: header);
 }

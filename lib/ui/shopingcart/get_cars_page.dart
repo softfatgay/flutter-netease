@@ -3,29 +3,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
+import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/cart_check_box.dart';
+import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class GetCarsPage extends StatefulWidget {
+  final Map param;
+
+  const GetCarsPage({Key key, this.param}) : super(key: key);
+
   @override
   _GetCarsPageState createState() => _GetCarsPageState();
 }
 
 class _GetCarsPageState extends State<GetCarsPage> {
-  List<AddBuyItemListItem> _dataList = [];
+  List<CartItemListItem> _dataList = [];
   int _totalCnt = 0;
   int _allowCount = 0;
+  String _listTitle = "";
+  List _submitData = [];
+
+  CarItem _carItem;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _getData();
+    List<CartItemListItem> dataList = [];
+    _carItem = widget.param['data'];
+    var addBuyStepList = _carItem.addBuyStepList;
+    int totalCnt = 0;
+    if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
+      addBuyStepList.forEach((element_1) {
+        if (_listTitle.isEmpty) {
+          _listTitle = element_1.title;
+        }
+        var addBuyItemList = element_1.addBuyItemList;
+        if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
+          addBuyItemList.forEach((element_2) {
+            element_2.stepNo = element_1.stepNo;
+            if (element_2.checked) {
+              totalCnt += 1;
+            }
+            dataList.add(element_2);
+          });
+        }
+      });
+    }
+    setState(() {
+      _allowCount = _carItem.allowCount;
+      _totalCnt = totalCnt;
+      _dataList = dataList;
+    });
+    // _getData();
   }
 
   @override
@@ -36,7 +71,16 @@ class _GetCarsPageState extends State<GetCarsPage> {
       ).build(context),
       body: Container(
         child: Stack(
-          children: [_buildBody(), _buildTips()],
+          children: [
+            _buildBody(),
+            _buildTips(),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: _buildSubmitBtn(),
+            )
+          ],
         ),
       ),
     );
@@ -58,7 +102,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
               padding: EdgeInsets.only(left: 12),
               alignment: Alignment.centerLeft,
               child: Text(
-                '最多可以选择5件，已选0件',
+                '$_listTitle',
                 style: t14black,
               ),
             ),
@@ -77,7 +121,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
       padding: EdgeInsets.only(left: 12),
       alignment: Alignment.centerLeft,
       child: Text(
-        '最多可以选择5件，已选0件',
+        '最多可以选择$_allowCount件，已选$_totalCnt件',
         style: t14red,
       ),
     );
@@ -132,27 +176,38 @@ class _GetCarsPageState extends State<GetCarsPage> {
   }
 
   void _getData() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "promId": 128579024
+    };
     Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await getCarts(header: header);
+    var responseData = await getCarts(params, header: header);
     var data = responseData.data;
     if (data != null) {
       var redeemModel = RedeemModel.fromJson(data);
       var cartGroupList = redeemModel.cartGroupList;
-      List<AddBuyItemListItem> dataList = [];
-      cartGroupList.forEach((element) {
+      List<CartItemListItem> dataList = [];
+      int totalCnt = 0;
+      cartGroupList.forEach((element_1) {
         if (_allowCount == 0) {
-          _allowCount = element.allowCount;
+          _allowCount = element_1.allowCount;
         }
-        if (element.addBuyStepList != null &&
-            element.addBuyStepList.isNotEmpty) {
-          var addBuyStepList = element.addBuyStepList;
-          addBuyStepList.forEach((element) {
-            if (element.addBuyItemList != null &&
-                element.addBuyItemList.isNotEmpty) {
-              var addBuyItemList = element.addBuyItemList;
-              addBuyItemList.forEach((element) {
-                dataList.add(element);
+        if (element_1.addBuyStepList != null &&
+            element_1.addBuyStepList.isNotEmpty) {
+          var addBuyStepList = element_1.addBuyStepList;
+          addBuyStepList.forEach((element_2) {
+            if (_listTitle.isEmpty) {
+              _listTitle = element_2.title;
+            }
+            if (element_2.addBuyItemList != null &&
+                element_2.addBuyItemList.isNotEmpty) {
+              var addBuyItemList = element_2.addBuyItemList;
+              addBuyItemList.forEach((element_3) {
+                if (element_3.checked) {
+                  totalCnt += 1;
+                  _submitData.add(element_3);
+                }
+                dataList.add(element_3);
               });
             }
           });
@@ -160,12 +215,13 @@ class _GetCarsPageState extends State<GetCarsPage> {
       });
 
       setState(() {
+        _totalCnt = totalCnt;
         _dataList = dataList;
       });
     }
   }
 
-  _buildCheckBox(AddBuyItemListItem item) {
+  _buildCheckBox(CartItemListItem item) {
     return Container(
       margin: EdgeInsets.only(left: 15),
       child: Padding(
@@ -185,7 +241,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
     );
   }
 
-  _buildDec(AddBuyItemListItem item) {
+  _buildDec(CartItemListItem item) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,5 +303,39 @@ class _GetCarsPageState extends State<GetCarsPage> {
         ],
       ),
     );
+  }
+
+  _submit() async {
+    Map<String, dynamic> header = {"Cookie": cookie}; // 请求头
+    List dataList = [];
+    _dataList.forEach((element) {
+      if (element.checked) {
+        print('-----------------------------');
+        var item = {
+          'promotionId': _carItem.promId,
+          'stepNo': element.stepNo,
+          'skuId': element.skuId,
+        };
+        dataList.add(item);
+      }
+    });
+
+    var param = {
+      'promotionId': _carItem.promId,
+      'selectList': dataList,
+    };
+    print('====================');
+    print(dataList);
+
+    var responseData = await getCartsSubmit(param, header: header);
+    if (responseData.code == '200') {
+      Navigator.pop(context);
+    }
+  }
+
+  _buildSubmitBtn() {
+    return ActiveBtn(backRed, () {
+      _submit();
+    });
   }
 }

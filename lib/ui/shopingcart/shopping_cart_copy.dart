@@ -1,20 +1,22 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/shopingcart/cart_item_widget.dart';
+import 'package:flutter_app/ui/shopingcart/empty_cart_widget.dart';
+import 'package:flutter_app/ui/shopingcart/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
+import 'package:flutter_app/utils/HosEventBusUtils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/cart_check_box.dart';
-import 'package:flutter_app/widget/shopping_cart_count.dart';
+import 'package:flutter_app/widget/service_tag_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,8 +30,11 @@ class ShoppingCart extends StatefulWidget {
   _ShoppingCartState createState() => _ShoppingCartState();
 }
 
-class _ShoppingCartState extends State<ShoppingCart> {
+class _ShoppingCartState extends State<ShoppingCart>
+    with AutomaticKeepAliveClientMixin {
   var _data; // 完整数据
+  ShoppingCartModel _shoppingCartModel;
+
   List<CarItem> _cartGroupList = []; // 有效的购物车组列表
   CarItem _topItem; // 顶部商品数据
   List<CarItem> _itemList = []; // 显示的商品数据
@@ -50,6 +55,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
   int allCount = 0;
   List checkList = [];
 
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
   /*
   *   初始化
   * */
@@ -57,7 +66,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    HosEventBusUtils.on((event) {
+      if (event == 'refresh') {
+        print("-----------------");
+        _getData();
+      }
+    });
     _checkLogin();
   }
 
@@ -90,7 +104,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
     var responseData = await shoppingCart(params, header: header);
     setState(() {
       _data = responseData.data;
-      setData(_data);
+      if (_data != null) {
+        setData(_data);
+      }
     });
   }
 
@@ -103,6 +119,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     var shoppingCartModel = ShoppingCartModel.fromJson(_data);
     setState(() {
       loading = false;
+      _shoppingCartModel = shoppingCartModel;
       _cartGroupList = shoppingCartModel.cartGroupList;
 
       _invalidCartGroupList = shoppingCartModel.invalidCartGroupList;
@@ -144,7 +161,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
-  // 购物车 全选/不选 网络请求
+  /// 购物车 全选/不选 网络请求
   _check() async {
     setState(() {
       loading = true;
@@ -161,7 +178,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
-  // 购物车  某个勾选框 选/不选 请求
+  /// 购物车  某个勾选框 选/不选 请求
   _checkOne(int source, int type, int skuId, bool isChecked, var extId) async {
     setState(() {
       loading = true;
@@ -182,7 +199,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
-  // 购物车  商品 选购数量变化 请求
+  /// 购物车  商品 选购数量变化 请求
   _checkOneNum(int source, int type, int skuId, int cnt, var extId) async {
     setState(() {
       loading = true;
@@ -201,18 +218,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
       _data = responseData.data;
       setData(_data);
     });
-  }
-
-  _specValue(CartItemListItem item) {
-    List<SpecListItem> specList = item.specList;
-    String specName = '';
-    for (var value in specList) {
-      specName += value.specValue;
-      specName += "; ";
-    }
-    var replaceRange =
-        specName.replaceRange(specName.length - 2, specName.length - 1, "");
-    return replaceRange;
   }
 
   /// 获取价格
@@ -264,17 +269,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
     print(params);
     var responseData = await deleteCart(params, header: header);
-
     if (responseData.code == "200") {
       print('===============');
       _data = responseData.data;
       setData(_data);
     }
   }
-
-  /*
-  *       UI 部分
-  * */
 
   @override
   Widget build(BuildContext context) {
@@ -292,8 +292,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   ? Container()
                   : GestureDetector(
                       child: Icon(
-                        Icons.arrow_back,
-                        color: redColor,
+                        Icons.arrow_back_ios,
+                        color: textBlack,
                       ),
                       onTap: () {
                         Navigator.pop(context);
@@ -320,6 +320,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
     // Routers.push(Util.webLogin, context,{},_callback);
     return WebLoginWidget(
       onValueChanged: (value) {
+        print(value);
+        print('111111111111');
+
         if (value) {
           setState(() {
             _islogin = value;
@@ -335,7 +338,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       child: (_data == null ||
               _cartGroupList.isEmpty ||
               _cartGroupList.length == 0)
-          ? NoMoreData()
+          ? EmptyCartWidget()
           : MediaQuery.removePadding(
               removeTop: true,
               removeBottom: true,
@@ -380,9 +383,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
           isEdit
               ? Container()
               : Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: EdgeInsets.symmetric(horizontal: 6),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2), color: backRed),
+                    borderRadius: BorderRadius.circular(2),
+                    color: redLightColor,
+                  ),
                   child: Text(
                     '领券',
                     style: t14white,
@@ -408,7 +413,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  // 导航下面，商品上面  标题部分
+  /// 导航下面，商品上面  标题部分
   Widget _buildTitle() {
     return _topItem == null
         ? Container()
@@ -417,16 +422,18 @@ class _ShoppingCartState extends State<ShoppingCart> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  color: textLightYellow,
-                  padding: EdgeInsets.only(left: 15),
-                  height: ScreenUtil().setHeight(40),
-                  child: Text(
-                    '${_data['postageVO']['postageTip']}',
-                    style: t14red,
-                  ),
-                ),
+                _shoppingCartModel.postageVO.postageTip == null
+                    ? ServiceTagWidget()
+                    : Container(
+                        alignment: Alignment.centerLeft,
+                        color: textLightYellow,
+                        padding: EdgeInsets.only(left: 15),
+                        height: ScreenUtil().setHeight(40),
+                        child: Text(
+                          '${_data['postageVO']['postageTip']}',
+                          style: t14red,
+                        ),
+                      ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
@@ -491,6 +498,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       ],
                     ),
                   ),
+                  onTap: () {
+                    Routers.push(Util.getCarsPage, context);
+                  },
                 ),
                 SizedBox(
                   height: 6,
@@ -500,271 +510,28 @@ class _ShoppingCartState extends State<ShoppingCart> {
           );
   }
 
-  // 有效商品列表
+  /// 有效商品列表
   Widget _dataList() {
-    // return CartItemWidget(
-    //   checkOne: (num source, num type, num skuId, bool check, String extId) {},
-    //   deleteCheckItem: (bool check, CarItem itemData, CartItemListItem item) {},
-    //   numChange: (num source, num type, num skuId, num index, String extId) {},
-    //   isEdit: isEdit,
-    //   itemList: _itemList,
-    // );
-
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: new NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        CarItem itemData = _itemList[index];
-        List<CartItemListItem> itemList = itemData.cartItemList;
-        List<Widget> itemItems = itemList.map<Widget>((item) {
-          return _buildItem(itemData, item, index);
-        }).toList();
-        itemItems.add(line);
-        return Column(
-          children: itemItems,
-        );
+    return CartItemWidget(
+      checkOne: (CarItem itemData, num source, num type, num skuId, bool check,
+          String extId) {
+        _checkOne(source, type, skuId, check, extId);
       },
-      itemCount: _itemList.length,
-    );
-  }
-
-  /// 有效商品列表Item
-  Widget _buildItem(CarItem itemData, CartItemListItem item, int index) {
-    List<String> cartItemTips = item.cartItemTips;
-    return Container(
-      margin: EdgeInsets.only(bottom: 0.5),
-      color: Colors.white,
-      padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              _buildCheckBox(itemData, item, index),
-              GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: backGrey, borderRadius: BorderRadius.circular(4)),
-                  height: 90,
-                  width: 90,
-                  child: CachedNetworkImage(imageUrl: item.pic ?? ''),
-                ),
-                onTap: () {
-                  _goDetail(item);
-                },
-              ),
-              Expanded(
-                child: GestureDetector(
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        isEdit
-                            ? Container()
-                            : Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  '${item.itemName ?? ''}',
-                                  style: t14black,
-                                ),
-                              ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: lineColor, width: 1)),
-                          child: Text(
-                            '${_specValue(item)}',
-                            style: t12grey,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                child: Text(
-                                  '¥${item.actualPrice == 0 ? item.actualPrice : item.retailPrice}',
-                                  style: t14blackBold,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    item.retailPrice > item.actualPrice
-                                        ? '¥${item.retailPrice}'
-                                        : '',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: textGrey,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              isEdit
-                                  ? Container()
-                                  : Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 3),
-                                      child: CartCount(
-                                        number: item.cnt,
-                                        min: 1,
-                                        max: item.sellVolume,
-                                        onChange: (index) {
-                                          _checkOneNum(item.source, item.type,
-                                              item.skuId, index, item.extId);
-                                        },
-                                      ),
-                                    )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    _goDetail(item);
-                  },
-                ),
-              )
-            ],
-          ),
-          (cartItemTips == null || cartItemTips.length == 0)
-              ? Container()
-              : Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.fromLTRB(32, 10, 0, 0),
-                  decoration: BoxDecoration(
-                      color: backGrey, borderRadius: BorderRadius.circular(4)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: cartItemTips.map((item) {
-                      return Container(
-                        child: Text(
-                          '• $item',
-                          style: t12lightGrey,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-        ],
-      ),
+      deleteCheckItem: (bool check, CarItem itemData, CartItemListItem item) {
+        _deleteCheckItem(check, itemData, item);
+      },
+      numChange: (num source, num type, num skuId, num cnt, String extId) {
+        _checkOneNum(source, type, skuId, cnt, extId);
+      },
+      isEdit: isEdit,
+      itemList: _itemList,
     );
   }
 
   // 无效商品列表
   Widget _invalidList() {
-    return (_invalidCartGroupList == null || _invalidCartGroupList.length == 0)
-        ? Container()
-        : Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                        bottom: BorderSide(color: lineColor, width: 0.3))),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      '失效商品',
-                      style: t16black,
-                    )),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: lineColor, width: 0.5)),
-                      child: Text(
-                        '清除失效商品',
-                        style: t14black,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: new NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return _buildInvalidItem(_invalidCartGroupList[index]);
-                },
-                itemCount: _invalidCartGroupList.length,
-              ),
-            ],
-          );
-  }
-
-  // 无效商品列表Item
-  Widget _buildInvalidItem(CarItem itemD) {
-    List<CartItemListItem> items = itemD.cartItemList;
-    return Column(
-      children: items.map((item) {
-        return Container(
-          margin: EdgeInsets.only(bottom: 0.5),
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: backGrey,
-                        borderRadius: BorderRadius.circular(4)),
-                    height: 90,
-                    width: 90,
-                    child: CachedNetworkImage(imageUrl: item.pic),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              '${item.itemName}',
-                              style: t16grey,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                            child: Text(
-                              '${_specValue(item)}',
-                              style: t14grey,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '¥${item.retailPrice}',
-                                  style: t14grey,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        );
-      }).toList(),
+    return InvalidCartItemWidget(
+      invalidCartGroupList: _invalidCartGroupList,
     );
   }
 
@@ -869,7 +636,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     Container(
                       child: Text(
                         '合计：¥${_getPrice()}',
-                        style: t16red,
+                        style: TextStyle(
+                            color: textRed, fontSize: 14, height: 1.1),
                       ),
                     ),
                     _promotionPrice == 0
@@ -877,7 +645,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         : Container(
                             child: Text(
                               '已优惠：¥$_promotionPrice',
-                              style: t14grey,
+                              style: TextStyle(
+                                  color: textGrey, fontSize: 12, height: 1.1),
                             ),
                           ),
                   ],
@@ -907,78 +676,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
     }
   }
 
-  ///左侧选择框，编辑框
-  _buildCheckBox(CarItem itemData, CartItemListItem item, int index) {
-    if (isEdit) {
-      return Container(
-        margin: EdgeInsets.only(right: 6),
-        child: CartCheckBox(
-          onCheckChanged: (check) {
-            _deleteCheckItem(check, itemData, item);
-          },
-        ),
-      );
-    } else {
-      return Container(
-        margin: EdgeInsets.only(right: 6),
-        child: InkWell(
-          onTap: () {
-            if (itemData.canCheck || item.checked) {
-              _checkOne(item.source, item.type, item.skuId, !item.checked,
-                  item.extId);
-            }
-          },
-          child: Container(
-            child: Padding(
-              padding: EdgeInsets.all(2),
-              child: item.checked
-                  ? Icon(
-                      Icons.check_circle,
-                      size: 22,
-                      color: redColor,
-                    )
-                  : Icon(
-                      Icons.brightness_1_outlined,
-                      size: 22,
-                      color: itemData.canCheck
-                          ? Color(0xFFDBDBDB)
-                          : Color(0xFFF7F6FA),
-                    ),
-            ),
-          ),
-        ),
-      );
-    }
-  }
-
   // 分割线
   Widget line = Container(
     height: 10,
     color: Color(0xFFEAEAEA),
   );
-
-  void _goDetail(CartItemListItem itemData) {
-    Routers.push(
-        Util.goodDetailTag, context, {'id': itemData.itemId.toString()});
-  }
-}
-
-class NoMoreData extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/cart_none.png',
-            width: 96,
-            height: 96,
-          ),
-          Padding(padding: EdgeInsets.all(8.0)),
-          Text("去添加点什么吧！")
-        ],
-      ),
-    );
-  }
 }

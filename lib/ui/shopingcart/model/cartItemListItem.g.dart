@@ -27,8 +27,11 @@ CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) {
     ..itemName = json['itemName'] as String
     ..pic = json['pic'] as String
     ..extId = json['extId'] as String
+    ..promTag = json['promTag'] as String
+    ..priceReductDesc = json['priceReductDesc'] as String
     ..valid = json['valid'] as bool
     ..checked = json['checked'] as bool
+    ..stepNo = json['stepNo'] as int
     ..specList = (json['specList'] as List)
         ?.map((e) =>
             e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))
@@ -58,8 +61,11 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'itemName': instance.itemName,
       'pic': instance.pic,
       'extId': instance.extId,
+      'promTag': instance.promTag,
+      'priceReductDesc': instance.priceReductDesc,
       'valid': instance.valid,
       'checked': instance.checked,
+      'stepNo': instance.stepNo,
       'specList': instance.specList,
       'cartItemTips': instance.cartItemTips,
     };

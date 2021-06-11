@@ -8,6 +8,7 @@ part of 'carItem.dart';
 
 CarItem _$CarItemFromJson(Map<String, dynamic> json) {
   return CarItem()
+    ..id = json['id'] as num
     ..promId = json['promId'] as num
     ..promType = json['promType'] as num
     ..cartItemList = (json['cartItemList'] as List)
@@ -21,10 +22,17 @@ CarItem _$CarItemFromJson(Map<String, dynamic> json) {
     ..checked = json['checked'] as bool
     ..canCheck = json['canCheck'] as bool
     ..promNotSatisfyType = json['promNotSatisfyType'] as num
-    ..promotionBtn = json['promotionBtn'] as num;
+    ..promotionBtn = json['promotionBtn'] as num
+    ..allowCount = json['allowCount'] as int
+    ..addBuyStepList = (json['addBuyStepList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$CarItemToJson(CarItem instance) => <String, dynamic>{
+      'id': instance.id,
       'promId': instance.promId,
       'promType': instance.promType,
       'cartItemList': instance.cartItemList,
@@ -35,4 +43,6 @@ Map<String, dynamic> _$CarItemToJson(CarItem instance) => <String, dynamic>{
       'canCheck': instance.canCheck,
       'promNotSatisfyType': instance.promNotSatisfyType,
       'promotionBtn': instance.promotionBtn,
+      'allowCount': instance.allowCount,
+      'addBuyStepList': instance.addBuyStepList,
     };
