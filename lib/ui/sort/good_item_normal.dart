@@ -11,7 +11,7 @@ import 'package:flutter_app/widget/MyVerticalText.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
 class GoodItemNormalWidget extends StatelessWidget {
-  final List dataList;
+  final List<ItemListItem> dataList;
 
   const GoodItemNormalWidget({Key key, this.dataList}) : super(key: key);
 
@@ -20,7 +20,7 @@ class GoodItemNormalWidget extends StatelessWidget {
     return _buildrecommond(dataList);
   }
 
-  _buildrecommond(List data) {
+  _buildrecommond(List<ItemListItem> data) {
     return data.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverPadding(
@@ -37,8 +37,9 @@ class GoodItemNormalWidget extends StatelessWidget {
                 return GestureDetector(
                   child: widget,
                   onTap: () {
+                    print(data[index]);
                     Routers.push(
-                        Util.goodDetailTag, context, {'id': data[index]['id']});
+                        Util.goodDetailTag, context, {'id': data[index].id});
                   },
                 );
               }, childCount: data.length),
