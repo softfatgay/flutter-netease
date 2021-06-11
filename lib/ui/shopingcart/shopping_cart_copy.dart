@@ -667,7 +667,7 @@ class _ShoppingCartState extends State<ShoppingCart>
               ),
               onTap: () {
                 Toast.show('暂未开发', context);
-                // Routers.push(Util.webView, context,{'id':'https://m.you.163.com/order/confirm?sfrom=3995230&_stat_referer=itemDetail_buy'});
+                // Routers.push(Util.webView, context,{'url':'https://m.you.163.com/order/confirm?sfrom=3995230&_stat_referer=itemDetail_buy'});
               },
             )
           ],

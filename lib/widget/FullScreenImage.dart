@@ -51,7 +51,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                       ),
                     ),
                     onTap: () {
-                      // Routers.push(Util.webView, context, {'id': e.targetUrl});
+                      // Routers.push(Util.webView, context, {'url': e.targetUrl});
                     },
                   );
                 }).toList(),

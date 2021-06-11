@@ -2121,7 +2121,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       ),
       onTap: () {
         Routers.push(Util.webView, context,
-            {'id': 'https://cs.you.163.com/client?k=$kefuKey'});
+            {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
       },
     );
   }
