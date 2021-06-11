@@ -1315,7 +1315,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///推荐理由
   _buildRecommondReason() {
     var recommendReason = _goodDetail.recommendReason;
-    return recommendReason.isEmpty
+    return recommendReason == null || recommendReason.isEmpty
         ? singleSliverWidget(
             Container(
               padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
