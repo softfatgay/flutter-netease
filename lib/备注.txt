@@ -1,7 +1,7 @@
 # vcb
 序列化组件创建model
-示例 profileModel.dart
-严格按照这个model创建，命令行下面语句，自动生成   .g.dart文件
+示例 ../model/category.dart
+严格按照这个model创建，命令行下面语句，自动生成   *.g.dart文件
 两种方式，terminal输入：
 flutter packages pub run build_runner build（一次生成）
 flutter packages pub run build_runner watch（实时检测）
