@@ -224,9 +224,9 @@ Future<ResponseData> addCart(Map<String, dynamic> params,
 }
 
 ///订单确认界面
-Future<ResponseData> orderInit(Map<String, dynamic> params,
-    {Map<String, dynamic> header}) async {
-  return await HttpManager.post(ORDER_INIT, params: params, header: header);
+Future<ResponseData> orderInit(Map<String, dynamic> postParams) async {
+  return await HttpManager.post(ORDER_INIT,
+      postParams: postParams, header: HttpUtil.getHeader());
 }
 
 ///检查登录
@@ -329,10 +329,10 @@ Future<ResponseData> getCarts(Map<String, dynamic> params,
 }
 
 ///购物车换购
-Future<ResponseData> getCartsSubmit(Map<String, dynamic> params,
+Future<ResponseData> getCartsSubmit(Map<String, dynamic> postParams,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(GET_CARTS_SUBMIT,
-      params: params, header: header);
+      postParams: postParams, header: header);
 }
 
 ///清除无效商品

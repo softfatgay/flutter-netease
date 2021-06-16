@@ -36,20 +36,18 @@ class _PaymentPageState extends State<PaymentPage> {
     //
     // print(json.encode(argus));
     //
-    Map<String, dynamic> cartGroupList = {
-      'cartGroupList' :list
-    };
+    Map<String, dynamic> cartGroupList = {'cartGroupList': list};
 
     Map<String, dynamic> params = {
-      'count':0,
-      'purchaseType':1,
-      'scene':1,
-      'orderId':0,
-      'layawayId':0,
+      'count': 0,
+      'purchaseType': 1,
+      'scene': 1,
+      'orderId': 0,
+      'layawayId': 0,
       "orderCart": cartGroupList,
       "incognito": false,
     };
-    var responseData = await orderInit(params, header: header);
+    var responseData = await orderInit(params);
     setState(() {
       _isLoading = false;
       _data = responseData.data;

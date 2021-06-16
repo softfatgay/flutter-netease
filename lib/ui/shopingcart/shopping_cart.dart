@@ -757,7 +757,8 @@ class _ShoppingCartState extends State<ShoppingCart>
     var orderCart = {'cartGroupList': cartGroupList};
     var postparam = {'orderCart': orderCart};
     var param = {"csrf_token": csrf_token};
-
     var response = await checkBeforeInit(param, postparam);
+
+    // Routers.push(Util.orderInit, context, {'data': orderCart});
   }
 }

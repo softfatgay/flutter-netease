@@ -1,15 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class OrderInitPage extends StatefulWidget {
-  const OrderInitPage({Key key}) : super(key: key);
+  final Map params;
+
+  const OrderInitPage({Key key, this.params}) : super(key: key);
 
   @override
   _OrderInitPageState createState() => _OrderInitPageState();
 }
 
 class _OrderInitPageState extends State<OrderInitPage> {
+  var postdata;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      postdata = widget.params['data'];
+    });
+    super.initState();
+    _initData();
+  }
+
+  void _initData() async {
+    var param = {
+      'skuId': 0,
+      'count': 0,
+      'purchaseType': 1,
+      'scene': 2,
+      'orderId': 0,
+      'layawayId': 0,
+      'incognito': 0,
+      'transactionId': '3_176309080_1623827671297_2865_0',
+      'orderCart': postdata
+    };
+    var responseData = await orderInit(param);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +54,11 @@ class _OrderInitPageState extends State<OrderInitPage> {
 
   _buildBody() {
     return Column(
-      children: [],
-    );
+        // children: [_buildAddressData()],
+        );
   }
 
-  // _buildItem(BuildContext context, int index) {
+  // _buildAddressData() {
   //   Widget widget = Container(
   //     color: Colors.white,
   //     padding: EdgeInsets.only(left: 15),

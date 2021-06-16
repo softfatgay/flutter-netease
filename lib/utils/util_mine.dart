@@ -23,6 +23,7 @@ class Util {
   static String shoppingCart = 'shoppingCart';
   static String webLogin = 'webLogin';
   static String getCarsPage = 'GetCarsPage';
+  static String orderInitPage = 'orderInitPage';
 
   static const String flutter2activity =
       'plugins.want.flutter.io.GloableCookie';

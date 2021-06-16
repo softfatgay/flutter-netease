@@ -22,6 +22,7 @@ import 'package:flutter_app/ui/mine/reward_num.dart';
 import 'package:flutter_app/ui/mine/saturday_buy.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
+import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
 import 'package:flutter_app/ui/setting/about.dart';
 import 'package:flutter_app/ui/setting/favorite.dart';
@@ -88,9 +89,11 @@ class Routers {
         ShoppingCart(argument: arguments),
 
     ///购物车换购
-    Util.getCarsPage: (context, {arguments}) => GetCarsPage(
-          param: arguments,
-        ),
+    Util.getCarsPage: (context, {arguments}) => GetCarsPage(param: arguments),
+
+    ///订单确认页面
+    Util.orderInitPage: (context, {arguments}) =>
+        OrderInitPage(params: arguments),
 
     ///回馈金等
     Util.mineTopItems: (context, {arguments}) {

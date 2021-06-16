@@ -651,7 +651,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                       ],
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Routers.push(Util.webViewPageAPP, context, {
+                      'url':
+                          'https://m.you.163.com/item/detail?id=${widget.arguments['id']}#/coupon/${widget.arguments['id']}'
+                    });
+                  },
                 ),
 
           ///邮费
