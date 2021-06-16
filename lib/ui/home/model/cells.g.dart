@@ -23,7 +23,7 @@ Cells _$CellsFromJson(Map<String, dynamic> json) {
     ..leftTime = json['leftTime'] as int
     ..id = json['id'] as String
     ..targetUrl = json['targetUrl'] as String
-    ..itemList = (json['itemList'] as List)?.map((e) => e as String)?.toList();
+    ..itemList = json['itemList'] as List;
 }
 
 Map<String, dynamic> _$CellsToJson(Cells instance) => <String, dynamic>{
@@ -43,4 +43,26 @@ Map<String, dynamic> _$CellsToJson(Cells instance) => <String, dynamic>{
       'id': instance.id,
       'targetUrl': instance.targetUrl,
       'itemList': instance.itemList,
+    };
+
+ItemListItem _$ItemListItemFromJson(Map<String, dynamic> json) {
+  return ItemListItem()
+    ..primarySkuPreSellStatus = json['primarySkuPreSellStatus'] as num
+    ..picUrl = json['picUrl'] as String
+    ..pieceUnitDesc = json['pieceUnitDesc'] as String
+    ..schemeUrl = json['schemeUrl'] as String
+    ..pieceNum = json['pieceNum'] as num
+    ..primarySkuPreSellPrice = json['primarySkuPreSellPrice'] as num
+    ..id = json['id'] as num;
+}
+
+Map<String, dynamic> _$ItemListItemToJson(ItemListItem instance) =>
+    <String, dynamic>{
+      'primarySkuPreSellStatus': instance.primarySkuPreSellStatus,
+      'picUrl': instance.picUrl,
+      'pieceUnitDesc': instance.pieceUnitDesc,
+      'schemeUrl': instance.schemeUrl,
+      'pieceNum': instance.pieceNum,
+      'primarySkuPreSellPrice': instance.primarySkuPreSellPrice,
+      'id': instance.id,
     };

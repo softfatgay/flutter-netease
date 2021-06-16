@@ -19,11 +19,24 @@ class Cells {
   int leftTime;
   String id;
   String targetUrl;
-  List<String> itemList;
+  List<dynamic> itemList;
 
   Cells();
 
   factory Cells.fromJson(Map<String, dynamic> json) => _$CellsFromJson(json);
 
   Map<String, dynamic> toJson() => _$CellsToJson(this);
+}
+
+@JsonSerializable()
+class ItemListItem {
+  num primarySkuPreSellStatus;
+  String picUrl;
+  String pieceUnitDesc;
+  String schemeUrl;
+  num pieceNum;
+  num primarySkuPreSellPrice;
+  num id;
+
+  ItemListItem();
 }
