@@ -246,6 +246,7 @@ class CartItemWidget extends StatelessWidget {
       return Container(
         margin: EdgeInsets.only(right: 6),
         child: CartCheckBox(
+          canCheck: true,
           onCheckChanged: (check) {
             if (deleteCheckItem != null) {
               deleteCheckItem(check, itemData, item);
@@ -344,6 +345,12 @@ class CartItemWidget extends StatelessWidget {
                             )
                           ],
                         ),
+                        onTap: () {
+                          Routers.push(Util.webView, context, {
+                            'url':
+                                'https://m.you.163.com/cart/itemPool?promotionId=${itemData.promId}'
+                          });
+                        },
                       )
                     ],
                   ),

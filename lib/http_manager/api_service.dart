@@ -94,6 +94,14 @@ final String GET_CARTS = '${NetContants.baseUrl}xhr/cart/getCarts.json';
 final String GET_CARTS_SUBMIT =
     '${NetContants.baseUrl}xhr/cart/selectAddBuy.json';
 
+///购物车换购提交
+final String CLEAR_INVALID_ITEMS =
+    '${NetContants.baseUrl}xhr/cart/clearInvalidItem.json';
+
+///check-cart
+final String CHECK_BEFORE_INIT =
+    '${NetContants.baseUrl}xhr/order/checkBeforeInit.json';
+
 ///配送信息
 ///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 
@@ -204,10 +212,19 @@ final String GET_CARTS_SUBMIT =
 //https://m.you.163.com/xhr/address/list.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a&from=1
 
 ///推荐POST
-///xhr/wapitem/relatedRcmd.json
+//xhr/wapitem/relatedRcmd.json
 
 ///购物车换购列表
-///https://m.you.163.com/xhr/cart/getCarts.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
+//https://m.you.163.com/xhr/cart/getCarts.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 
 ///购物车换购提交
-///https://m.you.163.com/xhr/cart/selectAddBuy.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
+//https://m.you.163.com/xhr/cart/selectAddBuy.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
+
+///清除无效商品
+//https://m.you.163.com/xhr/cart/clearInvalidItem.json?csrf_token=ec9c9ea231479dab33995f908b6f5b50
+
+///check-cart
+//https://m.you.163.com/xhr/order/checkBeforeInit.json?csrf_token=ec9c9ea231479dab33995f908b6f5b50
+
+///下单
+//https://m.you.163.com/xhr/order/init.json?csrf_token=ec9c9ea231479dab33995f908b6f5b50

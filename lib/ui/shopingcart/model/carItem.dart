@@ -18,6 +18,8 @@ class CarItem {
   num promNotSatisfyType;
   num promotionBtn;
   int allowCount;
+  num type;
+  num suitCount;
   List<AddBuyStepListItem> addBuyStepList;
 
   CarItem();

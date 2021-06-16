@@ -45,8 +45,6 @@ class HttpManager {
     //   'application/x-www-form-urlencoded; charset=UTF-8';
     // }
 
-    print('222222222222222222');
-
     if (needCommonParameters ?? false) {
       queryParameters.addAll(commonParameters());
     }
@@ -109,10 +107,9 @@ class HttpManager {
       receiveTimeout: receiveTimeout,
     );
     try {
-      print('3333333333333333333');
       Response response = await dio.request(
         path,
-        data: queryParameters,
+        data: postParams,
         options: options,
         queryParameters: queryParameters,
         cancelToken: cancelToken.cancelToken,

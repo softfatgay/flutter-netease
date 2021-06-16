@@ -4,11 +4,17 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
+import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/util_mine.dart';
+
+typedef void ClearInvalida();
 
 class InvalidCartItemWidget extends StatelessWidget {
   final List<CarItem> invalidCartGroupList;
+  final ClearInvalida clearInvalida;
 
-  const InvalidCartItemWidget({Key key, this.invalidCartGroupList})
+  const InvalidCartItemWidget(
+      {Key key, this.invalidCartGroupList, this.clearInvalida})
       : super(key: key);
 
   @override
@@ -30,14 +36,22 @@ class InvalidCartItemWidget extends StatelessWidget {
                       '失效商品',
                       style: t16black,
                     )),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: lineColor, width: 0.5)),
-                      child: Text(
-                        '清除失效商品',
-                        style: t14black,
+                    GestureDetector(
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: lineColor, width: 0.5)),
+                        child: Text(
+                          '清除失效商品',
+                          style: t14black,
+                        ),
                       ),
+                      onTap: () {
+                        if (clearInvalida != null) {
+                          clearInvalida();
+                        }
+                      },
                     )
                   ],
                 ),
@@ -46,7 +60,8 @@ class InvalidCartItemWidget extends StatelessWidget {
                 shrinkWrap: true,
                 physics: new NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return _buildInvalidItem(invalidCartGroupList[index]);
+                  return _buildInvalidItem(
+                      context, invalidCartGroupList[index]);
                 },
                 itemCount: invalidCartGroupList.length,
               ),
@@ -55,11 +70,11 @@ class InvalidCartItemWidget extends StatelessWidget {
   }
 
   // 无效商品列表Item
-  Widget _buildInvalidItem(CarItem itemD) {
+  Widget _buildInvalidItem(BuildContext context, CarItem itemD) {
     List<CartItemListItem> items = itemD.cartItemList;
     return Column(
-      children: items.map((item) {
-        return Container(
+      children: items.map<Widget>((item) {
+        Widget widget = Container(
           margin: EdgeInsets.only(bottom: 0.5),
           color: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -116,6 +131,8 @@ class InvalidCartItemWidget extends StatelessWidget {
             ],
           ),
         );
+        return Routers.link(widget, Util.goodDetailTag, context,
+            {'id': item.itemId.toString()});
       }).toList(),
     );
   }

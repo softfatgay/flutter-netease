@@ -1,5 +1,6 @@
 import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/http_manager/http_manager.dart';
+import 'package:flutter_app/http_manager/http_util.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
@@ -332,4 +333,19 @@ Future<ResponseData> getCartsSubmit(Map<String, dynamic> params,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(GET_CARTS_SUBMIT,
       params: params, header: header);
+}
+
+///清除无效商品
+Future<ResponseData> clearInvalidItem(Map<String, dynamic> params,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(CLEAR_INVALID_ITEMS,
+      params: params, header: header);
+}
+
+///check-cart
+Future<ResponseData> checkBeforeInit(
+    Map<String, dynamic> params, Map<String, dynamic> postParams,
+    {Map<String, dynamic> header}) async {
+  return await HttpManager.post(CHECK_BEFORE_INIT,
+      params: params, postParams: postParams, header: HttpUtil.getHeader());
 }

@@ -8,6 +8,7 @@ import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
+///地址管理
 class LocationManage extends StatefulWidget {
   @override
   _LocationManageState createState() => _LocationManageState();
@@ -55,7 +56,7 @@ class _LocationManageState extends State<LocationManage> {
   _buildItem(BuildContext context, int index) {
     var item = _locationList[index];
 
-   Widget widget = Container(
+    Widget widget = Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: 15),
       child: Container(
@@ -66,37 +67,37 @@ class _LocationManageState extends State<LocationManage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          Expanded(
-            flex: 1,
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 6),
-                child: Text(
-                  '${item['name']}',
-                  style: t16black,
-                ),
-              ),
-              item['dft'] == true
-                  ? Container(
-                margin: EdgeInsets.only(right: 10),
-                padding: EdgeInsets.symmetric(
-                    horizontal: 5, vertical: 0),
-                decoration: BoxDecoration(
-                    border: Border.all(color: redColor),
-                    borderRadius: BorderRadius.circular(2)),
-                child: Text(
-                  item['dft'] == true ? '默认' : '',
-                  style: t12red,
-                ),
-              )
-                  : Container(
-                width: 45,
-              )
-            ],
-          )),
+            Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        '${item['name']}',
+                        style: t16black,
+                      ),
+                    ),
+                    item['dft'] == true
+                        ? Container(
+                            margin: EdgeInsets.only(right: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: redColor),
+                                borderRadius: BorderRadius.circular(2)),
+                            child: Text(
+                              item['dft'] == true ? '默认' : '',
+                              style: t12red,
+                            ),
+                          )
+                        : Container(
+                            width: 45,
+                          )
+                  ],
+                )),
             Expanded(
               flex: 4,
               child: Column(
@@ -134,7 +135,7 @@ class _LocationManageState extends State<LocationManage> {
       ),
     );
 
-    return Routers.link(widget, Util.addAddress, context, item,(){
+    return Routers.link(widget, Util.addAddress, context, item, () {
       _getLocations();
     });
   }
@@ -205,7 +206,7 @@ class _LocationManageState extends State<LocationManage> {
         ],
       ),
     );
-    return Routers.link(widget, Util.addAddress, context, null,(){
+    return Routers.link(widget, Util.addAddress, context, null, () {
       print('////////////////');
       _getLocations();
     });

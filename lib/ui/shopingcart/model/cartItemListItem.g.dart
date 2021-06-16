@@ -24,6 +24,7 @@ CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) {
     ..preSellVolume = json['preSellVolume'] as num
     ..type = json['type'] as num
     ..source = json['source'] as num
+    ..sources = (json['sources'] as List)?.map((e) => e as num)?.toList()
     ..itemName = json['itemName'] as String
     ..pic = json['pic'] as String
     ..extId = json['extId'] as String
@@ -32,6 +33,7 @@ CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) {
     ..valid = json['valid'] as bool
     ..checked = json['checked'] as bool
     ..stepNo = json['stepNo'] as int
+    ..checkExt = json['checkExt']
     ..specList = (json['specList'] as List)
         ?.map((e) =>
             e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))
@@ -58,6 +60,7 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'preSellVolume': instance.preSellVolume,
       'type': instance.type,
       'source': instance.source,
+      'sources': instance.sources,
       'itemName': instance.itemName,
       'pic': instance.pic,
       'extId': instance.extId,
@@ -66,6 +69,7 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'valid': instance.valid,
       'checked': instance.checked,
       'stepNo': instance.stepNo,
+      'checkExt': instance.checkExt,
       'specList': instance.specList,
       'cartItemTips': instance.cartItemTips,
     };

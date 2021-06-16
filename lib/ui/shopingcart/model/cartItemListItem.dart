@@ -20,6 +20,7 @@ class CartItemListItem {
   num preSellVolume;
   num type;
   num source;
+  List<num> sources;
   String itemName;
   String pic;
   String extId;
@@ -28,6 +29,7 @@ class CartItemListItem {
   bool valid;
   bool checked;
   int stepNo;
+  dynamic checkExt;
   List<SpecListItem> specList;
   List<String> cartItemTips;
 

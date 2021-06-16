@@ -6,8 +6,10 @@ typedef void OnCheckChanged(bool check);
 
 class CartCheckBox extends StatefulWidget {
   final OnCheckChanged onCheckChanged;
+  final bool canCheck;
 
-  const CartCheckBox({Key key, this.onCheckChanged}) : super(key: key);
+  const CartCheckBox({Key key, this.onCheckChanged, this.canCheck})
+      : super(key: key);
 
   @override
   _CartCheckBoxState createState() => _CartCheckBoxState();
@@ -30,16 +32,22 @@ class _CartCheckBoxState extends State<CartCheckBox> {
       child: Container(
         child: Padding(
           padding: EdgeInsets.all(2),
-          child: check
-              ? Icon(
+          child: widget.canCheck
+              ? check
+                  ? Icon(
+                      Icons.check_circle,
+                      size: 22,
+                      color: Colors.red,
+                    )
+                  : Icon(
+                      Icons.brightness_1_outlined,
+                      size: 22,
+                      color: lineColor,
+                    )
+              : Icon(
                   Icons.check_circle,
                   size: 22,
-                  color: Colors.red,
-                )
-              : Icon(
-                  Icons.brightness_1_outlined,
-                  size: 22,
-                  color: lineColor,
+                  color: Color(0xFFDBDBDB),
                 ),
         ),
       ),

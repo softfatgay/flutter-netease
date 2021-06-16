@@ -8,6 +8,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
+import 'package:flutter_app/utils/HosEventBusUtils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -37,6 +38,13 @@ class _MinePageState extends State<UserPage>
   void initState() {
     super.initState();
     // TODO: implement initState
+    HosEventBusUtils.on((event) {
+      if (event == 'mine_refresh') {
+        print("UserPage-----------------");
+        _checkLogin();
+        _getUserInfo();
+      }
+    });
     _checkLogin();
   }
 
@@ -49,12 +57,11 @@ class _MinePageState extends State<UserPage>
     Map<String, dynamic> header = {"Cookie": cookie};
     var responseData = await checkLogin(params, header: header);
     var isLogin = responseData.data;
+    setState(() {
+      _islogin = isLogin;
+    });
     if (isLogin) {
       _getUserInfo();
-    } else {
-      setState(() {
-        _islogin = false;
-      });
     }
   }
 
@@ -98,12 +105,6 @@ class _MinePageState extends State<UserPage>
         _line(50.0),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   void _getUserInfo() async {
@@ -480,6 +481,12 @@ class _MinePageState extends State<UserPage>
       "id": 11
     },
   ];
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    HosEventBusUtils.off();
+    super.dispose();
+  }
 }
 
 //https://m.you.163.com/xhr/order/getList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&size=10&lastOrderId=0&status=5

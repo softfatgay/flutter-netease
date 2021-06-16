@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class _ShoppingCartState extends State<ShoppingCart>
     super.initState();
     HosEventBusUtils.on((event) {
       if (event == 'refresh') {
-        print("-----------------");
+        print("ShoppingCart-----------------");
         _getData();
       }
     });
@@ -86,6 +87,9 @@ class _ShoppingCartState extends State<ShoppingCart>
     var isLogin = responseData.data;
     if (isLogin) {
       _getData();
+      Timer(Duration(seconds: 1), () {
+        HosEventBusUtils.fire('mine_refresh');
+      });
     } else {
       setState(() {
         _islogin = false;
@@ -225,13 +229,13 @@ class _ShoppingCartState extends State<ShoppingCart>
     return _price;
   }
 
-  // 编辑状态 删除
+  /// 编辑状态 删除
   void _deleteCheckItem(bool check, CarItem itemData, CartItemListItem item) {
     if (check) {
       var map = {
         "type": item.type,
         "promId": itemData.promId,
-        "addBuy": false,
+        "addBuy": item.id == 0 ? true : false,
         "skuId": item.skuId,
         "extId": item.extId
       };
@@ -271,8 +275,42 @@ class _ShoppingCartState extends State<ShoppingCart>
     var responseData = await deleteCart(params, header: header);
     if (responseData.code == "200") {
       print('===============');
+      setState(() {
+        isEdit = false;
+      });
       _data = responseData.data;
       setData(_data);
+    }
+  }
+
+  ///清除无效商品
+  _clearInvalid() async {
+    List invalidSku = [];
+    _invalidCartGroupList.forEach((item) {
+      var cartItemList = item.cartItemList;
+      cartItemList.forEach((element) {
+        var map = {
+          "type": element.type,
+          "promId": item.promId,
+          "skuId": element.skuId,
+          "gift": false
+        };
+        invalidSku.add(map);
+      });
+    });
+
+    var map = {
+      'skuList': invalidSku,
+    };
+
+    Map<String, dynamic> param = {'invalidSku': map};
+    Map<String, dynamic> header = {
+      "Cookie": cookie,
+      "csrf_token": csrf_token,
+    };
+    var response = await clearInvalidItem(param, header: header);
+    if (response.code == 200) {
+      _getData();
     }
   }
 
@@ -378,16 +416,22 @@ class _ShoppingCartState extends State<ShoppingCart>
           ),
           isEdit
               ? Container()
-              : Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2),
-                    color: redLightColor,
+              : GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      color: redLightColor,
+                    ),
+                    child: Text(
+                      '领券',
+                      style: t14white,
+                    ),
                   ),
-                  child: Text(
-                    '领券',
-                    style: t14white,
-                  ),
+                  onTap: () {
+                    Routers.push(Util.webViewPageAPP, context,
+                        {'url': 'https://m.you.163.com/coupon/cartCoupon'});
+                  },
                 ),
           SizedBox(
             width: 10,
@@ -465,6 +509,9 @@ class _ShoppingCartState extends State<ShoppingCart>
   Widget _invalidList() {
     return InvalidCartItemWidget(
       invalidCartGroupList: _invalidCartGroupList,
+      clearInvalida: () {
+        _clearInvalid();
+      },
     );
   }
 
@@ -600,6 +647,7 @@ class _ShoppingCartState extends State<ShoppingCart>
               ),
               onTap: () {
                 Toast.show('暂未开发', context);
+                _goPay();
                 // Routers.push(Util.webView, context,{'id':'https://m.you.163.com/order/confirm?sfrom=3995230&_stat_referer=itemDetail_buy'});
               },
             )
@@ -614,4 +662,102 @@ class _ShoppingCartState extends State<ShoppingCart>
     height: 10,
     color: Color(0xFFEAEAEA),
   );
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    HosEventBusUtils.off();
+    super.dispose();
+  }
+
+  void _goPay() async {
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
+    };
+    Map<String, dynamic> header = {"Cookie": cookie};
+    var responseData = await checkLogin(params, header: header);
+    var isLogin = responseData.data;
+    if (!isLogin) {
+      return;
+    }
+
+    ///组装数据
+    List cartGroupList = [];
+
+    _cartGroupList.forEach((cartGroupItem) {
+      List cartItemListData = [];
+      List addBuyItemListData = [];
+
+      Map<String, dynamic> map = {
+        'promId': cartGroupItem.promId,
+        'suitCount': cartGroupItem.suitCount,
+        'promSatisfy': cartGroupItem.promSatisfy,
+        'giftItemList': []
+      };
+
+      ///购物车列表
+      var cartItemList = cartGroupItem.cartItemList;
+      if (cartItemList != null && cartItemList.isNotEmpty) {
+        cartItemList.forEach((cartItemListItem) {
+          if (cartItemListItem.checked) {
+            var map = {
+              'id':
+                  '${cartItemListItem.source}_${cartItemListItem.skuId}_${cartItemListItem.preSellStatus}_${cartItemListItem.status}',
+              'uniqueKey': cartItemListItem.uniqueKey,
+              'skuId': cartItemListItem.skuId,
+              'count': cartItemListItem.cnt,
+              'source': cartItemListItem.source,
+              'sources': cartItemListItem.sources,
+              'isPreSell': cartItemListItem.preSellStatus == 0 ? false : true,
+              'extId': cartItemListItem.extId,
+              'type': cartItemListItem.type,
+              'checkExt': cartItemListItem.checkExt
+            };
+            cartItemListData.add(map);
+          }
+        });
+      }
+
+      ///换购商品列表
+      var addBuyStepList = cartGroupItem.addBuyStepList;
+      if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
+        addBuyStepList.forEach((addBuyStepListItem) {
+          var addBuyItemList = addBuyStepListItem.addBuyItemList;
+          if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
+            addBuyItemList.forEach((addBuyItemListItem) {
+              if (addBuyItemListItem.checked) {
+                var map = {
+                  'id':
+                      '${addBuyItemListItem.source}_${addBuyItemListItem.skuId}_${addBuyItemListItem.preSellStatus}_${addBuyItemListItem.status}',
+                  'uniqueKey': addBuyItemListItem.uniqueKey,
+                  'skuId': addBuyItemListItem.skuId,
+                  'count': addBuyItemListItem.cnt,
+                  'source': addBuyItemListItem.source,
+                  'sources': addBuyItemListItem.sources,
+                  'isPreSell':
+                      addBuyItemListItem.preSellStatus == 0 ? false : true,
+                  'extId': addBuyItemListItem.extId,
+                  'type': addBuyItemListItem.type,
+                  'checkExt': addBuyItemListItem.checkExt
+                };
+                addBuyItemListData.add(map);
+              }
+            });
+          }
+        });
+      }
+
+      map['cartItemList'] = cartItemListData;
+      map['addBuyItemList'] = addBuyItemListData;
+
+      cartGroupList.add(map);
+    });
+
+    var orderCart = {'cartGroupList': cartGroupList};
+    var postparam = {'orderCart': orderCart};
+    var param = {"csrf_token": csrf_token};
+
+    var response = await checkBeforeInit(param, postparam);
+  }
 }
