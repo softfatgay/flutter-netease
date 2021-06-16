@@ -10,7 +10,7 @@ import 'package:flutter_app/ui/shopingcart/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
-import 'package:flutter_app/utils/HosEventBusUtils.dart';
+import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -68,7 +68,6 @@ class _ShoppingCartState extends State<ShoppingCart>
     super.initState();
     HosEventBusUtils.on((event) {
       if (event == 'refresh') {
-        print("-----------------");
         _getData();
       }
     });
@@ -249,7 +248,6 @@ class _ShoppingCartState extends State<ShoppingCart>
         }
       }
     }
-    print(checkList);
   }
 
   // 清空购物车
@@ -267,10 +265,8 @@ class _ShoppingCartState extends State<ShoppingCart>
       "csrf_token": csrf_token,
     };
 
-    print(params);
     var responseData = await deleteCart(params, header: header);
     if (responseData.code == "200") {
-      print('===============');
       _data = responseData.data;
       setData(_data);
     }
@@ -320,9 +316,6 @@ class _ShoppingCartState extends State<ShoppingCart>
     // Routers.push(Util.webLogin, context,{},_callback);
     return WebLoginWidget(
       onValueChanged: (value) {
-        print(value);
-        print('111111111111');
-
         if (value) {
           setState(() {
             _islogin = value;
@@ -499,7 +492,7 @@ class _ShoppingCartState extends State<ShoppingCart>
                     ),
                   ),
                   onTap: () {
-                    Routers.push(Util.getCarsPage, context);
+                    Routers.push(Routers.getCarsPage, context);
                   },
                 ),
                 SizedBox(

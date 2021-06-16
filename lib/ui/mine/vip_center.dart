@@ -217,7 +217,7 @@ class _VipCenterState extends State<VipCenter> {
                 ],
               ),
             );
-            return Routers.link(widget, Util.webView, context, {
+            return Routers.link(widget, Routers.webView, context, {
               "id":
                   'https://m.you.163.com/membership/privilege?type=${privilegeList[index]['type']}'
             });
@@ -248,33 +248,36 @@ class _VipCenterState extends State<VipCenter> {
     return Column(
       children: taskData.map((item) {
         Widget widget = Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        margin: EdgeInsets.symmetric(horizontal: 15),
+          padding: EdgeInsets.symmetric(vertical: 15),
+          margin: EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: lineColor,width: 1))
-          ),
+              border: Border(bottom: BorderSide(color: lineColor, width: 1))),
           child: Row(
             children: [
-            Expanded(child: Container(
-              child:   Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${item['title']}',
-                    style: t16black,
-                  ),
-                  Text(
-                    '${item['dec']}',
-                    style: t14grey,
-                  ),
-                ],
-              ),
-            )),
+              Expanded(
+                  child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${item['title']}',
+                      style: t16black,
+                    ),
+                    Text(
+                      '${item['dec']}',
+                      style: t14grey,
+                    ),
+                  ],
+                ),
+              )),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(color: backYellow),
-                child: Text('去完善',style: t14white,),
+                child: Text(
+                  '去完善',
+                  style: t14white,
+                ),
               )
             ],
           ),

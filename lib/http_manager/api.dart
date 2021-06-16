@@ -117,7 +117,7 @@ Future<ResponseData> qrCode(Map<String, dynamic> params,
   return await HttpManager.post(QR_CODE, params: params, header: header);
 }
 
-///
+///个人信息二维码生成（邀请）
 Future<ResponseData> getUserSpmcInfo(Map<String, dynamic> params,
     {Map<String, dynamic> header}) async {
   return await HttpManager.post(GET_USER_SPMCINFO,
@@ -254,12 +254,6 @@ Future<ResponseData> feedbackSubmit(Map<String, dynamic> params,
       params: params, header: header);
 }
 
-///反馈提交
-Future<ResponseData> getPhone(Map<String, dynamic> params,
-    {Map<String, dynamic> header}) async {
-  return await HttpManager.post(USERMOBILE, params: params, header: header);
-}
-
 ///模糊搜索
 Future<ResponseData> searchTips(Map<String, dynamic> params,
     {Map<String, dynamic> header}) async {
@@ -344,8 +338,7 @@ Future<ResponseData> clearInvalidItem(Map<String, dynamic> params,
 
 ///check-cart
 Future<ResponseData> checkBeforeInit(
-    Map<String, dynamic> params, Map<String, dynamic> postParams,
-    {Map<String, dynamic> header}) async {
+    Map<String, dynamic> params, Map<String, dynamic> postParams) async {
   return await HttpManager.post(CHECK_BEFORE_INIT,
       params: params, postParams: postParams, header: HttpUtil.getHeader());
 }

@@ -283,7 +283,7 @@ class _TopicPageState extends State<TopicPage>
                     ),
                   ),
                   onTap: () {
-                    Routers.push(Util.goodDetailTag, context,
+                    Routers.push(Routers.goodDetailTag, context,
                         {'id': '${buyNow.itemId}'});
                   },
                 )
@@ -294,7 +294,7 @@ class _TopicPageState extends State<TopicPage>
     if (!schemeUrl.startsWith('http')) {
       schemeUrl = 'https://m.you.163.com$schemeUrl';
     }
-    return Routers.link(widget, Util.webView, context, {'url': schemeUrl});
+    return Routers.link(widget, Routers.webView, context, {'url': schemeUrl});
   }
 
   _stagegeredGridview() {
@@ -412,7 +412,7 @@ class _TopicPageState extends State<TopicPage>
                   ),
                   onTap: () {
                     Routers.push(
-                        Util.webView, context, {'url': '${item.columnUrl}'});
+                        Routers.webView, context, {'url': '${item.columnUrl}'});
                   },
                 );
               }).toList(),

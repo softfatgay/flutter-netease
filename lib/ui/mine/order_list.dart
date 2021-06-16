@@ -214,8 +214,8 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
               ),
             );
 
-            return Routers.link(
-                widget, Util.goodDetailTag, context, {'id': package['itemId']});
+            return Routers.link(widget, Routers.goodDetailTag, context,
+                {'id': package['itemId']});
           } else {
             Widget widget = Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
@@ -271,8 +271,8 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                 ],
               ),
             );
-            return Routers.link(
-                widget, Util.goodDetailTag, context, {'id': package['itemId']});
+            return Routers.link(widget, Routers.goodDetailTag, context,
+                {'id': package['itemId']});
           }
         }).toList(),
       ),

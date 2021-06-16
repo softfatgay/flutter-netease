@@ -409,7 +409,8 @@ class _HotListPageState extends State<HotListPage>
         ],
       ),
     );
-    return Routers.link(widget, Util.goodDetailTag, context, {'id': item.id});
+    return Routers.link(
+        widget, Routers.goodDetailTag, context, {'id': item.id});
   }
 
   @override

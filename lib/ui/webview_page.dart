@@ -6,7 +6,6 @@ import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -119,7 +118,7 @@ class _WebViewPageState extends State<WebViewPage> {
               var split2 = split[1];
               var split3 = split2.split('&')[0];
               if (split3 != null && split3.isNotEmpty) {
-                Routers.push(Util.goodDetailTag, context, {'id': '$split3'});
+                Routers.push(Routers.goodDetailTag, context, {'id': '$split3'});
               }
               return NavigationDecision.prevent;
             } else {
@@ -141,10 +140,7 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer.periodic(Duration(milliseconds: 10), (timer) async {
       try {
         if (_webController != null) {
-          _webController.evaluateJavascript(setJs()).then((result) {
-            print('>>>>>>>>>>>>>>>>>>>>>>>');
-            print(result);
-          });
+          _webController.evaluateJavascript(setJs()).then((result) {});
         }
       } catch (e) {}
     });

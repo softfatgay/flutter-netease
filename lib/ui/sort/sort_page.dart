@@ -157,7 +157,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       ],
     );
     return Routers.link(
-        navBar, Util.search, context, {'id': _roundWords[_rondomIndex]});
+        navBar, Routers.search, context, {'id': _roundWords[_rondomIndex]});
   }
 
   Widget buildContent() {
@@ -189,7 +189,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                           ),
                         ),
                         onTap: () {
-                          Routers.push(Util.webView, context, {
+                          Routers.push(Routers.webView, context, {
                             'url':
                                 '${NetContants.baseUrl}${_bannerList[0].targetUrl}'
                           });
@@ -254,7 +254,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                     ),
                                   );
                                   return Routers.link(
-                                      widget, Util.catalogTag, context, {
+                                      widget, Routers.catalogTag, context, {
                                     'subCategoryId': item.id,
                                     'categoryId': item.superCategoryId,
                                   });

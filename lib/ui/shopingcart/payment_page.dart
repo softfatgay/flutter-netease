@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/net/DioManager.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -32,10 +31,6 @@ class _PaymentPageState extends State<PaymentPage> {
     List list = [];
     list.add(widget.arguments);
 
-    // Map<String, dynamic> argus =   widget.arguments;
-    //
-    // print(json.encode(argus));
-    //
     Map<String, dynamic> cartGroupList = {'cartGroupList': list};
 
     Map<String, dynamic> params = {

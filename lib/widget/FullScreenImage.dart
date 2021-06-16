@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -24,10 +25,6 @@ class _FullScreenImageState extends State<FullScreenImage> {
     // TODO: implement initState
     setState(() {
       _images = widget.arguments['images'];
-
-      print('>>>>>>>>>>>>>>>>>>>>>>>');
-      print(json.encode(widget.arguments));
-      print(json.encode(_images));
     });
     super.initState();
   }
@@ -35,6 +32,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Listener(
           onPointerMove: (move) {
             // Routers.pop(context);
@@ -47,11 +45,11 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     child: Container(
                       child: CachedNetworkImage(
                         imageUrl: e,
-                        fit: BoxFit.cover,
                       ),
                     ),
                     onTap: () {
                       // Routers.push(Util.webView, context, {'url': e.targetUrl});
+                      Navigator.pop(context);
                     },
                   );
                 }).toList(),
@@ -64,7 +62,10 @@ class _FullScreenImageState extends State<FullScreenImage> {
                       setState(() {});
                     }),
               ),
-              Appbar(title: '')
+              Appbar(
+                title: '',
+                backcolor: Colors.white,
+              )
             ],
           )),
     );

@@ -39,7 +39,7 @@ class GoodItemNormalWidget extends StatelessWidget {
                   onTap: () {
                     print(data[index]);
                     Routers.push(
-                        Util.goodDetailTag, context, {'id': data[index].id});
+                        Routers.goodDetailTag, context, {'id': data[index].id});
                   },
                 );
               }, childCount: data.length),

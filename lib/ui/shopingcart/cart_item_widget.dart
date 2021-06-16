@@ -346,7 +346,7 @@ class CartItemWidget extends StatelessWidget {
                           ],
                         ),
                         onTap: () {
-                          Routers.push(Util.webView, context, {
+                          Routers.push(Routers.webView, context, {
                             'url':
                                 'https://m.you.163.com/cart/itemPool?promotionId=${itemData.promId}'
                           });
@@ -400,7 +400,7 @@ class CartItemWidget extends StatelessWidget {
 
   void _goDetail(BuildContext context, CartItemListItem itemData) {
     Routers.push(
-        Util.goodDetailTag, context, {'id': itemData.itemId.toString()});
+        Routers.goodDetailTag, context, {'id': itemData.itemId.toString()});
   }
 
   _line() {

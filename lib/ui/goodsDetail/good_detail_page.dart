@@ -61,7 +61,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   GoodDetailDownData _goodDetailDownData;
 
   ///详情图片
-  List<String> _detailImages = List<String>();
+  List<String> _detailImages = [];
 
   ///商品属性规格等
   List<SkuSpecListItem> _skuSpecList;
@@ -136,7 +136,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var goodDetailDownData = GoodDetailDownData.fromJson(data);
     var html = goodDetailDownData.html;
     RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
-    List<String> imageUrls = List<String>();
+    List<String> imageUrls = [];
     Iterable<Match> mobiles = exp.allMatches(html);
     for (Match m in mobiles) {
       String match = m.group(0);
@@ -324,7 +324,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             });
           },
           onTap: (index) {
-            Routers.push(Util.image, context, {'images': imgList});
+            Routers.push(Routers.image, context, {'images': imgList});
           },
         ),
         Positioned(
@@ -446,7 +446,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                 imageUrl: _welfareCardVO.picUrl,
               ),
               onTap: () {
-                Routers.push(Util.webViewPageAPP, context,
+                Routers.push(Routers.webViewPageAPP, context,
                     {'id': _welfareCardVO.schemeUrl});
               },
             ),
@@ -475,7 +475,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               imageUrl: _featuredSeries.detailPicUrl,
             ),
             onTap: () {
-              Routers.push(Util.webView, context, {
+              Routers.push(Routers.webView, context, {
                 'id':
                     'https://m.you.163.com/featuredSeries/detail?id=${_featuredSeries.id}'
               });
@@ -652,7 +652,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                     ),
                   ),
                   onTap: () {
-                    Routers.push(Util.webViewPageAPP, context, {
+                    Routers.push(Routers.webViewPageAPP, context, {
                       'url':
                           'https://m.you.163.com/item/detail?id=${widget.arguments['id']}#/coupon/${widget.arguments['id']}'
                     });
@@ -872,7 +872,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               radius: 0,
               onTap: () {
                 Routers.push(
-                    Util.comment, context, {'id': widget.arguments['id']});
+                    Routers.comment, context, {'id': widget.arguments['id']});
               },
               child: Container(
                 height: 50,
@@ -1029,7 +1029,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ),
         );
         return Routers.link(
-            widget, Util.image, context, {'images': commentList});
+            widget, Routers.image, context, {'images': commentList});
       });
 
   _buildGoodDetail() {
@@ -1043,9 +1043,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     //   alignment: Alignment.center,
     // );
     final imgWidgts = _detailImages
-        .map<Widget>((e) => CachedNetworkImage(
-              imageUrl: e,
-              fit: BoxFit.cover,
+        .map<Widget>((e) => GestureDetector(
+              child: CachedNetworkImage(
+                imageUrl: e,
+                fit: BoxFit.cover,
+              ),
+              onTap: () {
+                // Routers.push(Util.image, context, {'images': _detailImages});
+              },
             ))
         .toList();
     return Container(
@@ -1061,8 +1066,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   _buildIntro() {
     List<AttrListItem> attrList = _goodDetailDownData.attrList;
-    print("===============================");
-    print(attrList);
     return _goodDetailDownData == null
         ? singleSliverWidget(Container())
         : SliverList(
@@ -1490,7 +1493,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         ),
         onTap: () {
           Routers.push(
-              Util.webView, context, {'url': '${spmcBanner.spmcLinkUrl}'});
+              Routers.webView, context, {'url': '${spmcBanner.spmcLinkUrl}'});
         },
       );
     } else {
@@ -1524,7 +1527,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         ],
       )),
       onTap: () {
-        Routers.push(Util.comment, context, {'id': widget.arguments['id']});
+        Routers.push(Routers.comment, context, {'id': widget.arguments['id']});
       },
     );
   }
@@ -2125,7 +2128,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         ),
       ),
       onTap: () {
-        Routers.push(Util.webView, context,
+        Routers.push(Routers.webView, context,
             {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
       },
     );

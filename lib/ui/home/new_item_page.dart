@@ -77,7 +77,7 @@ class _KingKongPageState extends State<NewItemPage> {
     return BannerCacheImg(
       imageList: banner,
       onTap: (index) {
-        Routers.push(Util.image, context, {'images': banner});
+        Routers.push(Routers.image, context, {'images': banner});
       },
     );
   }

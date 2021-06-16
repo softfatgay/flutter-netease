@@ -56,7 +56,7 @@ Widget floatingABCart(
       ),
     ),
     onTap: () {
-      Routers.push(Util.shoppingCart, context, {'from': 'detail'});
+      Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
     },
   );
 }

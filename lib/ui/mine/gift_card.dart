@@ -133,7 +133,7 @@ class _GiftCardState extends State<GiftCard> {
   }
 
   _goWebView(String url) {
-    Routers.push(Util.webViewPageAPP, context, {'url': url});
+    Routers.push(Routers.webViewPageAPP, context, {'url': url});
   }
 
   _noCard() {
@@ -175,7 +175,7 @@ class _GiftCardState extends State<GiftCard> {
                   ),
                 ),
                 onTap: () {
-                  Routers.push(Util.webView, context,
+                  Routers.push(Routers.webView, context,
                       {'id': 'https://m.you.163.com/help/new#/29'});
                 },
               )

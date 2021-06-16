@@ -8,7 +8,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
-import 'package:flutter_app/utils/HosEventBusUtils.dart';
+import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -40,7 +40,6 @@ class _MinePageState extends State<UserPage>
     // TODO: implement initState
     HosEventBusUtils.on((event) {
       if (event == 'mine_refresh') {
-        print("UserPage-----------------");
         _checkLogin();
         _getUserInfo();
       }
@@ -242,7 +241,7 @@ class _MinePageState extends State<UserPage>
             ),
           ),
         );
-        return Routers.link(widget, Util.mineTopItems, context,
+        return Routers.link(widget, Routers.mineTopItems, context,
             {"id": item.fundType, "value": item.fundValue});
       }).toList(),
     );
@@ -304,7 +303,7 @@ class _MinePageState extends State<UserPage>
               ),
               onTap: () {
                 Routers.push(
-                    Util.webView, context, {'url': monthCardEntrance.url});
+                    Routers.webView, context, {'url': monthCardEntrance.url});
               },
             ),
     );
@@ -346,7 +345,7 @@ class _MinePageState extends State<UserPage>
           ),
         );
         return Routers.link(
-            widget, Util.mineItems, context, {"id": item["id"]});
+            widget, Routers.mineItems, context, {"id": item["id"]});
       }).toList(),
     );
   }

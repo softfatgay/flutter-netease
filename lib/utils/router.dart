@@ -39,17 +39,35 @@ import 'package:flutter_app/widget/FullScreenImage.dart';
 import 'package:flutter_app/widget/widget_list.dart';
 
 class Routers {
-  static String plugin = Util.flutter2activity;
-  static var demoPlugin = MethodChannel(plugin);
+  static const String brandTag = 'brandTag';
+  static const String goodDetailTag = 'goodDetailTag';
+  static const String catalogTag = 'catalogTag';
+  static const String kingKong = 'kingKong';
+  static const String topicDetail = 'topicDetail';
+  static const String setting = 'setting';
+  static const String search = 'search';
+  static const String comment = 'comment';
+  static const String image = 'image';
+  static const String orderList = 'orderList';
+  static const String mineItems = 'mineItems';
+  static const String mineTopItems = 'mineTopItems';
+  static const String addAddress = 'addAddress';
+  static const String hotList = 'hotList';
+  static const String orderInit = 'orderInit';
+  static const String shoppingCart = 'shoppingCart';
+  static const String webLogin = 'webLogin';
+  static const String getCarsPage = 'getCarsPage';
+  static const String orderInitPage = 'orderInitPage';
+  static const String webView = 'webView';
+  static const String webViewPageAPP = 'WebViewPageAPP';
 
   static Map<String, Function> routes = {
     //商品详情
-    Util.goodDetailTag: (context, {arguments}) =>
+    goodDetailTag: (context, {arguments}) =>
         GoodsDetailPage(arguments: arguments),
-    Util.catalogTag: (context, {arguments}) =>
-        SortListPage(arguments: arguments),
+    catalogTag: (context, {arguments}) => SortListPage(arguments: arguments),
     //kingKong
-    Util.kingKong: (context, {arguments}) {
+    kingKong: (context, {arguments}) {
       String schemeUrl = arguments['schemeUrl'];
       if (schemeUrl.contains("categoryId")) {
         return KingKongPage(arguments: arguments);
@@ -59,44 +77,41 @@ class Routers {
     },
 
     //专题详情
-    Util.search: (context, {arguments}) =>
-        SearchGoodsPage(arguments: arguments),
+    search: (context, {arguments}) => SearchGoodsPage(arguments: arguments),
     //评论
-    Util.comment: (context, {arguments}) => CommentList(arguments: arguments),
+    comment: (context, {arguments}) => CommentList(arguments: arguments),
 
     //添加地址
-    Util.addAddress: (context, {arguments}) => AddAddress(arguments: arguments),
+    addAddress: (context, {arguments}) => AddAddress(arguments: arguments),
 
     //热销榜
-    Util.hotlist: (context, {arguments}) => HotListPage(),
+    hotList: (context, {arguments}) => HotListPage(),
 
     ///大图
-    Util.image: (context, {arguments}) => FullScreenImage(arguments),
+    image: (context, {arguments}) => FullScreenImage(arguments),
 
     ///确认订单
-    Util.orderInit: (context, {arguments}) => PaymentPage(
+    orderInit: (context, {arguments}) => PaymentPage(
           arguments: arguments,
         ),
 
     ///webView
-    Util.webView: (context, {arguments}) => WebViewPage(arguments),
+    webView: (context, {arguments}) => WebViewPage(arguments),
 
     ///webView
-    Util.webViewPageAPP: (context, {arguments}) => WebViewPage(arguments),
+    webViewPageAPP: (context, {arguments}) => WebViewPage(arguments),
 
     ///购物车
-    Util.shoppingCart: (context, {arguments}) =>
-        ShoppingCart(argument: arguments),
+    shoppingCart: (context, {arguments}) => ShoppingCart(argument: arguments),
 
     ///购物车换购
-    Util.getCarsPage: (context, {arguments}) => GetCarsPage(param: arguments),
+    getCarsPage: (context, {arguments}) => GetCarsPage(param: arguments),
 
     ///订单确认页面
-    Util.orderInitPage: (context, {arguments}) =>
-        OrderInitPage(params: arguments),
+    orderInitPage: (context, {arguments}) => OrderInitPage(params: arguments),
 
     ///回馈金等
-    Util.mineTopItems: (context, {arguments}) {
+    mineTopItems: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
         case 1: //  回馈金
@@ -125,7 +140,7 @@ class Routers {
     },
 
     ///orderList
-    Util.mineItems: (context, {arguments}) {
+    mineItems: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
         case 0: //订单界面
@@ -173,7 +188,7 @@ class Routers {
       return NoFoundPage();
     },
     //专题详情
-    Util.setting: (context, {arguments}) {
+    setting: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
         case 0: //关于界面

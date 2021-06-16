@@ -235,7 +235,7 @@ class _MinePageState extends State<MinePage> {
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       if (itemList.length > 0) {
         for (int i = 0; i < (itemList.length); i++) {
-          return Routers.link(buildWidget(itemList, index), Util.setting,
+          return Routers.link(buildWidget(itemList, index), Routers.setting,
               context, {'id': index});
         }
       }

@@ -38,6 +38,6 @@ class SearchWidget extends StatelessWidget {
         ],
       ),
     );
-    return Routers.link(widget, Util.search, context, {'id': ''});
+    return Routers.link(widget, Routers.search, context, {'id': ''});
   }
 }

@@ -262,7 +262,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         )
       ],
     );
-    return Routers.link(widget, Util.search, context, {'id': "零食"});
+    return Routers.link(widget, Routers.search, context, {'id': "零食"});
     // return singleSliverWidget(
     //     Routers.link(navBar, Util.search, context, {'id': "零食"}));
   }
@@ -279,7 +279,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             ),
           ),
           onTap: () {
-            Routers.push(Util.webView, context, {'url': e.targetUrl});
+            Routers.push(Routers.webView, context, {'url': e.targetUrl});
           },
         );
       }).toList(),
@@ -363,7 +363,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               ],
             ),
           );
-          return Routers.link(widget, Util.kingKong, context,
+          return Routers.link(widget, Routers.kingKong, context,
               {"schemeUrl": _kingKongList[index].schemeUrl});
         },
         childCount: _kingKongList == null ? 0 : _kingKongList.length,
@@ -405,7 +405,8 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
-                    Routers.push(Util.webView, context, {'url': e.schemeUrl});
+                    Routers.push(
+                        Routers.webView, context, {'url': e.schemeUrl});
                   },
                 ),
               ),
@@ -423,7 +424,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           ),
           onTap: () {
             Routers.push(
-                Util.webView, context, {'url': item.cells[0].schemeUrl});
+                Routers.webView, context, {'url': item.cells[0].schemeUrl});
           },
         ),
       );
@@ -595,7 +596,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       flex: 1,
       child: GestureDetector(
         onTap: () {
-          Routers.push(Util.hotlist, context);
+          Routers.push(Routers.hotList, context);
         },
         child: Container(
           color: index == 0 ? Color(0xFFF7F1DD) : Color(0xFFE4E8F0),
@@ -647,7 +648,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                Routers.push(Util.hotlist, context);
+                Routers.push(Routers.hotList, context);
               },
               child: Column(
                 children: <Widget>[
@@ -766,7 +767,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                 )
               ],
             );
-            return Routers.link(widget, Util.goodDetailTag, context,
+            return Routers.link(widget, Routers.goodDetailTag, context,
                 {'id': _flashSaleModuleItemList[index].itemId});
           },
           childCount: _flashSaleModuleItemList.length,
@@ -826,7 +827,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                 ),
               );
               return Routers.link(
-                  widget, Util.goodDetailTag, context, {'id': item.id});
+                  widget, Routers.goodDetailTag, context, {'id': item.id});
             },
             childCount: _newItemList.length > 6 ? 6 : _newItemList.length,
           ),
@@ -924,7 +925,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _goWebview(String url) {
-    Routers.push(Util.webView, context, {'url': url});
+    Routers.push(Routers.webView, context, {'url': url});
   }
 
   @override

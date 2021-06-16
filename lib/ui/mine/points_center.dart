@@ -154,7 +154,7 @@ class _PointCenterState extends State<PointCenter> {
 
   _goWebview(String url) {
     print(url);
-    Routers.push(Util.webView, context, {'url': url});
+    Routers.push(Routers.webView, context, {'url': url});
   }
 
   _buildTitle(String title, String dec, String act) {
@@ -255,7 +255,7 @@ class _PointCenterState extends State<PointCenter> {
             ],
           ),
         );
-        return Routers.link(widget, Util.webView, context, {
+        return Routers.link(widget, Routers.webView, context, {
           "url":
               'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct['actId']}&actPacketId=${item['actPacketId']}&actPacketGiftId=${item['actPacketGiftId']}'
         });
@@ -318,7 +318,7 @@ class _PointCenterState extends State<PointCenter> {
               ],
             ),
           );
-          return Routers.link(widget, Util.webView, context, {
+          return Routers.link(widget, Routers.webView, context, {
             "url":
                 'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct['actId']}&actPacketId=${item['actPacketId']}&actPacketGiftId=${item['actPacketGiftId']}'
           });
@@ -385,7 +385,7 @@ class _PointCenterState extends State<PointCenter> {
             ),
           );
           return Routers.link(
-              widget, Util.goodDetailTag, context, {'id': item['itemId']});
+              widget, Routers.goodDetailTag, context, {'id': item['itemId']});
         }).toList(),
       ),
     );

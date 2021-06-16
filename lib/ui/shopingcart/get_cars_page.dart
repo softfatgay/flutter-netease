@@ -324,8 +324,6 @@ class _GetCarsPageState extends State<GetCarsPage> {
       'promotionId': _carItem.promId,
       'selectList': dataList,
     };
-    print('====================');
-    print(dataList);
 
     var responseData = await getCartsSubmit(param, header: header);
     if (responseData.code == '200') {

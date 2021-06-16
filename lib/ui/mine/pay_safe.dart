@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class PaySafeCenter extends StatefulWidget {
@@ -54,7 +53,7 @@ class _PaySafeCenterState extends State<PaySafeCenter> {
               ),
               onTap: () {
                 Routers.push(
-                    Util.webViewPageAPP, context, {'url': item['url']});
+                    Routers.webViewPageAPP, context, {'url': item['url']});
               },
             );
           }).toList(),

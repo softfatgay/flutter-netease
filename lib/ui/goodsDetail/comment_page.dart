@@ -396,7 +396,7 @@ class _CommentListState extends State<CommentList> {
           ),
         );
         return Routers.link(
-            widget, Util.image, context, {'images': _commentList});
+            widget, Routers.image, context, {'images': _commentList});
       });
 
   ///追评

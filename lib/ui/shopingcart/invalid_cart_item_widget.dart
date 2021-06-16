@@ -131,7 +131,7 @@ class InvalidCartItemWidget extends StatelessWidget {
             ],
           ),
         );
-        return Routers.link(widget, Util.goodDetailTag, context,
+        return Routers.link(widget, Routers.goodDetailTag, context,
             {'id': item.itemId.toString()});
       }).toList(),
     );

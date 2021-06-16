@@ -11,7 +11,7 @@ import 'package:flutter_app/ui/shopingcart/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
-import 'package:flutter_app/utils/HosEventBusUtils.dart';
+import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -274,7 +274,6 @@ class _ShoppingCartState extends State<ShoppingCart>
     print(params);
     var responseData = await deleteCart(params, header: header);
     if (responseData.code == "200") {
-      print('===============');
       setState(() {
         isEdit = false;
       });
@@ -429,7 +428,7 @@ class _ShoppingCartState extends State<ShoppingCart>
                     ),
                   ),
                   onTap: () {
-                    Routers.push(Util.webViewPageAPP, context,
+                    Routers.push(Routers.webViewPageAPP, context,
                         {'url': 'https://m.you.163.com/coupon/cartCoupon'});
                   },
                 ),
@@ -496,7 +495,7 @@ class _ShoppingCartState extends State<ShoppingCart>
         _checkOneNum(source, type, skuId, cnt, extId);
       },
       goRedeem: (CarItem itemData) {
-        Routers.push(Util.getCarsPage, context, {'data': itemData}, () {
+        Routers.push(Routers.getCarsPage, context, {'data': itemData}, () {
           _getData();
         });
       },

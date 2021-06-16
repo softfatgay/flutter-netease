@@ -61,7 +61,7 @@ class _FeedBackState extends State<FeedBack> {
       "csrf_token": csrf_token,
     };
 
-    var responseData = await getPhone(params, header: header);
+    var responseData = await userMobile(params, header: header);
     setState(() {
       _phone = responseData.data['mobile'];
     });
