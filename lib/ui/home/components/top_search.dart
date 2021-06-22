@@ -25,7 +25,7 @@ class TopSearch extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               "网易严选",
-              style: abool ? t16black : t16white,
+              style: abool ? t16black : t16grey,
             ),
           ),
           Expanded(

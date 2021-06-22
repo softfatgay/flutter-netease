@@ -118,51 +118,9 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     }
   }
 
-  Widget buildSearch(BuildContext context) {
-    Widget widget = Container(
-      height: 35,
-      width: double.infinity,
-      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 237, 237, 237),
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 5,
-          ),
-          Icon(
-            Icons.search,
-            size: 20,
-            color: textGrey,
-          ),
-          Text(
-            "搜索商品，共30000+款好物",
-            style: t12grey,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
-    );
-    Widget navBar = Column(
-      children: [
-        Container(
-          color: Color.fromARGB(1, 255, 255, 255),
-          height: MediaQuery.of(context).padding.top,
-        ),
-        widget
-      ],
-    );
-    return Routers.link(
-        navBar, Routers.search, context, {'id': _roundWords[_rondomIndex]});
-  }
-
   _buildSearch(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15),
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: TopSearch(
         abool: true,
