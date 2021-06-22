@@ -7,6 +7,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/category.dart';
+import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
@@ -55,7 +56,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          buildSearch(context),
+          _buildSearch(context),
           Expanded(
             child: Row(
               children: <Widget>[
@@ -158,6 +159,15 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     );
     return Routers.link(
         navBar, Routers.search, context, {'id': _roundWords[_rondomIndex]});
+  }
+
+  _buildSearch(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      child: TopSearch(
+        abool: true,
+      ),
+    );
   }
 
   Widget buildContent() {

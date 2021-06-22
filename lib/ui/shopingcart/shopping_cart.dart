@@ -70,7 +70,7 @@ class _ShoppingCartState extends State<ShoppingCart>
     HosEventBusUtils.on((event) {
       if (event == 'refresh') {
         print("ShoppingCart-----------------");
-        _getData();
+        _checkLogin();
       }
     });
     _checkLogin();
@@ -85,14 +85,13 @@ class _ShoppingCartState extends State<ShoppingCart>
     Map<String, dynamic> header = {"Cookie": cookie};
     var responseData = await checkLogin(params, header: header);
     var isLogin = responseData.data;
+    setState(() {
+      _islogin = isLogin;
+    });
     if (isLogin) {
       _getData();
       Timer(Duration(seconds: 1), () {
         HosEventBusUtils.fire('mine_refresh');
-      });
-    } else {
-      setState(() {
-        _islogin = false;
       });
     }
   }

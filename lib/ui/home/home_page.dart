@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
+import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModuleItem.dart';
@@ -68,21 +70,26 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   var toolbarHeight = 0;
 
+  final StreamController<bool> _streamController =
+      StreamController<bool>.broadcast();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 160) {
+      if (_scrollController.position.pixels > 110) {
         if (toolbarHeight == 0) {
           setState(() {
             toolbarHeight = 50;
+            _streamController.sink.add(true);
           });
         }
       } else {
         if (toolbarHeight == 50) {
           setState(() {
             toolbarHeight = 0;
+            _streamController.sink.add(false);
           });
         }
       }
@@ -182,7 +189,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           expandedHeight: 160,
           backgroundColor: Colors.white,
           brightness: Brightness.light,
-          toolbarHeight: double.parse(toolbarHeight.toString()),
+          toolbarHeight: 50,
           title: _buildSearch(context),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(
@@ -218,49 +225,15 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _buildSearch(BuildContext context) {
-    Widget widget = Row(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            "网易严选",
-            style: t16black,
-          ),
-        ),
-        Expanded(
-          child: Container(
-            height: 35,
-            width: double.infinity,
-            margin: EdgeInsets.fromLTRB(0, 10, 15, 10),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 237, 237, 237),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.search,
-                  size: 20,
-                  color: textGrey,
-                ),
-                Expanded(
-                  child: Text(
-                    "搜索商品，共30000+款好物",
-                    style: t12grey,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
-      ],
+    Widget widget = StreamBuilder<bool>(
+      stream: _streamController.stream,
+      initialData: false,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        Widget widget = TopSearch(
+          abool: snapshot.data,
+        );
+        return widget;
+      },
     );
     return Routers.link(widget, Routers.search, context, {'id': "零食"});
     // return singleSliverWidget(
@@ -935,6 +908,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   void dispose() {
     // TODO: implement dispose
     _scrollController.dispose();
+    _streamController.close();
     super.dispose();
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/topic/model/navItem.dart';
 import 'package:flutter_app/ui/topic/model/result.dart';
 import 'package:flutter_app/ui/topic/model/topNavData.dart';
@@ -324,7 +325,7 @@ class _TopicPageState extends State<TopicPage>
           backgroundColor: Colors.white,
           brightness: Brightness.light,
           toolbarHeight: double.parse(toolbarHeight.toString()),
-          title: SearchWidget(),
+          title: TopSearch(),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(
             background: _buildNav(),
