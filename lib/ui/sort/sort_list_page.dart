@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
@@ -32,6 +33,7 @@ class _SortChildState extends State<SortListPage>
       tabItem.add(_catalogList[i].name);
     }
     return Scaffold(
+      backgroundColor: backColor,
       appBar: prefix0.TabAppBar(
         controller: _mController,
         tabs: tabItem,

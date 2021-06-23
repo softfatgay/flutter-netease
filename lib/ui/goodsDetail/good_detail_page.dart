@@ -235,7 +235,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               left: 0,
               right: 0,
               child: SafeArea(
-                child: _buildFoot(),
+                child: _buildFoot(1),
               ),
             )
           ],
@@ -1655,7 +1655,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: _buildFoot(),
+                    child: _buildFoot(0),
                   ),
                 ],
               ),
@@ -2061,14 +2061,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///------------------------------------------底部按钮------------------------------------------------------------------------------------------------------
   ///底部展示
-  Widget _buildFoot() {
+  Widget _buildFoot(int type) {
     if (_skuMapItem == null) {
-      return _defaultBottomBtns();
+      return _defaultBottomBtns(type);
     } else {
       int sellVolume = _skuMapItem.sellVolume;
       int purchaseAttribute = _skuMapItem.purchaseAttribute;
       if (sellVolume > 0) {
-        return _activityBtns(purchaseAttribute);
+        return _activityBtns(purchaseAttribute, type);
       } else {
         return _noGoodsSell();
       }
@@ -2076,7 +2076,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   ///默认展示形式
-  _defaultBottomBtns() {
+  _defaultBottomBtns(int type) {
     return Container(
       height: 45,
       width: double.infinity,
@@ -2084,8 +2084,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         children: <Widget>[
           //客服
           _kefuWidget(),
-          _buyButton(0),
-          _putCarShop(0)
+          _buyButton(0, type),
+          _putCarShop(0, type)
         ],
       ),
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -2094,7 +2094,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  _activityBtns(int purchaseAttribute) {
+  _activityBtns(int purchaseAttribute, int type) {
     return Container(
       height: 45,
       width: double.infinity,
@@ -2102,8 +2102,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         children: <Widget>[
           //客服
           _kefuWidget(),
-          _buyButton(purchaseAttribute),
-          _putCarShop(purchaseAttribute)
+          _buyButton(purchaseAttribute, type),
+          _putCarShop(purchaseAttribute, type)
         ],
       ),
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -2134,7 +2134,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  _buyButton(int purchaseAttribute) {
+  _buyButton(int purchaseAttribute, int type) {
     String text = '立即购买';
     if (_skuMapItem != null &&
         _skuMapItem.buyTitle != null &&
@@ -2151,7 +2151,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         child: FlatButton(
           onPressed: () {
             if (_skuMapItem == null) {
-              _buildSizeModel(context);
+              if (type == 1) {
+                _buildSizeModel(context);
+              } else {
+                Toast.show('请选择参数规格', context);
+              }
             } else {
               //加入购物车
               _buyGoods();
@@ -2167,7 +2171,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  _putCarShop(int purchaseAttribute) {
+  _putCarShop(int purchaseAttribute, int type) {
     return purchaseAttribute == 1
         ? Container()
         : Expanded(
@@ -2177,7 +2181,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               child: FlatButton(
                 onPressed: () {
                   if (_skuMapItem == null) {
-                    _buildSizeModel(context);
+                    if (type == 1) {
+                      _buildSizeModel(context);
+                    } else {
+                      Toast.show('请选择参数规格', context);
+                    }
                   } else {
                     //加入购物车
                     _addShoppingCart();

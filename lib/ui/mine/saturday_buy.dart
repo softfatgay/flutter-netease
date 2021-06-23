@@ -10,6 +10,9 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/widget/top_round_net_image.dart';
 
 class SaturdayTBuy extends StatefulWidget {
   @override
@@ -19,24 +22,24 @@ class SaturdayTBuy extends StatefulWidget {
 class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   TabController _tabController;
 
-  var tabTitle = List();
-  bool isLoading = true;
-  bool bodyLoading = true;
-  bool isFirstLoading = true;
-  int pageSize = 10;
-  int page = 1;
+  var _tabTitle = [];
+  bool _isLoading = true;
+  bool _bodyLoading = true;
+  bool _isFirstLoading = true;
+  int _pageSize = 10;
+  int _page = 1;
   int tabId = 0;
-  String tabIdType = 'tabId';
-  var pagination;
-  int total = 999999999;
+  String _tabIdType = 'tabId';
+  var _pagination;
+  bool _hasMore = true;
 
-  List dataList = List();
+  List _dataList = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backColor,
-      body: isFirstLoading
+      body: _isFirstLoading
           ? Loading()
           : NestedScrollView(
               headerSliverBuilder: (context, bool) {
@@ -45,17 +48,16 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                     expandedHeight: 100.0,
                     floating: true,
                     pinned: true,
-                    toolbarHeight: 50,
+                    toolbarHeight: 40,
                     brightness: Brightness.light,
                     automaticallyImplyLeading: false,
-                    shadowColor: redColor,
                     title: Container(
                       child: Row(
                         children: [
                           GestureDetector(
                             child: Icon(
                               Icons.arrow_back_ios,
-                              color: Colors.white,
+                              color: Colors.black,
                               size: 20,
                             ),
                             onTap: () {
@@ -67,24 +69,26 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                           ),
                           Text(
                             '拼团',
-                            style: t16white,
+                            style: t16blackbold,
                           )
                         ],
                       ),
                     ),
-                    backgroundColor: redColor,
+                    backgroundColor: backWhite,
                     flexibleSpace: FlexibleSpaceBar(
-                        // centerTitle: true,
-                        background: Image(
-                      image: AssetImage("assets/images/stadurday_buy.png"),
-                      fit: BoxFit.fitHeight,
-                    )),
+                      background: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                        image: AssetImage("assets/images/stadurday_buy.png"),
+                        fit: BoxFit.cover,
+                      ))),
+                    ),
                   ),
                   SliverPersistentHeader(
                     delegate: new SliverTabBarDelegate(
                         TabBar(
                           controller: _tabController,
-                          tabs: tabTitle
+                          tabs: _tabTitle
                               .map((f) => Tab(text: f['name']))
                               .toList(),
                           indicator: MyUnderlineTabIndicator(
@@ -101,16 +105,16 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
                   ),
                 ];
               },
-              body: bodyLoading
+              body: _bodyLoading
                   ? Loading()
                   : Container(
                       child: NotificationListener(
                         onNotification: (ScrollNotification scrollInfo) =>
                             _onScrollNotification(scrollInfo),
-                        child: Column(
-                          children: [
-                            Expanded(child: _buildGrid()),
-                            isLoading ? Loading() : Container(),
+                        child: CustomScrollView(
+                          slivers: [
+                            singleSliverWidget(_buildGrid()),
+                            SliverFooter(hasMore: _hasMore)
                           ],
                         ),
                       ),
@@ -122,16 +126,16 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   _buildGrid() {
     return Container(
       child: GridView.count(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
 
         ///这两个属性起关键性作用，列表嵌套列表一定要有Container
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         crossAxisCount: 2,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
         childAspectRatio: 0.65,
-        children: dataList.map<Widget>((item) {
+        children: _dataList.map<Widget>((item) {
           Widget widget;
           if (item['bottomType'] != null) {
             widget = Container(
@@ -156,11 +160,11 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
 
   _onScrollNotification(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-      if (!isLoading) {
+      if (!_isLoading) {
         setState(() {
-          this.isLoading = true;
+          this._isLoading = true;
           setState(() {
-            page += 1;
+            _page += 1;
           });
         });
         _getPinDataList(); //加载数据
@@ -172,7 +176,7 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: tabTitle.length, vsync: this);
+    _tabController = TabController(length: _tabTitle.length, vsync: this);
 
     _getCategoryList();
   }
@@ -203,27 +207,28 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
     });
 
     setState(() {
-      tabTitle = allList;
-      _tabController = TabController(length: tabTitle.length, vsync: this);
+      _tabTitle = allList;
+      _tabController = TabController(length: _tabTitle.length, vsync: this);
       _tabController.addListener(() {
         setState(() {
           if (_tabController.index == _tabController.animation.value) {
-            bodyLoading = true;
-            page = 1;
-            if (tabTitle[_tabController.index]['type'] != null) {
-              tabIdType = 'tabId';
+            _bodyLoading = true;
+            _hasMore = true;
+            _page = 1;
+            if (_tabTitle[_tabController.index]['type'] != null) {
+              _tabIdType = 'tabId';
             } else {
-              tabIdType = 'categoryId';
+              _tabIdType = 'categoryId';
             }
-            tabId = tabTitle[_tabController.index]['id'];
+            tabId = _tabTitle[_tabController.index]['id'];
             print(tabId);
 
-            dataList.clear();
+            _dataList.clear();
             _getPinDataList();
           }
         });
       });
-      isFirstLoading = false;
+      _isFirstLoading = false;
       _getPinDataList();
     });
   }
@@ -231,156 +236,155 @@ class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
   _getPinDataList() async {
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
-      tabIdType: tabId,
-      'page': page,
-      'pageSize': pageSize
+      _tabIdType: tabId,
+      'page': _page,
+      'pageSize': _pageSize
     };
     var responseData = await getPinDataList(params);
     print(responseData.data);
 
     setState(() {
-      bodyLoading = false;
-      isLoading = false;
-      pagination = responseData.data['pagination'];
-      total = pagination['total'];
-      if (dataList.length == 0) {
-        // dataList.add({'bottomType': 'bottom'});
+      _bodyLoading = false;
+      _isLoading = false;
+      _pagination = responseData.data['pagination'];
+      if (_page >= _pagination['totalPage']) {
+        _hasMore = false;
       }
-      dataList.insertAll(dataList.length, responseData.data['result']);
+      _dataList.insertAll(_dataList.length, responseData.data['result']);
     });
   }
 
   _buildItem(var item) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          color: Colors.white, borderRadius: BorderRadius.circular(2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            height: 130,
-            child: CachedNetworkImage(
-              imageUrl: item['picUrl'],
-              fit: BoxFit.fitWidth,
-            ),
-          ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(6, 10, 0, 0),
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                  decoration: BoxDecoration(
-                      color: redColor, borderRadius: BorderRadius.circular(12)),
-                  child: Text(
-                    '降! ¥${(NumUtil.getNumByValueDouble(item['originPrice'] - item['price'], 1)).toStringAsFixed(0)}',
-                    style: t12white,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
-                  child: Text(
-                    item['title'],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                      child: Text(
-                        '${item['userNum']}人团',
-                        style: TextStyle(fontSize: 12, color: textGrey),
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          ClipOval(
-                              child: Image.network(
-                            item['recentUsers'] == null
-                                ? ''
-                                : item['recentUsers'][0],
-                            width: 16,
-                            height: 16,
-                            fit: BoxFit.cover,
-                          )),
-                          SizedBox(width: 2),
-                          ClipOval(
-                              child: Image.network(
-                            item['recentUsers'] == null
-                                ? ''
-                                : item['recentUsers'][1],
-                            width: 16,
-                            height: 16,
-                            fit: BoxFit.cover,
-                          )),
-                          Expanded(
-                            child: Text(
-                              '${item['joinUsers']}人已拼',
-                              style: TextStyle(fontSize: 12, color: textGrey),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          "¥${item["price"]}",
-                          style: TextStyle(
-                              color: textRed,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Expanded(
-                            child: Text(
-                          "¥${item["originPrice"]}",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough,
-                              fontSize: 12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                      ],
-                    )),
-                    Container(
-                      margin: EdgeInsets.only(right: 6),
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                          color: redColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(
-                        '去开团',
-                        style: t14white,
-                      ),
-                    )
-                  ],
-                )
-              ],
+            child: Container(
+              width: double.infinity,
+              height: 130,
+              child: TopRoundNetImage(
+                url: item['picUrl'],
+              ),
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(6, 10, 0, 0),
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                decoration: BoxDecoration(
+                    color: redColor, borderRadius: BorderRadius.circular(12)),
+                child: Text(
+                  '降! ¥${(NumUtil.getNumByValueDouble(item['originPrice'] - item['price'], 1)).toStringAsFixed(0)}',
+                  style: t12white,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
+                child: Text(
+                  item['title'],
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                    child: Text(
+                      '${item['userNum']}人团',
+                      style: TextStyle(fontSize: 12, color: textGrey),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        ClipOval(
+                            child: Image.network(
+                          item['recentUsers'] == null
+                              ? ''
+                              : item['recentUsers'][0],
+                          width: 16,
+                          height: 16,
+                          fit: BoxFit.cover,
+                        )),
+                        SizedBox(width: 2),
+                        ClipOval(
+                            child: Image.network(
+                          item['recentUsers'] == null
+                              ? ''
+                              : item['recentUsers'][1],
+                          width: 16,
+                          height: 16,
+                          fit: BoxFit.cover,
+                        )),
+                        Expanded(
+                          child: Text(
+                            '${item['joinUsers']}人已拼',
+                            style: TextStyle(fontSize: 12, color: textGrey),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        "¥${item["price"]}",
+                        style: TextStyle(
+                            color: textRed,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Expanded(
+                          child: Text(
+                        "¥${item["originPrice"]}",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 12),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                    ],
+                  )),
+                  Container(
+                    margin: EdgeInsets.only(right: 6),
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                        color: redColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      '去开团',
+                      style: t14white,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 5)
+            ],
+          )
         ],
       ),
     );

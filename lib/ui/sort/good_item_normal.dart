@@ -9,6 +9,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MyVerticalText.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/widget/top_round_net_image.dart';
 
 class GoodItemNormalWidget extends StatelessWidget {
   final List<ItemListItem> dataList;
@@ -24,12 +25,11 @@ class GoodItemNormalWidget extends StatelessWidget {
     return data.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             sliver: SliverGrid(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 Widget widget = Container(
-                  padding: EdgeInsets.only(bottom: 5),
                   width: double.infinity,
                   decoration: BoxDecoration(color: Colors.transparent),
                   child: _buildGoodItem(context, index, data),
@@ -46,8 +46,8 @@ class GoodItemNormalWidget extends StatelessWidget {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.52,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10),
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 5),
             ),
           );
   }
@@ -55,90 +55,103 @@ class GoodItemNormalWidget extends StatelessWidget {
   _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
     var item = dataList[index];
     var itemTagList = dataList[index].itemTagList;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Container(
-            color: Color(0x33E9E9E8),
-            child: Stack(
-              children: [
-                Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: CachedNetworkImage(
-                            height: 300,
-                            width: double.infinity,
-                            imageUrl: item.listPicUrl,
-                            fit: BoxFit.cover,
+    return Container(
+      decoration: BoxDecoration(
+        color: backWhite,
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0x33E9E9E8),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(3)),
+              ),
+              child: Stack(
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: [
+                      Column(
+                        children: [
+                          Expanded(
+                            child: TopRoundNetImage(
+                              url: item.listPicUrl,
+                              corner: 3,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                      ],
-                    ),
-                    (item.promTag == null || item.listPromBanner == null)
-                        ? _buildTextDesc(item.simpleDesc)
-                        : _buildPromBanner(item.listPromBanner),
-                  ],
-                ),
-                dataList[index].productPlace == null ||
-                        dataList[index].productPlace == ""
-                    ? Container()
-                    : Container(
-                        padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0xFFA28C63), width: 1),
-                        ),
-                        margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                        child: MyVerticalText(dataList[index].productPlace,
-                            TextStyle(color: Color(0xFFA28C63), fontSize: 12)),
+                          SizedBox(
+                            height: 25,
+                          ),
+                        ],
                       ),
-              ],
+                      (item.promTag == null || item.listPromBanner == null)
+                          ? _buildTextDesc(item.simpleDesc)
+                          : _buildPromBanner(item.listPromBanner),
+                    ],
+                  ),
+                  dataList[index].productPlace == null ||
+                          dataList[index].productPlace == ""
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Color(0xFFA28C63), width: 1),
+                          ),
+                          margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                          child: MyVerticalText(
+                              dataList[index].productPlace,
+                              TextStyle(
+                                  color: Color(0xFFA28C63), fontSize: 12))),
+                ],
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          dataList[index].name,
-          style: t14blackBold,
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        _buildTags(itemTagList),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "¥${dataList[index].retailPrice}",
-              style: t18redBold,
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 5),
+            child: Text(
+              dataList[index].name,
+              style: t14blackBold,
             ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              dataList[index].counterPrice == null
-                  ? ""
-                  : "¥${dataList[index].counterPrice}",
-              style: TextStyle(
-                  color: textGrey,
-                  decoration: TextDecoration.lineThrough,
-                  fontSize: 12),
-            ),
-          ],
-        ),
-      ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          _buildTags(itemTagList),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(width: 5),
+              Text(
+                "¥${dataList[index].retailPrice}",
+                style: t18redBold,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                dataList[index].counterPrice == null
+                    ? ""
+                    : "¥${dataList[index].counterPrice}",
+                style: TextStyle(
+                    color: textGrey,
+                    decoration: TextDecoration.lineThrough,
+                    fontSize: 12),
+              ),
+            ],
+          ),
+          SizedBox(height: 8)
+        ],
+      ),
     );
   }
 
@@ -153,7 +166,7 @@ class GoodItemNormalWidget extends StatelessWidget {
         children: itemTagList
             .map((item) => Container(
                   padding: EdgeInsets.fromLTRB(4, 2, 4, 1),
-                  margin: EdgeInsets.only(right: 5),
+                  margin: EdgeInsets.only(left: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
                       color: backLightRed),
@@ -191,14 +204,14 @@ class GoodItemNormalWidget extends StatelessWidget {
   ///特价描述
   _buildPromBanner(ListPromBanner item) {
     return Container(
-      height: 35,
+      height: 30,
       width: double.infinity,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Container(
             width: double.infinity,
-            height: 30,
+            height: 25,
             child: CachedNetworkImage(
               imageUrl: item.bannerContentUrl,
               fit: BoxFit.fill,
@@ -212,17 +225,13 @@ class GoodItemNormalWidget extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                        constraints: BoxConstraints(maxWidth: 80),
-                        width: 60,
-                        child: CachedNetworkImage(
-                          imageUrl: item.bannerTitleUrl,
-                          height: 35,
+                        height: 30,
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: NetworkImage(item.bannerTitleUrl),
                           fit: BoxFit.fill,
-                        ),
-                      ),
-                      Container(
-                        width: 60,
-                        height: 35,
+                        )),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,24 +241,19 @@ class GoodItemNormalWidget extends StatelessWidget {
                               child: Text(
                                 item.promoTitle ?? "",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: t12whiteBold,
                               ),
                             ),
                             Expanded(
                               flex: 1,
                               child: Container(
-                                alignment: Alignment.center,
+                                alignment: Alignment.topCenter,
                                 child: Text(
                                   item.promoSubTitle ?? "",
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    height: 1,
-                                    color: Colors.white,
-                                  ),
+                                  style: t12whiteBold,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -265,7 +269,7 @@ class GoodItemNormalWidget extends StatelessWidget {
                     margin: EdgeInsets.only(top: 5),
                     child: Text(
                       item.content ?? "",
-                      style: TextStyle(fontSize: 12, color: Colors.white),
+                      style: TextStyle(fontSize: 11, color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

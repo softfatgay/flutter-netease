@@ -85,7 +85,7 @@ class Routers {
     addAddress: (context, {arguments}) => AddAddress(arguments: arguments),
 
     //热销榜
-    hotList: (context, {arguments}) => HotListPage(),
+    hotList: (context, {arguments}) => HotListPage(param: arguments),
 
     ///大图
     image: (context, {arguments}) => FullScreenImage(arguments),

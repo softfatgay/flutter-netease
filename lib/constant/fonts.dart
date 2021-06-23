@@ -40,6 +40,13 @@ const TextStyle t12white = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
+const TextStyle t12whiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 12,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightBold,
+);
+
 const TextStyle t12whiteA3 = TextStyle(
   color: Color(0xB3FFFFFF),
   fontSize: 12,

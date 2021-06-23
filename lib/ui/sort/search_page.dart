@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
@@ -139,6 +140,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: backColor,
       child: Stack(
         children: <Widget>[
 //          _showPop(),

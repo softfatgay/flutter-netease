@@ -12,6 +12,7 @@ import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/page_loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
@@ -105,14 +106,14 @@ class _KingKongPageState extends State<KingKongPage> {
         slivers.add(GoodItemNormalWidget(dataList: value.itemList));
       }
     }
-    return Scaffold(
-      backgroundColor: backColor,
-      body: _initLoading
-          ? Loading()
-          : CustomScrollView(
+    return _initLoading
+        ? PageLoading()
+        : Scaffold(
+            backgroundColor: backColor,
+            body: CustomScrollView(
               slivers: slivers,
             ),
-    );
+          );
   }
 
   _buildTitle(BuildContext context) {
@@ -142,11 +143,12 @@ class _KingKongPageState extends State<KingKongPage> {
     Category category = value.category;
     return singleSliverWidget(Container(
       child: Container(
+        color: backWhite,
         child: Column(
           children: [
             Container(
               height: 10,
-              color: backGrey,
+              color: backColor,
             ),
             SizedBox(
               height: 10,

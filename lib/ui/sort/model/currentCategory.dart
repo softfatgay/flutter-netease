@@ -10,6 +10,7 @@ class CurrentCategory {
   num superCategoryId;
   num showIndex;
   String name;
+  String bannerUrl;
   List<BannerItem> bannerList;
   List<SubCateListItem> subCateList;
 

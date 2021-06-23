@@ -16,6 +16,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/vertical_tab.dart';
 
 ///分类
@@ -148,14 +149,13 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                       height: 120,
                       child: GestureDetector(
                         child: Container(
-                          decoration: BoxDecoration(
-                              color: backColor,
-                              borderRadius: BorderRadius.circular(4)),
-                          child: CachedNetworkImage(
-                            imageUrl: _bannerList[0].picUrl ?? '',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                            decoration: BoxDecoration(
+                                color: backColor,
+                                borderRadius: BorderRadius.circular(4)),
+                            child: RoundNetImage(
+                              url: _bannerList[0].picUrl ?? '',
+                              fit: BoxFit.cover,
+                            )),
                         onTap: () {
                           Routers.push(Routers.webView, context, {
                             'url':
@@ -200,6 +200,8 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 crossAxisCount: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
                                 childAspectRatio: 0.8,
                                 children: itemItem.map<Widget>((item) {
                                   Widget widget = Container(
@@ -207,9 +209,10 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                     child: Column(
                                       children: [
                                         Expanded(
-                                            child: CachedNetworkImage(
-                                          imageUrl: item.wapBannerUrl,
-                                        )),
+                                          child: CachedNetworkImage(
+                                            imageUrl: item.wapBannerUrl,
+                                          ),
+                                        ),
                                         Container(
                                           margin: EdgeInsets.only(top: 6),
                                           child: Text(

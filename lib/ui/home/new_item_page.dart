@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
@@ -45,6 +46,7 @@ class _KingKongPageState extends State<NewItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backColor,
       body: initLoading
           ? Loading()
           : CustomScrollView(

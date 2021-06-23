@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -10,7 +9,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/http_util.dart';
 import 'package:flutter_app/model/category.dart';
+import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
@@ -25,7 +26,6 @@ import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
 class HomePage extends StatefulWidget {
@@ -84,6 +84,12 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             toolbarHeight = 50;
             _streamController.sink.add(true);
           });
+        }
+
+        // 如果下拉的当前位置到scroll的最下面
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (_hasMore) {}
         }
       } else {
         if (toolbarHeight == 50) {
@@ -569,7 +575,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       flex: 1,
       child: GestureDetector(
         onTap: () {
-          Routers.push(Routers.hotList, context);
+          _goHotList(index, context);
         },
         child: Container(
           color: index == 0 ? Color(0xFFF7F1DD) : Color(0xFFE4E8F0),
@@ -621,7 +627,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                Routers.push(Routers.hotList, context);
+                _goHotList(index, context);
               },
               child: Column(
                 children: <Widget>[
@@ -661,6 +667,19 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
+  }
+
+  void _goHotList(int index, BuildContext context) {
+    String categoryId = '0';
+    var targetUrl = _categoryList[index].targetUrl;
+    if (_categoryList[index].targetUrl != null &&
+        _categoryList[index].targetUrl.contains('categoryId=')) {
+      var split = targetUrl.split("categoryId=");
+      if (split != null && split.isNotEmpty && split.length > 1) {
+        categoryId = split[1];
+      }
+    }
+    Routers.push(Routers.hotList, context, {'categoryId': categoryId});
   }
 
   _normalTitle(BuildContext context, String title) {
@@ -910,5 +929,38 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     _scrollController.dispose();
     _streamController.close();
     super.dispose();
+  }
+
+  ///好物推荐
+  _buildRCM(BuildContext context) {}
+  List<ItemListItem> _rcmDataList = [];
+  var _pagination;
+  bool _hasMore = true;
+  int _page = 1;
+  int _size = 10;
+
+  void _getRcmd() async {
+    var header = HttpUtil.getHeader();
+    Map<String, dynamic> params = {
+      "csrf_token": csrf_token,
+      "page": _page,
+      "size": _size,
+    };
+
+    await rewardRcmd(params, header: header).then((responseData) {
+      List result = responseData.data['result'];
+      List<ItemListItem> dataList = [];
+
+      result.forEach((element) {
+        dataList.add(ItemListItem.fromJson(element));
+      });
+
+      setState(() {
+        _rcmDataList.addAll(dataList);
+        _pagination = responseData.data['pagination'];
+        _hasMore = !_pagination['lastPage'];
+        _page = _pagination['page'] + 1;
+      });
+    });
   }
 }

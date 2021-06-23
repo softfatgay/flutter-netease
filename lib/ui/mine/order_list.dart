@@ -7,6 +7,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:flutter_app/widget/timer_text.dart';
 
@@ -56,6 +57,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var title = _tabItem.map<String>((e) => e["name"]).toList();
     return Scaffold(
+      backgroundColor: backColor,
       appBar: TabAppBar(
         controller: _mController,
         tabs: title,
@@ -153,8 +155,9 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
   _buildItem(BuildContext context, int index) {
     var item = _orderList[index];
     return Container(
-      margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
-      color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(5)),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,13 +190,19 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                   Expanded(
                     child: Row(
                       children: picUrlList
-                          .map<Widget>((item) => Container(
-                                child: CachedNetworkImage(
-                                  imageUrl: item,
-                                  width: 80,
-                                  height: 80,
-                                ),
-                              ))
+                          .map<Widget>(
+                            (item) => Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0x33CECEC8),
+                                  borderRadius: BorderRadius.circular(5)),
+                              margin: EdgeInsets.only(right: 8),
+                              width: 80,
+                              height: 80,
+                              child: RoundNetImage(
+                                url: item,
+                              ),
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -225,10 +234,15 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
                   border: Border(top: BorderSide(color: backGrey, width: 1))),
               child: Row(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: picUrlList[0],
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color(0x33CECEC8),
+                        borderRadius: BorderRadius.circular(5)),
                     width: 80,
                     height: 80,
+                    child: RoundNetImage(
+                      url: picUrlList[0],
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -317,12 +331,14 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
       child: Row(
         children: [
           Expanded(
-              child: Text(
-            "订单编号：${item["no"]}",
-            style: t14black,
-          )),
+            child: Text(
+              "订单编号：${item["no"]}",
+              style: t14black,
+            ),
+          ),
           item['deleteOption']
               ? Container(
+                  padding: EdgeInsets.only(right: 10),
                   child: GestureDetector(
                     onTap: () {
                       _deleteConfig(context, item);

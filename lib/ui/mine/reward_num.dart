@@ -24,8 +24,8 @@ class RewardNumPage extends StatefulWidget {
 class _RewardNumPageState extends State<RewardNumPage> {
   ScrollController _scrollController = new ScrollController();
 
-  int page = 1;
-  int size = 20;
+  int _page = 1;
+  int _size = 20;
 
   var hasMore = false;
   bool isShowFloatBtn = false;
@@ -70,8 +70,8 @@ class _RewardNumPageState extends State<RewardNumPage> {
     };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
-      "page": page,
-      "size": size,
+      "_page": _page,
+      "_size": _size,
     };
 
     await rewardRcmd(params, header: header).then((responseData) {
@@ -86,7 +86,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
         _dataList.addAll(dataList);
         pagination = responseData.data['pagination'];
         hasMore = !pagination['lastPage'];
-        page = pagination['page'] + 1;
+        _page = pagination['page'] + 1;
       });
     });
   }
@@ -94,6 +94,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: backColor,
         appBar: TabAppBar(
           title: widget.arguments['id'] == 4 ? '津贴' : '回馈金',
         ).build(context),
@@ -262,6 +263,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
           color: backGrey,
         ),
         Container(
+          color: backWhite,
           alignment: Alignment.center,
           padding: EdgeInsets.all(15),
           child: Text(

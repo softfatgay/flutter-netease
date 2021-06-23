@@ -6,34 +6,44 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/home/components/hot_list_item.dart';
 import 'package:flutter_app/ui/sort/model/hotListModel.dart';
 import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/slivers.dart';
 
 class HotListPage extends StatefulWidget {
+  final Map param;
+
+  const HotListPage({Key key, this.param}) : super(key: key);
+
   @override
   _HotListPageState createState() => _HotListPageState();
 }
 
 class _HotListPageState extends State<HotListPage>
     with TickerProviderStateMixin {
-  int currentCategoryId = 0;
-  int currentSubCategoryId = 0;
+  String _currentCategoryId = '0';
+  int _currentSubCategoryId = 0;
 
   TabController _tabController;
-  bool isFirstLoading = true;
-  bool isLoading = true;
-  bool bodyLoading = true;
+  bool _isFirstLoading = true;
+  bool _isLoading = true;
+  bool _bodyLoading = true;
   int pageSize = 10;
-  int page = 1;
+  int _page = 1;
 
-  Timer timer;
-  int rondomIndex = 0;
+  String _bannerUrl =
+      "https://yanxuan.nosdn.127.net/294b914321c27e2490b257b5b6be6fa5.png";
+
+  Timer _timer;
+  int _rondomIndex = 0;
+
+  String _fromId = '0';
 
   ///头部
   List<SubCateListItem> _subCateList;
@@ -44,16 +54,18 @@ class _HotListPageState extends State<HotListPage>
   @override
   void initState() {
     // TODO: implement initState
+    setState(() {
+      _fromId = widget.param['categoryId'];
+    });
     super.initState();
-    timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
       setState(() {
-        rondomIndex++;
-        if (rondomIndex >= 18) {
-          rondomIndex = 0;
+        _rondomIndex++;
+        if (_rondomIndex >= 18) {
+          _rondomIndex = 0;
         }
       });
     });
-
     _getData();
   }
 
@@ -78,14 +90,15 @@ class _HotListPageState extends State<HotListPage>
     setState(() {
       _subCateList = hotListModel.currentCategory.subCateList;
       _tabController = TabController(length: _subCateList.length, vsync: this);
-      isFirstLoading = false;
+      _isFirstLoading = false;
       _tabController.addListener(() {
         setState(() {
           if (_tabController.index == _tabController.animation.value) {
-            bodyLoading = true;
-            page = 1;
-            currentCategoryId = _subCateList[_tabController.index].id;
-            currentSubCategoryId =
+            _bodyLoading = true;
+            _page = 1;
+            _currentCategoryId =
+                _subCateList[_tabController.index].id.toString();
+            _currentSubCategoryId =
                 _subCateList[_tabController.index].superCategoryId;
             _getItemList();
           }
@@ -96,12 +109,12 @@ class _HotListPageState extends State<HotListPage>
 
   _getItemList() async {
     setState(() {
-      bodyLoading = true;
+      _bodyLoading = true;
     });
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
-      "categoryId": currentCategoryId,
-      "subCategoryId": currentSubCategoryId,
+      "categoryId": _currentCategoryId,
+      "subCategoryId": _currentSubCategoryId,
     };
     Map<String, dynamic> header = {"Cookie": cookie};
 
@@ -114,25 +127,46 @@ class _HotListPageState extends State<HotListPage>
 
     setState(() {
       _dataList = dataList;
-      bodyLoading = false;
+      _bodyLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back_ios),
-          onPressed: () => {Navigator.of(context).pop()},
+      backgroundColor: backColor,
+      // appBar: AppBar(
+      //   leading: new IconButton(
+      //     icon: new Icon(
+      //       Icons.arrow_back_ios,
+      //       color: Colors.black,
+      //     ),
+      //     onPressed: () => {Navigator.of(context).pop()},
+      //   ),
+      //   backgroundColor: backWhite,
+      //   title: Text(
+      //     '热销榜',
+      //     style: t16blackbold,
+      //   ),
+      // ),
+      body: _isFirstLoading ? Loading() : _buildBody(),
+    );
+  }
+
+  _buildContent() {
+    return Stack(
+      children: [
+        Container(
+          height: 264,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(_bannerUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
-        backgroundColor: redColor,
-        title: Text(
-          '热销榜',
-          style: t16white,
-        ),
-      ),
-      body: isFirstLoading ? Loading() : _buildBody(),
+        _buildBody()
+      ],
     );
   }
 
@@ -144,23 +178,35 @@ class _HotListPageState extends State<HotListPage>
             expandedHeight: 160.0,
             floating: true,
             pinned: true,
-            toolbarHeight: 0,
-            automaticallyImplyLeading: false,
+            toolbarHeight: 40,
+            automaticallyImplyLeading: true,
             shadowColor: Colors.transparent,
             backgroundColor: Colors.white,
+            title: Text(
+              '热销榜',
+              style: t16blackbold,
+            ),
+            leading: GestureDetector(
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
-                color: redColor,
+                padding: EdgeInsets.only(top: 100),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(_bannerUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      '网易严选热销榜',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 35),
-                    ),
                     Container(
                       margin: EdgeInsets.only(top: 4),
                       child: Row(
@@ -182,7 +228,7 @@ class _HotListPageState extends State<HotListPage>
                           borderRadius: BorderRadius.circular(12)),
                       margin: EdgeInsets.only(top: 20),
                       child: Text(
-                        '${seller[rondomIndex]}',
+                        '${seller[_rondomIndex]}',
                         style: t12white,
                         maxLines: 1,
                         textAlign: TextAlign.center,
@@ -224,11 +270,11 @@ class _HotListPageState extends State<HotListPage>
 
   _onScrollNotification(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-      if (!isLoading) {
+      if (!_isLoading) {
         setState(() {
-          this.isLoading = true;
+          this._isLoading = true;
           setState(() {
-            page += 1;
+            _page += 1;
           });
         });
         _getItemList(); //加载数据
@@ -240,184 +286,25 @@ class _HotListPageState extends State<HotListPage>
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
+        padding: EdgeInsets.all(0),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          return _buildItem(index);
+          return HotListItem(
+            item: _dataList[index],
+            index: index,
+          );
         },
         itemCount: _dataList.length,
       ),
     );
   }
 
-  Widget _buildItem(int index) {
-    var item = _dataList[index];
-    Widget widget = Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 140,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 140,
-                      width: 140,
-                      child: CachedNetworkImage(
-                        imageUrl: item.scenePicUrl,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            (item.promTag == null || item.promTag == '')
-                                ? Container()
-                                : Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: redColor, width: 1),
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Text(
-                                      '${item.promTag}',
-                                      style: t12red,
-                                    ),
-                                  ),
-                            Container(
-                              margin: EdgeInsets.only(top: 6),
-                              child: Text(
-                                '${item.name}',
-                                style: TextStyle(
-                                    color: textBlack,
-                                    fontSize: 16,
-                                    height: 1.1,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            item.goodCmtRate == null
-                                ? Container()
-                                : Container(
-                                    margin: EdgeInsets.only(top: 6),
-                                    child: Text('${item.goodCmtRate}好评率'),
-                                  ),
-                            Expanded(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                      child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        '¥${item.retailPrice}',
-                                        style: TextStyle(
-                                            color: textRed,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      (item.counterPrice == item.retailPrice ||
-                                              item.counterPrice == 0)
-                                          ? Container()
-                                          : Text(
-                                              '¥${item.counterPrice}',
-                                              style: TextStyle(
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  color: textGrey),
-                                            )
-                                    ],
-                                  )),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 3),
-                                    decoration: BoxDecoration(
-                                        color: redColor,
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Text(
-                                      '马上抢',
-                                      style: t16whiteblod,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              item.hotSaleListBottomInfo == null
-                  ? Container()
-                  : Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                          color: Color(0xFFF6F6F6),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                        children: [
-                          ClipOval(
-                            child: Image.network(
-                              '${item.hotSaleListBottomInfo.iconUrl ?? ''}',
-                              height: 20,
-                              width: 20,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Expanded(
-                              child: Text(
-                            '${item.hotSaleListBottomInfo.content ?? ''}',
-                            style: t12grey,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          )),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 12,
-                            color: textGrey,
-                          )
-                        ],
-                      ),
-                    ),
-            ],
-          ),
-          Container(
-            height: 20,
-            width: 20,
-            margin: EdgeInsets.all(5),
-            alignment: Alignment.center,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Color(0xFFD2D3D2)),
-            child: Text(
-              '${index + 1}',
-              style: t14white,
-            ),
-          )
-        ],
-      ),
-    );
-    return Routers.link(
-        widget, Routers.goodDetailTag, context, {'id': item.id});
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
     _tabController.dispose();
-    timer.cancel();
+    _timer.cancel();
     super.dispose();
   }
 

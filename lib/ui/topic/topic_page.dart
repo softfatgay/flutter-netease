@@ -17,6 +17,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/search.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/widget/top_round_net_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -28,7 +29,12 @@ class TopicPage extends StatefulWidget {
 class _TopicPageState extends State<TopicPage>
     with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = new ScrollController();
-  ScrollController _scrollBarController = new ScrollController();
+
+  final StreamController<double> _streamController =
+      StreamController<double>.broadcast();
+
+  final StreamController<double> _streamControllerTab =
+      StreamController<double>.broadcast();
 
   ///第一次加载
   bool _isFirstLoading = true;
@@ -67,12 +73,14 @@ class _TopicPageState extends State<TopicPage>
           setState(() {
             toolbarHeight = 50;
           });
+          _streamControllerTab.sink.add(50);
         }
       } else {
         if (toolbarHeight == 50) {
           setState(() {
             toolbarHeight = 0;
           });
+          _streamControllerTab.sink.add(0);
         }
       }
 
@@ -139,8 +147,9 @@ class _TopicPageState extends State<TopicPage>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _streamController.close();
+    _streamControllerTab.close();
     _scrollController.dispose();
-    _scrollBarController.dispose();
     if (_timer != null) {
       _timer.cancel();
     }
@@ -175,11 +184,12 @@ class _TopicPageState extends State<TopicPage>
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              child: CachedNetworkImage(
-                height: ScreenUtil().setHeight(150),
-                imageUrl: item.picUrl,
-                fit: BoxFit.cover,
+                  color: Colors.white, borderRadius: BorderRadius.circular(2)),
+              child: Container(
+                height: 300,
+                child: TopRoundNetImage(
+                  url: item.picUrl,
+                ),
               ),
             ),
           ),
@@ -319,22 +329,28 @@ class _TopicPageState extends State<TopicPage>
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: ScreenUtil().setHeight(180),
-          backgroundColor: Colors.white,
-          brightness: Brightness.light,
-          toolbarHeight: double.parse(toolbarHeight.toString()),
-          title: TopSearch(),
-          centerTitle: true,
-          flexibleSpace: FlexibleSpaceBar(
-            background: _buildNav(),
-          ),
-        ),
+        StreamBuilder(
+            stream: _streamControllerTab.stream,
+            initialData: 0.0,
+            builder: (context, snapshot) {
+              print('------------');
+              print(snapshot.data);
+
+              return SliverAppBar(
+                pinned: true,
+                expandedHeight: ScreenUtil().setHeight(180),
+                backgroundColor: Colors.white,
+                brightness: Brightness.light,
+                toolbarHeight: double.parse(snapshot.data.toString()),
+                title: TopSearch(),
+                centerTitle: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: _buildNav(),
+                ),
+              );
+            }),
         _stagegeredGridview(),
-        SliverFooter(
-          hasMore: _hasMore,
-        )
+        SliverFooter(hasMore: _hasMore)
       ],
     );
   }
@@ -343,9 +359,8 @@ class _TopicPageState extends State<TopicPage>
     final ScrollMetrics metrics = notification.metrics;
     print('滚动组件最大滚动距离:${metrics.maxScrollExtent}');
     print('当前滚动位置:${metrics.pixels}');
-    setState(() {
-      _alignmentY = -1 + (metrics.pixels / metrics.maxScrollExtent) * 2;
-    });
+    var alignmentY = -1 + (metrics.pixels / metrics.maxScrollExtent) * 2;
+    _streamController.sink.add(alignmentY);
     return true;
   }
 
@@ -418,19 +433,26 @@ class _TopicPageState extends State<TopicPage>
                 );
               }).toList(),
             ),
-            Container(
-              height: 3,
-              decoration: BoxDecoration(
-                  color: lineColor, borderRadius: BorderRadius.circular(2)),
-              width: 150,
-              alignment: Alignment(_alignmentY, 1),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: redColor, borderRadius: BorderRadius.circular(2)),
-                height: 4,
-                width: 30,
-              ),
-            )
+            StreamBuilder(
+                stream: _streamController.stream,
+                initialData: 0.0,
+                builder: (context, snapshot) {
+                  return Container(
+                    height: 3,
+                    decoration: BoxDecoration(
+                        color: lineColor,
+                        borderRadius: BorderRadius.circular(2)),
+                    width: 100,
+                    alignment: Alignment(snapshot.data, 1),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: redColor,
+                          borderRadius: BorderRadius.circular(2)),
+                      height: 4,
+                      width: 20,
+                    ),
+                  );
+                }),
           ],
         ),
       ),
