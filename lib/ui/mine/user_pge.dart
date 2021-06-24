@@ -55,7 +55,11 @@ class _MinePageState extends State<UserPage>
     var responseData = await checkLogin(params);
     var isLogin = responseData.data;
     setState(() {
-      _isLogin = isLogin;
+      if (isLogin != null) {
+        _isLogin = isLogin;
+      } else {
+        _isLogin = false;
+      }
     });
     if (isLogin) {
       _getUserInfo();

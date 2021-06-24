@@ -52,7 +52,7 @@ class _ShoppingCartState extends State<ShoppingCart>
 
   bool isEdit = false; // 是否正在编辑
 
-  bool _islogin = true;
+  bool _isLogin = true;
   int allCount = 0;
   List checkList = [];
 
@@ -85,7 +85,11 @@ class _ShoppingCartState extends State<ShoppingCart>
     var responseData = await checkLogin(params);
     var isLogin = responseData.data;
     setState(() {
-      _islogin = isLogin;
+      if (isLogin != null) {
+        _isLogin = isLogin;
+      } else {
+        _isLogin = false;
+      }
     });
     if (isLogin) {
       _getData();
@@ -310,7 +314,7 @@ class _ShoppingCartState extends State<ShoppingCart>
   @override
   Widget build(BuildContext context) {
     var argument = widget.argument;
-    return _islogin
+    return _isLogin
         ? Scaffold(
             backgroundColor: backColor,
             appBar: AppBar(
@@ -352,7 +356,7 @@ class _ShoppingCartState extends State<ShoppingCart>
       onValueChanged: (value) {
         if (value) {
           setState(() {
-            _islogin = value;
+            _isLogin = value;
           });
           _checkLogin();
         }
