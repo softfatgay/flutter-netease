@@ -14,7 +14,6 @@ import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/sortData.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/vertical_tab.dart';
@@ -28,9 +27,8 @@ class SortPage extends StatefulWidget {
 class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   bool _isLoading = true;
 
-  List _roundWords = ['零食', '茅台酒', '床上用品', '衣服', '玩具', '奶粉', '背包'];
   int _rondomIndex = 0;
-  var timer;
+  var _timer;
 
   String _categoryId = "";
   int _activityTab = 0;
@@ -90,7 +88,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     // TODO: implement initState
     super.initState();
     _getInitData("");
-    timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
       setState(() {
         _rondomIndex++;
         if (_rondomIndex >= 7) {
@@ -247,8 +245,8 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    if (timer != null) {
-      timer.cancel();
+    if (_timer != null) {
+      _timer.cancel();
     }
   }
 }

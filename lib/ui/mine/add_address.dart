@@ -21,30 +21,30 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
   final _nameController = TextEditingController();
   final _phoneC = TextEditingController();
   final _addressC = TextEditingController();
-  String addressTips = '省份 城市 区县';
-  var tabTitle = List();
+  String _addressTips = '省份 城市 区县';
+  var _tabTitle = [];
 
-  List province = [];
-  List city = [];
-  List dis = [];
-  List town = [];
-  int selectType = 0;
+  List _province = [];
+  List _city = [];
+  List _dis = [];
+  List _town = [];
+  int _selectType = 0;
 
   bool _check = false;
 
-  var provinceItem;
-  var cityItem;
-  var disItem;
-  var townItem;
+  var _provinceItem;
+  var _cityItem;
+  var _disItem;
+  var _townItem;
 
-  var currentList = List();
+  var _currentList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _tabController = TabController(length: tabTitle.length, vsync: this);
+    _tabController = TabController(length: _tabTitle.length, vsync: this);
     _getProvince();
   }
 
@@ -105,9 +105,9 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                addressTips,
+                                _addressTips,
                                 style: TextStyle(
-                                    color: addressTips == '省份 城市 区县'
+                                    color: _addressTips == '省份 城市 区县'
                                         ? textHint
                                         : textBlack,
                                     fontSize: 16),
@@ -214,11 +214,11 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
   ///属性选择底部弹窗
   _showAddress(BuildContext context) {
     setState(() {
-      selectType = 1;
-      currentList = province;
-      tabTitle.clear();
-      tabTitle.add('省');
-      _tabController = TabController(length: tabTitle.length, vsync: this);
+      _selectType = 1;
+      _currentList = _province;
+      _tabTitle.clear();
+      _tabTitle.add('省');
+      _tabController = TabController(length: _tabTitle.length, vsync: this);
       _tabController.addListener(() {
         if (_tabController.index == _tabController.animation.value) {}
       });
@@ -241,7 +241,7 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                   children: [
                     TabBar(
                       controller: _tabController,
-                      tabs: tabTitle.map((f) => Tab(text: f)).toList(),
+                      tabs: _tabTitle.map((f) => Tab(text: f)).toList(),
                       indicator: MyUnderlineTabIndicator(
                         borderSide: BorderSide(width: 2.0, color: redColor),
                       ),
@@ -253,7 +253,7 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                     Expanded(
                         child: Container(
                       child: ListView(
-                        children: currentList.map((item) {
+                        children: _currentList.map((item) {
                           return GestureDetector(
                             child: Container(
                               decoration: BoxDecoration(
@@ -265,33 +265,30 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
                               child: Text(item["zonename"]),
                             ),
                             onTap: () {
-                              if (selectType == 1) {
+                              if (_selectType == 1) {
                                 setState(() {
-                                  provinceItem = item;
+                                  _provinceItem = item;
                                 });
-                                print('!!!!!!!!!!!!!!!!!!!!!');
-                                print(selectType);
+                                print(_selectType);
                                 _getCity(item['id'], setStates);
-                              } else if (selectType == 2) {
+                              } else if (_selectType == 2) {
                                 setState(() {
-                                  cityItem = item;
+                                  _cityItem = item;
                                 });
-                                print('=======================');
-                                print(selectType);
+                                print(_selectType);
                                 _getDis(
                                     item['id'], item['parentid'], setStates);
-                              } else if (selectType == 3) {
+                              } else if (_selectType == 3) {
                                 setState(() {
-                                  disItem = item;
+                                  _disItem = item;
                                 });
-                                print('>>>>>>>>>>>>>>>>>>>>>>>>>');
-                                print(selectType);
+                                print(_selectType);
                                 _getTown(item['id'], setStates);
                               } else {
                                 setState(() {
-                                  townItem = item;
-                                  addressTips =
-                                      '${provinceItem['zonename'] + ' ' + cityItem['zonename'] + ' ' + disItem['zonename'] + ' ' + townItem['zonename']}';
+                                  _townItem = item;
+                                  _addressTips =
+                                      '${_provinceItem['zonename'] + ' ' + _cityItem['zonename'] + ' ' + _disItem['zonename'] + ' ' + _townItem['zonename']}';
                                   Navigator.pop(context);
                                 });
                               }
@@ -318,9 +315,8 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
 
     var responseData = await getProvenceList(params);
     setState(() {
-      province = responseData.data;
-      currentList = responseData.data;
-      print(responseData.data);
+      _province = responseData.data;
+      _currentList = responseData.data;
     });
   }
 
@@ -332,24 +328,22 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
 
     var responseData = await getCityList(params);
     setStates(() {
-      currentList = responseData.data;
-      selectType = 2;
-      tabTitle.clear();
-      tabTitle.add('省');
-      tabTitle.add('市');
+      _currentList = responseData.data;
+      _selectType = 2;
+      _tabTitle.clear();
+      _tabTitle.add('省');
+      _tabTitle.add('市');
       _tabController =
-          TabController(length: tabTitle.length, initialIndex: 1, vsync: this);
+          TabController(length: _tabTitle.length, initialIndex: 1, vsync: this);
       _tabController.addListener(() {
         if (_tabController.index == _tabController.animation.value) {
           _tabclick(_tabController.index, setStates);
         }
       });
-
-      print(responseData.data);
     });
 
     setState(() {
-      city = responseData.data;
+      _city = responseData.data;
     });
   }
 
@@ -362,25 +356,23 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
 
     var responseData = await getDisList(params);
     setStates(() {
-      currentList = responseData.data;
-      selectType = 3;
-      tabTitle.clear();
-      tabTitle.add('省');
-      tabTitle.add('市');
-      tabTitle.add('区县');
+      _currentList = responseData.data;
+      _selectType = 3;
+      _tabTitle.clear();
+      _tabTitle.add('省');
+      _tabTitle.add('市');
+      _tabTitle.add('区县');
       _tabController =
-          TabController(length: tabTitle.length, initialIndex: 2, vsync: this);
+          TabController(length: _tabTitle.length, initialIndex: 2, vsync: this);
       _tabController.addListener(() {
         if (_tabController.index == _tabController.animation.value) {
           _tabclick(_tabController.index, setStates);
         }
       });
-
-      print(responseData.data);
     });
 
     setState(() {
-      dis = responseData.data;
+      _dis = responseData.data;
     });
   }
 
@@ -394,15 +386,15 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
 
     var responseData = await getTown(params);
     setStates(() {
-      currentList = responseData.data;
-      selectType = 4;
-      tabTitle.clear();
-      tabTitle.add('省');
-      tabTitle.add('市');
-      tabTitle.add('区县');
-      tabTitle.add('街道');
+      _currentList = responseData.data;
+      _selectType = 4;
+      _tabTitle.clear();
+      _tabTitle.add('省');
+      _tabTitle.add('市');
+      _tabTitle.add('区县');
+      _tabTitle.add('街道');
       _tabController =
-          TabController(length: tabTitle.length, initialIndex: 3, vsync: this);
+          TabController(length: _tabTitle.length, initialIndex: 3, vsync: this);
       _tabController.addListener(() {
         if (_tabController.index == _tabController.animation.value) {
           _tabclick(_tabController.index, setStates);
@@ -411,38 +403,32 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
     });
 
     setState(() {
-      town = responseData.data;
+      _town = responseData.data;
     });
   }
 
   _tabclick(int index, setStates) {
-    print('//////////////////////////////');
-    print(city);
-
-    print(index);
     if (index == 0) {
       setStates(() {
-        currentList = province;
-        selectType = 1;
+        _currentList = _province;
+        _selectType = 1;
       });
     } else if (index == 1) {
       setStates(() {
-        currentList = city;
-        selectType = 2;
+        _currentList = _city;
+        _selectType = 2;
       });
     } else if (index == 2) {
       setStates(() {
-        currentList = dis;
-        selectType = 3;
+        _currentList = _dis;
+        _selectType = 3;
       });
     } else if (index == 3) {
       setStates(() {
-        currentList = town;
-        selectType = 4;
+        _currentList = _town;
+        _selectType = 4;
       });
     }
-
-    print(city);
   }
 
   _addAddress() async {
@@ -453,21 +439,21 @@ class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       'id': 0,
-      'provinceId': provinceItem['id'],
-      'provinceName': provinceItem['zonename'],
-      'cityId': cityItem['id'],
-      'cityName': cityItem['zonename'],
-      'districtId': disItem['id'],
-      'districtName': disItem['zonename'],
-      'townId': townItem['id'],
-      'townName': townItem['zonename'],
+      'provinceId': _provinceItem['id'],
+      'provinceName': _provinceItem['zonename'],
+      'cityId': _cityItem['id'],
+      'cityName': _cityItem['zonename'],
+      'districtId': _disItem['id'],
+      'districtName': _disItem['zonename'],
+      'townId': _townItem['id'],
+      'townName': _townItem['zonename'],
       'address': _addressC.text,
       'name': _nameController.text,
       'mobile': _phoneC.text,
       'dft': _check,
     };
 
-    await addAddress(params, header: header).then((responseData) {
+    await addAddress(params).then((responseData) {
       if (responseData.code == '200') {
         Navigator.pop(context);
       }

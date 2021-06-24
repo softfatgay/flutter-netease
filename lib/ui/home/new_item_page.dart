@@ -21,10 +21,8 @@ class NewItemPage extends StatefulWidget {
 }
 
 class _KingKongPageState extends State<NewItemPage> {
-  var banner = List();
-  bool initLoading = true;
-  var currentCategory;
-
+  var _banner = [];
+  bool _initLoading = true;
   List<ItemListItem> _dataList;
 
   @override
@@ -47,7 +45,7 @@ class _KingKongPageState extends State<NewItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backColor,
-      body: initLoading
+      body: _initLoading
           ? Loading()
           : CustomScrollView(
               slivers: [
@@ -77,9 +75,9 @@ class _KingKongPageState extends State<NewItemPage> {
   //轮播图
   _buildSwiper(BuildContext context) {
     return BannerCacheImg(
-      imageList: banner,
+      imageList: _banner,
       onTap: (index) {
-        Routers.push(Routers.image, context, {'images': banner});
+        Routers.push(Routers.image, context, {'images': _banner});
       },
     );
   }
@@ -97,8 +95,8 @@ class _KingKongPageState extends State<NewItemPage> {
     setState(() {
       _dataList = dataList;
       List bannerList = responseData.OData["newItemAds"];
-      banner = bannerList.map((item) => item["picUrl"]).toList();
-      initLoading = false;
+      _banner = bannerList.map((item) => item["picUrl"]).toList();
+      _initLoading = false;
     });
   }
 }

@@ -25,7 +25,7 @@ class _SortChildState extends State<SortListPage>
   int _activeIndex = 0;
   TabController _mController;
   List<Category> _catalogList = [];
-  int id = 0;
+  int _id = 0;
   @override
   Widget build(BuildContext context) {
     List<String> tabItem = [];
@@ -47,7 +47,7 @@ class _SortChildState extends State<SortListPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    id = widget.arguments["subCategoryId"];
+    _id = widget.arguments["subCategoryId"];
     _getInitData();
   }
 
@@ -58,7 +58,7 @@ class _SortChildState extends State<SortListPage>
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryType": "0",
-      "subCategoryId": id,
+      "subCategoryId": _id,
       "categoryId": widget.arguments["categoryId"],
     });
     var data = responseData.data;
@@ -83,7 +83,7 @@ class _SortChildState extends State<SortListPage>
     _mController.addListener(() {
       setState(() {
         _activeIndex = _mController.index;
-        id = _catalogList[_activeIndex].id;
+        _id = _catalogList[_activeIndex].id;
       });
     });
   }

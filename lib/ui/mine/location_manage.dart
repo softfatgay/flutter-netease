@@ -128,7 +128,7 @@ class _LocationManageState extends State<LocationManage> {
                   setState(() {
                     addressId = item['id'];
                   });
-                  _confimDialog(context);
+                  _confirmDialog(context);
                 })
           ],
         ),
@@ -142,9 +142,7 @@ class _LocationManageState extends State<LocationManage> {
 
   void _getLocations() async {
     Map<String, dynamic> params = {"csrf_token": csrf_token};
-    Map<String, dynamic> header = {"Cookie": cookie};
-
-    var responseData = await getLocationList(params, header: header);
+    var responseData = await getLocationList(params);
     setState(() {
       _locationList = responseData.data;
     });
@@ -152,14 +150,12 @@ class _LocationManageState extends State<LocationManage> {
 
   void _deleteAddress() async {
     Map<String, dynamic> params = {"csrf_token": csrf_token, 'id': addressId};
-    Map<String, dynamic> header = {"Cookie": cookie};
-
-    await deleteAddress(params, header: header).then((value) {
+    await deleteAddress(params).then((value) {
       _getLocations();
     });
   }
 
-  _confimDialog(BuildContext context) {
+  _confirmDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(

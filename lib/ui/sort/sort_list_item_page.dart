@@ -21,16 +21,10 @@ class SortListItemPage extends StatefulWidget {
 ///AutomaticKeepAliveClientMixin  保持滑动不刷新  重写方法 bool get wantKeepAlive => true;
 class _CatalogGoodsState extends State<SortListItemPage>
     with AutomaticKeepAliveClientMixin {
-  bool isLoading = true;
-  int total = 0;
-
-  // List dataList = [];
-
-  bool moreLoading = false;
-
+  bool _isLoading = true;
+  int _total = 0;
+  bool _moreLoading = false;
   ScrollController _scrollController = new ScrollController();
-
-  List itemList = [];
   Category category;
 
   ///商品
@@ -46,7 +40,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (!moreLoading && (total > _itemList.length)) {
+        if (!_moreLoading && (_total > _itemList.length)) {
           // _getMore();
         }
       }
@@ -71,14 +65,14 @@ class _CatalogGoodsState extends State<SortListItemPage>
       category = sortListDataModel.categoryItems.category;
 
       // category = data["categoryItems"]["category"];
-      isLoading = false;
-      total = _itemList.length;
+      _isLoading = false;
+      _total = _itemList.length;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
+    if (_isLoading) {
       return Loading();
     } else {
       return RefreshIndicator(
@@ -111,7 +105,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
   }
 
   Widget buildFooter() {
-    if (_itemList.length == total) {
+    if (_itemList.length == _total) {
       return NoMoreText();
     } else {
       return Loading();

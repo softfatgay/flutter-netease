@@ -7,6 +7,7 @@ import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
+@Deprecated("no used")
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();

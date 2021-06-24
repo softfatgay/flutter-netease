@@ -12,6 +12,7 @@ import 'package:flutter_app/widget/slivers.dart';
 //import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+@Deprecated("no used")
 class MinePage extends StatefulWidget {
   @override
   _MinePageState createState() => _MinePageState();
@@ -24,6 +25,7 @@ class _MinePageState extends State<MinePage> {
   final String imageAsset = 'assets/images/sanjicaihua.png';
   File image;
 
+  var aa = List();
   ScrollController _scrollController = ScrollController();
   String title = '';
 

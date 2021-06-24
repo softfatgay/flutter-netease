@@ -11,7 +11,6 @@ import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
@@ -25,7 +24,7 @@ class UserPage extends StatefulWidget {
 
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
-  bool _islogin = true;
+  bool _isLogin = true;
 
   bool _firstLoading = true;
   List<MinePageItems> _mineItems = [];
@@ -53,11 +52,10 @@ class _MinePageState extends State<UserPage>
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await checkLogin(params, header: header);
+    var responseData = await checkLogin(params);
     var isLogin = responseData.data;
     setState(() {
-      _islogin = isLogin;
+      _isLogin = isLogin;
     });
     if (isLogin) {
       _getUserInfo();
@@ -78,7 +76,7 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildbody() {
-    return _islogin
+    return _isLogin
         ? Scaffold(
             backgroundColor: Colors.white,
             body: _firstLoading
@@ -108,15 +106,13 @@ class _MinePageState extends State<UserPage>
 
   void _getUserInfo() async {
     Map<String, dynamic> params = {"csrf_token": csrf_token};
-    Map<String, dynamic> header = {"Cookie": cookie};
-
     try {
-      var responseData = await getUserInfo(params, header: header);
+      var responseData = await getUserInfo(params);
       setState(() {
         _userInfo = UserModel.fromJson(responseData.data);
-        setUserInfo();
+        _setUserInfo();
       });
-      var userInfoItems = await getUserInfoItems(params, header: header);
+      var userInfoItems = await getUserInfoItems(params);
       List data = userInfoItems.data;
       List<MinePageItems> mineItems = [];
 
@@ -135,58 +131,61 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildTop(BuildContext context) {
-    return singleSliverWidget(Container(
-      padding:
-          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFEFB965),
-            Color(0xFFFFD883),
+    return singleSliverWidget(
+      Container(
+        padding:
+            EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFEFB965),
+              Color(0xFFFFD883),
+            ],
+          ),
+        ),
+        height:
+            ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      "https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png"),
+                  fit: BoxFit.cover,
+                ),
+              ), // 通过 container 实现圆角
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _userInfo.userSimpleVO.nickname,
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    _userInfo.userSimpleVO.memberLevel == 0 ? "普通用户" : "vip用户",
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
-      height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-              image: DecorationImage(
-                image: NetworkImage(
-                    "https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png"),
-                fit: BoxFit.cover,
-              ),
-            ), // 通过 container 实现圆角
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _userInfo.userSimpleVO.nickname,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  _userInfo.userSimpleVO.memberLevel == 0 ? "普通用户" : "vip用户",
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    ));
+    );
   }
 
   _buildTitle(BuildContext context) {
@@ -391,7 +390,7 @@ class _MinePageState extends State<UserPage>
       onValueChanged: (value) {
         if (value) {
           setState(() {
-            _islogin = value;
+            _isLogin = value;
           });
           _getUserInfo();
         }
@@ -399,7 +398,7 @@ class _MinePageState extends State<UserPage>
     );
   }
 
-  void setUserInfo() async {
+  void _setUserInfo() async {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setString('name', _userInfo.userSimpleVO.nickname);
     await prefs.setString(
@@ -480,6 +479,7 @@ class _MinePageState extends State<UserPage>
       "id": 11
     },
   ];
+
   @override
   void dispose() {
     // TODO: implement dispose

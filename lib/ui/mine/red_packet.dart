@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/mine/red_packet_list.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -9,9 +7,8 @@ class RedPacket extends StatefulWidget {
   _RedEnvelopeState createState() => _RedEnvelopeState();
 }
 
-class _RedEnvelopeState extends State<RedPacket>
-    with TickerProviderStateMixin {
-  List tabs = [
+class _RedEnvelopeState extends State<RedPacket> with TickerProviderStateMixin {
+  List _tabs = [
     {
       'name': '未使用',
       'searchType': 1,
@@ -31,12 +28,12 @@ class _RedEnvelopeState extends State<RedPacket>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = TabController(length: tabs.length, vsync: this);
+    _controller = TabController(length: _tabs.length, vsync: this);
   }
 
   _buildBody(BuildContext context) {
     return TabBarView(
-      children: tabs.map((item) {
+      children: _tabs.map((item) {
         return RedPacketList(
           searchType: item['searchType'],
         );
@@ -49,7 +46,7 @@ class _RedEnvelopeState extends State<RedPacket>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TabAppBar(
-        tabs: tabs.map<String>((e) => e['name']).toList(),
+        tabs: _tabs.map<String>((e) => e['name']).toList(),
         title: '红包',
         controller: _controller,
       ).build(context),

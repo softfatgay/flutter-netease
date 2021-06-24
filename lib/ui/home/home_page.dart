@@ -36,7 +36,7 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = new ScrollController();
 
-  bool isLoading = true;
+  bool _isLoading = true;
 
   ///banner数据
   List<FocusItem> _focusList;
@@ -110,7 +110,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
   }
 
   void _incrementCounter() {
@@ -158,7 +157,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       _newItemList = homeModel.newItemList;
       _sceneLightShoppingGuideModule = homeModel.sceneLightShoppingGuideModule;
 
-      isLoading = false;
+      _isLoading = false;
     });
   }
 
@@ -174,7 +173,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         child: Icon(Icons.loop),
       ), //
 
-      body: isLoading ? _loadingView() : _refresh(),
+      body: _isLoading ? _loadingView() : _refresh(),
     );
   }
 
@@ -947,7 +946,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       "size": _size,
     };
 
-    await rewardRcmd(params, header: header).then((responseData) {
+    await rewardRcmd(params).then((responseData) {
       List result = responseData.data['result'];
       List<ItemListItem> dataList = [];
 

@@ -27,9 +27,9 @@ class _RewardNumPageState extends State<RewardNumPage> {
   int _page = 1;
   int _size = 20;
 
-  var hasMore = false;
-  bool isShowFloatBtn = false;
-  var pagination;
+  var _hasMore = false;
+  bool _isShowFloatBtn = false;
+  var _pagination;
 
   List<ItemListItem> _dataList = [];
 
@@ -40,22 +40,22 @@ class _RewardNumPageState extends State<RewardNumPage> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > 500) {
-        if (!isShowFloatBtn) {
+        if (!_isShowFloatBtn) {
           setState(() {
-            isShowFloatBtn = true;
+            _isShowFloatBtn = true;
           });
         }
       } else {
-        if (isShowFloatBtn) {
+        if (_isShowFloatBtn) {
           setState(() {
-            isShowFloatBtn = false;
+            _isShowFloatBtn = false;
           });
         }
       }
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (hasMore) {
+        if (_hasMore) {
           _getRcmd();
         }
       }
@@ -74,7 +74,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
       "_size": _size,
     };
 
-    await rewardRcmd(params, header: header).then((responseData) {
+    await rewardRcmd(params).then((responseData) {
       List result = responseData.data['result'];
       List<ItemListItem> dataList = [];
 
@@ -84,9 +84,9 @@ class _RewardNumPageState extends State<RewardNumPage> {
 
       setState(() {
         _dataList.addAll(dataList);
-        pagination = responseData.data['pagination'];
-        hasMore = !pagination['lastPage'];
-        _page = pagination['page'] + 1;
+        _pagination = responseData.data['pagination'];
+        _hasMore = !_pagination['lastPage'];
+        _page = _pagination['page'] + 1;
       });
     });
   }
@@ -104,11 +104,11 @@ class _RewardNumPageState extends State<RewardNumPage> {
             singleSliverWidget(_buildTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
             GoodItemWidget(dataList: _dataList),
-            SliverFooter(hasMore: hasMore),
+            SliverFooter(hasMore: _hasMore),
           ],
         ),
         floatingActionButton:
-            !isShowFloatBtn ? Container() : floatingAB(_scrollController));
+            !_isShowFloatBtn ? Container() : floatingAB(_scrollController));
   }
 
   Widget _buildTop(BuildContext context) {

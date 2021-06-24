@@ -81,9 +81,8 @@ class _HotListPageState extends State<HotListPage>
       "categoryId": 0,
       "subCategoryId": 0,
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
 
-    var responseData = await hotListCat(params, header: header);
+    var responseData = await hotListCat(params);
     var oData = responseData.OData;
     var hotListModel = HotListModel.fromJson(oData);
 
@@ -116,9 +115,7 @@ class _HotListPageState extends State<HotListPage>
       "categoryId": _currentCategoryId,
       "subCategoryId": _currentSubCategoryId,
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-
-    var responseData = await hotList(params, header: header);
+    var responseData = await hotList(params);
     List<ItemListItem> dataList = [];
     List data = responseData.data['itemList'];
     data.forEach((element) {

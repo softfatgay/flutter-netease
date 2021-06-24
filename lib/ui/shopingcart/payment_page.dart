@@ -27,7 +27,6 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _getData() async {
-    Map<String, dynamic> header = {"cookie": cookie};
     List list = [];
     list.add(widget.arguments);
 

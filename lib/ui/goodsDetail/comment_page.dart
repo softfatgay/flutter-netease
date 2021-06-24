@@ -8,7 +8,6 @@ import 'package:flutter_app/ui/goodsDetail/model/commentItem.dart';
 import 'package:flutter_app/ui/goodsDetail/model/commondPageModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
@@ -26,14 +25,14 @@ class CommentList extends StatefulWidget {
 }
 
 class _CommentListState extends State<CommentList> {
-  var tag = '全部';
-  var checkedItem = '全部';
-  var checkIndex = 0;
-  int page = 1;
+  var _tag = '全部';
+  var _checkedItem = '全部';
+  var _checkIndex = 0;
+  int _page = 1;
   Praise _praise = Praise();
-  bool isFirstLoading = true;
+  bool _isFirstLoading = true;
 
-  var showTagsNum = 6;
+  var _showTagsNum = 6;
 
   List<CommentItem> _commentTags = [];
 
@@ -63,7 +62,7 @@ class _CommentListState extends State<CommentList> {
         if (_pagination != null) {
           if (_pagination.totalPage > _pagination.page) {
             setState(() {
-              page++;
+              _page++;
             });
             _getCommentList();
           }
@@ -74,7 +73,7 @@ class _CommentListState extends State<CommentList> {
 
   void reset() {
     setState(() {
-      page = 1;
+      _page = 1;
       _commentList.clear();
       _commentList = [];
     });
@@ -86,14 +85,13 @@ class _CommentListState extends State<CommentList> {
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       'itemId': widget.arguments['id'],
-      'page': page,
-      'tag': tag,
+      'page': _page,
+      'tag': _tag,
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await commentListData(params, header: header);
+    var responseData = await commentListData(params);
 
     setState(() {
-      isFirstLoading = false;
+      _isFirstLoading = false;
       _commondPageModel = CommondPageModel.fromJson(responseData.data);
       _pagination = _commondPageModel.pagination;
       List<ResultItem> commentList = _commondPageModel.result;
@@ -126,9 +124,9 @@ class _CommentListState extends State<CommentList> {
     setState(() {
       _commentTags = list;
       if (_commentTags != null && _commentTags.length > 6) {
-        showTagsNum = 6;
+        _showTagsNum = 6;
       } else {
-        showTagsNum = _commentTags.length;
+        _showTagsNum = _commentTags.length;
       }
     });
   }
@@ -140,7 +138,7 @@ class _CommentListState extends State<CommentList> {
         tabs: [],
         title: '评价',
       ).build(context),
-      body: isFirstLoading
+      body: _isFirstLoading
           ? Loading()
           : CustomScrollView(
               controller: _scrollController,
@@ -178,12 +176,12 @@ class _CommentListState extends State<CommentList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                showTagsNum == _commentTags.length ? '收起' : '更多',
+                _showTagsNum == _commentTags.length ? '收起' : '更多',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),
               Icon(
-                showTagsNum == _commentTags.length
+                _showTagsNum == _commentTags.length
                     ? Icons.keyboard_arrow_up
                     : Icons.keyboard_arrow_down,
                 color: Colors.grey,
@@ -192,13 +190,13 @@ class _CommentListState extends State<CommentList> {
           ),
           onTap: () {
             setState(() {
-              if (showTagsNum < _commentTags.length) {
-                showTagsNum = _commentTags.length;
+              if (_showTagsNum < _commentTags.length) {
+                _showTagsNum = _commentTags.length;
               } else {
                 if (_commentTags.length < 6) {
-                  showTagsNum = _commentTags.length;
+                  _showTagsNum = _commentTags.length;
                 } else {
-                  showTagsNum = 6;
+                  _showTagsNum = 6;
                 }
               }
             });
@@ -250,18 +248,17 @@ class _CommentListState extends State<CommentList> {
       _commentTags.forEach((item) {
         items.add('${item.name}(${item.strCount})');
       });
-      // checkedItem = items[0];
       return Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: FlowWidget(
             items: items,
-            checkedItem: checkedItem,
-            showItemCount: showTagsNum,
+            checkedItem: _checkedItem,
+            showItemCount: _showTagsNum,
             onTap: (index) {
               setState(() {
-                this.checkIndex = index;
-                this.tag = '${_commentTags[index].name}';
-                this.checkedItem =
+                this._checkIndex = index;
+                this._tag = '${_commentTags[index].name}';
+                this._checkedItem =
                     '${_commentTags[index].name}(${_commentTags[index].strCount})';
               });
               reset();

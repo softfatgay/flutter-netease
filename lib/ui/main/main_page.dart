@@ -14,16 +14,16 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<BottomNavigationBarItem> itemList;
-  final pageController = PageController();
+  List<BottomNavigationBarItem> _itemList;
+  final _pageController = PageController();
 
   int _tabIndex = 0;
 
-  var homeNew = HomePage();
-  var topicPage = TopicPage();
-  var sortNew = SortPage();
-  var shoppingCart = ShoppingCart();
-  var userPage = UserPage();
+  var _homeNew = HomePage();
+  var _topicPage = TopicPage();
+  var _sortNew = SortPage();
+  var _shoppingCart = ShoppingCart();
+  var _userPage = UserPage();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,13 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: backColor,
       body: PageView(
         children: <Widget>[
-          homeNew,
-          sortNew,
-          topicPage,
-          shoppingCart,
-          userPage,
+          _homeNew,
+          _sortNew,
+          _topicPage,
+          _shoppingCart,
+          _userPage,
         ],
-        controller: pageController,
+        controller: _pageController,
         onPageChanged: (index) {
           setState(() {
             _tabIndex = index;
@@ -50,11 +50,11 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        items: itemList,
+        items: _itemList,
         onTap: (int index) {
           setState(() {
             _tabIndex = index;
-            pageController.jumpToPage(index);
+            _pageController.jumpToPage(index);
           });
           if (_tabIndex == 3) {
             HosEventBusUtils.fire('refresh');
@@ -87,8 +87,8 @@ class _MainPageState extends State<MainPage> {
           'assets/images/ic_tab_profile_normal.png'));
     }
 
-    if (itemList == null) {
-      itemList = itemNames
+    if (_itemList == null) {
+      _itemList = itemNames
           .map(
             (item) => BottomNavigationBarItem(
               icon: Image.asset(

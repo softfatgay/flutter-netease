@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -51,7 +49,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
 
   var _data;
   List _orderList = [];
-  int status = 0;
+  int _status = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +78,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
         ///防止点击走两次回调
         if (_mController.index == _mController.animation.value) {
           _activeIndex = _mController.index;
-          status = _tabItem[_activeIndex]["status"];
+          _status = _tabItem[_activeIndex]["status"];
           _getorderList(false);
         }
       });
@@ -118,12 +116,9 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "size": 20,
-      "status": status
+      "status": _status
     };
-
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await getOrderList(params, header: header);
-
+    var responseData = await getOrderList(params);
     setState(() {
       _data = responseData.data;
       _orderList = _data["list"];
@@ -386,10 +381,7 @@ class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
       "csrf_token": csrf_token,
       "orderId": item['no']
     };
-
-    Map<String, dynamic> header = {"Cookie": cookie};
-
-    await deleteOrder(params, header: header).then((value) {
+    await deleteOrder(params).then((value) {
       if (value.code == '200') {
         _getorderList(true);
       }

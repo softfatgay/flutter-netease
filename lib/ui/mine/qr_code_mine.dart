@@ -15,10 +15,10 @@ class QRCodeMine extends StatefulWidget {
 }
 
 class _QRCodeMineState extends State<QRCodeMine> {
-  var qrCodeDate;
-  var userData;
+  var _qrCodeDate;
+  var _userData;
 
-  bool isLoading = true;
+  bool _isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _QRCodeMineState extends State<QRCodeMine> {
       appBar: TabAppBar(
         title: '邀请返利',
       ).build(context),
-      body: isLoading
+      body: _isLoading
           ? Loading()
           : Stack(
               children: [
@@ -41,7 +41,7 @@ class _QRCodeMineState extends State<QRCodeMine> {
                     children: [
                       Container(
                         child: Text(
-                          userData['nickname'],
+                          _userData['nickname'],
                           style: TextStyle(
                               fontSize: 16,
                               color: textBlack,
@@ -55,7 +55,7 @@ class _QRCodeMineState extends State<QRCodeMine> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '用户ID:${userData['userId']}',
+                              '用户ID:${_userData['userId']}',
                               style: TextStyle(color: textGrey),
                             ),
                             Container(
@@ -75,7 +75,7 @@ class _QRCodeMineState extends State<QRCodeMine> {
                       ),
                       Container(
                         width: double.infinity,
-                        child: QrImage(data: qrCodeDate['qrCode']),
+                        child: QrImage(data: _qrCodeDate['qrCode']),
                       ),
                       Container(
                         child: Text(
@@ -118,17 +118,17 @@ class _QRCodeMineState extends State<QRCodeMine> {
       "csrf_token": csrf_token,
     };
     Future.wait([
-      qrCode(params, header: header).then((value) {
+      qrCode(params).then((value) {
         return value;
       }),
-      getUserSpmcInfo(params, header: header).then((value) {
+      getUserSpmcInfo(params).then((value) {
         return value;
       })
     ]).then((result) {
       setState(() {
-        isLoading = false;
-        qrCodeDate = result[0].data;
-        userData = result[1].data;
+        _isLoading = false;
+        _qrCodeDate = result[0].data;
+        _userData = result[1].data;
       });
     });
   }
@@ -147,9 +147,9 @@ class _QRCodeMineState extends State<QRCodeMine> {
         "csrf_token": csrf_token,
       };
 
-      qrCode(params, header: header).then((responseData) {
+      qrCode(params).then((responseData) {
         setState(() {
-          qrCodeDate = responseData.data;
+          _qrCodeDate = responseData.data;
         });
       });
     });

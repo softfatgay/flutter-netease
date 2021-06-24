@@ -94,7 +94,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
     } else {
       params.remove('_stat_search');
     }
-    var responseData = await searchSearch(params, header: header);
+    var responseData = await searchSearch(params);
     var data = responseData.data;
     var searchResultModel = SearchResultModel.fromJson(data);
     setState(() {
@@ -123,7 +123,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       "cookie": cookie,
     };
     Map<String, dynamic> params = {'keywordPrefix': _textValue};
-    var responseData = await searchTips(params, header: header);
+    var responseData = await searchTips(params);
     setState(() {
       _isLoading = false;
       _searchTipsData = responseData.data;

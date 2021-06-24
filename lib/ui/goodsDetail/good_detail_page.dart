@@ -1505,27 +1505,28 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var goodCmtRate = _goodDetail.goodCmtRate;
     return GestureDetector(
       child: Container(
-          child: Row(
-        children: <Widget>[
-          (goodCmtRate == null || goodCmtRate == '')
-              ? Text(
-                  '查看评价',
-                  style: t12black,
-                )
-              : Column(
-                  children: [
-                    Text(goodCmtRate,
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15)),
-                    Text('好评率',
-                        style: TextStyle(color: Colors.grey, fontSize: 12))
-                  ],
-                ),
-          arrowRightIcon,
-        ],
-      )),
+        child: Row(
+          children: <Widget>[
+            (goodCmtRate == null || goodCmtRate == '')
+                ? Text(
+                    '查看评价',
+                    style: t12black,
+                  )
+                : Column(
+                    children: [
+                      Text(goodCmtRate,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15)),
+                      Text('好评率',
+                          style: TextStyle(color: Colors.grey, fontSize: 12))
+                    ],
+                  ),
+            arrowRightIcon,
+          ],
+        ),
+      ),
       onTap: () {
         Routers.push(Routers.comment, context, {'id': widget.arguments['id']});
       },
@@ -2254,8 +2255,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       "cnt": _goodCount,
       "skuId": _skuMapItem.id
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    await addCart(params, header: header).then((value) {
+    await addCart(params).then((value) {
       Toast.show('添加成功', context);
       // _getDetailPageUp();
     });

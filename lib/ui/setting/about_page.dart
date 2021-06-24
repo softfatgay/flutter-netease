@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class AboutApp extends StatefulWidget {
+class AboutPage extends StatefulWidget {
   @override
-  _AboutAppState createState() => _AboutAppState();
+  _AboutPageState createState() => _AboutPageState();
 }
 
-class _AboutAppState extends State<AboutApp> {
+class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +54,8 @@ class _AboutAppState extends State<AboutApp> {
                         ..onTap = () {
                           Flutter2Activity.toActivity(Flutter2Activity.webView,
                               arguments: {
-                                'url': 'https://github.com/softfatgay/FlutterWant'
+                                'url':
+                                    'https://github.com/softfatgay/FlutterWant'
                               });
                         }),
                   TextSpan(text: '关于:         '),

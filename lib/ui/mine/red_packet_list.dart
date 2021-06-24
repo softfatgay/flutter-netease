@@ -20,26 +20,26 @@ class _RedEnvelopeListState extends State<RedPacketList> {
   int _page = 1;
   int _size = 20;
 
-  bool hasMore = false;
-  var dataList = List();
+  bool _hasMore = false;
+  var _dataList = [];
 
   ScrollController _scrollController = new ScrollController();
-  bool isLoading = true;
-  var banner;
-  var pagination;
+  bool _isLoading = true;
+  var _banner;
+  var _pagination;
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
+    return _isLoading
         ? Container()
         : CustomScrollView(
             controller: _scrollController,
             slivers: [
-              banner == null
+              _banner == null
                   ? singleSliverWidget(Container())
                   : _topBanner(context),
               _buildItems(context),
-              SliverFooter(hasMore: hasMore),
+              SliverFooter(hasMore: _hasMore),
             ],
           );
   }
@@ -52,7 +52,7 @@ class _RedEnvelopeListState extends State<RedPacketList> {
         crossAxisCount: 2,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
-        children: dataList.map((item) {
+        children: _dataList.map((item) {
           return Container(
             decoration: BoxDecoration(
                 color:
@@ -135,7 +135,7 @@ class _RedEnvelopeListState extends State<RedPacketList> {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (hasMore) {
+        if (_hasMore) {
           _getData();
         }
       }
@@ -155,16 +155,16 @@ class _RedEnvelopeListState extends State<RedPacketList> {
       "size": _size,
     };
 
-    redPacket(params, header: header).then((responseData) {
+    redPacket(params).then((responseData) {
       setState(() {
         setState(() {
-          banner = responseData.data['banner'];
-          dataList = responseData.data['searchResult']['result'];
+          _banner = responseData.data['banner'];
+          _dataList = responseData.data['searchResult']['result'];
 
-          pagination = responseData.data['searchResult']['pagination'];
-          hasMore = !pagination['lastPage'];
-          _page = pagination['page'] + 1;
-          isLoading = false;
+          _pagination = responseData.data['searchResult']['pagination'];
+          _hasMore = !_pagination['lastPage'];
+          _page = _pagination['page'] + 1;
+          _isLoading = false;
         });
         print(responseData);
       });
@@ -192,7 +192,7 @@ class _RedEnvelopeListState extends State<RedPacketList> {
                     BoxDecoration(borderRadius: BorderRadius.circular(6)),
                 height: 40,
                 child: CachedNetworkImage(
-                  imageUrl: banner['backgroundPic'],
+                  imageUrl: _banner['backgroundPic'],
                   fit: BoxFit.cover,
                 ),
               ),
@@ -205,9 +205,9 @@ class _RedEnvelopeListState extends State<RedPacketList> {
                     Container(
                       height: 25,
                       width: 25,
-                      child: CachedNetworkImage(imageUrl: banner['icon']),
+                      child: CachedNetworkImage(imageUrl: _banner['icon']),
                     ),
-                    Text('${banner['title']}')
+                    Text('${_banner['title']}')
                   ],
                 ),
               ),

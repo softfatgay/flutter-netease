@@ -10,7 +10,7 @@ class UserSetting extends StatefulWidget {
 }
 
 class _UserSettingState extends State<UserSetting> {
-  var tabs = [
+  var _tabs = [
     {'name': '手机', 'icon': 'assets/images/phone_icon.png', 'value': '未关联'},
     {'name': '邮箱', 'icon': 'assets/images/email_icon.png', 'value': '未关联'},
     {'name': '微信', 'icon': 'assets/images/wechat_icon.png', 'value': '未关联'},
@@ -41,7 +41,7 @@ class _UserSettingState extends State<UserSetting> {
   }
 
   _buildItems() {
-    return tabs
+    return _tabs
         .map<Widget>((item) => Container(
               color: Colors.white,
               child: Container(
@@ -104,18 +104,16 @@ class _UserSettingState extends State<UserSetting> {
 
   void _getUserAlias() async {
     Map<String, dynamic> params = {"csrf_token": csrf_token};
-    Map<String, dynamic> header = {"Cookie": cookie};
-
-    var responseData = await getUserAlias(params, header: header);
+    var responseData = await getUserAlias(params);
     var data = responseData.data;
     setState(() {
       print(responseData.data);
       List alias = data["alias"];
       alias.forEach((element) {
         if (element['aliasType'] == 27) {
-          tabs[0]['value'] = element['mobile'];
+          _tabs[0]['value'] = element['mobile'];
         } else if (element['aliasType'] == 29) {
-          tabs[1]['value'] = element['alias'];
+          _tabs[1]['value'] = element['alias'];
         }
       });
     });

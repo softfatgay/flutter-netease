@@ -13,13 +13,13 @@ class OrderInitPage extends StatefulWidget {
 }
 
 class _OrderInitPageState extends State<OrderInitPage> {
-  var postdata;
+  var _postdata;
 
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
-      postdata = widget.params['data'];
+      _postdata = widget.params['data'];
     });
     super.initState();
     _initData();
@@ -35,7 +35,7 @@ class _OrderInitPageState extends State<OrderInitPage> {
       'layawayId': 0,
       'incognito': 0,
       'transactionId': '3_176309080_1623827671297_2865_0',
-      'orderCart': postdata
+      'orderCart': _postdata
     };
     var responseData = await orderInit(param);
   }

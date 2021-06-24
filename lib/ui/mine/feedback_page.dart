@@ -34,12 +34,12 @@ class _FeedBackState extends State<FeedBack> {
       "csrf_token": csrf_token,
     };
 
-    var responseData = await userMobile(params, header: header);
+    var responseData = await userMobile(params);
     setState(() {
       _phone = responseData.data;
     });
 
-    var feedback = await feedbackType(params, header: header);
+    var feedback = await feedbackType(params);
     setState(() {
       feedbackList = feedback.data;
       for (var value in feedbackList) {
@@ -61,7 +61,7 @@ class _FeedBackState extends State<FeedBack> {
       "csrf_token": csrf_token,
     };
 
-    var responseData = await userMobile(params, header: header);
+    var responseData = await userMobile(params);
     setState(() {
       _phone = responseData.data['mobile'];
     });
@@ -76,7 +76,7 @@ class _FeedBackState extends State<FeedBack> {
       "content": _tvController.text,
       "mobile": _phone,
     };
-    var feedback = await feedbackSubmit(params, header: header);
+    var feedback = await feedbackSubmit(params);
     setState(() {
       feedbackList = feedback.data;
       for (var value in feedbackList) {

@@ -12,7 +12,7 @@ class ForServices extends StatefulWidget {
 }
 
 class _ForServicesState extends State<ForServices> {
-  List tabs = [
+  List _tabs = [
     {
       'id': 0,
       'type': 2,
@@ -88,7 +88,7 @@ class _ForServicesState extends State<ForServices> {
         title: '售后服务',
       ).build(context),
       body: Column(
-        children: tabs.map((item) {
+        children: _tabs.map((item) {
           return GestureDetector(
             child: Container(
               color: Colors.white,

@@ -180,8 +180,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
       "csrf_token": csrf_token,
       "promId": 128579024
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await getCarts(params, header: header);
+    var responseData = await getCarts(params);
     var data = responseData.data;
     if (data != null) {
       var redeemModel = RedeemModel.fromJson(data);
@@ -306,7 +305,6 @@ class _GetCarsPageState extends State<GetCarsPage> {
   }
 
   _submit() async {
-    Map<String, dynamic> header = {"Cookie": cookie}; // 请求头
     List dataList = [];
     _dataList.forEach((element) {
       if (element.checked) {
@@ -325,7 +323,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
       'selectList': dataList,
     };
 
-    var responseData = await getCartsSubmit(param, header: header);
+    var responseData = await getCartsSubmit(param);
     if (responseData.code == '200') {
       Navigator.pop(context);
     }

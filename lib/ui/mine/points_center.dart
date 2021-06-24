@@ -6,7 +6,6 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -21,10 +20,10 @@ class PointCenter extends StatefulWidget {
 class _PointCenterState extends State<PointCenter> {
   bool _isLoading = true;
 
-  var data;
-  List banner, bannerData = List();
+  var _data;
+  List _banner, _bannerData = [];
 
-  String topback =
+  String _topback =
       'https://yanxuan.nosdn.127.net/6b49731e1ed23979a89f119048785bba.png';
 
   @override
@@ -36,14 +35,12 @@ class _PointCenterState extends State<PointCenter> {
 
   void getPoint() async {
     Map<String, dynamic> params = {};
-    Map<String, dynamic> header = {"Cookie": cookie};
-
-    var responseData = await pointCenter(params, header: header);
+    var responseData = await pointCenter(params);
     setState(() {
       _isLoading = false;
-      data = responseData.data;
-      bannerData = data['ponitBanners'];
-      banner = bannerData
+      _data = responseData.data;
+      _bannerData = _data['ponitBanners'];
+      _banner = _bannerData
           .map((item) => Container(
                 margin: EdgeInsets.all(15),
                 child: CachedNetworkImage(
@@ -97,7 +94,7 @@ class _PointCenterState extends State<PointCenter> {
       decoration: BoxDecoration(
         image: DecorationImage(
             image: NetworkImage(
-              topback,
+              _topback,
             ),
             fit: BoxFit.fill),
       ),
@@ -116,7 +113,7 @@ class _PointCenterState extends State<PointCenter> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '你的可用积分：${data['availablePoint']}',
+                '你的可用积分：${_data['availablePoint']}',
                 style: t16whiteblod,
               ),
               Container(
@@ -140,12 +137,12 @@ class _PointCenterState extends State<PointCenter> {
   //轮播图
   _buildSwiper() {
     return SliverToBoxAdapter(
-      child: banner == null
+      child: _banner == null
           ? Container()
           : SwiperView(
-              banner,
+              _banner,
               onTap: (index) {
-                _goWebview('${bannerData[index]["targetUrl"]}');
+                _goWebview('${_bannerData[index]["targetUrl"]}');
               },
               height: 110,
             ),
@@ -215,7 +212,7 @@ class _PointCenterState extends State<PointCenter> {
   }
 
   _buildactivity() {
-    var pointExVirtualAct = data['pointExVirtualAct'];
+    var pointExVirtualAct = _data['pointExVirtualAct'];
     List activitys = pointExVirtualAct['actPackets'];
     return SliverGrid.count(
       crossAxisCount: 3,
@@ -264,7 +261,7 @@ class _PointCenterState extends State<PointCenter> {
   }
 
   _buildactivity2() {
-    var pointExVirtualAct = data['pointExExternalRights'];
+    var pointExVirtualAct = _data['pointExExternalRights'];
     List activitys = pointExVirtualAct['actPackets'];
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -328,7 +325,7 @@ class _PointCenterState extends State<PointCenter> {
   }
 
   _buildChangePoint() {
-    var exchangeModule = data['exchangeModule'];
+    var exchangeModule = _data['exchangeModule'];
     List pointCommodities = exchangeModule['pointCommodities'];
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),

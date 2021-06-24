@@ -3,8 +3,6 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -20,9 +18,9 @@ class VipCenter extends StatefulWidget {
 
 class _VipCenterState extends State<VipCenter> {
   bool _isLoading = true;
-  var data;
-  var name = '';
-  var pointsCnt = '';
+  var _data;
+  var _name = '';
+  var _pointsCnt = '';
 
   @override
   void initState() {
@@ -35,19 +33,18 @@ class _VipCenterState extends State<VipCenter> {
   void getUserInfo() async {
     var prefs = await SharedPreferences.getInstance();
     setState(() {
-      name = prefs.getString('name');
-      pointsCnt = prefs.getString('pointsCnt');
+      _name = prefs.getString('name');
+      _pointsCnt = prefs.getString('pointsCnt');
     });
   }
 
   void getData() async {
     Map<String, dynamic> params = {};
-    Map<String, dynamic> header = {"Cookie": cookie};
 
-    var responseData = await vipCenter(params, header: header);
+    var responseData = await vipCenter(params);
     setState(() {
       _isLoading = false;
-      data = responseData.data;
+      _data = responseData.data;
     });
   }
 
@@ -93,7 +90,7 @@ class _VipCenterState extends State<VipCenter> {
                 width: 5,
               ),
               Text(
-                name,
+                _name,
                 style: TextStyle(fontSize: 18, color: Colors.white),
               )
             ],
@@ -125,7 +122,7 @@ class _VipCenterState extends State<VipCenter> {
                         color: textYellow,
                       ),
                       Text(
-                        '我的积分:$pointsCnt',
+                        '我的积分:$_pointsCnt',
                         style: TextStyle(color: textYellow, fontSize: 14),
                       )
                     ],
@@ -148,7 +145,7 @@ class _VipCenterState extends State<VipCenter> {
                         color: textYellow,
                       ),
                       Text(
-                        '当前成长值:$pointsCnt',
+                        '当前成长值:$_pointsCnt',
                         style: TextStyle(color: textYellow, fontSize: 14),
                       )
                     ],
@@ -190,7 +187,7 @@ class _VipCenterState extends State<VipCenter> {
   }
 
   _buildPrivilegeList() {
-    List privilegeList = data['privilegeList'];
+    List privilegeList = _data['privilegeList'];
     return //横向滑动区域
         SliverToBoxAdapter(
       child: Container(
@@ -235,7 +232,7 @@ class _VipCenterState extends State<VipCenter> {
   }
 
   _completeOwnerInfo() {
-    List memGrowthTasks = data['memGrowthTasks'];
+    List memGrowthTasks = _data['memGrowthTasks'];
     List taskData = memGrowthTasks.map((item) {
       if (item['type'] == 6) {
         return {'title': '完善个人信息', 'dec': 'v1及以上会员专享，仅限一次'};

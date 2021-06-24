@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/setting/about.dart';
+import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -59,7 +59,9 @@ class _SettingState extends State<Setting> {
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.only(left: 10),
-                      child: index == 0?Text('${itemList[index].name + version}'):Text('${itemList[index].name}'),
+                      child: index == 0
+                          ? Text('${itemList[index].name + version}')
+                          : Text('${itemList[index].name}'),
                     ),
                   ),
                   Icon(
@@ -73,7 +75,8 @@ class _SettingState extends State<Setting> {
               if (index == 0) {
                 _showPackInfo(context);
               } else if (index == 1) {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutApp()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AboutPage()));
 //                Flutter2Activity.toActivity(Flutter2Activity.webView,arguments: {'url':})
               } else if (index == 2) {}
             },

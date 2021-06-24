@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail_page.dart';
 import 'package:flutter_app/ui/home/hot_list.dart';
@@ -24,8 +23,7 @@ import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/setting/Setting.dart';
-import 'package:flutter_app/ui/setting/about.dart';
-import 'package:flutter_app/ui/setting/favorite.dart';
+import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/shopingcart/get_cars_page.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
@@ -34,9 +32,7 @@ import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/FullScreenImage.dart';
-import 'package:flutter_app/widget/widget_list.dart';
 
 class Routers {
   static const String brandTag = 'brandTag';
@@ -192,7 +188,7 @@ class Routers {
       var id = arguments['id'];
       switch (id) {
         case 0: //关于界面
-          return AboutApp();
+          return AboutPage();
           break;
         case 1: //登录
           return Login();

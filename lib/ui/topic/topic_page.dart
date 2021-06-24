@@ -38,7 +38,7 @@ class _TopicPageState extends State<TopicPage>
 
   ///第一次加载
   bool _isFirstLoading = true;
-  final int _pageSize = 3;
+  final int _pageSize = 5;
   int _page = 1;
 
   bool _hasMore = true;
@@ -60,7 +60,7 @@ class _TopicPageState extends State<TopicPage>
   @override
   bool get wantKeepAlive => true;
 
-  var toolbarHeight = 0;
+  var _toolbarHeight = 0;
 
   @override
   void initState() {
@@ -69,16 +69,16 @@ class _TopicPageState extends State<TopicPage>
     _scrollController.addListener(() {
       print(_scrollController.position.pixels);
       if (_scrollController.position.pixels > 180) {
-        if (toolbarHeight == 0) {
+        if (_toolbarHeight == 0) {
           setState(() {
-            toolbarHeight = 50;
+            _toolbarHeight = 50;
           });
           _streamControllerTab.sink.add(50);
         }
       } else {
-        if (toolbarHeight == 50) {
+        if (_toolbarHeight == 50) {
           setState(() {
-            toolbarHeight = 0;
+            _toolbarHeight = 0;
           });
           _streamControllerTab.sink.add(0);
         }
@@ -118,17 +118,13 @@ class _TopicPageState extends State<TopicPage>
   }
 
   _getMore() async {
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     Map<String, dynamic> params = {
       'page': _page,
       'size': _pageSize,
       'exceptIds': ''
     };
 
-    var responseData = await findRecAuto(params, header: header);
+    var responseData = await findRecAuto(params);
     var data = responseData.data;
     if (data != null) {
       var topicData = TopicData.fromJson(data);
@@ -140,6 +136,9 @@ class _TopicPageState extends State<TopicPage>
           _dataList.addAll(element.topics);
         });
       });
+      if (_dataList.length < 3 && _page == 2) {
+        _getMore();
+      }
     }
   }
 
@@ -305,7 +304,8 @@ class _TopicPageState extends State<TopicPage>
     if (!schemeUrl.startsWith('http')) {
       schemeUrl = 'https://m.you.163.com$schemeUrl';
     }
-    return Routers.link(widget, Routers.webView, context, {'url': schemeUrl});
+    return Routers.link(
+        widget, Routers.webViewPageAPP, context, {'url': schemeUrl});
   }
 
   _stagegeredGridview() {
@@ -333,9 +333,6 @@ class _TopicPageState extends State<TopicPage>
             stream: _streamControllerTab.stream,
             initialData: 0.0,
             builder: (context, snapshot) {
-              print('------------');
-              print(snapshot.data);
-
               return SliverAppBar(
                 pinned: true,
                 expandedHeight: ScreenUtil().setHeight(180),

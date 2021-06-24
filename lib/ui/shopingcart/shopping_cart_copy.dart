@@ -80,8 +80,7 @@ class _ShoppingCartState extends State<ShoppingCart>
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await checkLogin(params, header: header);
+    var responseData = await checkLogin(params);
     var isLogin = responseData.data;
     if (isLogin) {
       _getData();
@@ -99,8 +98,7 @@ class _ShoppingCartState extends State<ShoppingCart>
   // 获取购物车数据
   void _getData() async {
     Map<String, dynamic> params = {"csrf_token": csrf_token}; // 参数
-    Map<String, dynamic> header = {"Cookie": cookie}; // 请求头
-    var responseData = await shoppingCart(params, header: header);
+    var responseData = await shoppingCart(params);
     setState(() {
       _data = responseData.data;
       if (_data != null) {
@@ -169,8 +167,7 @@ class _ShoppingCartState extends State<ShoppingCart>
       "csrf_token": csrf_token,
       'isChecked': isChecked
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await shoppingCartCheck(params, header: header);
+    var responseData = await shoppingCartCheck(params);
     setState(() {
       _data = responseData.data;
       setData(_data);
@@ -190,8 +187,7 @@ class _ShoppingCartState extends State<ShoppingCart>
       'isChecked': isChecked,
       'extId': extId,
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await shoppingCartCheckOne(params, header: header);
+    var responseData = await shoppingCartCheckOne(params);
     setState(() {
       _data = responseData.data;
       setData(_data);
@@ -211,8 +207,7 @@ class _ShoppingCartState extends State<ShoppingCart>
       'cnt': cnt,
       'extId': extId,
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await shoppingCartCheckNum(params, header: header);
+    var responseData = await shoppingCartCheckNum(params);
     setState(() {
       _data = responseData.data;
       setData(_data);
@@ -265,7 +260,7 @@ class _ShoppingCartState extends State<ShoppingCart>
       "csrf_token": csrf_token,
     };
 
-    var responseData = await deleteCart(params, header: header);
+    var responseData = await deleteCart(params);
     if (responseData.code == "200") {
       _data = responseData.data;
       setData(_data);

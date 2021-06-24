@@ -63,8 +63,7 @@ class _WebLoginState extends State<WebLoginWidget> {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     };
-    Map<String, dynamic> header = {"Cookie": cookie};
-    var responseData = await checkLogin(params, header: header);
+    var responseData = await checkLogin(params);
     var isLogin = responseData.data;
     setState(() {
       if (isLogin) {
