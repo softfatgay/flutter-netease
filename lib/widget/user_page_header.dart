@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/utils/router.dart';
 
-class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+class UserHeader extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;
   final double expandedHeight;
   final double paddingTop;
@@ -9,7 +10,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String title;
   final bool showBack;
 
-  SliverCustomHeaderDelegate({
+  UserHeader({
     this.collapsedHeight,
     this.expandedHeight,
     this.paddingTop,
@@ -36,7 +37,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
         .clamp(0, 255)
         .toInt();
-    return Color.fromARGB(alpha, 255, 255, 255);
+    return Color.fromARGB(alpha, 255, 216, 131);
   }
 
   Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {
@@ -46,7 +47,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
           .clamp(0, 255)
           .toInt();
-      return Color.fromARGB(alpha, 0, 0, 0);
+      return Color.fromARGB(alpha, 255, 255, 255);
     }
   }
 
@@ -108,6 +109,21 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
           ),
+
+          Positioned(
+            child: GestureDetector(
+              child: Image.asset(
+                'assets/images/mine/setting.png',
+                width: 20,
+                height: 20,
+              ),
+              onTap: () {
+                Routers.push(Routers.setting, context, {'id': 2});
+              },
+            ),
+            right: 20,
+            top: 60,
+          )
         ],
       ),
     );

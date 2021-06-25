@@ -43,7 +43,7 @@ dependencies:
   #包信息
   package_info: ^2.0.2
 
-  url_launcher: ^6.0.6
+  url_launcher: ^6.0.7
 
   #视频播放切勿改动
   #  chewie: ^0.9.8+1 项目中已把chewie的源码拿出来改动过了,请不要再次dependencie

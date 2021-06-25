@@ -9,9 +9,7 @@ import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/page_loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -87,9 +85,6 @@ class _KingKongPageState extends State<KingKongPage> {
 
       _bannerList = kingkongModel.currentCategory.bannerList;
       _categoryItemList = kingkongModel.categoryItemList;
-
-      // dataList = data["categoryItemList"];
-      // currentCategory = data["currentCategory"];
       _banner = _bannerList.map((item) => item.picUrl).toList();
       _initLoading = false;
     });

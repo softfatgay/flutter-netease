@@ -5,16 +5,15 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 ///地址管理
-class LocationManage extends StatefulWidget {
+class LocationManagePage extends StatefulWidget {
   @override
-  _LocationManageState createState() => _LocationManageState();
+  _LocationManagePageState createState() => _LocationManagePageState();
 }
 
-class _LocationManageState extends State<LocationManage> {
+class _LocationManagePageState extends State<LocationManagePage> {
   var _locationList = List();
   int addressId = 0;
 

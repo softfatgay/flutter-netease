@@ -7,16 +7,17 @@ import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/m_textfiled.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class AddAddress extends StatefulWidget {
+class AddAddressPage extends StatefulWidget {
   final Map arguments;
 
-  const AddAddress({Key key, this.arguments}) : super(key: key);
+  const AddAddressPage({Key key, this.arguments}) : super(key: key);
 
   @override
-  _AddAddressState createState() => _AddAddressState();
+  _AddAddressPageState createState() => _AddAddressPageState();
 }
 
-class _AddAddressState extends State<AddAddress> with TickerProviderStateMixin {
+class _AddAddressPageState extends State<AddAddressPage>
+    with TickerProviderStateMixin {
   TabController _tabController;
   final _nameController = TextEditingController();
   final _phoneC = TextEditingController();

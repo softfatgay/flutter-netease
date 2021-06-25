@@ -9,12 +9,12 @@ import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QRCodeMine extends StatefulWidget {
+class QRCodeMinePage extends StatefulWidget {
   @override
-  _QRCodeMineState createState() => _QRCodeMineState();
+  _QRCodeMinePageState createState() => _QRCodeMinePageState();
 }
 
-class _QRCodeMineState extends State<QRCodeMine> {
+class _QRCodeMinePageState extends State<QRCodeMinePage> {
   var _qrCodeDate;
   var _userData;
 

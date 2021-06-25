@@ -27,7 +27,6 @@ class CommentList extends StatefulWidget {
 class _CommentListState extends State<CommentList> {
   var _tag = '全部';
   var _checkedItem = '全部';
-  var _checkIndex = 0;
   int _page = 1;
   Praise _praise = Praise();
   bool _isFirstLoading = true;
@@ -143,10 +142,10 @@ class _CommentListState extends State<CommentList> {
           : CustomScrollView(
               controller: _scrollController,
               slivers: <Widget>[
-                singleSliverWidget(buildPraise()),
-                singleSliverWidget(buildCommentTags()),
-                singleSliverWidget(buildTagControl()),
-                singleSliverWidget(buildLine()),
+                singleSliverWidget(_buildPraise()),
+                singleSliverWidget(_buildCommentTags()),
+                singleSliverWidget(_buildTagControl()),
+                singleSliverWidget(_buildLine()),
                 (_commentList == null || _commentList.isEmpty)
                     ? singleSliverWidget(Container(
                         child: Center(
@@ -156,7 +155,7 @@ class _CommentListState extends State<CommentList> {
                           ),
                         ),
                       ))
-                    : buildCommentList(),
+                    : _buildCommentList(),
                 SliverFooter(
                     hasMore: _pagination.totalPage > _pagination.page ||
                         (_commentList.length == 0))
@@ -165,7 +164,7 @@ class _CommentListState extends State<CommentList> {
     );
   }
 
-  Widget buildTagControl() {
+  _buildTagControl() {
     if (_commentTags.length < 6) {
       return Container(height: 20);
     } else {
@@ -206,7 +205,7 @@ class _CommentListState extends State<CommentList> {
     }
   }
 
-  Widget buildPraise() {
+  _buildPraise() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
@@ -240,7 +239,7 @@ class _CommentListState extends State<CommentList> {
     );
   }
 
-  Widget buildCommentTags() {
+  _buildCommentTags() {
     if (_commentTags == null || _commentTags.isEmpty) {
       return Loading();
     } else {
@@ -256,7 +255,6 @@ class _CommentListState extends State<CommentList> {
             showItemCount: _showTagsNum,
             onTap: (index) {
               setState(() {
-                this._checkIndex = index;
                 this._tag = '${_commentTags[index].name}';
                 this._checkedItem =
                     '${_commentTags[index].name}(${_commentTags[index].strCount})';
@@ -267,7 +265,7 @@ class _CommentListState extends State<CommentList> {
     }
   }
 
-  Widget buildLine() {
+  _buildLine() {
     return Container(
       height: 0.5,
       margin: EdgeInsets.symmetric(horizontal: 10),
@@ -275,7 +273,7 @@ class _CommentListState extends State<CommentList> {
     );
   }
 
-  SliverList buildCommentList() {
+  _buildCommentList() {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return Container(
@@ -370,19 +368,19 @@ class _CommentListState extends State<CommentList> {
             Wrap(
               spacing: 2,
               runSpacing: 5,
-              children: commentPic(_commentList[index].picList == null
+              children: _commentPic(_commentList[index].picList == null
                   ? []
                   : _commentList[index].picList),
             ),
-            buildCommentReplyVO(index),
-            commentReplyVO(index),
+            _buildCommentReplyVO(index),
+            _commentReplyVO(index),
           ],
         ),
       );
     }, childCount: _commentList.length));
   }
 
-  List<Widget> commentPic(List _commentList) =>
+  List<Widget> _commentPic(List _commentList) =>
       List.generate(_commentList.length, (indexC) {
         Widget widget = Container(
           width: 100,
@@ -397,7 +395,7 @@ class _CommentListState extends State<CommentList> {
       });
 
   ///追评
-  Widget buildCommentReplyVO(int index) {
+  _buildCommentReplyVO(int index) {
     var appendCommentVO = this._commentList[index].appendCommentVO;
     if (appendCommentVO == null) {
       return Container();
@@ -432,7 +430,7 @@ class _CommentListState extends State<CommentList> {
           Wrap(
             spacing: 2,
             runSpacing: 5,
-            children: commentPic(
+            children: _commentPic(
                 appendCommentVO.picList == null ? [] : appendCommentVO.picList),
           ),
         ],
@@ -448,7 +446,7 @@ class _CommentListState extends State<CommentList> {
   }
 
   ///老板回复
-  commentReplyVO(int index) {
+  _commentReplyVO(int index) {
     if (_commentList[index].commentReplyVO == null) {
       return Container();
     } else {

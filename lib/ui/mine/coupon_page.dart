@@ -9,12 +9,12 @@ import 'package:flutter_app/widget/MySeparator.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class Coupon extends StatefulWidget {
+class CouponPage extends StatefulWidget {
   @override
-  _CouponState createState() => _CouponState();
+  _CouponPageState createState() => _CouponPageState();
 }
 
-class _CouponState extends State<Coupon> {
+class _CouponPageState extends State<CouponPage> {
   int _page = 1;
 
   var _nowCoupon = List();

@@ -6,16 +6,14 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
+import 'package:flutter_app/ui/topic/components/topic_item_widget.dart';
 import 'package:flutter_app/ui/topic/model/navItem.dart';
 import 'package:flutter_app/ui/topic/model/result.dart';
 import 'package:flutter_app/ui/topic/model/topNavData.dart';
 import 'package:flutter_app/ui/topic/model/topicData.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/search.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +33,9 @@ class _TopicPageState extends State<TopicPage>
 
   final StreamController<double> _streamControllerTab =
       StreamController<double>.broadcast();
+
+  final StreamController<bool> _footerController =
+      StreamController<bool>.broadcast();
 
   ///第一次加载
   bool _isFirstLoading = true;
@@ -67,7 +68,6 @@ class _TopicPageState extends State<TopicPage>
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
-      print(_scrollController.position.pixels);
       if (_scrollController.position.pixels > 180) {
         if (_toolbarHeight == 0) {
           setState(() {
@@ -148,6 +148,7 @@ class _TopicPageState extends State<TopicPage>
     super.dispose();
     _streamController.close();
     _streamControllerTab.close();
+    _footerController.close();
     _scrollController.dispose();
     if (_timer != null) {
       _timer.cancel();
@@ -158,11 +159,11 @@ class _TopicPageState extends State<TopicPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backGrey,
-      body: buildBody(),
+      body: _buildBody(),
     );
   }
 
-  buildBody() {
+  _buildBody() {
     if (_isFirstLoading) {
       return Loading();
     } else {
@@ -354,8 +355,6 @@ class _TopicPageState extends State<TopicPage>
 
   bool _handleScrollNotification(ScrollNotification notification) {
     final ScrollMetrics metrics = notification.metrics;
-    print('滚动组件最大滚动距离:${metrics.maxScrollExtent}');
-    print('当前滚动位置:${metrics.pixels}');
     var alignmentY = -1 + (metrics.pixels / metrics.maxScrollExtent) * 2;
     _streamController.sink.add(alignmentY);
     return true;

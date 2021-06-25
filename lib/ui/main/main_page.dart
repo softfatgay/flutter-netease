@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/main/mainContex.dart';
 import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/mine/user_pge.dart';
-import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
+import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/sort_page.dart';
 import 'package:flutter_app/ui/topic/topic_page.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
@@ -22,7 +22,7 @@ class _MainPageState extends State<MainPage> {
   var _homeNew = HomePage();
   var _topicPage = TopicPage();
   var _sortNew = SortPage();
-  var _shoppingCart = ShoppingCart();
+  var _shoppingCart = ShoppingCartPage();
   var _userPage = UserPage();
 
   @override

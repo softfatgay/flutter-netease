@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 Widget NormalBtn(String text, Color color, Function onPressed) {
   return Container(
     height: 45,
-    margin: EdgeInsets.only(top: 25),
     width: double.infinity,
     child: RaisedButton(
       elevation: 0,

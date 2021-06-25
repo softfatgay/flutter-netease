@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/mine/red_packet_list.dart';
+import 'package:flutter_app/ui/mine/red_packet_list_page.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class RedPacket extends StatefulWidget {
+class RedPacketPage extends StatefulWidget {
   @override
   _RedEnvelopeState createState() => _RedEnvelopeState();
 }
 
-class _RedEnvelopeState extends State<RedPacket> with TickerProviderStateMixin {
+class _RedEnvelopeState extends State<RedPacketPage>
+    with TickerProviderStateMixin {
   List _tabs = [
     {
       'name': '未使用',
@@ -34,7 +35,7 @@ class _RedEnvelopeState extends State<RedPacket> with TickerProviderStateMixin {
   _buildBody(BuildContext context) {
     return TabBarView(
       children: _tabs.map((item) {
-        return RedPacketList(
+        return RedPacketListPage(
           searchType: item['searchType'],
         );
       }).toList(),

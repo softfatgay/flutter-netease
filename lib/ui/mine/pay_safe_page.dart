@@ -4,12 +4,12 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class PaySafeCenter extends StatefulWidget {
+class PaySafeCenterPage extends StatefulWidget {
   @override
-  _PaySafeCenterState createState() => _PaySafeCenterState();
+  _PaySafeCenterPageState createState() => _PaySafeCenterPageState();
 }
 
-class _PaySafeCenterState extends State<PaySafeCenter> {
+class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
@@ -14,12 +12,13 @@ import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';
 
-class SaturdayTBuy extends StatefulWidget {
+class SaturdayTBuyPage extends StatefulWidget {
   @override
   _TestPageState createState() => _TestPageState();
 }
 
-class _TestPageState extends State<SaturdayTBuy> with TickerProviderStateMixin {
+class _TestPageState extends State<SaturdayTBuyPage>
+    with TickerProviderStateMixin {
   TabController _tabController;
 
   var _tabTitle = [];

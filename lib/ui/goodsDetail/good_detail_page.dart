@@ -1335,7 +1335,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           )
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-            return Container(
+              return Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -1347,8 +1347,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                     '${index + 1} .${recommendReason[index]}',
                     style: t12black,
                   ),
-                ));
-          }, childCount: recommendReason.length));
+                ),
+              );
+            }, childCount: recommendReason.length),
+          );
   }
 
   _buildTitle() {
@@ -1454,22 +1456,25 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                         padding: EdgeInsets.only(left: 5),
                         height: 40,
                         decoration: ShapeDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/detail_vip_icon.png"),
-                                fit: BoxFit.fitWidth),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadiusDirectional.horizontal(
-                                        end: Radius.circular(6)))),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/detail_vip_icon.png"),
+                              fit: BoxFit.fitWidth),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusDirectional.horizontal(
+                              end: Radius.circular(6),
+                            ),
+                          ),
+                        ),
                         child: Row(
                           children: [
                             Expanded(
-                                child: Text(
-                              '${spmcBanner.spmcDesc}${spmcBanner.spmcPrice}',
-                              style: t12white,
-                              textAlign: TextAlign.start,
-                            )),
+                              child: Text(
+                                '${spmcBanner.spmcDesc}${spmcBanner.spmcPrice}',
+                                style: t12white,
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
@@ -1514,13 +1519,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   )
                 : Column(
                     children: [
-                      Text(goodCmtRate,
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15)),
-                      Text('好评率',
-                          style: TextStyle(color: Colors.grey, fontSize: 12))
+                      Text(
+                        goodCmtRate,
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
+                      ),
+                      Text(
+                        '好评率',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      )
                     ],
                   ),
             arrowRightIcon,

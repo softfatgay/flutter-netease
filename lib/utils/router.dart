@@ -2,32 +2,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail_page.dart';
-import 'package:flutter_app/ui/home/hot_list.dart';
+import 'package:flutter_app/ui/home/hot_list_page.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
-import 'package:flutter_app/ui/mine/add_address.dart';
-import 'package:flutter_app/ui/mine/coupon.dart';
+import 'package:flutter_app/ui/mine/add_address_page.dart';
+import 'package:flutter_app/ui/mine/coupon_page.dart';
 import 'package:flutter_app/ui/mine/feedback_page.dart';
-import 'package:flutter_app/ui/mine/for_services.dart';
-import 'package:flutter_app/ui/mine/gift_card.dart';
-import 'package:flutter_app/ui/mine/location_manage.dart';
+import 'package:flutter_app/ui/mine/for_services_page.dart';
+import 'package:flutter_app/ui/mine/gift_card_page.dart';
+import 'package:flutter_app/ui/mine/location_manage_page.dart';
 import 'package:flutter_app/ui/mine/login.dart';
-import 'package:flutter_app/ui/mine/order_list.dart';
-import 'package:flutter_app/ui/mine/pay_safe.dart';
-import 'package:flutter_app/ui/mine/points_center.dart';
-import 'package:flutter_app/ui/mine/qr_code_mine.dart';
-import 'package:flutter_app/ui/mine/red_packet.dart';
-import 'package:flutter_app/ui/mine/reward_num.dart';
-import 'package:flutter_app/ui/mine/saturday_buy.dart';
+import 'package:flutter_app/ui/mine/order_list_page.dart';
+import 'package:flutter_app/ui/mine/pay_safe_page.dart';
+import 'package:flutter_app/ui/mine/points_center_page.dart';
+import 'package:flutter_app/ui/mine/qr_code_mine_page.dart';
+import 'package:flutter_app/ui/mine/red_packet_page.dart';
+import 'package:flutter_app/ui/mine/reward_num_page.dart';
+import 'package:flutter_app/ui/mine/saturday_buy_page.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
-import 'package:flutter_app/ui/setting/Setting.dart';
+import 'package:flutter_app/ui/mine/setting_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/shopingcart/get_cars_page.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
-import 'package:flutter_app/ui/shopingcart/shopping_cart.dart';
+import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
@@ -78,7 +78,7 @@ class Routers {
     comment: (context, {arguments}) => CommentList(arguments: arguments),
 
     //添加地址
-    addAddress: (context, {arguments}) => AddAddress(arguments: arguments),
+    addAddress: (context, {arguments}) => AddAddressPage(arguments: arguments),
 
     //热销榜
     hotList: (context, {arguments}) => HotListPage(param: arguments),
@@ -98,7 +98,8 @@ class Routers {
     webViewPageAPP: (context, {arguments}) => WebViewPage(arguments),
 
     ///购物车
-    shoppingCart: (context, {arguments}) => ShoppingCart(argument: arguments),
+    shoppingCart: (context, {arguments}) =>
+        ShoppingCartPage(argument: arguments),
 
     ///购物车换购
     getCarsPage: (context, {arguments}) => GetCarsPage(param: arguments),
@@ -116,10 +117,10 @@ class Routers {
           );
           break;
         case 2: //
-          return RedPacket();
+          return RedPacketPage();
           break;
         case 3:
-          return Coupon();
+          return CouponPage();
           break;
         case 4: //津贴
           return RewardNumPage(
@@ -127,7 +128,7 @@ class Routers {
           );
           break;
         case 5: //礼品卡
-          return GiftCard(
+          return GiftCardPage(
             arguments: arguments,
           );
           break;
@@ -140,26 +141,26 @@ class Routers {
       var id = arguments['id'];
       switch (id) {
         case 0: //订单界面
-          return OrderList();
+          return OrderListPage();
           break;
         case 1: //  账号管理
           return UserSetting();
           break;
         case 2: //  账号管理
-          return SaturdayTBuy();
+          return SaturdayTBuyPage();
           break;
         case 3:
-          return ForServices();
+          return ForServicesPage();
           break;
         case 4: //邀请返利
-          return QRCodeMine();
+          return QRCodeMinePage();
           break;
         case 5: //优先购
           return WebViewPage(
               {"url": "https://m.you.163.com/preemption/index.html"});
           break;
         case 6: //积分中心
-          return PointCenter();
+          return PointCenterPage();
           break;
 
         case 7: //会员俱乐部
@@ -167,10 +168,10 @@ class Routers {
           return WebViewPage({"url": "https://m.you.163.com/membership/index"});
           break;
         case 8: //地址管理
-          return LocationManage();
+          return LocationManagePage();
           break;
         case 9: //支付安全
-          return PaySafeCenter();
+          return PaySafeCenterPage();
           break;
         case 10: //帮助客服
           return WebViewPage(
@@ -178,6 +179,9 @@ class Routers {
           break;
         case 11: //反馈
           return FeedBack();
+          break;
+        case 12: //关于
+          return AboutPage();
           break;
       }
 
@@ -194,7 +198,7 @@ class Routers {
           return Login();
           break;
         case 2: //设置界面
-          return Setting();
+          return SettingPage();
           break;
         case 3: //组件
           return NoFoundPage();

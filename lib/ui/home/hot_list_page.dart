@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -9,12 +8,10 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/home/components/hot_list_item.dart';
 import 'package:flutter_app/ui/sort/model/hotListModel.dart';
 import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
-import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/slivers.dart';
 
 class HotListPage extends StatefulWidget {
   final Map param;
@@ -132,20 +129,6 @@ class _HotListPageState extends State<HotListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backColor,
-      // appBar: AppBar(
-      //   leading: new IconButton(
-      //     icon: new Icon(
-      //       Icons.arrow_back_ios,
-      //       color: Colors.black,
-      //     ),
-      //     onPressed: () => {Navigator.of(context).pop()},
-      //   ),
-      //   backgroundColor: backWhite,
-      //   title: Text(
-      //     '热销榜',
-      //     style: t16blackbold,
-      //   ),
-      // ),
       body: _isFirstLoading ? Loading() : _buildBody(),
     );
   }
@@ -230,7 +213,7 @@ class _HotListPageState extends State<HotListPage>
                         maxLines: 1,
                         textAlign: TextAlign.center,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

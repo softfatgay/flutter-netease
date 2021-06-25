@@ -7,16 +7,16 @@ import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
-class RedPacketList extends StatefulWidget {
+class RedPacketListPage extends StatefulWidget {
   final int searchType;
 
-  const RedPacketList({Key key, this.searchType}) : super(key: key);
+  const RedPacketListPage({Key key, this.searchType}) : super(key: key);
 
   @override
   _RedEnvelopeListState createState() => _RedEnvelopeListState();
 }
 
-class _RedEnvelopeListState extends State<RedPacketList> {
+class _RedEnvelopeListState extends State<RedPacketListPage> {
   int _page = 1;
   int _size = 20;
 

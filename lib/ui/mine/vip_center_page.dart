@@ -9,14 +9,14 @@ import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class VipCenter extends StatefulWidget {
+class VipCenterPage extends StatefulWidget {
   var data;
 
   @override
-  _VipCenterState createState() => _VipCenterState();
+  _VipCenterPageState createState() => _VipCenterPageState();
 }
 
-class _VipCenterState extends State<VipCenter> {
+class _VipCenterPageState extends State<VipCenterPage> {
   bool _isLoading = true;
   var _data;
   var _name = '';

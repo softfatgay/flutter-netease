@@ -12,7 +12,10 @@ import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/button_widget.dart';
+import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/widget/user_page_header.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +32,8 @@ class _MinePageState extends State<UserPage>
   bool _firstLoading = true;
   List<MinePageItems> _mineItems = [];
   UserModel _userInfo;
+  String _userIcon =
+      'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
 
   @override
   bool get wantKeepAlive => true;
@@ -82,7 +87,7 @@ class _MinePageState extends State<UserPage>
   _buildbody() {
     return _isLogin
         ? Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backColor,
             body: _firstLoading
                 ? Loading()
                 : (_userInfo == null ? Container() : _buildContent()))
@@ -92,7 +97,18 @@ class _MinePageState extends State<UserPage>
   _buildContent() {
     return CustomScrollView(
       slivers: <Widget>[
-        _buildTop(context),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: UserHeader(
+            showBack: false,
+            title: '',
+            collapsedHeight: 50,
+            expandedHeight: 250,
+            paddingTop: MediaQuery.of(context).padding.top,
+            child: _buildTop(context),
+          ),
+        ),
+        // _buildTop(context),
         _buildTitle(context),
         _buildMineItems(context),
         _buildMonthCard(context, _userInfo.monthCardEntrance),
@@ -135,23 +151,22 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildTop(BuildContext context) {
-    return singleSliverWidget(
-      Container(
-        padding:
-            EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFEFB965),
-              Color(0xFFFFD883),
-            ],
-          ),
+    return Container(
+      padding:
+          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFEFB965),
+            Color(0xFFFFD883),
+          ],
         ),
-        height:
-            ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
-        child: Row(
+      ),
+      height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
+      child: Stack(children: [
+        Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
@@ -160,8 +175,7 @@ class _MinePageState extends State<UserPage>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(50)),
                 image: DecorationImage(
-                  image: NetworkImage(
-                      "https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png"),
+                  image: NetworkImage('$_userIcon'),
                   fit: BoxFit.cover,
                 ),
               ), // 通过 container 实现圆角
@@ -188,29 +202,32 @@ class _MinePageState extends State<UserPage>
             )
           ],
         ),
-      ),
+      ]),
     );
   }
 
   _buildTitle(BuildContext context) {
     return singleSliverWidget(Container(
-      margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "我的资产",
-            style: TextStyle(
-              fontSize: 16,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(15, 15, 0, 0),
+        color: backWhite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "我的资产",
+              style: TextStyle(
+                fontSize: 16,
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 15),
-            width: double.infinity,
-            height: 1,
-            color: lineColor,
-          )
-        ],
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              width: double.infinity,
+              height: 1,
+              color: lineColor,
+            )
+          ],
+        ),
       ),
     ));
   }
@@ -315,41 +332,42 @@ class _MinePageState extends State<UserPage>
   _line(double height) {
     return singleSliverWidget(Container(
       height: height,
-      color: backGrey,
+      color: backColor,
     ));
   }
 
   _buildAdapter(BuildContext context) {
-    return SliverGrid.count(
-      childAspectRatio: 1.3,
-      crossAxisCount: 3,
-      children: mineSettingItems.map<Widget>((item) {
-        Widget widget = Container(
-          decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(color: backGrey, width: 1),
-                  right: BorderSide(color: backGrey, width: 1))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                item["image"],
-                width: 30,
-                height: 30,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                item["name"],
-                style: t12black,
-              ),
-            ],
-          ),
-        );
-        return Routers.link(
-            widget, Routers.mineItems, context, {"id": item["id"]});
-      }).toList(),
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      sliver: SliverGrid.count(
+        childAspectRatio: 1.3,
+        crossAxisCount: 3,
+        children: mineSettingItems.map<Widget>((item) {
+          Widget widget = Container(
+            margin: EdgeInsets.all(0.7),
+            color: backWhite,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  item["image"],
+                  width: 30,
+                  height: 30,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  item["name"],
+                  style: t12black,
+                ),
+              ],
+            ),
+          );
+          return Routers.link(
+              widget, Routers.mineItems, context, {"id": item["id"]});
+        }).toList(),
+      ),
     );
   }
 
@@ -365,24 +383,17 @@ class _MinePageState extends State<UserPage>
 
   _loginOut(BuildContext context) {
     return singleSliverWidget(
-      GestureDetector(
-        child: Container(
-          padding: EdgeInsets.all(16),
-          child: Center(
-            child: Text(
-              "退出登录",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-        ),
-        onTap: () async {
+      Container(
+        color: backColor,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        child: NormalBtn('退出登录', redLightColor, () async {
           var globalCookie = GlobalCookie();
           var bool = await globalCookie.clearCookie();
           if (bool) {
             CookieConfig.cookie = '';
             _checkLogin();
           }
-        },
+        }),
       ),
     );
   }
@@ -482,6 +493,12 @@ class _MinePageState extends State<UserPage>
       "image": "assets/images/mine/yijianfankui.png",
       "id": 11
     },
+    // {
+    //   "name": "关于",
+    //   "status": "0",
+    //   "image": "assets/images/mine/about.png",
+    //   "id": 12
+    // },
   ];
 
   @override

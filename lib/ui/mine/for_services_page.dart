@@ -3,15 +3,14 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class ForServices extends StatefulWidget {
+class ForServicesPage extends StatefulWidget {
   @override
-  _ForServicesState createState() => _ForServicesState();
+  _ForServicesPageState createState() => _ForServicesPageState();
 }
 
-class _ForServicesState extends State<ForServices> {
+class _ForServicesPageState extends State<ForServicesPage> {
   List _tabs = [
     {
       'id': 0,

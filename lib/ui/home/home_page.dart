@@ -117,12 +117,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   void _getData() async {
-    // String loadString = await DefaultAssetBundle.of(context)
-    //     .loadString("assets/json/home_data_json.json");
-    //
-    // var decode = json.decode(loadString);
-    // var homeModel = HomeModel.fromJson(decode['data']['data']);
-
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"

@@ -9,16 +9,17 @@ import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:flutter_app/widget/timer_text.dart';
 
-class OrderList extends StatefulWidget {
+class OrderListPage extends StatefulWidget {
   final Map arguments;
 
-  const OrderList({Key key, this.arguments}) : super(key: key);
+  const OrderListPage({Key key, this.arguments}) : super(key: key);
 
   @override
-  _OrderListState createState() => _OrderListState();
+  _OrderListPageState createState() => _OrderListPageState();
 }
 
-class _OrderListState extends State<OrderList> with TickerProviderStateMixin {
+class _OrderListPageState extends State<OrderListPage>
+    with TickerProviderStateMixin {
   TabController _mController;
 
   var _tabItem = [

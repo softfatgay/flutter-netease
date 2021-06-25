@@ -5,19 +5,18 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class PointCenter extends StatefulWidget {
+class PointCenterPage extends StatefulWidget {
   @override
-  _PointCenterState createState() => _PointCenterState();
+  _PointCenterPageState createState() => _PointCenterPageState();
 }
 
-class _PointCenterState extends State<PointCenter> {
+class _PointCenterPageState extends State<PointCenterPage> {
   bool _isLoading = true;
 
   var _data;

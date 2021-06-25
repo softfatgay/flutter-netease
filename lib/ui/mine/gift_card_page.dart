@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 ///账户中没有礼品卡，暂时无法写详细页面
-class GiftCard extends StatefulWidget {
+class GiftCardPage extends StatefulWidget {
   final Map arguments;
 
-  const GiftCard({Key key, this.arguments}) : super(key: key);
+  const GiftCardPage({Key key, this.arguments}) : super(key: key);
 
   @override
-  _GiftCardState createState() => _GiftCardState();
+  _GiftCardPageState createState() => _GiftCardPageState();
 }
 
-class _GiftCardState extends State<GiftCard> {
+class _GiftCardPageState extends State<GiftCardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
