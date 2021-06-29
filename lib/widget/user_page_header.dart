@@ -122,7 +122,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
               },
             ),
             right: 20,
-            top: 60,
+            top: MediaQuery.of(context).padding.top + 10,
           )
         ],
       ),

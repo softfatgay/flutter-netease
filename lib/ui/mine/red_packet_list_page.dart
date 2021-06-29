@@ -1,11 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/mine/components/package_item_widget.dart';
+import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class RedPacketListPage extends StatefulWidget {
   final int searchType;
@@ -21,11 +25,11 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   int _size = 20;
 
   bool _hasMore = false;
-  var _dataList = [];
+  List<PackageItem> _dataList = [];
 
   ScrollController _scrollController = new ScrollController();
   bool _isLoading = true;
-  var _banner;
+  BannerData _banner;
   var _pagination;
 
   @override
@@ -53,74 +57,8 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
         children: _dataList.map((item) {
-          return Container(
-            decoration: BoxDecoration(
-                color:
-                    widget.searchType == 1 ? redLightColor : Color(0xFFA5AAB6),
-                borderRadius: BorderRadius.circular(8)),
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  item['name'],
-                  style: TextStyle(color: textWhite),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${item['price']}',
-                      style: TextStyle(
-                        color: textWhite,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Text(
-                      '元',
-                      style: TextStyle(color: textWhite),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '${Util.long2date(item['validStartTime'] * 1000)}-${Util.long2date(item['validEndTime'] * 1000)}',
-                  style: TextStyle(color: textWhite, fontSize: 10),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -',
-                    style: TextStyle(color: textWhite),
-                    maxLines: 1,
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      '满${item['condition']}元可用：${item['rule']}',
-                      style: TextStyle(color: textWhite),
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
+          return PackageItemWidget(
+              packageItem: item, searchType: widget.searchType);
         }).toList(),
       ),
     );
@@ -145,9 +83,6 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   }
 
   _getData() async {
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "searchType": widget.searchType,
@@ -156,17 +91,15 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
     };
 
     redPacket(params).then((responseData) {
+      var data = responseData.data;
+      var redPackageMode = RedPackageMode.fromJson(data);
       setState(() {
-        setState(() {
-          _banner = responseData.data['banner'];
-          _dataList = responseData.data['searchResult']['result'];
-
-          _pagination = responseData.data['searchResult']['pagination'];
-          _hasMore = !_pagination['lastPage'];
-          _page = _pagination['page'] + 1;
-          _isLoading = false;
-        });
-        print(responseData);
+        _banner = redPackageMode.banner;
+        _dataList = redPackageMode.searchResult.result;
+        _pagination = redPackageMode.searchResult.pagination;
+        _hasMore = !_pagination.lastPage;
+        _page = _pagination.page + 1;
+        _isLoading = false;
       });
     });
   }
@@ -192,7 +125,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                     BoxDecoration(borderRadius: BorderRadius.circular(6)),
                 height: 40,
                 child: CachedNetworkImage(
-                  imageUrl: _banner['backgroundPic'],
+                  imageUrl: _banner.backgroundPic,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -205,9 +138,9 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                     Container(
                       height: 25,
                       width: 25,
-                      child: CachedNetworkImage(imageUrl: _banner['icon']),
+                      child: CachedNetworkImage(imageUrl: _banner.icon),
                     ),
-                    Text('${_banner['title']}')
+                    Text('${_banner.title}')
                   ],
                 ),
               ),

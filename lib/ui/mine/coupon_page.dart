@@ -52,16 +52,12 @@ class _CouponPageState extends State<CouponPage> {
         _allDataList.insertAll(_allDataList.length, _nowCoupon);
         _allDataList.insert(_allDataList.length, {'coupon_title_name': '已失效'});
         _allDataList.insertAll(_allDataList.length, _hisCoupon);
-
         _isLoading = false;
       });
     });
   }
 
   Future<ResponseData> _getData(int searchType) async {
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "searchType": searchType,
@@ -81,9 +77,9 @@ class _CouponPageState extends State<CouponPage> {
   }
 
   _buildItem(BuildContext context, var item, int index) {
-    var backColor = index < _nowCoupon.length ? backRed : Color(0xFFA9ADB6);
+    var backColor = index < _nowCoupon.length ? backRed : Color(0xFFED7A7A);
     var tipsColor =
-        index < _nowCoupon.length ? Color(0xFFBE5A57) : Color(0xFFA3A5AD);
+        index < _nowCoupon.length ? Color(0xFFED7A7A) : Color(0xFFA3A5AD);
 
     return Container(
       margin: EdgeInsets.all(15),

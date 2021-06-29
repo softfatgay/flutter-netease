@@ -26,10 +26,6 @@ class _FeedBackState extends State<FeedBack> {
   }
 
   void _getData() async {
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
     };
@@ -53,10 +49,6 @@ class _FeedBackState extends State<FeedBack> {
   }
 
   void _getPhone() async {
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
     };
@@ -68,9 +60,6 @@ class _FeedBackState extends State<FeedBack> {
   }
 
   void _submit() async {
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-    };
     Map<String, dynamic> params = {
       "type": selectType['type'],
       "content": _tvController.text,

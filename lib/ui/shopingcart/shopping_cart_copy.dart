@@ -254,12 +254,6 @@ class _ShoppingCartState extends State<ShoppingCart>
       'selectedSku': json.encode(item),
       "csrf_token": csrf_token,
     };
-
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
-
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
       _data = responseData.data;

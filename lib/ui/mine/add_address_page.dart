@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/mine/model/addressItem.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
 import 'package:flutter_app/widget/m_textfiled.dart';
@@ -25,20 +26,20 @@ class _AddAddressPageState extends State<AddAddressPage>
   String _addressTips = '省份 城市 区县';
   var _tabTitle = [];
 
-  List _province = [];
-  List _city = [];
-  List _dis = [];
-  List _town = [];
+  List<AddressItem> _province = [];
+  List<AddressItem> _city = [];
+  List<AddressItem> _dis = [];
+  List<AddressItem> _town = [];
   int _selectType = 0;
 
   bool _check = false;
 
-  var _provinceItem;
-  var _cityItem;
-  var _disItem;
-  var _townItem;
+  AddressItem _provinceItem;
+  AddressItem _cityItem;
+  AddressItem _disItem;
+  AddressItem _townItem;
 
-  var _currentList = [];
+  List<AddressItem> _currentList = [];
 
   @override
   void initState() {
@@ -263,7 +264,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                                           color: backGrey, width: 1))),
                               margin: EdgeInsets.only(left: 15),
                               padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
-                              child: Text(item["zonename"]),
+                              child: Text(item.zonename),
                             ),
                             onTap: () {
                               if (_selectType == 1) {
@@ -271,25 +272,24 @@ class _AddAddressPageState extends State<AddAddressPage>
                                   _provinceItem = item;
                                 });
                                 print(_selectType);
-                                _getCity(item['id'], setStates);
+                                _getCity(item.id, setStates);
                               } else if (_selectType == 2) {
                                 setState(() {
                                   _cityItem = item;
                                 });
                                 print(_selectType);
-                                _getDis(
-                                    item['id'], item['parentid'], setStates);
+                                _getDis(item.id, item.parentid, setStates);
                               } else if (_selectType == 3) {
                                 setState(() {
                                   _disItem = item;
                                 });
                                 print(_selectType);
-                                _getTown(item['id'], setStates);
+                                _getTown(item.id, setStates);
                               } else {
                                 setState(() {
                                   _townItem = item;
                                   _addressTips =
-                                      '${_provinceItem['zonename'] + ' ' + _cityItem['zonename'] + ' ' + _disItem['zonename'] + ' ' + _townItem['zonename']}';
+                                      '${_provinceItem.zonename + ' ' + _cityItem.zonename + ' ' + _disItem.zonename + ' ' + _townItem.zonename}';
                                   Navigator.pop(context);
                                 });
                               }
@@ -315,10 +315,17 @@ class _AddAddressPageState extends State<AddAddressPage>
     };
 
     var responseData = await getProvenceList(params);
-    setState(() {
-      _province = responseData.data;
-      _currentList = responseData.data;
-    });
+    if (responseData.code == '200') {
+      List data = responseData.data;
+      List<AddressItem> dataList = [];
+      data.forEach((element) {
+        dataList.add(AddressItem.fromJson(element));
+      });
+      setState(() {
+        _province = dataList;
+        _currentList = dataList;
+      });
+    }
   }
 
   void _getCity(int parentId, setStates) async {
@@ -328,8 +335,15 @@ class _AddAddressPageState extends State<AddAddressPage>
     };
 
     var responseData = await getCityList(params);
+
+    List data = responseData.data;
+    List<AddressItem> dataList = [];
+    data.forEach((element) {
+      dataList.add(AddressItem.fromJson(element));
+    });
+
     setStates(() {
-      _currentList = responseData.data;
+      _currentList = dataList;
       _selectType = 2;
       _tabTitle.clear();
       _tabTitle.add('省');
@@ -341,10 +355,7 @@ class _AddAddressPageState extends State<AddAddressPage>
           _tabclick(_tabController.index, setStates);
         }
       });
-    });
-
-    setState(() {
-      _city = responseData.data;
+      _city = dataList;
     });
   }
 
@@ -356,8 +367,14 @@ class _AddAddressPageState extends State<AddAddressPage>
     };
 
     var responseData = await getDisList(params);
+    List data = responseData.data;
+    List<AddressItem> dataList = [];
+    data.forEach((element) {
+      dataList.add(AddressItem.fromJson(element));
+    });
+
     setStates(() {
-      _currentList = responseData.data;
+      _currentList = dataList;
       _selectType = 3;
       _tabTitle.clear();
       _tabTitle.add('省');
@@ -370,24 +387,25 @@ class _AddAddressPageState extends State<AddAddressPage>
           _tabclick(_tabController.index, setStates);
         }
       });
-    });
-
-    setState(() {
-      _dis = responseData.data;
+      _dis = dataList;
     });
   }
 
   void _getTown(int parentId, setStates) async {
-    // csrf_token=61f57b79a343933be0cb10aa37a51cc8&withOverseasCountry=true
-
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "parentId": parentId
     };
 
     var responseData = await getTown(params);
+    List data = responseData.data;
+    List<AddressItem> dataList = [];
+    data.forEach((element) {
+      dataList.add(AddressItem.fromJson(element));
+    });
+
     setStates(() {
-      _currentList = responseData.data;
+      _currentList = dataList;
       _selectType = 4;
       _tabTitle.clear();
       _tabTitle.add('省');
@@ -401,10 +419,7 @@ class _AddAddressPageState extends State<AddAddressPage>
           _tabclick(_tabController.index, setStates);
         }
       });
-    });
-
-    setState(() {
-      _town = responseData.data;
+      _town = dataList;
     });
   }
 
@@ -433,21 +448,17 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   _addAddress() async {
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       'id': 0,
-      'provinceId': _provinceItem['id'],
-      'provinceName': _provinceItem['zonename'],
-      'cityId': _cityItem['id'],
-      'cityName': _cityItem['zonename'],
-      'districtId': _disItem['id'],
-      'districtName': _disItem['zonename'],
-      'townId': _townItem['id'],
-      'townName': _townItem['zonename'],
+      'provinceId': _provinceItem.id,
+      'provinceName': _provinceItem.zonename,
+      'cityId': _cityItem.id,
+      'cityName': _cityItem.zonename,
+      'districtId': _disItem.id,
+      'districtName': _disItem.zonename,
+      'townId': _townItem.id,
+      'townName': _townItem.zonename,
       'address': _addressC.text,
       'name': _nameController.text,
       'mobile': _phoneC.text,

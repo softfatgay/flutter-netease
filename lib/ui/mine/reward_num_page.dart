@@ -63,10 +63,6 @@ class _RewardNumPageState extends State<RewardNumPage> {
   }
 
   void _getRcmd() async {
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "_page": _page,

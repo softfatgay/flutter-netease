@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -14,8 +15,8 @@ class LocationManagePage extends StatefulWidget {
 }
 
 class _LocationManagePageState extends State<LocationManagePage> {
-  var _locationList = List();
-  int addressId = 0;
+  List<LocationItemModel> _locationList = [];
+  num addressId = 0;
 
   @override
   void initState() {
@@ -75,11 +76,11 @@ class _LocationManagePageState extends State<LocationManagePage> {
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
-                        '${item['name']}',
+                        '${item.name}',
                         style: t16black,
                       ),
                     ),
-                    item['dft'] == true
+                    item.dft == true
                         ? Container(
                             margin: EdgeInsets.only(right: 10),
                             padding: EdgeInsets.symmetric(
@@ -88,7 +89,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
                                 border: Border.all(color: redColor),
                                 borderRadius: BorderRadius.circular(2)),
                             child: Text(
-                              item['dft'] == true ? '默认' : '',
+                              item.dft ? '默认' : '',
                               style: t12red,
                             ),
                           )
@@ -106,12 +107,12 @@ class _LocationManagePageState extends State<LocationManagePage> {
                   Container(
                     margin: EdgeInsets.only(bottom: 6),
                     child: Text(
-                      '${item['mobile']}',
+                      '${item.mobile}',
                       style: t16black,
                     ),
                   ),
                   Text(
-                    '${item['fullAddress']}',
+                    '${item.fullAddress}',
                     style: t14grey,
                   )
                 ],
@@ -125,7 +126,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    addressId = item['id'];
+                    addressId = item.id;
                   });
                   _confirmDialog(context);
                 })
@@ -134,7 +135,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
       ),
     );
 
-    return Routers.link(widget, Routers.addAddress, context, item, () {
+    return Routers.link(widget, Routers.addAddress, context, {}, () {
       _getLocations();
     });
   }
@@ -142,8 +143,14 @@ class _LocationManagePageState extends State<LocationManagePage> {
   void _getLocations() async {
     Map<String, dynamic> params = {"csrf_token": csrf_token};
     var responseData = await getLocationList(params);
+    List data = responseData.data;
+    List<LocationItemModel> dataList = [];
+    data.forEach((element) {
+      dataList.add(LocationItemModel.fromJson(element));
+    });
+
     setState(() {
-      _locationList = responseData.data;
+      _locationList = dataList;
     });
   }
 

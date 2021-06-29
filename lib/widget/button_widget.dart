@@ -4,7 +4,8 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ///普通按钮
-Widget NormalBtn(String text, Color color, Function onPressed) {
+Widget NormalBtn(String text, Color color, Function onPressed,
+    {TextStyle textStyle}) {
   return Container(
     height: 45,
     width: double.infinity,
@@ -16,7 +17,7 @@ Widget NormalBtn(String text, Color color, Function onPressed) {
           onPressed();
         }
       },
-      child: btnChild(text),
+      child: btnChild(text, textStyle: textStyle),
     ),
   );
 }

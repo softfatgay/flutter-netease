@@ -117,7 +117,7 @@ class _MinePageState extends State<UserPage>
         _buildActivity(context),
         _buildAdapter(context),
         _line(1),
-        _line(20.0),
+        _line(10.0),
         _loginOut(context),
         _line(50.0),
       ],
@@ -382,18 +382,19 @@ class _MinePageState extends State<UserPage>
   }
 
   _loginOut(BuildContext context) {
+    // Color(0xFFFFD883)
     return singleSliverWidget(
       Container(
         color: backColor,
         padding: EdgeInsets.symmetric(horizontal: 8),
-        child: NormalBtn('退出登录', redLightColor, () async {
+        child: NormalBtn('退出登录', backWhite, () async {
           var globalCookie = GlobalCookie();
           var bool = await globalCookie.clearCookie();
           if (bool) {
             CookieConfig.cookie = '';
             _checkLogin();
           }
-        }),
+        }, textStyle: t16grey),
       ),
     );
   }

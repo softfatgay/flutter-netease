@@ -119,9 +119,6 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
     setState(() {
       _isLoading = true;
     });
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-    };
     Map<String, dynamic> params = {'keywordPrefix': _textValue};
     var responseData = await searchTips(params);
     setState(() {

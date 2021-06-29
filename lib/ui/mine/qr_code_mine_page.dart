@@ -110,10 +110,6 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
   }
 
   _getData() async {
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
     };
@@ -138,11 +134,6 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
   _getQrCode() async {
     Timer.periodic(Duration(milliseconds: 5000), (timer) {
       this.timer = timer;
-
-      Map<String, dynamic> header = {
-        "Cookie": cookie,
-        "csrf_token": csrf_token,
-      };
       Map<String, dynamic> params = {
         "csrf_token": csrf_token,
       };

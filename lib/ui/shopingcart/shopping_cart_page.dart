@@ -262,12 +262,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'selectedSku': json.encode(item),
       "csrf_token": csrf_token,
     };
-
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
-
     print(params);
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
@@ -300,10 +294,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     };
 
     Map<String, dynamic> param = {'invalidSku': map};
-    Map<String, dynamic> header = {
-      "Cookie": cookie,
-      "csrf_token": csrf_token,
-    };
     var response = await clearInvalidItem(param);
     if (response.code == 200) {
       _getData();
