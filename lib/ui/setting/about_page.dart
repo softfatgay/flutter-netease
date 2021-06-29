@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
+import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,8 +21,9 @@ class _AboutPageState extends State<AboutPage> {
       ).build(context),
       body: CustomScrollView(
         slivers: <Widget>[
-          buildOneSliver(buildRichText()),
-          buildOneSliver(_buildOtherApi()),
+          singleSliverWidget(buildRichText()),
+          singleSliverWidget(_buildOtherApi()),
+          singleSliverWidget(_email()),
         ],
       ),
     );
@@ -148,7 +150,7 @@ class _AboutPageState extends State<AboutPage> {
               'https://pub.flutter-io.cn/packages/flutter_html'),
           _buildLink('common_utils ',
               'https://pub.flutter-io.cn/packages/common_utils'),
-          _buildLink('等', ''),
+          _buildLink('...等', ''),
         ],
       ),
     );
@@ -189,5 +191,24 @@ class _AboutPageState extends State<AboutPage> {
     } else {
       throw 'Could not launch $apkUrl';
     }
+  }
+
+  Widget _email() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '我的邮箱：',
+            style: t20blackBold,
+          ),
+          _buildLink(
+            'wan_tuan@163.com',
+            'wan_tuan@163.com',
+          ),
+        ],
+      ),
+    );
   }
 }
