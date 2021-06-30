@@ -30,7 +30,7 @@ class _WebViewPageState extends State<WebViewPageAPP> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      _url = widget.arguments['id'];
+      _url = widget.arguments['url'];
     });
   }
 

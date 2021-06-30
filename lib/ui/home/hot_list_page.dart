@@ -9,8 +9,8 @@ import 'package:flutter_app/ui/home/components/hot_list_item.dart';
 import 'package:flutter_app/ui/sort/model/hotListModel.dart';
 import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
-import 'package:flutter_app/widget/SliverTabBarDelegate.dart';
+import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
+import 'package:flutter_app/widget/sliver_tabbar_delegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 
 class HotListPage extends StatefulWidget {

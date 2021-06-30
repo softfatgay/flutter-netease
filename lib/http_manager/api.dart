@@ -283,3 +283,8 @@ Future<ResponseData> checkBeforeInit(
   return await HttpManager.post(CHECK_BEFORE_INIT,
       params: params, postParams: postParams, header: HttpUtil.getHeader());
 }
+
+///手机号状态
+Future<ResponseData> phoneStatus(Map<String, dynamic> params) async {
+  return await HttpManager.post(PHONE_STATUS, params: params);
+}

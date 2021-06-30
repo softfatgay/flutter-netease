@@ -37,7 +37,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
     final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
         .clamp(0, 255)
         .toInt();
-    return Color.fromARGB(alpha, 255, 216, 131);
+    return Color.fromARGB(0, 0, 0, 0);
   }
 
   Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {
@@ -122,7 +122,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
               },
             ),
             right: 20,
-            top: MediaQuery.of(context).padding.top + 10,
+            top: MediaQuery.of(context).padding.top + 15,
           )
         ],
       ),

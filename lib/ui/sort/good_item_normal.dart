@@ -6,7 +6,7 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/widget/MyVerticalText.dart';
+import 'package:flutter_app/widget/my_vertical_text.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';
 

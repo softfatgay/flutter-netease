@@ -5,7 +5,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/MySeparator.dart';
+import 'package:flutter_app/widget/my_separator.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 

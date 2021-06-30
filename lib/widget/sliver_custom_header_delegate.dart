@@ -15,7 +15,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     this.paddingTop,
     this.child,
     this.title,
-    this.showBack = false,
+    this.showBack = true,
   });
 
   @override

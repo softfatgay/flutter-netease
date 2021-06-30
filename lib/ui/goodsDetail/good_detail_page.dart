@@ -28,7 +28,7 @@ import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/count.dart';
-import 'package:flutter_app/widget/floatingActionButton.dart';
+import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
@@ -447,7 +447,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               ),
               onTap: () {
                 Routers.push(Routers.webViewPageAPP, context,
-                    {'id': _welfareCardVO.schemeUrl});
+                    {'url': _welfareCardVO.schemeUrl});
               },
             ),
           );

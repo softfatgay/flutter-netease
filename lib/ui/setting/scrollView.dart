@@ -1,9 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-/// @Author: 一凨
-/// @Date: 2018-12-10 21:15:27
-/// @Last Modified by: 一凨
-/// @Last Modified time: 2018-12-10 21:16:05
-
 import 'package:flutter/material.dart';
 
 class ScrollViewDemo extends StatefulWidget {
@@ -12,7 +7,6 @@ class ScrollViewDemo extends StatefulWidget {
 }
 
 class _ScrollViewDemoState extends State<ScrollViewDemo> {
-
   int index = 0;
 
   List<String> images = [
@@ -43,52 +37,52 @@ class _ScrollViewDemoState extends State<ScrollViewDemo> {
 
   @override
   Widget build(BuildContext context) {
-      return Material(
-        child: Stack(
+    return Material(
+      child: Stack(
 //          alignment: const FractionalOffset(0.9, 0.95), //定位方式
-          children: <Widget>[
-            Container(
-              height: 10000, //注意这里的高度必须得指定
-              child: PageView(
-                controller: _pageController,
-                children: buildChild(context),
-                scrollDirection: Axis.vertical,
-                onPageChanged: (index) {
-                  setState(() {
-                    this.index = index;
-                  });
-                },
-              ),
+        children: <Widget>[
+          Container(
+            height: 10000, //注意这里的高度必须得指定
+            child: PageView(
+              controller: _pageController,
+              children: buildChild(context),
+              scrollDirection: Axis.vertical,
+              onPageChanged: (index) {
+                setState(() {
+                  this.index = index;
+                });
+              },
             ),
-            Positioned(
-                //方法二
-                bottom: 15.0,
-                left: 15.0,
-                child: index == 0
-                    ? Container()
-                    : GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(0);
-                        },
-                        child: Icon(Icons.vertical_align_top),
-                      )),
-            Positioned(
+          ),
+          Positioned(
+              //方法二
               bottom: 15.0,
-              right: 15.0,
-              child: Container(
-                height: 30,
-                width: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(color: Color(0x33000000)),
-                child: Text(
-                  '$index/${images.length}',
-                  style: TextStyle(color: Colors.white),
-                ),
+              left: 15.0,
+              child: index == 0
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        _pageController.jumpToPage(0);
+                      },
+                      child: Icon(Icons.vertical_align_top),
+                    )),
+          Positioned(
+            bottom: 15.0,
+            right: 15.0,
+            child: Container(
+              height: 30,
+              width: 50,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(color: Color(0x33000000)),
+              child: Text(
+                '$index/${images.length}',
+                style: TextStyle(color: Colors.white),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 
   List<Widget> buildChild(BuildContext context) {
@@ -99,7 +93,7 @@ class _ScrollViewDemoState extends State<ScrollViewDemo> {
         height: 1000,
         child: CachedNetworkImage(
           imageUrl: images[i],
-         fit: BoxFit.cover,
+          fit: BoxFit.cover,
         ),
       ));
     }

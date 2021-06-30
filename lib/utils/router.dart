@@ -30,9 +30,10 @@ import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
+import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
-import 'package:flutter_app/widget/FullScreenImage.dart';
+import 'package:flutter_app/widget/full_screenImage.dart';
 
 class Routers {
   static const String brandTag = 'brandTag';
@@ -155,17 +156,8 @@ class Routers {
         case 4: //邀请返利
           return QRCodeMinePage();
           break;
-        case 5: //优先购
-          return WebViewPage(
-              {"url": "https://m.you.163.com/preemption/index.html"});
-          break;
         case 6: //积分中心
           return PointCenterPage();
-          break;
-
-        case 7: //会员俱乐部
-          // return VipCenter();
-          return WebViewPage({"url": "https://m.you.163.com/membership/index"});
           break;
         case 8: //地址管理
           return LocationManagePage();
@@ -180,8 +172,11 @@ class Routers {
         case 11: //反馈
           return FeedBack();
           break;
+        case 5: //优先购
+        case 7: //会员俱乐部
         case 12: //关于
-          return AboutPage();
+        case 13: //关于
+          return WebViewPage({'url': arguments['item']['url']});
           break;
       }
 

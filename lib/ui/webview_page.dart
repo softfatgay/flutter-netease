@@ -103,8 +103,6 @@ class _WebViewPageState extends State<WebViewPage> {
               _title = aa;
             });
             final updateCookie = await globalCookie.globalCookieValue(url);
-            print('更新Cookie========================>');
-            print(updateCookie);
             if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
               setState(() {
                 CookieConfig.cookie = updateCookie;
@@ -131,16 +129,30 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   //隐藏头部
-  String setJs() {
+  String setHeaderJs() {
+    var js = "document.querySelector('.hdWraper').style.display = 'none';";
+    return js;
+  }
+
+  //隐藏头部
+  String hideHeaderJs() {
     var js = "document.querySelector('.hdWraper').style.display = 'none';";
     return js;
   }
 
   void hideTop() {
-    Timer.periodic(Duration(milliseconds: 10), (timer) async {
+    Timer(Duration(milliseconds: 10), () {
       try {
         if (_webController != null) {
-          _webController.evaluateJavascript(setJs()).then((result) {});
+          _webController.evaluateJavascript(hideHeaderJs()).then((result) {});
+        }
+      } catch (e) {}
+    });
+
+    Timer(Duration(milliseconds: 1000), () {
+      try {
+        if (_webController != null) {
+          _webController.evaluateJavascript(setHeaderJs()).then((result) {});
         }
       } catch (e) {}
     });

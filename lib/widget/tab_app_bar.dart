@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/widget/MyUnderlineTabIndicator.dart';
+import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 
 class TabAppBar extends StatelessWidget {
   const TabAppBar({this.tabs, this.controller, this.title = ''});

@@ -7,13 +7,14 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
+import 'package:flutter_app/ui/mine/model/phoneStatusModel.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/user_page_header.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
@@ -28,6 +29,7 @@ class UserPage extends StatefulWidget {
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
   bool _isLogin = true;
+  var _phoneStatusModel;
 
   bool _firstLoading = true;
   List<MinePageItems> _mineItems = [];
@@ -103,7 +105,7 @@ class _MinePageState extends State<UserPage>
             showBack: false,
             title: '',
             collapsedHeight: 50,
-            expandedHeight: 250,
+            expandedHeight: 200,
             paddingTop: MediaQuery.of(context).padding.top,
             child: _buildTop(context),
           ),
@@ -147,6 +149,31 @@ class _MinePageState extends State<UserPage>
       setState(() {
         _firstLoading = false;
       });
+    }
+
+    getPhoneStatus();
+  }
+
+  void getPhoneStatus() async {
+    Map<String, dynamic> params = {"csrf_token": csrf_token};
+    var responseData = await phoneStatus(params);
+
+    if (responseData.code == '200') {
+      if (responseData.data != null &&
+          responseData.data['mobile'] != null &&
+          responseData.data['ucMobile'] != null) {
+        setState(() {
+          _phoneStatusModel = PhoneStatusModel.fromJson(responseData.data);
+          mineSettingItems.insert(2, {
+            "name": "我的手机号",
+            "status": "${_phoneStatusModel.status}",
+            "image": "assets/images/mine/phone.png",
+            "url":
+                "https://m.you.163.com/ucenter/mymobile?mobile=${_phoneStatusModel.mobile}&status=${_phoneStatusModel.status}&callback=https://m.you.163.com/ucenter",
+            "id": 12
+          });
+        });
+      }
     }
   }
 
@@ -364,8 +391,8 @@ class _MinePageState extends State<UserPage>
               ],
             ),
           );
-          return Routers.link(
-              widget, Routers.mineItems, context, {"id": item["id"]});
+          return Routers.link(widget, Routers.mineItems, context,
+              {"id": item['id'], "item": item});
         }).toList(),
       ),
     );
@@ -456,6 +483,7 @@ class _MinePageState extends State<UserPage>
       "name": "优先购",
       "status": "0",
       "image": "assets/images/mine/youxiangou.png",
+      "url": "https://m.you.163.com/preemption/index.html",
       "id": 5
     },
     {
@@ -468,6 +496,7 @@ class _MinePageState extends State<UserPage>
       "name": "会员俱乐部",
       "status": "0",
       "image": "assets/images/mine/huiyuanzhongxin.png",
+      "url": "https://m.you.163.com/membership/index",
       "id": 7
     },
     {
@@ -486,6 +515,7 @@ class _MinePageState extends State<UserPage>
       "name": "帮助与客服",
       "status": "0",
       "image": "assets/images/mine/kefu.png",
+      "url": "https://cs.you.163.com/client?k=$kefuKey",
       "id": 10
     },
     {
@@ -494,12 +524,13 @@ class _MinePageState extends State<UserPage>
       "image": "assets/images/mine/yijianfankui.png",
       "id": 11
     },
-    // {
-    //   "name": "关于",
-    //   "status": "0",
-    //   "image": "assets/images/mine/about.png",
-    //   "id": 12
-    // },
+    {
+      "name": "我的拍卖",
+      "status": "0",
+      "image": "assets/images/mine/paimai.png",
+      "url": "https://m.you.163.com/auction/wap/profile/list",
+      "id": 13
+    }
   ];
 
   @override
