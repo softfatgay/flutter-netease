@@ -161,7 +161,8 @@ class _MinePageState extends State<UserPage>
     if (responseData.code == '200') {
       if (responseData.data != null &&
           responseData.data['mobile'] != null &&
-          responseData.data['ucMobile'] != null) {
+          responseData.data['ucMobile'] != null &&
+          mineSettingItems.length < 14) {
         setState(() {
           _phoneStatusModel = PhoneStatusModel.fromJson(responseData.data);
           mineSettingItems.insert(2, {
@@ -371,8 +372,10 @@ class _MinePageState extends State<UserPage>
         crossAxisCount: 3,
         children: mineSettingItems.map<Widget>((item) {
           Widget widget = Container(
+            decoration: BoxDecoration(
+              color: backWhite,
+            ),
             margin: EdgeInsets.all(0.7),
-            color: backWhite,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
