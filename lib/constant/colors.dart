@@ -31,7 +31,7 @@ const Color redColor = Color(0xFFD2001A);
 ///字体颜色
 const Color textWhite = Color(0xFFFFFFFF);
 const Color textWhite70 = Color(0x4DFFFFFF);
-const Color textRed = Color(0xFFD2001A);
+const Color textRed = Color(0xFFDD1A21);
 const Color textWarning = Color(0xFFF7B500);
 const Color textGreen = Color(0xFF26BD5B);
 const Color textBlack = Color(0xFF333333);

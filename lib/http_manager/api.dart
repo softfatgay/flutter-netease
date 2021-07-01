@@ -122,7 +122,7 @@ Future<ResponseData> couponList(Map<String, dynamic> params) async {
 }
 
 ///商品详情
-Future<ResponseData> goodDetailData(Map<String, dynamic> params) async {
+Future<ResponseData> goodDetail(Map<String, dynamic> params) async {
   return await HttpManager.get(GOOD_DETAIL, params: params);
 }
 

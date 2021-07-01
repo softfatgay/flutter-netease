@@ -298,7 +298,10 @@ DetailPromBanner _$DetailPromBannerFromJson(Map<String, dynamic> json) {
     ..promoSubTitle = json['promoSubTitle'] as String
     ..startTime = json['startTime'] as String
     ..activityPrice = json['activityPrice'] as String
-    ..retailPrice = json['retailPrice'] as String;
+    ..retailPrice = json['retailPrice'] as String
+    ..activityPriceExt = json['activityPriceExt'] as String
+    ..sellVolumeDesc = json['sellVolumeDesc'] as String
+    ..countdown = json['countdown'] as num;
 }
 
 Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
@@ -311,6 +314,9 @@ Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
       'startTime': instance.startTime,
       'activityPrice': instance.activityPrice,
       'retailPrice': instance.retailPrice,
+      'activityPriceExt': instance.activityPriceExt,
+      'sellVolumeDesc': instance.sellVolumeDesc,
+      'countdown': instance.countdown,
     };
 
 WelfareCardVO _$WelfareCardVOFromJson(Map<String, dynamic> json) {

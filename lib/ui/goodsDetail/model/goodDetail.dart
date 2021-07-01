@@ -178,6 +178,9 @@ class DetailPromBanner {
   String startTime;
   String activityPrice;
   String retailPrice;
+  String activityPriceExt;
+  String sellVolumeDesc;
+  num countdown;
 
   DetailPromBanner();
 

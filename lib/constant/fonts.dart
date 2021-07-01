@@ -93,6 +93,7 @@ const TextStyle t12black = TextStyle(
   color: textBlack,
   fontSize: 12,
   decoration: TextDecoration.none,
+  height: 1.1,
   fontWeight: fontWeightRegular,
 );
 
@@ -225,6 +226,13 @@ const TextStyle t16redBold = TextStyle(
 const TextStyle t18redBold = TextStyle(
   color: textRed,
   fontSize: 18,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightSemibold,
+);
+
+const TextStyle t27redBold = TextStyle(
+  color: textRed,
+  fontSize: 27,
   decoration: TextDecoration.none,
   fontWeight: fontWeightSemibold,
 );

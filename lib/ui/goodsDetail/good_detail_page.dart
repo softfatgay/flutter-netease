@@ -11,6 +11,22 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/ui/goodsDetail/components/coupon_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/dialog.dart';
+import 'package:flutter_app/ui/goodsDetail/components/detail_prom_banner_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/freight_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/full_refund_policy_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/good_detail_comment_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/good_price_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/good_select_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/good_title.dart';
+import 'package:flutter_app/ui/goodsDetail/components/pro_vip_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/promotion_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/recommend_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/service_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/shopping_reward_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/skulimit_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/title_tags_widget.dart';
 import 'package:flutter_app/ui/goodsDetail/model/commentsItem.dart';
 import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
 import 'package:flutter_app/ui/goodsDetail/model/goodDetailDownData.dart';
@@ -66,25 +82,45 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///商品属性规格等
   List<SkuSpecListItem> _skuSpecList;
 
+  ///规格集合
   Map<String, SkuMapValue> _skuMap;
+
+  ///选择的规格
   SkuMapValue _skuMapItem;
-  String _promoTip = ''; //商品活动介绍
-  FeaturedSeries _featuredSeries; //banner下面图片
+
+  ///商品活动介绍
+  String _promoTip = '';
+
+  ///banner下面图片
+  FeaturedSeries _featuredSeries;
   WelfareCardVO _welfareCardVO;
 
-  ///推荐理由下面
-  List<HdrkDetailVOListItem> _hdrkDetailVOList; //促销
-  SkuFreight _skuFreight; //邮费
-  FullRefundPolicy _fullRefundPolicy; //规则
+  ///推荐理由下面//促销
+  List<HdrkDetailVOListItem> _hdrkDetailVOList;
 
-  List<String> _couponShortNameList = []; //券活动/标签等
+  ///邮费
+  SkuFreight _skuFreight;
 
-  int _goodCount = 1; //商品数量
-  String _price = ''; //商品价格
+  ///规则
+  FullRefundPolicy _fullRefundPolicy;
+
+  ///券活动/标签等
+  List<String> _couponShortNameList = [];
+
+  ///商品数量
+  int _goodCount = 1;
+
+  ///商品价格（真实价格）
+  String _price = '';
+
   ///banner下面活动
   DetailPromBanner _detailPromBanner;
-  String _counterPrice = ''; //商品价格
-  String _skuLimit; //商品限制规则
+
+  ///商品价格（原始价格）
+  String _counterPrice = '';
+
+  ///商品限制规则
+  String _skuLimit;
 
   ///底部推荐列表
   List<ItemListItem> _rmdList = [];
@@ -94,9 +130,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   int _bannerIndex = 0;
 
+  num _goodId;
+
   @override
   void initState() {
     // TODO: implement initState
+    setState(() {
+      _goodId = widget.arguments['id'];
+    });
     super.initState();
     print(widget.arguments['id']);
     _getDetailPageUp();
@@ -154,13 +195,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getDetailPageUp() async {
-    //3996494
-    //获取详情 页面上半部分详情数据
-    // Map<String, dynamic> params =  {'id': widget.arguments['id']};
-    //
-    //
-    // var responseData = await goodDetailApi(params);
-    //
+    // var param = {'id': widget.arguments['id']};
+    // var response = await goodDetail(param);
 
     Response response = await Dio().get(
         'https://m.you.163.com/item/detail.json',
@@ -201,9 +237,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     Map<String, dynamic> params = {'id': widget.arguments['id']};
     var responseData = await wapitemRcmdApi(params);
     List item = responseData.data['items'];
-    print('---------------------------');
-    print(json.encode(item));
-
     List<ItemListItem> rmdList = [];
     item.forEach((element) {
       rmdList.add(ItemListItem.fromJson(element));
@@ -264,50 +297,79 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             ),
           ),
           // banner底部活动
-          singleSliverWidget(_detailPromBannerWidget()),
+          singleSliverWidget(DetailPromBannerWidget(
+            detailPromBanner: _detailPromBanner,
+          )),
           singleSliverWidget(_buildActivity()),
-          //banner下面图片
+
+          ///banner下面图片
           singleSliverWidget(_featuredSeriesWidget()),
-          //商品名称
-          singleSliverWidget(_buildTitle()),
-          //推荐理由
-          singleSliverWidget(_buildOnlyText()),
-          _buildRecommondReason(),
+
+          ///商品价格，detailPromBanner为null的时候展示
+          singleSliverWidget(GoodPriceWidget(
+            detailPromBanner: _detailPromBanner,
+            price: _price,
+            counterPrice: _counterPrice,
+          )),
+
+          ///标题标签
+          singleSliverWidget(
+              TitleTagsWidget(itemTagListGood: _goodDetail.itemTagList)),
+
+          ///pro会员
+          singleSliverWidget(ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
+
+          ///商品名称
+          singleSliverWidget(GoodTitleWidget(
+            name: _goodDetail.name,
+            goodCmtRate: _goodDetail.goodCmtRate,
+            goodId: widget.arguments['id'],
+          )),
+
+          ///推荐理由
+          singleSliverWidget(_buildOnlyText('推荐理由')),
+          RecommendWidget(
+            recommendReason: _goodDetail.recommendReason,
+            simpleDesc: _goodDetail.simpleDesc,
+          ),
           singleSliverWidget(Container(
             height: 15,
             color: Colors.white,
           )),
 
           ///活动卡
-          singleSliverWidget(_buildwelfareCardVO()),
-          //选择属性
+          singleSliverWidget(_buildWelfareCardVO()),
+
+          ///选择属性
           singleSliverWidget(_buildSelectProperty()),
-          // //服务
-          singleSliverWidget(_buildDescription()),
-          //评论
+
+          ///评论
           singleSliverWidget(_buildComment()),
-          //详情title
-          singleSliverWidget(_builddetailTitle()),
-          //成分
+
+          ///详情title
+          singleSliverWidget(_buildDetailTitle()),
+
+          ///成分
           _buildIntro(),
-          //商品详情
+
+          ///商品详情
           singleSliverWidget(
               _detailImages.isEmpty ? Container() : _buildGoodDetail()),
-          //报告
+
+          ///报告
           _buildReport(),
-          //常见问题
+
+          ///常见问题
           singleSliverWidget(_goodDetailDownData == null
               ? Container()
-              : _buildIssuTitle('-- 常见问题 --')),
+              : _buildIssueTitle('― 常见问题 ―')),
           _buildIssueList(),
           //推荐
           singleSliverWidget(_goodDetailDownData == null
               ? Container()
-              : _buildIssuTitle('-- 你可能还喜欢 --')),
+              : _buildIssueTitle('― 你可能还喜欢 ―')),
           GoodItemWidget(dataList: _rmdList),
-          singleSliverWidget(Container(
-            height: 100,
-          )),
+          singleSliverWidget(Container(height: 60)),
         ],
       );
     }
@@ -344,99 +406,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  ///huodong
-  _detailPromBannerWidget() {
-    return _detailPromBanner == null
-        ? Container()
-        : Container(
-            decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
-            child: Row(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: _detailPromBanner.bannerTitleUrl,
-                  height: 50,
-                ),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl: _detailPromBanner.bannerContentUrl,
-                        height: 50,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                      Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${_detailPromBanner.promoTitle}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: textWhite,
-                                    height: 1,
-                                  ),
-                                ),
-                                Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.ideographic,
-                                  children: [
-                                    Text(
-                                      '￥',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: textWhite,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.1,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${_detailPromBanner.activityPrice}',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: textWhite,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.1,
-                                      ),
-                                    ),
-                                    SizedBox(width: 3),
-                                    Text(
-                                      '￥${_detailPromBanner.activityPrice}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Color(0x80FFFFFF),
-                                        height: 1,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Text(
-                              '${_detailPromBanner.startTime ?? ''}',
-                              style: t14white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-  }
-
-  ///huodong
-  _buildwelfareCardVO() {
+  ///活动
+  _buildWelfareCardVO() {
     return _welfareCardVO == null
         ? Container()
         : Container(
@@ -463,7 +434,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               _promoTip ?? '',
               textAlign: TextAlign.start,
               style: TextStyle(color: Color(0xFFF48F57), fontSize: 12),
-            ));
+            ),
+          );
   }
 
   _featuredSeriesWidget() {
@@ -483,377 +455,77 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ));
   }
 
-  Widget buildOneTab() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      color: Color.fromARGB(255, 244, 244, 244),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.star, color: Colors.red),
-                  Text('活动活动')
-                ],
-              )),
-          Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.star, color: Colors.red),
-                  Text('活动活动')
-                ],
-              )),
-          Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.star, color: Colors.red),
-                  Text('活动活动')
-                ],
-              )),
-        ],
-      ),
-    );
-  }
-
-  _buildDescription() {
-    return GestureDetector(
-      child: Container(
-        color: Colors.white,
-        margin: EdgeInsets.only(bottom: 10),
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Text(
-                      '服务:',
-                      style: t14grey,
-                    ),
-                  ),
-                  Expanded(
-                      child: Container(
-                    child: Wrap(
-                      spacing: 5,
-                      runSpacing: 5,
-                      children: _buildSerVice(),
-                    ),
-                  )),
-                  Container(child: arrowRightIcon)
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      onTap: () {
-        List<PolicyListItem> policyList = _goodDetailPre.policyList;
-        _buildskuFreightDialog(context, '服务', policyList);
-      },
-    );
-  }
-
   _buildSelectProperty() {
     ShoppingReward shoppingReward = _goodDetail.shoppingReward;
-    String policyTitle = '';
-    if (_fullRefundPolicy != null) {
-      List fullRefundPolicyTitle = _fullRefundPolicy.titles;
-      if (fullRefundPolicyTitle != null && fullRefundPolicyTitle.isNotEmpty) {
-        fullRefundPolicyTitle.forEach((element) {
-          policyTitle += '▪$element ';
-        });
-      }
-    }
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
           ///规则
-          _fullRefundPolicy == null
-              ? Container()
-              : InkResponse(
-                  child: Container(
-                    decoration: bottomBorder,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    child: Row(
-                      children: [
-                        Text(
-                          '规则：',
-                          style: t14grey,
-                        ),
-                        Expanded(
-                          child: Text(
-                            '$policyTitle',
-                            style: t14black,
-                          ),
-                        ),
-                        arrowRightIcon
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    _buildBottomDecDialog(
-                        context,
-                        _fullRefundPolicy.detailTitle,
-                        _fullRefundPolicy.content);
-                  },
-                ),
+          FullRefundPolicyWidget(
+            fullRefundPolicy: _fullRefundPolicy,
+            showDialog: () {
+              fullRefundPolicyDialog(context, _fullRefundPolicy);
+            },
+          ),
 
-          //领券
-          (_couponShortNameList == null || _couponShortNameList.isEmpty)
-              ? Container()
-              : InkResponse(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    decoration: bottomBorder,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                            '领券：',
-                            style: t14grey,
-                          ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xFFFBBB65)),
-                                    borderRadius: BorderRadius.circular(2)),
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Text(
-                                  _couponShortNameList[0],
-                                  style: t12red,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        arrowRightIcon,
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Routers.webViewPageAPP, context, {
-                      'url':
-                          'https://m.you.163.com/item/detail?id=${widget.arguments['id']}#/coupon/${widget.arguments['id']}'
-                    });
-                  },
-                ),
+          ///领券
+          CouponWidget(
+            couponShortNameList: _couponShortNameList,
+            id: widget.arguments['id'],
+          ),
 
           ///邮费
-          _skuFreight == null
-              ? Container()
-              : InkResponse(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    decoration: bottomBorder,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '${_skuFreight.title}：',
-                            style: t14grey,
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: Text(
-                              _skuFreight.freightInfo,
-                              style: t14black,
-                            ),
-                          ),
-                        ),
-                        arrowRightIcon,
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    var title = _skuFreight.title;
-                    List policyList = _skuFreight.policyList;
-                    _buildskuFreightDialog(context, title, policyList);
-                  },
-                ),
+          FreightWidget(
+            skuFreight: _skuFreight,
+            showDialog: () {
+              var title = _skuFreight.title;
+              List policyList = _skuFreight.policyList;
+              buildSkuFreightDialog(context, title, policyList);
+            },
+          ),
 
           ///促销限制
-          (_hdrkDetailVOList == null || _hdrkDetailVOList.isEmpty)
-              ? Container()
-              : Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  decoration: bottomBorder,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '促销：',
-                          style: t14grey,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 6),
-                                padding: EdgeInsets.symmetric(horizontal: 2),
-                                decoration: BoxDecoration(
-                                    color: redLightColor,
-                                    border: Border.all(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(14)),
-                                child: Text(
-                                  _hdrkDetailVOList[0].activityType,
-                                  style: t12white,
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Text(
-                                      '${_hdrkDetailVOList[0].name}',
-                                      style: t14black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+          PromotionWidget(
+            hdrkDetailVOList: _hdrkDetailVOList,
+          ),
 
           ///购物反
-          shoppingReward == null
-              ? Container()
-              : InkResponse(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    decoration: bottomBorder,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '${shoppingReward.name ?? ''}：',
-                            style: t14grey,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Text(
-                            '${shoppingReward.rewardDesc ?? ''}',
-                            style: t14black,
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              '${shoppingReward.rewardValue ?? ''}',
-                              style: t14red,
-                            ),
-                          ),
-                        ),
-                        arrowRightIcon,
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    var shoppingRewardRule = _goodDetail.shoppingRewardRule;
-                    _buildskuFreightDialog(context, shoppingRewardRule.title,
-                        shoppingRewardRule.ruleList);
-                  },
-                ),
+          ShoppingRewardWidget(
+            shoppingReward: shoppingReward,
+            showDialog: () {
+              var shoppingRewardRule = _goodDetail.shoppingRewardRule;
+              buildSkuFreightDialog(context, shoppingRewardRule.title,
+                  shoppingRewardRule.ruleList);
+            },
+          ),
 
           Container(height: 10, color: backGrey),
 
           ///选择属性
-          InkResponse(
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              decoration: bottomBorder,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      '已选：',
-                      style: t14grey,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                              child:
-                                  Text('$selectedDecLeft $selectedDecRight')),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      'x$_goodCount',
-                      style: TextStyle(fontSize: 14, color: Colors.red),
-                    ),
-                  ),
-                  arrowRightIcon,
-                ],
-              ),
-            ),
-            onTap: () {
+          GoodSelectWidget(
+            selectedDecLeft: _selectedDecLeft,
+            selectedDecRight: _selectedDecRight,
+            goodCount: _goodCount,
+            onPress: () {
               _buildSizeModel(context);
             },
           ),
 
+          ///限制
+          SkulimitWidget(
+            skuLimit: _skuLimit,
+          ),
+
           ///服务
-          (_skuLimit == null || _skuLimit == '')
-              ? Container()
-              : Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  decoration: bottomBorder,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '限制：',
-                          style: t14grey,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          _skuLimit,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+          ServiceWidget(
+            policyList: _goodDetailPre.policyList,
+            showDialog: () {
+              List<PolicyListItem> policyList = _goodDetailPre.policyList;
+              _buildskuFreightDialog(context, '服务', policyList);
+            },
+          )
         ],
       ),
     );
@@ -863,186 +535,15 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var commentCount = _goodDetailPre.commentCount;
     List<CommentsItem> comments = _goodDetail.comments;
     var goodCmtRate = _goodDetail.goodCmtRate;
-    return Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            InkResponse(
-              highlightColor: Colors.transparent,
-              radius: 0,
-              onTap: () {
-                Routers.push(
-                    Routers.comment, context, {'id': widget.arguments['id']});
-              },
-              child: Container(
-                height: 50,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        '用户评价($commentCount)',
-                        style: t14black,
-                      ),
-                    ),
-                    Expanded(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          goodCmtRate == null ? "" : goodCmtRate,
-                          style: t16red,
-                        ),
-                        Text(
-                          (goodCmtRate == null || goodCmtRate == '')
-                              ? '查看全部'
-                              : '好评率',
-                          style: t12black,
-                        ),
-                      ],
-                    )),
-                    arrowRightIcon
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: 0.5,
-              width: double.infinity,
-              margin: EdgeInsets.only(left: 10),
-              color: lineColor,
-            ),
-            comments.length > 0
-                ? Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            ClipOval(
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                child: CachedNetworkImage(
-                                  imageUrl: comments[0].frontUserAvatar ?? '',
-                                  errorWidget: (context, url, error) {
-                                    return ClipOval(
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration:
-                                            BoxDecoration(color: Colors.grey),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child:
-                                    Text('${comments[0].frontUserName ?? ''}'),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 2),
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFB19C6D),
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      letterSpacing: -2),
-                                  children: [
-                                    TextSpan(
-                                      text: 'V',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontStyle: FontStyle.italic,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    TextSpan(
-                                        text: '${comments[0].memberLevel}',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 8,
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: StaticRatingBar(
-                                size: 15,
-                                rate: double.parse(
-                                    comments[0].memberLevel.toString()),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            '${DateUtil.formatDateMs(comments[0].createTime) + '   ' + comments[0].skuInfo[0]}',
-                            style: TextStyle(color: Colors.grey),
-                            maxLines: 2,
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          child: Text('${comments[0].content}'),
-                        ),
-                        Wrap(
-                          spacing: 2,
-                          runSpacing: 5,
-                          children: commentPic(comments[0].picList == null
-                              ? []
-                              : comments[0].picList),
-                        )
-                      ],
-                    ),
-                  )
-                : Container(),
-          ],
-        ));
+    return GoodDetailCommentWidget(
+        commentCount: commentCount,
+        comments: comments,
+        goodCmtRate: goodCmtRate,
+        goodId: widget.arguments['id']);
   }
 
-  List<Widget> commentPic(List commentList) =>
-      List.generate(commentList.length, (indexC) {
-        Widget widget = Container(
-          width: 100,
-          height: 100,
-          child: CachedNetworkImage(
-            imageUrl: commentList[indexC],
-            fit: BoxFit.cover,
-          ),
-        );
-        return Routers.link(
-            widget, Routers.image, context, {'images': commentList});
-      });
-
   _buildGoodDetail() {
-    // return Container(
-    //   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-    //   child: Html(
-    //     data: goodDetail['html'].replaceAll('<p><br/></p>', ''),
-    //   ),
-    //   color: Colors.white,
-    //   width: double.infinity,
-    //   alignment: Alignment.center,
-    // );
-    final imgWidgts = _detailImages
+    final imgWidget = _detailImages
         .map<Widget>((e) => GestureDetector(
               child: CachedNetworkImage(
                 imageUrl: e,
@@ -1056,7 +557,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       child: Column(
-        children: imgWidgts,
+        children: imgWidget,
       ),
       color: Colors.white,
       width: double.infinity,
@@ -1100,7 +601,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           );
   }
 
-  _builddetailTitle() {
+  _buildDetailTitle() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
@@ -1136,138 +637,42 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         ? singleSliverWidget(Container())
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-            var issueList = _goodDetailDownData.issueList;
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      issueList[index].question,
-                      style: t14black,
+              var issueList = _goodDetailDownData.issueList;
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(color: Colors.white),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        '• ${issueList[index].question}',
+                        style: t14black,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      issueList[index].answer,
-                      style: t12grey,
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        '${issueList[index].answer}',
+                        style: t12grey,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }, childCount: _goodDetailDownData.issueList.length));
+                  ],
+                ),
+              );
+            }, childCount: _goodDetailDownData.issueList.length),
+          );
   }
 
-  _buildIssuTitle(String title) {
+  _buildIssueTitle(String title) {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Text(
         title,
         style: TextStyle(fontSize: 18),
         textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  buildImage(int index) {
-    return Positioned(
-        bottom: 0,
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                height: 30,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            _rmdList[index].listPromBanner.bannerContentUrl,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Center(
-                      child: Text(_rmdList[index].listPromBanner.content),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 70,
-                height: 35,
-                child: CachedNetworkImage(
-                  imageUrl: _rmdList[index].listPromBanner.bannerTitleUrl,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Container(
-                  width: 70,
-                  height: 35,
-                  child: Center(
-                    child: Stack(
-                      alignment: const FractionalOffset(0.5, 0.5),
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              _rmdList[index].listPromBanner.promoTitle,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            ),
-                            Text(
-                              _rmdList[index].listPromBanner.promoSubTitle,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
-              Positioned(
-                left: 75,
-                height: 30,
-                child: Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Center(
-                      child: Text(_rmdList[index].listPromBanner.content,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
-                    )),
-              ),
-            ],
-          ),
-        ));
-  }
-
-  buildBottomText(int index) {
-    return Positioned(
-      bottom: 0,
-      child: Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-        child: Text(
-          _rmdList[index].simpleDesc,
-          style: TextStyle(color: Color(0XFF875D2A), fontSize: 16),
-          overflow: TextOverflow.ellipsis,
-        ),
       ),
     );
   }
@@ -1280,303 +685,28 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     _textEditingController.dispose();
   }
 
-  List<Widget> _buildSerVice() =>
-      List.generate(_goodDetailPre.policyList.length, (index) {
-        List<PolicyListItem> policyList = _goodDetailPre.policyList;
-        return Container(
-          padding: EdgeInsets.fromLTRB(8, 0, 8, 5),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 4,
-                height: 4,
-                color: textRed,
-              ),
-              SizedBox(width: 2),
-              Text(
-                '${policyList[index].title}',
-                style: t12black,
-              )
-            ],
-          ),
-        );
-      });
-
-  Widget buildRecommondR() {
-    var recommendReason = _goodDetail.recommendReason;
-    return recommendReason.isEmpty
-        ? Container(
-            child: Text(_goodDetail.simpleDesc),
-          )
-        : Wrap(
-            spacing: 5,
-            runSpacing: 5,
-            children: List.generate(recommendReason.length, (index) {
-              return Container(
-                child: Text('${recommendReason[index]}'),
-              );
-            }),
-          );
-  }
-
-  ///推荐理由
-  _buildRecommondReason() {
-    var recommendReason = _goodDetail.recommendReason;
-    return recommendReason == null || recommendReason.isEmpty
-        ? singleSliverWidget(
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: Colors.grey[100]),
-              child: Text(_goodDetail.simpleDesc),
-            ),
-          )
-        : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                  decoration: BoxDecoration(color: Colors.grey[100]),
-                  child: Text(
-                    '${index + 1} .${recommendReason[index]}',
-                    style: t12black,
-                  ),
-                ),
-              );
-            }, childCount: recommendReason.length),
-          );
-  }
-
-  _buildTitle() {
-    List<ItemTagListItem> itemTagListGood = _goodDetail.itemTagList;
-    return Container(
-        decoration: BoxDecoration(color: Colors.white),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: Column(
-          children: <Widget>[
-            _detailPromBanner == null
-                ? Container(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: <Widget>[
-                        Text(
-                          '￥',
-                          overflow: TextOverflow.ellipsis,
-                          style: t14red,
-                        ),
-                        Text(
-                          '$_price',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 24, color: Colors.red, height: 1),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 5),
-                          child: Text(
-                            '${_counterPrice == 'null' ? '' : '￥$_counterPrice'}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: textGrey,
-                              height: 1,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ))
-                : Container(),
-            _buildTitleTags(itemTagListGood),
-            _proVip(),
-
-            /// itemTagList
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      _goodDetail.name,
-                      style: t16blackbold,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  _seeCommomd()
-                ],
-              ),
-            ),
-          ],
-        ));
-  }
-
-  _proVip() {
-    var spmcBanner = _goodDetail.spmcBanner;
-    if (spmcBanner != null) {
-      return GestureDetector(
-        child: Container(
-          margin: EdgeInsets.only(top: 10),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
-          height: 40,
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.horizontal(left: Radius.circular(6)),
-                  color: backYellow,
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  '${spmcBanner.spmcTagDesc}',
-                  style: t12white,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 5),
-                        height: 40,
-                        decoration: ShapeDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/images/detail_vip_icon.png"),
-                              fit: BoxFit.fitWidth),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusDirectional.horizontal(
-                              end: Radius.circular(6),
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '${spmcBanner.spmcDesc}${spmcBanner.spmcPrice}',
-                                style: t12white,
-                                textAlign: TextAlign.start,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: backYellow,
-                                  borderRadius: BorderRadius.circular(6)),
-                              child: Text(
-                                '开通',
-                                style: t12black,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        onTap: () {
-          Routers.push(
-              Routers.webView, context, {'url': '${spmcBanner.spmcLinkUrl}'});
-        },
-      );
-    } else {
-      return Container();
-    }
-  }
-
-  _seeCommomd() {
-    var goodCmtRate = _goodDetail.goodCmtRate;
-    return GestureDetector(
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            (goodCmtRate == null || goodCmtRate == '')
-                ? Text(
-                    '查看评价',
-                    style: t12black,
-                  )
-                : Column(
-                    children: [
-                      Text(
-                        goodCmtRate,
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      Text(
-                        '好评率',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      )
-                    ],
-                  ),
-            arrowRightIcon,
-          ],
-        ),
-      ),
-      onTap: () {
-        Routers.push(Routers.comment, context, {'id': widget.arguments['id']});
-      },
-    );
-  }
-
-  _buildTitleTags(List<ItemTagListItem> itemTagListGood) {
-    if (_detailPromBanner == null) {
-      return itemTagListGood == null
-          ? Container()
-          : Row(
-              children: itemTagListGood
-                  .map<Widget>((item) => Container(
-                        margin: EdgeInsets.only(right: 5),
-                        padding: EdgeInsets.symmetric(horizontal: 6),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: redColor, width: 1)),
-                        child: Text(
-                          item.name,
-                          style: t10red,
-                        ),
-                      ))
-                  .toList(),
-            );
-    } else {
-      return Container();
-    }
-  }
-
-  _buildOnlyText() {
+  _buildOnlyText(String text) {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Text(
-        '推荐理由',
+        '$text',
         overflow: TextOverflow.ellipsis,
         style: t14black,
       ),
     );
   }
+
+  var _property = {
+    'leftId': '',
+    'rightId': '',
+  };
+
+  var _selectedDecLeft = '';
+  var _selectedDecRight = '';
+
+  int _selectedLId = 0;
+  int _selectedRId = 0;
 
   ///属性选择底部弹窗
   _buildSizeModel(BuildContext context) {
@@ -1626,8 +756,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                               ),
                             ),
                           ),
-                          //商品描述
+
+                          ///商品描述
                           _selectGoodDetail(context),
+
+                          ///颜色，规格等参数
                           _modelAndSize(context, setstate),
                           //数量
                           Container(
@@ -1713,17 +846,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  var property = {
-    'leftId': '',
-    'rightId': '',
-  };
-
-  var selectedDecLeft = '';
-  var selectedDecRight = '';
-
-  int selectedLId = 0;
-  int selectedRId = 0;
-
   _skuSpecItemNameList(BuildContext context, setstate,
       List<SkuSpecValue> skuSpecItemNameList, int index) {
     return skuSpecItemNameList.map((item) {
@@ -1735,13 +857,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               borderRadius: BorderRadius.all(Radius.circular(2)),
               border: Border.all(
                   width: 0.5,
-                  color: (selectedLId == item.id || selectedRId == item.id)
+                  color: (_selectedLId == item.id || _selectedRId == item.id)
                       ? redColor
                       : textGrey)),
           child: Text(
             '${item.value}',
             style: TextStyle(
-                color: (selectedLId == item.id || selectedRId == item.id)
+                color: (_selectedLId == item.id || _selectedRId == item.id)
                     ? redColor
                     : textGrey,
                 fontSize: 12),
@@ -1749,62 +871,44 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ),
         ),
         onTap: () {
-          print(property);
+          print(_property);
           print(index);
 
+          ///弹窗内
           setstate(() {
-            if (_skuSpecList.length > 1) {
-              if (index == 0) {
-                selectedLId = item.id;
-                property['leftId'] = item.id.toString();
-                selectedDecLeft = item.value;
-                print('leftId=================${item.id}');
-              } else {
-                selectedRId = item.id;
-                property['rightId'] = item.id.toString();
-                selectedDecRight = item.value;
-                print('rightId----------${item.id}');
-              }
-              _skuMapItem =
-                  _skuMap['${property['leftId']};${property['rightId']}'];
-              if (_skuMapItem != null) {
-                _price = _skuMapItem.retailPrice.toString();
-                _counterPrice = _skuMapItem.counterPrice.toString();
-              }
-            } else {
-              selectedLId = item.id;
-              selectedDecLeft = item.value;
-              _skuMapItem = _skuMap[item.id.toString()];
-            }
+            selectModelSize(index, item);
           });
           setState(() {
-            if (_skuSpecList.length > 1) {
-              if (index == 0) {
-                selectedLId = item.id;
-                property['leftId'] = item.id.toString();
-                selectedDecLeft = item.value;
-                print('leftId=================${item.id}');
-              } else {
-                selectedRId = item.id;
-                property['rightId'] = item.id.toString();
-                selectedDecRight = item.value;
-                print('rightId----------${item.id}');
-              }
-              _skuMapItem =
-                  _skuMap['${property['leftId']};${property['rightId']}'];
-              if (_skuMapItem != null) {
-                _price = _skuMapItem.retailPrice.toString();
-                _counterPrice = _skuMapItem.counterPrice.toString();
-              }
-            } else {
-              selectedLId = item.id;
-              selectedDecLeft = item.value;
-              _skuMapItem = _skuMap[item.id.toString()];
-            }
+            selectModelSize(index, item);
           });
         },
       );
     }).toList();
+  }
+
+  void selectModelSize(int index, SkuSpecValue item) {
+    if (_skuSpecList.length > 1) {
+      if (index == 0) {
+        _selectedLId = item.id;
+        _property['leftId'] = item.id.toString();
+        _selectedDecLeft = item.value;
+        print('leftId=================${item.id}');
+      } else {
+        _selectedRId = item.id;
+        _property['rightId'] = item.id.toString();
+        _selectedDecRight = item.value;
+        print('rightId----------${item.id}');
+      }
+      _skuMapItem = _skuMap['${_property['leftId']};${_property['rightId']}'];
+      if (_skuMapItem != null) {
+        _price = _skuMapItem.retailPrice.toString();
+        _counterPrice = _skuMapItem.counterPrice.toString();
+      }
+    } else {
+      _selectedLId = item.id;
+      _selectedDecLeft = item.value;
+      _skuMapItem = _skuMap[item.id.toString()];
+    }
   }
 
   _selectGoodDetail(BuildContext context) {
@@ -1876,7 +980,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                       // 商品描述
                       Container(
                         child: Text(
-                          '已选择：$selectedDecLeft $selectedDecRight',
+                          '已选择：$_selectedDecLeft $_selectedDecRight',
                           overflow: TextOverflow.clip,
                           style: TextStyle(color: textBlack, fontSize: 14),
                         ),
@@ -1975,90 +1079,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                               ],
                             ))
                         .toList(),
-                  ),
-                ))
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  ///------------------------------------------规则弹窗解释------------------------------------------------------------------------------------------------------
-  _buildBottomDecDialog(BuildContext context, String title, List content) {
-    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          width: double.infinity,
-          constraints: BoxConstraints(maxHeight: 500),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(5.0),
-            ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Center(
-                          child: Text(
-                            '$title',
-                            style: t18black,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: Container(
-                          child: Center(
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Icon(
-                                  Icons.close,
-                                  color: redColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: lineColor,
-                ),
-                Expanded(
-                    child: SingleChildScrollView(
-                  child: Column(
-                    children: content.map<Widget>((item) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          item,
-                          style: t14grey,
-                        ),
-                      );
-                    }).toList(),
                   ),
                 ))
               ],
