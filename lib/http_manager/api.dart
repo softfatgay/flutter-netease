@@ -288,3 +288,12 @@ Future<ResponseData> checkBeforeInit(
 Future<ResponseData> phoneStatus(Map<String, dynamic> params) async {
   return await HttpManager.post(PHONE_STATUS, params: params);
 }
+
+///检查更新
+///_api_key:  5fd74f41bc1842bb97b3f62859937b34
+///appKey:
+///buildVersion
+Future<ResponseData> checkVersion(Map<String, dynamic> params) async {
+  return await HttpManager.post(CHECK_VERSION,
+      params: params, showProgress: true);
+}

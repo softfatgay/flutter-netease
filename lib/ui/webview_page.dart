@@ -75,55 +75,69 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TabAppBar(
-        tabs: [],
-        title: _title,
-      ).build(context),
-      body: Container(
-        child: WebView(
-          initialUrl: _url,
-          //JS执行模式 是否允许JS执行
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (controller) async {
-            controller.loadUrl(
-              _url,
-              headers: {"Cookie": cookie},
-            );
-            _webController = controller;
-          },
-          onPageStarted: (url) async {
-            setcookie();
-            hideTop();
-          },
-          onPageFinished: (url) async {
-            hideTop();
-            String aa = await _webController.getTitle();
+    return WillPopScope(
+      onWillPop: () async {
+        if (await _webController.canGoBack()) {
+          _webController.goBack();
+        } else {
+          Navigator.pop(context);
+        }
+        return false;
+      },
+      child: Scaffold(
+        appBar: TabAppBar(
+          tabs: [],
+          title: _title,
+        ).build(context),
+        body: _buildBody(),
+      ),
+    );
+  }
+
+  _buildBody() {
+    return Container(
+      child: WebView(
+        initialUrl: _url,
+        //JS执行模式 是否允许JS执行
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) async {
+          controller.loadUrl(
+            _url,
+            headers: {"Cookie": cookie},
+          );
+          _webController = controller;
+        },
+        onPageStarted: (url) async {
+          setcookie();
+          hideTop();
+        },
+        onPageFinished: (url) async {
+          hideTop();
+          String aa = await _webController.getTitle();
+          setState(() {
+            _title = aa;
+          });
+          final updateCookie = await globalCookie.globalCookieValue(url);
+          if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
             setState(() {
-              _title = aa;
+              CookieConfig.cookie = updateCookie;
             });
-            final updateCookie = await globalCookie.globalCookieValue(url);
-            if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
-              setState(() {
-                CookieConfig.cookie = updateCookie;
-              });
+          }
+        },
+        navigationDelegate: (NavigationRequest request) {
+          var url = request.url;
+          if (url.startsWith('https://m.you.163.com/item/detail?id=')) {
+            var split = url.split('id=');
+            var split2 = split[1];
+            var split3 = split2.split('&')[0];
+            if (split3 != null && split3.isNotEmpty) {
+              Routers.push(Routers.goodDetailTag, context, {'id': '$split3'});
             }
-          },
-          navigationDelegate: (NavigationRequest request) {
-            var url = request.url;
-            if (url.startsWith('https://m.you.163.com/item/detail?id=')) {
-              var split = url.split('id=');
-              var split2 = split[1];
-              var split3 = split2.split('&')[0];
-              if (split3 != null && split3.isNotEmpty) {
-                Routers.push(Routers.goodDetailTag, context, {'id': '$split3'});
-              }
-              return NavigationDecision.prevent;
-            } else {
-              return NavigationDecision.navigate;
-            }
-          },
-        ),
+            return NavigationDecision.prevent;
+          } else {
+            return NavigationDecision.navigate;
+          }
+        },
       ),
     );
   }

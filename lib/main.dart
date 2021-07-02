@@ -8,11 +8,12 @@ import 'package:flutter_app/ui/main/main_page.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'channel/globalCookie.dart';
 import 'config/cookieConfig.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
 }
 

@@ -10,6 +10,7 @@ import 'package:flutter_app/widget/start_widget.dart';
 
 typedef void OnPress();
 
+///商品详情品论展示区
 class GoodDetailCommentWidget extends StatelessWidget {
   final List<CommentsItem> comments;
   final num commentCount;

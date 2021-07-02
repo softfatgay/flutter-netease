@@ -179,6 +179,9 @@ final String CHECK_BEFORE_INIT = '${baseUrl}xhr/order/checkBeforeInit.json';
 ///手机号状态
 final String PHONE_STATUS = '${baseUrl}xhr/userMobile/getStatus.json';
 
+///检查更新
+final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
+
 ///配送信息
 ///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 

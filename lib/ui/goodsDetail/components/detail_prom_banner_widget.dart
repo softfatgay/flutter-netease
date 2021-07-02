@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
 
-//banner底部活动
+///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
   final DetailPromBanner detailPromBanner;
 

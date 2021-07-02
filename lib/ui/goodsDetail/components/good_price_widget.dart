@@ -3,6 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
 
+///价格
 class GoodPriceWidget extends StatelessWidget {
   final DetailPromBanner detailPromBanner;
   final String price;

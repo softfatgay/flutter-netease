@@ -364,7 +364,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               ? Container()
               : _buildIssueTitle('― 常见问题 ―')),
           _buildIssueList(),
-          //推荐
+
+          ///推荐
           singleSliverWidget(_goodDetailDownData == null
               ? Container()
               : _buildIssueTitle('― 你可能还喜欢 ―')),
@@ -884,6 +885,31 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         },
       );
     }).toList();
+  }
+
+  void _selectModelSizeCopy(int index, SkuSpecValue item) {
+    if (_skuSpecList.length > 1) {
+      if (index == 0) {
+        _selectedLId = item.id;
+        _property['leftId'] = item.id.toString();
+        _selectedDecLeft = item.value;
+        print('leftId=================${item.id}');
+      } else {
+        _selectedRId = item.id;
+        _property['rightId'] = item.id.toString();
+        _selectedDecRight = item.value;
+        print('rightId----------${item.id}');
+      }
+      _skuMapItem = _skuMap['${_property['leftId']};${_property['rightId']}'];
+      if (_skuMapItem != null) {
+        _price = _skuMapItem.retailPrice.toString();
+        _counterPrice = _skuMapItem.counterPrice.toString();
+      }
+    } else {
+      _selectedLId = item.id;
+      _selectedDecLeft = item.value;
+      _skuMapItem = _skuMap[item.id.toString()];
+    }
   }
 
   void _selectModelSize(int index, SkuSpecValue item) {

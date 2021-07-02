@@ -24,9 +24,12 @@ import 'package:flutter_app/ui/home/model/kingKongModule.dart';
 import 'package:flutter_app/ui/home/model/newItemModel.dart';
 import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
+import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -102,6 +105,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     });
     _getData();
     // _checkLogin();
+    _checkVersion();
   }
 
   ///检查是否登录
@@ -955,5 +959,56 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         _page = _pagination['page'] + 1;
       });
     });
+  }
+
+  void _checkVersion() async {
+    var packageInfo = await PackageInfo.fromPlatform();
+    var param = {
+      '_api_key': '5fd74f41bc1842bb97b3f62859937b34',
+      'buildVersion': packageInfo.version,
+      'appKey': '86f30c074e0db173411dfe6369ba818b',
+    };
+
+    var responseData = await checkVersion(param);
+    if (responseData.code == 0) {
+      var data = responseData.data;
+      var versionModel = VersionModel.fromJson(data);
+      if (packageInfo.version != versionModel.buildVersion) {
+        _versionDialog(versionModel);
+      }
+    }
+  }
+
+  void _versionDialog(VersionModel versionModel) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('${versionModel.buildName}'),
+            content: Text('有新版本更新，是否更新?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('取消', style: t14grey),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Navigator.pop(context);
+                  _launchURL(versionModel.downloadURL);
+                },
+                child: Text('确定', style: t14red),
+              ),
+            ],
+          );
+        });
+  }
+
+  _launchURL(apkUrl) async {
+    if (await canLaunch(apkUrl)) {
+      await launch(apkUrl);
+    } else {
+      throw 'Could not launch $apkUrl';
+    }
   }
 }

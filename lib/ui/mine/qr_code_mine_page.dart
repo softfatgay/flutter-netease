@@ -129,11 +129,10 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
     });
   }
 
-  Timer timer;
+  Timer _timer;
 
   _getQrCode() async {
-    Timer.periodic(Duration(milliseconds: 5000), (timer) {
-      this.timer = timer;
+    _timer = Timer.periodic(Duration(milliseconds: 5000), (timer) {
       Map<String, dynamic> params = {
         "csrf_token": csrf_token,
       };
@@ -149,7 +148,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    timer.cancel();
+    _timer.cancel();
     super.dispose();
   }
 }
