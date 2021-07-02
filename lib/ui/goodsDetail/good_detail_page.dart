@@ -136,7 +136,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _goodId = widget.arguments['id'];
+      _goodId = num.parse(widget.arguments['id']);
     });
     super.initState();
     print(widget.arguments['id']);
@@ -169,7 +169,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getDetail() async {
-    Map<String, dynamic> param = {'id': widget.arguments['id']};
+    Map<String, dynamic> param = {'id': _goodId};
     var responseData = await goodDetailDownApi(param);
     var data = responseData.data;
 
@@ -195,12 +195,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getDetailPageUp() async {
-    // var param = {'id': widget.arguments['id']};
+    // var param = {'id': _goodId};
     // var response = await goodDetail(param);
 
     Response response = await Dio().get(
         'https://m.you.163.com/item/detail.json',
-        queryParameters: {'id': widget.arguments['id']});
+        queryParameters: {'id': _goodId});
     Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
 
     setState(() {
@@ -234,7 +234,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getRMD() async {
-    Map<String, dynamic> params = {'id': widget.arguments['id']};
+    Map<String, dynamic> params = {'id': _goodId};
     var responseData = await wapitemRcmdApi(params);
     List item = responseData.data['items'];
     List<ItemListItem> rmdList = [];
@@ -323,7 +323,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           singleSliverWidget(GoodTitleWidget(
             name: _goodDetail.name,
             goodCmtRate: _goodDetail.goodCmtRate,
-            goodId: widget.arguments['id'],
+            goodId: _goodId,
           )),
 
           ///推荐理由
@@ -473,7 +473,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ///领券
           CouponWidget(
             couponShortNameList: _couponShortNameList,
-            id: widget.arguments['id'],
+            id: _goodId,
           ),
 
           ///邮费
@@ -523,7 +523,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             policyList: _goodDetailPre.policyList,
             showDialog: () {
               List<PolicyListItem> policyList = _goodDetailPre.policyList;
-              _buildskuFreightDialog(context, '服务', policyList);
+              _buildSkuFreightDialog(context, '服务', policyList);
             },
           )
         ],
@@ -539,7 +539,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         commentCount: commentCount,
         comments: comments,
         goodCmtRate: goodCmtRate,
-        goodId: widget.arguments['id']);
+        goodId: _goodId);
   }
 
   _buildGoodDetail() {
@@ -876,17 +876,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
           ///弹窗内
           setstate(() {
-            selectModelSize(index, item);
+            _selectModelSize(index, item);
           });
           setState(() {
-            selectModelSize(index, item);
+            _selectModelSize(index, item);
           });
         },
       );
     }).toList();
   }
 
-  void selectModelSize(int index, SkuSpecValue item) {
+  void _selectModelSize(int index, SkuSpecValue item) {
     if (_skuSpecList.length > 1) {
       if (index == 0) {
         _selectedLId = item.id;
@@ -994,7 +994,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   ///------------------------------------------邮费-购物反-服务综合弹窗------------------------------------------
-  _buildskuFreightDialog(
+  _buildSkuFreightDialog(
       BuildContext context, String title, List<PolicyListItem> contentList) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     return showModalBottomSheet(
@@ -1052,35 +1052,37 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   color: lineColor,
                 ),
                 Expanded(
-                    child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: contentList
-                        .map<Widget>((item) => Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.only(top: 10, bottom: 3),
-                                  child: Text(
-                                    item.title,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: contentList
+                          .map<Widget>((item) => Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 3),
+                                    child: Text(
+                                      item.title,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 16),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    item.content,
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 14),
-                                  ),
-                                )
-                              ],
-                            ))
-                        .toList(),
+                                  Container(
+                                    child: Text(
+                                      item.content,
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 14),
+                                    ),
+                                  )
+                                ],
+                              ))
+                          .toList(),
+                    ),
                   ),
-                ))
+                )
               ],
             ),
           ),
