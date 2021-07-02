@@ -79,22 +79,24 @@ class DetailPromBannerWidget extends StatelessWidget {
                 '距结束$day天$hour小时',
                 style: t12white,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 4,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(2)),
-                  ),
-                  Text(
-                    '${detailPromBanner.sellVolumeDesc}',
-                    style: t12white,
-                  ),
-                ],
-              )
+              detailPromBanner.sellVolumeDesc == null
+                  ? Container()
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 4,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(2)),
+                        ),
+                        Text(
+                          '${detailPromBanner.sellVolumeDesc}',
+                          style: t12white,
+                        ),
+                      ],
+                    )
             ],
           )
         : Container();
@@ -106,7 +108,7 @@ class DetailPromBannerWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${detailPromBanner.promoTitle}  ${detailPromBanner.promoSubTitle}',
+          '${detailPromBanner.promoTitle}  ${detailPromBanner.promoSubTitle ?? ''}',
           style: t12whiteBold,
         ),
         SizedBox(height: 3),
@@ -133,7 +135,7 @@ class DetailPromBannerWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '${detailPromBanner.activityPriceExt}',
+              '${detailPromBanner.activityPriceExt ?? ''}',
               style: t12whiteBold,
             ),
             SizedBox(width: 3),
