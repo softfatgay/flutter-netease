@@ -136,7 +136,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _goodId = num.parse(widget.arguments['id']);
+      _goodId = num.parse(widget.arguments['id'].toString());
     });
     super.initState();
     print(widget.arguments['id']);
