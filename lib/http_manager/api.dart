@@ -297,3 +297,8 @@ Future<ResponseData> checkVersion(Map<String, dynamic> params) async {
   return await HttpManager.post(CHECK_VERSION,
       params: params, showProgress: true);
 }
+
+///首页弹窗
+Future<ResponseData> newUserGift(Map<String, dynamic> params) async {
+  return await HttpManager.post(NEW_USER_GIFT, params: params);
+}

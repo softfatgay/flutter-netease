@@ -1,6 +1,6 @@
 name: flutter_app
 description: A new Flutter application.
-version: 2.1.0+220
+version: 2.3.0+230
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

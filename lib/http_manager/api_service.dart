@@ -182,6 +182,9 @@ final String PHONE_STATUS = '${baseUrl}xhr/userMobile/getStatus.json';
 ///检查更新
 final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
+///首页弹窗
+final String NEW_USER_GIFT = '${baseUrl}xhr/gift/newUserGift/show.json';
+
 ///配送信息
 ///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 
@@ -309,3 +312,6 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///下单
 //https://m.you.163.com/xhr/order/init.json?csrf_token=ec9c9ea231479dab33995f908b6f5b50
+
+///首页弹窗
+///https://m.you.163.com/xhr/gift/newUserGift/show.json?csrf_token=7704c0162dd9505942bea22270eefcf8

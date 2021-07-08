@@ -12,6 +12,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/http_util.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/home/components/gift_dialog.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
@@ -22,11 +23,13 @@ import 'package:flutter_app/ui/home/model/homeModel.dart';
 import 'package:flutter_app/ui/home/model/indexActivityModule.dart';
 import 'package:flutter_app/ui/home/model/kingKongModule.dart';
 import 'package:flutter_app/ui/home/model/newItemModel.dart';
+import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
 import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -105,6 +108,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     });
     _getData();
     // _checkLogin();
+    _newUserGift();
     _checkVersion();
   }
 
@@ -973,6 +977,9 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     if (responseData.code == 0) {
       var data = responseData.data;
       var versionModel = VersionModel.fromJson(data);
+      print(packageInfo.version);
+      print(versionModel.buildVersion);
+
       if (packageInfo.version != versionModel.buildVersion) {
         _versionDialog(versionModel);
       }
@@ -1009,6 +1016,19 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       await launch(apkUrl);
     } else {
       throw 'Could not launch $apkUrl';
+    }
+  }
+
+  _newUserGift() async {
+    var param = {
+      "csrf_token": csrf_token,
+    };
+    var responseData = await newUserGift(param);
+    if (responseData.code == '200') {
+      var newUserGift = NewUserGift.fromJson(responseData.data);
+      if (newUserGift != null && newUserGift.newUserGift != null) {
+        showGiftDialog(context, newUserGift);
+      }
     }
   }
 }

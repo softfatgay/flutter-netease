@@ -4,6 +4,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/widget/arrow_icon.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -129,6 +130,8 @@ class _SettingPageState extends State<SettingPage> {
       var versionModel = VersionModel.fromJson(data);
       if (packageInfo.version != versionModel.buildVersion) {
         _versionDialog(versionModel);
+      } else {
+        Toast.show('已是最新版本', context);
       }
     }
   }
