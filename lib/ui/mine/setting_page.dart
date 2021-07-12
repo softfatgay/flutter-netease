@@ -49,50 +49,51 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TabAppBar(
-          title: '关于',
-        ).build(context),
-        body: Container(
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                child: Container(
-                  margin: EdgeInsets.only(left: 15),
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: lineColor, width: 1))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          child: index == 0
-                              ? Text('${itemList[index].name + version}')
-                              : Text('${itemList[index].name}'),
-                        ),
+      appBar: TabAppBar(
+        title: '关于',
+      ).build(context),
+      body: Container(
+        child: ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(left: 15),
+                padding: EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                    border:
+                        Border(bottom: BorderSide(color: lineColor, width: 1))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: index == 0
+                            ? Text('${itemList[index].name + version}')
+                            : Text('${itemList[index].name}'),
                       ),
-                      arrowRight,
-                      SizedBox(
-                        width: 10,
-                      )
-                    ],
-                  ),
+                    ),
+                    arrowRight,
+                    SizedBox(
+                      width: 10,
+                    )
+                  ],
                 ),
-                onTap: () {
-                  if (index == 0) {
-                    _showPackInfo(context);
-                  } else if (index == 1) {
-                    Routers.push(Routers.setting, context, {'id': 0});
-                  } else if (index == 2) {
-                    _checkVersion();
-                  }
-                },
-              );
-            },
-            itemCount: itemList.length,
-          ),
-        ));
+              ),
+              onTap: () {
+                if (index == 0) {
+                  _showPackInfo(context);
+                } else if (index == 1) {
+                  Routers.push(Routers.setting, context, {'id': 0});
+                } else if (index == 2) {
+                  _checkVersion();
+                }
+              },
+            );
+          },
+          itemCount: itemList.length,
+        ),
+      ),
+    );
   }
 
   _showPackInfo(BuildContext context) {
