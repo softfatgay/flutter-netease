@@ -37,14 +37,15 @@ class PromotionWidget extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(right: 6),
-                          padding: EdgeInsets.symmetric(horizontal: 2),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           decoration: BoxDecoration(
                               color: redLightColor,
                               border: Border.all(color: Colors.red),
                               borderRadius: BorderRadius.circular(14)),
                           child: Text(
                             hdrkDetailVOList[0].activityType,
-                            style: t12white,
+                            style: t10white,
                           ),
                         ),
                         Column(

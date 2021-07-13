@@ -14,12 +14,17 @@ class FullScreenImage extends StatefulWidget {
 
 class _FullScreenImageState extends State<FullScreenImage> {
   List<String> _images = [];
+  int initPage = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
       _images = widget.arguments['images'];
+      var page = widget.arguments['page'];
+      if (page != null) {
+        initPage = page;
+      }
     });
     super.initState();
   }
@@ -49,7 +54,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
                   );
                 }).toList(),
                 options: CarouselOptions(
-                    autoPlay: true,
+                    initialPage: initPage,
+                    autoPlay: false,
                     height: double.infinity,
                     viewportFraction: 1.0,
                     enlargeCenterPage: true,

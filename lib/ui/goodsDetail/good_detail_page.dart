@@ -44,6 +44,7 @@ import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/count.dart';
+import 'package:flutter_app/widget/dashed_decoration.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
@@ -132,6 +133,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   num _goodId;
 
+  ///skuMap key键值
+  var _selectSkuMapKey = [];
+
+  ///skuMap 描述信息
+  var _selectSkuMapDec = [];
+  var _selectStrDec = '';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -213,6 +221,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       _counterPrice = _goodDetail.counterPrice.toString();
       _skuLimit = _goodDetail.itemLimit;
       _skuSpecList = _goodDetail.skuSpecList;
+
+      _selectSkuMapKey = List.filled(_skuSpecList.length, '');
+      _selectSkuMapDec = List.filled(_skuSpecList.length, '');
       _skuMap = _goodDetail.skuMap;
       _promoTip = _goodDetail.promoTip;
       _featuredSeries = _goodDetail.featuredSeries;
@@ -387,7 +398,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             });
           },
           onTap: (index) {
-            Routers.push(Routers.image, context, {'images': imgList});
+            Routers.push(
+                Routers.image, context, {'images': imgList, 'page': index});
           },
         ),
         Positioned(
@@ -506,8 +518,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
           ///选择属性
           GoodSelectWidget(
-            selectedDecLeft: _selectedDecLeft,
-            selectedDecRight: _selectedDecRight,
+            selectedStrDec: _selectStrDec,
             goodCount: _goodCount,
             onPress: () {
               _buildSizeModel(context);
@@ -698,17 +709,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  var _property = {
-    'leftId': '',
-    'rightId': '',
-  };
-
-  var _selectedDecLeft = '';
-  var _selectedDecRight = '';
-
-  int _selectedLId = 0;
-  int _selectedRId = 0;
-
   ///属性选择底部弹窗
   _buildSizeModel(BuildContext context) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
@@ -852,168 +852,241 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     return skuSpecItemNameList.map((item) {
       return GestureDetector(
         child: Container(
-          margin: EdgeInsets.only(right: 5),
+          margin: EdgeInsets.symmetric(horizontal: 2.5),
           padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(2)),
-              border: Border.all(
-                  width: 0.5,
-                  color: (_selectedLId == item.id || _selectedRId == item.id)
-                      ? redColor
-                      : textGrey)),
+          decoration: _modelSizeDecoration(index, item),
           child: Text(
             '${item.value}',
-            style: TextStyle(
-                color: (_selectedLId == item.id || _selectedRId == item.id)
-                    ? redColor
-                    : textGrey,
-                fontSize: 12),
+            style: _modelSizeTextStyle(index, item),
             textAlign: TextAlign.center,
           ),
         ),
         onTap: () {
-          print(_property);
-          print(index);
-
           ///弹窗内
           setstate(() {
-            _selectModelSize(index, item);
-          });
-          setState(() {
-            _selectModelSize(index, item);
+            _selectModelDialogSize(context, index, item);
           });
         },
       );
     }).toList();
   }
 
-  void _selectModelSizeCopy(int index, SkuSpecValue item) {
-    if (_skuSpecList.length > 1) {
-      if (index == 0) {
-        _selectedLId = item.id;
-        _property['leftId'] = item.id.toString();
-        _selectedDecLeft = item.value;
-        print('leftId=================${item.id}');
-      } else {
-        _selectedRId = item.id;
-        _property['rightId'] = item.id.toString();
-        _selectedDecRight = item.value;
-        print('rightId----------${item.id}');
-      }
-      _skuMapItem = _skuMap['${_property['leftId']};${_property['rightId']}'];
-      if (_skuMapItem != null) {
-        _price = _skuMapItem.retailPrice.toString();
-        _counterPrice = _skuMapItem.counterPrice.toString();
-      }
+  _modelSizeDecoration(int index, SkuSpecValue item) {
+    if (_selectSkuMapKey.contains(item.id.toString())) {
+      return BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(3)),
+        border: Border.all(width: 0.5, color: redColor),
+      );
     } else {
-      _selectedLId = item.id;
-      _selectedDecLeft = item.value;
-      _skuMapItem = _skuMap[item.id.toString()];
+      if (_modelSizeValue(index, item)) {
+        return BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+          border: Border.all(width: 0.5, color: textBlack),
+        );
+      } else {
+        return DashedDecoration(
+          gap: 2,
+          dashedColor: textLightGrey,
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+        );
+      }
     }
   }
 
-  void _selectModelSize(int index, SkuSpecValue item) {
-    if (_skuSpecList.length > 1) {
-      if (index == 0) {
-        _selectedLId = item.id;
-        _property['leftId'] = item.id.toString();
-        _selectedDecLeft = item.value;
-        print('leftId=================${item.id}');
-      } else {
-        _selectedRId = item.id;
-        _property['rightId'] = item.id.toString();
-        _selectedDecRight = item.value;
-        print('rightId----------${item.id}');
-      }
-      _skuMapItem = _skuMap['${_property['leftId']};${_property['rightId']}'];
-      if (_skuMapItem != null) {
-        _price = _skuMapItem.retailPrice.toString();
-        _counterPrice = _skuMapItem.counterPrice.toString();
-      }
+  _modelSizeTextStyle(int index, SkuSpecValue item) {
+    if (_selectSkuMapKey.contains(item.id.toString())) {
+      return t12red;
     } else {
-      _selectedLId = item.id;
-      _selectedDecLeft = item.value;
-      _skuMapItem = _skuMap[item.id.toString()];
+      if (_modelSizeValue(index, item)) {
+        return t12black;
+      } else {
+        return t12lightGrey;
+      }
+    }
+  }
+
+  _modelSizeValue(int index, SkuSpecValue item) {
+    var selectSkuMapKey = List.filled(_selectSkuMapKey.length, '');
+    for (var i = 0; i < _selectSkuMapKey.length; i++) {
+      selectSkuMapKey[i] = _selectSkuMapKey[i];
+    }
+    selectSkuMapKey[index] = item.id.toString();
+    var keys = _skuMap.keys;
+    bool isMatch = false;
+
+    var isValue = false;
+    for (var element in keys) {
+      var split = element.split(';');
+      print(split);
+      for (var spitElement in selectSkuMapKey) {
+        if (spitElement == null || spitElement == '') {
+          isMatch = true;
+        } else {
+          if (split.indexOf(spitElement) == -1) {
+            isMatch = false;
+            break;
+          } else {
+            isMatch = true;
+          }
+        }
+      }
+      if (isMatch) {
+        SkuMapValue skuMapItem = _skuMap['$element'];
+        if (skuMapItem.noActivitySellVolume != 0) {
+          isValue = true;
+          break;
+        } else {
+          isValue = false;
+          break;
+        }
+      } else {
+        isValue = false;
+      }
+    }
+    return isValue;
+  }
+
+  ///选择属性，查询skuMap
+  void _selectModelDialogSize(
+      BuildContext context, int index, SkuSpecValue item) {
+    if (_selectSkuMapKey[index] == item.id.toString()) {
+      _selectSkuMapKey[index] = '';
+      _selectSkuMapDec[index] = '';
+    } else {
+      _selectSkuMapKey[index] = item.id.toString();
+      _selectSkuMapDec[index] = item.value;
+    }
+
+    ///被选择的skuMap
+    String skuMapKey = '';
+    _selectSkuMapKey.forEach((element) {
+      skuMapKey += ';$element';
+    });
+
+    skuMapKey = skuMapKey.replaceFirst(';', '');
+    SkuMapValue skuMapItem = _skuMap['$skuMapKey'];
+
+    ///描述信息
+    String selectStrDec = '';
+    _selectSkuMapDec.forEach((element) {
+      selectStrDec += '$element ';
+    });
+    _selectStrDec = selectStrDec;
+    _skuMapItem = skuMapItem;
+
+    if (_skuMapItem == null) {
+      ///顺序不同，导致选择失败
+      var keys = _skuMap.keys;
+      for (var element in keys) {
+        var split = element.split(';');
+        bool isMatch = false;
+        for (var spitElement in split) {
+          if (_selectSkuMapKey.indexOf(spitElement) == -1) {
+            isMatch = false;
+            break;
+          } else {
+            isMatch = true;
+          }
+        }
+        if (isMatch) {
+          _skuMapItem = _skuMap['$element'];
+          break;
+        }
+      }
+    }
+
+    if (_skuMapItem != null) {
+      _price = _skuMapItem.retailPrice.toString();
+      _counterPrice = _skuMapItem.counterPrice.toString();
     }
   }
 
   _selectGoodDetail(BuildContext context) {
+    String img = (_skuMapItem == null || _skuMapItem.pic == null)
+        ? _goodDetail.primaryPicUrl
+        : _skuMapItem.pic;
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Container(
-            child: CachedNetworkImage(
-              imageUrl: (_skuMapItem == null || _skuMapItem.pic == null)
-                  ? _goodDetail.primaryPicUrl
-                  : _skuMapItem.pic,
-              fit: BoxFit.cover,
+          GestureDetector(
+            child: Container(
+              child: CachedNetworkImage(
+                imageUrl: img,
+                fit: BoxFit.cover,
+              ),
+              height: 100,
+              width: 100,
             ),
-            height: 100,
-            width: 100,
-            color: Color(0x80F1F1F1),
+            onTap: () {
+              Routers.push(Routers.image, context, {
+                'images': [img]
+              });
+            },
           ),
           SizedBox(
             width: 10,
           ),
-          _skuMapItem == null
-              ? Container()
-              : Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _skuMapItem == null ||
+                        _skuMapItem.promotionDesc == null ||
+                        _skuMapItem.promotionDesc == ''
+                    ? Container()
+                    : Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Color(0xFFEF7C15)),
+                        child: Text(
+                          '${_skuMapItem.promotionDesc ?? ''}',
+                          style: t12white,
+                        ),
+                      ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 6),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      _skuMapItem.promotionDesc == null
+                      Text(
+                        "价格：",
+                        style: t14red,
+                      ),
+                      Text(
+                        '￥$_price',
+                        overflow: TextOverflow.ellipsis,
+                        style: t14red,
+                      ),
+                      _price == _counterPrice
                           ? Container()
                           : Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 1),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: Color(0xFFEF7C15)),
                               child: Text(
-                                _skuMapItem.promotionDesc,
-                                style: t12white,
-                              ),
-                            ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 6),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              "价格：",
-                              style: t14red,
-                            ),
-                            Text(
-                              '￥${_skuMapItem.retailPrice}',
-                              overflow: TextOverflow.ellipsis,
-                              style: t14red,
-                            ),
-                            Container(
-                              child: Text(
-                                '￥${_skuMapItem.counterPrice}',
+                                '￥$_counterPrice',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: textGrey,
                                   decoration: TextDecoration.lineThrough,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                      // 商品描述
-                      Container(
-                        child: Text(
-                          '已选择：$_selectedDecLeft $_selectedDecRight',
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(color: textBlack, fontSize: 14),
-                        ),
-                      ),
+                            ),
                     ],
                   ),
-                )
+                ),
+                // 商品描述
+                Container(
+                  child: Text(
+                    '已选择：$_selectStrDec',
+                    overflow: TextOverflow.clip,
+                    style: TextStyle(color: textBlack, fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -1208,6 +1281,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             border: Border(left: BorderSide(color: lineColor, width: 1))),
         child: FlatButton(
           onPressed: () {
+            print(_selectStrDec);
             if (_skuMapItem == null) {
               if (type == 1) {
                 _buildSizeModel(context);
@@ -1238,11 +1312,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               height: 45,
               child: FlatButton(
                 onPressed: () {
+                  _selectSkuMapKey.forEach((element) {
+                    if (element == '') {
+                      var indexOf = _selectSkuMapKey.indexOf(element);
+                      var name = _skuSpecList[indexOf].name;
+                      Toast.show('请选择$name', context);
+                      return;
+                    }
+                  });
                   if (_skuMapItem == null) {
                     if (type == 1) {
                       _buildSizeModel(context);
-                    } else {
-                      Toast.show('请选择参数规格', context);
                     }
                   } else {
                     //加入购物车
@@ -1307,6 +1387,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///加入购物车
   void _addShoppingCart() async {
+    print(_skuMapItem);
     Map<String, dynamic> params = {
       "csrf_token": csrf_token,
       "cnt": _goodCount,

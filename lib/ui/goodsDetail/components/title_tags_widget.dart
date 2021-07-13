@@ -17,14 +17,14 @@ class TitleTagsWidget extends StatelessWidget {
     return itemTagListGood == null || itemTagListGood.isEmpty
         ? Container()
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.only(top: 15),
+            padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
+            color: backWhite,
             child: Row(
               children: itemTagListGood
                   .map<Widget>((item) => Container(
                         margin: EdgeInsets.only(right: 5),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: redColor, width: 1)),

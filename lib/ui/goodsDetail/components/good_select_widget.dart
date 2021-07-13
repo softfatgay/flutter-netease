@@ -5,17 +5,12 @@ import 'package:flutter_app/widget/global.dart';
 typedef void OnPress();
 
 class GoodSelectWidget extends StatelessWidget {
-  final String selectedDecLeft;
-  final String selectedDecRight;
+  final String selectedStrDec;
   final int goodCount;
   final OnPress onPress;
 
   const GoodSelectWidget(
-      {Key key,
-      this.selectedDecLeft,
-      this.selectedDecRight,
-      this.goodCount,
-      this.onPress})
+      {Key key, this.selectedStrDec, this.goodCount, this.onPress})
       : super(key: key);
 
   @override
@@ -41,7 +36,7 @@ class GoodSelectWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: <Widget>[
-                    Expanded(child: Text('$selectedDecLeft $selectedDecRight')),
+                    Expanded(child: Text('$selectedStrDec')),
                   ],
                 ),
               ),

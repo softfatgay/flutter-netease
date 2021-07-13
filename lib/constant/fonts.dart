@@ -29,6 +29,7 @@ const double textHeight = 1.1;
 const TextStyle t10white = TextStyle(
   color: textWhite,
   fontSize: 10,
+  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
@@ -191,6 +192,7 @@ const TextStyle t32blackBold = TextStyle(
 const TextStyle t10red = TextStyle(
   color: textRed,
   fontSize: 10,
+  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
@@ -198,6 +200,7 @@ const TextStyle t10red = TextStyle(
 const TextStyle t12red = TextStyle(
   color: textRed,
   fontSize: 12,
+  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
@@ -268,6 +271,7 @@ const TextStyle t12darkGrey = TextStyle(
 const TextStyle t12lightGrey = TextStyle(
   color: textHint,
   fontSize: 12,
+  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );

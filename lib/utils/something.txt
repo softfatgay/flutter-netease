@@ -27,3 +27,9 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
     rootBundle.loadString('assets/json/home_data_json.json').then((value) {
       var _dataList = json.decode(value);
     });
+
+
+print('11111111111111111');
+print('22222222222222222');
+print('33333333333333333');
+print('44444444444444444');

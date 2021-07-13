@@ -19,9 +19,9 @@ class ProVipWidget extends StatelessWidget {
     if (spmcBanner != null) {
       return GestureDetector(
         child: Container(
-          margin: EdgeInsets.fromLTRB(10, 15, 10, 0),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
-          height: 40,
+          padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6), color: backWhite),
           child: Row(
             children: [
               Container(
@@ -71,7 +71,7 @@ class ProVipWidget extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 1),
+                                  horizontal: 5, vertical: 2),
                               decoration: BoxDecoration(
                                   color: backYellow,
                                   borderRadius: BorderRadius.circular(6)),
