@@ -129,7 +129,8 @@ class GoodItemWidget extends StatelessWidget {
             height: 10,
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
               SizedBox(width: 5),
               Text(
@@ -166,7 +167,7 @@ class GoodItemWidget extends StatelessWidget {
       return Row(
         children: itemTagList
             .map((item) => Container(
-                  padding: EdgeInsets.fromLTRB(4, 2, 4, 1),
+                  padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
                   margin: EdgeInsets.only(left: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
@@ -174,7 +175,7 @@ class GoodItemWidget extends StatelessWidget {
                   child: Text(
                     item.name,
                     style: TextStyle(
-                      fontSize: 9,
+                      fontSize: 10,
                       color: textRed,
                       height: 1.1,
                     ),

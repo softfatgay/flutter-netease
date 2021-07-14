@@ -50,11 +50,11 @@ class _FlowWidgetState extends State<FlowWidget> {
         child: Container(
           padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(2)),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
               border: Border.all(width: 0.5, color: checkColor)),
           child: Text(
             '${widget.items[index]}',
-            style: TextStyle(color: checkColor),
+            style: TextStyle(color: checkColor, fontSize: 12, height: 1.1),
           ),
         ),
         onTap: () {

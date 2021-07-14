@@ -218,8 +218,15 @@ Future<ResponseData> searchTips(Map<String, dynamic> params) async {
 }
 
 ///搜索关键字
-Future<ResponseData> searchSearch(Map<String, dynamic> params) async {
-  return await HttpManager.post(SEARCH_SEARCH, params: params);
+Future<ResponseData> searchSearch(Map<String, dynamic> params,
+    {bool showProgress}) async {
+  return await HttpManager.post(SEARCH_SEARCH,
+      params: params, showProgress: showProgress);
+}
+
+///搜索初始化
+Future<ResponseData> searchInit(Map<String, dynamic> params) async {
+  return await HttpManager.post(SEARCH_INIT, params: params);
 }
 
 ///值得买列表
@@ -301,4 +308,21 @@ Future<ResponseData> checkVersion(Map<String, dynamic> params) async {
 ///首页弹窗
 Future<ResponseData> newUserGift(Map<String, dynamic> params) async {
   return await HttpManager.post(NEW_USER_GIFT, params: params);
+}
+
+///首页弹窗
+Future<ResponseData> ucenterInfo(Map<String, dynamic> params) async {
+  return await HttpManager.get(UCENTER_INFO, params: params);
+}
+
+///感兴趣分类
+Future<ResponseData> interestCategory(Map<String, dynamic> params) async {
+  return await HttpManager.get(INTEREST_CATEGORY, params: params);
+}
+
+///提交感兴趣分类
+Future<ResponseData> interestCategoryUpsert(Map<String, dynamic> params,
+    {Map<String, dynamic> postParams}) async {
+  return await HttpManager.post(INTEREST_CATEGORY_UPSERT,
+      params: params, postParams: postParams);
 }

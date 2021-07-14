@@ -196,7 +196,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         );
-        return Routers.link(
-            widget, Routers.image, context, {'images': commentList});
+        return Routers.link(widget, Routers.image, context,
+            {'images': commentList, 'page': indexC});
       });
 }

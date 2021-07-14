@@ -10,10 +10,10 @@ class ResponseData<T> {
   final T item;
   final T newItems;
 
-  /// AToken Server Status
+  ///  Server Status
   final T status;
 
-  /// AToken Server Message
+  ///  Server Message
   final T code;
   final T errorCode;
 

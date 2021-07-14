@@ -194,41 +194,50 @@ class _MinePageState extends State<UserPage>
       ),
       height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
       child: Stack(children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                image: DecorationImage(
-                  image: NetworkImage('$_userIcon'),
-                  fit: BoxFit.cover,
+        GestureDetector(
+          child: Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    image: DecorationImage(
+                      image: NetworkImage('$_userIcon'),
+                      fit: BoxFit.cover,
+                    ),
+                  ), // 通过 container 实现圆角
                 ),
-              ), // 通过 container 实现圆角
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _userInfo.userSimpleVO.nickname,
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        _userInfo.userSimpleVO.memberLevel == 0
+                            ? "普通用户"
+                            : "vip用户",
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _userInfo.userSimpleVO.nickname,
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    _userInfo.userSimpleVO.memberLevel == 0 ? "普通用户" : "vip用户",
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  )
-                ],
-              ),
-            )
-          ],
+          ),
+          onTap: () {
+            Routers.push(Routers.userInfoPage, context);
+          },
         ),
       ]),
     );

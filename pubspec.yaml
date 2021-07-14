@@ -77,6 +77,7 @@ dependencies:
   #  对话框
   bot_toast: 4.0.1
   event_bus: 2.0.0
+  flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
   flutter_test:

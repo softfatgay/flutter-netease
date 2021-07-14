@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail_page.dart';
+import 'package:flutter_app/ui/goodsDetail/search_index_page.dart';
 import 'package:flutter_app/ui/home/hot_list_page.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
@@ -19,6 +20,8 @@ import 'package:flutter_app/ui/mine/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/mine/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
 import 'package:flutter_app/ui/mine/saturday_buy_page.dart';
+import 'package:flutter_app/ui/userInfo/favorite_page.dart';
+import 'package:flutter_app/ui/userInfo/index.dart';
 import 'package:flutter_app/ui/mine/user_setting.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
@@ -30,6 +33,7 @@ import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
+import 'package:flutter_app/ui/userInfo/user_info_page.dart';
 import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
@@ -57,6 +61,9 @@ class Routers {
   static const String orderInitPage = 'orderInitPage';
   static const String webView = 'webView';
   static const String webViewPageAPP = 'WebViewPageAPP';
+  static const String userInfoPageIndex = 'userInfoPageIndex';
+  static const String userInfoPage = 'userInfoPage';
+  static const String favorite = 'favorite';
 
   static Map<String, Function> routes = {
     //商品详情
@@ -73,8 +80,11 @@ class Routers {
       }
     },
 
-    //专题详情
-    search: (context, {arguments}) => SearchGoodsPage(arguments: arguments),
+    // //搜索
+    // search: (context, {arguments}) => SearchGoodsPage(arguments: arguments),
+    //搜索
+    search: (context, {arguments}) => SearchIndexPage(arguments: arguments),
+
     //评论
     comment: (context, {arguments}) => CommentList(arguments: arguments),
 
@@ -107,6 +117,22 @@ class Routers {
 
     ///订单确认页面
     orderInitPage: (context, {arguments}) => OrderInitPage(params: arguments),
+
+    ///用户信息
+    userInfoPage: (context, {arguments}) => UserIndexPage(param: arguments),
+
+    ///感兴趣分类
+    favorite: (context, {arguments}) => FavoritePage(),
+
+    ///用户信息
+    userInfoPageIndex: (context, {arguments}) {
+      var id = arguments['id'];
+      switch (id) {
+        case 0:
+          return UserInfoPage();
+          break;
+      }
+    },
 
     ///回馈金等
     mineTopItems: (context, {arguments}) {

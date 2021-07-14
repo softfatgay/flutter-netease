@@ -11,6 +11,7 @@ import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/search_widget.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 
+@Deprecated('使用SearchIndexPage代替')
 class SearchGoodsPage extends StatefulWidget {
   final Map arguments;
 
@@ -86,9 +87,6 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       'searchWordSource': '7',
       'needPopWindow': 'false'
     };
-    Map<String, dynamic> header = {
-      "cookie": cookie,
-    };
     if (!_hasMore) {
       params.addAll({'_stat_search': 'userhand'});
     } else {
@@ -152,7 +150,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
                 _textValue = value;
                 _getSearchTips();
               },
-              onSearchBtnClick: (value) {
+              onBtnClick: (value) {
                 Util.hideKeyBord(context);
                 _textValue = value;
                 _getSearchTips();

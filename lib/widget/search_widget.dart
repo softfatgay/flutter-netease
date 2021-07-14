@@ -6,7 +6,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
 typedef void OnValueChanged(String value);
-typedef void OnSearchBtnClick(String value);
+typedef void OnBtnClick(String value);
 
 class SearchWidget extends StatefulWidget {
   final String textValue;
@@ -17,15 +17,15 @@ class SearchWidget extends StatefulWidget {
   final double textFiledHeight;
   final TextEditingController controller;
   final OnValueChanged onValueChangedCallBack;
-  final OnSearchBtnClick onSearchBtnClick;
+  final OnBtnClick onBtnClick;
 
   SearchWidget(
-      {this.textValue,
+      {this.textValue = '',
       this.textFiledHeight = 48.0,
       @required this.controller,
       this.hintText,
       this.textChangeDuration = 500,
-      this.onSearchBtnClick,
+      this.onBtnClick,
       this.onValueChangedCallBack});
 
   @override
@@ -33,13 +33,18 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchGoodsState extends State<SearchWidget> {
-  String text;
+  TextEditingController _controller;
 
   @override
   void initState() {
     // TODO: implement initState
+    if (widget.controller == null) {
+      throw Exception('TextEditingController 没有初始化');
+    }
+    setState(() {
+      _controller = widget.controller;
+    });
     super.initState();
-    widget.controller.text = widget.textValue;
   }
 
   @override
@@ -55,19 +60,20 @@ class _SearchGoodsState extends State<SearchWidget> {
               Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
-          GestureDetector(
-            child: Container(
-              height: widget.textFiledHeight,
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: textBlack,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          // GestureDetector(
+          //   child: Container(
+          //     height: widget.textFiledHeight,
+          //     padding: EdgeInsets.symmetric(horizontal: 15),
+          //     child: Icon(
+          //       Icons.arrow_back_ios,
+          //       color: textBlack,
+          //     ),
+          //   ),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+          SizedBox(width: 10),
           Expanded(
             child: Stack(
               children: <Widget>[
@@ -104,8 +110,8 @@ class _SearchGoodsState extends State<SearchWidget> {
                             onSubmitted: (text) {
                               //回车按钮
                               setState(() {
-                                if (widget.onSearchBtnClick != null) {
-                                  widget.onSearchBtnClick(text);
+                                if (widget.onBtnClick != null) {
+                                  widget.onBtnClick(text);
                                 }
                               });
                             },
@@ -113,23 +119,23 @@ class _SearchGoodsState extends State<SearchWidget> {
                             onChanged: (textValue) {
                               _startTimer(textValue);
                             },
-                            controller: widget.controller,
+                            controller: _controller,
                           )),
                     ),
                     Container(
                       margin: EdgeInsets.only(right: 8),
                       child: GestureDetector(
-                        child: TextUtil.isEmpty(text)
+                        child: TextUtil.isEmpty(_controller.text)
                             ? Container()
                             : Icon(
                                 Icons.cancel,
                                 size: 20,
-                                color: Colors.grey,
+                                color: textLightGrey,
                               ),
                         onTap: () {
-                          widget.controller.clear();
                           setState(() {
-                            text = '';
+                            _controller.clear();
+                            widget.onValueChangedCallBack('');
                           });
                         },
                       ),
@@ -140,26 +146,27 @@ class _SearchGoodsState extends State<SearchWidget> {
             ),
           ),
           Container(
-            width: 70,
+            width: 60,
             height: widget.textFiledHeight,
             margin: EdgeInsets.symmetric(vertical: 7),
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 6),
             child: Center(
-              child: RaisedButton(
-                color: Color(0x1AD2001A),
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  elevation: 0,
+                  textStyle: TextStyle(color: Colors.black),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                ),
                 onPressed: () {
-                  if (widget.onSearchBtnClick != null && text.isNotEmpty) {
-                    widget.onSearchBtnClick(text);
+                  if (widget.onBtnClick != null) {
+                    widget.onBtnClick(_controller.text);
                   }
                 },
                 child: Text(
-                  '搜索',
-                  style: t12black,
+                  '取消',
+                  style: t16black,
                 ),
-                elevation: 0,
               ),
             ),
           ),
@@ -176,9 +183,9 @@ class _SearchGoodsState extends State<SearchWidget> {
     }
     timer = Timer(Duration(milliseconds: widget.textChangeDuration), () {
       setState(() {
-        this.text = value.trim();
+        _controller.text = value.trim();
         if (widget.onValueChangedCallBack != null) {
-          widget.onValueChangedCallBack(text);
+          widget.onValueChangedCallBack(_controller.text);
         }
       });
     });

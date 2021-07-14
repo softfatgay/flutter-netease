@@ -143,6 +143,9 @@ final String SEARCH_TIPS = "${baseUrl}xhr/search/searchAutoComplete.json";
 ///搜索关键字
 final String SEARCH_SEARCH = "${baseUrl}xhr/search/search.json.json";
 
+///搜索初始化
+final String SEARCH_INIT = "${baseUrl}xhr/search/init.json";
+
 ///值得买列表
 final String FIND_REC_AUTO = "${baseUrl}topic/v1/find/recAuto.json";
 
@@ -184,6 +187,16 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///首页弹窗
 final String NEW_USER_GIFT = '${baseUrl}xhr/gift/newUserGift/show.json';
+
+///用户信息
+final String UCENTER_INFO = '${baseUrl}ucenter/info.json';
+
+///感兴趣分类
+final String INTEREST_CATEGORY = '${baseUrl}interestCategory/list.json';
+
+///提交感兴趣分类
+final String INTEREST_CATEGORY_UPSERT =
+    '${baseUrl}xhr/interestCategory/upsert.json';
 
 ///配送信息
 ///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
@@ -315,3 +328,15 @@ final String NEW_USER_GIFT = '${baseUrl}xhr/gift/newUserGift/show.json';
 
 ///首页弹窗
 ///https://m.you.163.com/xhr/gift/newUserGift/show.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///搜索init
+// https://m.you.163.com/xhr/search/init.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///用户信息 https://m.you.163.com/ucenter/info.json?csrf_token=096738ca74726948ec3693a3034c5c85
+//https://m.you.163.com/ucenter/info.json
+
+///感兴趣分类
+//https://m.you.163.com/interestCategory/list.json
+
+///提交感兴趣分类
+//https://m.you.163.com/xhr/interestCategory/upsert.json?csrf_token=7704c0162dd9505942bea22270eefcf8

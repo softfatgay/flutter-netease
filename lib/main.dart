@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/statusbar_style.dart';
 import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/http_manager/api_service.dart';
