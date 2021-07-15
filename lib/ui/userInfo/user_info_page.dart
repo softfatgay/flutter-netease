@@ -5,6 +5,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/check_box.dart';
@@ -52,9 +53,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
       var user = _userInfoModel.user;
       _nameController.text = user.nickname;
       _sex = user.gender;
-      print('[[[[[[[[[object]]]]]]]]]');
-      print(user.gender);
-
       if (user.birthYear != 0) {
         _bYear = user.birthYear.toString();
         _bMonth = user.birthMonth.toString();
@@ -335,6 +333,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
       'birthDay': '$_bDay',
     };
     var responseData = await saveUserInfo(params);
-    if (responseData.code == 200) {}
+    if (responseData.code == '200') {
+      Toast.show('保存成功', context);
+    }
   }
 }
