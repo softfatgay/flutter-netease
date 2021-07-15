@@ -4,12 +4,12 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class UserSetting extends StatefulWidget {
+class AccountManagePage extends StatefulWidget {
   @override
-  _UserSettingState createState() => _UserSettingState();
+  _AccountManagePageState createState() => _AccountManagePageState();
 }
 
-class _UserSettingState extends State<UserSetting> {
+class _AccountManagePageState extends State<AccountManagePage> {
   var _tabs = [
     {'name': '手机', 'icon': 'assets/images/phone_icon.png', 'value': '未关联'},
     {'name': '邮箱', 'icon': 'assets/images/email_icon.png', 'value': '未关联'},

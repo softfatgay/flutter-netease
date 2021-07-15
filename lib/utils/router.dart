@@ -16,13 +16,14 @@ import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list_page.dart';
 import 'package:flutter_app/ui/mine/pay_safe_page.dart';
 import 'package:flutter_app/ui/mine/points_center_page.dart';
-import 'package:flutter_app/ui/mine/qr_code_mine_page.dart';
+import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/mine/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
 import 'package:flutter_app/ui/mine/saturday_buy_page.dart';
+import 'package:flutter_app/ui/userInfo/add_new_size.dart';
 import 'package:flutter_app/ui/userInfo/favorite_page.dart';
 import 'package:flutter_app/ui/userInfo/index.dart';
-import 'package:flutter_app/ui/mine/user_setting.dart';
+import 'package:flutter_app/ui/userInfo/account_manage_page.dart';
 import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/mine/setting_page.dart';
@@ -33,6 +34,7 @@ import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
+import 'package:flutter_app/ui/userInfo/mine_size_page.dart';
 import 'package:flutter_app/ui/userInfo/user_info_page.dart';
 import 'package:flutter_app/ui/webview_for_web_app.dart';
 import 'package:flutter_app/ui/webview_page.dart';
@@ -64,6 +66,8 @@ class Routers {
   static const String userInfoPageIndex = 'userInfoPageIndex';
   static const String userInfoPage = 'userInfoPage';
   static const String favorite = 'favorite';
+  static const String addNewSize = 'addNewSize';
+  static const String accountManagePage = 'accountManagePage';
 
   static Map<String, Function> routes = {
     //商品详情
@@ -124,12 +128,24 @@ class Routers {
     ///感兴趣分类
     favorite: (context, {arguments}) => FavoritePage(),
 
+    ///感兴趣分类
+    addNewSize: (context, {arguments}) => AddNewSize(param: arguments),
+
     ///用户信息
     userInfoPageIndex: (context, {arguments}) {
       var id = arguments['id'];
       switch (id) {
         case 0:
           return UserInfoPage();
+          break;
+        case 1:
+          return QRCodeMinePage();
+          break;
+        case 2:
+          return MineSizePage();
+          break;
+        case 4:
+          return PointCenterPage();
           break;
       }
     },
@@ -171,7 +187,7 @@ class Routers {
           return OrderListPage();
           break;
         case 1: //  账号管理
-          return UserSetting();
+          return AccountManagePage();
           break;
         case 2: //  账号管理
           return SaturdayTBuyPage();
@@ -245,13 +261,13 @@ class Routers {
           Navigator.pushNamed(context, routeName, arguments: params)
               .then((onValue) {
             if (callBack != null) {
-              callBack();
+              callBack(onValue);
             }
           });
         } else {
           Navigator.pushNamed(context, routeName).then((onValue) {
             if (callBack != null) {
-              callBack();
+              callBack(onValue);
             }
           });
         }
@@ -267,13 +283,13 @@ class Routers {
       Navigator.pushNamed(context, routeName, arguments: params)
           .then((onValue) {
         if (callBack != null) {
-          callBack();
+          callBack(onValue);
         }
       });
     } else {
       Navigator.pushNamed(context, routeName).then((onValue) {
         if (callBack != null) {
-          callBack();
+          callBack(onValue);
         }
       });
     }

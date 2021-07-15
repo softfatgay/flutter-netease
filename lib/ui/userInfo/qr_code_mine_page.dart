@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/userInfo/model/qrCodeModel.dart';
+import 'package:flutter_app/ui/userInfo/model/qrUserInfoModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -15,8 +18,8 @@ class QRCodeMinePage extends StatefulWidget {
 }
 
 class _QRCodeMinePageState extends State<QRCodeMinePage> {
-  var _qrCodeDate;
-  var _userData;
+  QrCodeModel _qrCodeDate;
+  QrUserInfoModel _userData;
 
   bool _isLoading = true;
 
@@ -34,14 +37,17 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
                   margin: EdgeInsets.fromLTRB(20, 90, 20, 0),
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         child: Text(
-                          _userData['nickname'],
+                          _userData.nickname,
                           style: TextStyle(
                               fontSize: 16,
                               color: textBlack,
@@ -55,29 +61,32 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '用户ID:${_userData['userId']}',
+                              '用户ID:${_userData.userId}',
                               style: TextStyle(color: textGrey),
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 5),
-                              padding: EdgeInsets.fromLTRB(8, 3, 8, 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 2),
                               decoration: BoxDecoration(
                                   border:
                                       Border.all(color: redColor, width: 0.5),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Text(
                                 '复制',
-                                style: TextStyle(color: redColor, fontSize: 12),
+                                style: t12red,
                               ),
                             ),
                           ],
                         ),
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 10),
                         width: double.infinity,
-                        child: QrImage(data: _qrCodeDate['qrCode']),
+                        child: QrImage(data: _qrCodeDate.qrCode),
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 10),
                         child: Text(
                           '线下店结账时出示二维码\n享受更多权益',
                           style: TextStyle(height: 1.2),
@@ -123,8 +132,8 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
     ]).then((result) {
       setState(() {
         _isLoading = false;
-        _qrCodeDate = result[0].data;
-        _userData = result[1].data;
+        _qrCodeDate = QrCodeModel.fromJson(result[0].data);
+        _userData = QrUserInfoModel.fromJson(result[1].data);
       });
     });
   }
@@ -136,10 +145,9 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
       Map<String, dynamic> params = {
         "csrf_token": csrf_token,
       };
-
       qrCode(params).then((responseData) {
         setState(() {
-          _qrCodeDate = responseData.data;
+          _qrCodeDate = QrCodeModel.fromJson(responseData.data);
         });
       });
     });

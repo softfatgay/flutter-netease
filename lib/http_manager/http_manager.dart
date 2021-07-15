@@ -18,6 +18,7 @@ class HttpManager {
     Map<String, dynamic> queryParameters,
     Map<String, dynamic> headers,
     Map<String, dynamic> postParams,
+    dynamic postData,
     String accept,
     int sendTimeout,
     int receiveTimeout,
@@ -109,7 +110,7 @@ class HttpManager {
     try {
       Response response = await dio.request(
         path,
-        data: postParams,
+        data: postData ?? postParams,
         options: options,
         queryParameters: queryParameters,
         cancelToken: cancelToken.cancelToken,
@@ -138,6 +139,7 @@ class HttpManager {
     bool needCommonParameters,
     bool needCommonHeaders,
     String accept,
+    dynamic postData,
     bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) {
@@ -145,6 +147,7 @@ class HttpManager {
       path,
       queryParameters: params,
       postParams: postParams,
+      postData: postData,
       method: 'POST',
       sendTimeout: sendTimeout,
       receiveTimeout: receiveTimeout,

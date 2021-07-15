@@ -322,7 +322,30 @@ Future<ResponseData> interestCategory(Map<String, dynamic> params) async {
 
 ///提交感兴趣分类
 Future<ResponseData> interestCategoryUpsert(Map<String, dynamic> params,
-    {Map<String, dynamic> postParams}) async {
+    {dynamic postData}) async {
   return await HttpManager.post(INTEREST_CATEGORY_UPSERT,
+      params: params, postData: postData);
+}
+
+///保存个人信息
+Future<ResponseData> saveUserInfo(Map<String, dynamic> params) async {
+  return await HttpManager.post(SAVE_USER_INFO, params: params);
+}
+
+///我的尺寸
+Future<ResponseData> mineSize(Map<String, dynamic> params) async {
+  return await HttpManager.post(MINE_SIZE, params: params);
+}
+
+///添加尺寸
+Future<ResponseData> addSize(
+    Map<String, dynamic> params, Map<String, dynamic> postParams) async {
+  return await HttpManager.post(ADD_SIZE,
       params: params, postParams: postParams);
+}
+
+///查询尺寸
+Future<ResponseData> querySizeId(Map<String, dynamic> params) async {
+  return await HttpManager.post(QUERY_SIZE_ID,
+      params: params, showProgress: true);
 }

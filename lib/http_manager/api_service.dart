@@ -198,6 +198,18 @@ final String INTEREST_CATEGORY = '${baseUrl}interestCategory/list.json';
 final String INTEREST_CATEGORY_UPSERT =
     '${baseUrl}xhr/interestCategory/upsert.json';
 
+///保存个人信息
+final String SAVE_USER_INFO = '${baseUrl}xhr/user/saveDetail.json';
+
+///我的尺寸
+final String MINE_SIZE = '${baseUrl}xhr/size/list.json';
+
+///添加尺寸
+final String ADD_SIZE = '${baseUrl}xhr/size/upsert.json';
+
+///查询尺寸
+final String QUERY_SIZE_ID = '${baseUrl}xhr/size/getById.json';
+
 ///配送信息
 ///https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=2e0f34896f4b94471965dcfb84ecf43a
 
@@ -340,3 +352,15 @@ final String INTEREST_CATEGORY_UPSERT =
 
 ///提交感兴趣分类
 //https://m.you.163.com/xhr/interestCategory/upsert.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///保存个人信息
+//https://m.you.163.com/xhr/user/saveDetail.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///我的尺寸
+//https://m.you.163.com/xhr/size/list.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///添加尺寸
+//https://m.you.163.com/xhr/size/upsert.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///查询尺寸
+//https://m.you.163.com/xhr/size/getById.json?csrf_token=7704c0162dd9505942bea22270eefcf8

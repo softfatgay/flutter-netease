@@ -55,6 +55,13 @@ class UserHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     // TODO: implement build
+    print('--------');
+    print(expandedHeight - shrinkOffset);
+    print(overlapsContent);
+    print(MediaQuery.of(context).padding.top + 50);
+
+    var topExpand = expandedHeight - shrinkOffset - 50;
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -67,63 +74,24 @@ class UserHeader extends SliverPersistentHeaderDelegate {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          this.child,
           //定位,相当于绝对布局
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            child: Container(
-              color: this.makeStickyHeaderBgColor(shrinkOffset),
-              child: SafeArea(
-                bottom: false,
-                child: Container(
-                  height: this.collapsedHeight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      showBack
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: this.makeStickyHeaderTextColor(
-                                    shrinkOffset, false),
-                              ),
-                              onPressed: () => Navigator.pop(context),
-                            )
-                          : Container(width: 20),
-                      Expanded(
-                          child: Text(
-                        this.title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: this
-                              .makeStickyHeaderTextColor(shrinkOffset, false),
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )),
-                    ],
+          this.child,
+          topExpand < MediaQuery.of(context).padding.top + 50
+              ? Container()
+              : Positioned(
+                  child: GestureDetector(
+                    child: Image.asset(
+                      'assets/images/mine/setting.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                    onTap: () {
+                      Routers.push(Routers.setting, context, {'id': 2});
+                    },
                   ),
+                  right: 20,
+                  top: MediaQuery.of(context).padding.top + 15,
                 ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            child: GestureDetector(
-              child: Image.asset(
-                'assets/images/mine/setting.png',
-                width: 20,
-                height: 20,
-              ),
-              onTap: () {
-                Routers.push(Routers.setting, context, {'id': 2});
-              },
-            ),
-            right: 20,
-            top: MediaQuery.of(context).padding.top + 15,
-          )
         ],
       ),
     );

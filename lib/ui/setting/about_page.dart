@@ -108,7 +108,7 @@ class _AboutPageState extends State<AboutPage> {
                 _desApp('cookie和csrf_token已实现动态更新，网页登录即可'),
                 _desApp('lutter(2.2.1)/dart(2.13.1)升级到新版本，兼容Flutter2.0以上版本'),
                 _desApp('首页，值得买，分类，购物车，我的，搜索，商品详情等等，都已实现（除了下单之后的逻辑）'),
-                _desApp('后续会持续更新此项目'),
+                _desApp('后续有时间会持续完善此项目'),
               ],
             ),
           ),
@@ -139,6 +139,7 @@ class _AboutPageState extends State<AboutPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('使用的库：', style: t20blackBold),
+          SizedBox(height: 10),
           _buildLink('Dio', 'https://pub.flutter-io.cn/packages/dio'),
           _buildLink('webview_flutter',
               'https://pub.flutter-io.cn/packages/webview_flutter'),

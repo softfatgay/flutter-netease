@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
@@ -34,7 +32,7 @@ class _UserIndexPageState extends State<UserIndexPage> {
                 icon: 'assets/images/mine/qr_icon.png',
                 id: 1),
             _tabWidget('我的尺码', id: 2),
-            _tabWidget('会员俱乐部', subTitle: '普通用户', id: 3),
+            _tabWidget('会员俱乐部', subTitle: '', id: 3),
             _tabWidget('积分中心', id: 4),
           ],
         ),
@@ -90,7 +88,12 @@ class _UserIndexPageState extends State<UserIndexPage> {
         ),
       ),
       onTap: () {
-        Routers.push(Routers.userInfoPageIndex, context, {'id': id});
+        if (id == 3) {
+          Routers.push(Routers.webView, context,
+              {'url': 'https://m.you.163.com/membership/index'});
+        } else {
+          Routers.push(Routers.userInfoPageIndex, context, {'id': id});
+        }
       },
     );
   }

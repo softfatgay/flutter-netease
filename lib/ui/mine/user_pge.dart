@@ -44,7 +44,7 @@ class _MinePageState extends State<UserPage>
   void initState() {
     super.initState();
     // TODO: implement initState
-    HosEventBusUtils.on((event) {
+    HosEventBusUtils.on((event) async {
       if (event == 'mine_refresh') {
         _checkLogin();
         _getUserInfo();
@@ -80,13 +80,13 @@ class _MinePageState extends State<UserPage>
 
   _buildRefresh() {
     return RefreshIndicator(
-        child: _buildbody(),
+        child: _buildBody(),
         onRefresh: () async {
           _checkLogin();
         });
   }
 
-  _buildbody() {
+  _buildBody() {
     return _isLogin
         ? Scaffold(
             backgroundColor: backColor,
@@ -181,7 +181,7 @@ class _MinePageState extends State<UserPage>
   _buildTop(BuildContext context) {
     return Container(
       padding:
-          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
+          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 18, 0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -193,53 +193,72 @@ class _MinePageState extends State<UserPage>
         ),
       ),
       height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
-      child: Stack(children: [
-        GestureDetector(
-          child: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    image: DecorationImage(
-                      image: NetworkImage('$_userIcon'),
-                      fit: BoxFit.cover,
-                    ),
-                  ), // 通过 container 实现圆角
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _userInfo.userSimpleVO.nickname,
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+      child: Stack(
+        children: [
+          GestureDetector(
+            child: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      image: DecorationImage(
+                        image: NetworkImage('$_userIcon'),
+                        fit: BoxFit.cover,
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        _userInfo.userSimpleVO.memberLevel == 0
-                            ? "普通用户"
-                            : "vip用户",
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      )
-                    ],
+                    ), // 通过 container 实现圆角
                   ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _userInfo.userSimpleVO.nickname,
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          _userInfo.userSimpleVO.memberLevel == 0
+                              ? "普通用户"
+                              : "vip用户",
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset(
+                          'assets/images/mine/mine_page_qr.png',
+                          color: backWhite,
+                          width: 25,
+                          height: 25,
+                        ),
+                      ),
+                      onTap: () {
+                        Routers.push(
+                            Routers.userInfoPageIndex, context, {'id': 1});
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
+            onTap: () {
+              Routers.push(Routers.userInfoPage, context);
+            },
           ),
-          onTap: () {
-            Routers.push(Routers.userInfoPage, context);
-          },
-        ),
-      ]),
+        ],
+      ),
     );
   }
 

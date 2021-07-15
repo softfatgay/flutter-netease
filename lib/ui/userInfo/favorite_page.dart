@@ -21,6 +21,7 @@ class _FavoritePageState extends State<FavoritePage> {
   List<InterstItemModel> _dataList = [];
 
   List _up = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -166,14 +167,8 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   _submit() async {
-    print(_up);
-
-    Map<String, dynamic> postParams = {};
-    for (var i = 0; i < _up.length; i++) {
-      postParams['$i'] = _up[i];
-    }
-    var responseData = await interestCategoryUpsert({'csrf_token': csrf_token},
-        postParams: postParams);
+    var param = {'csrf_token': csrf_token};
+    var responseData = await interestCategoryUpsert(param, postData: _up);
     if (responseData.code == '200') {
       Toast.show('提交成功', context);
     }

@@ -27,7 +27,7 @@ class User {
   String uid;
   num userType;
   bool hasInterestCategory;
-  List<Aliases> aliases;
+  List<Aliases> aliases = [];
 
   User();
 
