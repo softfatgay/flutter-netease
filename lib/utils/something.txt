@@ -15,7 +15,7 @@ flutter packages pub run build_runner watch
 签名文件已配置好，terminal输入：
 flutter build apk --target-platform android-arm
 
-
+https://sit-hxjf.hongxinshop.com/logistics-merchant/#/
 
 
 错误解决（flutter packages pub run build_runner build exit code 78）
