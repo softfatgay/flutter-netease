@@ -349,3 +349,8 @@ Future<ResponseData> querySizeId(Map<String, dynamic> params) async {
   return await HttpManager.post(QUERY_SIZE_ID,
       params: params, showProgress: true);
 }
+
+///积分推荐商品
+Future<ResponseData> pointsRcmd(Map<String, dynamic> params) async {
+  return await HttpManager.post(POINTS_RCMD, params: params);
+}

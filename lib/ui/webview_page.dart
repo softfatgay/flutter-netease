@@ -163,7 +163,7 @@ class _WebViewPageState extends State<WebViewPage> {
       } catch (e) {}
     });
 
-    Timer(Duration(milliseconds: 1000), () {
+    Timer(Duration(milliseconds: 100), () {
       try {
         if (_webController != null) {
           _webController.evaluateJavascript(setHeaderJs()).then((result) {});

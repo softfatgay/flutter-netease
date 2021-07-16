@@ -23,7 +23,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   String appName;
   String packageName;
-  String version;
+  String version = '';
   String buildNumber;
 
   final List itemList = [
@@ -52,23 +52,25 @@ class _SettingPageState extends State<SettingPage> {
       appBar: TabAppBar(
         title: '关于',
       ).build(context),
-      body: Container(
-        child: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            child: Container(
+              padding: EdgeInsets.only(left: 15),
+              color: backWhite,
               child: Container(
-                margin: EdgeInsets.only(left: 15),
                 padding: EdgeInsets.symmetric(vertical: 15),
                 decoration: BoxDecoration(
-                    border:
-                        Border(bottom: BorderSide(color: lineColor, width: 1))),
+                  border:
+                      Border(bottom: BorderSide(color: lineColor, width: 1)),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: Container(
                         child: index == 0
-                            ? Text('${itemList[index].name + version}')
+                            ? Text('${itemList[index].name} $version')
                             : Text('${itemList[index].name}'),
                       ),
                     ),
@@ -79,19 +81,19 @@ class _SettingPageState extends State<SettingPage> {
                   ],
                 ),
               ),
-              onTap: () {
-                if (index == 0) {
-                  _showPackInfo(context);
-                } else if (index == 1) {
-                  Routers.push(Routers.setting, context, {'id': 0});
-                } else if (index == 2) {
-                  _checkVersion();
-                }
-              },
-            );
-          },
-          itemCount: itemList.length,
-        ),
+            ),
+            onTap: () {
+              if (index == 0) {
+                _showPackInfo(context);
+              } else if (index == 1) {
+                Routers.push(Routers.setting, context, {'id': 0});
+              } else if (index == 2) {
+                _checkVersion();
+              }
+            },
+          );
+        },
+        itemCount: itemList.length,
       ),
     );
   }
@@ -111,7 +113,11 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
-                  child: Text('构建版本： $buildNumber'),
+                  child: Text('版本：        $version'),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Text('版本号：    $buildNumber'),
                 ),
               ],
             ));

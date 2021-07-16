@@ -9,6 +9,7 @@ import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@Deprecated('no used')
 class VipCenterPage extends StatefulWidget {
   var data;
 

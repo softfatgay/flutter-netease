@@ -415,7 +415,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                     ),
                   ),
                   onTap: () {
-                    Routers.push(Routers.webViewPageAPP, context,
+                    Routers.push(Routers.webView, context,
                         {'url': 'https://m.you.163.com/coupon/cartCoupon'});
                   },
                 ),

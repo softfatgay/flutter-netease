@@ -435,6 +435,14 @@ const TextStyle t14warmingYellow = TextStyle(
   decoration: TextDecoration.none,
 );
 
+const TextStyle t10Yellow = TextStyle(
+  color: textYellow,
+  fontSize: 10,
+  height: 1.1,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 const TextStyle t12Yellow = TextStyle(
   color: textYellow,
   fontSize: 12,
@@ -447,6 +455,13 @@ const TextStyle t14Yellow = TextStyle(
   fontSize: 14,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
+);
+
+const TextStyle t14YellowBold = TextStyle(
+  color: textYellow,
+  fontSize: 14,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightMedium,
 );
 
 ///-------------------------数字字体----------------------------

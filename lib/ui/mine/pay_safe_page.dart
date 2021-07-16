@@ -52,8 +52,7 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
                 ),
               ),
               onTap: () {
-                Routers.push(
-                    Routers.webViewPageAPP, context, {'url': item['url']});
+                Routers.push(Routers.webView, context, {'url': item['url']});
               },
             );
           }).toList(),

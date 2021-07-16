@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/pagination.dart';
+import 'package:flutter_app/model/saturdayBuyModel.dart';
+import 'package:flutter_app/model/tabGroupModel.dart';
+import 'package:flutter_app/model/tabModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
@@ -19,9 +23,12 @@ class SaturdayTBuyPage extends StatefulWidget {
 
 class _TestPageState extends State<SaturdayTBuyPage>
     with TickerProviderStateMixin {
+  String _topBack =
+      'http://yanxuan.nosdn.127.net/18522f8bd4b81e454eee3317f0b77bdc.png';
+
   TabController _tabController;
 
-  var _tabTitle = [];
+  List<TabModel> _tabTitle = [];
   bool _isLoading = true;
   bool _bodyLoading = true;
   bool _isFirstLoading = true;
@@ -29,10 +36,10 @@ class _TestPageState extends State<SaturdayTBuyPage>
   int _page = 1;
   int tabId = 0;
   String _tabIdType = 'tabId';
-  var _pagination;
+  Pagination _pagination;
   bool _hasMore = true;
 
-  List _dataList = [];
+  List<Result> _dataList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,65 +50,8 @@ class _TestPageState extends State<SaturdayTBuyPage>
           : NestedScrollView(
               headerSliverBuilder: (context, bool) {
                 return [
-                  SliverAppBar(
-                    expandedHeight: 100.0,
-                    floating: true,
-                    pinned: true,
-                    toolbarHeight: 40,
-                    brightness: Brightness.light,
-                    automaticallyImplyLeading: false,
-                    title: Container(
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '拼团',
-                            style: t16blackbold,
-                          )
-                        ],
-                      ),
-                    ),
-                    backgroundColor: backWhite,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                        image: AssetImage("assets/images/stadurday_buy.png"),
-                        fit: BoxFit.cover,
-                      ))),
-                    ),
-                  ),
-                  SliverPersistentHeader(
-                    delegate: new SliverTabBarDelegate(
-                        TabBar(
-                          controller: _tabController,
-                          tabs: _tabTitle
-                              .map((f) => Tab(text: f['name']))
-                              .toList(),
-                          indicator: MyUnderlineTabIndicator(
-                            borderSide: BorderSide(width: 2.0, color: redColor),
-                          ),
-                          indicatorColor: Colors.red,
-                          unselectedLabelColor: Colors.black,
-                          labelColor: Colors.red,
-                          isScrollable: true,
-                        ),
-                        color: Colors.white,
-                        back: Icon(Icons.arrow_back_ios)),
-                    pinned: true,
-                  ),
+                  _buildTop(context),
+                  _tabbar(),
                 ];
               },
               body: _bodyLoading
@@ -122,6 +72,87 @@ class _TestPageState extends State<SaturdayTBuyPage>
     );
   }
 
+  SliverPersistentHeader _tabbar() {
+    return SliverPersistentHeader(
+      delegate: SliverTabBarDelegate(
+        TabBar(
+          controller: _tabController,
+          tabs: _tabTitle.map((item) {
+            Widget tab = Container(
+              height: 50,
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: _tabTitle[_tabController.index] == item
+                        ? backRed
+                        : backWhite,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Text(
+                  '${item.name}',
+                  style: _tabTitle[_tabController.index] == item
+                      ? t14white
+                      : t14black,
+                ),
+              ),
+            );
+            return tab;
+          }).toList(),
+          indicator: MyUnderlineTabIndicator(
+            borderSide: BorderSide(width: 0, color: redColor),
+          ),
+          indicatorColor: Colors.transparent,
+          unselectedLabelColor: Colors.black,
+          labelColor: Colors.red,
+          indicatorWeight: 0,
+          isScrollable: true,
+        ),
+        color: Colors.white,
+        back: Icon(Icons.arrow_back_ios),
+      ),
+      pinned: true,
+    );
+  }
+
+  SliverAppBar _buildTop(BuildContext context) {
+    return SliverAppBar(
+      expandedHeight: 100.0,
+      floating: true,
+      pinned: true,
+      toolbarHeight: 0,
+      elevation: 0,
+      brightness: Brightness.light,
+      automaticallyImplyLeading: false,
+      backgroundColor: backWhite,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage('$_topBack'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '全场包邮 拼到就是赚到',
+                style: t14white,
+              ),
+              SizedBox(height: 15),
+              Text(
+                '11450人正在拼团',
+                style: t14white,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   _buildGrid() {
     return Container(
       child: GridView.count(
@@ -135,21 +166,14 @@ class _TestPageState extends State<SaturdayTBuyPage>
         mainAxisSpacing: 5,
         childAspectRatio: 0.65,
         children: _dataList.map<Widget>((item) {
-          Widget widget;
-          if (item['bottomType'] != null) {
-            widget = Container(
-              height: 20,
-            );
-          } else {
-            widget = _buildItem(item);
-          }
+          Widget widget = _buildItem(item);
           return Routers.link(
             widget,
             Routers.webView,
             context,
             {
-              'id':
-                  'https://m.you.163.com/pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item['id']}'
+              'url':
+                  'https://m.you.163.com/pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
             },
           );
         }).toList(),
@@ -191,22 +215,19 @@ class _TestPageState extends State<SaturdayTBuyPage>
     Map<String, dynamic> params = {"csrf_token": csrf_token};
     var responseData = await getPinCategoryList(params);
     var data = responseData.data;
-    var allList = List();
-    List tabList = data["tabList"];
+
+    var tabGroupModel = TabGroupModel.fromJson(data);
+    var tabList = tabGroupModel.tabList;
+    List<TabModel> dataList = [];
     tabList.forEach((element) {
-      Map tab = element;
-      tab['type'] = 'tabId';
-      allList.add(element);
+      element.type = 'tabId';
+      dataList.add(element);
     });
-
-    List categoryList = data["categoryList"];
-
-    categoryList.forEach((element) {
-      allList.add(element);
-    });
+    var categoryList = tabGroupModel.categoryList;
+    dataList.addAll(categoryList);
 
     setState(() {
-      _tabTitle = allList;
+      _tabTitle = dataList;
       _tabController = TabController(length: _tabTitle.length, vsync: this);
       _tabController.addListener(() {
         setState(() {
@@ -214,12 +235,12 @@ class _TestPageState extends State<SaturdayTBuyPage>
             _bodyLoading = true;
             _hasMore = true;
             _page = 1;
-            if (_tabTitle[_tabController.index]['type'] != null) {
+            if (_tabTitle[_tabController.index].type != null) {
               _tabIdType = 'tabId';
             } else {
               _tabIdType = 'categoryId';
             }
-            tabId = _tabTitle[_tabController.index]['id'];
+            tabId = _tabTitle[_tabController.index].id;
             print(tabId);
 
             _dataList.clear();
@@ -240,20 +261,20 @@ class _TestPageState extends State<SaturdayTBuyPage>
       'pageSize': _pageSize
     };
     var responseData = await getPinDataList(params);
-    print(responseData.data);
+    var saturdayBuyModel = SaturdayBuyModel.fromJson(responseData.data);
 
     setState(() {
       _bodyLoading = false;
       _isLoading = false;
-      _pagination = responseData.data['pagination'];
-      if (_page >= _pagination['totalPage']) {
+      _pagination = saturdayBuyModel.pagination;
+      if (_page >= _pagination.totalPage) {
         _hasMore = false;
       }
-      _dataList.insertAll(_dataList.length, responseData.data['result']);
+      _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
     });
   }
 
-  _buildItem(var item) {
+  _buildItem(Result item) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(2)),
@@ -265,7 +286,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
               width: double.infinity,
               height: 130,
               child: TopRoundNetImage(
-                url: item['picUrl'],
+                url: item.picUrl,
               ),
             ),
           ),
@@ -279,14 +300,14 @@ class _TestPageState extends State<SaturdayTBuyPage>
                 decoration: BoxDecoration(
                     color: redColor, borderRadius: BorderRadius.circular(12)),
                 child: Text(
-                  '降! ¥${(NumUtil.getNumByValueDouble(item['originPrice'] - item['price'], 1)).toStringAsFixed(0)}',
+                  '降! ¥${(NumUtil.getNumByValueDouble(item.originPrice - item.price, 1)).toStringAsFixed(0)}',
                   style: t12white,
                 ),
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                 child: Text(
-                  item['title'],
+                  item.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -296,7 +317,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
                     child: Text(
-                      '${item['userNum']}人团',
+                      '${item.userNum}人团',
                       style: TextStyle(fontSize: 12, color: textGrey),
                     ),
                   ),
@@ -305,9 +326,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
                       children: [
                         ClipOval(
                             child: Image.network(
-                          item['recentUsers'] == null
-                              ? ''
-                              : item['recentUsers'][0],
+                          item.recentUsers == null ? '' : item.recentUsers[0],
                           width: 16,
                           height: 16,
                           fit: BoxFit.cover,
@@ -315,16 +334,14 @@ class _TestPageState extends State<SaturdayTBuyPage>
                         SizedBox(width: 2),
                         ClipOval(
                             child: Image.network(
-                          item['recentUsers'] == null
-                              ? ''
-                              : item['recentUsers'][1],
+                          item.recentUsers == null ? '' : item.recentUsers[1],
                           width: 16,
                           height: 16,
                           fit: BoxFit.cover,
                         )),
                         Expanded(
                           child: Text(
-                            '${item['joinUsers']}人已拼',
+                            '${item.joinUsers}人已拼',
                             style: TextStyle(fontSize: 12, color: textGrey),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -347,7 +364,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
                         width: 6,
                       ),
                       Text(
-                        "¥${item["price"]}",
+                        "¥${item.price}",
                         style: TextStyle(
                             color: textRed,
                             fontSize: 18,
@@ -358,7 +375,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
                       ),
                       Expanded(
                           child: Text(
-                        "¥${item["originPrice"]}",
+                        "¥${item.originPrice}",
                         style: TextStyle(
                             color: Colors.grey,
                             decoration: TextDecoration.lineThrough,
@@ -373,7 +390,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                         color: redColor,
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(15)),
                     child: Text(
                       '去开团',
                       style: t14white,

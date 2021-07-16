@@ -52,7 +52,7 @@ class CouponWidget extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Routers.push(Routers.webViewPageAPP, context, {
+              Routers.push(Routers.webView, context, {
                 'url': 'https://m.you.163.com/item/detail?id=$id#/coupon/$id}'
               });
             },

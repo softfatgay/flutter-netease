@@ -36,13 +36,13 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   var _serachResult = false;
 
   //初始化,状态
-  var isFirstLoading = true;
+  var _isFirstLoading = true;
   var _bottomTipsText = '搜索更大的世界';
 
   //请求是以这个参数为加载更多
-  var paeSize = 40;
-  var itemId = 0;
-  var keyword = '';
+  var _paeSize = 40;
+  var _itemId = 0;
+  var _keyword = '';
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
@@ -86,15 +86,15 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       'csrf_token': csrf_token,
       '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
       '_stat_search': 'autoComplete',
-      'keyword': keyword,
+      'keyword': _keyword,
       'sortType': '0',
       'descSorted': 'false',
       'categoryId': '0',
       'matchType': '0',
       'floorPrice': '-1',
       'upperPrice': '-1',
-      'size': paeSize,
-      'itemId': itemId,
+      'size': _paeSize,
+      'itemId': _itemId,
       'stillSearch': 'false',
       'searchWordSource': '7',
       'needPopWindow': 'false'
@@ -111,7 +111,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       var directlyList = searchResultModel.directlyList;
       _hasMore = searchResultModel.hasMore;
       if (directlyList == null || directlyList.isEmpty) {
-        isFirstLoading = true;
+        _isFirstLoading = true;
         _bottomTipsText = '没有找到您想要的内容';
       } else {
         _directlyList.addAll(directlyList);
@@ -302,12 +302,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           child: widget,
           onTap: () {
             setState(() {
-              _directlyList = [];
-              Util.hideKeyBord(context);
-              keyword = _searchTipsData[index];
-              _saveKey(keyword);
-              _controller.text = keyword;
-              _getTipsResult(true);
+              _searchResult(_searchTipsData[index]);
             });
           },
         );
@@ -318,6 +313,15 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           mainAxisSpacing: 0,
           crossAxisSpacing: 0),
     );
+  }
+
+  void _searchResult(String keyword) {
+    _directlyList = [];
+    Util.hideKeyBord(context);
+    _keyword = keyword;
+    _saveKey(keyword);
+    _controller.text = keyword;
+    _getTipsResult(true);
   }
 
   ///本地存储keyword
@@ -384,7 +388,9 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   _hotItem(BuildContext context) {
     return _hotKeyWordList
-        .map((value) => Container(
+        .map(
+          (value) => GestureDetector(
+            child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
               decoration: BoxDecoration(
@@ -394,7 +400,12 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                 '${value.keyword}',
                 style: t12black,
               ),
-            ))
+            ),
+            onTap: () {
+              _searchResult(value.keyword);
+            },
+          ),
+        )
         .toList();
   }
 }

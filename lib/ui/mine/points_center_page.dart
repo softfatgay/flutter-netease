@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/mine/model/pointsModel.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/widget/top_round_net_image.dart';
 
 class PointCenterPage extends StatefulWidget {
   @override
@@ -19,8 +25,10 @@ class PointCenterPage extends StatefulWidget {
 class _PointCenterPageState extends State<PointCenterPage> {
   bool _isLoading = true;
 
-  var _data;
-  List _banner, _bannerData = [];
+  PointsModel _data;
+  List _banner = [];
+  List<PonitBannersItem> _bannerData = [];
+  List<ItemListItem> _rcmdDataList = [];
 
   String _topback =
       'https://yanxuan.nosdn.127.net/6b49731e1ed23979a89f119048785bba.png';
@@ -30,6 +38,21 @@ class _PointCenterPageState extends State<PointCenterPage> {
     // TODO: implement initState
     super.initState();
     getPoint();
+    _rcmd();
+  }
+
+  _rcmd() async {
+    var params = {"csrf_token": csrf_token};
+    var responseData = await pointsRcmd(params);
+
+    List data = responseData.data;
+    List<ItemListItem> dataList = [];
+    data.forEach((element) {
+      dataList.add(ItemListItem.fromJson(element));
+    });
+    setState(() {
+      _rcmdDataList = dataList;
+    });
   }
 
   void getPoint() async {
@@ -37,13 +60,13 @@ class _PointCenterPageState extends State<PointCenterPage> {
     var responseData = await pointCenter(params);
     setState(() {
       _isLoading = false;
-      _data = responseData.data;
-      _bannerData = _data['ponitBanners'];
+      _data = PointsModel.fromJson(responseData.data);
+      _bannerData = _data.ponitBanners;
       _banner = _bannerData
           .map((item) => Container(
                 margin: EdgeInsets.all(15),
                 child: CachedNetworkImage(
-                  imageUrl: item['picUrl'],
+                  imageUrl: item.picUrl,
                   fit: BoxFit.fitWidth,
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
@@ -82,7 +105,13 @@ class _PointCenterPageState extends State<PointCenterPage> {
         singleSliverWidget(_line(10.0)),
         singleSliverWidget(Image.asset('assets/images/point_banner2.png')),
         singleSliverWidget(SizedBox(height: 15)),
-        _buildChangePoint()
+        _buildChangePoint(),
+        singleSliverWidget(_rcmTitle()),
+        singleSliverWidget(_buildTitle('精选超值年购', '', '')),
+        _rcmdOne(),
+        singleSliverWidget(SizedBox(height: 25)),
+        singleSliverWidget(_buildTitle('精选返积分商品', '', '')),
+        GoodItemNormalWidget(dataList: _rcmdDataList)
       ],
     );
   }
@@ -92,42 +121,90 @@ class _PointCenterPageState extends State<PointCenterPage> {
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: NetworkImage(
-              _topback,
-            ),
-            fit: BoxFit.fill),
+          image: NetworkImage(
+            _topback,
+          ),
+          fit: BoxFit.fill,
+        ),
       ),
       height: 150,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
         children: [
-          SizedBox(width: 20),
-          HeadPortrait(
-            url:
-                'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png',
-          ),
-          SizedBox(width: 5),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                '你的可用积分：${_data['availablePoint']}',
-                style: t16whiteblod,
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  '普通会员',
-                  style: t12white,
-                ),
+              SizedBox(width: 20),
+              HeadPortrait(url: '$user_icon_url'),
+              SizedBox(width: 5),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '你的可用积分：${_data.availablePoint}',
+                    style: t16whiteblod,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text('普通会员', style: t12white),
+                  ),
+                ],
               )
             ],
-          )
+          ),
+          Positioned(
+            right: 10,
+            top: 20,
+            child: GestureDetector(
+              child: Container(
+                child: Text(
+                  '积分规则',
+                  style: t14white,
+                ),
+              ),
+              onTap: () {
+                Routers.push(Routers.webView, context,
+                    {'url': 'https://m.you.163.com/help/new#/36/81'});
+              },
+            ),
+          ),
+          Positioned(
+            right: 0,
+            top: 50,
+            child: GestureDetector(
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                height: 30,
+                decoration: BoxDecoration(
+                  color: backWhite,
+                  borderRadius:
+                      BorderRadius.horizontal(left: Radius.circular(15)),
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/menu_icon.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                    Text(
+                      '账单',
+                      style: t14Yellow,
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {
+                Routers.push(Routers.webView, context,
+                    {'url': 'https://m.you.163.com/points/detail'});
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -141,7 +218,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
           : SwiperView(
               _banner,
               onTap: (index) {
-                _goWebview('${_bannerData[index]["targetUrl"]}');
+                _goWebview('${_bannerData[index].targetUrl}');
               },
               height: 110,
             ),
@@ -177,13 +254,13 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   ? Container()
                   : Container(
                       margin: EdgeInsets.only(left: 5),
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(color: textYellow, width: 1)),
                       child: Text(
                         '$act',
-                        style: TextStyle(color: textYellow, fontSize: 10),
+                        style: t10Yellow,
                       ),
                     ),
               SizedBox(
@@ -203,16 +280,16 @@ class _PointCenterPageState extends State<PointCenterPage> {
     );
   }
 
-  Widget _line(double height) {
+  _line(double height) {
     return Container(
       height: height,
-      color: lineColor,
+      color: backColor,
     );
   }
 
   _buildactivity() {
-    var pointExVirtualAct = _data['pointExVirtualAct'];
-    List activitys = pointExVirtualAct['actPackets'];
+    var pointExVirtualAct = _data.pointExVirtualAct;
+    List<ActPackets> activitys = pointExVirtualAct.actPackets;
     return SliverGrid.count(
       crossAxisCount: 3,
       children: activitys.map<Widget>((item) {
@@ -228,7 +305,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                       border: Border.all(color: textYellow, width: 0.5)),
                   child: ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: item['picUrl'],
+                      imageUrl: item.picUrl,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -238,11 +315,11 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 height: 5,
               ),
               Text(
-                '${item['title']}',
+                '${item.title}',
                 style: t12blackbold,
               ),
               Text(
-                '${item['needPoint']}积分兑',
+                '${item.needPoint}积分兑',
                 style: TextStyle(
                     color: textYellow,
                     fontSize: 12,
@@ -253,15 +330,15 @@ class _PointCenterPageState extends State<PointCenterPage> {
         );
         return Routers.link(widget, Routers.webView, context, {
           "url":
-              'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct['actId']}&actPacketId=${item['actPacketId']}&actPacketGiftId=${item['actPacketGiftId']}'
+              'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
         });
       }).toList(),
     );
   }
 
   _buildactivity2() {
-    var pointExVirtualAct = _data['pointExExternalRights'];
-    List activitys = pointExVirtualAct['actPackets'];
+    var pointExVirtualAct = _data.pointExExternalRights;
+    List<ActPackets> activitys = pointExVirtualAct.actPackets;
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       sliver: SliverGrid.count(
@@ -272,39 +349,30 @@ class _PointCenterPageState extends State<PointCenterPage> {
         children: activitys.map<Widget>((item) {
           Widget widget = Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: lineColor,
-                      offset: Offset(0.0, 5.0), //阴影y轴偏移量
-                      blurRadius: 1, //阴影模糊程度
-                      spreadRadius: -4 //阴影扩散程度
-                      )
-                ]),
+              borderRadius: BorderRadius.circular(4),
+              color: backColor,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                    child: CachedNetworkImage(
-                  imageUrl: item['picUrl'],
-                  fit: BoxFit.fill,
-                )),
-                SizedBox(
-                  height: 5,
+                Expanded(
+                  child: TopRoundNetImage(
+                    url: item.picUrl,
+                    corner: 4,
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Text(
-                    '${item['title']}',
+                    '${item.title}',
                     style: t12blackbold,
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: 10, bottom: 10),
                   child: Text(
-                    '${item['needPoint']}积分兑',
+                    '${item.needPoint}积分兑',
                     style: TextStyle(
                         color: textYellow,
                         fontSize: 12,
@@ -316,7 +384,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
           );
           return Routers.link(widget, Routers.webView, context, {
             "url":
-                'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct['actId']}&actPacketId=${item['actPacketId']}&actPacketGiftId=${item['actPacketGiftId']}'
+                'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
           });
         }).toList(),
       ),
@@ -324,8 +392,9 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   _buildChangePoint() {
-    var exchangeModule = _data['exchangeModule'];
-    List pointCommodities = exchangeModule['pointCommodities'];
+    var exchangeModule = _data.exchangeModule;
+    List<PointCommoditiesItem> pointCommodities =
+        exchangeModule.pointCommodities;
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       sliver: SliverGrid.count(
@@ -346,7 +415,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   child: Container(
                     width: double.infinity,
                     child: CachedNetworkImage(
-                      imageUrl: item['picUrl'],
+                      imageUrl: item.picUrl,
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -360,7 +429,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                         Container(
                           padding: EdgeInsets.only(left: 10),
                           child: Text(
-                            '${item['name']}',
+                            '${item.name}',
                             style: t14black,
                           ),
                         ),
@@ -368,11 +437,8 @@ class _PointCenterPageState extends State<PointCenterPage> {
                           margin: EdgeInsets.only(top: 10),
                           padding: EdgeInsets.only(left: 10),
                           child: Text(
-                            '${item['needPoint']}积分兑',
-                            style: TextStyle(
-                                color: redLightColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
+                            '${item.needPoint}积分兑',
+                            style: t14Yellow,
                           ),
                         ),
                       ],
@@ -381,9 +447,81 @@ class _PointCenterPageState extends State<PointCenterPage> {
             ),
           );
           return Routers.link(
-              widget, Routers.goodDetailTag, context, {'id': item['itemId']});
+              widget, Routers.goodDetailTag, context, {'id': item.itemId});
         }).toList(),
       ),
+    );
+  }
+
+  _rcmTitle() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      child: Text(
+        '为您推荐',
+        style: t16blackbold,
+      ),
+    );
+  }
+
+  _rcmdOne() {
+    return SliverList(
+        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+      return _rcmdOneItem(index);
+    }, childCount: _data.memLayawayVO.layawayList.length));
+  }
+
+  _rcmdOneItem(int index) {
+    var layawayList = _data.memLayawayVO.layawayList;
+    var item = layawayList[index];
+    return GestureDetector(
+      child: Container(
+        color: backWhite,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        margin: EdgeInsets.only(bottom: 15),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CachedNetworkImage(
+              width: 120,
+              height: 120,
+              imageUrl: item.primaryPicUrl,
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${item.name}',
+                    style: t14black,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    '${item.title}',
+                    style: t12lightGrey,
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    '¥${item.retailPrice}/${item.phaseNum}期',
+                    style: t14YellowBold,
+                  ),
+                  Text(
+                    '购买最高得${item.point}积分',
+                    style: t12Yellow,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Routers.webView, context, {
+          'url': 'https://m.you.163.com/layaway/detail?id=${item.id.toString()}'
+        });
+      },
     );
   }
 }

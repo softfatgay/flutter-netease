@@ -44,7 +44,7 @@ class GoodItemNormalWidget extends StatelessWidget {
               }, childCount: data.length),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.52,
+                  childAspectRatio: 0.67,
                   mainAxisSpacing: 5,
                   crossAxisSpacing: 5),
             ),

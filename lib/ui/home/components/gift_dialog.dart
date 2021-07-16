@@ -34,8 +34,8 @@ void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
                   height: 400,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    image: new DecorationImage(
-                      image: new NetworkImage('${newUserGift2.showPic}'),
+                    image: DecorationImage(
+                      image: NetworkImage('${newUserGift2.showPic}'),
                     ),
                   ),
                   child: Stack(

@@ -430,7 +430,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                 imageUrl: _welfareCardVO.picUrl,
               ),
               onTap: () {
-                Routers.push(Routers.webViewPageAPP, context,
+                Routers.push(Routers.webView, context,
                     {'url': _welfareCardVO.schemeUrl});
               },
             ),
@@ -461,7 +461,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             ),
             onTap: () {
               Routers.push(Routers.webView, context, {
-                'id':
+                'url':
                     'https://m.you.163.com/featuredSeries/detail?id=${_featuredSeries.id}'
               });
             },

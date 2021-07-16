@@ -124,8 +124,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
               ),
             ),
             onTap: () {
-              Routers.push(
-                  Routers.webViewPageAPP, context, {'url': item['url']});
+              Routers.push(Routers.webView, context, {'url': item['url']});
             },
           );
         }).toList(),

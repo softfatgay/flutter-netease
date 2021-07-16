@@ -168,7 +168,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         mini: true,
-        backgroundColor: Color(0xB3F5EED0),
+        backgroundColor: Color(0xB3D2001A),
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.loop),
@@ -202,6 +202,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             background: _buildSwiper(), //banner图
           ),
         ),
+
         _topTags(context), //标签
         _kingkong(context), //
         _bigPromotion(context), //活动

@@ -4,6 +4,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/addressItem.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 import 'package:flutter_app/widget/m_textfiled.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -95,9 +96,10 @@ class _AddAddressPageState extends State<AddAddressPage>
                         color: Colors.white,
                         child: Container(
                           width: double.infinity,
-                          margin: EdgeInsets.only(left: 10),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
                           padding: EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
+                            vertical: 15,
+                          ),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border(
@@ -114,11 +116,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                                         : textBlack,
                                     fontSize: 16),
                               ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: textHint,
-                              )
+                              arrowRightIcon
                             ],
                           ),
                         ),
@@ -140,9 +138,8 @@ class _AddAddressPageState extends State<AddAddressPage>
                     ),
                     GestureDetector(
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Color(0xFFFEFEFE),
-                            border: Border.all(color: lineColor, width: 1)),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(color: Color(0xFFFEFEFE)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

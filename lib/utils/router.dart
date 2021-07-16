@@ -109,9 +109,6 @@ class Routers {
     ///webView
     webView: (context, {arguments}) => WebViewPage(arguments),
 
-    ///webView
-    webViewPageAPP: (context, {arguments}) => WebViewPage(arguments),
-
     ///购物车
     shoppingCart: (context, {arguments}) =>
         ShoppingCartPage(argument: arguments),

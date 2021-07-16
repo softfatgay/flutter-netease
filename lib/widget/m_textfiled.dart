@@ -32,7 +32,6 @@ class MTextFiled extends TextField {
                   ),
                   borderRadius: BorderRadius.circular(2)),
               hintText: hintText,
-              filled: true,
               counterText: counterText),
         );
 }

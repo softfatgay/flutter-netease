@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/ui/mine/model/orderListModel.dart';
 import 'package:flutter_app/ui/mine/order_list_item_page.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 

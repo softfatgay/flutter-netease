@@ -375,4 +375,20 @@ class _AddNewSizeState extends State<AddNewSize> {
       return value.toString();
     }
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _tController1.dispose();
+    _tController2.dispose();
+    _tController3.dispose();
+    _tController4.dispose();
+    _tController5.dispose();
+    _tController6.dispose();
+    _tController7.dispose();
+    _tController8.dispose();
+    _tController9.dispose();
+    _tController10.dispose();
+    super.dispose();
+  }
 }
