@@ -183,7 +183,7 @@ class _SearchGoodsState extends State<SearchWidget> {
     }
     timer = Timer(Duration(milliseconds: widget.textChangeDuration), () {
       setState(() {
-        _controller.text = value.trim();
+        // _controller.text = value.trim();
         if (widget.onValueChangedCallBack != null) {
           widget.onValueChangedCallBack(_controller.text);
         }

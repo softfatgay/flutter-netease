@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +7,9 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/goodsDetail/components/coupon_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/dialog.dart';
 import 'package:flutter_app/ui/goodsDetail/components/detail_prom_banner_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/dialog.dart';
 import 'package:flutter_app/ui/goodsDetail/components/freight_widget.dart';
 import 'package:flutter_app/ui/goodsDetail/components/full_refund_policy_widget.dart';
 import 'package:flutter_app/ui/goodsDetail/components/good_detail_comment_widget.dart';
@@ -41,7 +37,6 @@ import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/count.dart';
 import 'package:flutter_app/widget/dashed_decoration.dart';
@@ -50,7 +45,6 @@ import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/start_widget.dart';
 
 class GoodsDetailPage extends StatefulWidget {
   final Map arguments;
@@ -62,6 +56,24 @@ class GoodsDetailPage extends StatefulWidget {
 }
 
 class _GoodsDetailPageState extends State<GoodsDetailPage> {
+  ///红色选中边框
+  var redBorder = BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(3)),
+    border: Border.all(width: 0.5, color: redColor),
+  );
+
+  ///黑色边框
+  var blackBorder = BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(3)),
+      border: Border.all(width: 0.5, color: textBlack));
+
+  ///虚线边框
+  var blackDashBorder = DashedDecoration(
+    gap: 2,
+    dashedColor: textLightGrey,
+    borderRadius: BorderRadius.all(Radius.circular(3)),
+  );
+
   ScrollController _scrollController = ScrollController();
   TextEditingController _textEditingController = TextEditingController();
 
@@ -850,14 +862,15 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   _skuSpecItemNameList(BuildContext context, setstate,
       List<SkuSpecValue> skuSpecItemNameList, int index) {
     return skuSpecItemNameList.map((item) {
+      var isModelSizeValue = _isModelSizeValue(index, item);
       return GestureDetector(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 2.5),
           padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
-          decoration: _modelSizeDecoration(index, item),
+          decoration: isModelSizeValue[0],
           child: Text(
             '${item.value}',
-            style: _modelSizeTextStyle(index, item),
+            style: isModelSizeValue[1],
             textAlign: TextAlign.center,
           ),
         ),
@@ -871,37 +884,73 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     }).toList();
   }
 
-  _modelSizeDecoration(int index, SkuSpecValue item) {
+  _isModelSizeValue(int index, SkuSpecValue item) {
+    List value = [blackBorder, t12black];
+
     if (_selectSkuMapKey.contains(item.id.toString())) {
-      return BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(3)),
-        border: Border.all(width: 0.5, color: redColor),
-      );
+      value[0] = redBorder;
+      value[1] = t12red;
+      return value;
     } else {
-      if (_modelSizeValue(index, item)) {
-        return BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(3)),
-          border: Border.all(width: 0.5, color: textBlack),
-        );
+      bool isEmpty = true;
+      for (var value in _selectSkuMapKey) {
+        if (value != '') {
+          isEmpty = false;
+          break;
+        }
+      }
+
+      if (_selectSkuMapKey.length > 1 && isEmpty) {
+        value[0] = blackBorder;
+        value[1] = t12black;
+        return value;
+      }
+
+      bool isAllselect = true;
+      for (var value in _selectSkuMapKey) {
+        if (value == '') {
+          isAllselect = false;
+          break;
+        }
+      }
+
+      if (isAllselect) {
+        return _allSelect(value, index, item);
       } else {
-        return DashedDecoration(
-          gap: 2,
-          dashedColor: textLightGrey,
-          borderRadius: BorderRadius.all(Radius.circular(3)),
-        );
+        if (_selectSkuMapKey.length == 2) {
+          if (_selectSkuMapKey[index] != '') {
+            value[0] = blackBorder;
+            value[1] = t12black;
+            return value;
+          } else {
+            return _allSelect(value, index, item);
+          }
+        } else {
+          return _allSelect(value, index, item);
+        }
       }
     }
   }
 
-  _modelSizeTextStyle(int index, SkuSpecValue item) {
-    if (_selectSkuMapKey.contains(item.id.toString())) {
-      return t12red;
+  _allSelect(List value, int index, SkuSpecValue item) {
+    value[0] = _modelSizeDe(index, item);
+    value[1] = _modelSizeTextSty(index, item);
+    return value;
+  }
+
+  _modelSizeDe(int index, SkuSpecValue item) {
+    if (_modelSizeValue(index, item)) {
+      return blackBorder;
     } else {
-      if (_modelSizeValue(index, item)) {
-        return t12black;
-      } else {
-        return t12lightGrey;
-      }
+      return blackDashBorder;
+    }
+  }
+
+  _modelSizeTextSty(int index, SkuSpecValue item) {
+    if (_modelSizeValue(index, item)) {
+      return t12black;
+    } else {
+      return t12lightGrey;
     }
   }
 

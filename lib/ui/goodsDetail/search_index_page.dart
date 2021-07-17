@@ -23,7 +23,7 @@ class SearchIndexPage extends StatefulWidget {
 }
 
 class _SearchIndexPageState extends State<SearchIndexPage> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _controller ;
   ScrollController _scrollController = new ScrollController();
   String _textValue = '';
 
@@ -52,6 +52,15 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _controller = TextEditingController.fromValue(TextEditingValue(
+      // 设置内容
+        text: _textValue,
+        // 保持光标在最后
+        selection: TextSelection.fromPosition(TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: _textValue.length))));
+
     setState(() {
       _textValue = widget.arguments['id'];
     });
@@ -222,12 +231,13 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               controller: _controller,
               onValueChangedCallBack: (value) {
                 setState(() {
-                  _controller.text = value;
+                  _textValue = value;
+                  // _controller.text = value;
                 });
                 if (value == '' || value == null) {
                   _controller.text = '';
                 } else {
-                  _textValue = value;
+                  // _textValue = value;
                   _getSearchTips();
                 }
               },
