@@ -88,7 +88,6 @@ class _CommentListState extends State<CommentList> {
       'tag': _tag,
     };
     var responseData = await commentListData(params);
-
     setState(() {
       _isFirstLoading = false;
       _commondPageModel = CommondPageModel.fromJson(responseData.data);
@@ -390,8 +389,8 @@ class _CommentListState extends State<CommentList> {
             fit: BoxFit.cover,
           ),
         );
-        return Routers.link(
-            widget, Routers.image, context, {'images': _commentList});
+        return Routers.link(widget, Routers.image, context,
+            {'images': _commentList, 'page': indexC});
       });
 
   ///追评
