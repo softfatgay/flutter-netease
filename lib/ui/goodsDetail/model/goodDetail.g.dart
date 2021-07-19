@@ -132,8 +132,9 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..welfareCardVO = json['welfareCardVO'] == null
         ? null
         : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
-    ..spmcBanner =
-        json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>);
+    ..simpleBrandInfo =
+        json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
+    ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -209,6 +210,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'couponShortNameList': instance.couponShortNameList,
       'detailPromBanner': instance.detailPromBanner,
       'welfareCardVO': instance.welfareCardVO,
+      'simpleBrandInfo': instance.simpleBrandInfo,
       'spmcBanner': instance.spmcBanner,
     };
 
@@ -349,4 +351,20 @@ Map<String, dynamic> _$SpmcBannerToJson(SpmcBanner instance) =>
       'spmcEconomizePrice': instance.spmcEconomizePrice,
       'spmcTagDesc': instance.spmcTagDesc,
       'spmcLinkUrl': instance.spmcLinkUrl,
+    };
+
+SimpleBrandInfo _$SimpleBrandInfoFromJson(Map<String, dynamic> json) {
+  return SimpleBrandInfo()
+    ..title = json['title'] as String
+    ..ownType = json['ownType'] as num
+    ..logoUrl = json['logoUrl'] as String
+    ..aspectRatio = json['aspectRatio'] as num;
+}
+
+Map<String, dynamic> _$SimpleBrandInfoToJson(SimpleBrandInfo instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'ownType': instance.ownType,
+      'logoUrl': instance.logoUrl,
+      'aspectRatio': instance.aspectRatio,
     };

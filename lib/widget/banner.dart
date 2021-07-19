@@ -19,7 +19,7 @@ class BannerCacheImg extends StatelessWidget {
 
   BannerCacheImg(
       {this.imageList,
-      this.height = 200,
+      this.height = 280,
       this.autoplayDelay = 4000,
       this.autoplay = true,
       this.scrollDirection = Axis.horizontal,

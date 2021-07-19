@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
+import 'package:flutter_app/widget/timer_text.dart';
 
 ///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
@@ -69,11 +70,16 @@ class DetailPromBannerWidget extends StatelessWidget {
       hour = (f % 24).toInt();
       day = f ~/ 24;
     }
+
+    if (day == 0) {
+      return _timer(detailPromBanner.countdown);
+    }
+
     return (detailPromBanner.countdown != null &&
             detailPromBanner.countdown > 0)
         ? Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '距结束$day天$hour小时',
@@ -81,22 +87,25 @@ class DetailPromBannerWidget extends StatelessWidget {
               ),
               detailPromBanner.sellVolumeDesc == null
                   ? Container()
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 4,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(2)),
-                        ),
-                        Text(
-                          '${detailPromBanner.sellVolumeDesc}',
-                          style: t12white,
-                        ),
-                      ],
-                    )
+                  : Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 3,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(2)),
+                          ),
+                          Text(
+                            '${detailPromBanner.sellVolumeDesc}',
+                            style: t12white,
+                          ),
+                        ],
+                      ),
+                    ),
             ],
           )
         : Container();
@@ -134,14 +143,25 @@ class DetailPromBannerWidget extends StatelessWidget {
                 height: 1.1,
               ),
             ),
+            SizedBox(width: 3),
             Text(
-              '${detailPromBanner.activityPriceExt ?? ''}',
-              style: t12whiteBold,
+              '${detailPromBanner.retailPrice ?? ''}',
+              style: TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  fontSize: 12,
+                  color: textWhite),
             ),
             SizedBox(width: 3),
           ],
         ),
       ],
+    );
+  }
+
+  _timer(num second) {
+    return TimerText(
+      time: second ~/ 1000,
+      tips: '距结束',
     );
   }
 }

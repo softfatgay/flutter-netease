@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/goodsDetail/comment_page.dart';
 import 'package:flutter_app/ui/goodsDetail/good_detail_page.dart';
 import 'package:flutter_app/ui/goodsDetail/search_index_page.dart';
+import 'package:flutter_app/ui/goodsDetail/select_address_page.dart';
 import 'package:flutter_app/ui/home/hot_list_page.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
@@ -68,11 +69,15 @@ class Routers {
   static const String favorite = 'favorite';
   static const String addNewSize = 'addNewSize';
   static const String accountManagePage = 'accountManagePage';
+  static const String selectAddressPage = 'selectAddressPage';
 
   static Map<String, Function> routes = {
     //商品详情
     goodDetailTag: (context, {arguments}) =>
         GoodsDetailPage(arguments: arguments),
+    //商品详情
+    selectAddressPage: (context, {arguments}) => SelectAddressPage(),
+
     catalogTag: (context, {arguments}) => SortListPage(arguments: arguments),
     //kingKong
     kingKong: (context, {arguments}) {

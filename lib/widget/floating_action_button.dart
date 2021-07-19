@@ -26,7 +26,7 @@ Widget floatingAB(ScrollController _scrollController) {
       margin: EdgeInsets.only(bottom: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color(0x80D2001A),
+        color: backLightYellow,
       ),
       child: Icon(
         Icons.arrow_upward,
@@ -48,7 +48,7 @@ Widget floatingABCart(
       margin: EdgeInsets.only(bottom: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color(0x80D2001A),
+        color: backLightYellow,
       ),
       child: Icon(
         Icons.shopping_cart_outlined,

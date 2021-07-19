@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/timer_text.dart';
 
 void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
   var newUserGift2 = newUserGift.newUserGift;
@@ -49,13 +52,51 @@ void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 55),
-                        alignment: Alignment.bottomCenter,
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 210),
+                        child: Text(
+                          '恭喜您获得了新礼包',
+                          style: TextStyle(
+                              color: textLightYellow,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 250),
                         child: Text(
                           '${Util.temFormat(newUserGift2.useExpireTime * 1000)}结束',
-                          style: t14red,
+                          style: t16whiteblod,
                         ),
-                      )
+                      ),
+                      Positioned(
+                        bottom: 37,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          child: GestureDetector(
+                            child: Container(
+                              width: 200,
+                              height: 53,
+                              color: Colors.transparent,
+                              alignment: Alignment.center,
+                              child: Text(
+                                '立即领取',
+                                style: t16redBold,
+                              ),
+                            ),
+                            onTap: () {
+                              Routers.push(Routers.webView, context, {
+                                'url':
+                                    'https://act.you.163.com/act/pub/qAU4P437asfF.html'
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 )

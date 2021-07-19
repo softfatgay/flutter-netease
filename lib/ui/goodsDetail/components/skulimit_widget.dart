@@ -30,7 +30,7 @@ class SkulimitWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     skuLimit,
-                    style: TextStyle(color: Colors.black),
+                    style: t14black,
                   ),
                 ),
               ],

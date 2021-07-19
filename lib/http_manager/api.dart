@@ -265,7 +265,7 @@ Future<ResponseData> wapitemRcmdApi(Map<String, dynamic> params) async {
 }
 
 ///配送信息
-Future<ResponseData> wapitemDeliveryApi(Map<String, dynamic> params) async {
+Future<ResponseData> wapitemDelivery(Map<String, dynamic> params) async {
   return await HttpManager.post(WAPITEM_DELIVERY, params: params);
 }
 

@@ -35,7 +35,7 @@ class ProVipWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   '${spmcBanner.spmcTagDesc}',
-                  style: t12white,
+                  style: t14blackBold,
                 ),
               ),
               Expanded(
@@ -63,18 +63,32 @@ class ProVipWidget extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                '${spmcBanner.spmcDesc}${spmcBanner.spmcPrice}',
-                                style: t12white,
-                                textAlign: TextAlign.start,
+                              child: RichText(
+                                text: TextSpan(style: t14black, children: [
+                                  TextSpan(
+                                      text: '${spmcBanner.spmcDesc}',
+                                      style: TextStyle(
+                                          color: Color(0xFFFFF1D2),
+                                          fontSize: 14)),
+                                  TextSpan(
+                                      text: '${spmcBanner.spmcPrice}',
+                                      style: t14Yellow),
+                                ]),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
+                                  horizontal: 6, vertical: 3),
                               decoration: BoxDecoration(
-                                  color: backYellow,
-                                  borderRadius: BorderRadius.circular(6)),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      Color(0xFFFFD883),
+                                      Color(0xFFEFB965),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: Text(
                                 '开通',
                                 style: t12black,

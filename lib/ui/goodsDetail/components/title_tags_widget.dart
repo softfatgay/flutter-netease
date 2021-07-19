@@ -27,7 +27,7 @@ class TitleTagsWidget extends StatelessWidget {
                             EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: redColor, width: 1)),
+                            border: Border.all(color: redColor, width: 0.5)),
                         child: Text(
                           item.name,
                           style: t10red,

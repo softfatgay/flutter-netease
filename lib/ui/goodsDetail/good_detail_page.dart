@@ -8,6 +8,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/goodsDetail/components/coupon_widget.dart';
+import 'package:flutter_app/ui/goodsDetail/components/delivery_widget.dart';
 import 'package:flutter_app/ui/goodsDetail/components/detail_prom_banner_widget.dart';
 import 'package:flutter_app/ui/goodsDetail/components/dialog.dart';
 import 'package:flutter_app/ui/goodsDetail/components/freight_widget.dart';
@@ -32,6 +33,8 @@ import 'package:flutter_app/ui/goodsDetail/model/shoppingReward.dart';
 import 'package:flutter_app/ui/goodsDetail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goodsDetail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goodsDetail/model/skuSpecValue.dart';
+import 'package:flutter_app/ui/goodsDetail/model/wapitemDeliveryModel.dart';
+import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
@@ -45,6 +48,7 @@ import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class GoodsDetailPage extends StatefulWidget {
   final Map arguments;
@@ -135,6 +139,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///商品限制规则
   String _skuLimit;
 
+  ///配送信息
+  WapitemDeliveryModel _wapitemDeliveryModel;
+
   ///底部推荐列表
   List<ItemListItem> _rmdList = [];
 
@@ -165,7 +172,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     _getRMD();
 
     ///配送信息
-    _wapitemDelivery();
+    // _wapitemDelivery();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > 500) {
@@ -214,6 +221,65 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     });
   }
 
+  void _getLocations() async {
+    Map<String, dynamic> params = {"csrf_token": csrf_token};
+    var responseData = await getLocationList(params);
+    if (responseData.code == '200' &&
+        responseData.data != null &&
+        responseData.data.isNotEmpty) {
+      List data = responseData.data;
+      List<LocationItemModel> dataList = [];
+      data.forEach((element) {
+        dataList.add(LocationItemModel.fromJson(element));
+      });
+      _wapitemDelivery(dataList[0]);
+    }
+  }
+
+  _wapitemDelivery(LocationItemModel item) async {
+    var params;
+    if (item == null) {
+      params = {
+        "csrf_token": csrf_token,
+        'type': 1,
+        'provinceId': 130000,
+        'cityId': 130300,
+        'districtId': 130304,
+        'townId': 130304100000,
+        'provinceName': '河北省',
+        'cityName': '秦皇岛市',
+        'districtName': '北戴河区',
+        'townName': '海滨镇',
+        'address': '6464dhdjzjzjjz',
+        'skuId': 3659237,
+      };
+    } else {
+      params = {
+        "csrf_token": csrf_token,
+        'type': 1,
+        'provinceId': item.provinceId,
+        'cityId': item.cityId,
+        'districtId': item.districtId,
+        'townId': item.townId,
+        'provinceName': item.provinceName,
+        'cityName': item.cityName,
+        'districtName': item.districtName,
+        'townName': item.townName,
+        'address': item.address,
+        'skuId':
+            _skuMapItem == null ? _goodDetail.primarySkuId : _skuMapItem.id,
+      };
+    }
+
+    var responseData = await wapitemDelivery(params);
+    if (responseData.code == '200') {
+      setState(() {
+        _wapitemDeliveryModel =
+            WapitemDeliveryModel.fromJson(responseData.data);
+      });
+    }
+  }
+
   void _getDetailPageUp() async {
     // var param = {'id': _goodId};
     // var response = await goodDetail(param);
@@ -254,6 +320,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       });
       _initLoading = false;
     });
+
+    _getLocations();
   }
 
   void _getRMD() async {
@@ -268,8 +336,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       _rmdList = rmdList;
     });
   }
-
-  void _wapitemDelivery() async {}
 
   // 获取某规格的商品信息
   getGoodsMsgById(List productList, String id) {
@@ -302,7 +368,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   //内容
-  Widget _buildContent() {
+  _buildContent() {
     if (_initLoading) {
       return Loading();
     } else {
@@ -314,7 +380,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             delegate: SliverCustomHeaderDelegate(
               title: _initLoading ? 'loading...' : '${_goodDetail.name ?? ''}',
               collapsedHeight: 50,
-              expandedHeight: 250,
+              expandedHeight: MediaQuery.of(context).size.width,
               paddingTop: MediaQuery.of(context).padding.top,
               child: _buildSwiper(context, _banner),
             ),
@@ -348,6 +414,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             goodCmtRate: _goodDetail.goodCmtRate,
             goodId: _goodId,
           )),
+
+          ///网易严选
+          singleSliverWidget(_buildYanxuanTitle()),
 
           ///推荐理由
           singleSliverWidget(_buildOnlyText('推荐理由')),
@@ -542,6 +611,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             skuLimit: _skuLimit,
           ),
 
+          DeliveryWidget(
+            wapitemDelivery: _wapitemDeliveryModel,
+            onPress: () {
+              Routers.push(Routers.selectAddressPage, context, {}, (value) {
+                print(value);
+                print(value.address);
+                _wapitemDelivery(value);
+              });
+            },
+          ),
+
           ///服务
           ServiceWidget(
             policyList: _goodDetailPre.policyList,
@@ -590,7 +670,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   _buildIntro() {
-    List<AttrListItem> attrList = _goodDetailDownData.attrList;
+    List<AttrListItem> attrList = [];
+    if (_goodDetailDownData != null) {
+      attrList = _goodDetailDownData.attrList;
+    }
     return _goodDetailDownData == null
         ? singleSliverWidget(Container())
         : SliverList(
@@ -709,6 +792,34 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     _textEditingController.dispose();
   }
 
+  _buildYanxuanTitle() {
+    var simpleBrandInfo = _goodDetail.simpleBrandInfo;
+    return simpleBrandInfo == null
+        ? Container()
+        : (simpleBrandInfo.title == null || simpleBrandInfo.logoUrl == null)
+            ? Container()
+            : Container(
+                decoration: BoxDecoration(color: Colors.white),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      height: 16,
+                      width: 16,
+                      imageUrl: '${simpleBrandInfo.logoUrl ?? ''}',
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text('${simpleBrandInfo.title}',
+                        style:
+                            TextStyle(color: Color(0xFF7F7F7F), fontSize: 14)),
+                  ],
+                ),
+              );
+  }
+
   _buildOnlyText(String text) {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
@@ -789,7 +900,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                             child: Count(
                               number: _goodCount,
                               min: 1,
-                              max: 100,
+                              max: _skuMapItem == null
+                                  ? 1
+                                  : _skuMapItem.sellVolume,
                               onChange: (index) {
                                 setstate(() {
                                   _goodCount = index;
@@ -981,7 +1094,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       }
       if (isMatch) {
         SkuMapValue skuMapItem = _skuMap['$element'];
-        if (skuMapItem.noActivitySellVolume != 0) {
+        if (skuMapItem.sellVolume != 0) {
           isValue = true;
           break;
         } else {
