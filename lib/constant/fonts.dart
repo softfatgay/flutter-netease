@@ -37,6 +37,7 @@ const TextStyle t10white = TextStyle(
 const TextStyle t12white = TextStyle(
   color: textWhite,
   fontSize: 12,
+  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
@@ -464,6 +465,24 @@ const TextStyle t14YellowBold = TextStyle(
   fontWeight: fontWeightMedium,
 );
 
+///橘色字体
+
+const TextStyle t10Orange = TextStyle(
+  color: textOrange,
+  fontSize: 10,
+  height: 1.1,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
+const TextStyle t12Orange = TextStyle(
+  color: textOrange,
+  fontSize: 12,
+  height: 1.1,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 ///-------------------------数字字体----------------------------
 
 ///-------------------------白色----------------------------
@@ -490,6 +509,7 @@ const TextStyle num18White = TextStyle(
     fontSize: 18,
     decoration: TextDecoration.none,
     fontFamily: 'DINAlternateBold');
+
 const TextStyle num24White = TextStyle(
   color: textWhite,
   fontSize: 24,

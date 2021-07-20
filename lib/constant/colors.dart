@@ -40,6 +40,7 @@ const Color textDarkGrey = Color(0xFF535A70);
 const Color textBlue = Color(0xFF0058E9);
 const Color textHint = Color(0xFFA4A9B6);
 const Color textLightGrey = Color(0xFF999999);
+const Color textOrange = Color(0xFFF48F18);
 
 ///背景色
 const Color backColor = Color(0xFFF2F4F9);

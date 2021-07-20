@@ -33,6 +33,11 @@ class CartItemListItem {
   List<SpecListItem> specList;
   List<String> cartItemTips;
 
+  String timingPromotion;
+  String finishTip;
+  num remainTime;
+  WarehouseInfo warehouseInfo;
+
   CartItemListItem();
 
   factory CartItemListItem.fromJson(Map<String, dynamic> json) =>
@@ -48,4 +53,15 @@ class SpecListItem {
 
   factory SpecListItem.fromJson(Map<String, dynamic> json) =>
       _$SpecListItemFromJson(json);
+}
+
+@JsonSerializable()
+class WarehouseInfo {
+  String desc;
+  num type;
+
+  WarehouseInfo();
+
+  factory WarehouseInfo.fromJson(Map<String, dynamic> json) =>
+      _$WarehouseInfoFromJson(json);
 }

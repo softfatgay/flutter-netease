@@ -6,8 +6,10 @@ import 'package:flutter_app/constant/fonts.dart';
 class TimerText extends StatefulWidget {
   final int time;
   final String tips;
+  final TextStyle textStyle;
 
-  const TimerText({Key key, this.time = 0, this.tips = '付款:'})
+  const TimerText(
+      {Key key, this.time = 0, this.tips = '', this.textStyle = t14white})
       : super(key: key);
 
   @override
@@ -40,7 +42,7 @@ class _TimerTextState extends State<TimerText> {
     return Container(
       child: Text(
         '${widget.tips}$dataTime',
-        style: t14white,
+        style: widget.textStyle,
       ),
     );
   }
@@ -54,7 +56,11 @@ class _TimerTextState extends State<TimerText> {
     String timeStr = d.toString();
     List<String> timeArr = timeStr.split('.');
     List<String> parts = timeArr[0].split(':');
-    if (seconds >= 3600) {
+    print(timeStr);
+
+    if (seconds >= 86400) {
+      return '${num.parse(parts[0]) ~/ 24}天${num.parse(parts[0]) % 24}小时';
+    } else if (seconds > 3600 && seconds < 86400) {
       return '${parts[0]}:${parts[1]}:${parts[2]}';
     } else if (seconds < 3600 && seconds >= 60) {
       return '${parts[1]}:${parts[2]}';

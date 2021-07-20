@@ -247,7 +247,10 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                     child: Container(
                       child: GestureDetector(
                         onTap: () {},
-                        child: TimerText(time: item.remainTime ~/ 1000),
+                        child: TimerText(
+                          time: item.remainTime ~/ 1000,
+                          tips: '付款:',
+                        ),
                       ),
                     ),
                   )

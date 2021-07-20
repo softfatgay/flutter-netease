@@ -97,14 +97,16 @@ class GoodItemNormalWidget extends StatelessWidget {
                       : Container(
                           padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
                           decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Color(0xFFA28C63), width: 1),
+                            border: Border.all(
+                                color: Color(0xFFA28C63), width: 0.5),
+                            borderRadius: BorderRadius.circular(1),
                           ),
                           margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
                           child: MyVerticalText(
-                              dataList[index].productPlace,
-                              TextStyle(
-                                  color: Color(0xFFA28C63), fontSize: 12))),
+                            dataList[index].productPlace,
+                            TextStyle(color: Color(0xFFA28C63), fontSize: 12),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -167,8 +169,9 @@ class GoodItemNormalWidget extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(4, 2, 4, 1),
                   margin: EdgeInsets.only(left: 5),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(6)),
-                      color: backLightRed),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(color: textRed, width: 0.5),
+                  ),
                   child: Text(
                     item.name,
                     style: TextStyle(

@@ -9,6 +9,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
+import 'package:flutter_app/widget/timer_text.dart';
 
 typedef void NumChange(num source, num type, num skuId, num cnt, String extId);
 typedef void CheckOne(CarItem itemData, num source, num type, num skuId,
@@ -91,153 +92,247 @@ class CartItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              ///选择⭕️
-              _buildCheckBox(itemData, item, index),
+          ///顶部活动
+          _buildActivity(item),
 
-              ///图片
-              GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: backGrey, borderRadius: BorderRadius.circular(4)),
-                  height: 90,
-                  width: 90,
-                  child: CachedNetworkImage(imageUrl: item.pic ?? ''),
-                ),
-                onTap: () {
-                  _goDetail(context, item);
-                },
-              ),
-              Expanded(
-                child: GestureDetector(
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        isEdit
-                            ? Container()
-                            : Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: RichText(
-                                  text: TextSpan(style: t14black, children: [
-                                    TextSpan(
-                                        text: '${item.promTag ?? ''}',
-                                        style: t14Yellow),
-                                    TextSpan(text: '${item.itemName ?? ''}'),
-                                  ]),
-                                )),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(10, 3, 0, 0),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: lineColor, width: 0.5),
-                              borderRadius: BorderRadius.circular(2),
-                              color: backColor),
-                          child: Text(
-                            '${_specValue(item)}',
-                            style: TextStyle(
-                                color: textGrey,
-                                height: 1.1,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                child: Text(
-                                  '¥${item.actualPrice}',
-                                  style: t14blackBold,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    item.retailPrice > item.actualPrice
-                                        ? '¥${item.retailPrice}'
-                                        : '',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: textGrey,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              isEdit
-                                  ? Container()
-                                  : Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 3),
-                                      child: CartCount(
-                                        number: item.cnt,
-                                        min: 1,
-                                        max: item.sellVolume,
-                                        onChange: (index) {
-                                          if (numChange != null) {
-                                            numChange(item.source, item.type,
-                                                item.skuId, index, item.extId);
-                                          }
-                                        },
-                                      ),
-                                    )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    _goDetail(context, item);
-                  },
-                ),
-              )
-            ],
-          ),
-          item.priceReductDesc == null || item.priceReductDesc.isEmpty
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.only(left: 130),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: backYellow, width: 1),
-                      borderRadius: BorderRadius.circular(2)),
-                  child: Text(
-                    '${item.priceReductDesc}',
-                    style: t12Yellow,
-                  ),
-                ),
-          (cartItemTips == null || cartItemTips.length == 0)
-              ? Container()
-              : Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                  margin: EdgeInsets.fromLTRB(32, 10, 0, 0),
-                  decoration: BoxDecoration(
-                      color: backGrey, borderRadius: BorderRadius.circular(4)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: cartItemTips.map((item) {
-                      return Container(
-                        child: Text(
-                          '• $item',
-                          style: t12lightGrey,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
+          ///主体
+          _buildMainContent(itemData, item, index, context),
+
+          ///比加入时省多钱
+          _buildSaveMoney(item),
+
+          ///自营仓库免邮
+          _freeShipping(item),
+          _cartItemTips(cartItemTips),
         ],
       ),
     );
+  }
+
+  _buildActivity(CartItemListItem item) {
+    if (item.timingPromotion == null || item.timingPromotion == '') {
+      return Container();
+    }
+    return Container(
+      margin: EdgeInsets.only(left: 33, bottom: 8),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(color: backYellow, width: 0.5)),
+            child: Text(
+              '${item.timingPromotion}',
+              style: t12Orange,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 5),
+            child: Text(
+              '${item.finishTip}',
+              style: t12black,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 5),
+            child: TimerText(
+              time: item.remainTime ~/ 1000,
+              textStyle: t12blackbold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///免邮
+  _freeShipping(CartItemListItem item) {
+    if (item.warehouseInfo == null) {
+      return Container();
+    }
+    var warehouseInfo = item.warehouseInfo;
+    return Container(
+      margin: EdgeInsets.only(left: 32, top: 8),
+      child: Row(
+        children: [
+          Image.asset(
+            'assets/images/house_icon.png',
+            width: 14,
+            height: 14,
+          ),
+          SizedBox(width: 5),
+          Text(
+            '${warehouseInfo.desc}',
+            style: t12grey,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _cartItemTips(List<String> cartItemTips) {
+    return (cartItemTips == null || cartItemTips.length == 0)
+        ? Container()
+        : Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            margin: EdgeInsets.fromLTRB(32, 10, 0, 0),
+            decoration: BoxDecoration(
+                color: Color(0xFFF4F4F4),
+                borderRadius: BorderRadius.circular(4)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: cartItemTips.map((item) {
+                return Container(
+                  child: Text(
+                    '• $item',
+                    style: TextStyle(
+                      color: textGrey,
+                      fontSize: 12,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          );
+  }
+
+  _buildMainContent(CarItem itemData, CartItemListItem item, int index,
+      BuildContext context) {
+    return Row(
+      children: [
+        ///选择⭕️
+        _buildCheckBox(itemData, item, index),
+
+        ///图片
+        GestureDetector(
+          child: Container(
+            decoration: BoxDecoration(
+                color: backGrey, borderRadius: BorderRadius.circular(4)),
+            height: 90,
+            width: 90,
+            child: CachedNetworkImage(imageUrl: item.pic ?? ''),
+          ),
+          onTap: () {
+            _goDetail(context, item);
+          },
+        ),
+        _buildDes(item, context)
+      ],
+    );
+  }
+
+  _buildDes(CartItemListItem item, BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              isEdit
+                  ? Container()
+                  : Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: RichText(
+                        text: TextSpan(style: t14black, children: [
+                          TextSpan(
+                              text:
+                                  '${item.promTag ?? (item.id == 0 ? '换购' : '')}',
+                              style: t14Yellow),
+                          TextSpan(text: '${item.itemName ?? ''}'),
+                        ]),
+                      ),
+                    ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 3, 0, 0),
+                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                decoration: BoxDecoration(
+                    border: Border.all(color: lineColor, width: 0.5),
+                    borderRadius: BorderRadius.circular(2),
+                    color: Color(0xFFFAFAFA)),
+                child: Text(
+                  '${_specValue(item)}',
+                  style: TextStyle(
+                      color: textGrey,
+                      height: 1.1,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      child: Text(
+                        '¥${item.actualPrice}',
+                        style: t14blackBold,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child: Text(
+                          item.retailPrice > item.actualPrice
+                              ? '¥${item.retailPrice}'
+                              : '',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: textGrey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ),
+                    ),
+                    isEdit
+                        ? Container()
+                        : Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 3, vertical: 3),
+                            child: CartCount(
+                              number: item.cnt,
+                              min: 1,
+                              max: item.sellVolume,
+                              onChange: (index) {
+                                if (numChange != null) {
+                                  numChange(item.source, item.type, item.skuId,
+                                      index, item.extId);
+                                }
+                              },
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: () {
+          _goDetail(context, item);
+        },
+      ),
+    );
+  }
+
+  _buildSaveMoney(CartItemListItem item) {
+    return item.priceReductDesc == null || item.priceReductDesc.isEmpty
+        ? Container()
+        : Container(
+            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+            margin: EdgeInsets.only(left: 135),
+            decoration: BoxDecoration(
+                border: Border.all(color: backYellow, width: 0.5),
+                borderRadius: BorderRadius.circular(2)),
+            child: Text(
+              '${item.priceReductDesc}',
+              style: t10Orange,
+            ),
+          );
   }
 
   ///左侧选择框，编辑框
@@ -272,11 +367,11 @@ class CartItemWidget extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(2),
               child: item.id == 0
-                  ? (Icon(
+                  ? Icon(
                       Icons.check_circle,
                       size: 22,
                       color: Color(0xFFDBDBDB),
-                    ))
+                    )
                   : (item.checked
                       ? Icon(
                           Icons.check_circle,
@@ -306,13 +401,15 @@ class CartItemWidget extends StatelessWidget {
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(left: 25),
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         margin: EdgeInsets.only(right: 6),
-                        padding: EdgeInsets.fromLTRB(5, 1, 5, 2),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                         decoration: BoxDecoration(
                             color: redLightColor,
                             borderRadius: BorderRadius.circular(2)),
@@ -358,7 +455,7 @@ class CartItemWidget extends StatelessWidget {
                 GestureDetector(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                    margin: EdgeInsets.fromLTRB(50, 0, 15, 0),
+                    margin: EdgeInsets.fromLTRB(40, 0, 15, 0),
                     color: Color(0xFFFFF7F5),
                     child: Row(
                       children: [

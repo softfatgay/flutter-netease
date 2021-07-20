@@ -39,7 +39,13 @@ CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) {
             e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..cartItemTips =
-        (json['cartItemTips'] as List)?.map((e) => e as String)?.toList();
+        (json['cartItemTips'] as List)?.map((e) => e as String)?.toList()
+    ..timingPromotion = json['timingPromotion'] as String
+    ..finishTip = json['finishTip'] as String
+    ..remainTime = json['remainTime'] as num
+    ..warehouseInfo = json['warehouseInfo'] == null
+        ? null
+        : WarehouseInfo.fromJson(json['warehouseInfo'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
@@ -72,6 +78,10 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'checkExt': instance.checkExt,
       'specList': instance.specList,
       'cartItemTips': instance.cartItemTips,
+      'timingPromotion': instance.timingPromotion,
+      'finishTip': instance.finishTip,
+      'remainTime': instance.remainTime,
+      'warehouseInfo': instance.warehouseInfo,
     };
 
 SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) {
@@ -84,4 +94,16 @@ Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
     <String, dynamic>{
       'specName': instance.specName,
       'specValue': instance.specValue,
+    };
+
+WarehouseInfo _$WarehouseInfoFromJson(Map<String, dynamic> json) {
+  return WarehouseInfo()
+    ..desc = json['desc'] as String
+    ..type = json['type'] as num;
+}
+
+Map<String, dynamic> _$WarehouseInfoToJson(WarehouseInfo instance) =>
+    <String, dynamic>{
+      'desc': instance.desc,
+      'type': instance.type,
     };
