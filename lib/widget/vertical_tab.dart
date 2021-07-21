@@ -1,8 +1,3 @@
-/*
- * @Description: 垂直切换的Tab
- * @Author: luoguoxiong
- * @Date: 2019-08-26 17:29:18
- */
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 

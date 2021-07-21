@@ -1,8 +1,4 @@
-
-
-
-
-import 'package:flutter_app/ui/goodsDetail/model/skuSpecValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'skuSpecListItem.g.dart';
@@ -14,7 +10,6 @@ class SkuSpecListItem {
   num type;
 
   List<SkuSpecValue> skuSpecValueList;
-
 
   SkuSpecListItem();
 

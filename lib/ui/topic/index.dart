@@ -6,7 +6,6 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
-import 'package:flutter_app/ui/topic/components/topic_item_widget.dart';
 import 'package:flutter_app/ui/topic/model/navItem.dart';
 import 'package:flutter_app/ui/topic/model/result.dart';
 import 'package:flutter_app/ui/topic/model/topNavData.dart';
@@ -106,7 +105,7 @@ class _TopicPageState extends State<TopicPage>
 
   ///头部nav
   void _getTopicData() async {
-    var responseData = await knowNavwap({});
+    var responseData = await knowNavwap();
     setState(() {
       _isFirstLoading = false;
       var data = responseData.data;

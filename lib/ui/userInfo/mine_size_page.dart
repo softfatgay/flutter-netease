@@ -68,8 +68,7 @@ class _MineSizePageState extends State<MineSizePage> {
   }
 
   void _mineSizeList() async {
-    var param = {'csrf_token': csrf_token};
-    var responseData = await mineSize(param);
+    var responseData = await mineSize();
     var data = responseData.data;
     List<SizeItemModel> dataList = [];
     data.forEach((element) {

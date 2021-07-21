@@ -26,16 +26,12 @@ class _FeedBackState extends State<FeedBack> {
   }
 
   void _getData() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-    };
-
-    var responseData = await userMobile(params);
+    var responseData = await userMobile();
     setState(() {
       _phone = responseData.data;
     });
 
-    var feedback = await feedbackType(params);
+    var feedback = await feedbackType();
     setState(() {
       feedbackList = feedback.data;
       for (var value in feedbackList) {
@@ -49,11 +45,7 @@ class _FeedBackState extends State<FeedBack> {
   }
 
   void _getPhone() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-    };
-
-    var responseData = await userMobile(params);
+    var responseData = await userMobile();
     setState(() {
       _phone = responseData.data['mobile'];
     });

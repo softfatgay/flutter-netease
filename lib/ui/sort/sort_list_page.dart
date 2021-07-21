@@ -55,8 +55,6 @@ class _SortChildState extends State<SortListPage>
     // https://m.you.163.com/item/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603184092320&categoryType=0&subCategoryId=109284000&categoryId=1005002
     _mController = TabController(length: _catalogList.length, vsync: this);
     var responseData = await sortListData({
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryType": "0",
       "subCategoryId": _id,
       "categoryId": widget.arguments["categoryId"],

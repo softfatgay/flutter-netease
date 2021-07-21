@@ -1,5 +1,5 @@
-import 'package:flutter_app/ui/goodsDetail/model/skuSpec.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuSpecValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpec.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'skuListItem.g.dart';

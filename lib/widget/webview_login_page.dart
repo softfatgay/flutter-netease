@@ -59,11 +59,7 @@ class _WebLoginState extends State<WebLoginWidget> {
 
   ///检查是否登录
   _checkLogin() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-    var responseData = await checkLogin(params);
+    var responseData = await checkLogin();
     var isLogin = responseData.data;
     setState(() {
       if (isLogin) {

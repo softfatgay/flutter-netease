@@ -5,7 +5,7 @@ import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/mine/user_pge.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/sort_page.dart';
-import 'package:flutter_app/ui/topic/topic_page.dart';
+import 'package:flutter_app/ui/topic/index.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 
 class MainPage extends StatefulWidget {

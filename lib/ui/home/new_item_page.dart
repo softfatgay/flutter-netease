@@ -83,10 +83,7 @@ class _KingKongPageState extends State<NewItemPage> {
   }
 
   void _getNewData() async {
-    var responseData = await kingKongNewItemData({
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    });
+    var responseData = await kingKongNewItemData();
     List data = responseData.newItems["itemList"];
     List<ItemListItem> dataList = [];
     data.forEach((element) {

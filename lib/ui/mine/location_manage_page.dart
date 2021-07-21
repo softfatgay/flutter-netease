@@ -141,8 +141,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
   }
 
   void _getLocations() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    var responseData = await getLocationList(params);
+    var responseData = await getLocationList();
     List data = responseData.data;
     List<LocationItemModel> dataList = [];
     data.forEach((element) {
@@ -155,7 +154,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
   }
 
   void _deleteAddress() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token, 'id': addressId};
+    Map<String, dynamic> params = {'id': addressId};
     await deleteAddress(params).then((value) {
       _getLocations();
     });

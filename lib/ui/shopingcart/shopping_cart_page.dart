@@ -77,11 +77,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   ///检查是否登录
   _checkLogin() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-    var responseData = await checkLogin(params);
+    var responseData = await checkLogin();
     var isLogin = responseData.data;
     setState(() {
       if (isLogin != null) {
@@ -104,8 +100,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   // 获取购物车数据
   void _getData() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token}; // 参数
-    var responseData = await shoppingCart(params);
+    var responseData = await shoppingCart();
     setState(() {
       _data = responseData.data;
       if (_data != null) {
@@ -170,10 +165,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     setState(() {
       loading = true;
     });
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      'isChecked': isChecked
-    };
+    Map<String, dynamic> params = {'isChecked': isChecked};
     var responseData = await shoppingCartCheck(params);
     setState(() {
       _data = responseData.data;
@@ -187,7 +179,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       loading = true;
     });
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       'source': source,
       'type': type,
       'skuId': skuId,
@@ -207,7 +198,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       loading = true;
     });
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       'source': source,
       'type': type,
       'skuId': skuId,
@@ -258,11 +248,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     Map<String, dynamic> item = {
       "skuList": checkList,
     };
-    Map<String, dynamic> params = {
-      'selectedSku': json.encode(item),
-      "csrf_token": csrf_token,
-    };
-    print(params);
+    Map<String, dynamic> params = {'selectedSku': json.encode(item)};
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
       setState(() {
@@ -303,41 +289,43 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   @override
   Widget build(BuildContext context) {
     var argument = widget.argument;
-    return _isLogin
-        ? Scaffold(
-            backgroundColor: backColor,
-            appBar: AppBar(
-              elevation: 1,
-              backgroundColor: Colors.white,
-              brightness: Brightness.light,
-              centerTitle: true,
-              title: _navBar(),
-              leading: argument == null
-                  ? Container()
-                  : GestureDetector(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: textBlack,
-                      ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-            ),
-            body: Stack(
-              children: [
-                _data == null ? Loading() : _buildData(context),
-                Positioned(
-                  child: _buildBuy(),
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
+    return _isLogin ? _loginWidget(argument, context) : _loginPage(context);
+  }
+
+  _loginWidget(Map<dynamic, dynamic> argument, BuildContext context) {
+    return Scaffold(
+      backgroundColor: backColor,
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: Colors.white,
+        brightness: Brightness.light,
+        centerTitle: true,
+        title: _navBar(),
+        leading: argument == null
+            ? Container()
+            : GestureDetector(
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: textBlack,
                 ),
-                loading ? Loading() : Container(),
-              ],
-            ),
-          )
-        : _loginPage(context);
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+      ),
+      body: Stack(
+        children: [
+          _data == null ? Loading() : _buildData(context),
+          Positioned(
+            child: _buildBuy(),
+            bottom: 0,
+            left: 0,
+            right: 0,
+          ),
+          loading ? Loading() : Container(),
+        ],
+      ),
+    );
   }
 
   _loginPage(BuildContext context) {
@@ -368,21 +356,19 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                   singleSliverWidget(_buildTitle()),
                   singleSliverWidget(_dataList()),
                   singleSliverWidget(_invalidList()),
-                  singleSliverWidget(Container(
-                    height: 50,
-                  ))
+                  singleSliverWidget(Container(height: 10)),
                 ],
-              )),
+              ),
+            ),
       bottom: 50,
       top: 0,
-      //MediaQuery.of(context).padding.top + 46,
       left: 0,
       right: 0,
     );
   }
 
   ///  导航头
-  Widget _navBar() {
+  _navBar() {
     return Container(
       height: 46,
       decoration: BoxDecoration(
@@ -440,7 +426,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 导航下面，商品上面  标题部分
-  Widget _buildTitle() {
+  _buildTitle() {
     return _topItem == null
         ? Container()
         : Container(
@@ -469,7 +455,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 有效商品列表
-  Widget _dataList() {
+  _dataList() {
     return CartItemWidget(
       checkOne: (CarItem itemData, num source, num type, num skuId, bool check,
           String extId) {
@@ -492,7 +478,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   // 无效商品列表
-  Widget _invalidList() {
+  _invalidList() {
     return InvalidCartItemWidget(
       invalidCartGroupList: _invalidCartGroupList,
       clearInvalida: () {
@@ -502,7 +488,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 底部 商品勾选状态、价格信息、下单 部分
-  Widget _buildBuy() {
+  _buildBuy() {
     ///编辑状态
     if (isEdit) {
       return Container(
@@ -657,11 +643,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   void _goPay() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-    var responseData = await checkLogin(params);
+    var responseData = await checkLogin();
     var isLogin = responseData.data;
     if (!isLogin) {
       return;
@@ -741,8 +723,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
     var orderCart = {'cartGroupList': cartGroupList};
     var postparam = {'orderCart': orderCart};
-    var param = {"csrf_token": csrf_token};
-    var response = await checkBeforeInit(param, postparam);
+    var response = await checkBeforeInit(postparam);
 
     // Routers.push(Util.orderInit, context, {'data': orderCart});
   }

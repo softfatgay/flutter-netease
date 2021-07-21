@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
-import 'package:flutter_app/ui/goodsDetail/model/commentItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/commondPageModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/commentItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
@@ -82,7 +82,6 @@ class _CommentListState extends State<CommentList> {
   ///评价列表
   void _getCommentList() async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       'itemId': widget.arguments['id'],
       'page': _page,
       'tag': _tag,
@@ -99,9 +98,7 @@ class _CommentListState extends State<CommentList> {
 
   ///好评率
   void _getCommentPraise() async {
-    var params = {
-      'itemId': widget.arguments['id'],
-    };
+    var params = {'itemId': widget.arguments['id']};
     var responseData = await commentPraiseApi(params);
     setState(() {
       _praise = Praise.fromJson(responseData.data);
@@ -110,9 +107,7 @@ class _CommentListState extends State<CommentList> {
 
   ///评价Tag
   void _getCommentTags() async {
-    var params = {
-      'itemId': widget.arguments['id'],
-    };
+    var params = {'itemId': widget.arguments['id']};
     var responseData = await commentTagsApi(params);
     List data = responseData.data;
     List<CommentItem> list = [];

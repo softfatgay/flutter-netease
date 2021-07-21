@@ -212,8 +212,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
   }
 
   void _getCategoryList() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    var responseData = await getPinCategoryList(params);
+    var responseData = await getPinCategoryList();
     var data = responseData.data;
 
     var tabGroupModel = TabGroupModel.fromJson(data);
@@ -255,7 +254,6 @@ class _TestPageState extends State<SaturdayTBuyPage>
 
   _getPinDataList() async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       _tabIdType: tabId,
       'page': _page,
       'pageSize': _pageSize

@@ -77,6 +77,13 @@ const TextStyle t14white = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
+const TextStyle t14whiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 14,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightMedium,
+);
+
 const TextStyle t20whitebold = TextStyle(
   color: textWhite,
   fontSize: 20,

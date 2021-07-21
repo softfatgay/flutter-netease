@@ -1,17 +1,23 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/home/components/cart_tablayout.dart';
 import 'package:flutter_app/ui/home/components/hot_list_item.dart';
+import 'package:flutter_app/ui/sort/model/currentCategory.dart';
 import 'package:flutter_app/ui/sort/model/hotListModel.dart';
 import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 import 'package:flutter_app/widget/sliver_tabbar_delegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/verical_text_scoller.dart';
 
 class HotListPage extends StatefulWidget {
   final Map param;
@@ -24,6 +30,11 @@ class HotListPage extends StatefulWidget {
 
 class _HotListPageState extends State<HotListPage>
     with TickerProviderStateMixin {
+  final StreamController<bool> _streamController =
+      StreamController<bool>.broadcast();
+
+  var _scrollController = ScrollController();
+
   String _currentCategoryId = '0';
   int _currentSubCategoryId = 0;
 
@@ -40,19 +51,24 @@ class _HotListPageState extends State<HotListPage>
   Timer _timer;
   int _rondomIndex = 0;
 
-  String _fromId = '0';
+  String _categoryId = '0';
+  String _categoryName = '';
 
   ///头部
-  List<SubCateListItem> _subCateList;
+  List<CurrentCategory> _subCateList = [];
+  List<CurrentCategory> _moreCategories = [];
 
   ///数据
   List<ItemListItem> _dataList = [];
+
+  bool _isShowTop = false;
 
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
-      _fromId = widget.param['categoryId'];
+      _categoryId = widget.param['categoryId'];
+      _categoryName = widget.param['name'];
     });
     super.initState();
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
@@ -63,19 +79,35 @@ class _HotListPageState extends State<HotListPage>
         }
       });
     });
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels > 150) {
+        _streamController.sink.add(true);
+      } else {
+        _streamController.sink.add(false);
+      }
+    });
     _getData();
   }
 
   void _getData() async {
     _getCat();
     _getItemList();
+    _submitOrderInfo();
+  }
+
+  _submitOrderInfo() async {
+    var responseData = await submitOrderInfo();
+    if (responseData.code == '200') {
+      setState(() {
+        _seller = responseData.data;
+      });
+    }
   }
 
   _getCat() async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
-      "categoryId": 0,
+      "categoryId": _categoryId,
       "subCategoryId": 0,
     };
 
@@ -83,34 +115,43 @@ class _HotListPageState extends State<HotListPage>
     var oData = responseData.OData;
     var hotListModel = HotListModel.fromJson(oData);
 
+    ///tab列表
+    List<CurrentCategory> cateList = [];
+    var currentCategory = hotListModel.currentCategory;
+    currentCategory.name = '全部';
+    var subCateList = currentCategory.subCateList;
+    cateList.add(currentCategory);
+    cateList.addAll(subCateList);
     setState(() {
-      _subCateList = hotListModel.currentCategory.subCateList;
+      _moreCategories = hotListModel.moreCategories;
+      _subCateList = cateList;
       _tabController = TabController(length: _subCateList.length, vsync: this);
       _isFirstLoading = false;
-      _tabController.addListener(() {
-        setState(() {
-          if (_tabController.index == _tabController.animation.value) {
-            _bodyLoading = true;
-            _page = 1;
-            _currentCategoryId =
-                _subCateList[_tabController.index].id.toString();
-            _currentSubCategoryId =
-                _subCateList[_tabController.index].superCategoryId;
-            _getItemList();
-          }
-        });
+      _bannerUrl = currentCategory.bannerUrl;
+    });
+    _tabController.addListener(() {
+      setState(() {
+        if (_tabController.index == _tabController.animation.value) {
+          _bodyLoading = true;
+          _page = 1;
+          _currentCategoryId = _subCateList[_tabController.index].id.toString();
+          _currentSubCategoryId =
+              _subCateList[_tabController.index].superCategoryId;
+          _getItemList();
+        }
       });
     });
   }
 
+  ///列表数据
   _getItemList() async {
     setState(() {
       _bodyLoading = true;
     });
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "categoryId": _currentCategoryId,
-      "subCategoryId": _currentSubCategoryId,
+      "categoryId": _categoryId,
+      "subCategoryId": _currentCategoryId,
+      "userBusId": '',
     };
     var responseData = await hotList(params);
     List<ItemListItem> dataList = [];
@@ -133,138 +174,135 @@ class _HotListPageState extends State<HotListPage>
     );
   }
 
-  _buildContent() {
+  bool isScroll = false;
+
+  _buildBody() {
     return Stack(
       children: [
-        Container(
-          height: 264,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(_bannerUrl),
-              fit: BoxFit.cover,
-            ),
+        SingleChildScrollView(
+          controller: _scrollController,
+          child: Stack(
+            children: [
+              _topBack(),
+              Column(
+                children: [
+                  Container(
+                    height: 180,
+                  ),
+                  Stack(
+                    children: [
+                      _buildGoodItem(),
+                      CartTabLayout(
+                        subCateList: _subCateList,
+                        tabController: _tabController,
+                        indexChange: (index) {
+                          setState(() {
+                            _tabController.index = index;
+                          });
+                        },
+                        isTabScroll: isScroll,
+                        scrollPress: (isScroll) {
+                          setState(() {
+                            this.isScroll = isScroll;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  _buildCategories(),
+                ],
+              )
+            ],
           ),
         ),
-        _buildBody()
+        Container(
+          child: StreamBuilder<bool>(
+            stream: _streamController.stream,
+            initialData: false,
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              return snapshot.data
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: backWhite,
+                        border: Border(
+                            bottom: BorderSide(color: lineColor, width: 1)),
+                      ),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top),
+                      child: CartTabLayout(
+                        subCateList: _subCateList,
+                        tabController: _tabController,
+                        indexChange: (index) {
+                          setState(() {
+                            _tabController.index = index;
+                          });
+                        },
+                        isTabScroll: isScroll,
+                        scrollPress: (isScroll) {
+                          setState(() {
+                            this.isScroll = isScroll;
+                          });
+                        },
+                      ),
+                    )
+                  : Container();
+            },
+          ),
+        ),
       ],
     );
   }
 
-  _buildBody() {
-    return NestedScrollView(
-      headerSliverBuilder: (context, bool) {
-        return [
-          SliverAppBar(
-            expandedHeight: 160.0,
-            floating: true,
-            pinned: true,
-            toolbarHeight: 40,
-            automaticallyImplyLeading: true,
-            shadowColor: Colors.transparent,
-            backgroundColor: Colors.white,
-            title: Text(
-              '热销榜',
-              style: t16blackbold,
-            ),
-            leading: GestureDetector(
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                padding: EdgeInsets.only(top: 100),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(_bannerUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(child: Text('★官方销售数据', style: t12white)),
-                          Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text('★官方销售数据', style: t12white)),
-                          Container(child: Text('★官方销售数据', style: t12white)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 150,
-                      padding: EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                          color: Color(0x4DB3423A),
-                          borderRadius: BorderRadius.circular(12)),
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        '${seller[_rondomIndex]}',
-                        style: t12white,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SliverPersistentHeader(
-            delegate: new SliverTabBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  tabs: _subCateList.map((f) => Tab(text: f.name)).toList(),
-                  indicator: MyUnderlineTabIndicator(
-                    borderSide: BorderSide(width: 2.0, color: redColor),
-                  ),
-                  indicatorColor: Colors.red,
-                  unselectedLabelColor: Colors.black,
-                  labelColor: Colors.red,
-                  isScrollable: true,
-                ),
-                color: Colors.white,
-                back: Icon(Icons.keyboard_backspace)),
-            pinned: true,
-          ),
-        ];
-      },
-      body: Container(
-        child: NotificationListener(
-          onNotification: (ScrollNotification scrollInfo) =>
-              _onScrollNotification(scrollInfo),
-          child: _buildGrid(),
+  _topBack() {
+    return Container(
+      height: 280,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(_bannerUrl),
+          fit: BoxFit.fitWidth,
+        ),
+      ),
+      child: Center(
+        child: VerticalSliderText(
+          dateList: _seller,
+          width: MediaQuery.of(context).size.width / 3,
+          decoration: BoxDecoration(
+              color: Color(0x1A000000),
+              borderRadius: BorderRadius.circular(12)),
         ),
       ),
     );
   }
 
-  _onScrollNotification(ScrollNotification scrollInfo) {
-    if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-      if (!_isLoading) {
-        setState(() {
-          this._isLoading = true;
-          setState(() {
-            _page += 1;
-          });
-        });
-        _getItemList(); //加载数据
-      }
-    }
+  _tabLayout() {
+    return Container(
+      height: 45,
+      alignment: Alignment.centerLeft,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: backWhite,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TabBar(
+        controller: _tabController,
+        tabs: _subCateList.map((f) => Tab(text: f.name)).toList(),
+        indicator: MyUnderlineTabIndicator(
+          borderSide: BorderSide(width: 2.0, color: redColor),
+        ),
+        indicatorColor: Colors.red,
+        unselectedLabelColor: Colors.black,
+        labelColor: Colors.red,
+        isScrollable: true,
+      ),
+    );
   }
 
-  _buildGrid() {
+  bool isTabScroll = false;
+
+  _buildGoodItem() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.only(left: 10, right: 10, top: 45),
+      padding: EdgeInsets.only(top: 5),
       child: ListView.builder(
         padding: EdgeInsets.all(0),
         shrinkWrap: true,
@@ -280,15 +318,93 @@ class _HotListPageState extends State<HotListPage>
     );
   }
 
+  _buildCategories() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      decoration: BoxDecoration(
+        color: backWhite,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(bottom: 15),
+            child: Text(
+              '更多榜单',
+              style: t14blackBold,
+            ),
+          ),
+          GridView.count(
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+            childAspectRatio: 2.2,
+            children: _moreCategories
+                .map<Widget>((e) => _buildMoreCatItem(e))
+                .toList(),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildMoreCatItem(CurrentCategory item) {
+    return GestureDetector(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+            color: Color(0xFFF3F8FE), borderRadius: BorderRadius.circular(2)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${item.name}榜',
+                  style: t14blackBold,
+                ),
+                SizedBox(height: 5),
+                Text(
+                  '进入榜单>',
+                  style: t12black,
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: CachedNetworkImage(
+                  imageUrl: '${item.showItem.picUrl}',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Routers.hotList, context,
+            {'categoryId': item.id.toString(), 'name': item.name});
+      },
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     _tabController.dispose();
+    _scrollController.dispose();
+    _streamController.close();
     _timer.cancel();
     super.dispose();
   }
 
-  List seller = [
+  List<String> _seller = [
     "6***撵刚刚下单啦！",
     "馁**1刚刚下单啦！",
     "凯***z刚刚下单啦！",

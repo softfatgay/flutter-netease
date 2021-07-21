@@ -1,8 +1,8 @@
 import 'package:flutter_app/model/itemTagListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/hdrkDetailVOListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/shoppingReward.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuSpec.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuSpecValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpec.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'skuMapValue.g.dart';

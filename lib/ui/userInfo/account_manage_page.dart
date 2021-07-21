@@ -103,8 +103,7 @@ class _AccountManagePageState extends State<AccountManagePage> {
   }
 
   void _getUserAlias() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    var responseData = await getUserAlias(params);
+    var responseData = await getUserAlias();
     var data = responseData.data;
     setState(() {
       print(responseData.data);

@@ -6,6 +6,7 @@ part 'hotListModel.g.dart';
 @JsonSerializable()
 class HotListModel {
   CurrentCategory currentCategory;
+  List<CurrentCategory> moreCategories;
 
   HotListModel();
 

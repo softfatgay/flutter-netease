@@ -49,8 +49,6 @@ class _CatalogGoodsState extends State<SortListItemPage>
 
   _getInitData() async {
     var map = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       "categoryType": "0",
       "subCategoryId": widget.arguments.id,
       "categoryId": widget.arguments.superCategoryId,

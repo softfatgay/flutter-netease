@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/widget/timer_text.dart';
 
 ///banner底部活动

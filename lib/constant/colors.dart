@@ -48,7 +48,7 @@ const Color backWhite = Color(0xFFFFFFFF);
 const Color backBlue = Color(0xFF0058E9);
 const Color backLightBlue = Color(0xFFCFDCF4);
 const Color backRed = Color(0xFFE02020);
-const Color backLightRed = Color(0xFFEED2D8);
+const Color backLightRed = Color(0xFFFBE7E8);
 
 ///线条颜色
 const Color lineColor = Color(0xFFEAEAEA);

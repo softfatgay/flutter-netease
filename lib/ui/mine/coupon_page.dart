@@ -98,11 +98,9 @@ class _CouponPageState extends State<CouponPage> {
 
   Future<ResponseData> _getData(int searchType) async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       "searchType": searchType,
       "page": _page,
     };
-
     return couponList(params);
   }
 

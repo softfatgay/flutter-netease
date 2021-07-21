@@ -4,7 +4,6 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
-import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
@@ -26,8 +25,7 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
   }
 
   void _getLocations() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    var responseData = await getLocationList(params);
+    var responseData = await getLocationList();
     List data = responseData.data;
     List<LocationItemModel> dataList = [];
     data.forEach((element) {

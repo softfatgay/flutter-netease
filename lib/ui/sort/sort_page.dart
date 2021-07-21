@@ -100,11 +100,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
 
   _getInitData(String id) async {
     _isLoading = true;
-    var responseData = await sortData({
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
-      "categoryId": "$id"
-    });
+    var responseData = await sortData({"categoryId": "$id"});
     if (responseData.data != null) {
       var data = responseData.data;
       var sortDataModel = SortData.fromJson(data);

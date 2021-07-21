@@ -166,9 +166,6 @@ class _KingKongPageState extends State<KingKongPage> {
   }
 
   void _getNewData() async {
-    var responseData = await kingKongNewItemData({
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    });
+    var responseData = await kingKongNewItemData();
   }
 }

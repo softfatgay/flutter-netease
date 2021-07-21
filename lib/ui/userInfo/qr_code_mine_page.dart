@@ -119,14 +119,11 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
   }
 
   _getData() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-    };
     Future.wait([
-      qrCode(params).then((value) {
+      qrCode().then((value) {
         return value;
       }),
-      getUserSpmcInfo(params).then((value) {
+      getUserSpmcInfo().then((value) {
         return value;
       })
     ]).then((result) {
@@ -142,10 +139,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
 
   _getQrCode() async {
     _timer = Timer.periodic(Duration(milliseconds: 5000), (timer) {
-      Map<String, dynamic> params = {
-        "csrf_token": csrf_token,
-      };
-      qrCode(params).then((responseData) {
+      qrCode().then((responseData) {
         setState(() {
           _qrCodeDate = QrCodeModel.fromJson(responseData.data);
         });

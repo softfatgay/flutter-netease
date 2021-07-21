@@ -306,11 +306,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   void _getProvince() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "withOverseasCountry": true
-    };
-
+    Map<String, dynamic> params = {"withOverseasCountry": true};
     var responseData = await getProvenceList(params);
     if (responseData.code == '200') {
       List data = responseData.data;
@@ -326,11 +322,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   void _getCity(int parentId, setStates) async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "parentId": parentId
-    };
-
+    Map<String, dynamic> params = {"parentId": parentId};
     var responseData = await getCityList(params);
 
     List data = responseData.data;
@@ -358,7 +350,6 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   void _getDis(int parentId, int grandParentId, setStates) async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       "parentId": parentId,
       "grandParentId": grandParentId
     };
@@ -389,10 +380,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   void _getTown(int parentId, setStates) async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "parentId": parentId
-    };
+    Map<String, dynamic> params = {"parentId": parentId};
 
     var responseData = await getTown(params);
     List data = responseData.data;
@@ -446,7 +434,6 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   _addAddress() async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       'id': 0,
       'provinceId': _provinceItem.id,
       'provinceName': _provinceItem.zonename,

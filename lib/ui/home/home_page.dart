@@ -111,24 +111,12 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     _checkVersion();
   }
 
-  ///检查是否登录
-  _checkLogin() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-  }
-
   void _incrementCounter() {
     _getData();
   }
 
   void _getData() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-    var responseData = await homeData(params);
+    var responseData = await homeData();
     var data = responseData.data;
     if (data != null) {
       var homeModel = HomeModel.fromJson(data['data']);
@@ -251,7 +239,6 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         return GestureDetector(
           child: Container(
             child: CachedNetworkImage(
-              height: 160,
               imageUrl: e.picUrl,
               fit: BoxFit.cover,
             ),
@@ -262,12 +249,12 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         );
       }).toList(),
       options: CarouselOptions(
-          height: 200,
           autoPlay: true,
           viewportFraction: 1.0,
           enlargeCenterPage: true,
           onPageChanged: (index, reason) {
-            setState(() {});
+            print(_focusList[index].picUrl);
+            // setState(() {});
           }),
     );
   }
@@ -670,15 +657,17 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   void _goHotList(int index, BuildContext context) {
     String categoryId = '0';
-    var targetUrl = _categoryList[index].targetUrl;
-    if (_categoryList[index].targetUrl != null &&
-        _categoryList[index].targetUrl.contains('categoryId=')) {
+    var categoryList = _categoryList[index];
+    var targetUrl = categoryList.targetUrl;
+    if (categoryList.targetUrl != null &&
+        categoryList.targetUrl.contains('categoryId=')) {
       var split = targetUrl.split("categoryId=");
       if (split != null && split.isNotEmpty && split.length > 1) {
         categoryId = split[1];
       }
     }
-    Routers.push(Routers.hotList, context, {'categoryId': categoryId});
+    Routers.push(Routers.hotList, context,
+        {'categoryId': categoryId, 'name': categoryList.categoryName});
   }
 
   _normalTitle(BuildContext context, String title) {
@@ -939,9 +928,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   int _size = 10;
 
   void _getRcmd() async {
-    var header = HttpUtil.getHeader();
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       "page": _page,
       "size": _size,
     };
@@ -1018,10 +1005,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
 
   _newUserGift() async {
-    var param = {
-      "csrf_token": csrf_token,
-    };
-    var responseData = await newUserGift(param);
+    var responseData = await newUserGift();
     if (responseData.code == '200') {
       var newUserGift = NewUserGift.fromJson(responseData.data);
       if (newUserGift != null && newUserGift.newUserGift != null) {

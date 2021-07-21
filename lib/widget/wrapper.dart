@@ -1,8 +1,3 @@
-/*
- * @Description: page模块状态缓存HOC
- * @Author: luoguoxiong
- * @Date: 2019-09-02 14:31:53
- */
 import 'package:flutter/material.dart';
 
 class WrapKeepState extends StatefulWidget {
@@ -16,8 +11,8 @@ class WrapKeepState extends StatefulWidget {
   }
 }
 
-class _WrapKeepState extends State<WrapKeepState> with AutomaticKeepAliveClientMixin {
-
+class _WrapKeepState extends State<WrapKeepState>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -25,11 +20,11 @@ class _WrapKeepState extends State<WrapKeepState> with AutomaticKeepAliveClientM
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: new PreferredSize(
-        child: new Container(
+      appBar: PreferredSize(
+        child: Container(
           color: Colors.green,
         ),
-        preferredSize: new Size(MediaQuery.of(context).size.width, 0),
+        preferredSize: Size(MediaQuery.of(context).size.width, 0),
       ),
       body: widget.hocWidget,
     );

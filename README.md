@@ -22,7 +22,7 @@
 | :------------------: | :-------------------: | :----------------------: | :----------------------: |
 | ![](./screenshot/wechatimg95.jpeg) | ![](./screenshot/wechatimg93.jpeg) | ![](./screenshot/wechatimg94.jpeg) | ![](./screenshot/wechatimg89.jpeg) |
 
-|         个人          |        商品详情        |         添加购物车        |          评论           |
+|         个人          |        商品详情        |         添加购物车        |          订单           |
 | :-------------------: | :-------------------------: | :----------------------------: | :-------------------------: |
 | ![](./screenshot/wechatimg87.jpeg) | ![](./screenshot/wechatimg92.jpeg) | ![](./screenshot/wechatimg91.jpeg) | ![](./screenshot/wechatimg98.jpeg) |
 

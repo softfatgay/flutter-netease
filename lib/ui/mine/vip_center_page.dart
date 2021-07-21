@@ -40,9 +40,7 @@ class _VipCenterPageState extends State<VipCenterPage> {
   }
 
   void getData() async {
-    Map<String, dynamic> params = {};
-
-    var responseData = await vipCenter(params);
+    var responseData = await vipCenter();
     setState(() {
       _isLoading = false;
       _data = responseData.data;

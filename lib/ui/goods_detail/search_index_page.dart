@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/searchInitModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -23,7 +23,7 @@ class SearchIndexPage extends StatefulWidget {
 }
 
 class _SearchIndexPageState extends State<SearchIndexPage> {
-  TextEditingController _controller ;
+  TextEditingController _controller;
   ScrollController _scrollController = new ScrollController();
   String _textValue = '';
 
@@ -54,12 +54,11 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     super.initState();
 
     _controller = TextEditingController.fromValue(TextEditingValue(
-      // 设置内容
+        // 设置内容
         text: _textValue,
         // 保持光标在最后
         selection: TextSelection.fromPosition(TextPosition(
-            affinity: TextAffinity.downstream,
-            offset: _textValue.length))));
+            affinity: TextAffinity.downstream, offset: _textValue.length))));
 
     setState(() {
       _textValue = widget.arguments['id'];
@@ -78,10 +77,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   }
 
   void _searchInit() async {
-    var param = {
-      'csrf_token': csrf_token,
-    };
-    var responseData = await searchInit(param);
+    var responseData = await searchInit();
     if (responseData.code == '200') {
       var searchInitModel = SearchInitModel.fromJson(responseData.data);
       setState(() {
@@ -92,7 +88,6 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   void _getTipsResult(bool showProgress) async {
     var params = {
-      'csrf_token': csrf_token,
       '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
       '_stat_search': 'autoComplete',
       'keyword': _keyword,
@@ -350,16 +345,17 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   _clearKeyword() async {
     var sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString('keyword', '');
+    sharedPreferences.remove('keyword');
     _getKeyword();
   }
 
   void _getKeyword() async {
     var sharedPreferences = await SharedPreferences.getInstance();
     var keyword = sharedPreferences.getString('keyword');
+    print('sp-----------$keyword');
     if (keyword != null && keyword != '') {
       var split = keyword.split(';');
-      split.removeAt(0);
+      // split.removeAt(0);
       var reversed = split.reversed.toList();
       setState(() {
         _keywordList = reversed;

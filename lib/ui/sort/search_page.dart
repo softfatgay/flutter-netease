@@ -71,7 +71,6 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
 //  http://m.you.163.com/xhr/search/search.json?keyword=%E9%9B%B6%E9%A3%9F&sortType=0&descSorted=false&categoryId=0&matchType=1&floorPrice=-1&upperPrice=-1&size=40&itemId=3827056&stillSearch=false&searchWordSource=1&needPopWindow=false
   void _getTipsResult() async {
     var params = {
-      'csrf_token': csrf_token,
       '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
       '_stat_search': 'autoComplete',
       'keyword': keyword,

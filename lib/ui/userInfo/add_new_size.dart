@@ -62,7 +62,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   }
 
   _querySizeId(num id) async {
-    var params = {'csrf_token': csrf_token, 'id': id};
+    Map<String, dynamic> params = {'id': id};
     var responseData = await querySizeId(params);
     if (responseData.code == '200') {
       setState(() {
@@ -328,8 +328,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   }
 
   void _saveSize() async {
-    var param = {'csrf_token': csrf_token};
-    var postParam = {
+    var params = {
       'csrf_token': csrf_token,
       'dft': _setDft ? 1 : _setDft,
       'roleName': _submitSize(_tController1),
@@ -346,10 +345,10 @@ class _AddNewSizeState extends State<AddNewSize> {
     };
 
     if (_id != null) {
-      postParam['id'] = _id;
+      params['id'] = _id;
     }
 
-    var responseData = await addSize(postParam, null);
+    var responseData = await addSize(params);
     if (responseData.code == '200') {
       Toast.show('保存成功', context);
       Navigator.pop(context);

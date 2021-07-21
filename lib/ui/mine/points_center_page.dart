@@ -42,8 +42,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   _rcmd() async {
-    var params = {"csrf_token": csrf_token};
-    var responseData = await pointsRcmd(params);
+    var responseData = await pointsRcmd();
 
     List data = responseData.data;
     List<ItemListItem> dataList = [];
@@ -56,8 +55,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   void getPoint() async {
-    Map<String, dynamic> params = {};
-    var responseData = await pointCenter(params);
+    var responseData = await pointCenter();
     setState(() {
       _isLoading = false;
       _data = PointsModel.fromJson(responseData.data);

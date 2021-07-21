@@ -55,11 +55,7 @@ class _MinePageState extends State<UserPage>
 
   ///检查是否登录
   _checkLogin() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-    var responseData = await checkLogin(params);
+    var responseData = await checkLogin();
     var isLogin = responseData.data;
     setState(() {
       if (isLogin != null) {
@@ -127,14 +123,13 @@ class _MinePageState extends State<UserPage>
   }
 
   void _getUserInfo() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
     try {
-      var responseData = await getUserInfo(params);
+      var responseData = await getUserInfo();
       setState(() {
         _userInfo = UserModel.fromJson(responseData.data);
         _setUserInfo();
       });
-      var userInfoItems = await getUserInfoItems(params);
+      var userInfoItems = await getUserInfoItems();
       List data = userInfoItems.data;
       List<MinePageItems> mineItems = [];
 
@@ -155,8 +150,7 @@ class _MinePageState extends State<UserPage>
   }
 
   void getPhoneStatus() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    var responseData = await phoneStatus(params);
+    var responseData = await phoneStatus();
 
     if (responseData.code == '200') {
       if (responseData.data != null &&

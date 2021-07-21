@@ -56,7 +56,6 @@ class _TimerTextState extends State<TimerText> {
     String timeStr = d.toString();
     List<String> timeArr = timeStr.split('.');
     List<String> parts = timeArr[0].split(':');
-    print(timeStr);
 
     if (seconds >= 86400) {
       return '${num.parse(parts[0]) ~/ 24}天${num.parse(parts[0]) % 24}小时';

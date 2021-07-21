@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/goodsDetail/model/interstItemModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/interstItemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/button_widget.dart';
@@ -167,8 +167,7 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   _submit() async {
-    var param = {'csrf_token': csrf_token};
-    var responseData = await interestCategoryUpsert(param, postData: _up);
+    var responseData = await interestCategoryUpsert(postData: _up);
     if (responseData.code == '200') {
       Toast.show('提交成功', context);
     }

@@ -176,10 +176,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
   }
 
   void _getData() async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "promId": 128579024
-    };
+    Map<String, dynamic> params = {"promId": 128579024};
     var responseData = await getCarts(params);
     var data = responseData.data;
     if (data != null) {

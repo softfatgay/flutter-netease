@@ -101,6 +101,9 @@ final String HOT_LIST_CAT = "${baseUrl}item/saleRank.json";
 ///热销榜/条目
 final String HOT_LIST_LIST = "${baseUrl}xhr/item/saleRankItems.json";
 
+///热销榜名单
+final String SUBMIT_ORDER_INFO = "${baseUrl}xhr/item/getSubmitOrderInfo.json";
+
 ///删除订单
 final String DELETE_ORDER = "${baseUrl}xhr/order/delete.json";
 
@@ -376,3 +379,9 @@ final String POINTS_RCMD = '${baseUrl}xhr/points/rcmd.json';
 
 ///配送地址
 //https://m.you.163.com/xhr/wapitem/delivery.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///首页热销榜
+//https://m.you.163.com/item/saleRank.json?csrf_token=7704c0162dd9505942bea22270eefcf8&__timestamp=1626837182217&categoryId=1005000&subCategoryId=0
+
+///热销榜名单
+//https://m.you.163.com/xhr/item/getSubmitOrderInfo.json?csrf_token=7704c0162dd9505942bea22270eefcf8&__timestamp=1626849599973&

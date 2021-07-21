@@ -10,12 +10,26 @@ class CurrentCategory {
   num superCategoryId;
   num showIndex;
   String name;
+  String frontName;
+  String frontDesc;
   String bannerUrl;
+  ShowItem showItem;
+
   List<BannerItem> bannerList;
-  List<SubCateListItem> subCateList;
+  List<CurrentCategory> subCateList;
 
   CurrentCategory();
 
   factory CurrentCategory.fromJson(Map<String, dynamic> json) =>
       _$CurrentCategoryFromJson(json);
+}
+
+@JsonSerializable()
+class ShowItem {
+  num id;
+  String picUrl;
+  ShowItem();
+
+  factory ShowItem.fromJson(Map<String, dynamic> json) =>
+      _$ShowItemFromJson(json);
 }

@@ -7,33 +7,33 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/components/coupon_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/delivery_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/detail_prom_banner_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/dialog.dart';
-import 'package:flutter_app/ui/goodsDetail/components/freight_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/full_refund_policy_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/good_detail_comment_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/good_price_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/good_select_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/good_title.dart';
-import 'package:flutter_app/ui/goodsDetail/components/pro_vip_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/promotion_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/recommend_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/service_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/shopping_reward_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/skulimit_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/components/title_tags_widget.dart';
-import 'package:flutter_app/ui/goodsDetail/model/commentsItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
-import 'package:flutter_app/ui/goodsDetail/model/goodDetailDownData.dart';
-import 'package:flutter_app/ui/goodsDetail/model/goodDetailPre.dart';
-import 'package:flutter_app/ui/goodsDetail/model/hdrkDetailVOListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/shoppingReward.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuMapValue.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuSpecListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuSpecValue.dart';
-import 'package:flutter_app/ui/goodsDetail/model/wapitemDeliveryModel.dart';
+import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/delivery_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/detail_prom_banner_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/dialog.dart';
+import 'package:flutter_app/ui/goods_detail/components/freight_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/full_refund_policy_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/good_detail_comment_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/good_price_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/good_select_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/good_title.dart';
+import 'package:flutter_app/ui/goods_detail/components/pro_vip_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/promotion_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/recommend_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/service_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/shopping_reward_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/skulimit_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/title_tags_widget.dart';
+import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetailDownData.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetailPre.dart';
+import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
@@ -222,8 +222,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getLocations() async {
-    Map<String, dynamic> params = {"csrf_token": csrf_token};
-    var responseData = await getLocationList(params);
+    var responseData = await getLocationList();
     if (responseData.code == '200' &&
         responseData.data != null &&
         responseData.data.isNotEmpty) {
@@ -240,7 +239,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var params;
     if (item == null) {
       params = {
-        "csrf_token": csrf_token,
         'type': 1,
         'provinceId': 130000,
         'cityId': 130300,
@@ -255,7 +253,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       };
     } else {
       params = {
-        "csrf_token": csrf_token,
         'type': 1,
         'provinceId': item.provinceId,
         'cityId': item.cityId,
@@ -724,6 +721,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   _buildReport() {
+    if (_goodDetailDownData == null) {
+      return singleSliverWidget(Container());
+    }
     return _goodDetailDownData.reportPicList == null
         ? singleSliverWidget(Container())
         : SliverList(
@@ -1550,11 +1550,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///加入购物车
   void _addShoppingCart() async {
     print(_skuMapItem);
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "cnt": _goodCount,
-      "skuId": _skuMapItem.id
-    };
+    Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem.id};
     await addCart(params).then((value) {
       Toast.show('添加成功', context);
       // _getDetailPageUp();

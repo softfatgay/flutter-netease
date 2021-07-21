@@ -4,6 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/widget/arrow_icon.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 
 class HotListItem extends StatelessWidget {
@@ -19,7 +20,7 @@ class HotListItem extends StatelessWidget {
 
   Widget _buildItem(BuildContext context) {
     Widget widget = Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(8)),
@@ -35,7 +36,7 @@ class HotListItem extends StatelessWidget {
                       height: 120,
                       width: 120,
                       child: RoundNetImage(
-                        url: item.scenePicUrl,
+                        url: item.listPicUrl,
                       ),
                     ),
                     _buildItemInfo(),
@@ -68,7 +69,8 @@ class HotListItem extends StatelessWidget {
     return item.hotSaleListBottomInfo == null
         ? Container()
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            height: 20,
+            padding: EdgeInsets.symmetric(horizontal: 2),
             margin: EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
                 color: Color(0xFFF6F6F6),
@@ -76,8 +78,8 @@ class HotListItem extends StatelessWidget {
             child: Row(
               children: [
                 ClipOval(
-                  child: Image.network(
-                    '${item.hotSaleListBottomInfo.iconUrl ?? ''}',
+                  child: CachedNetworkImage(
+                    imageUrl: '${item.hotSaleListBottomInfo.iconUrl ?? ''}',
                     height: 20,
                     width: 20,
                     fit: BoxFit.cover,
@@ -91,12 +93,7 @@ class HotListItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: textGrey,
-                ),
+                )
               ],
             ),
           );
@@ -114,8 +111,9 @@ class HotListItem extends StatelessWidget {
                 : Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
-                        border: Border.all(color: redColor, width: 1),
-                        borderRadius: BorderRadius.circular(15)),
+                      border: Border.all(color: redColor, width: 1),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     child: Text(
                       '${item.promTag}',
                       style: t12red,
@@ -123,6 +121,7 @@ class HotListItem extends StatelessWidget {
                   ),
             Container(
               margin: EdgeInsets.only(top: 6),
+              decoration: BoxDecoration(),
               child: Text(
                 '${item.name}',
                 style: TextStyle(
@@ -132,54 +131,119 @@ class HotListItem extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            item.goodCmtRate == null
-                ? Container()
-                : Container(
-                    margin: EdgeInsets.only(top: 6),
-                    child: Text('${item.goodCmtRate}好评率'),
-                  ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                      child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '¥${item.retailPrice}',
-                        style: TextStyle(
-                            color: textRed,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      (item.counterPrice == item.retailPrice ||
-                              item.counterPrice == 0)
-                          ? Container()
-                          : Text(
-                              '¥${item.counterPrice}',
-                              style: TextStyle(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: textGrey),
-                            )
-                    ],
-                  )),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                    decoration: BoxDecoration(
-                        color: redColor,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Text(
-                      '马上抢',
-                      style: t16whiteblod,
-                    ),
-                  )
-                ],
-              ),
-            )
+            SizedBox(height: 6),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ///好评率
+                _commondRate(),
+                Expanded(child: _tags()),
+              ],
+            ),
+            _buildPrice()
           ],
         ),
       ),
     );
+  }
+
+  _buildPrice() {
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+              child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '¥${item.retailPrice}',
+                style: t18redBold,
+              ),
+              (item.counterPrice == item.retailPrice || item.counterPrice == 0)
+                  ? Container()
+                  : Text(
+                      '¥${item.counterPrice}',
+                      style: TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          color: textGrey,
+                          fontSize: 14),
+                    )
+            ],
+          )),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+            decoration: BoxDecoration(
+              color: redColor,
+              borderRadius: BorderRadius.circular(15),
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Color(0xFFFE5555),
+                  Color(0xFFCF2524),
+                ],
+              ),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  '马上抢',
+                  style: t14whiteBold,
+                ),
+                Icon(
+                  Icons.keyboard_arrow_right,
+                  color: backWhite,
+                  size: 16,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _commondRate() {
+    return item.goodCmtRate == null
+        ? Container()
+        : Container(
+            padding: EdgeInsets.symmetric(horizontal: 2),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFFCF2524),
+                    Color(0xFFFFA77E),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              '${item.goodCmtRate}好评率',
+              style: t12white,
+            ),
+          );
+  }
+
+  _tags() {
+    var itemTagList = item.itemTagList;
+    return itemTagList == null
+        ? Container()
+        : Row(
+            children: itemTagList
+                .map((e) => Container(
+                      margin: EdgeInsets.only(left: 5),
+                      padding: EdgeInsets.symmetric(horizontal: 3),
+                      decoration: BoxDecoration(
+                          color: backLightRed,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(
+                        '${e.name}',
+                        style: t12red,
+                      ),
+                    ))
+                .toList(),
+          );
   }
 }

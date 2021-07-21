@@ -80,7 +80,6 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
 
   _getData() async {
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       "searchType": widget.searchType,
       "page": _page,
       "size": _size,

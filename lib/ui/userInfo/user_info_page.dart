@@ -44,10 +44,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   void _getUserInfo() async {
-    var params = {
-      "csrf_token": csrf_token,
-    };
-    var responseData = await ucenterInfo(params);
+    var responseData = await ucenterInfo();
     setState(() {
       _userInfoModel = UserInfoModel.fromJson(responseData.data);
       var user = _userInfoModel.user;
@@ -325,7 +322,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   _saveDetail() async {
     var params = {
-      "csrf_token": csrf_token,
       'nickname': _nameController.text,
       'gender': '$_sex',
       'birthYear': '$_bYear',

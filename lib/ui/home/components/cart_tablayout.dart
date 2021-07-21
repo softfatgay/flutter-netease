@@ -1,0 +1,180 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/sort/model/currentCategory.dart';
+import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
+
+typedef void IndexChange(int index);
+typedef void ScrollPress(bool isScroll);
+
+class CartTabLayout extends StatelessWidget {
+  final bool isTabScroll;
+  final List<CurrentCategory> subCateList;
+  final IndexChange indexChange;
+  final ScrollPress scrollPress;
+  final TabController tabController;
+
+  const CartTabLayout(
+      {Key key,
+      this.isTabScroll,
+      this.subCateList,
+      this.indexChange,
+      this.scrollPress,
+      this.tabController})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildTabLayout();
+  }
+
+  _buildTabLayout() {
+    return Container(
+      // height: 45,
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: backWhite,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: isTabScroll
+          ? Container(
+              decoration: BoxDecoration(
+                color: backWhite,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x99F2F4F9),
+                    blurRadius: 0,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: lineColor, width: 1))),
+                    height: 45,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 15),
+                          child: Text('全部类目'),
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 60,
+                            child: Icon(Icons.keyboard_arrow_up),
+                          ),
+                          onTap: () {
+                            if (scrollPress != null) {
+                              scrollPress(!isTabScroll);
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Wrap(
+                      spacing: 20,
+                      runSpacing: 10,
+                      children: subCateList
+                          .map(
+                            (e) => GestureDetector(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color:
+                                        subCateList[tabController.index].id ==
+                                                e.id
+                                            ? backRed
+                                            : backWhite,
+                                    borderRadius: BorderRadius.circular(12)),
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  '${e.name}',
+                                  style: subCateList[tabController.index].id ==
+                                          e.id
+                                      ? t14white
+                                      : t14black,
+                                ),
+                              ),
+                              onTap: () {
+                                if (indexChange != null) {
+                                  scrollPress(!isTabScroll);
+                                  indexChange(subCateList.indexOf(e));
+                                }
+                              },
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  )
+                ],
+              ),
+            )
+          : Container(
+              height: 45,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 70),
+                    child: TabBar(
+                      controller: tabController,
+                      tabs: subCateList.map((f) => Tab(text: f.name)).toList(),
+                      indicator: MyUnderlineTabIndicator(
+                        borderSide: BorderSide(width: 2.0, color: redColor),
+                      ),
+                      indicatorColor: Colors.red,
+                      unselectedLabelColor: Colors.black,
+                      labelColor: Colors.red,
+                      isScrollable: true,
+                    ),
+                  ),
+                  Positioned(
+                    width: 20,
+                    right: 60,
+                    top: 0,
+                    bottom: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color(0xB3FFFFFF),
+                            backWhite,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 60,
+                    child: GestureDetector(
+                      child: isTabScroll
+                          ? Icon(Icons.keyboard_arrow_up)
+                          : Icon(Icons.keyboard_arrow_down),
+                      onTap: () {
+                        if (scrollPress != null) {
+                          scrollPress(!isTabScroll);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+    );
+  }
+}

@@ -48,7 +48,6 @@ class _OrderListItemPageState extends State<OrderListItemPage>
       }
     });
     Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
       "size": 20,
       "status": widget.arguments['status']
     };
@@ -317,10 +316,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
   }
 
   void _deleteOrder(BuildContext context, OrderListItem item) async {
-    Map<String, dynamic> params = {
-      "csrf_token": csrf_token,
-      "orderId": item.no
-    };
+    var params = {"orderId": item.no};
     await deleteOrder(params).then((value) {
       if (value.code == '200') {
         _getOrderList(true);

@@ -3,7 +3,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/goodsDetail/model/commentsItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/start_widget.dart';

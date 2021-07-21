@@ -1,13 +1,13 @@
 import 'package:flutter_app/model/categoryL1ListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/commentsItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/hdrkDetailVOListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/issueListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/shoppingReward.dart';
-import 'package:flutter_app/ui/goodsDetail/model/shoppingRewardRule.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuListItem.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuMapValue.dart';
-import 'package:flutter_app/ui/goodsDetail/model/skuSpecListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/issueListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
+import 'package:flutter_app/ui/goods_detail/model/shoppingRewardRule.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'goodDetail.g.dart';

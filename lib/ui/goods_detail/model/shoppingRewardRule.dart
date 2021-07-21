@@ -1,4 +1,4 @@
-import 'package:flutter_app/ui/goodsDetail/model/skuMapValue.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shoppingRewardRule.g.dart';

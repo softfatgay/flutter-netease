@@ -1,4 +1,4 @@
-import 'package:flutter_app/ui/goodsDetail/model/goodDetail.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'goodDetailDownData.g.dart';
