@@ -135,7 +135,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
       ),
     );
 
-    return Routers.link(widget, Routers.addAddress, context, {}, () {
+    return Routers.link(widget, Routers.addAddress, context, {}, (value) {
       _getLocations();
     });
   }
@@ -208,7 +208,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
         ],
       ),
     );
-    return Routers.link(widget, Routers.addAddress, context, null, () {
+    return Routers.link(widget, Routers.addAddress, context, null, (value) {
       _getLocations();
     });
   }
