@@ -188,14 +188,34 @@ class StuBuyGridItemWidget extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: item.isRefundPay
-                  ? Container(
-                      child: Text(
-                        '折合0元到手',
-                        style: t16redBold,
-                      ),
-                    )
-                  : Container()),
+            child: item.isRefundPay
+                ? Container(
+                    child: Text(
+                      '折合0元到手',
+                      style: t16redBold,
+                    ),
+                  )
+                : Container(
+                    child: Row(
+                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      children: [
+                        Text(
+                          '¥${item.price}',
+                          style: t16redBold,
+                        ),
+                        Text(
+                          '¥${item.originPrice}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: textGrey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
           Container(
             margin: EdgeInsets.only(right: 6),
             padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),

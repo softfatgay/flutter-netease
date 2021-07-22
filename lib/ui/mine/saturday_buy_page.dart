@@ -102,6 +102,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
                     children: [
                       _buildList(),
                       _buildGrid(),
+                      NormalFooter(hasMore: _hasMore),
                     ],
                   ),
                   StuBuyTabLayout(
@@ -121,7 +122,6 @@ class _TestPageState extends State<SaturdayTBuyPage>
                   ),
                 ],
               ),
-              NormalFooter(hasMore: _hasMore)
             ],
           ),
         ],
@@ -212,20 +212,23 @@ class _TestPageState extends State<SaturdayTBuyPage>
   }
 
   _buildGrid() {
-    return Container(
-      margin: EdgeInsets.only(left: 10, right: 10, top: 0),
-      child: GridView.count(
-        padding: EdgeInsets.all(0),
-        crossAxisCount: 2,
-        mainAxisSpacing: 6,
-        crossAxisSpacing: 6,
-        childAspectRatio: 0.6,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children:
-            _moreDataList.map((e) => StuBuyGridItemWidget(item: e)).toList(),
-      ),
-    );
+    return _moreDataList.isEmpty
+        ? Container()
+        : Container(
+            margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+            child: GridView.count(
+              padding: EdgeInsets.all(0),
+              crossAxisCount: 2,
+              mainAxisSpacing: 6,
+              crossAxisSpacing: 6,
+              childAspectRatio: 0.6,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: _moreDataList
+                  .map((e) => StuBuyGridItemWidget(item: e))
+                  .toList(),
+            ),
+          );
   }
 
   @override
@@ -295,6 +298,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
         _dataList.clear();
         _moreDataList.clear();
         _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
+        _scrollController.position.jumpTo(0);
       } else {
         _moreDataList.insertAll(_moreDataList.length, saturdayBuyModel.result);
       }

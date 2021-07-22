@@ -55,7 +55,6 @@ class _CouponPageState extends State<CouponPage> {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        print('[[[[[[[[[[[[[[[[');
         if (_pagination != null && !_pagination.lastPage) {
           _getMore();
         }
@@ -115,10 +114,11 @@ class _CouponPageState extends State<CouponPage> {
 
   _buildItem(BuildContext context, CouponItemModel item, int index) {
     var backColor =
-        index < _nowCoupon.length ? Color(0xFFE26F71) : Color(0xFFAFB4BC);
-    var tipsColor = index < _nowCoupon.length ? backRed : Color(0xFFA3A5AD);
+        index < _nowCoupon.length ? Color(0xFFDFB875) : Color(0xFFAFB4BC);
+    var tipsColor =
+        index < _nowCoupon.length ? Color(0xFFCEAC6C) : Color(0xFFA3A5AD);
     var botomColor =
-        index < _nowCoupon.length ? Color(0XFFD16769) : Color(0xFFA3A5AE);
+        index < _nowCoupon.length ? Color(0XFFCEAC6C) : Color(0xFFA3A5AE);
     return Container(
       margin: EdgeInsets.all(10),
       child: Stack(
@@ -169,43 +169,44 @@ class _CouponPageState extends State<CouponPage> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  decoration: BoxDecoration(
-                      color: botomColor,
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(4))),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          item.useCondition,
-                          style: t14white,
-                          maxLines: item.isSelected == null
-                              ? 1
-                              : (item.isSelected ? 15 : 1),
-                          overflow: TextOverflow.ellipsis,
+                GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    decoration: BoxDecoration(
+                        color: botomColor,
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(4))),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item.useCondition,
+                            style: t12white,
+                            maxLines: item.isSelected == null
+                                ? 1
+                                : (item.isSelected ? 15 : 1),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        child: Icon(
+                        Icon(
                           _returnIcon(item),
                           color: Colors.white,
+                          size: 16,
                         ),
-                        onTap: () {
-                          setState(() {
-                            if (item.isSelected == null) {
-                              item.isSelected = true;
-                            } else {
-                              item.isSelected = !item.isSelected;
-                            }
-                          });
-                        },
-                      )
-                    ],
+                      ],
+                    ),
                   ),
+                  onTap: () {
+                    setState(() {
+                      if (item.isSelected == null) {
+                        item.isSelected = true;
+                      } else {
+                        item.isSelected = !item.isSelected;
+                      }
+                    });
+                  },
                 ),
               ],
             ),

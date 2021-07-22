@@ -29,6 +29,7 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -154,14 +155,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        backgroundColor: Color(0xB3F5EED0),
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.loop),
-      ), //
-
+      floatingActionButton: floatingABRefresh(context, _incrementCounter),
       body: _isLoading ? _loadingView() : _refresh(),
     );
   }

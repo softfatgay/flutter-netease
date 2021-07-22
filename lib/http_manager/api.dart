@@ -316,6 +316,7 @@ Future<ResponseData> getCartsSubmit(Map<String, dynamic> postParams) async {
 
 ///清除无效商品
 Future<ResponseData> clearInvalidItem(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
   return await HttpManager.post(CLEAR_INVALID_ITEMS, params: params);
 }
 

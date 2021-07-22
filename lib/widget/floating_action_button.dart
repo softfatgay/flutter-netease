@@ -26,11 +26,15 @@ Widget floatingAB(ScrollController _scrollController) {
       margin: EdgeInsets.only(bottom: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: backLightYellow,
+        color: Color(0xBFFFFFFF),
       ),
-      child: Icon(
-        Icons.arrow_upward,
-        color: backWhite,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Image.asset(
+          'assets/images/arrow_up.png',
+          width: 12,
+          height: 12,
+        ),
       ),
     ),
     onTap: () {
@@ -48,15 +52,44 @@ Widget floatingABCart(
       margin: EdgeInsets.only(bottom: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: backLightYellow,
+        color: Color(0xBFFFFFFF),
       ),
-      child: Icon(
-        Icons.shopping_cart_outlined,
-        color: backWhite,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Image.asset(
+          'assets/images/ic_tab_cart_normal.png',
+          width: 12,
+          height: 12,
+        ),
       ),
     ),
     onTap: () {
       Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
+    },
+  );
+}
+
+Widget floatingABRefresh(BuildContext context, Function refresh) {
+  return GestureDetector(
+    child: Container(
+      height: 40,
+      width: 40,
+      margin: EdgeInsets.only(bottom: 50),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Color(0xBFFFFFFF),
+      ),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Image.asset(
+          'assets/images/refresh.png',
+          width: 12,
+          height: 12,
+        ),
+      ),
+    ),
+    onTap: () {
+      refresh();
     },
   );
 }

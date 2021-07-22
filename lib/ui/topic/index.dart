@@ -185,7 +185,6 @@ class _TopicPageState extends State<TopicPage>
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(2)),
               child: Container(
-                height: 300,
                 child: TopRoundNetImage(
                   url: item.picUrl,
                 ),
@@ -197,7 +196,7 @@ class _TopicPageState extends State<TopicPage>
             child: Text(
               item.title,
               textAlign: TextAlign.left,
-              style: t12black,
+              style: t14black,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -316,7 +315,7 @@ class _TopicPageState extends State<TopicPage>
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
         staggeredTileBuilder: (index) => new StaggeredTile.count(
-            1, _dataList[index].buyNow == null ? 1.5 : 1.7),
+            1, _dataList[index].buyNow == null ? 1.4 : 1.5),
         itemBuilder: (context, index) {
           return _buildItem(_dataList[index]);
         },

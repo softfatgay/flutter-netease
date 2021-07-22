@@ -134,6 +134,9 @@ class _WebViewPageState extends State<WebViewPage> {
               Routers.push(Routers.goodDetailTag, context, {'id': '$split3'});
             }
             return NavigationDecision.prevent;
+          } else if (url.startsWith('https://m.you.163.com/cart')) {
+            Routers.push(Routers.shoppingCart, context);
+            return NavigationDecision.prevent;
           } else {
             return NavigationDecision.navigate;
           }
@@ -154,6 +157,12 @@ class _WebViewPageState extends State<WebViewPage> {
     return js;
   }
 
+  //隐藏打开appicon
+  String hideOpenAppJs() {
+    var js = "document.querySelector('.X_icon_5982').style.display = 'none';";
+    return js;
+  }
+
   void hideTop() {
     Timer(Duration(milliseconds: 10), () {
       try {
@@ -167,6 +176,14 @@ class _WebViewPageState extends State<WebViewPage> {
       try {
         if (_webController != null) {
           _webController.evaluateJavascript(setHeaderJs()).then((result) {});
+        }
+      } catch (e) {}
+    });
+
+    Timer(Duration(milliseconds: 100), () {
+      try {
+        if (_webController != null) {
+          _webController.evaluateJavascript(hideOpenAppJs()).then((result) {});
         }
       } catch (e) {}
     });

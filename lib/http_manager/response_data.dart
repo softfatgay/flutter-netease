@@ -42,9 +42,7 @@ class ResponseData<T> {
       errorCode: response.data['errorCode'],
       httpRequestOptions: HttpRequestOptions.convert(response.requestOptions),
     );
-    if (responseData.code != '200' &&
-        responseData.code != '400' &&
-        responseData.errorCode != null) {
+    if (responseData.code != '200' && responseData.errorCode != null) {
       Toast.show(responseData.errorCode, mainContext);
     }
     Future<ResponseData> future;

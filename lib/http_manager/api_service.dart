@@ -176,7 +176,7 @@ final String GET_CARTS = '${baseUrl}xhr/cart/getCarts.json';
 ///购物车换购提交
 final String GET_CARTS_SUBMIT = '${baseUrl}xhr/cart/selectAddBuy.json';
 
-///购物车换购提交
+///购物清除失效商品
 final String CLEAR_INVALID_ITEMS = '${baseUrl}xhr/cart/clearInvalidItem.json';
 
 ///check-cart

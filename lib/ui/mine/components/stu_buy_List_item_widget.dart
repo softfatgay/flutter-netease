@@ -82,6 +82,7 @@ class StuBuyListItemWidget extends StatelessWidget {
         height: 130,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
