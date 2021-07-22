@@ -141,7 +141,7 @@ class StuBuyListItemWidget extends StatelessWidget {
 
   _price() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),

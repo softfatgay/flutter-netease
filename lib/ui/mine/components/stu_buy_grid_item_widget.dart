@@ -36,72 +36,70 @@ class StuBuyGridItemWidget extends StatelessWidget {
     );
   }
 
-  Expanded _detailDes(Result item) {
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _image(item),
-          Container(
-            padding: EdgeInsets.only(left: 5),
-            child: RichText(
-              text: TextSpan(
-                style: t14black,
-                children: [
-                  TextSpan(
-                      text: '${item.isRefundPay ? '返¥${item.price}余额 ' : ''}',
-                      style: t14red),
-                  TextSpan(text: '${item.title}')
-                ],
-              ),
+  _detailDes(Result item) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _image(item),
+        Container(
+          padding: EdgeInsets.only(left: 5),
+          child: RichText(
+            text: TextSpan(
+              style: t14black,
+              children: [
+                TextSpan(
+                    text: '${item.isRefundPay ? '返¥${item.price}余额 ' : ''}',
+                    style: t14red),
+                TextSpan(text: '${item.title}')
+              ],
             ),
           ),
-          Row(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                child: Text(
-                  '${item.userNum}人团',
-                  style: TextStyle(fontSize: 12, color: textGrey),
-                ),
+        ),
+        Row(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+              child: Text(
+                '${item.userNum}人团',
+                style: TextStyle(fontSize: 12, color: textGrey),
               ),
-              Expanded(
-                child: Row(
-                  children: [
-                    ClipOval(
-                        child: Image.network(
-                      item.recentUsers == null ? '' : item.recentUsers[0],
-                      width: 16,
-                      height: 16,
-                      fit: BoxFit.cover,
-                    )),
-                    SizedBox(width: 2),
-                    ClipOval(
-                        child: Image.network(
-                      item.recentUsers == null ? '' : item.recentUsers[1],
-                      width: 16,
-                      height: 16,
-                      fit: BoxFit.cover,
-                    )),
-                    Expanded(
-                      child: Text(
-                        '${item.joinUsers}人已拼',
-                        style: TextStyle(fontSize: 12, color: textGrey),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-          _price(),
-          SizedBox(height: 5)
-        ],
-      ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  ClipOval(
+                      child: Image.network(
+                    item.recentUsers == null ? '' : item.recentUsers[0],
+                    width: 16,
+                    height: 16,
+                    fit: BoxFit.cover,
+                  )),
+                  SizedBox(width: 2),
+                  ClipOval(
+                      child: Image.network(
+                    item.recentUsers == null ? '' : item.recentUsers[1],
+                    width: 16,
+                    height: 16,
+                    fit: BoxFit.cover,
+                  )),
+                  Expanded(
+                    child: Text(
+                      '${item.joinUsers}人已拼',
+                      style: TextStyle(fontSize: 12, color: textGrey),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+        _price(),
+        SizedBox(height: 5)
+      ],
     );
   }
 
@@ -194,7 +192,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
                   ? Container(
                       child: Text(
                         '折合0元到手',
-                        style: t18redBold,
+                        style: t16redBold,
                       ),
                     )
                   : Container()),
