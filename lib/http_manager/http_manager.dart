@@ -57,7 +57,8 @@ class HttpManager {
     dio.interceptors.add(InterceptorsWrapper(
         onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
       if (showProgress ?? true) {
-        BotToast.showLoading(clickClose: true);
+        BotToast.showLoading(
+            clickClose: true, backgroundColor: Colors.transparent);
       }
       print("----------------------- 请求数据 -----------------------\n");
       print("method = ${options.method.toString()}");

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/model/tabModel.dart';
 import 'package:flutter_app/ui/sort/model/currentCategory.dart';
 import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 
 typedef void IndexChange(int index);
 typedef void ScrollPress(bool isScroll);
 
-class CartTabLayout extends StatelessWidget {
+class StuBuyTabLayout extends StatelessWidget {
   final bool isTabScroll;
-  final List<CurrentCategory> subCateList;
+  final List<TabModel> subCateList;
   final IndexChange indexChange;
   final ScrollPress scrollPress;
   final TabController tabController;
 
-  const CartTabLayout(
+  const StuBuyTabLayout(
       {Key key,
       this.isTabScroll,
       this.subCateList,
@@ -35,7 +36,7 @@ class CartTabLayout extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: backWhite,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
       ),
       child: isTabScroll
           ? Container(

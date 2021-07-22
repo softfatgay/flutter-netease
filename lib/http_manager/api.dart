@@ -62,9 +62,11 @@ Future<ResponseData> getPinCategoryList() async {
 }
 
 ///周六一起拼数据列表
-Future<ResponseData> getPinDataList(Map<String, dynamic> params) async {
+Future<ResponseData> getPinDataList(
+    Map<String, dynamic> params, bool showProgress) async {
   params.addAll(_getParams());
-  return await HttpManager.get(PIN_GROUP_LIST, params: params);
+  return await HttpManager.get(PIN_GROUP_LIST,
+      params: params, showProgress: showProgress);
 }
 
 ///地址列表
@@ -177,9 +179,11 @@ Future<ResponseData> hotListCat(Map<String, dynamic> params) async {
 }
 
 ///热销榜/条目
-Future<ResponseData> hotList(Map<String, dynamic> params) async {
+Future<ResponseData> hotList(
+    Map<String, dynamic> params, bool showProgress) async {
   params.addAll(_getParams());
-  return await HttpManager.post(HOT_LIST_LIST, params: params);
+  return await HttpManager.post(HOT_LIST_LIST,
+      params: params, showProgress: showProgress);
 }
 
 ///热销榜/条目

@@ -1,4 +1,5 @@
-import 'package:common_utils/common_utils.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -7,14 +8,11 @@ import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/model/saturdayBuyModel.dart';
 import 'package:flutter_app/model/tabGroupModel.dart';
 import 'package:flutter_app/model/tabModel.dart';
-import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
-import 'package:flutter_app/widget/sliver_tabbar_delegate.dart';
+import 'package:flutter_app/ui/mine/components/cart_tablayout_stu.dart';
+import 'package:flutter_app/ui/mine/components/stu_buy_List_item_widget.dart';
+import 'package:flutter_app/ui/mine/components/stu_buy_grid_item_widget.dart';
 import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/widget/normal_footer.dart';
 
 class SaturdayTBuyPage extends StatefulWidget {
   @override
@@ -23,7 +21,7 @@ class SaturdayTBuyPage extends StatefulWidget {
 
 class _TestPageState extends State<SaturdayTBuyPage>
     with TickerProviderStateMixin {
-  String _topBack =
+  String _topBackImg =
       'http://yanxuan.nosdn.127.net/18522f8bd4b81e454eee3317f0b77bdc.png';
 
   TabController _tabController;
@@ -40,174 +38,202 @@ class _TestPageState extends State<SaturdayTBuyPage>
   bool _hasMore = true;
 
   List<Result> _dataList = [];
+  List<Result> _moreDataList = [];
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backColor,
-      body: _isFirstLoading
-          ? Loading()
-          : NestedScrollView(
-              headerSliverBuilder: (context, bool) {
-                return [
-                  _buildTop(context),
-                  _tabbar(),
-                ];
-              },
-              body: _bodyLoading
-                  ? Loading()
-                  : Container(
-                      child: NotificationListener(
-                        onNotification: (ScrollNotification scrollInfo) =>
-                            _onScrollNotification(scrollInfo),
-                        child: CustomScrollView(
-                          slivers: [
-                            singleSliverWidget(_buildGrid()),
-                            SliverFooter(hasMore: _hasMore)
-                          ],
-                        ),
-                      ),
-                    ),
-            ),
-    );
-  }
-
-  SliverPersistentHeader _tabbar() {
-    return SliverPersistentHeader(
-      delegate: SliverTabBarDelegate(
-        TabBar(
-          controller: _tabController,
-          tabs: _tabTitle.map((item) {
-            Widget tab = Container(
-              height: 50,
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 12),
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: _tabTitle[_tabController.index] == item
-                        ? backRed
-                        : backWhite,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Text(
-                  '${item.name}',
-                  style: _tabTitle[_tabController.index] == item
-                      ? t14white
-                      : t14black,
-                ),
-              ),
-            );
-            return tab;
-          }).toList(),
-          indicator: MyUnderlineTabIndicator(
-            borderSide: BorderSide(width: 0, color: redColor),
-          ),
-          indicatorColor: Colors.transparent,
-          unselectedLabelColor: Colors.black,
-          labelColor: Colors.red,
-          indicatorWeight: 0,
-          isScrollable: true,
-        ),
-        color: Colors.white,
-        back: Icon(Icons.arrow_back_ios),
-      ),
-      pinned: true,
-    );
-  }
-
-  SliverAppBar _buildTop(BuildContext context) {
-    return SliverAppBar(
-      expandedHeight: 100.0,
-      floating: true,
-      pinned: true,
-      toolbarHeight: 0,
-      elevation: 0,
-      brightness: Brightness.light,
-      automaticallyImplyLeading: false,
-      backgroundColor: backWhite,
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage('$_topBack'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '全场包邮 拼到就是赚到',
-                style: t14white,
-              ),
-              SizedBox(height: 15),
-              Text(
-                '11450人正在拼团',
-                style: t14white,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _buildGrid() {
-    return Container(
-      child: GridView.count(
-        padding: EdgeInsets.all(5),
-
-        ///这两个属性起关键性作用，列表嵌套列表一定要有Container
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-        childAspectRatio: 0.65,
-        children: _dataList.map<Widget>((item) {
-          Widget widget = _buildItem(item);
-          return Routers.link(
-            widget,
-            Routers.webView,
-            context,
-            {
-              'url':
-                  'https://m.you.163.com/pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
-            },
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  _onScrollNotification(ScrollNotification scrollInfo) {
-    if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-      if (!_isLoading) {
-        setState(() {
-          this._isLoading = true;
-          setState(() {
-            _page += 1;
-          });
-        });
-        _getPinDataList(); //加载数据
-      }
-    }
-  }
+  var _scrollController = ScrollController();
+  final StreamController<bool> _streamController =
+      StreamController<bool>.broadcast();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: _tabTitle.length, vsync: this);
-
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels > 95) {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (!_isLoading) {
+            setState(() {
+              this._isLoading = true;
+              setState(() {
+                _page += 1;
+              });
+            });
+            _getPinDataList(false); //加载数据
+          }
+        }
+        _streamController.sink.add(true);
+      } else {
+        _streamController.sink.add(false);
+      }
+    });
     _getCategoryList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: backColor,
+        body: _isFirstLoading ? Loading() : _buildBody());
+  }
+
+  bool isScroll = false;
+
+  _buildBody() {
+    return Stack(
+      children: [_bodyContent(), _topTab()],
+    );
+  }
+
+  _bodyContent() {
+    return SingleChildScrollView(
+      controller: _scrollController,
+      child: Stack(
+        children: [
+          _topBack(),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(height: 130),
+              Stack(
+                children: [
+                  Column(
+                    children: [
+                      _buildList(),
+                      _buildGrid(),
+                    ],
+                  ),
+                  StuBuyTabLayout(
+                    subCateList: _tabTitle,
+                    tabController: _tabController,
+                    indexChange: (index) {
+                      setState(() {
+                        _tabController.index = index;
+                      });
+                    },
+                    isTabScroll: isScroll,
+                    scrollPress: (isScroll) {
+                      setState(() {
+                        this.isScroll = isScroll;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              NormalFooter(hasMore: _hasMore)
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  _topTab() {
+    return Container(
+      child: StreamBuilder<bool>(
+        stream: _streamController.stream,
+        initialData: false,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          return snapshot.data
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: backWhite,
+                    border:
+                        Border(bottom: BorderSide(color: lineColor, width: 1)),
+                  ),
+                  padding:
+                      EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                  child: StuBuyTabLayout(
+                    subCateList: _tabTitle,
+                    tabController: _tabController,
+                    indexChange: (index) {
+                      setState(() {
+                        _tabController.index = index;
+                      });
+                    },
+                    isTabScroll: isScroll,
+                    scrollPress: (isScroll) {
+                      setState(() {
+                        this.isScroll = isScroll;
+                      });
+                    },
+                  ),
+                )
+              : Container();
+        },
+      ),
+    );
+  }
+
+  _topBack() {
+    return Container(
+      height: 165,
+      width: double.infinity,
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top,
+          bottom: MediaQuery.of(context).padding.top),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: NetworkImage('$_topBackImg'),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '全场包邮 拼到就是赚到',
+            style: t14white,
+          ),
+          SizedBox(height: 10),
+          Text(
+            '11450人正在拼团',
+            style: t14white,
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildList() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 45),
+      child: ListView.builder(
+        padding: EdgeInsets.all(0),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return StuBuyListItemWidget(item: _dataList[index]);
+        },
+        itemCount: _dataList.length,
+      ),
+    );
+  }
+
+  _buildGrid() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+      child: GridView.count(
+        padding: EdgeInsets.all(0),
+        crossAxisCount: 2,
+        mainAxisSpacing: 6,
+        crossAxisSpacing: 6,
+        childAspectRatio: 0.6,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children:
+            _moreDataList.map((e) => StuBuyGridItemWidget(item: e)).toList(),
+      ),
+    );
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     _tabController.dispose();
+    _streamController.close();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -240,25 +266,22 @@ class _TestPageState extends State<SaturdayTBuyPage>
               _tabIdType = 'categoryId';
             }
             tabId = _tabTitle[_tabController.index].id;
-            print(tabId);
-
-            _dataList.clear();
-            _getPinDataList();
+            _getPinDataList(true);
           }
         });
       });
       _isFirstLoading = false;
-      _getPinDataList();
+      _getPinDataList(false);
     });
   }
 
-  _getPinDataList() async {
+  _getPinDataList(bool showLoading) async {
     Map<String, dynamic> params = {
       _tabIdType: tabId,
       'page': _page,
       'pageSize': _pageSize
     };
-    var responseData = await getPinDataList(params);
+    var responseData = await getPinDataList(params, showLoading);
     var saturdayBuyModel = SaturdayBuyModel.fromJson(responseData.data);
 
     setState(() {
@@ -268,139 +291,13 @@ class _TestPageState extends State<SaturdayTBuyPage>
       if (_page >= _pagination.totalPage) {
         _hasMore = false;
       }
-      _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
+      if (_page == 1) {
+        _dataList.clear();
+        _moreDataList.clear();
+        _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
+      } else {
+        _moreDataList.insertAll(_moreDataList.length, saturdayBuyModel.result);
+      }
     });
-  }
-
-  _buildItem(Result item) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(2)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              height: 130,
-              child: TopRoundNetImage(
-                url: item.picUrl,
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(6, 10, 0, 0),
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                decoration: BoxDecoration(
-                    color: redColor, borderRadius: BorderRadius.circular(12)),
-                child: Text(
-                  '降! ¥${(NumUtil.getNumByValueDouble(item.originPrice - item.price, 1)).toStringAsFixed(0)}',
-                  style: t12white,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
-                child: Text(
-                  item.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                    child: Text(
-                      '${item.userNum}人团',
-                      style: TextStyle(fontSize: 12, color: textGrey),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        ClipOval(
-                            child: Image.network(
-                          item.recentUsers == null ? '' : item.recentUsers[0],
-                          width: 16,
-                          height: 16,
-                          fit: BoxFit.cover,
-                        )),
-                        SizedBox(width: 2),
-                        ClipOval(
-                            child: Image.network(
-                          item.recentUsers == null ? '' : item.recentUsers[1],
-                          width: 16,
-                          height: 16,
-                          fit: BoxFit.cover,
-                        )),
-                        Expanded(
-                          child: Text(
-                            '${item.joinUsers}人已拼',
-                            style: TextStyle(fontSize: 12, color: textGrey),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(
-                        "¥${item.price}",
-                        style: TextStyle(
-                            color: textRed,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "¥${item.originPrice}",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 12),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )),
-                    ],
-                  )),
-                  Container(
-                    margin: EdgeInsets.only(right: 6),
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                        color: redColor,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Text(
-                      '去开团',
-                      style: t14white,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 5)
-            ],
-          )
-        ],
-      ),
-    );
   }
 }

@@ -46,23 +46,47 @@ class HotListItem extends StatelessWidget {
               _bottomLink(),
             ],
           ),
-          Container(
-            height: 20,
-            width: 20,
-            margin: EdgeInsets.all(5),
-            alignment: Alignment.center,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Color(0xFFD2D3D2)),
-            child: Text(
-              '${index + 1}',
-              style: t14white,
-            ),
-          )
+          _sortIcon()
         ],
       ),
     );
     return Routers.link(
         widget, Routers.goodDetailTag, context, {'id': item.id});
+  }
+
+  _sortIcon() {
+    if (index == 0) {
+      return CachedNetworkImage(
+          width: 25,
+          height: 25,
+          imageUrl:
+              'https://yanxuan.nosdn.127.net/f1566323de5e538cfd1c1845685285f2.png');
+    } else if (index == 1) {
+      return CachedNetworkImage(
+          width: 25,
+          height: 25,
+          imageUrl:
+              'https://yanxuan.nosdn.127.net/5d91018eda410767b27ec57b8bf9b929.png');
+    } else if (index == 2) {
+      return CachedNetworkImage(
+          width: 25,
+          height: 25,
+          imageUrl:
+              'https://yanxuan.nosdn.127.net/89748e835b8ffb8a328d945bc2b9de93.png');
+    } else {
+      return Container(
+        height: 20,
+        width: 20,
+        margin: EdgeInsets.all(4),
+        alignment: Alignment.center,
+        decoration:
+            BoxDecoration(shape: BoxShape.circle, color: Color(0xFFD2D3D2)),
+        child: Text(
+          '${index + 1}',
+          style: t14white,
+        ),
+      );
+    }
   }
 
   _bottomLink() {
@@ -153,24 +177,26 @@ class HotListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
-              child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '¥${item.retailPrice}',
-                style: t18redBold,
-              ),
-              (item.counterPrice == item.retailPrice || item.counterPrice == 0)
-                  ? Container()
-                  : Text(
-                      '¥${item.counterPrice}',
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: textGrey,
-                          fontSize: 14),
-                    )
-            ],
-          )),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '¥${item.retailPrice}',
+                  style: t18redBold,
+                ),
+                (item.counterPrice == item.retailPrice ||
+                        item.counterPrice == 0)
+                    ? Container()
+                    : Text(
+                        '¥${item.counterPrice}',
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            color: textGrey,
+                            fontSize: 14),
+                      )
+              ],
+            ),
+          ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
@@ -218,10 +244,26 @@ class HotListItem extends StatelessWidget {
                     Color(0xFFFFA77E),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              '${item.goodCmtRate}好评率',
-              style: t12white,
+                borderRadius: BorderRadius.circular(8)),
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                    color: backWhite,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Image.asset(
+                    'assets/images/zan.png',
+                    width: 8,
+                    height: 8,
+                  ),
+                ),
+                Text(
+                  '${item.goodCmtRate}好评率',
+                  style: t12white,
+                ),
+              ],
             ),
           );
   }

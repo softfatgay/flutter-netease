@@ -11,11 +11,7 @@ import 'package:flutter_app/ui/home/components/cart_tablayout.dart';
 import 'package:flutter_app/ui/home/components/hot_list_item.dart';
 import 'package:flutter_app/ui/sort/model/currentCategory.dart';
 import 'package:flutter_app/ui/sort/model/hotListModel.dart';
-import 'package:flutter_app/ui/sort/model/subCateListItem.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
-import 'package:flutter_app/widget/sliver_tabbar_delegate.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/verical_text_scoller.dart';
 
@@ -81,7 +77,7 @@ class _HotListPageState extends State<HotListPage>
     });
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 150) {
+      if (_scrollController.position.pixels > 140) {
         _streamController.sink.add(true);
       } else {
         _streamController.sink.add(false);
@@ -92,7 +88,7 @@ class _HotListPageState extends State<HotListPage>
 
   void _getData() async {
     _getCat();
-    _getItemList();
+    _getItemList(false);
     _submitOrderInfo();
   }
 
@@ -137,14 +133,14 @@ class _HotListPageState extends State<HotListPage>
           _currentCategoryId = _subCateList[_tabController.index].id.toString();
           _currentSubCategoryId =
               _subCateList[_tabController.index].superCategoryId;
-          _getItemList();
+          _getItemList(true);
         }
       });
     });
   }
 
   ///列表数据
-  _getItemList() async {
+  _getItemList(bool showLoading) async {
     setState(() {
       _bodyLoading = true;
     });
@@ -153,7 +149,7 @@ class _HotListPageState extends State<HotListPage>
       "subCategoryId": _currentCategoryId,
       "userBusId": '',
     };
-    var responseData = await hotList(params);
+    var responseData = await hotList(params, showLoading);
     List<ItemListItem> dataList = [];
     List data = responseData.data['itemList'];
     data.forEach((element) {
@@ -211,7 +207,7 @@ class _HotListPageState extends State<HotListPage>
                   ),
                   _buildCategories(),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -255,11 +251,11 @@ class _HotListPageState extends State<HotListPage>
 
   _topBack() {
     return Container(
-      height: 280,
+      height: 270,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(_bannerUrl),
-          fit: BoxFit.fitWidth,
+          fit: BoxFit.fill,
         ),
       ),
       child: Center(
@@ -270,29 +266,6 @@ class _HotListPageState extends State<HotListPage>
               color: Color(0x1A000000),
               borderRadius: BorderRadius.circular(12)),
         ),
-      ),
-    );
-  }
-
-  _tabLayout() {
-    return Container(
-      height: 45,
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: backWhite,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: TabBar(
-        controller: _tabController,
-        tabs: _subCateList.map((f) => Tab(text: f.name)).toList(),
-        indicator: MyUnderlineTabIndicator(
-          borderSide: BorderSide(width: 2.0, color: redColor),
-        ),
-        indicatorColor: Colors.red,
-        unselectedLabelColor: Colors.black,
-        labelColor: Colors.red,
-        isScrollable: true,
       ),
     );
   }
