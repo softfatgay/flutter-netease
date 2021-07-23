@@ -30,7 +30,10 @@ import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
+import 'package:flutter_app/widget/home_page_header.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/widget/user_page_header.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -80,6 +83,9 @@ class _HomeState extends State<HomePage>
   final StreamController<bool> _streamController =
       StreamController<bool>.broadcast();
 
+  final StreamController<double> _toobarStreamController =
+      StreamController<double>.broadcast();
+
   //动画控制器
   AnimationController _animalController;
 
@@ -102,6 +108,11 @@ class _HomeState extends State<HomePage>
           if (_hasMore) {}
         }
       } else {
+        if (_scrollController.position.pixels <= 50) {
+          _toobarStreamController.sink
+              .add(100 - _scrollController.position.pixels);
+        }
+
         if (toolbarHeight == 50) {
           setState(() {
             toolbarHeight = 0;
@@ -179,18 +190,8 @@ class _HomeState extends State<HomePage>
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: 160,
-          backgroundColor: Colors.white,
-          brightness: Brightness.light,
-          toolbarHeight: 50,
-          title: _buildSearch(context),
-          centerTitle: true,
-          flexibleSpace: FlexibleSpaceBar(
-            background: _buildSwiper(), //banner图
-          ),
-        ),
+        _appBar(),
+        _buildSwiper(),
         _topTags(context), //标签
         _kingkong(context), //
         _bigPromotion(context), //活动
@@ -218,45 +219,52 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _buildSearch(BuildContext context) {
-    Widget widget = StreamBuilder<bool>(
-      stream: _streamController.stream,
-      initialData: false,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        Widget widget = TopSearch(
-          abool: snapshot.data,
-        );
-        return widget;
-      },
+  _appBar() {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: HomeHeader(
+        showBack: false,
+        title: '',
+        collapsedHeight: 50,
+        expandedHeight: 100 + MediaQuery.of(context).padding.top,
+        paddingTop: MediaQuery.of(context).padding.top,
+      ),
     );
-    return Routers.link(widget, Routers.search, context, {'id': "零食"});
-    // return singleSliverWidget(
-    //     Routers.link(navBar, Util.search, context, {'id': "零食"}));
   }
 
   _buildSwiper() {
-    return CarouselSlider(
-      items: _focusList.map<Widget>((e) {
-        return GestureDetector(
-          child: Container(
-            child: CachedNetworkImage(
-              imageUrl: e.picUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-          onTap: () {
-            Routers.push(Routers.webView, context, {'url': e.targetUrl});
-          },
-        );
-      }).toList(),
-      options: CarouselOptions(
-          autoPlay: true,
-          viewportFraction: 1.0,
-          enlargeCenterPage: true,
-          onPageChanged: (index, reason) {
-            print(_focusList[index].picUrl);
-            // setState(() {});
-          }),
+    return singleSliverWidget(
+      Container(
+        height: 160,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5), color: backWhite),
+        child: CarouselSlider(
+          items: _focusList.map<Widget>((e) {
+            return GestureDetector(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: backWhite),
+                child: RoundNetImage(
+                  url: e.picUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              onTap: () {
+                Routers.push(Routers.webView, context, {'url': e.targetUrl});
+              },
+            );
+          }).toList(),
+          options: CarouselOptions(
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 5),
+              viewportFraction: 1.0,
+              // enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                // setState(() {});
+              }),
+        ),
+      ),
     );
   }
 
@@ -264,11 +272,12 @@ class _HomeState extends State<HomePage>
     return singleSliverWidget(
       Container(
         width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: _policyDescList
               .map((item) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

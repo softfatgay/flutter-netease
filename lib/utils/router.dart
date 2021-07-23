@@ -7,6 +7,8 @@ import 'package:flutter_app/ui/goods_detail/select_address_page.dart';
 import 'package:flutter_app/ui/home/hot_list_page.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
+import 'package:flutter_app/ui/home/qr_code_result.dart';
+import 'package:flutter_app/ui/home/qr_scan_page.dart';
 import 'package:flutter_app/ui/mine/add_address_page.dart';
 import 'package:flutter_app/ui/mine/coupon_page.dart';
 import 'package:flutter_app/ui/mine/feedback_page.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list_page.dart';
 import 'package:flutter_app/ui/mine/pay_safe_page.dart';
 import 'package:flutter_app/ui/mine/points_center_page.dart';
+import 'package:flutter_app/ui/test_page.dart';
 import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/mine/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
@@ -43,6 +46,9 @@ import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/widget/full_screenImage.dart';
 
 class Routers {
+  static const String qrScanPage = 'qrScanPage';
+  static const String qrCodeResultPage = 'qrCodeResultPage';
+  static const String testPage = 'testPage';
   static const String brandTag = 'brandTag';
   static const String goodDetailTag = 'goodDetailTag';
   static const String catalogTag = 'catalogTag';
@@ -72,14 +78,27 @@ class Routers {
   static const String selectAddressPage = 'selectAddressPage';
 
   static Map<String, Function> routes = {
-    //商品详情
+    ///二维码扫描
+    qrScanPage: (context, {arguments}) => QRScanPage(),
+
+    ///二维码扫描
+    qrCodeResultPage: (context, {arguments}) =>
+        QRCodeResultPage(param: arguments),
+
+    ///测试
+    testPage: (context, {arguments}) => NoFoundPage(),
+
+    ///商品详情
     goodDetailTag: (context, {arguments}) =>
         GoodsDetailPage(arguments: arguments),
-    //商品详情
+
+    ///商品详情选择地址
     selectAddressPage: (context, {arguments}) => SelectAddressPage(),
 
+    ///分类
     catalogTag: (context, {arguments}) => SortListPage(arguments: arguments),
-    //kingKong
+
+    ///kingKong
     kingKong: (context, {arguments}) {
       String schemeUrl = arguments['schemeUrl'];
       if (schemeUrl.contains("categoryId")) {
@@ -89,18 +108,16 @@ class Routers {
       }
     },
 
-    // //搜索
-    // search: (context, {arguments}) => SearchGoodsPage(arguments: arguments),
-    //搜索
+    ///搜索
     search: (context, {arguments}) => SearchIndexPage(arguments: arguments),
 
-    //评论
+    ///评论
     comment: (context, {arguments}) => CommentList(arguments: arguments),
 
-    //添加地址
+    ///添加地址
     addAddress: (context, {arguments}) => AddAddressPage(arguments: arguments),
 
-    //热销榜
+    ///热销榜
     hotList: (context, {arguments}) => HotListPage(param: arguments),
 
     ///大图

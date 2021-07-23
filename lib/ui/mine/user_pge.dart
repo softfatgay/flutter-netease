@@ -37,6 +37,10 @@ class _MinePageState extends State<UserPage>
   String _userIcon =
       'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
 
+  //动画控制器
+
+  double _expandedHeight = 200;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -101,9 +105,9 @@ class _MinePageState extends State<UserPage>
             showBack: false,
             title: '',
             collapsedHeight: 50,
-            expandedHeight: 200,
+            userInfo: _userInfo,
+            expandedHeight: _expandedHeight,
             paddingTop: MediaQuery.of(context).padding.top,
-            child: _buildTop(context),
           ),
         ),
         // _buildTop(context),
@@ -117,7 +121,7 @@ class _MinePageState extends State<UserPage>
         _line(1),
         _line(10.0),
         _loginOut(context),
-        _line(50.0),
+        _line(150.0),
       ],
     );
   }
@@ -186,7 +190,7 @@ class _MinePageState extends State<UserPage>
           ],
         ),
       ),
-      height: ScreenUtil().setHeight(140) + MediaQuery.of(context).padding.top,
+      height: 140 + MediaQuery.of(context).padding.top,
       child: Stack(
         children: [
           GestureDetector(

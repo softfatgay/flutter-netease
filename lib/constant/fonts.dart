@@ -91,6 +91,15 @@ const TextStyle t20whitebold = TextStyle(
   decoration: TextDecoration.none,
 );
 
+///黑色字体-----------------------------------
+
+const TextStyle t10black = TextStyle(
+  color: textBlack,
+  fontSize: 10,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 const TextStyle t12blackbold = TextStyle(
   color: textBlack,
   fontSize: 12,
