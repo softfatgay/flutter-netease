@@ -69,7 +69,8 @@ Widget floatingABCart(
   );
 }
 
-Widget floatingABRefresh(BuildContext context, Function refresh) {
+Widget floatingABRefresh(BuildContext context,
+    AnimationController _animalController, Function refresh) {
   return GestureDetector(
     child: Container(
       height: 40,
@@ -81,10 +82,13 @@ Widget floatingABRefresh(BuildContext context, Function refresh) {
       ),
       child: Container(
         padding: EdgeInsets.all(10),
-        child: Image.asset(
-          'assets/images/refresh.png',
-          width: 12,
-          height: 12,
+        child: RotationTransition(
+          turns: _animalController,
+          child: Image.asset(
+            'assets/images/refresh.png',
+            width: 12,
+            height: 12,
+          ),
         ),
       ),
     ),

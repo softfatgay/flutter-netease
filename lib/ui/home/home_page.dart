@@ -39,7 +39,8 @@ class HomePage extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomeState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   ScrollController _scrollController = new ScrollController();
 
   bool _isLoading = true;
@@ -79,6 +80,9 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   final StreamController<bool> _streamController =
       StreamController<bool>.broadcast();
 
+  //动画控制器
+  AnimationController _animalController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -110,10 +114,12 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     // _checkLogin();
     _newUserGift();
     _checkVersion();
+    _initAnimal();
   }
 
   void _incrementCounter() {
     _getData();
+    _animalController.forward();
   }
 
   void _getData() async {
@@ -155,7 +161,8 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: floatingABRefresh(context, _incrementCounter),
+      floatingActionButton:
+          floatingABRefresh(context, _animalController, _incrementCounter),
       body: _isLoading ? _loadingView() : _refresh(),
     );
   }
@@ -910,6 +917,7 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     // TODO: implement dispose
     _scrollController.dispose();
     _streamController.close();
+    _animalController.dispose();
     super.dispose();
   }
 
@@ -1006,5 +1014,32 @@ class _HomeState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         showGiftDialog(context, newUserGift);
       }
     }
+  }
+
+  void _initAnimal() {
+    //AnimationController是一个特殊的Animation对象，在屏幕刷新的每一帧，就会生成一个新的值，
+    // 默认情况下，AnimationController在给定的时间段内会线性的生成从0.0到1.0的数字
+    //用来控制动画的开始与结束以及设置动画的监听
+    //vsync参数，存在vsync时会防止屏幕外动画（动画的UI不在当前屏幕时）消耗不必要的资源
+    //duration 动画的时长，这里设置的 seconds: 2 为2秒，当然也可以设置毫秒 milliseconds：2000.
+    _animalController = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    //动画开始、结束、向前移动或向后移动时会调用StatusListener
+    _animalController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animalController.reset();
+        //动画从 controller.forward() 正向执行 结束时会回调此方法
+        print("status is completed");
+      } else if (status == AnimationStatus.dismissed) {
+        //动画从 controller.reverse() 反向执行 结束时会回调此方法
+        print("status is dismissed");
+      } else if (status == AnimationStatus.forward) {
+        print("status is forward");
+        //执行 controller.forward() 会回调此状态
+      } else if (status == AnimationStatus.reverse) {
+        //执行 controller.reverse() 会回调此状态
+        print("status is reverse");
+      }
+    });
   }
 }
