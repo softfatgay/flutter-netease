@@ -2,7 +2,7 @@
 
 #### 已实现登录功能，动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持
 
-#### 注意项目中使用的kotlin,androidx版本
+#### 注意项目中使用的kotlin,androidx版本,项目中加入了二维码扫描（安卓gradle 4.2,kotlin版本1.5.21）
 #### cookie和csrf_token已实现动态更新，网页登录即可
 
 -  flutter(2.2.1)/dart(2.13.1)升级到新版本
