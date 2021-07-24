@@ -397,3 +397,8 @@ _timestampParams() => {
       "csrf_token": csrf_token,
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     };
+
+///去使用红包
+Future<ResponseData> redpackageItems(Map<String, dynamic> params) async {
+  return await HttpManager.get(REDPACKAGE_ITEMS, params: params);
+}

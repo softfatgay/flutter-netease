@@ -1,19 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/http_manager/http_util.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/home/components/gift_dialog.dart';
-import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModuleItem.dart';
@@ -28,12 +26,10 @@ import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/home_page_header.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/user_page_header.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -247,6 +243,8 @@ class _HomeState extends State<HomePage>
                     borderRadius: BorderRadius.circular(5), color: backWhite),
                 child: RoundNetImage(
                   url: e.picUrl,
+                  width: double.infinity,
+                  height: 160,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -998,7 +996,9 @@ class _HomeState extends State<HomePage>
               TextButton(
                 onPressed: () {
                   // Navigator.pop(context);
-                  _launchURL(versionModel.downloadURL);
+                  if (Platform.isAndroid) {
+                    _launchURL(versionModel.downloadURL);
+                  }
                 },
                 child: Text('确定', style: t14red),
               ),

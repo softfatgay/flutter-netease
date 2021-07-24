@@ -48,7 +48,13 @@ PackageItem _$PackageItemFromJson(Map<String, dynamic> json) {
     ..name = json['name'] as String
     ..price = json['price'] as num
     ..rule = json['rule'] as String
-    ..redpackageId = json['redpackageId'] as num;
+    ..isSelected = json['isSelected'] as bool
+    ..redpackageId = json['redpackageId'] as num
+    ..schemeUrl = json['schemeUrl'] as String
+    ..tagList = (json['tagList'] as List)
+        ?.map((e) =>
+            e == null ? null : TagListItem.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$PackageItemToJson(PackageItem instance) =>
@@ -60,7 +66,10 @@ Map<String, dynamic> _$PackageItemToJson(PackageItem instance) =>
       'name': instance.name,
       'price': instance.price,
       'rule': instance.rule,
+      'isSelected': instance.isSelected,
       'redpackageId': instance.redpackageId,
+      'schemeUrl': instance.schemeUrl,
+      'tagList': instance.tagList,
     };
 
 BannerData _$BannerDataFromJson(Map<String, dynamic> json) {
@@ -75,4 +84,18 @@ Map<String, dynamic> _$BannerDataToJson(BannerData instance) =>
       'backgroundPic': instance.backgroundPic,
       'title': instance.title,
       'icon': instance.icon,
+    };
+
+TagListItem _$TagListItemFromJson(Map<String, dynamic> json) {
+  return TagListItem()
+    ..tagType = json['tagType'] as num
+    ..tagName = json['tagName'] as String
+    ..tagStyle = json['tagStyle'] as num;
+}
+
+Map<String, dynamic> _$TagListItemToJson(TagListItem instance) =>
+    <String, dynamic>{
+      'tagType': instance.tagType,
+      'tagName': instance.tagName,
+      'tagStyle': instance.tagStyle,
     };

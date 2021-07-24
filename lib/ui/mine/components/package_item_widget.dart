@@ -82,25 +82,15 @@ class _PackageItemWidgetState extends State<PackageItemWidget> {
               maxLines: 1,
             ),
           ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                '满${_packageItem.condition}元可用：${_packageItem.rule}',
-                style: TextStyle(color: textWhite),
-                maxLines: _isScroll ? 10 : 4,
-                overflow: TextOverflow.ellipsis,
-              ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              '满${_packageItem.condition}元可用：${_packageItem.rule}',
+              style: TextStyle(color: textWhite),
+              maxLines: _isScroll ? 10 : 4,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          // GestureDetector(
-          //   child: Icon(Icons.keyboard_arrow_down_sharp),
-          //   onTap: () {
-          //     setState(() {
-          //       this._isScroll = !_isScroll;
-          //     });
-          //   },
-          // ),
         ],
       ),
     );

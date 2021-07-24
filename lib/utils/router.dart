@@ -19,6 +19,7 @@ import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order_list_page.dart';
 import 'package:flutter_app/ui/mine/pay_safe_page.dart';
 import 'package:flutter_app/ui/mine/points_center_page.dart';
+import 'package:flutter_app/ui/mine/red_package_use_page.dart';
 import 'package:flutter_app/ui/test_page.dart';
 import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/mine/red_packet_page.dart';
@@ -76,6 +77,7 @@ class Routers {
   static const String addNewSize = 'addNewSize';
   static const String accountManagePage = 'accountManagePage';
   static const String selectAddressPage = 'selectAddressPage';
+  static const String redPackageUsePage = 'redPackageUsePage';
 
   static Map<String, Function> routes = {
     ///二维码扫描
@@ -149,6 +151,8 @@ class Routers {
 
     ///感兴趣分类
     addNewSize: (context, {arguments}) => AddNewSize(param: arguments),
+    ///去使用红包
+    redPackageUsePage: (context, {arguments}) => RedPackageUsePage(param: arguments),
 
     ///用户信息
     userInfoPageIndex: (context, {arguments}) {

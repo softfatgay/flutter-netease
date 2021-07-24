@@ -3,6 +3,7 @@ import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class QRCodeResultPage extends StatefulWidget {
   final Map param;
+
   const QRCodeResultPage({Key key, this.param}) : super(key: key);
 
   @override
@@ -11,6 +12,7 @@ class QRCodeResultPage extends StatefulWidget {
 
 class _QRCodeResultPageState extends State<QRCodeResultPage> {
   var result;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -27,7 +29,10 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
         title: '扫描结果',
       ).build(context),
       body: SingleChildScrollView(
-        child: Text('${result.code.toString()}'),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+          child: Text('${result.code.toString()}'),
+        ),
       ),
     );
   }

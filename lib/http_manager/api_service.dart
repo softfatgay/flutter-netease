@@ -216,6 +216,9 @@ final String QUERY_SIZE_ID = '${baseUrl}xhr/size/getById.json';
 ///积分推荐商品
 final String POINTS_RCMD = '${baseUrl}xhr/points/rcmd.json';
 
+///去使用红包
+final String REDPACKAGE_ITEMS = 'https://goods.you.163.com/new/prom/rcmdItems.do';
+
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
 
@@ -385,3 +388,6 @@ final String POINTS_RCMD = '${baseUrl}xhr/points/rcmd.json';
 
 ///热销榜名单
 //https://m.you.163.com/xhr/item/getSubmitOrderInfo.json?csrf_token=7704c0162dd9505942bea22270eefcf8&__timestamp=1626849599973&
+
+///去使用红包
+//https://goods.you.163.com/new/prom/rcmdItems.do

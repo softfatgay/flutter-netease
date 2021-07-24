@@ -12,13 +12,11 @@ import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/user_page_header.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
@@ -121,7 +119,7 @@ class _MinePageState extends State<UserPage>
         _line(1),
         _line(10.0),
         _loginOut(context),
-        _line(150.0),
+        _line(10.0),
       ],
     );
   }

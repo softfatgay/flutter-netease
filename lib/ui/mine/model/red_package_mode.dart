@@ -33,8 +33,13 @@ class PackageItem {
   String name;
   num price;
   String rule;
+  bool isSelected = false;
 
   num redpackageId;
+  String schemeUrl;
+
+  List<TagListItem> tagList;
+
 
   PackageItem();
   factory PackageItem.fromJson(Map<String, dynamic> json) =>
@@ -51,4 +56,18 @@ class BannerData {
 
   factory BannerData.fromJson(Map<String, dynamic> json) =>
       _$BannerDataFromJson(json);
+}
+
+@JsonSerializable()
+class TagListItem{
+ num tagType;
+ String tagName;
+ num tagStyle;
+
+ TagListItem();
+
+
+ factory TagListItem.fromJson(Map<String, dynamic> json) =>
+     _$TagListItemFromJson(json);
+
 }

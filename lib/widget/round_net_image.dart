@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class RoundNetImage extends StatelessWidget {
   final String url;
   final double height;
-  final double witht;
+  final double width;
   final double corner;
   final BoxFit fit;
 
@@ -12,7 +12,7 @@ class RoundNetImage extends StatelessWidget {
       {Key key,
       this.url,
       this.height = 100,
-      this.witht = 100,
+      this.width = 100,
       this.corner = 5,
       this.fit = BoxFit.cover})
       : super(key: key);
@@ -21,6 +21,8 @@ class RoundNetImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CachedNetworkImage(
+        height: height,
+        width: width,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(corner),

@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/components/package_item_widget.dart';
 import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
+import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
@@ -46,18 +50,185 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
 
   _buildItems(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      sliver: SliverGrid.count(
-        childAspectRatio: 0.7,
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        children: _dataList.map((item) {
-          return PackageItemWidget(
-              packageItem: item, searchType: widget.searchType);
-        }).toList(),
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      sliver: SliverList(
+          delegate:
+              SliverChildBuilderDelegate((BuildContext context, int index) {
+        return _buildItem(context, _dataList[index], index);
+      }, childCount: _dataList.length)),
+    );
+  }
+
+  _buildItem(BuildContext context, PackageItem item, int index) {
+    var backColor =
+        widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFAFB4BC);
+    var tipsColor =
+        widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFA3A5AD);
+    var botomColor =
+        widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFA3A5AE);
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+                color: backColor, borderRadius: BorderRadius.circular(4)),
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: backColor),
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            '${item.price}',
+                            style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.w300,
+                                color: textWhite),
+                          ),
+                          Text(
+                            '元',
+                            style: TextStyle(color: textWhite),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              item.tagList == null || item.tagList.isEmpty
+                                  ? Container()
+                                  : Container(
+                                      margin: EdgeInsets.only(top: 10, left: 5),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 6, vertical: 1),
+                                      decoration: BoxDecoration(
+                                          color: backRed,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Text(
+                                        '${item.tagList[1].tagName}',
+                                        style: t10white,
+                                      ),
+                                    ),
+                              Text(item.name, style: t14white),
+                              Text(
+                                '${Util.long2date(item.validStartTime * 1000)}-${Util.long2date(item.validEndTime * 1000)}',
+                                style:
+                                    TextStyle(color: textWhite, fontSize: 10),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                widget.searchType == 1
+                    ? GestureDetector(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 15, left: 10),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: backWhite,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            '去使用',
+                            style: t14red,
+                          ),
+                        ),
+                        onTap: () {
+                          Routers.push(Routers.webView, context,
+                              {'url': item.schemeUrl});
+                        },
+                      )
+                    : Container(height: 15),
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    decoration: BoxDecoration(
+                        color: botomColor,
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(4))),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item.rule,
+                            style: t12white,
+                            maxLines: item.isSelected == null
+                                ? 1
+                                : (item.isSelected ? 15 : 1),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Icon(
+                          _returnIcon(item),
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      if (item.isSelected == null) {
+                        item.isSelected = true;
+                      } else {
+                        item.isSelected = !item.isSelected;
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          item.tagList == null || item.tagList.isEmpty
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(top: 10, left: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  decoration: BoxDecoration(
+                      color: Color(0xFFFBE8E8),
+                      borderRadius:
+                          BorderRadius.horizontal(right: Radius.circular(10))),
+                  child: Text(
+                    '${item.tagList[0].tagName}',
+                    style: t12red,
+                  ),
+                ),
+        ],
       ),
     );
+  }
+
+  _returnIcon(PackageItem item) {
+    if (item.isSelected == null) {
+      return Icons.keyboard_arrow_down_rounded;
+    } else {
+      if (item.isSelected) {
+        return Icons.keyboard_arrow_up_rounded;
+      } else {
+        return Icons.keyboard_arrow_down_rounded;
+      }
+    }
   }
 
   @override

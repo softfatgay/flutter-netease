@@ -9,6 +9,7 @@ import 'package:flutter_app/ui/userInfo/model/qrCodeModel.dart';
 import 'package:flutter_app/ui/userInfo/model/qrUserInfoModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -100,8 +101,11 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                   margin: EdgeInsets.only(top: 50),
                   alignment: Alignment.center,
                   height: 80,
-                  child: ClipOval(
-                    child: CachedNetworkImage(imageUrl: user_icon_url),
+                  child: RoundNetImage(
+                    url: user_icon_url,
+                    corner: 40,
+                    height: 80,
+                    width: 80,
                   ),
                 )
               ],

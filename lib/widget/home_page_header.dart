@@ -64,9 +64,9 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
       } else {
         isShowLogo = false;
       }
-      searchOffsetR = shrinkOffset * 4;
+      searchOffsetR = shrinkOffset * 3.3;
     } else {
-      searchOffsetR = verOffset * 4;
+      searchOffsetR = verOffset * 3.3;
       isShowLogo = false;
     }
 
@@ -103,7 +103,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
     return Container(
       height: 50,
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 8),
       child: Container(
         padding: EdgeInsets.only(left: 8),
         margin: EdgeInsets.symmetric(horizontal: 10),
@@ -168,8 +168,8 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                       children: [
                         Image.asset(
                           'assets/images/ic_tab_home_normal.png',
-                          height: 25,
-                          width: 25,
+                          height: 22,
+                          width: 22,
                         ),
                         SizedBox(width: 5),
                         Image.asset(
@@ -230,7 +230,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                           Image.asset(
                             'assets/images/ic_tab_cart_normal.png',
                             width: 20,
-                            height: 20,
+                            height: 22,
                             color: Color(0xFF7D7D7D),
                           ),
                           Text(
