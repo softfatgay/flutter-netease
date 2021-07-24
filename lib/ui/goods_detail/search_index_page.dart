@@ -308,6 +308,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           onTap: () {
             setState(() {
               _searchResult(_searchTipsData[index]);
+              _getKeyword();
             });
           },
         );

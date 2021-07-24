@@ -208,7 +208,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                             'assets/images/qr_scan.png',
                             width: 20,
                             height: 20,
-                            color: Color(0xFF7D7D7D),
+                            color: Color(0xFF333333),
                           ),
                           Text(
                             '扫一扫',
@@ -231,7 +231,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                             'assets/images/ic_tab_cart_normal.png',
                             width: 20,
                             height: 22,
-                            color: Color(0xFF7D7D7D),
+                            color: Color(0xFF333333),
                           ),
                           Text(
                             '购物车',

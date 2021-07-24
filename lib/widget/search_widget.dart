@@ -88,11 +88,11 @@ class _SearchGoodsState extends State<SearchWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Icon(
-                        Icons.search_outlined,
-                        size: 20,
-                        color: Colors.grey,
+                      padding: EdgeInsets.only(left: 8),
+                      child: Image.asset(
+                        'assets/images/search_edit_icon.png',
+                        width: 14,
+                        height: 14,
                       ),
                     ),
                     Expanded(
