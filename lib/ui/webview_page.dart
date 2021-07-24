@@ -20,7 +20,8 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  WebViewController _webController;
+  final Completer<WebViewController> _webController =
+  Completer<WebViewController>();
   final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
@@ -77,9 +78,11 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (await _webController.canGoBack()) {
-          _webController.goBack();
-        } else {
+        var controller =await _webController.future.then((value) =>  value);
+        print(await controller.canGoBack());
+        if (await controller.canGoBack()) {
+          _webController.future.then((value) =>  value.goBack());
+        }else{
           Navigator.pop(context);
         }
         return false;
@@ -105,7 +108,7 @@ class _WebViewPageState extends State<WebViewPage> {
             _url,
             headers: {"Cookie": cookie},
           );
-          _webController = controller;
+          _webController.complete(controller);
         },
         onPageStarted: (url) async {
           setcookie();
@@ -113,7 +116,7 @@ class _WebViewPageState extends State<WebViewPage> {
         },
         onPageFinished: (url) async {
           hideTop();
-          String aa = await _webController.getTitle();
+          String aa = await _webController.future.then((value) => value.getTitle());
           setState(() {
             _title = aa;
           });
@@ -167,7 +170,7 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer(Duration(milliseconds: 10), () {
       try {
         if (_webController != null) {
-          _webController.evaluateJavascript(hideHeaderJs()).then((result) {});
+          _webController.future.then((value) => value.evaluateJavascript(hideHeaderJs()).then((result) {}));
         }
       } catch (e) {}
     });
@@ -175,7 +178,7 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer(Duration(milliseconds: 100), () {
       try {
         if (_webController != null) {
-          _webController.evaluateJavascript(setHeaderJs()).then((result) {});
+          _webController.future.then((value) => value.evaluateJavascript(setHeaderJs()).then((result) {}));
         }
       } catch (e) {}
     });
@@ -183,11 +186,12 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer(Duration(milliseconds: 100), () {
       try {
         if (_webController != null) {
-          _webController.evaluateJavascript(hideOpenAppJs()).then((result) {});
+          _webController.future.then((value) => value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
         }
       } catch (e) {}
     });
   }
+
 
   @override
   void dispose() {

@@ -14,7 +14,7 @@ dependencies:
   dio: ^4.0.0
 
   #  webview
-  webview_flutter: ^2.0.8
+  webview_flutter: ^2.0.10
   webview_cookie_manager: ^2.0.0
   #状态管理
   #  provider: ^3.2.0
