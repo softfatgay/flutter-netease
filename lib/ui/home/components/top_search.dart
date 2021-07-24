@@ -22,17 +22,18 @@ class TopSearch extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              "网易严选",
-              style: abool ? t16black : t16grey,
+            margin: EdgeInsets.only(right: 5),
+            child: Image.asset(
+              'assets/images/logo_text.png',
+              height: 18,
+              // color: Colors.white,
             ),
           ),
           Expanded(
             child: Container(
-              height: 35,
+              height: 30,
               width: double.infinity,
-              margin: EdgeInsets.fromLTRB(0, 10, 15, 10),
+              margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
               decoration: BoxDecoration(
                 color: abool
                     ? Color.fromARGB(255, 237, 237, 237)
@@ -46,15 +47,16 @@ class TopSearch extends StatelessWidget {
                   SizedBox(
                     width: 5,
                   ),
-                  Icon(
-                    Icons.search,
-                    size: 20,
-                    color: textGrey,
+                  Image.asset(
+                    'assets/images/search_edit_icon.png',
+                    width: 14,
+                    height: 14,
                   ),
+                  SizedBox(width: 5),
                   Expanded(
                     child: Text(
                       "搜索商品，共30000+款好物",
-                      style: t12grey,
+                      style: t12black,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
