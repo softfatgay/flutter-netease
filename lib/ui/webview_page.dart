@@ -21,7 +21,7 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   final Completer<WebViewController> _webController =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
   final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
@@ -78,11 +78,11 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        var controller =await _webController.future.then((value) =>  value);
+        var controller = await _webController.future.then((value) => value);
         print(await controller.canGoBack());
         if (await controller.canGoBack()) {
-          _webController.future.then((value) =>  value.goBack());
-        }else{
+          _webController.future.then((value) => value.goBack());
+        } else {
           Navigator.pop(context);
         }
         return false;
@@ -116,7 +116,8 @@ class _WebViewPageState extends State<WebViewPage> {
         },
         onPageFinished: (url) async {
           hideTop();
-          String aa = await _webController.future.then((value) => value.getTitle());
+          String aa =
+              await _webController.future.then((value) => value.getTitle());
           setState(() {
             _title = aa;
           });
@@ -138,7 +139,7 @@ class _WebViewPageState extends State<WebViewPage> {
             }
             return NavigationDecision.prevent;
           } else if (url.startsWith('https://m.you.163.com/cart')) {
-            Routers.push(Routers.shoppingCart, context);
+            Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
             return NavigationDecision.prevent;
           } else {
             return NavigationDecision.navigate;
@@ -149,8 +150,21 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   //隐藏头部
-  String setHeaderJs() {
-    var js = "document.querySelector('.hdWraper').style.display = 'none';";
+  String hideHeaderJs1() {
+    // var js = "document.querySelector('.hdWraper').style.height = '0';";
+    var js = "document.querySelector('.m-topBar').style.display = 'none';";
+    return js;
+  }
+
+  //隐藏头部
+  String hideHeaderJs2() {
+    var js = "document.querySelector('.m-hd').style.display = 'none';";
+    return js;
+  }
+
+  //隐藏头部
+  String hideHeaderJs3() {
+    var js = "document.querySelector('.YX_M_507221').style.display = 'none';";
     return js;
   }
 
@@ -167,10 +181,23 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   void hideTop() {
-    Timer(Duration(milliseconds: 10), () {
+    Timer(Duration(milliseconds: 100), () {
       try {
         if (_webController != null) {
-          _webController.future.then((value) => value.evaluateJavascript(hideHeaderJs()).then((result) {}));
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs1()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs2()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs3()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
         }
       } catch (e) {}
     });
@@ -178,24 +205,31 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer(Duration(milliseconds: 100), () {
       try {
         if (_webController != null) {
-          _webController.future.then((value) => value.evaluateJavascript(setHeaderJs()).then((result) {}));
-        }
-      } catch (e) {}
-    });
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs1()).then((result) {}));
 
-    Timer(Duration(milliseconds: 100), () {
-      try {
-        if (_webController != null) {
-          _webController.future.then((value) => value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs2()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs3()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideHeaderJs()).then((result) {}));
+
+          _webController.future.then((value) =>
+              value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
         }
       } catch (e) {}
     });
   }
 
-
   @override
   void dispose() {
     // TODO: implement dispose
+    _webController.future.then((value) {
+      value.clearCache();
+    });
     super.dispose();
   }
 }

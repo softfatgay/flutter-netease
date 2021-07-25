@@ -166,10 +166,9 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> params) async {
   return await HttpManager.get(SHOPPING_CART_CHECK_NUM, params: params);
 }
 
-///购物车 删除商品
+///购物车 清楚无效商品
 Future<ResponseData> deleteCart(Map<String, dynamic> params) async {
-  params.addAll(_getParams());
-  return await HttpManager.post(DELETE_CART, params: params);
+  return await HttpManager.post(DELETE_CART, params: _getParams(),postData: params);
 }
 
 ///热销榜/标题

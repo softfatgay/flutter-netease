@@ -20,7 +20,7 @@ class GoodTitleWidget extends StatelessWidget {
   _buildTitle(BuildContext context) {
     return Container(
       color: backWhite,
-      padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -76,12 +76,6 @@ class _HomeState extends State<HomePage>
 
   var toolbarHeight = 0;
 
-  final StreamController<bool> _streamController =
-      StreamController<bool>.broadcast();
-
-  final StreamController<double> _toobarStreamController =
-      StreamController<double>.broadcast();
-
   //动画控制器
   AnimationController _animalController;
 
@@ -91,31 +85,12 @@ class _HomeState extends State<HomePage>
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > 110) {
-        if (toolbarHeight == 0) {
-          setState(() {
-            toolbarHeight = 50;
-            _streamController.sink.add(true);
-          });
-        }
-
         // 如果下拉的当前位置到scroll的最下面
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
           if (_hasMore) {}
         }
-      } else {
-        if (_scrollController.position.pixels <= 50) {
-          _toobarStreamController.sink
-              .add(100 - _scrollController.position.pixels);
-        }
-
-        if (toolbarHeight == 50) {
-          setState(() {
-            toolbarHeight = 0;
-            _streamController.sink.add(false);
-          });
-        }
-      }
+      } else {}
     });
     _getData();
     // _checkLogin();
@@ -363,15 +338,15 @@ class _HomeState extends State<HomePage>
     if (item.cells != null && item.cells.length > 1) {
       return Container(
         width: double.infinity,
-        constraints: BoxConstraints(maxHeight: 180),
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+        constraints: BoxConstraints(maxHeight: 170),
+        margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           children: item.cells.map((e) {
             return Expanded(
               flex: 1,
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 6),
+                padding: EdgeInsets.symmetric(horizontal: 2),
                 child: GestureDetector(
                   child: CachedNetworkImage(
                     imageUrl: item.cells.length > 1 ? e.picUrl : e.picUrl,
@@ -423,7 +398,7 @@ class _HomeState extends State<HomePage>
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Text(
                 "- 新人专享礼包 -",
-                style: t16black,
+                style: t14black,
               ),
             )
           ],
@@ -544,7 +519,7 @@ class _HomeState extends State<HomePage>
               padding: EdgeInsets.fromLTRB(0, 5, 12, 12),
               child: Text(
                 _categoryHotSellModule.title,
-                style: t16black,
+                style: t14black,
               ),
             ),
             Container(
@@ -697,7 +672,7 @@ class _HomeState extends State<HomePage>
             alignment: Alignment.centerLeft,
             child: Text(
               "$title",
-              style: t16black,
+              style: t14black,
             ),
           ),
         ],
@@ -923,7 +898,6 @@ class _HomeState extends State<HomePage>
   void dispose() {
     // TODO: implement dispose
     _scrollController.dispose();
-    _streamController.close();
     _animalController.dispose();
     super.dispose();
   }

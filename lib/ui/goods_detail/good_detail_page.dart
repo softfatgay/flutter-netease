@@ -87,6 +87,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   bool _initLoading = true;
   GoodDetailPre _goodDetailPre;
 
+  ///视频
+  VideoInfo _videoInfo;
+
   ///商品详情
   GoodDetail _goodDetail;
 
@@ -309,6 +312,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
       _fullRefundPolicy = _goodDetail.fullRefundPolicy;
       var itemDetail = _goodDetail.itemDetail;
+      _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
+      print('{{{{{{{{{{{{{{{{{{{{');
+
+      print(itemDetail);
+      print(itemDetail['videoInfo']);
+
+
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
       bannerList.forEach((image) {
         if (image.toString().startsWith('https://')) {
@@ -484,15 +494,40 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 2),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(2)),
+                color: Color(0x80FFFFFF),
+                borderRadius: BorderRadius.circular(2)),
             child: Text(
               '$_bannerIndex/${imgList.length}',
-              style: t12grey,
+              style: t12black,
             ),
           ),
-          right: 10,
-          bottom: 15,
+          right: 15,
+          bottom: 10,
         ),
+        _videoInfo == null || _videoInfo.mp4VideoUrl == null||_videoInfo.mp4VideoUrl == ''
+            ? Container()
+            : Positioned(
+                left: 15,
+                bottom: 10,
+                child: GestureDetector(
+                  child: Container(
+                    height: 31,
+                    width: 31,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white),
+                    child: Image.asset(
+                      'assets/images/video_play.png',
+                      height: 28,
+                      width: 28,
+                    ),
+                  ),
+                  onTap: () {
+                    Routers.push(Routers.videoPage, context,
+                        {'url': _videoInfo.mp4VideoUrl});
+                  },
+                ),
+              ),
       ],
     );
   }

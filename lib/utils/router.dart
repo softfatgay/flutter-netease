@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/error_page.dart';
 import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
 import 'package:flutter_app/ui/goods_detail/search_index_page.dart';
@@ -20,33 +21,31 @@ import 'package:flutter_app/ui/mine/order_list_page.dart';
 import 'package:flutter_app/ui/mine/pay_safe_page.dart';
 import 'package:flutter_app/ui/mine/points_center_page.dart';
 import 'package:flutter_app/ui/mine/red_package_use_page.dart';
-import 'package:flutter_app/ui/test_page.dart';
-import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/mine/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
 import 'package:flutter_app/ui/mine/saturday_buy_page.dart';
-import 'package:flutter_app/ui/userInfo/add_new_size.dart';
-import 'package:flutter_app/ui/userInfo/favorite_page.dart';
-import 'package:flutter_app/ui/userInfo/index.dart';
-import 'package:flutter_app/ui/userInfo/account_manage_page.dart';
-import 'package:flutter_app/ui/no_found_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
-import 'package:flutter_app/ui/setting/setting_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
+import 'package:flutter_app/ui/setting/setting_page.dart';
 import 'package:flutter_app/ui/shopingcart/get_cars_page.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
-import 'package:flutter_app/ui/sort/search_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
+import 'package:flutter_app/ui/userInfo/account_manage_page.dart';
+import 'package:flutter_app/ui/userInfo/add_new_size.dart';
+import 'package:flutter_app/ui/userInfo/favorite_page.dart';
+import 'package:flutter_app/ui/userInfo/index.dart';
 import 'package:flutter_app/ui/userInfo/mine_size_page.dart';
+import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/userInfo/user_info_page.dart';
-import 'package:flutter_app/ui/webview_for_web_app.dart';
+import 'package:flutter_app/ui/video_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/widget/full_screenImage.dart';
 
 class Routers {
+  static const String videoPage = 'videoPage';
   static const String qrScanPage = 'qrScanPage';
   static const String qrCodeResultPage = 'qrCodeResultPage';
   static const String testPage = 'testPage';
@@ -82,13 +81,15 @@ class Routers {
   static Map<String, Function> routes = {
     ///二维码扫描
     qrScanPage: (context, {arguments}) => QRScanPage(),
+    ///视频
+    videoPage: (context, {arguments}) => VideoPage(params: arguments),
 
     ///二维码扫描
     qrCodeResultPage: (context, {arguments}) =>
         QRCodeResultPage(param: arguments),
 
     ///测试
-    testPage: (context, {arguments}) => NoFoundPage(),
+    testPage: (context, {arguments}) => ErrorPage(),
 
     ///商品详情
     goodDetailTag: (context, {arguments}) =>
@@ -199,7 +200,7 @@ class Routers {
           );
           break;
       }
-      return NoFoundPage();
+      return ErrorPage();
     },
 
     ///orderList
@@ -245,7 +246,7 @@ class Routers {
           break;
       }
 
-      return NoFoundPage();
+      return ErrorPage();
     },
     //专题详情
     setting: (context, {arguments}) {
@@ -261,16 +262,16 @@ class Routers {
           return SettingPage();
           break;
         case 3: //组件
-          return NoFoundPage();
+          return ErrorPage();
           break;
         case 4: //组件
           return ScrollViewDemo();
           break;
         case 5: //收藏界面
-          return NoFoundPage();
+          return ErrorPage();
           break;
       }
-      return NoFoundPage();
+      return ErrorPage();
     },
   };
 
@@ -331,7 +332,7 @@ class Routers {
             builder: (context) => pageContentBuilder(context));
       }
     } else {
-      return MaterialPageRoute(builder: (context) => NoFoundPage());
+      return MaterialPageRoute(builder: (context) => ErrorPage());
     }
   }
 

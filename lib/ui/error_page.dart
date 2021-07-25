@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
-class NoFoundPage extends StatelessWidget {
+class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TabAppBar(
-        title: '未索引页面',
+        title: '404',
       ).build(context),
       body: Material(
         child: Center(
           child: Text(
-            '此页面暂未开发',
+            'error:404',
             style: TextStyle(fontSize: 25, color: Colors.red),
           ),
         ),

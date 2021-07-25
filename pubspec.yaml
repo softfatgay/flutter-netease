@@ -45,10 +45,6 @@ dependencies:
 
   url_launcher: ^6.0.7
 
-  #视频播放切勿改动
-  #  chewie: ^0.9.8+1 项目中已把chewie的源码拿出来改动过了,请不要再次dependencie
-  video_player: ^2.1.4
-
   #shared_preferences插件
   shared_preferences: ^2.0.6
 
@@ -79,6 +75,7 @@ dependencies:
   event_bus: 2.0.0
   flutter_datetime_picker: ^1.5.1
   qr_code_scanner: ^0.5.2
+  video_player: ^2.1.12
 
 dev_dependencies:
   flutter_test:
