@@ -28,6 +28,7 @@ import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
+import 'package:flutter_app/ui/shopingcart/cart_pool_page.dart';
 import 'package:flutter_app/ui/shopingcart/get_cars_page.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
@@ -67,6 +68,7 @@ class Routers {
   static const String shoppingCart = 'shoppingCart';
   static const String webLogin = 'webLogin';
   static const String getCarsPage = 'getCarsPage';
+  static const String cartItemPoolPage = 'cartItemPoolPage';
   static const String orderInitPage = 'orderInitPage';
   static const String webView = 'webView';
   static const String webViewPageAPP = 'WebViewPageAPP';
@@ -81,6 +83,7 @@ class Routers {
   static Map<String, Function> routes = {
     ///二维码扫描
     qrScanPage: (context, {arguments}) => QRScanPage(),
+
     ///视频
     videoPage: (context, {arguments}) => VideoPage(params: arguments),
 
@@ -141,6 +144,9 @@ class Routers {
     ///购物车换购
     getCarsPage: (context, {arguments}) => GetCarsPage(param: arguments),
 
+    ///购物车凑单
+    cartItemPoolPage: (context, {arguments}) => CartItemPoolPage(),
+
     ///订单确认页面
     orderInitPage: (context, {arguments}) => OrderInitPage(params: arguments),
 
@@ -152,8 +158,10 @@ class Routers {
 
     ///感兴趣分类
     addNewSize: (context, {arguments}) => AddNewSize(param: arguments),
+
     ///去使用红包
-    redPackageUsePage: (context, {arguments}) => RedPackageUsePage(param: arguments),
+    redPackageUsePage: (context, {arguments}) =>
+        RedPackageUsePage(param: arguments),
 
     ///用户信息
     userInfoPageIndex: (context, {arguments}) {

@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
         builder: BotToastInit(),
         // flutter build appbundle --target-platform android-arm
         theme: ThemeData(
+          platform: TargetPlatform.iOS,
           backgroundColor: Colors.transparent,
           primarySwatch: Colors.red,
         ),

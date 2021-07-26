@@ -11,10 +11,12 @@ import 'package:flutter_app/ui/mine/model/phoneStatusModel.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
+import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/button_widget.dart';
+import 'package:flutter_app/widget/sliver_refresh_indicator.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/user_page_header.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
@@ -48,7 +50,7 @@ class _MinePageState extends State<UserPage>
     super.initState();
     // TODO: implement initState
     HosEventBusUtils.on((event) async {
-      if (event == 'mine_refresh') {
+      if (event == REFRESH_MINE) {
         _checkLogin();
         _getUserInfo();
       }
@@ -74,7 +76,7 @@ class _MinePageState extends State<UserPage>
 
   @override
   Widget build(BuildContext context) {
-    return _buildRefresh();
+    return _buildBody();
   }
 
   _buildRefresh() {
@@ -108,6 +110,10 @@ class _MinePageState extends State<UserPage>
             expandedHeight: _expandedHeight,
             paddingTop: MediaQuery.of(context).padding.top,
           ),
+        ),
+        SliverRefreshIndicator(
+          refresh: _checkLogin,
+          top: false,
         ),
         // _buildTop(context),
         _buildTitle(context),

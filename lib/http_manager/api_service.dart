@@ -216,8 +216,15 @@ final String QUERY_SIZE_ID = '${baseUrl}xhr/size/getById.json';
 ///积分推荐商品
 final String POINTS_RCMD = '${baseUrl}xhr/points/rcmd.json';
 
+///积分推荐商品
+final String MINI_CART_NUM = '${baseUrl}xhr/cart/getMiniCartNum.json';
+
+///凑单
+final String ITEM_POOL = '${baseUrl}xhr/item/getItemPool.json';
+
 ///去使用红包
-final String REDPACKAGE_ITEMS = 'https://goods.you.163.com/new/prom/rcmdItems.do';
+final String REDPACKAGE_ITEMS =
+    'https://goods.you.163.com/new/prom/rcmdItems.do';
 
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
@@ -391,3 +398,9 @@ final String REDPACKAGE_ITEMS = 'https://goods.you.163.com/new/prom/rcmdItems.do
 
 ///去使用红包
 //https://goods.you.163.com/new/prom/rcmdItems.do
+
+///获取购物车数量
+//https://m.you.163.com/xhr/cart/getMiniCartNum.json?csrf_token=7704c0162dd9505942bea22270eefcf8&__timestamp=1627262997666&
+
+///凑单
+//https://m.you.163.com/xhr/item/getItemPool.json

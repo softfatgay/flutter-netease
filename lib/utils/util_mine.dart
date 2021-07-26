@@ -40,7 +40,6 @@ class Util {
 
     if (countdown != null && countdown > 0) {
       var d = countdown;
-      print('----------------');
       print(d);
       var e = d ~/ 1000;
       print(e);

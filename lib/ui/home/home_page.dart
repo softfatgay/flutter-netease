@@ -29,6 +29,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/home_page_header.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
+import 'package:flutter_app/widget/sliver_refresh_indicator.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -145,7 +146,7 @@ class _HomeState extends State<HomePage>
       backgroundColor: Colors.white,
       floatingActionButton:
           floatingABRefresh(context, _animalController, _incrementCounter),
-      body: _isLoading ? _loadingView() : _refresh(),
+      body: _isLoading ? _loadingView() : _contentBody(),
     );
   }
 
@@ -161,7 +162,11 @@ class _HomeState extends State<HomePage>
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
+        SliverRefreshIndicator(
+          refresh: _getData,
+        ),
         _appBar(),
+
         _buildSwiper(),
         _topTags(context), //标签
         _kingkong(context), //

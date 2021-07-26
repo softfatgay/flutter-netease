@@ -110,21 +110,6 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: [
-                              item.tagList == null || item.tagList.isEmpty
-                                  ? Container()
-                                  : Container(
-                                      margin: EdgeInsets.only(top: 10, left: 5),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 6, vertical: 1),
-                                      decoration: BoxDecoration(
-                                          color: backRed,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Text(
-                                        '${item.tagList[1].tagName}',
-                                        style: t10white,
-                                      ),
-                                    ),
                               Text(item.name, style: t14white),
                               Text(
                                 '${Util.long2date(item.validStartTime * 1000)}-${Util.long2date(item.validEndTime * 1000)}',

@@ -37,6 +37,8 @@ import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
+import 'package:flutter_app/utils/eventbus_constans.dart';
+import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
@@ -318,7 +320,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       print(itemDetail);
       print(itemDetail['videoInfo']);
 
-
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
       bannerList.forEach((image) {
         if (image.toString().startsWith('https://')) {
@@ -504,7 +505,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           right: 15,
           bottom: 10,
         ),
-        _videoInfo == null || _videoInfo.mp4VideoUrl == null||_videoInfo.mp4VideoUrl == ''
+        _videoInfo == null ||
+                _videoInfo.mp4VideoUrl == null ||
+                _videoInfo.mp4VideoUrl == ''
             ? Container()
             : Positioned(
                 left: 15,
@@ -1588,6 +1591,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem.id};
     await addCart(params).then((value) {
       Toast.show('添加成功', context);
+      HosEventBusUtils.fire(REFRESH_CART_NUM);
       // _getDetailPageUp();
     });
   }

@@ -11,15 +11,21 @@ import 'package:flutter_app/ui/shopingcart/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
+import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/arrow_icon.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
+import 'package:flutter_app/widget/sliver_refresh_indicator.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'model/postageVO.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   final Map argument;
@@ -36,6 +42,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   ShoppingCartModel _shoppingCartModel;
 
   List<CarItem> _cartGroupList = []; // 有效的购物车组列表
+  ///包邮条件
+  PostageVO _postageVO;
   CarItem _topItem; // 顶部商品数据
   List<CarItem> _itemList = []; // 显示的商品数据
   List<CarItem> _invalidCartGroupList = []; // 无效的购物车组列表
@@ -67,8 +75,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     // TODO: implement initState
     super.initState();
     HosEventBusUtils.on((event) {
-      if (event == 'refresh') {
-        print("ShoppingCart-----------------");
+      if (event == REFRESH_CART) {
         _checkLogin();
       }
     });
@@ -89,7 +96,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     if (isLogin) {
       _getData();
       Timer(Duration(seconds: 1), () {
-        HosEventBusUtils.fire('mine_refresh');
+        HosEventBusUtils.fire(REFRESH_MINE);
       });
     }
   }
@@ -120,6 +127,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       loading = false;
       _shoppingCartModel = shoppingCartModel;
       _cartGroupList = shoppingCartModel.cartGroupList;
+      _postageVO = shoppingCartModel.postageVO;
 
       _invalidCartGroupList = shoppingCartModel.invalidCartGroupList;
       _price = double.parse(shoppingCartModel.actualPrice.toString());
@@ -208,6 +216,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     setState(() {
       _data = responseData.data;
       setData(_data);
+      refreshCartNum();
     });
   }
 
@@ -256,6 +265,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       });
       _data = responseData.data;
       setData(_data);
+      refreshCartNum();
     }
   }
 
@@ -283,7 +293,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var response = await clearInvalidItem(param);
     if (response.code == 200) {
       _getData();
+      refreshCartNum();
     }
+  }
+
+  /// 更新购物车数量
+  void refreshCartNum() {
+    HosEventBusUtils.fire(REFRESH_CART_NUM);
   }
 
   @override
@@ -436,19 +452,30 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
               children: [
                 _shoppingCartModel.postageVO.postageTip == null
                     ? ServiceTagWidget()
-                    : Container(
-                        alignment: Alignment.centerLeft,
-                        color: textLightYellow,
-                        padding: EdgeInsets.only(left: 15),
-                        height: ScreenUtil().setHeight(40),
-                        child: Text(
-                          '${_data['postageVO']['postageTip']}',
-                          style: t14red,
+                    : GestureDetector(
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          color: Color(0xFFFFF6E5),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          height: 40,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '${_postageVO == null ? '' : _postageVO.postageTip}',
+                                  style: t14Orange,
+                                ),
+                              ),
+                              _postageVO.postFree ? Container() : arrowRightIcon
+                            ],
+                          ),
                         ),
+                        onTap: () {
+                          if (!_postageVO.postFree) {
+                            Routers.push(Routers.cartItemPoolPage, context);
+                          }
+                        },
                       ),
-                SizedBox(
-                  height: 6,
-                )
               ],
             ),
           );
@@ -468,7 +495,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         _checkOneNum(source, type, skuId, cnt, extId);
       },
       goRedeem: (CarItem itemData) {
-        Routers.push(Routers.getCarsPage, context, {'data': itemData}, () {
+        Routers.push(Routers.getCarsPage, context, {'data': itemData}, (value) {
           _getData();
         });
       },

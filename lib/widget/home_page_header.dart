@@ -44,7 +44,6 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
   Color logoColor(shrinkOffset) {
     if (shrinkOffset <= verOffset) {
       final int alpha = (shrinkOffset / verOffset * 255).clamp(0, 255).toInt();
-      print('color-------$alpha');
       return Color.fromARGB(alpha, 255, 255, 255);
     } else {
       return Colors.white;

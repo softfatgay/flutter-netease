@@ -227,9 +227,9 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _webController.future.then((value) {
-      value.clearCache();
-    });
+    // _webController.future.then((value) {
+    //   value.clearCache();
+    // });
     super.dispose();
   }
 }

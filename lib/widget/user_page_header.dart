@@ -59,9 +59,6 @@ class UserHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     // TODO: implement build
-
-    print('--------------$shrinkOffset');
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -70,11 +67,9 @@ class UserHeader extends SliverPersistentHeaderDelegate {
       ),
       height: maxExtent,
       width: double.infinity,
-      //堆叠布局,和frame差不多,一层一层堆叠
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          //定位,相当于绝对布局
           _userInfo(context, shrinkOffset),
           Positioned(
             child: GestureDetector(
@@ -115,8 +110,6 @@ class UserHeader extends SliverPersistentHeaderDelegate {
     } else {
       d = 1;
     }
-    print('>>>>>>>>>>>$d');
-    print('===========$e');
 
     return Container(
       padding:

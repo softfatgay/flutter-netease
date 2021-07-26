@@ -58,12 +58,18 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             alignment: Alignment.center,
-            child: Text('部分手机登录页面，邮箱登录密码弹出软键盘导致页面空白，没有找到解决办法，正常输入就可以，收回键盘页面会正常显示',style: t10red,),
+            child: Text(
+              '部分手机登录页面，邮箱登录密码弹出软键盘导致页面空白，没有找到解决办法，正常输入就可以，收回键盘页面会正常显示',
+              style: t10red,
+            ),
             height: 45,
             color: warmingBack,
           ),
           Container(
-            height: MediaQuery.of(context).size.height-60-MediaQuery.of(context).padding.top-45,
+            height: MediaQuery.of(context).size.height -
+                60 -
+                MediaQuery.of(context).padding.top -
+                45,
             child: WebView(
               initialUrl: LOGIN_PAGE_URL,
               //JS执行模式 是否允许JS执行
@@ -89,55 +95,10 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
                   _checkLogin();
                 }
               },
-            ),),
-
+            ),
+          ),
         ],
       ),
-    );
-
-
-      Stack(
-      children: [
-        Positioned(child: Container(
-          child: WebView(
-            initialUrl: LOGIN_PAGE_URL,
-            //JS执行模式 是否允许JS执行
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) async {
-              controller.loadUrl(
-                _url,
-                headers: {"Cookie": cookie},
-              );
-              _webController.complete(controller);
-            },
-            onPageStarted: (url) async {
-              hideTop();
-            },
-
-            onPageFinished: (url) async {
-              hideTop();
-              final updateCookie = await globalCookie.globalCookieValue(url);
-              print('更新Cookie-------------->');
-              print(updateCookie.toString());
-              if (updateCookie.length > 0) {
-                CookieConfig.cookie = updateCookie;
-                _checkLogin();
-              }
-            },
-          ),
-        ),top: 0,bottom: 45,left: 0,right: 0,),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            alignment: Alignment.center,
-            child: Text('部分手机弹出软键盘导致页面空白，没有找到解决办法'),
-            height: 45,
-            color: backColor,
-          ),
-        ),
-      ],
     );
   }
 

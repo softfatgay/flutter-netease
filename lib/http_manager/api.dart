@@ -168,7 +168,8 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> params) async {
 
 ///购物车 清楚无效商品
 Future<ResponseData> deleteCart(Map<String, dynamic> params) async {
-  return await HttpManager.post(DELETE_CART, params: _getParams(),postData: params);
+  params.addAll(_getParams());
+  return await HttpManager.post(DELETE_CART, params: params);
 }
 
 ///热销榜/标题
@@ -400,4 +401,15 @@ _timestampParams() => {
 ///去使用红包
 Future<ResponseData> redpackageItems(Map<String, dynamic> params) async {
   return await HttpManager.get(REDPACKAGE_ITEMS, params: params);
+}
+
+///去使用红包
+Future<ResponseData> miniCartNum() async {
+  return await HttpManager.get(MINI_CART_NUM, params: _timestampParams());
+}
+
+///凑单
+Future<ResponseData> itemPool(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(ITEM_POOL, params: params);
 }
