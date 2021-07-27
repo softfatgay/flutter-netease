@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/shopingcart/cart_item_widget.dart';
-import 'package:flutter_app/ui/shopingcart/empty_cart_widget.dart';
-import 'package:flutter_app/ui/shopingcart/invalid_cart_item_widget.dart';
+import 'package:flutter_app/ui/shopingcart/components/cart_item_widget.dart';
+import 'package:flutter_app/ui/shopingcart/components/empty_cart_widget.dart';
+import 'package:flutter_app/ui/shopingcart/components/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
@@ -63,6 +63,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   int allCount = 0;
   List checkList = [];
 
+  TextEditingController _controller = TextEditingController();
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -108,12 +110,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   // 获取购物车数据
   void _getData() async {
     var responseData = await shoppingCart();
-    setState(() {
-      _data = responseData.data;
-      if (_data != null) {
-        setData(_data);
-      }
-    });
+    if (responseData.code == '200') {
+      setState(() {
+        _data = responseData.data;
+        if (_data != null) {
+          setData(_data);
+        }
+      });
+    }
   }
 
   // 更新状态机 刷新界面
@@ -484,6 +488,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   /// 有效商品列表
   _dataList() {
     return CartItemWidget(
+      controller: _controller,
       checkOne: (CarItem itemData, num source, num type, num skuId, bool check,
           String extId) {
         _checkOne(source, type, skuId, check, extId);
@@ -666,6 +671,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   void dispose() {
     // TODO: implement dispose
     HosEventBusUtils.off();
+    _controller.dispose();
     super.dispose();
   }
 

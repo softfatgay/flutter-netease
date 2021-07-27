@@ -1,33 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/widget/normal_textfiled.dart';
 
 typedef void ValueChanged(int count);
 
 Color borderColor = Colors.grey[200];
 
-typedef void NumClick();
-
-class CartCount extends StatefulWidget {
-  CartCount({
+class CartCountWidget extends StatefulWidget {
+  CartCountWidget({
     this.number,
     this.min,
     this.max,
     this.onChange,
-    this.numClick,
   });
 
   final ValueChanged onChange;
-  int number;
+  final int number;
   final int min;
   final int max;
-  final NumClick numClick;
 
   @override
-  _CartCountState createState() => _CartCountState();
+  _CartCountWidgetState createState() => _CartCountWidgetState();
 }
 
-class _CartCountState extends State<CartCount> {
+class _CartCountWidgetState extends State<CartCountWidget> {
+  int num = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    num = widget.number;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +48,7 @@ class _CartCountState extends State<CartCount> {
         children: <Widget>[
           Container(
             width: 30,
-            color: widget.min >= widget.number ? backColor : Colors.white,
+            color: widget.min >= num ? backColor : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
@@ -57,31 +63,19 @@ class _CartCountState extends State<CartCount> {
             ),
           ),
           Expanded(
-            child: GestureDetector(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(color: borderColor),
-                    right: BorderSide(color: borderColor),
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    '${widget.number}',
-                    style: TextStyle(fontSize: 16),
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(color: borderColor),
+                  right: BorderSide(color: borderColor),
                 ),
               ),
-              onTap: () {
-                if (widget.numClick != null) {
-                  widget.numClick();
-                }
-              },
+              child: NormalTextFiled(),
             ),
           ),
           Container(
             width: 30,
-            color: widget.max <= widget.number ? backColor : Colors.white,
+            color: widget.max <= num ? backColor : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
@@ -101,15 +95,15 @@ class _CartCountState extends State<CartCount> {
   }
 
   onClickBtn(String type) {
-    if (type == 'remove' && widget.number > widget.min) {
+    if (type == 'remove' && num > widget.min) {
       setState(() {
-        widget.number -= 1;
-        widget.onChange(widget.number);
+        num -= 1;
+        widget.onChange(num);
       });
-    } else if (type == 'add' && widget.number < widget.max) {
+    } else if (type == 'add' && num < widget.max) {
       setState(() {
-        widget.number += 1;
-        widget.onChange(widget.number);
+        num += 1;
+        widget.onChange(num);
       });
     }
   }

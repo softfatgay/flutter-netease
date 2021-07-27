@@ -1,13 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
+import 'package:flutter_app/widget/normal_textfiled.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/timer_text.dart';
 
@@ -26,6 +30,7 @@ class CartItemWidget extends StatelessWidget {
   final DeleteCheckItem deleteCheckItem;
   final List<CarItem> itemList;
   final bool isEdit;
+  final TextEditingController controller;
 
   const CartItemWidget(
       {Key key,
@@ -34,7 +39,8 @@ class CartItemWidget extends StatelessWidget {
       this.goRedeem,
       this.deleteCheckItem,
       this.itemList,
-      this.isEdit})
+      this.isEdit,
+      this.controller})
       : super(key: key);
 
   @override
@@ -297,11 +303,16 @@ class CartItemWidget extends StatelessWidget {
                             child: CartCount(
                               number: item.cnt,
                               min: 1,
-                              max: item.sellVolume,
-                              onChange: (index) {
+                              max: item.id == 0 ? 1 : item.sellVolume,
+                              onChange: (numValue) {
                                 if (numChange != null) {
                                   numChange(item.source, item.type, item.skuId,
-                                      index, item.extId);
+                                      numValue, item.extId);
+                                }
+                              },
+                              numClick: () {
+                                if (item.id != 0) {
+                                  _showNumClickDialog(context, item);
                                 }
                               },
                             ),
@@ -316,6 +327,59 @@ class CartItemWidget extends StatelessWidget {
           _goDetail(context, item);
         },
       ),
+    );
+  }
+
+  _showNumClickDialog(BuildContext context, CartItemListItem item) {
+    controller.text = item.cnt.toString();
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          content: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+                // border: Border.all(color: textGrey, width: 1),
+                // borderRadius: BorderRadius.circular(4),
+                ),
+            child: CartTextFiled(
+              controller: controller,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(
+                '取消',
+                style: t16grey,
+              ),
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text(
+                '确认',
+                style: t16red,
+              ),
+              onPressed: () {
+                if (!controller.text.isEmpty) {
+                  if (num.parse(controller.text.toString()) > item.sellVolume) {
+                    Toast.show('不能超过最大库存量(${item.sellVolume})', context,
+                        duration: 3);
+                    return;
+                  }
+                  numChange(item.source, item.type, item.skuId,
+                      num.parse(controller.text.toString()), item.extId);
+                  Navigator.of(context).pop();
+                  // item.cnt = int.parse(controller.text.toString());
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -9,16 +9,16 @@ class Toast {
   static final int TOP = 2;
 
   static void show(String msg, BuildContext context,
-      {int duration = 1,
+      {int duration = 2,
       int gravity = 0,
-      Color backgroundColor = const Color(0xAA000000),
+      Color backgroundColor = const Color(0xCC000000),
       Color textColor = Colors.white,
       double backgroundRadius = 20,
       Border border}) {
     FocusScope.of(context).requestFocus(FocusNode());
     ToastView.dismiss();
-    ToastView.createView(
-        msg, context, duration, gravity, backgroundColor, textColor, backgroundRadius, border);
+    ToastView.createView(msg, context, duration, gravity, backgroundColor,
+        textColor, backgroundRadius, border);
   }
 }
 
@@ -35,8 +35,15 @@ class ToastView {
   static OverlayEntry _overlayEntry;
   static bool _isVisible = false;
 
-  static void createView(String msg, BuildContext context, int duration, int gravity,
-      Color background, Color textColor, double backgroundRadius, Border border) async {
+  static void createView(
+      String msg,
+      BuildContext context,
+      int duration,
+      int gravity,
+      Color background,
+      Color textColor,
+      double backgroundRadius,
+      Border border) async {
     overlayState = Overlay.of(context);
 
     Paint paint = Paint();
@@ -58,15 +65,17 @@ class ToastView {
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                  child:
-                      Text(msg, softWrap: true, style: TextStyle(fontSize: 15, color: textColor)),
+                  child: Text(msg,
+                      softWrap: true,
+                      style: TextStyle(fontSize: 14, color: textColor)),
                 )),
           ),
           gravity: gravity),
     );
     _isVisible = true;
     overlayState.insert(_overlayEntry);
-    await new Future.delayed(Duration(seconds: duration == null ? Toast.LENGTH_SHORT : duration));
+    await new Future.delayed(
+        Duration(seconds: duration == null ? Toast.LENGTH_SHORT : duration));
     dismiss();
   }
 
@@ -93,7 +102,7 @@ class ToastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Positioned(
         top: gravity == 2 ? 50 : null,
-        bottom: gravity == 0 ? 50 : null,
+        bottom: gravity == 0 ? 150 : null,
         child: Material(
           color: Colors.transparent,
           child: widget,

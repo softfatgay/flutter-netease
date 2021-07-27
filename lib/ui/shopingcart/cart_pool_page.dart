@@ -40,15 +40,6 @@ class _CartItemPoolPageState extends State<CartItemPoolPage>
     // TODO: implement initState
     super.initState();
     _mController = TabController(length: _categorytList.length, vsync: this);
-    _mController.addListener(() {
-      setState(() {
-        _activeIndex = _mController.index;
-        _id = _categorytList[_activeIndex].categoryVO.id;
-        _page = 1;
-        _itemPool();
-      });
-    });
-
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -127,6 +118,8 @@ class _CartItemPoolPageState extends State<CartItemPoolPage>
         setState(() {
           _activeIndex = _mController.index;
           _id = _categorytList[_activeIndex].categoryVO.id;
+          _page = 1;
+          _itemPool();
         });
       });
     }

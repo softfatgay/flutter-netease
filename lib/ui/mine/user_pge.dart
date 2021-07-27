@@ -134,21 +134,25 @@ class _MinePageState extends State<UserPage>
   void _getUserInfo() async {
     try {
       var responseData = await getUserInfo();
-      setState(() {
-        _userInfo = UserModel.fromJson(responseData.data);
-        _setUserInfo();
-      });
+      if (responseData.code == '200') {
+        setState(() {
+          _userInfo = UserModel.fromJson(responseData.data);
+          _setUserInfo();
+        });
+      }
       var userInfoItems = await getUserInfoItems();
-      List data = userInfoItems.data;
-      List<MinePageItems> mineItems = [];
+      if (userInfoItems.code == '200') {
+        List data = userInfoItems.data;
+        List<MinePageItems> mineItems = [];
 
-      data.forEach((element) {
-        mineItems.add(MinePageItems.fromJson(element));
-      });
-      setState(() {
-        _mineItems = mineItems;
-        _firstLoading = false;
-      });
+        data.forEach((element) {
+          mineItems.add(MinePageItems.fromJson(element));
+        });
+        setState(() {
+          _mineItems = mineItems;
+          _firstLoading = false;
+        });
+      }
     } catch (e) {
       setState(() {
         _firstLoading = false;

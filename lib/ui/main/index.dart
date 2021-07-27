@@ -100,13 +100,13 @@ class _MainPageState extends State<MainPage> {
           'assets/images/ic_tab_subject_normal.png'));
       itemNames.add(_Item('购物车', 'assets/images/ic_tab_cart_active.png',
           'assets/images/ic_tab_cart_normal.png',
-          cartNum: _cartNum.toString()));
+          cartNum: _cartNum));
       itemNames.add(_Item('个人', 'assets/images/ic_tab_profile_active.png',
           'assets/images/ic_tab_profile_normal.png'));
     } else {
       itemNames[3] = _Item('购物车', 'assets/images/ic_tab_cart_active.png',
           'assets/images/ic_tab_cart_normal.png',
-          cartNum: _cartNum.toString());
+          cartNum: _cartNum);
     }
 
     // if (_itemList == null) {
@@ -170,7 +170,7 @@ class _MainPageState extends State<MainPage> {
 //    prefs.setDouble('screen_height', height);
   }
 
-  num _cartNum = 0;
+  String _cartNum = '0';
 
   void _getMiniCartNum() async {
     final globalCookie = GlobalCookie();
@@ -178,7 +178,11 @@ class _MainPageState extends State<MainPage> {
     var responseData = await miniCartNum();
     if (responseData.code == '200') {
       setState(() {
-        _cartNum = responseData.data;
+        if (responseData.data > 99) {
+          _cartNum = '99+';
+        } else {
+          _cartNum = responseData.data.toString();
+        }
       });
     }
   }
@@ -190,8 +194,7 @@ class _MainPageState extends State<MainPage> {
           icon: Stack(
             children: [
               Container(
-                width: 44.0,
-                height: 22.0,
+                alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 11),
                 child: Image.asset(
                   item.normalIcon,
@@ -199,50 +202,55 @@ class _MainPageState extends State<MainPage> {
                   height: 22.0,
                 ),
               ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  constraints: BoxConstraints(minHeight: 15, minWidth: 15),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: backRed, borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    '$_cartNum',
-                    style: t10white,
-                  ),
-                ),
-              ),
+              _cartNum == '0'
+                  ? Container()
+                  : Positioned(
+                      right: 15,
+                      top: 0,
+                      child: Container(
+                        constraints:
+                            BoxConstraints(minHeight: 15, minWidth: 15),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: backRed,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text(
+                          '$_cartNum',
+                          style: t10white,
+                        ),
+                      ),
+                    ),
             ],
           ),
           label: item.name,
           activeIcon: Stack(
             children: [
               Container(
-                width: 44.0,
-                height: 22.0,
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                alignment: Alignment.center,
                 child: Image.asset(
                   item.activeIcon,
                   width: 22.0,
                   height: 22.0,
                 ),
               ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  width: 15,
-                  height: 15,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: backRed, borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    '$_cartNum',
-                    style: t10white,
-                  ),
-                ),
-              ),
+              _cartNum == '0'
+                  ? Container()
+                  : Positioned(
+                      right: 15,
+                      top: 0,
+                      child: Container(
+                        constraints:
+                            BoxConstraints(minHeight: 15, minWidth: 15),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: backRed,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text(
+                          '$_cartNum',
+                          style: t10white,
+                        ),
+                      ),
+                    ),
             ],
           ),
         );
