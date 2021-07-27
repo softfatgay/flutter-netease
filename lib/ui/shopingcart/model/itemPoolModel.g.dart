@@ -47,7 +47,7 @@ SearcherItemListResult _$SearcherItemListResultFromJson(
         : Pagination.fromJson(json['pagination'] as Map<String, dynamic>)
     ..result = (json['result'] as List)
         ?.map((e) =>
-            e == null ? null : ItemListItem.fromJson(e as Map<String, dynamic>))
+            e == null ? null : GoodDetail.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 

@@ -2,25 +2,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
-import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/my_vertical_text.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';
 
-class GoodItemNormalWidget extends StatelessWidget {
-  final List<ItemListItem> dataList;
+class GoodItemAddCartWidget extends StatelessWidget {
+  final List<GoodDetail> dataList;
 
-  const GoodItemNormalWidget({Key key, this.dataList}) : super(key: key);
+  const GoodItemAddCartWidget({Key key, this.dataList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _buildItems(dataList);
   }
 
-  _buildItems(List<ItemListItem> data) {
+  _buildItems(List<GoodDetail> data) {
     return data.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverPadding(
@@ -51,7 +51,7 @@ class GoodItemNormalWidget extends StatelessWidget {
           );
   }
 
-  _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
+  _buildGoodItem(BuildContext context, int index, List<GoodDetail> dataList) {
     var item = dataList[index];
     var itemTagList = dataList[index].itemTagList;
     return Container(
@@ -149,6 +149,23 @@ class GoodItemNormalWidget extends StatelessWidget {
                     fontSize: 12),
               ),
             ],
+          ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(left: 5, top: 5),
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+              decoration: BoxDecoration(
+                border: Border.all(color: lineColor, width: 1),
+                borderRadius: BorderRadius.circular(3),
+              ),
+              child: Text(
+                '加入购物车',
+                style: t12black,
+              ),
+            ),
+            onTap: () {
+              _buildSizeModel(context, item);
+            },
           ),
           SizedBox(height: 8)
         ],
@@ -281,6 +298,20 @@ class GoodItemNormalWidget extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  ///属性选择底部弹窗
+  _buildSizeModel(BuildContext context, GoodDetail item) {
+    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
+    return showModalBottomSheet(
+      //设置true,不会造成底部溢出
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return AddGoodSizeWidget(goodDetail: item);
+      },
     );
   }
 }

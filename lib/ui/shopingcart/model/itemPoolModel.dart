@@ -1,5 +1,6 @@
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/pagination.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -31,7 +32,7 @@ class CategorytListItem {
 @JsonSerializable()
 class SearcherItemListResult {
   Pagination pagination;
-  List<ItemListItem> result;
+  List<GoodDetail> result;
 
   SearcherItemListResult();
 

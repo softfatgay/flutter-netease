@@ -15,12 +15,9 @@ import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/arrow_icon.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
-import 'package:flutter_app/widget/sliver_refresh_indicator.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -102,10 +99,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       });
     }
   }
-
-  /*
-  *   数据逻辑
-  * */
 
   // 获取购物车数据
   void _getData() async {
@@ -476,7 +469,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                         ),
                         onTap: () {
                           if (!_postageVO.postFree) {
-                            Routers.push(Routers.cartItemPoolPage, context);
+                            Routers.push(Routers.cartItemPoolPage, context, {},
+                                (value) {
+                              _getData();
+                            });
                           }
                         },
                       ),

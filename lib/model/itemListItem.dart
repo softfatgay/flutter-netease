@@ -1,4 +1,5 @@
 import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/home/model/hotSaleListBottomInfo.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -27,6 +28,7 @@ class ItemListItem {
 
   List<ItemTagListItem> itemTagList;
   ListPromBanner listPromBanner;
+  List<SkuSpecListItem> skuSpecList;
 
   ItemListItem();
 

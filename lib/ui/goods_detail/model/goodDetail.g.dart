@@ -134,7 +134,9 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
         : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
     ..simpleBrandInfo =
         json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
-    ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>);
+    ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>)
+    ..listPromBanner = json['listPromBanner'] == null ? null : ListPromBanner.fromJson(json['listPromBanner'] as Map<String, dynamic>)
+    ..promTag = json['promTag'] as String;
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -212,6 +214,8 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'welfareCardVO': instance.welfareCardVO,
       'simpleBrandInfo': instance.simpleBrandInfo,
       'spmcBanner': instance.spmcBanner,
+      'listPromBanner': instance.listPromBanner,
+      'promTag': instance.promTag,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -367,4 +371,30 @@ Map<String, dynamic> _$SimpleBrandInfoToJson(SimpleBrandInfo instance) =>
       'ownType': instance.ownType,
       'logoUrl': instance.logoUrl,
       'aspectRatio': instance.aspectRatio,
+    };
+
+ListPromBanner _$ListPromBannerFromJson(Map<String, dynamic> json) {
+  return ListPromBanner()
+    ..valid = json['valid'] as bool
+    ..promoTitle = json['promoTitle'] as String
+    ..promoSubTitle = json['promoSubTitle'] as String
+    ..content = json['content'] as String
+    ..bannerTitleUrl = json['bannerTitleUrl'] as String
+    ..bannerContentUrl = json['bannerContentUrl'] as String
+    ..styleType = json['styleType'] as num
+    ..timeType = json['timeType'] as num
+    ..iconUrl = json['iconUrl'] as String;
+}
+
+Map<String, dynamic> _$ListPromBannerToJson(ListPromBanner instance) =>
+    <String, dynamic>{
+      'valid': instance.valid,
+      'promoTitle': instance.promoTitle,
+      'promoSubTitle': instance.promoSubTitle,
+      'content': instance.content,
+      'bannerTitleUrl': instance.bannerTitleUrl,
+      'bannerContentUrl': instance.bannerContentUrl,
+      'styleType': instance.styleType,
+      'timeType': instance.timeType,
+      'iconUrl': instance.iconUrl,
     };

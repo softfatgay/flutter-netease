@@ -99,6 +99,8 @@ class GoodDetail {
   SimpleBrandInfo simpleBrandInfo;
 
   SpmcBanner spmcBanner;
+  ListPromBanner listPromBanner;
+  String promTag;
 
   GoodDetail();
 
@@ -222,8 +224,28 @@ class SimpleBrandInfo {
   num ownType;
   String logoUrl;
   num aspectRatio;
+
   //
   SimpleBrandInfo();
+
   factory SimpleBrandInfo.fromJson(Map<String, dynamic> json) =>
       _$SimpleBrandInfoFromJson(json);
+}
+
+@JsonSerializable()
+class ListPromBanner {
+  bool valid;
+  String promoTitle;
+  String promoSubTitle;
+  String content;
+  String bannerTitleUrl;
+  String bannerContentUrl;
+  num styleType;
+  num timeType;
+  String iconUrl;
+
+  ListPromBanner();
+
+  factory ListPromBanner.fromJson(Map<String, dynamic> json) =>
+      _$ListPromBannerFromJson(json);
 }
