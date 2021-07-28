@@ -1,9 +1,11 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
@@ -15,15 +17,25 @@ import 'package:flutter_app/widget/dashed_decoration.dart';
 
 typedef void ConfigClick(SkuMapValue value);
 typedef void CancelClick();
+typedef void UpdateSkuSuccess();
 
 class AddGoodSizeWidget extends StatefulWidget {
   final GoodDetail goodDetail;
   final ConfigClick configClick;
   final CancelClick cancelClick;
+  final UpdateSkuSuccess updateSkuSuccess;
+  final num skuId;
+  final String extId;
 
-  const AddGoodSizeWidget(
-      {Key key, this.goodDetail, this.configClick, this.cancelClick})
-      : super(key: key);
+  const AddGoodSizeWidget({
+    Key key,
+    this.goodDetail,
+    this.configClick,
+    this.cancelClick,
+    this.skuId,
+    this.extId,
+    this.updateSkuSuccess,
+  }) : super(key: key);
 
   @override
   _AddGoodSizeWidgetState createState() => _AddGoodSizeWidgetState();
@@ -66,6 +78,10 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
 
   GoodDetail goodDetail;
 
+  List<SpecListItem> _specList;
+  num _skuId;
+  String _extId;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -74,8 +90,40 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       var skuSpecList = goodDetail.skuSpecList;
       _selectSkuMapKey = List.filled(skuSpecList.length, '');
       _selectSkuMapDec = List.filled(skuSpecList.length, '');
+
+      var skuId = widget.skuId;
+      if (skuId != null) {
+        _skuId = skuId;
+        _extId = widget.extId;
+        _setSelectSkuMapKey(_skuId);
+      }
     });
     super.initState();
+  }
+
+  void _setSelectSkuMapKey(num skuId) {
+    var skuList = goodDetail.skuList;
+    SkuListItem skuListItem;
+    for (var value in skuList) {
+      if (value.id == skuId) {
+        skuListItem = value;
+        break;
+      }
+    }
+    if (skuListItem != null) {
+      var itemSkuSpecValueList = skuListItem.itemSkuSpecValueList;
+      setState(() {
+        for (int i = 0; i < _selectSkuMapKey.length; i++) {
+          _selectSkuMapDec[i] = itemSkuSpecValueList[i].skuSpecValue.value;
+          _selectSkuMapKey[i] =
+              itemSkuSpecValueList[i].skuSpecValue.id.toString();
+        }
+      });
+      setState(() {
+        _getSkumapItem();
+        _setSkuMapDec();
+      });
+    }
   }
 
   @override
@@ -177,22 +225,22 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           //客服
-          GestureDetector(
-            child: Container(
-              height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 40),
-              alignment: Alignment.center,
-              child: Text(
-                '返回',
-                style: t14black,
-              ),
-            ),
-            onTap: () {
-              if (widget.cancelClick != null) {
-                widget.cancelClick();
-              }
-            },
-          ),
+          // GestureDetector(
+          //   child: Container(
+          //     height: 50,
+          //     padding: EdgeInsets.symmetric(horizontal: 40),
+          //     alignment: Alignment.center,
+          //     child: Text(
+          //       '返回',
+          //       style: t14black,
+          //     ),
+          //   ),
+          //   onTap: () {
+          //     if (widget.cancelClick != null) {
+          //       widget.cancelClick();
+          //     }
+          //   },
+          // ),
           Expanded(
             child: GestureDetector(
               child: Container(
@@ -402,7 +450,19 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     });
     _selectStrDec = selectStrDec;
     _skuMapItem = skuMapItem;
+    // _setSkuMapDec();
+    _getSkumapItem();
+  }
 
+  void _setSkuMapDec() {
+    String selectStrDec = '';
+    _selectSkuMapDec.forEach((element) {
+      selectStrDec += '$element ';
+    });
+    _selectStrDec = selectStrDec;
+  }
+
+  void _getSkumapItem() {
     if (_skuMapItem == null) {
       ///顺序不同，导致选择失败
       var keys = goodDetail.skuMap.keys;
@@ -557,10 +617,30 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
 
   ///加入购物车
   void _addShoppingCart() async {
-    Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem.id};
-    await addCart(params).then((value) {
-      Toast.show('添加成功', context);
-      Navigator.pop(context);
-    });
+    if (_skuId != null) {
+      Map<String, dynamic> params = {
+        "count": _goodCount,
+        "newSkuId": _skuMapItem.id,
+        "oldSkuId": _skuId,
+        "promId": _skuMapItem.promId,
+        'extId': _extId
+      };
+      var responseData = await updateSkuSpec(params);
+      if (responseData.code == '200') {
+        if (widget.updateSkuSuccess != null) {
+          widget.updateSkuSuccess();
+        }
+        Navigator.pop(context);
+      }
+    } else {
+      Map<String, dynamic> params = {
+        "cnt": _goodCount,
+        "skuId": _skuMapItem.id
+      };
+      await addCart(params).then((value) {
+        Toast.show('添加成功', context);
+        Navigator.pop(context);
+      });
+    }
   }
 }

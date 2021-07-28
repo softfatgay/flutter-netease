@@ -11,6 +11,7 @@ import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/normal_textfiled.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/timer_text.dart';
@@ -22,8 +23,10 @@ typedef void CheckOne(CarItem itemData, num source, num type, num skuId,
 typedef void DeleteCheckItem(
     bool check, CarItem itemData, CartItemListItem item);
 typedef void GoRedeem(CarItem itemData);
+typedef void SkuClick(CartItemListItem item);
 
 class CartItemWidget extends StatelessWidget {
+  final SkuClick skuClick;
   final NumChange numChange;
   final CheckOne checkOne;
   final GoRedeem goRedeem;
@@ -40,7 +43,8 @@ class CartItemWidget extends StatelessWidget {
       this.deleteCheckItem,
       this.itemList,
       this.isEdit,
-      this.controller})
+      this.controller,
+      this.skuClick})
       : super(key: key);
 
   @override
@@ -235,6 +239,7 @@ class CartItemWidget extends StatelessWidget {
         child: Container(
           color: Colors.white,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               isEdit
@@ -242,32 +247,57 @@ class CartItemWidget extends StatelessWidget {
                   : Container(
                       padding: EdgeInsets.only(left: 10),
                       child: RichText(
-                        text: TextSpan(style: t14black, children: [
-                          TextSpan(
-                              text:
-                                  '${item.promTag ?? (item.id == 0 ? '换购' : '')}',
-                              style: t14Yellow),
-                          TextSpan(text: '${item.itemName ?? ''}'),
-                        ]),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          style: t14black,
+                          children: [
+                            TextSpan(
+                                text:
+                                    '${item.promTag ?? (item.id == 0 ? '换购' : '')}',
+                                style: t14Yellow),
+                            TextSpan(text: '${item.itemName ?? ''}'),
+                          ],
+                        ),
                       ),
                     ),
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 3, 0, 0),
-                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                decoration: BoxDecoration(
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
+                  padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                  decoration: BoxDecoration(
                     border: Border.all(color: lineColor, width: 0.5),
                     borderRadius: BorderRadius.circular(2),
-                    color: Color(0xFFFAFAFA)),
-                child: Text(
-                  '${_specValue(item)}',
-                  style: TextStyle(
-                      color: textGrey,
-                      height: 1.1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                    color: Color(0xFFFAFAFA),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        child: Text(
+                          '${_specValue(item)}',
+                          style: t12grey,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      item.id != 0
+                          ? Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 20,
+                              color: textGrey,
+                            )
+                          : Container()
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  if (item.id != 0) {
+                    if (skuClick != null) {
+                      skuClick(item);
+                    }
+                  }
+                },
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
@@ -296,7 +326,7 @@ class CartItemWidget extends StatelessWidget {
                       ),
                     ),
                     isEdit
-                        ? Container()
+                        ? Container(height: 50)
                         : Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 3, vertical: 3),
@@ -465,7 +495,6 @@ class CartItemWidget extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 25),
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -475,8 +504,9 @@ class CartItemWidget extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                         decoration: BoxDecoration(
-                            color: redLightColor,
-                            borderRadius: BorderRadius.circular(2)),
+                          color: redLightColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
                         child: Text(
                           index == 0 ? '全场换购' : '换购',
                           style: t12white,
@@ -518,21 +548,21 @@ class CartItemWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                    margin: EdgeInsets.fromLTRB(40, 0, 15, 0),
-                    color: Color(0xFFFFF7F5),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFF7F5),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    margin: EdgeInsets.fromLTRB(40, 0, 15, 8),
                     child: Row(
                       children: [
                         Expanded(
-                            child: Text(
-                          itemData.promSatisfy ? '去换购商品' : '查看换购商品',
-                          style: t12black,
-                        )),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 14,
-                          color: textGrey,
-                        )
+                          child: Text(
+                            itemData.promSatisfy ? '去换购商品' : '查看换购商品',
+                            style: t12black,
+                          ),
+                        ),
+                        arrowRightIcon
                       ],
                     ),
                   ),

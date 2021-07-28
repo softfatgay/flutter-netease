@@ -136,7 +136,8 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
         json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
     ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>)
     ..listPromBanner = json['listPromBanner'] == null ? null : ListPromBanner.fromJson(json['listPromBanner'] as Map<String, dynamic>)
-    ..promTag = json['promTag'] as String;
+    ..promTag = json['promTag'] as String
+    ..specList = (json['specList'] as List)?.map((e) => e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))?.toList();
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -216,6 +217,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'spmcBanner': instance.spmcBanner,
       'listPromBanner': instance.listPromBanner,
       'promTag': instance.promTag,
+      'specList': instance.specList,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -397,4 +399,16 @@ Map<String, dynamic> _$ListPromBannerToJson(ListPromBanner instance) =>
       'styleType': instance.styleType,
       'timeType': instance.timeType,
       'iconUrl': instance.iconUrl,
+    };
+
+SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) {
+  return SpecListItem()
+    ..specName = json['specName'] as String
+    ..specValue = json['specValue'] as String;
+}
+
+Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
+    <String, dynamic>{
+      'specName': instance.specName,
+      'specValue': instance.specValue,
     };

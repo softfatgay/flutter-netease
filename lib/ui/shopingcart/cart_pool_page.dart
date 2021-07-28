@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
-import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -86,60 +82,6 @@ class _CartItemPoolPageState extends State<CartItemPoolPage>
             ),
     );
   }
-  //
-  // void _getTipsResult(bool showProgress) async {
-  //   var params = {
-  //     '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
-  //     '_stat_search': 'autoComplete',
-  //     'keyword': 'iphone12',
-  //     'sortType': '0',
-  //     'descSorted': 'false',
-  //     'categoryId': '0',
-  //     'matchType': '0',
-  //     'floorPrice': '-1',
-  //     'upperPrice': '-1',
-  //     'size': 1,
-  //     'itemId': 0,
-  //     'stillSearch': 'false',
-  //     'searchWordSource': '7',
-  //     'needPopWindow': 'false'
-  //   };
-  //   var responseData = await searchSearch(params, showProgress: showProgress);
-  //   var data = responseData.data;
-  //   List data2 = data['directlyList'];
-  //   print('22222222222222222');
-  //   print(data2);
-  //   setState(() {
-  //     _isLoading = false;
-  //     CategorytListItem categorytListItem = CategorytListItem();
-  //     CategoryL1Item categoryL1Item = CategoryL1Item();
-  //     categoryL1Item.id = 0;
-  //     categoryL1Item.name = '0';
-  //
-  //     categorytListItem.categoryVO = categoryL1Item;
-  //
-  //     _categorytList.add(categorytListItem);
-  //     List<GoodDetail> result = [];
-  //     data2.forEach((element) {
-  //       result.add(GoodDetail.fromJson(element));
-  //     });
-  //
-  //     setState(() {
-  //       _result = result;
-  //     });
-  //   });
-  //
-  //   _mController = TabController(
-  //       length: _categorytList.length, vsync: this, initialIndex: _activeIndex);
-  //   _mController.addListener(() {
-  //     setState(() {
-  //       _activeIndex = _mController.index;
-  //       _id = _categorytList[_activeIndex].categoryVO.id;
-  //       _page = 1;
-  //       _itemPool();
-  //     });
-  //   });
-  // }
 
   void _itemPool() async {
     Map<String, dynamic> params = {

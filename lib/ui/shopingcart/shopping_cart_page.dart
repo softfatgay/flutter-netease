@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/empty_cart_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/invalid_cart_item_widget.dart';
@@ -500,8 +502,47 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           _getData();
         });
       },
+      skuClick: (CartItemListItem item) {
+        _getSkuClickGood(item);
+      },
       isEdit: isEdit,
       itemList: _itemList,
+    );
+  }
+
+  _getSkuClickGood(CartItemListItem item) async {
+    Map<String, dynamic> params = {
+      'id': item.itemId,
+      'extId': item.extId,
+      'type': item.type,
+      'promotionId': item.source,
+      'skuId': item.skuId,
+    };
+    var responseData = await detailForCart(params);
+    if (responseData.code == '200') {
+      var goodDetail = GoodDetail.fromJson(responseData.data);
+      _buildSizeModel(context, item.skuId, item.extId, goodDetail);
+    }
+  }
+
+  ///属性选择底部弹窗
+  _buildSizeModel(
+      BuildContext context, num skuId, String extId, GoodDetail item) {
+    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
+    return showModalBottomSheet(
+      //设置true,不会造成底部溢出
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return AddGoodSizeWidget(
+          goodDetail: item,
+          skuId: skuId,
+          updateSkuSuccess: () {
+            _getData();
+          },
+        );
+      },
     );
   }
 

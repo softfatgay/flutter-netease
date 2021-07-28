@@ -413,3 +413,16 @@ Future<ResponseData> itemPool(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.get(ITEM_POOL, params: params);
 }
+
+///购物车更改商品属性
+Future<ResponseData> detailForCart(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(DETAIL_FOR_CART, params: params);
+}
+
+///购物车更改商品属性,点击确定
+Future<ResponseData> updateSkuSpec(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(UPDATE_SKU_SPEC,
+      params: params, showProgress: true);
+}

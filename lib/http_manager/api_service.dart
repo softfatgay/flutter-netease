@@ -226,6 +226,12 @@ final String ITEM_POOL = '${baseUrl}xhr/item/getItemPool.json';
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
 
+///购物车更改商品属性
+final String DETAIL_FOR_CART = '${baseUrl}xhr/item/detailForCart.json';
+
+///购物车更改商品属性确定
+final String UPDATE_SKU_SPEC = '${baseUrl}xhr/cart/updateSkuSpec.json';
+
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
 
@@ -404,3 +410,9 @@ final String REDPACKAGE_ITEMS =
 
 ///凑单
 //https://m.you.163.com/xhr/item/getItemPool.json
+
+///购物车更改商品属性
+//https://m.you.163.com/xhr/item/detailForCart.json
+
+///变更购物车
+//https://m.you.163.com/xhr/cart/updateSkuSpec.json

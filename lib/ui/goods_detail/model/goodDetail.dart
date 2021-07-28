@@ -101,6 +101,7 @@ class GoodDetail {
   SpmcBanner spmcBanner;
   ListPromBanner listPromBanner;
   String promTag;
+  List<SpecListItem> specList;
 
   GoodDetail();
 
@@ -248,4 +249,14 @@ class ListPromBanner {
 
   factory ListPromBanner.fromJson(Map<String, dynamic> json) =>
       _$ListPromBannerFromJson(json);
+}
+
+@JsonSerializable()
+class SpecListItem {
+  String specName;
+  String specValue;
+
+  SpecListItem();
+  factory SpecListItem.fromJson(Map<String, dynamic> json) =>
+      _$SpecListItemFromJson(json);
 }
