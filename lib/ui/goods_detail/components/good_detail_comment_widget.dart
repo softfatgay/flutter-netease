@@ -6,6 +6,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/start_widget.dart';
 
 typedef void OnPress();
@@ -162,7 +163,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                           margin: EdgeInsets.symmetric(vertical: 5),
                           child: Text(
                             '${DateUtil.formatDateMs(comments[0].createTime) + '   ' + comments[0].skuInfo[0]}',
-                            style: TextStyle(color: Colors.grey),
+                            style: t12grey,
                             maxLines: 2,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.ellipsis,
@@ -170,10 +171,13 @@ class GoodDetailCommentWidget extends StatelessWidget {
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 5),
-                          child: Text('${comments[0].content}'),
+                          child: Text(
+                            '${comments[0].content}',
+                            style: t14black,
+                          ),
                         ),
                         Wrap(
-                          spacing: 2,
+                          spacing: 5,
                           runSpacing: 5,
                           children:
                               commentPic(context, comments[0].picList ?? []),
@@ -189,10 +193,10 @@ class GoodDetailCommentWidget extends StatelessWidget {
   List<Widget> commentPic(BuildContext context, List commentList) =>
       List.generate(commentList.length, (indexC) {
         Widget widget = Container(
-          width: 100,
-          height: 100,
-          child: CachedNetworkImage(
-            imageUrl: commentList[indexC],
+          width: (MediaQuery.of(context).size.width - 40) / 4,
+          height: (MediaQuery.of(context).size.width - 40) / 4,
+          child: RoundNetImage(
+            url: commentList[indexC],
             fit: BoxFit.cover,
           ),
         );

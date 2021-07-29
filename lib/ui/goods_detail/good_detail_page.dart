@@ -41,7 +41,6 @@ import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/count.dart';
 import 'package:flutter_app/widget/dashed_decoration.dart';
