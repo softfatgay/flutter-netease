@@ -198,6 +198,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
           child: RoundNetImage(
             url: commentList[indexC],
             fit: BoxFit.cover,
+            corner: 2,
           ),
         );
         return Routers.link(widget, Routers.image, context,
