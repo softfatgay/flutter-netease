@@ -5,9 +5,8 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/arrow_icon.dart';
-import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,7 +48,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '关于',
       ).build(context),
       body: ListView.builder(

@@ -3,10 +3,10 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @Deprecated('no used')
@@ -50,7 +50,7 @@ class _VipCenterPageState extends State<VipCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '会员俱乐部',
       ).build(context),
       body: _isLoading ? Loading() : _buildBody(),

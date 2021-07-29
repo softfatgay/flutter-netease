@@ -13,7 +13,6 @@ import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/sortData.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/vertical_tab.dart';

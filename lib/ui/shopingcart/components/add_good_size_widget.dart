@@ -26,6 +26,7 @@ class AddGoodSizeWidget extends StatefulWidget {
   final UpdateSkuSuccess updateSkuSuccess;
   final num skuId;
   final String extId;
+  final num type;
 
   const AddGoodSizeWidget({
     Key key,
@@ -35,6 +36,7 @@ class AddGoodSizeWidget extends StatefulWidget {
     this.skuId,
     this.extId,
     this.updateSkuSuccess,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -80,7 +82,6 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
 
   List<SpecListItem> _specList;
   num _skuId;
-  String _extId;
 
   @override
   void initState() {
@@ -94,7 +95,6 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       var skuId = widget.skuId;
       if (skuId != null) {
         _skuId = skuId;
-        _extId = widget.extId;
         _setSelectSkuMapKey(_skuId);
       }
     });
@@ -149,27 +149,29 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                     //最小包裹高度
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      //定位右侧
-                      Container(
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: InkResponse(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              child: Icon(
-                                Icons.close,
-                                color: redColor,
+                      Stack(
+                        children: [
+                          ///商品描述
+                          _selectGoodDetail(context, widget.goodDetail),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(top: 15, right: 5),
+                                child: Image.asset(
+                                  'assets/images/close.png',
+                                  width: 20,
+                                  height: 20,
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-
-                      ///商品描述
-                      _selectGoodDetail(context, widget.goodDetail),
 
                       ///颜色，规格等参数
                       _modelAndSize(context, widget.goodDetail, setstate),
@@ -219,49 +221,19 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
 
   ///默认展示形式
   _defaultBottomBtns(int type) {
-    return Container(
-      height: 50,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          //客服
-          // GestureDetector(
-          //   child: Container(
-          //     height: 50,
-          //     padding: EdgeInsets.symmetric(horizontal: 40),
-          //     alignment: Alignment.center,
-          //     child: Text(
-          //       '返回',
-          //       style: t14black,
-          //     ),
-          //   ),
-          //   onTap: () {
-          //     if (widget.cancelClick != null) {
-          //       widget.cancelClick();
-          //     }
-          //   },
-          // ),
-          Expanded(
-            child: GestureDetector(
-              child: Container(
-                height: 50,
-                alignment: Alignment.center,
-                color: backRed,
-                child: Text(
-                  '确定',
-                  style: t14white,
-                ),
-              ),
-              onTap: () {
-                _addCart();
-              },
-            ),
-          ),
-        ],
+    return GestureDetector(
+      child: Container(
+        height: 50,
+        alignment: Alignment.center,
+        color: backRed,
+        child: Text(
+          '确定',
+          style: t14white,
+        ),
       ),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(color: lineColor, blurRadius: 1, spreadRadius: 0.2)
-      ]),
+      onTap: () {
+        _addCart();
+      },
     );
   }
 
@@ -623,7 +595,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         "newSkuId": _skuMapItem.id,
         "oldSkuId": _skuId,
         "promId": _skuMapItem.promId,
-        'extId': _extId
+        'extId': widget.extId,
+        'type': widget.type
       };
       var responseData = await updateSkuSpec(params);
       if (responseData.code == '200') {

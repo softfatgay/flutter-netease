@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class AccountManagePage extends StatefulWidget {
@@ -29,10 +30,8 @@ class _AccountManagePageState extends State<AccountManagePage> {
     items.add(_buildBottom());
 
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '账号管理',
-        tabs: [],
-        controller: null,
       ).build(context),
       body: Column(
         children: items,

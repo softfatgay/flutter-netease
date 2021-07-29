@@ -3,11 +3,10 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/addressItem.dart';
-import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 import 'package:flutter_app/widget/m_textfiled.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 
 class AddAddressPage extends StatefulWidget {
   final Map arguments;
@@ -60,7 +59,7 @@ class _AddAddressPageState extends State<AddAddressPage>
       },
       child: Scaffold(
         backgroundColor: backColor,
-        appBar: TabAppBar(
+        appBar: TopAppBar(
           title: '地址管理',
         ).build(context),
         body: Column(

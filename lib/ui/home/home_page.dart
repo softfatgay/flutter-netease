@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,6 +24,7 @@ import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
 import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/home_page_header.dart';
@@ -941,18 +941,15 @@ class _HomeState extends State<HomePage>
   void _checkVersion() async {
     var packageInfo = await PackageInfo.fromPlatform();
     var param = {
-      '_api_key': '5fd74f41bc1842bb97b3f62859937b34',
+      '_api_key': pgy_api_key,
       'buildVersion': packageInfo.version,
-      'appKey': '86f30c074e0db173411dfe6369ba818b',
+      'appKey': pgy_appKey,
     };
 
     var responseData = await checkVersion(param);
     if (responseData.code == 0) {
       var data = responseData.data;
       var versionModel = VersionModel.fromJson(data);
-      print(packageInfo.version);
-      print(versionModel.buildVersion);
-
       if (packageInfo.version != versionModel.buildVersion) {
         _versionDialog(versionModel);
       }
@@ -1005,28 +1002,17 @@ class _HomeState extends State<HomePage>
   }
 
   void _initAnimal() {
-    //AnimationController是一个特殊的Animation对象，在屏幕刷新的每一帧，就会生成一个新的值，
-    // 默认情况下，AnimationController在给定的时间段内会线性的生成从0.0到1.0的数字
-    //用来控制动画的开始与结束以及设置动画的监听
-    //vsync参数，存在vsync时会防止屏幕外动画（动画的UI不在当前屏幕时）消耗不必要的资源
-    //duration 动画的时长，这里设置的 seconds: 2 为2秒，当然也可以设置毫秒 milliseconds：2000.
     _animalController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
-    //动画开始、结束、向前移动或向后移动时会调用StatusListener
     _animalController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animalController.reset();
         //动画从 controller.forward() 正向执行 结束时会回调此方法
-        print("status is completed");
       } else if (status == AnimationStatus.dismissed) {
         //动画从 controller.reverse() 反向执行 结束时会回调此方法
-        print("status is dismissed");
       } else if (status == AnimationStatus.forward) {
-        print("status is forward");
-        //执行 controller.forward() 会回调此状态
       } else if (status == AnimationStatus.reverse) {
         //执行 controller.reverse() 会回调此状态
-        print("status is reverse");
       }
     });
   }

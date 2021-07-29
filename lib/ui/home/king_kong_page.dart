@@ -8,7 +8,6 @@ import 'package:flutter_app/ui/home/model/kingkongModel.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/page_loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
@@ -24,7 +23,7 @@ class KingKongPage extends StatefulWidget {
 }
 
 class _KingKongPageState extends State<KingKongPage> {
-  var _banner = List();
+  var _banner = [];
   bool _initLoading = true;
   Category _currentCategory;
 
@@ -41,13 +40,6 @@ class _KingKongPageState extends State<KingKongPage> {
 
     _getInitData();
   }
-
-  // https://m.you.163.com/item/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603334436519&style=pd&categoryId=1005002
-
-  // https://m.you.163.com/item/list?categoryId=1013001&style=pd
-  //https://m.you.163.com/item/newItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603348965153&
-
-  // https://m.you.163.com/xhr/item/getPreNewItem.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603348965388&
 
   void _getInitData() async {
     var categoryId;
@@ -88,8 +80,6 @@ class _KingKongPageState extends State<KingKongPage> {
       _banner = _bannerList.map((item) => item.picUrl).toList();
       _initLoading = false;
     });
-
-    print(responseData.data);
   }
 
   @override
@@ -129,7 +119,8 @@ class _KingKongPageState extends State<KingKongPage> {
     return BannerCacheImg(
       imageList: _banner,
       onTap: (index) {
-        Routers.push(Routers.image, context, {'images': _banner});
+        Routers.push(
+            Routers.webView, context, {'url': _bannerList[index].targetUrl});
       },
     );
   }

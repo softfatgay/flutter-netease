@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class PaySafeCenterPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '支付安全',
       ).build(context),
       body: Container(

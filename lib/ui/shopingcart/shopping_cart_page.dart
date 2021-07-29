@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/cart_item_widget.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
@@ -251,11 +254,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     print(checkList);
   }
 
-  // 清空购物车
+  // 购物车编辑删除
   void _deleteCart() async {
     Map<String, dynamic> item = {
       "skuList": checkList,
     };
+
     Map<String, dynamic> params = {'selectedSku': json.encode(item)};
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
@@ -370,6 +374,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                 slivers: [
                   singleSliverWidget(_buildTitle()),
                   singleSliverWidget(_dataList()),
+                  singleSliverWidget(Container(height: 10)),
                   singleSliverWidget(_invalidList()),
                   singleSliverWidget(Container(height: 10)),
                 ],
@@ -521,13 +526,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var responseData = await detailForCart(params);
     if (responseData.code == '200') {
       var goodDetail = GoodDetail.fromJson(responseData.data);
-      _buildSizeModel(context, item.skuId, item.extId, goodDetail);
+      _buildSizeModel(context, item.skuId, item.extId, item.type, goodDetail);
     }
   }
 
   ///属性选择底部弹窗
-  _buildSizeModel(
-      BuildContext context, num skuId, String extId, GoodDetail item) {
+  _buildSizeModel(BuildContext context, num skuId, String extId, num type,
+      GoodDetail item) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     return showModalBottomSheet(
       //设置true,不会造成底部溢出
@@ -538,6 +543,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         return AddGoodSizeWidget(
           goodDetail: item,
           skuId: skuId,
+          extId: extId,
+          type: type,
           updateSkuSuccess: () {
             _getData();
           },

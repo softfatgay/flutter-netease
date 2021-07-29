@@ -25,11 +25,9 @@ class TabAppBar extends StatelessWidget {
             InkResponse(
               child: Container(
                 width: 50,
-                child: Center(
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: textBlack,
-                  ),
+                child: Image.asset(
+                  'assets/images/back.png',
+                  height: 25,
                 ),
               ),
               onTap: () {

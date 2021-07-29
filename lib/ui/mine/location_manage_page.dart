@@ -5,8 +5,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 
 ///地址管理
 class LocationManagePage extends StatefulWidget {
@@ -28,9 +27,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
-        controller: null,
-        tabs: [],
+      appBar: TopAppBar(
         title: '地址管理',
       ).build(context),
       body: Column(

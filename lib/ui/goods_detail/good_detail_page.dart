@@ -900,27 +900,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                         //最小包裹高度
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          //定位右侧
-                          Container(
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: InkResponse(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: redColor,
+                          Stack(
+                            children: [
+                              ///商品描述
+                              _selectGoodDetail(context),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: InkResponse(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(top: 10, right: 5),
+                                    child: Image.asset(
+                                      'assets/images/close.png',
+                                      width: 20,
+                                      height: 20,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-
-                          ///商品描述
-                          _selectGoodDetail(context),
 
                           ///颜色，规格等参数
                           _modelAndSize(context, setstate),
@@ -1211,6 +1213,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         children: <Widget>[
           GestureDetector(
             child: Container(
+              padding: EdgeInsets.only(top: 8),
               child: CachedNetworkImage(
                 imageUrl: img,
                 fit: BoxFit.cover,

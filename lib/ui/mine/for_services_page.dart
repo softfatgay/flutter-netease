@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 
 class ForServicesPage extends StatefulWidget {
   @override
@@ -81,9 +81,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
-        controller: null,
-        tabs: [],
+      appBar: TopAppBar(
         title: '售后服务',
       ).build(context),
       body: Column(

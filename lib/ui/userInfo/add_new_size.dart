@@ -8,9 +8,9 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/sizeItemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/check_box.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class AddNewSize extends StatefulWidget {
   final Map param;
@@ -91,7 +91,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(title: '添加尺码').build(context),
+      appBar: TopAppBar(title: '添加尺码').build(context),
       body: Stack(
         children: [
           Positioned(

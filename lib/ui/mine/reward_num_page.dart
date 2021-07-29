@@ -6,6 +6,7 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -89,7 +90,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: backColor,
-        appBar: TabAppBar(
+        appBar: TopAppBar(
           title: widget.arguments['id'] == 4 ? '津贴' : '回馈金',
         ).build(context),
         body: CustomScrollView(

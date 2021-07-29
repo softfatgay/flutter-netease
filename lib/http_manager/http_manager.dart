@@ -39,11 +39,9 @@ class HttpManager {
     receiveTimeout = receiveTimeout ?? 15000;
 
     // if (accept != null) {
-    //   postHeader['accept'] = 'application/json, text/javascript, */*; q=0.01';
-    //   postHeader['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-    // } else {
-    //   postHeader['Content-Type'] =
-    //   'application/x-www-form-urlencoded; charset=UTF-8';
+    //   headers['accept'] = 'application/json, text/javascript, */*; q=0.01';
+    //   headers['Content-Type'] =
+    //       'application/x-www-form-urlencoded; charset=UTF-8';
     // }
 
     if (needCommonParameters ?? false) {

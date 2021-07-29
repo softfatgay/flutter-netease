@@ -7,6 +7,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/goods_detail/model/interstItemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
@@ -59,7 +60,7 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '爱好',
       ).build(context),
       body: _buildBody(),

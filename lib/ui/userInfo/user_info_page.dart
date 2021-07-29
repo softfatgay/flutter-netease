@@ -7,6 +7,7 @@ import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/check_box.dart';
 import 'package:flutter_app/widget/global.dart';
@@ -61,7 +62,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(title: '个人信息').build(context),
+      appBar: TopAppBar(title: '个人信息').build(context),
       body: Stack(
         children: [
           Positioned(

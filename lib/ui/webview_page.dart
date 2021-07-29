@@ -6,6 +6,7 @@ import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -78,23 +79,30 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        var controller = await _webController.future.then((value) => value);
-        print(await controller.canGoBack());
-        if (await controller.canGoBack()) {
-          _webController.future.then((value) => value.goBack());
-        } else {
-          Navigator.pop(context);
-        }
+        _backPress(context);
         return false;
       },
       child: Scaffold(
-        appBar: TabAppBar(
-          tabs: [],
+        appBar: TopAppBar(
           title: _title,
+          closeIcon: true,
+          backPress: () {
+            _backPress(context);
+          },
         ).build(context),
         body: _buildBody(),
       ),
     );
+  }
+
+  _backPress(BuildContext context) async {
+    var controller = await _webController.future.then((value) => value);
+    print(await controller.canGoBack());
+    if (await controller.canGoBack()) {
+      _webController.future.then((value) => value.goBack());
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   _buildBody() {
@@ -150,8 +158,20 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   //隐藏头部
+  String hideBottom1() {
+    var js = "document.querySelector('.tabBar-wrap').style.display = 'none';";
+    return js;
+  }
+
+  //隐藏头部
+  String hideBottom2() {
+    var js =
+        "document.querySelector('.lazy-component-wrapper').style.display = 'none';";
+    return js;
+  }
+
+  //隐藏头部
   String hideHeaderJs1() {
-    // var js = "document.querySelector('.hdWraper').style.height = '0';";
     var js = "document.querySelector('.m-topBar').style.display = 'none';";
     return js;
   }
@@ -184,41 +204,15 @@ class _WebViewPageState extends State<WebViewPage> {
     Timer(Duration(milliseconds: 100), () {
       try {
         if (_webController != null) {
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs1()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs2()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs3()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
-        }
-      } catch (e) {}
-    });
-
-    Timer(Duration(milliseconds: 100), () {
-      try {
-        if (_webController != null) {
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs1()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs2()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs3()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs()).then((result) {}));
-
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
+          _webController.future.then((value) {
+            value.evaluateJavascript(hideHeaderJs()).then((result) {});
+            value.evaluateJavascript(hideHeaderJs1()).then((result) {});
+            value.evaluateJavascript(hideHeaderJs2()).then((result) {});
+            value.evaluateJavascript(hideHeaderJs3()).then((result) {});
+            value.evaluateJavascript(hideOpenAppJs()).then((result) {});
+            value.evaluateJavascript(hideBottom1()).then((result) {});
+            value.evaluateJavascript(hideBottom2()).then((result) {});
+          });
         }
       } catch (e) {}
     });

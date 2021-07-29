@@ -7,14 +7,13 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/mine/model/pointsModel.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/head_portrait.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/swiper.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';
 
 class PointCenterPage extends StatefulWidget {
@@ -77,7 +76,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '积分中心',
       ).build(context),
       body: _isLoading ? Loading() : _buildBody(),

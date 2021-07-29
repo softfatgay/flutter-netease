@@ -9,7 +9,6 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
 import 'package:flutter_app/ui/mine/model/phoneStatusModel.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
-import 'package:flutter_app/ui/webview_page.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
@@ -77,14 +76,6 @@ class _MinePageState extends State<UserPage>
   @override
   Widget build(BuildContext context) {
     return _buildBody();
-  }
-
-  _buildRefresh() {
-    return RefreshIndicator(
-        child: _buildBody(),
-        onRefresh: () async {
-          _checkLogin();
-        });
   }
 
   _buildBody() {
@@ -183,90 +174,6 @@ class _MinePageState extends State<UserPage>
         });
       }
     }
-  }
-
-  _buildTop(BuildContext context) {
-    return Container(
-      padding:
-          EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 18, 0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFEFB965),
-            Color(0xFFFFD883),
-          ],
-        ),
-      ),
-      height: 140 + MediaQuery.of(context).padding.top,
-      child: Stack(
-        children: [
-          GestureDetector(
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(50)),
-                      image: DecorationImage(
-                        image: NetworkImage('$_userIcon'),
-                        fit: BoxFit.cover,
-                      ),
-                    ), // 通过 container 实现圆角
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _userInfo.userSimpleVO.nickname,
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          _userInfo.userSimpleVO.memberLevel == 0
-                              ? "普通用户"
-                              : "vip用户",
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Image.asset(
-                          'assets/images/mine/mine_page_qr.png',
-                          color: backWhite,
-                          width: 25,
-                          height: 25,
-                        ),
-                      ),
-                      onTap: () {
-                        Routers.push(
-                            Routers.userInfoPageIndex, context, {'id': 1});
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-            onTap: () {
-              Routers.push(Routers.userInfoPage, context);
-            },
-          ),
-        ],
-      ),
-    );
   }
 
   _buildTitle(BuildContext context) {
@@ -578,5 +485,3 @@ class _MinePageState extends State<UserPage>
     super.dispose();
   }
 }
-
-//https://m.you.163.com/xhr/order/getList.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&size=10&lastOrderId=0&status=5

@@ -5,9 +5,8 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/sizeItemModel.dart';
 import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class MineSizePage extends StatefulWidget {
   const MineSizePage({Key key}) : super(key: key);
@@ -30,7 +29,7 @@ class _MineSizePageState extends State<MineSizePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backWhite,
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '我的尺寸',
       ).build(context),
       body: Stack(

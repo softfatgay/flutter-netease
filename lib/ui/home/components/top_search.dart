@@ -35,9 +35,7 @@ class TopSearch extends StatelessWidget {
               width: double.infinity,
               margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
               decoration: BoxDecoration(
-                color: abool
-                    ? Color.fromARGB(255, 237, 237, 237)
-                    : Color.fromARGB(50, 237, 237, 237),
+                color: backColor,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: Row(

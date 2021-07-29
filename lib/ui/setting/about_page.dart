@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
@@ -15,8 +15,7 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
-        tabs: [],
+      appBar: TopAppBar(
         title: '关于',
       ).build(context),
       body: CustomScrollView(

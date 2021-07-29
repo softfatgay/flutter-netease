@@ -8,8 +8,10 @@ import 'package:flutter_app/ui/goods_detail/model/commentItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_app/widget/start_widget.dart';
@@ -127,8 +129,7 @@ class _CommentListState extends State<CommentList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
-        tabs: [],
+      appBar: TopAppBar(
         title: '评价',
       ).build(context),
       body: _isFirstLoading
@@ -349,7 +350,7 @@ class _CommentListState extends State<CommentList> {
               margin: EdgeInsets.symmetric(vertical: 5),
               child: Text(
                 '${DateUtil.formatDateMs(_commentList[index].createTime) + '   ' + _commentList[index].skuInfo[0]}',
-                style: TextStyle(color: Colors.grey),
+                style: t12grey,
                 maxLines: 2,
                 textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
@@ -357,10 +358,13 @@ class _CommentListState extends State<CommentList> {
             ),
             Container(
               margin: EdgeInsets.only(bottom: 5),
-              child: Text(_commentList[index].content),
+              child: Text(
+                _commentList[index].content,
+                style: t14black,
+              ),
             ),
             Wrap(
-              spacing: 2,
+              spacing: 5,
               runSpacing: 5,
               children: _commentPic(_commentList[index].picList == null
                   ? []
@@ -377,11 +381,11 @@ class _CommentListState extends State<CommentList> {
   List<Widget> _commentPic(List _commentList) =>
       List.generate(_commentList.length, (indexC) {
         Widget widget = Container(
-          width: 100,
-          height: 100,
-          child: CachedNetworkImage(
-            imageUrl: _commentList[indexC],
-            fit: BoxFit.cover,
+          width: (MediaQuery.of(context).size.width - 32) / 3,
+          height: (MediaQuery.of(context).size.width - 32) / 3,
+          child: RoundNetImage(
+            url: _commentList[indexC],
+            corner: 3,
           ),
         );
         return Routers.link(widget, Routers.image, context,

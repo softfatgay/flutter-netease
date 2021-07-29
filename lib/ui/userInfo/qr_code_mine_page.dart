@@ -8,6 +8,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/qrCodeModel.dart';
 import 'package:flutter_app/ui/userInfo/model/qrUserInfoModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
@@ -28,7 +29,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEEEEEE),
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '邀请返利',
       ).build(context),
       body: _isLoading

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 
 class FullScreenImage extends StatefulWidget {
@@ -63,12 +64,37 @@ class _FullScreenImageState extends State<FullScreenImage> {
                       setState(() {});
                     }),
               ),
-              Appbar(
-                title: '',
-                backcolor: Colors.white,
-              )
+              _buildTop(),
             ],
           )),
+    );
+  }
+
+  _buildTop() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      child: new Container(
+        child: Row(
+          children: <Widget>[
+            InkResponse(
+              child: Container(
+                width: 50,
+                child: Center(
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: backColor,
+                  ),
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+        height: 50,
+      ),
     );
   }
 }

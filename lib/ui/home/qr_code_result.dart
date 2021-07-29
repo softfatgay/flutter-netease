@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class QRCodeResultPage extends StatefulWidget {
@@ -25,12 +26,12 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '扫描结果',
       ).build(context),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           child: Text('${result.code.toString()}'),
         ),
       ),

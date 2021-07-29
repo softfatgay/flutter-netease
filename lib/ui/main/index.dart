@@ -205,7 +205,7 @@ class _MainPageState extends State<MainPage> {
               _cartNum == '0'
                   ? Container()
                   : Positioned(
-                      right: 15,
+                      right: 18,
                       top: 0,
                       child: Container(
                         constraints:
@@ -236,7 +236,7 @@ class _MainPageState extends State<MainPage> {
               _cartNum == '0'
                   ? Container()
                   : Positioned(
-                      right: 15,
+                      right: 18,
                       top: 0,
                       child: Container(
                         constraints:

@@ -7,10 +7,9 @@ import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class GetCarsPage extends StatefulWidget {
   final Map param;
@@ -66,7 +65,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar(
+      appBar: TopAppBar(
         title: '换购',
       ).build(context),
       body: Container(

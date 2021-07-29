@@ -25,6 +25,7 @@ typedef void DeleteCheckItem(
 typedef void GoRedeem(CarItem itemData);
 typedef void SkuClick(CartItemListItem item);
 
+///购物车条目
 class CartItemWidget extends StatelessWidget {
   final SkuClick skuClick;
   final NumChange numChange;
@@ -325,28 +326,25 @@ class CartItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    isEdit
-                        ? Container(height: 50)
-                        : Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 3, vertical: 3),
-                            child: CartCount(
-                              number: item.cnt,
-                              min: 1,
-                              max: item.id == 0 ? 1 : item.sellVolume,
-                              onChange: (numValue) {
-                                if (numChange != null) {
-                                  numChange(item.source, item.type, item.skuId,
-                                      numValue, item.extId);
-                                }
-                              },
-                              numClick: () {
-                                if (item.id != 0) {
-                                  _showNumClickDialog(context, item);
-                                }
-                              },
-                            ),
-                          ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                      child: CartCount(
+                        number: item.cnt,
+                        min: 1,
+                        max: item.id == 0 ? 1 : item.sellVolume,
+                        onChange: (numValue) {
+                          if (numChange != null) {
+                            numChange(item.source, item.type, item.skuId,
+                                numValue, item.extId);
+                          }
+                        },
+                        numClick: () {
+                          if (item.id != 0) {
+                            _showNumClickDialog(context, item);
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

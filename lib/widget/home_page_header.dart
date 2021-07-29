@@ -204,7 +204,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/images/qr_scan.png',
+                            'assets/images/dcp.png',
                             width: 20,
                             height: 20,
                             color: Color(0xFF333333),

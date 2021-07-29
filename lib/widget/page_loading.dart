@@ -6,7 +6,7 @@ class PageLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabAppBar().build(context),
+      appBar: TopAppBar().build(context),
       body: Center(
         child: SizedBox(
           child: CircularProgressIndicator(
