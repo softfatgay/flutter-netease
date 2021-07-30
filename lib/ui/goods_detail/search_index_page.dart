@@ -6,6 +6,7 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
+import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/search_widget.dart';
@@ -332,27 +333,27 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   ///本地存储keyword
   void _saveKey(String key) async {
-    var sharedPreferences = await SharedPreferences.getInstance();
-    var keywordStr = sharedPreferences.getString('keyword');
+    var sp = await LocalStorage.sp;
+    var keywordStr = sp.getString(LocalStorage.keyWord);
     if (keywordStr != null) {
       var split = keywordStr.split(';');
       if (split.indexOf(key) == -1) {
-        sharedPreferences.setString('keyword', keywordStr + ';$key');
+        sp.setString(LocalStorage.keyWord, keywordStr + ';$key');
       }
     } else {
-      sharedPreferences.setString('keyword', '$key');
+      sp.setString(LocalStorage.keyWord, '$key');
     }
   }
 
   _clearKeyword() async {
-    var sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.remove('keyword');
+    var sp = await LocalStorage.sp;
+    sp.remove(LocalStorage.keyWord);
     _getKeyword();
   }
 
   void _getKeyword() async {
-    var sharedPreferences = await SharedPreferences.getInstance();
-    var keyword = sharedPreferences.getString('keyword');
+    var sp = await LocalStorage.sp;
+    var keyword = sp.getString(LocalStorage.keyWord);
     print('sp-----------$keyword');
     if (keyword != null && keyword != '') {
       var split = keyword.split(';');

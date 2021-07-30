@@ -8,6 +8,7 @@ class MinePageItems {
   String fundValue;
   String fundName;
   String targetUrl;
+  String toast;
 
   MinePageItems();
 

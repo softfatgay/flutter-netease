@@ -4,7 +4,8 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
@@ -96,7 +97,9 @@ class _RewardNumPageState extends State<RewardNumPage> {
         body: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            singleSliverWidget(_buildTop(context)),
+            singleSliverWidget(widget.arguments['id'] == 4
+                ? _buildjintieTop(context)
+                : _buildBalanceTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
             GoodItemWidget(dataList: _dataList),
             SliverFooter(hasMore: _hasMore),
@@ -106,36 +109,40 @@ class _RewardNumPageState extends State<RewardNumPage> {
             !_isShowFloatBtn ? Container() : floatingAB(_scrollController));
   }
 
-  Widget _buildTop(BuildContext context) {
+  ///https://yanxuan.nosdn.127.net/429ac440ce956e70752b6a249ddfe468.png
+  _buildBalanceTop(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
-      color: redLightColor,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: NetworkImage(
+              'https://yanxuan.nosdn.127.net/429ac440ce956e70752b6a249ddfe468.png'),
+        ),
+      ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(widget.arguments['id'] == 4 ? '津贴（元）' : '回馈金余额（元）',
-              style: t14white),
-          SizedBox(
-            height: 10,
+          SizedBox(height: 20),
+          Center(
+            child: Text(
+              '¥${widget.arguments['value']}',
+              style: t20whitebold,
+            ),
           ),
-          Text(
-            '¥${widget.arguments['value']}',
-            style: t20whitebold,
-          ),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 10),
           GestureDetector(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text('明细', style: t14white),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: textWhite,
-                  size: 14,
+                Text('查看明细', style: t14white),
+                Image.asset(
+                  'assets/images/arrow_right.png',
+                  color: backWhite,
+                  width: 12,
+                  height: 12,
                 )
               ],
             ),
@@ -149,114 +156,208 @@ class _RewardNumPageState extends State<RewardNumPage> {
               Routers.push(Routers.webView, context, {'url': url});
             },
           ),
-          widget.arguments['id'] == 4
-              ? Container()
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '即将过期',
-                                style:
-                                    TextStyle(color: textWhite, fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '¥${widget.arguments['value']}',
-                                style: TextStyle(
-                                    color: textWhite,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                              )
-                            ],
-                          ),
-                        )),
-                    Container(
-                      height: 20,
-                      width: 1,
-                      color: backWhite,
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '即将过期',
+                          style: TextStyle(color: textWhite, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '¥${widget.arguments['value']}',
+                          style: TextStyle(
+                              color: textWhite,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )
+                      ],
                     ),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '待发放',
-                                style:
-                                    TextStyle(color: textWhite, fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '¥${widget.arguments['value']}',
-                                style: TextStyle(
-                                    color: textWhite,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                              )
-                            ],
-                          ),
-                        )),
-                    Container(
-                      height: 20,
-                      width: 1,
-                      color: backWhite,
+                  )),
+              Container(
+                height: 20,
+                width: 1,
+                color: backWhite,
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '待发放',
+                          style: TextStyle(color: textWhite, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '¥${widget.arguments['value']}',
+                          style: TextStyle(
+                              color: textWhite,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )
+                      ],
                     ),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '累计获得',
-                                style:
-                                    TextStyle(color: textWhite, fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '¥${widget.arguments['value']}',
-                                style: TextStyle(
-                                    color: textWhite,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                              )
-                            ],
-                          ),
-                        )),
-                  ],
-                )
+                  )),
+              Container(
+                height: 20,
+                width: 1,
+                color: backWhite,
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '累计获得',
+                          style: TextStyle(color: textWhite, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '¥${widget.arguments['value']}',
+                          style: TextStyle(
+                              color: textWhite,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )
+                      ],
+                    ),
+                  )),
+            ],
+          )
         ],
       ),
     );
   }
 
-  Widget _buildRcmdTitle(BuildContext context) {
+  _buildjintieTop(BuildContext context) {
+    return Container(
+      color: backRed,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    child: Text(
+                      '什么是购物津贴？',
+                      style: t14white,
+                    ),
+                    onTap: () {
+                      Routers.push(Routers.webView, context,
+                          {'url': 'https://m.you.163.com/help/new#/36/119'});
+                    },
+                  ),
+                ),
+                GestureDetector(
+                  child: Text(
+                    '有问题，找客服',
+                    style: t14white,
+                  ),
+                  onTap: () {
+                    Routers.push(Routers.webView, context,
+                        {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+                  },
+                )
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        'https://yanxuan.nosdn.127.net/a67070542644056fda9f691238c7d9de.png'))),
+            padding: EdgeInsets.symmetric(vertical: 15),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 120,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 05,
+                        right: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: Text(
+                            '¥${widget.arguments['value']}',
+                            style: t20black,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 40,
+                        top: 0,
+                        bottom: 0,
+                        child: GestureDetector(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('明细', style: t14black),
+                              Image.asset(
+                                'assets/images/arrow_right.png',
+                                color: textBlack,
+                                width: 12,
+                                height: 12,
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            String url = '';
+                            if (widget.arguments['id'] == 4) {
+                              url = 'https://m.you.163.com/bonus/detail';
+                            } else {
+                              url = 'https://m.you.163.com/reward/detail';
+                            }
+                            Routers.push(
+                                Routers.webView, context, {'url': url});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildRcmdTitle(BuildContext context) {
     return Column(
       children: [
-        Container(
-          height: 10,
-          color: backGrey,
-        ),
         Container(
           color: backWhite,
           alignment: Alignment.center,

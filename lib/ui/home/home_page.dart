@@ -25,7 +25,7 @@ import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/constans.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/home_page_header.dart';
 import 'package:flutter_app/widget/round_net_image.dart';

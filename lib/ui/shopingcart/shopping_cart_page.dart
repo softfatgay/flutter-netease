@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/empty_cart_widget.dart';
@@ -17,9 +16,7 @@ import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
-import 'package:flutter_app/utils/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
@@ -308,10 +305,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   @override
   Widget build(BuildContext context) {
     var argument = widget.argument;
-    return _isLogin ? _loginWidget(argument, context) : _loginPage(context);
+    return _isLogin ? _buildBody(argument, context) : _loginPage(context);
   }
 
-  _loginWidget(Map<dynamic, dynamic> argument, BuildContext context) {
+  _buildBody(Map<dynamic, dynamic> argument, BuildContext context) {
     return Scaffold(
       backgroundColor: backColor,
       appBar: AppBar(
@@ -323,9 +320,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         leading: argument == null
             ? Container()
             : GestureDetector(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: textBlack,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Image.asset(
+                    'assets/images/back.png',
+                  ),
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -412,8 +411,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: redLightColor,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/lingquan.png'),
+                      ),
                     ),
                     child: Text(
                       '领券',

@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
 typedef void ClearInvalida();
@@ -41,7 +41,9 @@ class InvalidCartItemWidget extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                         decoration: BoxDecoration(
-                            border: Border.all(color: lineColor, width: 0.5)),
+                          border: Border.all(color: lineColor, width: 0.5),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
                         child: Text(
                           '清除失效商品',
                           style: t14black,

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/flutter_activity.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';

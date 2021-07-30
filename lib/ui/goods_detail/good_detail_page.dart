@@ -39,7 +39,7 @@ import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/count.dart';

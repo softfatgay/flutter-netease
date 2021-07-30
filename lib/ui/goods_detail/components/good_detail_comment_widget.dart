@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/start_widget.dart';

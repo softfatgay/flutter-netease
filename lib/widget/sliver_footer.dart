@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/widget/loading.dart';
 
 class SliverFooter extends StatelessWidget {
@@ -26,7 +27,7 @@ class SliverFooter extends StatelessWidget {
         child: Center(
           child: Text(
             tipsText,
-            style: TextStyle(color: Colors.grey),
+            style: t12grey,
           ),
         ),
       );

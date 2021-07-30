@@ -5,7 +5,7 @@ import 'package:flutter_app/constant/statusbar_style.dart';
 import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/ui/main/index.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/banner.dart';

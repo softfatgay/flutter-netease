@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';

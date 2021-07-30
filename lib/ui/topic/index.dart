@@ -11,7 +11,7 @@ import 'package:flutter_app/ui/topic/model/result.dart';
 import 'package:flutter_app/ui/topic/model/topNavData.dart';
 import 'package:flutter_app/ui/topic/model/topicData.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';

@@ -7,7 +7,7 @@ import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
@@ -273,6 +273,7 @@ class CartItemWidget extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         child: Text(
@@ -283,10 +284,10 @@ class CartItemWidget extends StatelessWidget {
                         ),
                       ),
                       item.id != 0
-                          ? Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 20,
-                              color: textGrey,
+                          ? Image.asset(
+                              'assets/images/arrow_down.png',
+                              width: 10,
+                              height: 10,
                             )
                           : Container()
                     ],

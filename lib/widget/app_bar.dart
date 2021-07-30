@@ -53,18 +53,21 @@ class TopAppBar extends StatelessWidget {
                   )
                 : Container(),
             Expanded(
-              child: Center(
-                child: Text(
-                  title == null ? '' : title,
-                  style: t16black,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Center(
+                  child: Text(
+                    title == null ? '' : title,
+                    style: t16black,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),
             Container(
               width: 50,
-            ),
+            )
           ],
         ),
       ),

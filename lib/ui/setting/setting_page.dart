@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/arrow_icon.dart';

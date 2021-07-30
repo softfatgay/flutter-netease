@@ -7,10 +7,11 @@ import 'package:flutter_app/ui/home/model/categoryItemListItem.dart';
 import 'package:flutter_app/ui/home/model/kingkongModel.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/banner.dart';
 import 'package:flutter_app/widget/page_loading.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
+import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
 class KingKongPage extends StatefulWidget {
@@ -91,6 +92,10 @@ class _KingKongPageState extends State<KingKongPage> {
         slivers.add(GoodItemNormalWidget(dataList: value.itemList));
       }
     }
+    slivers.add(SliverFooter(
+      hasMore: false,
+      tipsText: '更多精彩，敬请期待',
+    ));
     return _initLoading
         ? PageLoading()
         : Scaffold(

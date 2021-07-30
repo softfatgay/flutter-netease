@@ -9,7 +9,7 @@ import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/count.dart';

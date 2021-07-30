@@ -9,7 +9,7 @@ class Toast {
   static final int TOP = 2;
 
   static void show(String msg, BuildContext context,
-      {int duration = 2,
+      {int duration = 1,
       int gravity = 0,
       Color backgroundColor = const Color(0xCC000000),
       Color textColor = Colors.white,

@@ -11,7 +11,8 @@ MinePageItems _$MinePageItemsFromJson(Map<String, dynamic> json) {
     ..fundType = json['fundType'] as num
     ..fundValue = json['fundValue'] as String
     ..fundName = json['fundName'] as String
-    ..targetUrl = json['targetUrl'] as String;
+    ..targetUrl = json['targetUrl'] as String
+    ..toast = json['toast'] as String;
 }
 
 Map<String, dynamic> _$MinePageItemsToJson(MinePageItems instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$MinePageItemsToJson(MinePageItems instance) =>
       'fundValue': instance.fundValue,
       'fundName': instance.fundName,
       'targetUrl': instance.targetUrl,
+      'toast': instance.toast,
     };

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/mine/components/package_item_widget.dart';
 import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
-import 'package:flutter_app/utils/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -128,7 +126,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                         child: Container(
                           margin: EdgeInsets.only(top: 15, left: 10),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                           decoration: BoxDecoration(
                             color: backWhite,
                             borderRadius: BorderRadius.circular(15),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
 FloatingActionButton floatingActionButton(ScrollController _scrollController) {
@@ -25,10 +25,9 @@ Widget floatingAB(ScrollController _scrollController) {
       width: 35,
       margin: EdgeInsets.only(bottom: 50),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Color(0xBFFFFFFF),
-          border: Border.all(color: lineColor,width: 0.5)
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: Color(0xBFFFFFFF),
+          border: Border.all(color: lineColor, width: 0.5)),
       child: Container(
         padding: EdgeInsets.all(10),
         child: Image.asset(
@@ -52,10 +51,9 @@ Widget floatingABCart(
       width: 35,
       margin: EdgeInsets.only(bottom: 50),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Color(0xBFFFFFFF),
-        border: Border.all(color: lineColor,width: 0.5)
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: Color(0xBFFFFFFF),
+          border: Border.all(color: lineColor, width: 0.5)),
       child: Container(
         padding: EdgeInsets.all(10),
         child: Image.asset(

@@ -6,7 +6,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
-import 'package:flutter_app/utils/router.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/flow_widget.dart';
