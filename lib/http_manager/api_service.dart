@@ -232,6 +232,9 @@ final String DETAIL_FOR_CART = '${baseUrl}xhr/item/detailForCart.json';
 ///购物车更改商品属性确定
 final String UPDATE_SKU_SPEC = '${baseUrl}xhr/cart/updateSkuSpec.json';
 
+///兑换优惠券
+final String COUPON_ACTIVATE = '${baseUrl}xhr/coupon/activate.json';
+
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
 
@@ -416,3 +419,6 @@ final String UPDATE_SKU_SPEC = '${baseUrl}xhr/cart/updateSkuSpec.json';
 
 ///变更购物车
 //https://m.you.163.com/xhr/cart/updateSkuSpec.json
+
+///兑换优惠券
+//https://m.you.163.com/xhr/coupon/activate.json?csrf_token=7704c0162dd9505942bea22270eefcf8

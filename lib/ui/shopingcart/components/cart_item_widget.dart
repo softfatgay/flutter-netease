@@ -23,6 +23,9 @@ typedef void DeleteCheckItem(
 typedef void GoRedeem(CarItem itemData);
 typedef void SkuClick(CartItemListItem item);
 
+const double _checkBoxWith = 40.0;
+const double _imageWith = 90.0;
+
 ///购物车条目
 class CartItemWidget extends StatelessWidget {
   final SkuClick skuClick;
@@ -71,7 +74,6 @@ class CartItemWidget extends StatelessWidget {
         }
         var cartItemList = itemData.cartItemList;
         _itemList.addAll(cartItemList);
-        // List<CartItemListItem> _itemList = itemData.cartItemList;
 
         List<Widget> itemItems = [];
         if (index != 0) {
@@ -93,13 +95,11 @@ class CartItemWidget extends StatelessWidget {
   }
 
   /// 有效商品列表Item
-  Widget _buildItem(BuildContext context, CarItem itemData,
-      CartItemListItem item, int index) {
+  _buildItem(BuildContext context, CarItem itemData, CartItemListItem item,
+      int index) {
     List<String> cartItemTips = item.cartItemTips;
     return Container(
-      margin: EdgeInsets.only(bottom: 0.5),
       color: Colors.white,
-      padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -115,6 +115,11 @@ class CartItemWidget extends StatelessWidget {
           ///自营仓库免邮
           _freeShipping(item),
           _cartItemTips(cartItemTips),
+          SizedBox(height: 10),
+          Divider(
+            indent: _checkBoxWith,
+            height: 1,
+          )
         ],
       ),
     );
@@ -125,7 +130,7 @@ class CartItemWidget extends StatelessWidget {
       return Container();
     }
     return Container(
-      margin: EdgeInsets.only(left: 33, bottom: 8),
+      margin: EdgeInsets.only(left: _checkBoxWith, top: 10),
       child: Row(
         children: [
           Container(
@@ -164,7 +169,7 @@ class CartItemWidget extends StatelessWidget {
     }
     var warehouseInfo = item.warehouseInfo;
     return Container(
-      margin: EdgeInsets.only(left: 32, top: 8),
+      margin: EdgeInsets.only(left: _checkBoxWith, top: 8, right: 10),
       child: Row(
         children: [
           Image.asset(
@@ -188,7 +193,7 @@ class CartItemWidget extends StatelessWidget {
         : Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            margin: EdgeInsets.fromLTRB(32, 10, 0, 0),
+            margin: EdgeInsets.only(left: _checkBoxWith, right: 10, top: 8),
             decoration: BoxDecoration(
                 color: Color(0xFFF4F4F4),
                 borderRadius: BorderRadius.circular(4)),
@@ -211,26 +216,29 @@ class CartItemWidget extends StatelessWidget {
 
   _buildMainContent(CarItem itemData, CartItemListItem item, int index,
       BuildContext context) {
-    return Row(
-      children: [
-        ///选择⭕️
-        _buildCheckBox(itemData, item, index),
+    return Container(
+      padding: EdgeInsets.only(top: 10),
+      child: Row(
+        children: [
+          ///选择⭕️
+          _buildCheckBox(itemData, item, index),
 
-        ///图片
-        GestureDetector(
-          child: Container(
-            decoration: BoxDecoration(
-                color: backGrey, borderRadius: BorderRadius.circular(4)),
-            height: 90,
-            width: 90,
-            child: CachedNetworkImage(imageUrl: item.pic ?? ''),
+          ///图片
+          GestureDetector(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: backGrey, borderRadius: BorderRadius.circular(4)),
+              height: _imageWith,
+              width: _imageWith,
+              child: CachedNetworkImage(imageUrl: item.pic ?? ''),
+            ),
+            onTap: () {
+              _goDetail(context, item);
+            },
           ),
-          onTap: () {
-            _goDetail(context, item);
-          },
-        ),
-        _buildDes(item, context)
-      ],
+          _buildDes(item, context)
+        ],
+      ),
     );
   }
 
@@ -239,6 +247,7 @@ class CartItemWidget extends StatelessWidget {
       child: GestureDetector(
         child: Container(
           color: Colors.white,
+          padding: EdgeInsets.only(right: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -419,7 +428,8 @@ class CartItemWidget extends StatelessWidget {
         ? Container()
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-            margin: EdgeInsets.only(left: 135),
+            margin: EdgeInsets.only(
+                left: _checkBoxWith + _imageWith + 10, right: 10),
             decoration: BoxDecoration(
                 border: Border.all(color: backYellow, width: 0.5),
                 borderRadius: BorderRadius.circular(2)),
@@ -434,7 +444,7 @@ class CartItemWidget extends StatelessWidget {
   _buildCheckBox(CarItem itemData, CartItemListItem item, int index) {
     if (isEdit) {
       return Container(
-        margin: EdgeInsets.only(right: 6),
+        width: _checkBoxWith,
         child: CartCheckBox(
           canCheck: true,
           onCheckChanged: (check) {
@@ -446,7 +456,7 @@ class CartItemWidget extends StatelessWidget {
       );
     } else {
       return Container(
-        margin: EdgeInsets.only(right: 6),
+        width: _checkBoxWith,
         child: InkWell(
           onTap: () {
             if (itemData.canCheck || item.checked) {
@@ -487,97 +497,6 @@ class CartItemWidget extends StatelessWidget {
     }
   }
 
-  ///满减
-  _fullReduction(CarItem itemData, int index, BuildContext context) {
-    return itemData.promTip == null || itemData.addBuyStepList == null
-        ? Container()
-        : Container(
-            color: backWhite,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                        decoration: BoxDecoration(
-                          color: redLightColor,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        child: Text(
-                          index == 0 ? '全场换购' : '换购',
-                          style: t12white,
-                        ),
-                      ),
-                      Expanded(
-                          child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${itemData.promTip}',
-                          style: t14black,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )),
-                      GestureDetector(
-                        child: Row(
-                          children: [
-                            Text(
-                              '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
-                              style: t14red,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: textRed,
-                              size: 14,
-                            )
-                          ],
-                        ),
-                        onTap: () {
-                          Routers.push(Routers.webView, context, {
-                            'url':
-                                'https://m.you.163.com/cart/itemPool?promotionId=${itemData.promId}'
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFF7F5),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    margin: EdgeInsets.fromLTRB(40, 0, 15, 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            itemData.promSatisfy ? '去换购商品' : '查看换购商品',
-                            style: t12black,
-                          ),
-                        ),
-                        arrowRightIcon
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    if (goRedeem != null) {
-                      goRedeem(itemData);
-                    }
-                  },
-                ),
-              ],
-            ),
-          );
-  }
-
   _redeem(CarItem itemData, int index, BuildContext context) {
     if (itemData.promTip != null) {
       if (itemData.promType == 4) {
@@ -587,13 +506,13 @@ class CartItemWidget extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 6),
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      margin: EdgeInsets.only(left: _checkBoxWith / 2),
                       decoration: BoxDecoration(
                         color: redLightColor,
                         borderRadius: BorderRadius.circular(2),
@@ -604,27 +523,24 @@ class CartItemWidget extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                        child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '${itemData.promTip}',
-                        style: t14black,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${itemData.promTip}',
+                          style: t14black,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    )),
+                    ),
                     GestureDetector(
                       child: Row(
                         children: [
                           Text(
                             '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
-                            style: t14red,
+                            style: t12red,
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: textRed,
-                            size: 14,
-                          )
+                          arrowRightRed10Icon
                         ],
                       ),
                       onTap: () {
@@ -644,7 +560,7 @@ class CartItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(3),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  margin: EdgeInsets.fromLTRB(40, 0, 15, 8),
+                  margin: EdgeInsets.fromLTRB(_checkBoxWith, 0, 15, 8),
                   child: Row(
                     children: [
                       Expanded(
@@ -670,13 +586,14 @@ class CartItemWidget extends StatelessWidget {
         ///满减
         return Container(
           color: backWhite,
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding:
+              EdgeInsets.only(left: _checkBoxWith + 10, top: 10, right: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(right: 6),
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 decoration: BoxDecoration(
                   color: redLightColor,
                   borderRadius: BorderRadius.circular(2),
@@ -701,13 +618,9 @@ class CartItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       '去凑单',
-                      style: t14red,
+                      style: t12red,
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: textRed,
-                      size: 14,
-                    )
+                    arrowRightRed10Icon
                   ],
                 ),
                 onTap: () {

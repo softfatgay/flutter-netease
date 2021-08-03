@@ -426,3 +426,9 @@ Future<ResponseData> updateSkuSpec(Map<String, dynamic> params) async {
   return await HttpManager.get(UPDATE_SKU_SPEC,
       params: params, showProgress: true);
 }
+
+///兑换优惠券
+Future<ResponseData> couponActivate(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.post(COUPON_ACTIVATE, params: params);
+}

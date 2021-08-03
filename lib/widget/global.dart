@@ -18,5 +18,21 @@ Widget arrowRightIcon = Image.asset(
   height: 12,
 );
 
+///右指向箭头
+Widget arrowRightRedIcon = Image.asset(
+  'assets/images/arrow_right.png',
+  width: 12,
+  height: 12,
+  color: textRed,
+);
+
+///右指向箭头
+Widget arrowRightRed10Icon = Image.asset(
+  'assets/images/arrow_right.png',
+  width: 10,
+  height: 10,
+  color: textRed,
+);
+
 ///icon颜色
 const Color iconColor = Colors.red;

@@ -4,11 +4,14 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/model/pagination.dart';
+import 'package:flutter_app/ui/mine/components/coupon_filed_widget.dart';
 import 'package:flutter_app/ui/mine/model/couponItemModel.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/widget/slivers.dart';
 
 class CouponPage extends StatefulWidget {
   @override
@@ -22,6 +25,7 @@ class _CouponPageState extends State<CouponPage> {
 
   bool _isLoading = true;
   Pagination _pagination;
+  final controller = TextEditingController();
 
   List<CouponItemModel> _dataList = [];
   ScrollController _scrollController = new ScrollController();
@@ -37,6 +41,7 @@ class _CouponPageState extends State<CouponPage> {
           : CustomScrollView(
               controller: _scrollController,
               slivers: [
+                singleSliverWidget(_addCoupon()),
                 _buildList(context),
                 SliverFooter(
                   hasMore: !_pagination.lastPage,
@@ -323,5 +328,25 @@ class _CouponPageState extends State<CouponPage> {
         _pagination = Pagination.fromJson(result[0].data['pagination']);
       });
     });
+  }
+
+  _addCoupon() {
+    return Container(
+      child: NormalFiledClearWidget(
+        controller: controller,
+        hintText: '请输入激活码',
+        onBtnClick: (value) {
+          _couponActivate(value);
+        },
+      ),
+    );
+  }
+
+  void _couponActivate(String value) async {
+    Map<String, dynamic> params = {'activationCode': value};
+    var responseData = await couponActivate(params);
+    if (responseData.code == '200') {
+      Toast.show(responseData.data['countInfo'], context);
+    }
   }
 }
