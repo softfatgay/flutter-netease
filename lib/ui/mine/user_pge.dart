@@ -281,13 +281,14 @@ class _MinePageState extends State<UserPage>
                   child: Container(
                     child: Center(
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                         decoration: BoxDecoration(
                           color: backRed,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(6),
-                            topRight: Radius.circular(6),
-                            bottomRight: Radius.circular(6),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
                           ),
                         ),
                         child: Text(

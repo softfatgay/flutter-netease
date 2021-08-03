@@ -276,6 +276,8 @@ class CartItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 2),
                         child: Text(
                           '${_specValue(item)}',
                           style: t12grey,

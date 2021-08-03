@@ -362,91 +362,97 @@ class _TopicPageState extends State<TopicPage>
       return Container();
     }
     return Container(
-      width: double.infinity,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFEED4A9),
-            Colors.white,
-          ],
+          image: DecorationImage(
+              image: NetworkImage(
+                  'http://yanxuan.nosdn.127.net/a93a392fb8006ba26dea38477979b7b4.jpg'))),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFEED4A9),
+              Colors.white,
+            ],
+          ),
         ),
-      ),
-      padding:
-          EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 10, 0, 5),
-      child: NotificationListener<ScrollNotification>(
-        onNotification: _handleScrollNotification,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            GridView.count(
-              crossAxisCount: 2,
-              scrollDirection: Axis.horizontal,
-              children: _navList.map((item) {
-                return GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: ScreenUtil().setHeight(50),
-                            width: ScreenUtil().setHeight(50),
-                            child: CachedNetworkImage(
-                              imageUrl: '${item.picUrl}',
+        padding: EdgeInsets.fromLTRB(
+            0, MediaQuery.of(context).padding.top + 10, 0, 5),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _handleScrollNotification,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              GridView.count(
+                crossAxisCount: 2,
+                scrollDirection: Axis.horizontal,
+                children: _navList.map((item) {
+                  return GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: ScreenUtil().setHeight(50),
+                              width: ScreenUtil().setHeight(50),
+                              child: CachedNetworkImage(
+                                imageUrl: '${item.picUrl}',
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 2),
-                          child: Text('${item.mainTitle}',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: textBlack,
-                                  fontWeight: FontWeight.w500),
-                              maxLines: 1),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 2),
-                          child: Text(
-                            '${item.viceTitle}',
-                            style:
-                                TextStyle(fontSize: 10, color: textLightGrey),
-                            maxLines: 1,
+                          Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text('${item.mainTitle}',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: textBlack,
+                                    fontWeight: FontWeight.w500),
+                                maxLines: 1),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text(
+                              '${item.viceTitle}',
+                              style:
+                                  TextStyle(fontSize: 10, color: textLightGrey),
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    Routers.push(
-                        Routers.webView, context, {'url': '${item.columnUrl}'});
-                  },
-                );
-              }).toList(),
-            ),
-            StreamBuilder(
-                stream: _streamController.stream,
-                initialData: 0.0,
-                builder: (context, snapshot) {
-                  return Container(
-                    height: 3,
-                    decoration: BoxDecoration(
-                        color: lineColor,
-                        borderRadius: BorderRadius.circular(2)),
-                    width: 100,
-                    alignment: Alignment(snapshot.data, 1),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: redColor,
-                          borderRadius: BorderRadius.circular(2)),
-                      height: 4,
-                      width: 20,
-                    ),
+                    onTap: () {
+                      Routers.push(Routers.webView, context,
+                          {'url': '${item.columnUrl}'});
+                    },
                   );
-                }),
-          ],
+                }).toList(),
+              ),
+              StreamBuilder(
+                  stream: _streamController.stream,
+                  initialData: 0.0,
+                  builder: (context, snapshot) {
+                    return Container(
+                      height: 3,
+                      decoration: BoxDecoration(
+                          color: lineColor,
+                          borderRadius: BorderRadius.circular(2)),
+                      width: 100,
+                      alignment: Alignment(snapshot.data, 1),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: redColor,
+                            borderRadius: BorderRadius.circular(2)),
+                        height: 4,
+                        width: 20,
+                      ),
+                    );
+                  }),
+            ],
+          ),
         ),
       ),
     );
