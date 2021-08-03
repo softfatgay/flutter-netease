@@ -3,16 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
-import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/cart_check_box.dart';
 import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/normal_textfiled.dart';
 import 'package:flutter_app/widget/shopping_cart_count.dart';
 import 'package:flutter_app/widget/timer_text.dart';
 
@@ -79,6 +77,8 @@ class CartItemWidget extends StatelessWidget {
         if (index != 0) {
           itemItems.add(_line());
         }
+
+        ///换购，满减
         itemItems.add(_redeem(itemData, index, context));
         List<Widget> goodWidget = _itemList.map<Widget>((item) {
           return _buildItem(context, itemData, item, index);
@@ -487,8 +487,8 @@ class CartItemWidget extends StatelessWidget {
     }
   }
 
-  ///换购
-  _redeem(CarItem itemData, int index, BuildContext context) {
+  ///满减
+  _fullReduction(CarItem itemData, int index, BuildContext context) {
     return itemData.promTip == null || itemData.addBuyStepList == null
         ? Container()
         : Container(
@@ -576,6 +576,153 @@ class CartItemWidget extends StatelessWidget {
               ],
             ),
           );
+  }
+
+  _redeem(CarItem itemData, int index, BuildContext context) {
+    if (itemData.promTip != null) {
+      if (itemData.promType == 4) {
+        ///换购
+        return Container(
+          color: backWhite,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 6),
+                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: redLightColor,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                      child: Text(
+                        index == 0 ? '全场换购' : '换购',
+                        style: t12white,
+                      ),
+                    ),
+                    Expanded(
+                        child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${itemData.promTip}',
+                        style: t14black,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )),
+                    GestureDetector(
+                      child: Row(
+                        children: [
+                          Text(
+                            '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
+                            style: t14red,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: textRed,
+                            size: 14,
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        Routers.push(Routers.webView, context, {
+                          'url':
+                              'https://m.you.163.com/cart/itemPool?promotionId=${itemData.promId}'
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFF7F5),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  margin: EdgeInsets.fromLTRB(40, 0, 15, 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          itemData.promSatisfy ? '去换购商品' : '查看换购商品',
+                          style: t12black,
+                        ),
+                      ),
+                      arrowRightIcon
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  if (goRedeem != null) {
+                    goRedeem(itemData);
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      } else if (itemData.promType == 108) {
+        ///满减
+        return Container(
+          color: backWhite,
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 6),
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                decoration: BoxDecoration(
+                  color: redLightColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                child: Text(
+                  '满额减',
+                  style: t12white,
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '${itemData.promTip}',
+                  style: t14black,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )),
+              GestureDetector(
+                child: Row(
+                  children: [
+                    Text(
+                      '去凑单',
+                      style: t14red,
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: textRed,
+                      size: 14,
+                    )
+                  ],
+                ),
+                onTap: () {
+                  Routers.push(Routers.webView, context, {
+                    'url':
+                        'https://m.you.163.com/cart/itemPool?promotionId=${itemData.promId}'
+                  });
+                },
+              )
+            ],
+          ),
+        );
+      }
+    }
+    return Container();
   }
 
   _specValue(CartItemListItem item) {

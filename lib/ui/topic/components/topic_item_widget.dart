@@ -19,7 +19,7 @@ class TopicItemWidget extends StatelessWidget {
   _buildItem(BuildContext context, TopicItem item) {
     Widget widget = Container(
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(4)),
+          color: Colors.white, borderRadius: BorderRadius.circular(6)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +104,7 @@ class TopicItemWidget extends StatelessWidget {
       child: Text(
         item.title,
         textAlign: TextAlign.left,
-        style: t12black,
+        style: t14black,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
@@ -116,10 +116,12 @@ class TopicItemWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(2)),
+          borderRadius: BorderRadius.circular(2),
+        ),
         child: Container(
           height: 300,
           child: TopRoundNetImage(
+            corner: 6,
             url: item.picUrl,
           ),
         ),

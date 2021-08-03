@@ -72,7 +72,15 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                   activeIndex: 0,
                 ),
                 Expanded(
-                  child: buildContent(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(width: 1, color: splitLineColor),
+                        bottom: BorderSide(width: 1, color: splitLineColor),
+                      ),
+                    ),
+                    child: _buildContent(),
+                  ),
                 )
               ],
             ),
@@ -122,7 +130,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget buildContent() {
+  _buildContent() {
     return _isLoading
         ? Loading()
         : MediaQuery.removePadding(
@@ -134,10 +142,6 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                   delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                     return Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                            top: BorderSide(width: 1, color: splitLineColor)),
-                      ),
                       padding: EdgeInsets.all(10),
                       height: 120,
                       child: GestureDetector(
@@ -171,23 +175,23 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${_categoryGroupList[index].name ?? ''}",
-                                      style: t16blackbold,
+                              _categoryGroupList[index].name == null ||
+                                      _categoryGroupList[index].name.isEmpty
+                                  ? Container()
+                                  : Container(
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(bottom: 5),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                        bottom: BorderSide(
+                                            color: lineColor, width: 1),
+                                      )),
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        "${_categoryGroupList[index].name ?? ''}",
+                                        style: t16blackbold,
+                                      ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 6),
-                                      height: 1,
-                                      color: splitLineColor,
-                                    ),
-                                  ],
-                                ),
-                              ),
                               GridView.count(
                                 ///这两个属性起关键性作用，列表嵌套列表一定要有Container
                                 physics: const NeverScrollableScrollPhysics(),

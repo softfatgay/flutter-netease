@@ -9,6 +9,7 @@ import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/cart_item_widget.dart';
+import 'package:flutter_app/ui/shopingcart/components/cart_navbar_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/empty_cart_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
@@ -316,7 +317,15 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         backgroundColor: Colors.white,
         brightness: Brightness.light,
         centerTitle: true,
-        title: _navBar(),
+        title: CartNavBarWidget(
+          isEdit: isEdit,
+          editPress: () {
+            setState(() {
+              checkList.clear();
+              isEdit = !isEdit;
+            });
+          },
+        ),
         leading: argument == null
             ? Container()
             : GestureDetector(
@@ -383,66 +392,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       top: 0,
       left: 0,
       right: 0,
-    );
-  }
-
-  ///  导航头
-  _navBar() {
-    return Container(
-      height: 46,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        // border: Border(bottom: BorderSide(color: backColor,width: 1))
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                '购物车',
-                style: t16black,
-              ),
-            ),
-          ),
-          isEdit
-              ? Container()
-              : GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/lingquan.png'),
-                      ),
-                    ),
-                    child: Text(
-                      '领券',
-                      style: t14white,
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Routers.webView, context,
-                        {'url': 'https://m.you.163.com/coupon/cartCoupon'});
-                  },
-                ),
-          SizedBox(
-            width: 10,
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                checkList.clear();
-                isEdit = !isEdit;
-              });
-            },
-            child: Text(
-              isEdit ? '完成' : '编辑',
-              style: t14black,
-            ),
-          )
-        ],
-      ),
     );
   }
 

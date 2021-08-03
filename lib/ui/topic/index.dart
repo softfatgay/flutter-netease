@@ -6,6 +6,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
+import 'package:flutter_app/ui/topic/components/topic_item_widget.dart';
 import 'package:flutter_app/ui/topic/model/navItem.dart';
 import 'package:flutter_app/ui/topic/model/result.dart';
 import 'package:flutter_app/ui/topic/model/topNavData.dart';
@@ -170,145 +171,9 @@ class _TopicPageState extends State<TopicPage>
     }
   }
 
-  _buildItem(TopicItem item) {
-    var buyNow = item.buyNow;
-    Widget widget = Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(4)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(2)),
-              child: Container(
-                child: TopRoundNetImage(
-                  url: item.picUrl,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(5),
-            child: Text(
-              item.title,
-              textAlign: TextAlign.left,
-              style: t14black,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                ClipOval(
-                  child: item.avatar == null
-                      ? Container()
-                      : Container(
-                          width: 20,
-                          height: 20,
-                          child: CachedNetworkImage(
-                            imageUrl: item.avatar,
-                            errorWidget: (context, url, error) {
-                              return ClipOval(
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(color: Colors.grey),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: Text(
-                        item.nickname ?? '',
-                        style: t12grey,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                    child: item.readCount == null
-                        ? Container()
-                        : Icon(
-                            Icons.remove_red_eye,
-                            color: textGrey,
-                            size: 16,
-                          )),
-                Container(
-                  child: Text(
-                    item.readCount == null
-                        ? ''
-                        : (item.readCount > 1000
-                            ? '${int.parse((item.readCount / 1000).toStringAsFixed(0))}K'
-                            : '${item.readCount}'),
-                    style: t12grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          buyNow == null
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  height: 1,
-                  color: lineColor,
-                ),
-          buyNow == null
-              ? Container()
-              : GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Text(
-                          '${buyNow.itemName}',
-                          style: t12black,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                        Text(
-                          '去购买',
-                          style: t12red,
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 12,
-                          color: textRed,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Routers.goodDetailTag, context,
-                        {'id': '${buyNow.itemId}'});
-                  },
-                )
-        ],
-      ),
-    );
-    String schemeUrl = item.schemeUrl;
-    if (!schemeUrl.startsWith('http')) {
-      schemeUrl = 'https://m.you.163.com$schemeUrl';
-    }
-    return Routers.link(widget, Routers.webView, context, {'url': schemeUrl});
-  }
-
   _stagegeredGridview() {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       sliver: SliverStaggeredGrid.countBuilder(
         itemCount: _dataList.length,
         crossAxisCount: 2,
@@ -317,7 +182,7 @@ class _TopicPageState extends State<TopicPage>
         staggeredTileBuilder: (index) => new StaggeredTile.count(
             1, _dataList[index].buyNow == null ? 1.4 : 1.5),
         itemBuilder: (context, index) {
-          return _buildItem(_dataList[index]);
+          return TopicItemWidget(item: _dataList[index]);
         },
       ),
     );
@@ -333,7 +198,7 @@ class _TopicPageState extends State<TopicPage>
             builder: (context, snapshot) {
               return SliverAppBar(
                 pinned: true,
-                expandedHeight: ScreenUtil().setHeight(180),
+                expandedHeight: 260,
                 backgroundColor: Colors.white,
                 brightness: Brightness.light,
                 toolbarHeight: double.parse(snapshot.data.toString()),
@@ -362,98 +227,117 @@ class _TopicPageState extends State<TopicPage>
       return Container();
     }
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(
-                  'http://yanxuan.nosdn.127.net/a93a392fb8006ba26dea38477979b7b4.jpg'))),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFEED4A9),
-              Colors.white,
-            ],
+        image: DecorationImage(
+          image: NetworkImage(
+            'http://yanxuan.nosdn.127.net/a93a392fb8006ba26dea38477979b7b4.jpg',
           ),
+          fit: BoxFit.cover,
         ),
-        padding: EdgeInsets.fromLTRB(
-            0, MediaQuery.of(context).padding.top + 10, 0, 5),
-        child: NotificationListener<ScrollNotification>(
-          onNotification: _handleScrollNotification,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              GridView.count(
-                crossAxisCount: 2,
-                scrollDirection: Axis.horizontal,
-                children: _navList.map((item) {
-                  return GestureDetector(
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: ScreenUtil().setHeight(50),
-                              width: ScreenUtil().setHeight(50),
-                              child: CachedNetworkImage(
-                                imageUrl: '${item.picUrl}',
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/topic_icon.png',
+                  height: 30,
+                ),
+                Text(
+                  '严选好物 用心生活',
+                  style: t14white,
+                )
+              ],
+            ),
+          ),
+          Container(
+            height: 220,
+            decoration: BoxDecoration(
+              color: backWhite,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _handleScrollNotification,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  GridView.count(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.1,
+                    scrollDirection: Axis.horizontal,
+                    children: _navList.map((item) {
+                      return GestureDetector(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: ScreenUtil().setHeight(50),
+                                  width: ScreenUtil().setHeight(50),
+                                  child: CachedNetworkImage(
+                                    imageUrl: '${item.picUrl}',
+                                  ),
+                                ),
                               ),
-                            ),
+                              Container(
+                                margin: EdgeInsets.only(top: 2),
+                                child: Text('${item.mainTitle}',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: textBlack,
+                                        fontWeight: FontWeight.w500),
+                                    maxLines: 1),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 2),
+                                child: Text(
+                                  '${item.viceTitle}',
+                                  style: TextStyle(
+                                      fontSize: 10, color: textLightGrey),
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 2),
-                            child: Text('${item.mainTitle}',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: textBlack,
-                                    fontWeight: FontWeight.w500),
-                                maxLines: 1),
+                        ),
+                        onTap: () {
+                          Routers.push(Routers.webView, context,
+                              {'url': '${item.columnUrl}'});
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  StreamBuilder(
+                      stream: _streamController.stream,
+                      initialData: -1.0,
+                      builder: (context, snapshot) {
+                        return Container(
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: lineColor,
+                            borderRadius: BorderRadius.circular(2),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 2),
-                            child: Text(
-                              '${item.viceTitle}',
-                              style:
-                                  TextStyle(fontSize: 10, color: textLightGrey),
-                              maxLines: 1,
-                            ),
+                          width: 100,
+                          alignment: Alignment(snapshot.data, 1),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: redColor,
+                                borderRadius: BorderRadius.circular(2)),
+                            height: 4,
+                            width: 20,
                           ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      Routers.push(Routers.webView, context,
-                          {'url': '${item.columnUrl}'});
-                    },
-                  );
-                }).toList(),
+                        );
+                      }),
+                ],
               ),
-              StreamBuilder(
-                  stream: _streamController.stream,
-                  initialData: 0.0,
-                  builder: (context, snapshot) {
-                    return Container(
-                      height: 3,
-                      decoration: BoxDecoration(
-                          color: lineColor,
-                          borderRadius: BorderRadius.circular(2)),
-                      width: 100,
-                      alignment: Alignment(snapshot.data, 1),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: redColor,
-                            borderRadius: BorderRadius.circular(2)),
-                        height: 4,
-                        width: 20,
-                      ),
-                    );
-                  }),
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
