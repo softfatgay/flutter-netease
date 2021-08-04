@@ -77,6 +77,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
                 'assets/images/mine/setting.png',
                 width: 20,
                 height: 20,
+                color: Color(0xFF666666),
               ),
               onTap: () {
                 Routers.push(Routers.setting, context, {'id': 2});
@@ -115,14 +116,9 @@ class UserHeader extends SliverPersistentHeaderDelegate {
       padding:
           EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 18, 0),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFEFB965),
-            Color(0xFFFFD883),
-          ],
-        ),
+        image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage('assets/images/user_header_back.png')),
       ),
       height: 140 + MediaQuery.of(context).padding.top,
       child: Stack(
@@ -169,7 +165,6 @@ class UserHeader extends SliverPersistentHeaderDelegate {
                         alignment: Alignment.centerRight,
                         child: Image.asset(
                           'assets/images/mine/mine_page_qr.png',
-                          color: backWhite,
                           width: 25,
                           height: 25,
                         ),

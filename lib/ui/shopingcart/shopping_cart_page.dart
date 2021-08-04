@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:common_utils/common_utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -18,6 +21,7 @@ import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/toast.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
@@ -230,7 +234,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     if (check) {
       var map = {
         "type": item.type,
-        "promId": itemData.promId,
+        "promId": item.source,
         "addBuy": item.id == 0 ? true : false,
         "skuId": item.skuId,
         "extId": item.extId
@@ -249,7 +253,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         }
       }
     }
-    print(checkList);
   }
 
   // 购物车编辑删除
@@ -257,7 +260,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     Map<String, dynamic> item = {
       "skuList": checkList,
     };
-
     Map<String, dynamic> params = {'selectedSku': json.encode(item)};
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
@@ -285,11 +287,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         invalidSku.add(map);
       });
     });
-
     var map = {
       'skuList': invalidSku,
     };
-
     Map<String, dynamic> param = {'invalidSku': map};
     var response = await clearInvalidItem(param);
     if (response.code == 200) {
@@ -388,7 +388,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                 ],
               ),
             ),
-      bottom: 50,
+      bottom: 40,
       top: 0,
       left: 0,
       right: 0,
@@ -645,8 +645,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
               ),
               onTap: () {
                 Toast.show('暂未开发', context);
-                _goPay();
-                // Routers.push(Util.webView, context,{'id':'https://m.you.163.com/order/confirm?sfrom=3995230&_stat_referer=itemDetail_buy'});
+                // _goPay();
+                // Routers.push(Routers.webView, context,
+                //     {'url': 'https://m.you.163.com/order/confirm'});
               },
             )
           ],
@@ -749,9 +750,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     });
 
     var orderCart = {'cartGroupList': cartGroupList};
-    var postparam = {'orderCart': orderCart};
-    var response = await checkBeforeInit(postparam);
-
-    // Routers.push(Util.orderInit, context, {'data': orderCart});
+    Map<String, dynamic> postParams = {'orderCart': orderCart};
+    // var response = await checkBeforeInit(postParams);
+    // Routers.push(Routers.orderInit, context, {'data': orderCart});
   }
 }

@@ -235,6 +235,12 @@ final String UPDATE_SKU_SPEC = '${baseUrl}xhr/cart/updateSkuSpec.json';
 ///兑换优惠券
 final String COUPON_ACTIVATE = '${baseUrl}xhr/coupon/activate.json';
 
+///检查是否开启支付密码
+final String CHECK_IF_SET_PSW = '${baseUrl}xhr/userPayPwd/checkIfSet.json';
+
+///订单详情
+final String ORDER_DETAIL = '${baseUrl}xhr/order/getDetail.json';
+
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
 
@@ -422,3 +428,9 @@ final String COUPON_ACTIVATE = '${baseUrl}xhr/coupon/activate.json';
 
 ///兑换优惠券
 //https://m.you.163.com/xhr/coupon/activate.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///检查是否开启支付密码
+//https://m.you.163.com/xhr/userPayPwd/checkIfSet.json?csrf_token=7704c0162dd9505942bea22270eefcf8
+
+///订单详情
+//https://m.you.163.com/xhr/order/getDetail.json?csrf_token=7704c0162dd9505942bea22270eefcf8&orderId=252207309

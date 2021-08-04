@@ -65,9 +65,6 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
           SizedBox(width: 10),
@@ -130,10 +127,11 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
-            height: widget.textFiledHeight - 14,
+            height: widget.textFiledHeight - 16,
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  return showIcon ? backRed : Color(0xFFCCCCCC);
                   if (states.contains(MaterialState.pressed)) {
                     return backRed;
                   }
@@ -142,9 +140,12 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
                 }),
                 padding: MaterialStateProperty.all(EdgeInsets.all(0)),
               ),
-              child: Text('兑换'),
+              child: Text(
+                '兑换',
+                style: t14white,
+              ),
               onPressed: () {
-                if (widget.onBtnClick != null) {
+                if (widget.onBtnClick != null && showIcon) {
                   widget.onBtnClick(_controller.text.toString());
                 }
               },

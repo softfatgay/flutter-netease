@@ -26,4 +26,6 @@ class LocationItemModel {
 
   factory LocationItemModel.fromJson(Map<String, dynamic> json) =>
       _$LocationItemModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LocationItemModelToJson(this);
 }

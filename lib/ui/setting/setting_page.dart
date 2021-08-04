@@ -60,8 +60,9 @@ class _SettingPageState extends State<SettingPage> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
                 decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(color: lineColor, width: 1)),
+                  border: index == 2
+                      ? null
+                      : Border(bottom: BorderSide(color: lineColor, width: 1)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

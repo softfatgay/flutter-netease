@@ -190,12 +190,13 @@ class GoodItemNormalWidget extends StatelessWidget {
   _buildTextDesc(String text) {
     return Container(
       alignment: Alignment.centerLeft,
-      height: 30,
+      height: 25,
       padding: EdgeInsets.symmetric(horizontal: 8),
       width: double.infinity,
       color: Color(0xFFEDE8DB),
       child: Text(
         text,
+        maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(color: Color(0xFF958259), fontSize: 12),
         textAlign: TextAlign.start,

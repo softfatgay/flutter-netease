@@ -34,7 +34,7 @@ class _OrderInitPageState extends State<OrderInitPage> {
       'orderId': 0,
       'layawayId': 0,
       'incognito': 0,
-      'transactionId': '3_176309080_1623827671297_2865_0',
+      // 'transactionId': '3_176309080_1623827671297_2865_0',
       'orderCart': _postdata
     };
     var responseData = await orderInit(param);

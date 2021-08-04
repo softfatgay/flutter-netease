@@ -67,18 +67,20 @@ class _OrderListItemPageState extends State<OrderListItemPage>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image(
-                  image: AssetImage("assets/images/order.png"),
-                  color: textGrey,
+                Image.asset(
+                  "assets/images/no_order.png",
+                  width: 120,
+                  height: 120,
                 ),
                 Text(
-                  "暂无订单",
+                  "还没有任何订单呢",
                   style: t14grey,
                 )
               ],
             ),
           )
         : ListView.builder(
+            padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
             itemBuilder: (context, index) => _buildItem(context, index),
             itemCount: _orderList.length,
           );
@@ -86,19 +88,24 @@ class _OrderListItemPageState extends State<OrderListItemPage>
 
   _buildItem(BuildContext context, int index) {
     OrderListItem item = _orderList[index];
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(5)),
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildOrderNum(context, item),
-          _buildPackageItems(context, item, index),
-          _buildPayOption(context, item)
-        ],
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(5)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildOrderNum(context, item),
+            _buildPackageItems(context, item, index),
+            _buildPayOption(context, item)
+          ],
+        ),
       ),
+      onTap: () {
+        Routers.push(Routers.orderDetailPage, context, {'no': item.no});
+      },
     );
   }
 

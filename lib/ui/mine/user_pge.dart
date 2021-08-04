@@ -39,7 +39,7 @@ class _MinePageState extends State<UserPage>
 
   //动画控制器
 
-  double _expandedHeight = 200;
+  double _expandedHeight = 180;
 
   @override
   bool get wantKeepAlive => true;
@@ -227,120 +227,90 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildMineItems(BuildContext context) {
-    return singleSliverWidget(Container(
-      color: backWhite,
-      child: Stack(
-        children: [
-          Row(
-            children: _mineItems.map<Widget>((item) {
-              return Expanded(
-                child: GestureDetector(
-                  child: Container(
-                    color: backWhite,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: Text(
-                              item.fundType == 1 || item.fundType == 4
-                                  ? "¥${item.fundValue}"
-                                  : "${item.fundValue}",
-                              style: t16blackbold,
+    return singleSliverWidget(
+      Container(
+        color: backWhite,
+        child: Stack(
+          children: [
+            Row(
+              children: _mineItems.map<Widget>((item) {
+                return Expanded(
+                  child: GestureDetector(
+                    child: Container(
+                      color: backWhite,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Text(
+                                item.fundType == 1 || item.fundType == 4
+                                    ? "¥${item.fundValue}"
+                                    : "${item.fundValue}",
+                                style: t16blackbold,
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5),
-                            child: Text(
-                              item.fundName,
-                              style: t12black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Routers.mineTopItems, context,
-                        {"id": item.fundType, "value": item.fundValue});
-                  },
-                ),
-              );
-            }).toList(),
-          ),
-          _mineItems.isEmpty ||
-                  _mineItems[1] == null ||
-                  _mineItems[1].toast == null ||
-                  _mineItems[1].toast.isEmpty
-              ? Container()
-              : Positioned(
-                  left: MediaQuery.of(context).size.width * 1.5 / 5 + 5,
-                  top: 6,
-                  child: Container(
-                    child: Center(
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: backRed,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          '${_mineItems[1].toast}',
-                          style: t10white,
+                            Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: Text(
+                                item.fundName,
+                                style: t12black,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
+                    onTap: () {
+                      Routers.push(Routers.mineTopItems, context,
+                          {"id": item.fundType, "value": item.fundValue});
+                    },
                   ),
-                )
-        ],
-      ),
-    ));
-  }
-
-  _buildMineItems1(BuildContext context) {
-    return singleSliverWidget(Container(
-      height: 100,
-      child: GridView.count(
-        crossAxisCount: 5,
-        children: _mineItems.map<Widget>((item) {
-          Widget widget = Container(
-            color: Colors.red,
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Text(
-                      item.fundType == 1 || item.fundType == 4
-                          ? "¥${item.fundValue}"
-                          : "${item.fundValue}",
-                      style: t16blackbold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Text(
-                      item.fundName,
-                      style: t12black,
+                );
+              }).toList(),
+            ),
+            _mineItems.isEmpty ||
+                    _mineItems[1] == null ||
+                    _mineItems[1].toast == null ||
+                    _mineItems[1].toast.isEmpty
+                ? Container()
+                : Positioned(
+                    left: MediaQuery.of(context).size.width * 1.5 / 5 + 5,
+                    top: 6,
+                    child: Container(
+                      child: Center(
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color(0xFFF74134),
+                                Color(0xFFFF8462),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            '${_mineItems[1].toast}',
+                            style: t10white,
+                          ),
+                        ),
+                      ),
                     ),
                   )
-                ],
-              ),
-            ),
-          );
-          return Routers.link(widget, Routers.mineTopItems, context,
-              {"id": item.fundType, "value": item.fundValue});
-        }).toList(),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   _buildMonthCard(BuildContext context, WelfareCardEntrance monthCardEntrance) {
@@ -472,7 +442,7 @@ class _MinePageState extends State<UserPage>
             CookieConfig.cookie = '';
             _checkLogin();
           }
-        }, textStyle: t16grey),
+        }, textStyle: t16darkGrey),
       ),
     );
   }

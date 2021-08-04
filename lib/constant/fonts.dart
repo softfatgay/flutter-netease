@@ -267,6 +267,7 @@ const TextStyle t10grey = TextStyle(
 const TextStyle t12grey = TextStyle(
   color: textGrey,
   fontSize: 12,
+  height: 1.1,
   fontWeight: fontWeightRegular,
   decoration: TextDecoration.none,
 );

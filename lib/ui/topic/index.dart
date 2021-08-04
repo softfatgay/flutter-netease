@@ -226,13 +226,12 @@ class _TopicPageState extends State<TopicPage>
     if (_navList == null) {
       return Container();
     }
+    // AssetImage('assets/images/user_header_back.png'),
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(
-            'http://yanxuan.nosdn.127.net/a93a392fb8006ba26dea38477979b7b4.jpg',
-          ),
+          image: AssetImage('assets/images/topic_header_back.jpeg'),
           fit: BoxFit.cover,
         ),
       ),

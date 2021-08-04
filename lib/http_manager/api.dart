@@ -168,8 +168,9 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> params) async {
 
 ///购物车 删除商品
 Future<ResponseData> deleteCart(Map<String, dynamic> params) async {
-  params.addAll(_getParams());
-  return await HttpManager.post(DELETE_CART, params: params);
+  // params.addAll(_getParams());
+  return await HttpManager.post(DELETE_CART,
+      params: _getParams(), postData: params);
 }
 
 ///热销榜/标题
@@ -221,7 +222,7 @@ Future<ResponseData> addCart(Map<String, dynamic> params) async {
 ///订单确认界面
 Future<ResponseData> orderInit(Map<String, dynamic> postParams) async {
   return await HttpManager.post(ORDER_INIT,
-      postParams: postParams, header: HttpUtil.getHeader());
+      postData: postParams, header: HttpUtil.getHeader());
 }
 
 ///检查登录
@@ -322,10 +323,13 @@ Future<ResponseData> clearInvalidItem(Map<String, dynamic> params) async {
 
 ///check-cart
 Future<ResponseData> checkBeforeInit(Map<String, dynamic> postParams) async {
-  return await HttpManager.post(CHECK_BEFORE_INIT,
-      params: _getParams(),
-      postParams: postParams,
-      header: HttpUtil.getHeader());
+  // postParams.addAll(_getParams());
+  return await HttpManager.post(
+    CHECK_BEFORE_INIT,
+    params: _getParams(),
+    postData: postParams,
+    // postParams: postParams,
+  );
 }
 
 ///手机号状态
@@ -431,4 +435,15 @@ Future<ResponseData> updateSkuSpec(Map<String, dynamic> params) async {
 Future<ResponseData> couponActivate(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.post(COUPON_ACTIVATE, params: params);
+}
+
+///检查是否开启支付密码
+Future<ResponseData> checkIfSetPsw() async {
+  return await HttpManager.post(CHECK_IF_SET_PSW, params: _getParams());
+}
+
+///订单详情
+Future<ResponseData> orderDetail(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(ORDER_DETAIL, params: params);
 }

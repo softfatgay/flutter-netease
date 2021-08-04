@@ -38,12 +38,15 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgets = [];
+    widgets.add(Container(
+      child: Image.asset('assets/images/address_line.png'),
+    ));
+    var list = _locationList.map<Widget>((item) => _buildItem(item)).toList();
+    widgets.addAll(list);
     return Scaffold(
       appBar: TopAppBar(title: '配送至').build(context),
-      body: Column(
-        children:
-            _locationList.map<Widget>((item) => _buildItem(item)).toList(),
-      ),
+      body: Column(children: widgets),
     );
   }
 

@@ -109,7 +109,7 @@ class HttpManager {
     try {
       Response response = await dio.request(
         path,
-        data: postData ?? postParams,
+        data: postData == null ? postParams : FormData.fromMap(postData),
         options: options,
         queryParameters: queryParameters,
         cancelToken: cancelToken.cancelToken,

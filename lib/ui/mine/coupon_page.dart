@@ -6,6 +6,7 @@ import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/mine/components/coupon_filed_widget.dart';
 import 'package:flutter_app/ui/mine/model/couponItemModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/app_bar.dart';
@@ -42,6 +43,7 @@ class _CouponPageState extends State<CouponPage> {
               controller: _scrollController,
               slivers: [
                 singleSliverWidget(_addCoupon()),
+                singleSliverWidget(_couponTips()),
                 _buildList(context),
                 SliverFooter(
                   hasMore: !_pagination.lastPage,
@@ -348,5 +350,42 @@ class _CouponPageState extends State<CouponPage> {
     if (responseData.code == '200') {
       Toast.show(responseData.data['countInfo'], context);
     }
+  }
+
+  _couponTips() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: GestureDetector(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // textBaseline: TextBaseline.alphabetic,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: lineColor, width: 1),
+              ),
+              child: Text(
+                '?',
+                style: t10grey,
+              ),
+            ),
+            Text(
+              '使用说明',
+              style: t12grey,
+            ),
+          ],
+        ),
+        onTap: () {
+          Routers.push(Routers.webView, context,
+              {'url': 'https://m.you.163.com/help/new#/24'});
+        },
+      ),
+    );
   }
 }

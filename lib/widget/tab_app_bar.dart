@@ -4,13 +4,19 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
 
 class TabAppBar extends StatelessWidget {
-  const TabAppBar({this.tabs, this.controller, this.title = ''});
+  const TabAppBar({
+    this.tabs,
+    this.controller,
+    this.title = '',
+    this.isScrollable = true,
+  });
 
   final List<String> tabs;
 
   final TabController controller;
 
   final String title;
+  final bool isScrollable;
 
   Widget buildAppBar(BuildContext context) {
     return new Container(
@@ -18,8 +24,6 @@ class TabAppBar extends StatelessWidget {
       color: Colors.white,
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: new Container(
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
         child: Row(
           children: <Widget>[
             InkResponse(
@@ -63,7 +67,7 @@ class TabAppBar extends StatelessWidget {
                 bottom: BorderSide(width: 0.5, color: Color(0xFFEAEAEA)))),
         width: double.infinity,
         child: TabBar(
-          isScrollable: true,
+          isScrollable: isScrollable,
           controller: this.controller,
           labelStyle: TextStyle(fontSize: 15),
           labelColor: redColor,

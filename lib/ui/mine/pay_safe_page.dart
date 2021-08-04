@@ -3,6 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class PaySafeCenterPage extends StatefulWidget {
@@ -15,9 +16,10 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(
-        title: '支付安全',
+        title: '账号安全',
       ).build(context),
       body: Container(
+        margin: EdgeInsets.only(top: 10),
         child: Column(
           children: tabs.map((item) {
             return GestureDetector(
@@ -25,10 +27,12 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
                 color: Colors.white,
                 child: Container(
                   decoration: BoxDecoration(
-                      border: item['id'] == 7
-                          ? null
-                          : Border(
-                              bottom: BorderSide(color: lineColor, width: 1))),
+                    border: item['id'] == 1
+                        ? null
+                        : Border(
+                            bottom: BorderSide(color: lineColor, width: 0.5),
+                          ),
+                  ),
                   margin: EdgeInsets.only(left: 15),
                   padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
                   child: Row(
@@ -36,18 +40,13 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(left: 15),
                           child: Text(
                             '${item['name']}',
-                            style: t16black,
+                            style: t14black,
                           ),
                         ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: textGrey,
-                        size: 16,
-                      )
+                      arrowRightIcon
                     ],
                   ),
                 ),

@@ -586,8 +586,7 @@ class CartItemWidget extends StatelessWidget {
         ///满减
         return Container(
           color: backWhite,
-          padding:
-              EdgeInsets.only(left: _checkBoxWith + 10, top: 10, right: 10),
+          padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

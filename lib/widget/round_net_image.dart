@@ -7,6 +7,7 @@ class RoundNetImage extends StatelessWidget {
   final double width;
   final double corner;
   final BoxFit fit;
+  final Color backColor;
 
   const RoundNetImage(
       {Key key,
@@ -14,12 +15,15 @@ class RoundNetImage extends StatelessWidget {
       this.height = 100,
       this.width = 100,
       this.corner = 5,
-      this.fit = BoxFit.cover})
+      this.fit = BoxFit.cover,
+      this.backColor = Colors.transparent})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          color: backColor, borderRadius: BorderRadius.circular(corner)),
       child: CachedNetworkImage(
         height: height,
         width: width,

@@ -32,6 +32,9 @@ class _LocationManagePageState extends State<LocationManagePage> {
       ).build(context),
       body: Column(
         children: [
+          Container(
+            child: Image.asset('assets/images/address_line.png'),
+          ),
           Expanded(
             child: _locations(context),
           ),
@@ -132,7 +135,8 @@ class _LocationManagePageState extends State<LocationManagePage> {
       ),
     );
 
-    return Routers.link(widget, Routers.addAddress, context, {}, (value) {
+    return Routers.link(widget, Routers.addAddress, context, {'address': item},
+        (value) {
       _getLocations();
     });
   }
@@ -158,26 +162,70 @@ class _LocationManagePageState extends State<LocationManagePage> {
   }
 
   _confirmDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              content: Text(('确定删除该地址？')),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text("取消"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          content: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+                // border: Border.all(color: textGrey, width: 1),
+                // borderRadius: BorderRadius.circular(4),
                 ),
-                new FlatButton(
-                  child: new Text("确定"),
-                  onPressed: () {
-                    _deleteAddress();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ));
+            child: Text(
+              '确定删除该地址？',
+              style: t16black,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(
+                '取消',
+                style: t16grey,
+              ),
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text(
+                '确认',
+                style: t16red,
+              ),
+              onPressed: () {
+                _deleteAddress();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    // showDialog(
+    //     context: context,
+    //     builder: (context) => AlertDialog(
+    //           content: Text(('确定删除该地址？')),
+    //           actions: <Widget>[
+    //             new TextButton(
+    //               child: new Text("取消"),
+    //               onPressed: () {
+    //                 Navigator.of(context).pop();
+    //               },
+    //             ),
+    //             new TextButton(
+    //               child: new Text(
+    //                 "确定",
+    //               ),
+    //               onPressed: () {
+    //                 _deleteAddress();
+    //                 Navigator.of(context).pop();
+    //               },
+    //             ),
+    //           ],
+    //         ));
   }
 
   _addAddress(BuildContext context) {

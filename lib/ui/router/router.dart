@@ -17,7 +17,8 @@ import 'package:flutter_app/ui/mine/for_services_page.dart';
 import 'package:flutter_app/ui/mine/gift_card_page.dart';
 import 'package:flutter_app/ui/mine/location_manage_page.dart';
 import 'package:flutter_app/ui/mine/login.dart';
-import 'package:flutter_app/ui/mine/order_list_page.dart';
+import 'package:flutter_app/ui/mine/order/order_detail_page.dart';
+import 'package:flutter_app/ui/mine/order/order_list_page.dart';
 import 'package:flutter_app/ui/mine/pay_safe_page.dart';
 import 'package:flutter_app/ui/mine/points_center_page.dart';
 import 'package:flutter_app/ui/mine/red_package_use_page.dart';
@@ -79,8 +80,13 @@ class Routers {
   static const String accountManagePage = 'accountManagePage';
   static const String selectAddressPage = 'selectAddressPage';
   static const String redPackageUsePage = 'redPackageUsePage';
+  static const String orderDetailPage = 'orderDetailPage';
 
   static Map<String, Function> routes = {
+    ///二维码扫描
+    orderDetailPage: (context, {arguments}) =>
+        OrderDetailPage(arguments: arguments),
+
     ///二维码扫描
     qrScanPage: (context, {arguments}) => QRScanPage(),
 

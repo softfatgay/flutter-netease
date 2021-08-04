@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/ui/mine/order_list_item_page.dart';
+import 'package:flutter_app/ui/mine/order/order_list_item_page.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class OrderListPage extends StatefulWidget {
@@ -46,9 +46,10 @@ class _OrderListPageState extends State<OrderListPage>
     return Scaffold(
       backgroundColor: backColor,
       appBar: TabAppBar(
+        isScrollable: false,
         controller: _mController,
         tabs: title,
-        title: '${title.length > 0 ? title[_activeIndex] : ''}',
+        title: '订单',
       ).build(context),
       body: _buildBody(context),
     );

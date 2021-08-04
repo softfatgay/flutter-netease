@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/widget/global.dart';
 
 ///账户中没有礼品卡，暂时无法写详细页面
 class GiftCardPage extends StatefulWidget {
@@ -29,41 +32,61 @@ class _GiftCardPageState extends State<GiftCardPage> {
           Expanded(
             child: _noCard(),
           ),
-          Container(
-            padding: EdgeInsets.fromLTRB(
-                10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
-            height: 60 + MediaQuery.of(context).padding.bottom,
-            color: Colors.white,
+          GestureDetector(
             child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  border: Border.all(color: redColor, width: 1)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.add,
-                    size: 16,
-                    color: textRed,
-                  ),
-                  Text(
-                    '添加礼品卡',
-                    style: t16red,
-                  )
-                ],
+              padding: EdgeInsets.fromLTRB(
+                  10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
+              height: 65 + MediaQuery.of(context).padding.bottom,
+              color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: redColor, width: 1)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add,
+                      size: 16,
+                      color: textRed,
+                    ),
+                    Text(
+                      '添加礼品卡',
+                      style: t16red,
+                    )
+                  ],
+                ),
               ),
             ),
+            onTap: () {
+              _checkIfSetPsw();
+            },
           )
         ],
       ),
     );
   }
 
+  _checkIfSetPsw() async {
+    var responseData = await checkIfSetPsw();
+    if (responseData.code == '200') {
+      if (responseData.data) {
+      } else {
+        _showSetPswDialog();
+      }
+    }
+  }
+
   _buildCard() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
-      color: redColor,
       width: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage('assets/images/lipinka_header_back.png'),
+        ),
+      ),
       child: Stack(
         children: [
           Container(
@@ -73,15 +96,18 @@ class _GiftCardPageState extends State<GiftCardPage> {
               children: [
                 Text(
                   '礼品卡余额',
-                  style: TextStyle(color: textWhite, fontSize: 14),
+                  style: t14white,
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '¥${widget.arguments['value']}',
-                  style: t24white,
+                  '¥${double.parse(widget.arguments['value'].toString())}',
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w300,
+                      color: textWhite),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 GestureDetector(
                   child: Container(
@@ -149,10 +175,10 @@ class _GiftCardPageState extends State<GiftCardPage> {
                 fit: BoxFit.fitWidth,
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   '去买张礼品卡充值吧',
-                  style: t14grey,
+                  style: t12grey,
                 ),
               ),
               GestureDetector(
@@ -161,14 +187,9 @@ class _GiftCardPageState extends State<GiftCardPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '了解详情',
-                        style: t14grey,
+                        '了解详情 >',
+                        style: t12grey,
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 14,
-                        color: textGrey,
-                      )
                     ],
                   ),
                 ),
@@ -181,6 +202,50 @@ class _GiftCardPageState extends State<GiftCardPage> {
           ),
         )
       ],
+    );
+  }
+
+  void _showSetPswDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          content: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+                // border: Border.all(color: textGrey, width: 1),
+                // borderRadius: BorderRadius.circular(4),
+                ),
+            child: Text(
+              '使用礼品卡必须启用支付密码',
+              style: t16black,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(
+                '取消',
+                style: t14grey,
+              ),
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text(
+                '前去设置',
+                style: t14red,
+              ),
+              onPressed: () {
+                Routers.push(Routers.mineItems, context, {'id': 9}, (value) {
+                  Navigator.pop(context);
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

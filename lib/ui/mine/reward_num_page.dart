@@ -90,7 +90,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backColor,
+        backgroundColor: backWhite,
         appBar: TopAppBar(
           title: widget.arguments['id'] == 4 ? '津贴' : '余额',
         ).build(context),
@@ -116,8 +116,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: NetworkImage(
-              'https://yanxuan.nosdn.127.net/429ac440ce956e70752b6a249ddfe468.png'),
+          image: AssetImage('assets/images/balance_header_back.png'),
         ),
       ),
       child: Stack(
@@ -344,8 +343,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(
-                        'https://yanxuan.nosdn.127.net/a67070542644056fda9f691238c7d9de.png'))),
+                    image: AssetImage('assets/images/jintie_header_back.png'))),
             padding: EdgeInsets.symmetric(vertical: 15),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -362,9 +360,28 @@ class _RewardNumPageState extends State<RewardNumPage> {
                         right: 0,
                         bottom: 0,
                         child: Center(
-                          child: Text(
-                            '¥${widget.arguments['value']}',
-                            style: t20black,
+                          child: Row(
+                            textBaseline: TextBaseline.alphabetic,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '¥',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Color(0xFFCCCCCC),
+                                ),
+                              ),
+                              Text(
+                                '${widget.arguments['value']}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 30,
+                                  color: Color(0xFFCCCCCC),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -376,10 +393,10 @@ class _RewardNumPageState extends State<RewardNumPage> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('明细', style: t14black),
+                              Text('明细', style: t14grey),
                               Image.asset(
                                 'assets/images/arrow_right.png',
-                                color: textBlack,
+                                color: textGrey,
                                 width: 12,
                                 height: 12,
                               )
@@ -417,7 +434,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
           padding: EdgeInsets.all(15),
           child: Text(
             '热销好物推荐',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: t16black,
           ),
         )
       ],
