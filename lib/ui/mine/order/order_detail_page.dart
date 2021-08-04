@@ -3,8 +3,12 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/orderDetailModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/constans.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/slivers.dart';
@@ -21,6 +25,8 @@ class OrderDetailPage extends StatefulWidget {
 class _OrderDetailPageState extends State<OrderDetailPage> {
   String _NO = '';
   OrderDetailModel _detailModel;
+
+  bool _firstLoading = true;
 
   @override
   void initState() {
@@ -41,6 +47,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       var orderDetailModel = OrderDetailModel.fromJson(responseData.data);
       setState(() {
         _detailModel = orderDetailModel;
+        _firstLoading = false;
       });
     }
   }
@@ -51,7 +58,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       appBar: TopAppBar(
         title: '订单',
       ).build(context),
-      body: _buildBody(),
+      body: _firstLoading ? Loading() : _buildBody(),
     );
   }
 
@@ -67,18 +74,71 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             singleSliverWidget(_divider()),
             singleSliverWidget(_price()),
             singleSliverWidget(_serve()),
+            singleSliverWidget(Container(height: 60)),
           ],
         ),
-        Container(
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
           child: Container(
-            child: Text(
-              '删除订单',
-              style: t14black,
+            color: backWhite,
+            height: 50,
+            alignment: Alignment.topRight,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: textGrey, width: 1)),
+                child: Text(
+                  '删除订单',
+                  style: t14black,
+                ),
+              ),
+              onTap: () {
+                _deleteConfig(context);
+              },
             ),
           ),
         )
       ],
     );
+  }
+
+  void _deleteConfig(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('要删除此订单?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('取消', style: t14grey),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _deleteOrder(context);
+                },
+                child: Text('确定', style: t14red),
+              ),
+            ],
+          );
+        });
+  }
+
+  void _deleteOrder(BuildContext context) async {
+    var params = {"orderId": _NO};
+    await deleteOrder(params).then((value) {
+      if (value.code == '200') {
+        Toast.show('删除完成', context);
+        Navigator.pop(context);
+      }
+    });
   }
 
   _divider({double height = 10.0}) {
@@ -518,35 +578,41 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           SizedBox(width: 20),
           Expanded(
             flex: 1,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                border: Border.all(color: textGrey, width: 0.5),
-                borderRadius: BorderRadius.circular(3),
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: textGrey, width: 0.5),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/kefu.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                    SizedBox(width: 15),
+                    Column(
+                      children: [
+                        Text(
+                          '在线客服',
+                          style: t14black,
+                        ),
+                        Text(
+                          '9:00-24:00',
+                          style: t12grey,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/kefu.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  SizedBox(width: 15),
-                  Column(
-                    children: [
-                      Text(
-                        '在线客服',
-                        style: t14black,
-                      ),
-                      Text(
-                        '9:00-24:00',
-                        style: t12grey,
-                      ),
-                    ],
-                  )
-                ],
-              ),
+              onTap: () {
+                Routers.push(Routers.webView, context,
+                    {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+              },
             ),
           ),
         ],

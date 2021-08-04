@@ -119,7 +119,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
           List picUrlList = package.picUrlList;
           if (picUrlList.length > 1) {
             ///包裹多个
-            Widget widget = Container(
+            return Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
               margin: EdgeInsets.only(left: 15),
               decoration: BoxDecoration(
@@ -161,11 +161,8 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                 ],
               ),
             );
-
-            return Routers.link(
-                widget, Routers.goodDetailTag, context, {'id': package.itemId});
           } else {
-            Widget widget = Container(
+            return Container(
               padding: EdgeInsets.fromLTRB(0, 15, 15, 10),
               margin: EdgeInsets.only(left: 15),
               width: double.infinity,
@@ -224,8 +221,6 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                 ],
               ),
             );
-            return Routers.link(
-                widget, Routers.goodDetailTag, context, {'id': package.itemId});
           }
         }).toList(),
       ),
