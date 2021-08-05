@@ -13,6 +13,7 @@ import 'package:flutter_app/ui/topic/model/topNavData.dart';
 import 'package:flutter_app/ui/topic/model/topicData.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/top_round_net_image.dart';
@@ -28,14 +29,11 @@ class _TopicPageState extends State<TopicPage>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = new ScrollController();
 
-  final StreamController<double> _streamController =
-      StreamController<double>.broadcast();
+  final _streamController = StreamController<double>.broadcast();
 
-  final StreamController<double> _streamControllerTab =
-      StreamController<double>.broadcast();
+  final _streamControllerTab = StreamController<double>.broadcast();
 
-  final StreamController<bool> _footerController =
-      StreamController<bool>.broadcast();
+  final _footerController = StreamController<bool>.broadcast();
 
   ///第一次加载
   bool _isFirstLoading = true;
@@ -74,6 +72,11 @@ class _TopicPageState extends State<TopicPage>
             _toolbarHeight = 50;
           });
           _streamControllerTab.sink.add(50);
+        }
+        if (_scrollController.position.pixels > 700) {
+          _footerController.sink.add(true);
+        } else {
+          _footerController.sink.add(false);
         }
       } else {
         if (_toolbarHeight == 50) {
@@ -160,6 +163,12 @@ class _TopicPageState extends State<TopicPage>
     return Scaffold(
       backgroundColor: backGrey,
       body: _buildBody(),
+      floatingActionButton: StreamBuilder(
+          stream: _footerController.stream,
+          initialData: false,
+          builder: (context, snapshot) {
+            return snapshot.data ? floatingAB(_scrollController) : Container();
+          }),
     );
   }
 
