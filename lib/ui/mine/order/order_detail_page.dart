@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/slivers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final Map arguments;
@@ -238,9 +240,14 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   List<Widget> _buildGoods(PackageListItem packageListItem) {
     List<SkuListItem> skuList = packageListItem.skuList;
     var list = skuList.map<Widget>((element) {
-      return _goodItem(element);
+      return GestureDetector(
+        child: _goodItem(element),
+        onTap: () {
+          Routers.push(
+              Routers.goodDetailTag, context, {'id': '${element.itemId}'});
+        },
+      );
     }).toList();
-
     return list;
   }
 
@@ -354,15 +361,21 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   style: t14black,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                    border: Border.all(color: textGrey, width: 1),
-                    borderRadius: BorderRadius.circular(2)),
-                child: Text(
-                  '复制',
-                  style: t12black,
+              GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: textGrey, width: 1),
+                      borderRadius: BorderRadius.circular(2)),
+                  child: Text(
+                    '复制',
+                    style: t12black,
+                  ),
                 ),
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: '${_detailModel.no}'));
+                  Toast.show('已复制到剪贴板', context);
+                },
               )
             ],
           ),
@@ -508,29 +521,34 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               style: t14red,
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 15),
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-            decoration: BoxDecoration(
-                color: Color(0XFFFFFCF3),
-                borderRadius: BorderRadius.circular(3),
-                border: Border.all(color: lineColor, width: 1)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text('确认收货', style: t14black),
-                Text('${_detailModel.points}', style: t14red),
-                Text('积分', style: t14black),
-                Expanded(
-                  child: Text(
-                    '积分兑好礼>',
-                    style: t14black,
-                    textAlign: TextAlign.right,
-                  ),
-                )
-              ],
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 15),
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              decoration: BoxDecoration(
+                  color: Color(0XFFFFFCF3),
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(color: lineColor, width: 1)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text('确认收货', style: t14black),
+                  Text('${_detailModel.points}', style: t14red),
+                  Text('积分', style: t14black),
+                  Expanded(
+                    child: Text(
+                      '积分兑好礼>',
+                      style: t14black,
+                      textAlign: TextAlign.right,
+                    ),
+                  )
+                ],
+              ),
             ),
+            onTap: () {
+              Routers.push(Routers.mineItems, context, {'id': 6});
+            },
           )
         ],
       ),
@@ -542,40 +560,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                border: Border.all(color: textGrey, width: 0.5),
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/kefu.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  SizedBox(width: 15),
-                  Column(
-                    children: [
-                      Text(
-                        '在线客服',
-                        style: t14black,
-                      ),
-                      Text(
-                        '9:00-24:00',
-                        style: t12grey,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          SizedBox(width: 20),
           Expanded(
             flex: 1,
             child: GestureDetector(
@@ -612,6 +596,45 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               onTap: () {
                 Routers.push(Routers.webView, context,
                     {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+              },
+            ),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: textGrey, width: 0.5),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/kefu.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                    SizedBox(width: 15),
+                    Column(
+                      children: [
+                        Text(
+                          '客服电话',
+                          style: t14black,
+                        ),
+                        Text(
+                          '9:00-22:00',
+                          style: t12grey,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              onTap: () {
+                launch("tel://400-0368-163");
               },
             ),
           ),

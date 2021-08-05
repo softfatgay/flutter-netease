@@ -9,7 +9,9 @@ class CartTextFiled extends CupertinoTextField {
       {final TextEditingController controller,
       final int maxlines = 1,
       int maxLength,
+      TextStyle textStyle = t16black,
       bool enabled = true,
+      Color borderColor = backRed,
       String counterText = '',
       String prefixText = '',
       String hintText = ''})
@@ -17,13 +19,13 @@ class CartTextFiled extends CupertinoTextField {
           keyboardType: TextInputType.number,
           obscureText: false,
           controller: controller,
-          style: t16black,
+          style: textStyle,
           enabled: enabled,
           autofocus: true,
           textAlign: TextAlign.center,
           inputFormatters: [],
           decoration: BoxDecoration(
-            border: Border.all(color: backRed, width: 1),
+            border: Border.all(color: borderColor, width: 1),
             borderRadius: BorderRadius.circular(3),
           ),
         );

@@ -1,18 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/goods_detail/components/search_price_filed.dart';
+import 'package:flutter_app/ui/goods_detail/components/search_sliver_bar.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/searchParamModel.dart';
+import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
+import 'package:flutter_app/widget/floating_action_button.dart';
+import 'package:flutter_app/widget/home_page_header.dart';
 import 'package:flutter_app/widget/search_widget.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchIndexPage extends StatefulWidget {
   final Map arguments;
@@ -25,11 +31,14 @@ class SearchIndexPage extends StatefulWidget {
 
 class _SearchIndexPageState extends State<SearchIndexPage> {
   TextEditingController _controller;
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = new ScrollController();
   String _textValue = '';
 
   var _keywordList = [];
   var _hotKeyWordList = [];
+
+  ///分类
+  List<CategoryL1ListItem> _categoryL1List;
 
   ///搜索提示
   var _searchTipsData = [];
@@ -44,10 +53,33 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   var _paeSize = 40;
   var _itemId = 0;
   var _keyword = '';
+  var _searIndex = 0;
+
+  ///搜索框垂直padding
+  final _paddingV = 8.0;
+
+  ///搜索高度
+  final _searchHeight = 48.0;
+
+  final _sliverBarheight = 40.0;
+
+  final _lowPriceController = TextEditingController();
+  final _upPriceController = TextEditingController();
+
+  var _searchModel = SearchParamModel();
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
   var _hasMore = false;
+
+  bool _showPopMenu = false;
+
+  ///降序？
+  int _descSorted = -1;
+
+  bool _noData = false;
+
+  final _streamController = StreamController<bool>.broadcast();
 
   @override
   void initState() {
@@ -68,6 +100,11 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     _searchInit();
     _scrollController.addListener(() {
       // 如果下拉的当前位置到scroll的最下面
+      if (_scrollController.position.pixels > 700) {
+        _streamController.sink.add(true);
+      } else {
+        _streamController.sink.add(false);
+      }
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (_hasMore) {
@@ -89,21 +126,34 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   void _getTipsResult(bool showProgress) async {
     var params = {
-      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
       '_stat_search': 'autoComplete',
-      'keyword': _keyword,
-      'sortType': '0',
-      'descSorted': 'false',
-      'categoryId': '0',
-      'matchType': '0',
-      'floorPrice': '-1',
-      'upperPrice': '-1',
+      'keyword': _searchModel.keyWord,
+      'sortType': _searchModel.sortType,
+      // 'descSorted': _searchModel.descSorted,
+      'categoryId': _searchModel.categoryId,
+      'matchType': _searchModel.matchType,
+      'floorPrice': _searchModel.floorPrice,
+      'upperPrice': _searchModel.upperPrice,
       'size': _paeSize,
       'itemId': _itemId,
-      'stillSearch': 'false',
-      'searchWordSource': '7',
-      'needPopWindow': 'false'
+      'stillSearch': _searchModel.stillSearch,
+      'searchWordSource': _searchModel.searchWordSource,
+      'needPopWindow': _searchModel.needPopWindow
     };
+
+    // var params = _searchModel.toJson();
+    setState(() {
+      if (showProgress) {
+        _noData = false;
+        _isFirstLoading = true;
+      } else {
+        _isFirstLoading = false;
+      }
+    });
+
+    if (_searchModel.descSorted != null) {
+      params.addAll({'descSorted': _searchModel.descSorted});
+    }
     if (!_hasMore) {
       params.addAll({'_stat_search': 'userhand'});
     } else {
@@ -114,10 +164,16 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     var searchResultModel = SearchResultModel.fromJson(data);
     setState(() {
       var directlyList = searchResultModel.directlyList;
+      var categoryL1List = searchResultModel.categoryL1List;
+      if (categoryL1List != null && categoryL1List.isNotEmpty) {
+        _categoryL1List = categoryL1List;
+      }
       _hasMore = searchResultModel.hasMore;
       if (directlyList == null || directlyList.isEmpty) {
-        _isFirstLoading = true;
         _bottomTipsText = '没有找到您想要的内容';
+        if (_isFirstLoading) {
+          _noData = true;
+        }
       } else {
         _directlyList.addAll(directlyList);
         if (!_hasMore) {
@@ -146,119 +202,133 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: backColor,
-      child: Stack(
-        children: [
-          Column(
-            children: <Widget>[
-              Container(height: 48),
-              Container(
-                color: backWhite,
-                padding: EdgeInsets.fromLTRB(
-                    10, MediaQuery.of(context).padding.top + 15, 10, 10),
-                // padding: EdgeInsets.fromLTRB(10, MediaQuery.of(context).padding.top + 15), 10, 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text(
-                        '历史记录',
-                        style: t14grey,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          _clearKeyword();
-                        },
-                        child: Image.asset(
-                          'assets/images/delete.png',
-                          width: 20,
-                          height: 20,
+    return Scaffold(
+        body: Stack(
+          children: [
+            Column(
+              children: <Widget>[
+                Container(height: _searchHeight),
+                Container(
+                  color: backWhite,
+                  padding: EdgeInsets.fromLTRB(
+                      10, MediaQuery.of(context).padding.top + 15, 10, 10),
+                  // padding: EdgeInsets.fromLTRB(10, MediaQuery.of(context).padding.top + 15), 10, 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Text(
+                          '历史记录',
+                          style: t14grey,
                         ),
                       ),
-                    )
-                  ],
+                      Container(
+                        padding: EdgeInsets.only(right: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            _clearKeyword();
+                          },
+                          child: Image.asset(
+                            'assets/images/delete.png',
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                color: backWhite,
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  ///商品属性
-                  spacing: 5,
-                  runSpacing: 10,
-                  children: _historyItem(context),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  color: backWhite,
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: 5,
+                    runSpacing: 10,
+                    children: _historyItem(context),
+                  ),
                 ),
-              ),
-              Container(
-                color: backWhite,
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '热门搜索',
-                  style: t14grey,
+                Container(
+                  color: backWhite,
+                  margin: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '热门搜索',
+                    style: t14grey,
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                color: backWhite,
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  ///商品属性
-                  spacing: 5,
-                  runSpacing: 10,
-                  children: _hotItem(context),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  color: backWhite,
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: 5,
+                    runSpacing: 10,
+                    children: _hotItem(context),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          _controller.text == null || _controller.text == ''
-              ? Container()
-              : _showPop(),
-          Container(
-            decoration: BoxDecoration(color: Colors.white),
-            child: SearchWidget(
-              hintText: '请输入商品名称',
-              controller: _controller,
-              onValueChangedCallBack: (value) {
-                setState(() {
-                  _textValue = value;
-                  // _controller.text = value;
-                });
-                if (value == '' || value == null) {
-                  _controller.text = '';
-                } else {
-                  // _textValue = value;
-                  _getSearchTips();
-                }
-              },
-              onBtnClick: (value) {
-                Navigator.pop(context);
-                // _saveKey(value);
-                // Util.hideKeyBord(context);
-                // _textValue = value;
-                // _getSearchTips();
-              },
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            _controller.text == null || _controller.text == ''
+                ? Container()
+                : _showResult(),
+            _noData
+                ? Center(
+                    child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
+                  )
+                : Container(),
+            Container(
+              decoration: BoxDecoration(color: Colors.white),
+              child: SearchWidget(
+                paddingV: _paddingV,
+                searchHeight: _searchHeight,
+                hintText: '请输入商品名称',
+                controller: _controller,
+                onValueChangedCallBack: (value) {
+                  setState(() {
+                    _textValue = value;
+                  });
+                  if (value == '' || value == null) {
+                    _controller.text = '';
+                  } else {
+                    _getSearchTips();
+                  }
+                },
+                onBtnClick: (value) {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Positioned(
+                top: MediaQuery.of(context).padding.top +
+                    _searchHeight +
+                    _sliverBarheight -
+                    _paddingV,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: _popMenu()),
+          ],
+        ),
+        floatingActionButton: StreamBuilder(
+            stream: _streamController.stream,
+            initialData: false,
+            builder: (context, snapshot) {
+              return snapshot.data
+                  ? floatingAB(_scrollController)
+                  : Container();
+            }));
   }
 
-  _showPop() {
+  _showResult() {
     return Container(
       color: backWhite,
+      padding: EdgeInsets.only(top: _searchHeight - _paddingV),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
-          singleSliverWidget(
-              Container(height: MediaQuery.of(context).padding.top + 50)),
+          _sliverBar(),
           _serachResult
               ? GoodItemWidget(dataList: _directlyList)
               : _buildSearchTips(),
@@ -268,12 +338,52 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     );
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _controller.dispose();
-    _scrollController.dispose();
+  _sliverBar() {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: SearchSliverBar(
+        index: _searIndex,
+        descSorted: _searchModel.descSorted,
+        pressIndex: (index) {
+          setState(() {
+            if (_searchModel.descSorted == null) {
+              _descSorted = -1;
+            } else {
+              if (_searchModel.descSorted) {
+                _descSorted = 2;
+              } else {
+                _descSorted = 1;
+              }
+            }
+            if (index == 0) {
+              _resetPrice();
+              _searIndex = index;
+              _getTipsResult(true);
+            } else if (index == 1 || index == 2) {
+              if (_searIndex != index) {
+                _searIndex = index;
+                _showPopMenu = true;
+              } else {
+                _showPopMenu = !_showPopMenu;
+              }
+            }
+          });
+        },
+        showBack: false,
+        collapsedHeight: _sliverBarheight,
+        expandedHeight: _sliverBarheight + MediaQuery.of(context).padding.top,
+        paddingTop: MediaQuery.of(context).padding.top,
+      ),
+    );
+  }
+
+  void _resetPrice() {
+    _descSorted = -1;
+    _lowPriceController.text = '';
+    _upPriceController.text = '';
+    _searchModel.descSorted = null;
+    _searchModel.floorPrice = -1;
+    _searchModel.upperPrice = -1;
   }
 
   _buildSearchTips() {
@@ -308,7 +418,8 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           child: widget,
           onTap: () {
             setState(() {
-              _searchResult(_searchTipsData[index]);
+              _searchModel.keyWord = _searchTipsData[index];
+              _searchResult();
               _getKeyword();
             });
           },
@@ -322,12 +433,11 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     );
   }
 
-  void _searchResult(String keyword) {
+  void _searchResult() {
     _directlyList = [];
     Util.hideKeyBord(context);
-    _keyword = keyword;
-    _saveKey(keyword);
-    _controller.text = keyword;
+    _saveKey(_searchModel.keyWord);
+    _controller.text = _searchModel.keyWord;
     _getTipsResult(true);
   }
 
@@ -385,9 +495,8 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               ),
               onTap: () {
                 setState(() {
-                  _controller.text = value;
-                  _textValue = value;
-                  _getSearchTips();
+                  _searchModel.keyWord = value;
+                  _searchResult();
                 });
               },
             ))
@@ -410,10 +519,314 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               ),
             ),
             onTap: () {
-              _searchResult(value.keyword);
+              setState(() {
+                _searchModel.keyWord = value.keyword;
+              });
+              _searchResult();
             },
           ),
         )
         .toList();
+  }
+
+  _popMenu() {
+    if (_searIndex == 1 && _showPopMenu) {
+      return Container(
+        color: Color(0X4D000000),
+        child: Column(
+          children: [
+            Container(
+              color: backWhite,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 10),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        Text(
+                          '筛选',
+                          style: t14black,
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 30,
+                            child: SearchPriceTextFiled(
+                              hintText: '最低价',
+                              // textStyle: t12black,
+                              // borderColor: textGrey,
+                              controller: _lowPriceController,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 20,
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Divider(
+                            color: textBlack,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 30,
+                            child: SearchPriceTextFiled(
+                              hintText: '最高价',
+                              // textStyle: t12black,
+                              // borderColor: textGrey,
+                              controller: _upPriceController,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        Text(
+                          '排序',
+                          style: t14black,
+                        ),
+                        SizedBox(width: 20),
+                        GestureDetector(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: _desSortColor(1), width: 1),
+                                borderRadius: BorderRadius.circular(3)),
+                            child: Text(
+                              '从低到高',
+                              style: TextStyle(
+                                  fontSize: 12, color: _desSortColor(1)),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              if (_descSorted != 1) {
+                                _descSorted = 1;
+                              } else {
+                                _descSorted = -1;
+                              }
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: _desSortColor(2), width: 1),
+                                borderRadius: BorderRadius.circular(3)),
+                            child: Text(
+                              '从高到低',
+                              style: TextStyle(
+                                  fontSize: 12, color: _desSortColor(2)),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              if (_descSorted != 2) {
+                                _descSorted = 2;
+                              } else {
+                                _descSorted = -1;
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Divider(height: 1),
+                  Container(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 13),
+                              alignment: Alignment.center,
+                              child: Text(
+                                '取消',
+                                style: t14black,
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _resetPrice();
+                                _showPopMenu = false;
+                              });
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      left: BorderSide(
+                                          color: lineColor, width: 1))),
+                              padding: EdgeInsets.symmetric(vertical: 13),
+                              alignment: Alignment.center,
+                              child: Text(
+                                '确定',
+                                style: t14red,
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                setPriceSort();
+                                _showPopMenu = false;
+                                _searchResult();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(height: 1),
+                ],
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _showPopMenu = false;
+                    _descSorted = -1;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    } else if (_searIndex == 2 && _showPopMenu) {
+      return Container(
+        color: Color(0X4D000000),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              width: double.infinity,
+              color: backWhite,
+              child: Wrap(
+                children: _categoryL1List
+                    .map(
+                      (item) => GestureDetector(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: _searchModel.categoryId == item.id
+                                      ? textRed
+                                      : textGrey,
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(3)),
+                          child: Text(
+                            '${item.name}',
+                            style: _searchModel.categoryId == item.id
+                                ? t12red
+                                : t12black,
+                          ),
+                        ),
+                        onTap: () {
+                          _searchModel.categoryId = item.id;
+                          _showPopMenu = false;
+                          _searchResult();
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            Expanded(child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _showPopMenu = false;
+                  _descSorted = -1;
+                });
+              },
+            ))
+          ],
+        ),
+      );
+    }
+    return Container();
+  }
+
+  ///价格点击确定
+  void setPriceSort() {
+    if (_descSorted == -1) {
+      _searchModel.descSorted = null;
+    } else if (_descSorted == 1) {
+      _searchModel.descSorted = false;
+    } else if (_descSorted == 2) {
+      _searchModel.descSorted = true;
+    } else {
+      _searchModel.descSorted = null;
+    }
+    if (_lowPriceController.text.isNotEmpty) {
+      _searchModel.floorPrice = num.parse(_lowPriceController.text);
+    } else {
+      _searchModel.floorPrice = -1;
+    }
+    if (_upPriceController.text.isNotEmpty) {
+      _searchModel.upperPrice = num.parse(_upPriceController.text);
+    } else {
+      _searchModel.upperPrice = -1;
+    }
+  }
+
+  ///排序点击颜色
+  Color _desSortColor(int type) {
+    if (type == 1) {
+      if (_descSorted == 1) {
+        return textRed;
+      } else {
+        return textBlack;
+      }
+    } else if (type == 2) {
+      if (_descSorted == 2) {
+        return textRed;
+      } else {
+        return textBlack;
+      }
+    } else {
+      return textBlack;
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+
+    _lowPriceController.dispose();
+    _upPriceController.dispose();
+    _scrollController.dispose();
+    _streamController.close();
   }
 }

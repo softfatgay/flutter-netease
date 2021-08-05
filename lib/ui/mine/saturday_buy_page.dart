@@ -12,6 +12,7 @@ import 'package:flutter_app/ui/mine/components/cart_tablayout_stu.dart';
 import 'package:flutter_app/ui/mine/components/stu_buy_List_item_widget.dart';
 import 'package:flutter_app/ui/mine/components/stu_buy_grid_item_widget.dart';
 import 'package:flutter_app/widget/back_loading.dart';
+import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/normal_footer.dart';
 
 class SaturdayTBuyPage extends StatefulWidget {
@@ -40,9 +41,9 @@ class _TestPageState extends State<SaturdayTBuyPage>
   List<Result> _dataList = [];
   List<Result> _moreDataList = [];
 
-  var _scrollController = ScrollController();
-  final StreamController<bool> _streamController =
-      StreamController<bool>.broadcast();
+  final _scrollController = ScrollController();
+  final _streamController = StreamController<bool>.broadcast();
+  final _upStreamController = StreamController<bool>.broadcast();
 
   @override
   void initState() {
@@ -64,6 +65,11 @@ class _TestPageState extends State<SaturdayTBuyPage>
           }
         }
         _streamController.sink.add(true);
+        if (_scrollController.position.pixels > 700) {
+          _upStreamController.sink.add(true);
+        } else {
+          _upStreamController.sink.add(false);
+        }
       } else {
         _streamController.sink.add(false);
       }
@@ -74,8 +80,15 @@ class _TestPageState extends State<SaturdayTBuyPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backColor,
-        body: _isFirstLoading ? Loading() : _buildBody());
+      backgroundColor: backColor,
+      body: _isFirstLoading ? Loading() : _buildBody(),
+      floatingActionButton: StreamBuilder(
+          stream: _upStreamController.stream,
+          initialData: false,
+          builder: (context, snapshot) {
+            return snapshot.data ? floatingAB(_scrollController) : Container();
+          }),
+    );
   }
 
   bool isScroll = false;
@@ -236,6 +249,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
     // TODO: implement dispose
     _tabController.dispose();
     _streamController.close();
+    _upStreamController.close();
     _scrollController.dispose();
     super.dispose();
   }

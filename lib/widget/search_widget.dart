@@ -10,18 +10,20 @@ typedef void OnBtnClick(String value);
 
 class SearchWidget extends StatefulWidget {
   final String textValue;
+  final double paddingV;
 
   ///{@macro 输入框变化,回调时间,默认500毫秒}
   final int textChangeDuration;
   final String hintText;
-  final double textFiledHeight;
+  final double searchHeight;
   final TextEditingController controller;
   final OnValueChanged onValueChangedCallBack;
   final OnBtnClick onBtnClick;
 
   SearchWidget(
       {this.textValue = '',
-      this.textFiledHeight = 48.0,
+      this.searchHeight = 48.0,
+      this.paddingV = 8,
       @required this.controller,
       this.hintText,
       this.textChangeDuration = 500,
@@ -54,25 +56,12 @@ class _SearchGoodsState extends State<SearchWidget> {
     }
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      height: MediaQuery.of(context).padding.top + widget.searchHeight,
+      // decoration: BoxDecoration(
+      //     border:
+      //         Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
-          // GestureDetector(
-          //   child: Container(
-          //     height: widget.textFiledHeight,
-          //     padding: EdgeInsets.symmetric(horizontal: 15),
-          //     child: Icon(
-          //       Icons.arrow_back_ios,
-          //       color: textBlack,
-          //     ),
-          //   ),
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //   },
-          // ),
           SizedBox(width: 10),
           Expanded(
             child: Stack(
@@ -82,7 +71,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                       color: Colors.grey[100],
                       border: Border.all(color: Colors.grey[100], width: 0.1),
                       borderRadius: new BorderRadius.circular(5.0)),
-                  margin: EdgeInsets.symmetric(vertical: 7),
+                  margin: EdgeInsets.symmetric(vertical: widget.paddingV),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,7 +87,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                     Expanded(
                       child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 8),
-                          height: widget.textFiledHeight,
+                          height: widget.searchHeight,
                           child: TextField(
                             style: t14black,
                             decoration: InputDecoration(
@@ -147,8 +136,8 @@ class _SearchGoodsState extends State<SearchWidget> {
           ),
           Container(
             width: 60,
-            height: widget.textFiledHeight,
-            margin: EdgeInsets.symmetric(vertical: 7),
+            height: widget.searchHeight,
+            margin: EdgeInsets.symmetric(vertical: widget.paddingV),
             padding: EdgeInsets.symmetric(horizontal: 6),
             child: Center(
               child: ElevatedButton(

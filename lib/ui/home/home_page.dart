@@ -331,7 +331,7 @@ class _HomeState extends State<HomePage>
             (item) => Container(
               width: double.infinity,
               constraints: BoxConstraints(maxHeight: 180),
-              margin: EdgeInsets.symmetric(vertical: 5),
+              margin: EdgeInsets.symmetric(vertical: 2),
               child: _huoDong(item),
             ),
           )
@@ -495,7 +495,11 @@ class _HomeState extends State<HomePage>
                         ],
                       ),
                       onTap: () {
-                        _goWebview(item.targetUrl);
+                        if (item.targetUrl.contains('pin/item/list')) {
+                          Routers.push(Routers.mineItems, context, {'id': 2});
+                        } else {
+                          _goWebview(item.targetUrl);
+                        }
                       },
                     );
                   }).toList())),
@@ -504,7 +508,7 @@ class _HomeState extends State<HomePage>
         ),
       ),
       SizedBox(
-        height: 20,
+        height: 10,
       )
     ]));
   }

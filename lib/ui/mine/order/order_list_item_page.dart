@@ -182,41 +182,45 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                   ),
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 0, 30, 0),
+                      margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "${package.name}",
-                            style: t14black,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "${package.name}",
+                                  style: t14black,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                "包裹${package.sequence}",
+                                style: t14black,
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            "${package.specDesc}",
-                            style: t12grey,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "${package.specDesc}",
+                                  style: t12grey,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                "${item.payOption == true ? "待付款" : "已取消"}",
+                                style: TextStyle(color: redColor, fontSize: 12),
+                              )
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        "包裹${package.sequence}",
-                        style: t14black,
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        "${item.payOption == true ? "待付款" : "已取消"}",
-                        style: TextStyle(color: redColor, fontSize: 12),
-                      ),
-                    ],
                   ),
                 ],
               ),

@@ -26,7 +26,7 @@ class TopicPage extends StatefulWidget {
 
 class _TopicPageState extends State<TopicPage>
     with AutomaticKeepAliveClientMixin {
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = new ScrollController();
 
   final StreamController<double> _streamController =
       StreamController<double>.broadcast();

@@ -79,8 +79,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     borderRadius: BorderRadius.all(Radius.circular(3)),
   );
 
-  ScrollController _scrollController = ScrollController();
-  TextEditingController _textEditingController = TextEditingController();
+  final _scrollController = ScrollController();
+  final _textEditingController = TextEditingController();
 
   bool _isShowFloatBtn = false;
 
@@ -314,11 +314,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       _fullRefundPolicy = _goodDetail.fullRefundPolicy;
       var itemDetail = _goodDetail.itemDetail;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
-      print('{{{{{{{{{{{{{{{{{{{{');
-
-      print(itemDetail);
-      print(itemDetail['videoInfo']);
-
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
       bannerList.forEach((image) {
         if (image.toString().startsWith('https://')) {
