@@ -29,7 +29,7 @@ class _CouponPageState extends State<CouponPage> {
   final controller = TextEditingController();
 
   List<CouponItemModel> _dataList = [];
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {

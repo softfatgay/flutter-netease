@@ -5,9 +5,8 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/global.dart';
 
-///账户中没有礼品卡，暂时无法写详细页面
+///账户中没有礼品
 class GiftCardPage extends StatefulWidget {
   final Map arguments;
 

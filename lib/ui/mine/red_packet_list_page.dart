@@ -25,7 +25,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   bool _hasMore = false;
   List<PackageItem> _dataList = [];
 
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = new ScrollController();
   bool _isLoading = true;
   BannerData _banner;
   var _pagination;

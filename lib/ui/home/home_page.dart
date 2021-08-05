@@ -75,8 +75,6 @@ class _HomeState extends State<HomePage>
   ///底部数据
   List<SceneLightShoppingGuideModule> _sceneLightShoppingGuideModule;
 
-  var toolbarHeight = 0;
-
   //动画控制器
   AnimationController _animalController;
 

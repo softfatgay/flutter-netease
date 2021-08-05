@@ -37,7 +37,7 @@ class _CommentListState extends State<CommentList> {
 
   List<CommentItem> _commentTags = [];
 
-  ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   ///总数据
   CommondPageModel _commondPageModel;

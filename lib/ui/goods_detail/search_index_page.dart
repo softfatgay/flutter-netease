@@ -9,16 +9,13 @@ import 'package:flutter_app/ui/goods_detail/components/search_price_filed.dart';
 import 'package:flutter_app/ui/goods_detail/components/search_sliver_bar.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchParamModel.dart';
-import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/home_page_header.dart';
 import 'package:flutter_app/widget/search_widget.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
 
 class SearchIndexPage extends StatefulWidget {
   final Map arguments;

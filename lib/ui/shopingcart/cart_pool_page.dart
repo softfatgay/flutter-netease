@@ -29,7 +29,7 @@ class _CartItemPoolPageState extends State<CartItemPoolPage>
   List<GoodDetail> _result = [];
   Pagination _pagination;
   int _id = 0;
-  ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
   ItemPoolModel _itemPoolModel;
 
   @override

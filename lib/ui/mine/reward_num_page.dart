@@ -23,7 +23,7 @@ class RewardNumPage extends StatefulWidget {
 }
 
 class _RewardNumPageState extends State<RewardNumPage> {
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = new ScrollController();
 
   int _page = 1;
   int _size = 20;

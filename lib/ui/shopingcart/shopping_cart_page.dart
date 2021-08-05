@@ -67,7 +67,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   int allCount = 0;
   List checkList = [];
 
-  TextEditingController _controller = TextEditingController();
+  final _controller = TextEditingController();
 
   @override
   // TODO: implement wantKeepAlive

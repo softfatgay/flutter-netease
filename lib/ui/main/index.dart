@@ -13,7 +13,6 @@ import 'package:flutter_app/ui/sort/sort_page.dart';
 import 'package:flutter_app/ui/topic/index.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
-import 'package:flutter_app/utils/user_config.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -108,55 +107,6 @@ class _MainPageState extends State<MainPage> {
           'assets/images/ic_tab_cart_normal.png',
           cartNum: _cartNum);
     }
-
-    // if (_itemList == null) {
-    //   _itemList = itemNames.map(
-    //     (item) {
-    //       return item.name == '购物车'
-    //           ? BottomNavigationBarItem(
-    //               icon: Stack(
-    //                 children: [
-    //                   Image.asset(
-    //                     item.normalIcon,
-    //                     width: 22.0,
-    //                     height: 22.0,
-    //                   ),
-    //                   Positioned(
-    //                     child: Container(
-    //                       decoration: BoxDecoration(
-    //                           color: backRed,
-    //                           borderRadius: BorderRadius.circular(10)),
-    //                       child: Text(
-    //                         '${item.cartNum}',
-    //                         style: t10white,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               label: item.name,
-    //               activeIcon: Image.asset(
-    //                 item.activeIcon,
-    //                 width: 22.0,
-    //                 height: 22.0,
-    //               ),
-    //             )
-    //           : BottomNavigationBarItem(
-    //               icon: Image.asset(
-    //                 item.normalIcon,
-    //                 width: 22.0,
-    //                 height: 22.0,
-    //               ),
-    //               label: item.name,
-    //               activeIcon: Image.asset(
-    //                 item.activeIcon,
-    //                 width: 22.0,
-    //                 height: 22.0,
-    //               ),
-    //             );
-    //     },
-    //   ).toList();
-    // }
   }
 
   final List<_Item> itemNames = [];

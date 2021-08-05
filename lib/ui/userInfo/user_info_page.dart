@@ -26,7 +26,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   String _userIcon =
       'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
 
-  UserInfoModel _userInfoModel = UserInfoModel();
+  var _userInfoModel = UserInfoModel();
   final _nameController = TextEditingController();
 
   int _sex = 0;

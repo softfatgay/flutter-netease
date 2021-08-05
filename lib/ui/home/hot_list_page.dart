@@ -26,8 +26,7 @@ class HotListPage extends StatefulWidget {
 
 class _HotListPageState extends State<HotListPage>
     with TickerProviderStateMixin {
-  final StreamController<bool> _streamController =
-      StreamController<bool>.broadcast();
+  final _streamController = StreamController<bool>.broadcast();
 
   var _scrollController = ScrollController();
 
@@ -36,7 +35,6 @@ class _HotListPageState extends State<HotListPage>
 
   TabController _tabController;
   bool _isFirstLoading = true;
-  bool _isLoading = true;
   bool _bodyLoading = true;
   int pageSize = 10;
   int _page = 1;

@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class PaymentPage extends StatefulWidget {
   final Map arguments;
