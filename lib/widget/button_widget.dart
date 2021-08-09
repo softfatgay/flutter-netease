@@ -9,9 +9,14 @@ Widget NormalBtn(String text, Color color, Function onPressed,
   return Container(
     height: 45,
     width: double.infinity,
-    child: RaisedButton(
-      elevation: 0,
-      color: color,
+    child: TextButton(
+      // elevation: 0,
+      // color: color,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          return color;
+        }),
+      ),
       onPressed: () {
         if (onPressed != null) {
           onPressed();
@@ -29,57 +34,18 @@ Widget btnChild(String text, {TextStyle textStyle}) {
   );
 }
 
-///tab
-Widget NormalFAB(String text, VoidCallback onPressed,
-    {Color backColor = backRed, Color disabledColor = disableBtnColor}) {
-  return Container(
-    height: 45,
-    width: ScreenUtil().setWidth(167),
-    margin: EdgeInsets.only(bottom: 70),
-    child: RaisedButton(
-      elevation: 0,
-      color: backColor,
-      disabledColor: enableBtnLightColor,
-      onPressed: onPressed,
-      child: Text(
-        '${text ?? ''}',
-        style: t14white,
-      ),
-    ),
-  );
-}
-
-///fab
-Widget ButtonFAB(String text, Function onPressed, {Color backColor = backRed}) {
-  return Container(
-    width: double.infinity,
-    margin: EdgeInsets.symmetric(horizontal: 16),
-    height: 45,
-    child: RaisedButton(
-      elevation: 0,
-      color: backColor,
-      onPressed: () {
-        if (onPressed != null) {
-          onPressed();
-        }
-      },
-      child: Text(
-        '${text ?? ''}',
-        style: t14white,
-      ),
-    ),
-  );
-}
-
 ///普通按钮
 Widget ActiveBtn(Color backColor, Function onPressed,
     {String text, double height, TextStyle textStyle}) {
   return Container(
     height: 45,
     width: double.infinity,
-    child: RaisedButton(
-      elevation: 0,
-      color: backColor,
+    child: TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          return backColor;
+        }),
+      ),
       onPressed: () {
         if (onPressed != null) {
           onPressed();

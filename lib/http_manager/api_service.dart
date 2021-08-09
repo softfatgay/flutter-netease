@@ -1,245 +1,246 @@
-import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
-final String baseUrl = "https://m.you.163.com/";
+final String suffixUrl = "";
+
+const String baseUrl = "https://m.you.163.com/";
 
 final String LOGIN_PAGE_URL = "${baseUrl}login";
 
 ///检查登录GET
-final String CHECK_LOGIN = "${baseUrl}xhr/common/checklogin.json";
+final String CHECK_LOGIN = "${suffixUrl}xhr/common/checklogin.json";
 
 ///首页
-final String URL_HOME_NEW = "${baseUrl}xhr/index.json";
+final String URL_HOME_NEW = "${suffixUrl}xhr/index.json";
 
 ///分类
-final String URL_SORT_NEW = "${baseUrl}item/cateList.json";
+final String URL_SORT_NEW = "${suffixUrl}item/cateList.json";
 
 ///kingkong
-final String URL_SORT_LIST_NEW = "${baseUrl}item/list.json";
+final String URL_SORT_LIST_NEW = "${suffixUrl}item/list.json";
 
 ///kingkong
-final String URL_KING_KONG = "${baseUrl}item/list.json";
+final String URL_KING_KONG = "${suffixUrl}item/list.json";
 
 ///kingkong
-final String URL_KING_KONG_NO_ID = "${baseUrl}xhr/item/getPreNewItem.json";
+final String URL_KING_KONG_NO_ID = "${suffixUrl}xhr/item/getPreNewItem.json";
 
 ///我的信息
-final String USER_INFO_ITEMS = "${baseUrl}xhr/user/myFund.json";
+final String USER_INFO_ITEMS = "${suffixUrl}xhr/user/myFund.json";
 
 ///用户信息
-final String USER_INFO = "${baseUrl}xhr/user/checkConfig.json";
+final String USER_INFO = "${suffixUrl}xhr/user/checkConfig.json";
 
 ///订单列表
-final String ORDER_LIST = "${baseUrl}xhr/order/getList.json";
+final String ORDER_LIST = "${suffixUrl}xhr/order/getList.json";
 
 ///新品
-final String ORDER_NEW_ITEM = "${baseUrl}item/newItem.json";
+final String ORDER_NEW_ITEM = "${suffixUrl}item/newItem.json";
 
 ///用户账号相关
-final String USER_ALIASINFO = "${baseUrl}xhr/user/aliasInfo.json";
+final String USER_ALIASINFO = "${suffixUrl}xhr/user/aliasInfo.json";
 
 ///周六一起拼
-final String PIN_GROUP = "${baseUrl}pin/group/item/index";
+final String PIN_GROUP = "${suffixUrl}pin/group/item/index";
 
 ///周六一起拼数据列表
-final String PIN_GROUP_LIST = "${baseUrl}pin/group/item/list";
+final String PIN_GROUP_LIST = "${suffixUrl}pin/group/item/list";
 
 ///地址列表
-final String LOCATION_LIST = "${baseUrl}xhr/address/list.json";
+final String LOCATION_LIST = "${suffixUrl}xhr/address/list.json";
 
 ///删除地址
-final String DELETE_ASSRESS = "${baseUrl}xhr/address/deleteAddress.json";
+final String DELETE_ASSRESS = "${suffixUrl}xhr/address/deleteAddress.json";
 
 ///省份列表
-final String PROVINCE_LIST = "${baseUrl}xhr/address/getProvince.json";
+final String PROVINCE_LIST = "${suffixUrl}xhr/address/getProvince.json";
 
 ///市列表
-final String CITY_LIST = "${baseUrl}xhr/address/getCity.json";
+final String CITY_LIST = "${suffixUrl}xhr/address/getCity.json";
 
 ///区列表
-final String DIS_LIST = "${baseUrl}xhr/address/getDistrict.json";
+final String DIS_LIST = "${suffixUrl}xhr/address/getDistrict.json";
 
 ///县列表
-final String TOWN_LIST = "${baseUrl}xhr/address/getTown.json";
+final String TOWN_LIST = "${suffixUrl}xhr/address/getTown.json";
 
 ///添加地址
-final String ADD_ADDRESS = "${baseUrl}xhr/address/upsertAddress.json";
+final String ADD_ADDRESS = "${suffixUrl}xhr/address/upsertAddress.json";
 
 ///二维码
-final String QR_CODE = "${baseUrl}xhr/user/qrCode.json";
+final String QR_CODE = "${suffixUrl}xhr/user/qrCode.json";
 
 ///个人信息二维码生成（邀请）
-final String GET_USER_SPMCINFO = "${baseUrl}xhr/supermc/getUserSpmcInfo.json";
+final String GET_USER_SPMCINFO = "${suffixUrl}xhr/supermc/getUserSpmcInfo.json";
 
 ///热销好物
-final String REWARD_RCMD = "${baseUrl}xhr/bonus/rcmd.json";
+final String REWARD_RCMD = "${suffixUrl}xhr/bonus/rcmd.json";
 
 ///红包
-final String RED_PACKET = "${baseUrl}xhr/redpacket/list.json";
+final String RED_PACKET = "${suffixUrl}xhr/redpacket/list.json";
 
 ///优惠券
-final String COUPON_LIST = "${baseUrl}xhr/coupon/list.json";
+final String COUPON_LIST = "${suffixUrl}xhr/coupon/list.json";
 
 ///商品详情
-final String GOOD_DETAIL = "${baseUrl}item/detail.json";
+final String GOOD_DETAIL = "${suffixUrl}item/detail.json";
 
 ///购物车
-final String SHOPPING_CART = "${baseUrl}xhr/cart/getCarts.json";
+final String SHOPPING_CART = "${suffixUrl}xhr/cart/getCarts.json";
 
 ///购物车 全选/不选
-final String SHOPPING_CART_CHECK = "${baseUrl}xhr/cart/selectAll.json";
+final String SHOPPING_CART_CHECK = "${suffixUrl}xhr/cart/selectAll.json";
 
 ///购物车 选/不选
-final String SHOPPING_CART_CHECK_ONE = "${baseUrl}xhr/cart/updateCheck.json";
+final String SHOPPING_CART_CHECK_ONE = "${suffixUrl}xhr/cart/updateCheck.json";
 
 ///购物车 选购数量
-final String SHOPPING_CART_CHECK_NUM = "${baseUrl}xhr/cart/updateByNum.json";
+final String SHOPPING_CART_CHECK_NUM = "${suffixUrl}xhr/cart/updateByNum.json";
 
 ///热销榜/标题
-final String HOT_LIST_CAT = "${baseUrl}item/saleRank.json";
+final String HOT_LIST_CAT = "${suffixUrl}item/saleRank.json";
 
 ///热销榜/条目
-final String HOT_LIST_LIST = "${baseUrl}xhr/item/saleRankItems.json";
+final String HOT_LIST_LIST = "${suffixUrl}xhr/item/saleRankItems.json";
 
 ///热销榜名单
-final String SUBMIT_ORDER_INFO = "${baseUrl}xhr/item/getSubmitOrderInfo.json";
+final String SUBMIT_ORDER_INFO = "${suffixUrl}xhr/item/getSubmitOrderInfo.json";
 
 ///删除订单
-final String DELETE_ORDER = "${baseUrl}xhr/order/delete.json";
+final String DELETE_ORDER = "${suffixUrl}xhr/order/delete.json";
 
 ///购物车 删除商品
-final String DELETE_CART = "${baseUrl}xhr/cart/delete.json";
+final String DELETE_CART = "${suffixUrl}xhr/cart/delete.json";
 
 ///值得买
-final String TOPPIC = "${baseUrl}topic/index.json";
+final String TOPPIC = "${suffixUrl}topic/index.json";
 
 ///评论
-final String COMMENT_LIST = "${baseUrl}xhr/comment/listByItemByTag.json";
+final String COMMENT_LIST = "${suffixUrl}xhr/comment/listByItemByTag.json";
 
 ///积分中心
-final String POINT_CENTER = "${baseUrl}xhr/points/index.json";
+final String POINT_CENTER = "${suffixUrl}xhr/points/index.json";
 
 ///会员俱乐部
-final String VIP_CENTER = "${baseUrl}xhr/membership/indexPrivilege.json";
+final String VIP_CENTER = "${suffixUrl}xhr/membership/indexPrivilege.json";
 
 ///加入购物车
-final String ADD_CART = "${baseUrl}xhr/cart/add.json";
+final String ADD_CART = "${suffixUrl}xhr/cart/add.json";
 
 ///订单确认界面
 final String ORDER_INIT =
-    "${baseUrl}xhr/order/init.json?csrf_token=$csrf_token";
+    "${suffixUrl}xhr/order/init.json?csrf_token=$csrf_token";
 
 ///获取用户手机号
 final String USER_MOBILE =
-    "${baseUrl}xhr/feedback/getUserMobile.json?csrf_token=$csrf_token";
+    "${suffixUrl}xhr/feedback/getUserMobile.json?csrf_token=$csrf_token";
 
 ///反馈类型
-final String FEEDBACK_TYPE = "${baseUrl}xhr/feedback/typeList.json";
+final String FEEDBACK_TYPE = "${suffixUrl}xhr/feedback/typeList.json";
 
 ///反馈提交
 final String FEEDBACK_SUBMIT =
-    "${baseUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
+    "${suffixUrl}xhr/feedback/submit.json?csrf_token=$csrf_token";
 
 ///模糊搜索
-final String SEARCH_TIPS = "${baseUrl}xhr/search/searchAutoComplete.json";
+final String SEARCH_TIPS = "${suffixUrl}xhr/search/searchAutoComplete.json";
 
 ///搜索关键字
-final String SEARCH_SEARCH = "${baseUrl}xhr/search/search.json.json";
+final String SEARCH_SEARCH = "${suffixUrl}xhr/search/search.json.json";
 
 ///搜索初始化
-final String SEARCH_INIT = "${baseUrl}xhr/search/init.json";
+final String SEARCH_INIT = "${suffixUrl}xhr/search/init.json";
 
 ///值得买列表
-final String FIND_REC_AUTO = "${baseUrl}topic/v1/find/recAuto.json";
+final String FIND_REC_AUTO = "${suffixUrl}topic/v1/find/recAuto.json";
 
 ///值得买头部nav
-final String KNOW_NAVWAP = "${baseUrl}topic/v1/know/navWap.json";
+final String KNOW_NAVWAP = "${suffixUrl}topic/v1/know/navWap.json";
 
 ///好评率
-final String COMMENT_PRAISE = '${baseUrl}xhr/comment/itemGoodRates.json';
+final String COMMENT_PRAISE = '${suffixUrl}xhr/comment/itemGoodRates.json';
 
 ///评价tags
-final String COMMENT_TAGS = '${baseUrl}xhr/comment/tags.json';
+final String COMMENT_TAGS = '${suffixUrl}xhr/comment/tags.json';
 
 ///商品详情下半部分
-final String GOOD_DETAIL_DOWN = '${baseUrl}xhr/item/detail.json';
+final String GOOD_DETAIL_DOWN = '${suffixUrl}xhr/item/detail.json';
 
 ///商品详情推荐
-final String WAPITEM_RCMD = '${baseUrl}xhr/wapitem/rcmd.json';
+final String WAPITEM_RCMD = '${suffixUrl}xhr/wapitem/rcmd.json';
 
 ///配送信息
-final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
+final String WAPITEM_DELIVERY = '${suffixUrl}xhr/wapitem/delivery.json';
 
 ///购物车换购列表
-final String GET_CARTS = '${baseUrl}xhr/cart/getCarts.json';
+final String GET_CARTS = '${suffixUrl}xhr/cart/getCarts.json';
 
 ///购物车换购提交
-final String GET_CARTS_SUBMIT = '${baseUrl}xhr/cart/selectAddBuy.json';
+final String GET_CARTS_SUBMIT = '${suffixUrl}xhr/cart/selectAddBuy.json';
 
 ///购物清除失效商品https://m.you.163.com/xhr/cart/clearInvalidItem.json
-final String CLEAR_INVALID_ITEMS = '${baseUrl}xhr/cart/clearInvalidItem.json';
+final String CLEAR_INVALID_ITEMS = '${suffixUrl}xhr/cart/clearInvalidItem.json';
 
 ///check-cart
-final String CHECK_BEFORE_INIT = '${baseUrl}xhr/order/checkBeforeInit.json';
+final String CHECK_BEFORE_INIT = '${suffixUrl}xhr/order/checkBeforeInit.json';
 
 ///手机号状态
-final String PHONE_STATUS = '${baseUrl}xhr/userMobile/getStatus.json';
-
-///检查更新
-final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
+final String PHONE_STATUS = '${suffixUrl}xhr/userMobile/getStatus.json';
 
 ///首页弹窗
-final String NEW_USER_GIFT = '${baseUrl}xhr/gift/newUserGift/show.json';
+final String NEW_USER_GIFT = '${suffixUrl}xhr/gift/newUserGift/show.json';
 
 ///用户信息
-final String UCENTER_INFO = '${baseUrl}ucenter/info.json';
+final String UCENTER_INFO = '${suffixUrl}ucenter/info.json';
 
 ///感兴趣分类
-final String INTEREST_CATEGORY = '${baseUrl}interestCategory/list.json';
+final String INTEREST_CATEGORY = '${suffixUrl}interestCategory/list.json';
 
 ///提交感兴趣分类
 final String INTEREST_CATEGORY_UPSERT =
-    '${baseUrl}xhr/interestCategory/upsert.json';
+    '${suffixUrl}xhr/interestCategory/upsert.json';
 
 ///保存个人信息
-final String SAVE_USER_INFO = '${baseUrl}xhr/user/saveDetail.json';
+final String SAVE_USER_INFO = '${suffixUrl}xhr/user/saveDetail.json';
 
 ///我的尺寸
-final String MINE_SIZE = '${baseUrl}xhr/size/list.json';
+final String MINE_SIZE = '${suffixUrl}xhr/size/list.json';
 
 ///添加尺寸
-final String ADD_SIZE = '${baseUrl}xhr/size/upsert.json';
+final String ADD_SIZE = '${suffixUrl}xhr/size/upsert.json';
 
 ///查询尺寸
-final String QUERY_SIZE_ID = '${baseUrl}xhr/size/getById.json';
+final String QUERY_SIZE_ID = '${suffixUrl}xhr/size/getById.json';
 
 ///积分推荐商品
-final String POINTS_RCMD = '${baseUrl}xhr/points/rcmd.json';
+final String POINTS_RCMD = '${suffixUrl}xhr/points/rcmd.json';
 
 ///积分推荐商品
-final String MINI_CART_NUM = '${baseUrl}xhr/cart/getMiniCartNum.json';
+final String MINI_CART_NUM = '${suffixUrl}xhr/cart/getMiniCartNum.json';
 
 ///凑单
-final String ITEM_POOL = '${baseUrl}xhr/item/getItemPool.json';
+final String ITEM_POOL = '${suffixUrl}xhr/item/getItemPool.json';
+
+///购物车更改商品属性
+final String DETAIL_FOR_CART = '${suffixUrl}xhr/item/detailForCart.json';
+
+///购物车更改商品属性确定
+final String UPDATE_SKU_SPEC = '${suffixUrl}xhr/cart/updateSkuSpec.json';
+
+///兑换优惠券
+final String COUPON_ACTIVATE = '${suffixUrl}xhr/coupon/activate.json';
+
+///检查是否开启支付密码
+final String CHECK_IF_SET_PSW = '${suffixUrl}xhr/userPayPwd/checkIfSet.json';
+
+///订单详情
+final String ORDER_DETAIL = '${suffixUrl}xhr/order/getDetail.json';
 
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
 
-///购物车更改商品属性
-final String DETAIL_FOR_CART = '${baseUrl}xhr/item/detailForCart.json';
-
-///购物车更改商品属性确定
-final String UPDATE_SKU_SPEC = '${baseUrl}xhr/cart/updateSkuSpec.json';
-
-///兑换优惠券
-final String COUPON_ACTIVATE = '${baseUrl}xhr/coupon/activate.json';
-
-///检查是否开启支付密码
-final String CHECK_IF_SET_PSW = '${baseUrl}xhr/userPayPwd/checkIfSet.json';
-
-///订单详情
-final String ORDER_DETAIL = '${baseUrl}xhr/order/getDetail.json';
+///检查更新
+final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';

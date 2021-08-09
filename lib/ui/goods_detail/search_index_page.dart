@@ -157,6 +157,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       params.remove('_stat_search');
     }
     var responseData = await searchSearch(params, showProgress: showProgress);
+    print(responseData.data);
     var data = responseData.data;
     var searchResultModel = SearchResultModel.fromJson(data);
     setState(() {

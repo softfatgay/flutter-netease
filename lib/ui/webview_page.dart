@@ -21,13 +21,14 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  final Completer<WebViewController> _webController =
-      Completer<WebViewController>();
+  final _webController = Completer<WebViewController>();
   final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
   String _url = '';
   bool hide = true;
+
+  var _isLoading = true;
 
   @override
   void initState() {
@@ -107,52 +108,68 @@ class _WebViewPageState extends State<WebViewPage> {
 
   _buildBody() {
     return Container(
-      child: WebView(
-        initialUrl: _url,
-        //JS执行模式 是否允许JS执行
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller) async {
-          controller.loadUrl(
-            _url,
-            headers: {"Cookie": cookie},
-          );
-          _webController.complete(controller);
-        },
-        onPageStarted: (url) async {
-          setcookie();
-          hideTop();
-        },
-        onPageFinished: (url) async {
-          hideTop();
-          String aa =
-              await _webController.future.then((value) => value.getTitle());
-          setState(() {
-            _title = aa;
-          });
-          final updateCookie = await globalCookie.globalCookieValue(url);
-          if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
-            setState(() {
-              CookieConfig.cookie = updateCookie;
-            });
-          }
-        },
-        navigationDelegate: (NavigationRequest request) {
-          var url = request.url;
-          if (url.startsWith('https://m.you.163.com/item/detail?id=')) {
-            var split = url.split('id=');
-            var split2 = split[1];
-            var split3 = split2.split('&')[0];
-            if (split3 != null && split3.isNotEmpty) {
-              Routers.push(Routers.goodDetailTag, context, {'id': '$split3'});
-            }
-            return NavigationDecision.prevent;
-          } else if (url.startsWith('https://m.you.163.com/cart')) {
-            Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
-            return NavigationDecision.prevent;
-          } else {
-            return NavigationDecision.navigate;
-          }
-        },
+      child: Stack(
+        children: [
+          WebView(
+            initialUrl: _url,
+            //JS执行模式 是否允许JS执行
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (controller) async {
+              controller.loadUrl(
+                _url,
+                headers: {"Cookie": cookie},
+              );
+              _webController.complete(controller);
+            },
+            onPageStarted: (url) async {
+              setcookie();
+              hideTop();
+              setState(() {
+                _isLoading = true;
+              });
+            },
+            onPageFinished: (url) async {
+              hideTop();
+              String aa =
+                  await _webController.future.then((value) => value.getTitle());
+              setState(() {
+                _title = aa;
+                _isLoading = false;
+              });
+              final updateCookie = await globalCookie.globalCookieValue(url);
+              if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
+                setState(() {
+                  CookieConfig.cookie = updateCookie;
+                });
+              }
+            },
+            navigationDelegate: (NavigationRequest request) {
+              var url = request.url;
+              if (url.startsWith('https://m.you.163.com/item/detail?id=')) {
+                var split = url.split('id=');
+                var split2 = split[1];
+                var split3 = split2.split('&')[0];
+                if (split3 != null && split3.isNotEmpty) {
+                  Routers.push(
+                      Routers.goodDetailTag, context, {'id': '$split3'});
+                }
+                return NavigationDecision.prevent;
+              } else if (url.startsWith('https://m.you.163.com/cart')) {
+                Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
+                return NavigationDecision.prevent;
+              } else {
+                return NavigationDecision.navigate;
+              }
+            },
+          ),
+          _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }

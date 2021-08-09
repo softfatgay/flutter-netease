@@ -4,6 +4,13 @@ import 'package:flutter_app/http_manager/http_util.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
+_getParams() => {'csrf_token': csrf_token};
+
+_timestampParams() => {
+      'csrf_token': csrf_token,
+      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
+    };
+
 Future<ResponseData> homeData() async {
   return await HttpManager.get(URL_HOME_NEW, params: _timestampParams());
 }
@@ -170,7 +177,7 @@ Future<ResponseData> shoppingCartCheckNum(Map<String, dynamic> params) async {
 Future<ResponseData> deleteCart(Map<String, dynamic> params) async {
   // params.addAll(_getParams());
   return await HttpManager.post(DELETE_CART,
-      params: _getParams(), postData: params);
+      params: _getParams(), formData: params);
 }
 
 ///热销榜/标题
@@ -222,7 +229,7 @@ Future<ResponseData> addCart(Map<String, dynamic> params) async {
 ///订单确认界面
 Future<ResponseData> orderInit(Map<String, dynamic> postParams) async {
   return await HttpManager.post(ORDER_INIT,
-      postData: postParams, header: HttpUtil.getHeader());
+      formData: postParams, header: HttpUtil.getHeader());
 }
 
 ///检查登录
@@ -312,7 +319,7 @@ Future<ResponseData> getCarts(Map<String, dynamic> params) async {
 
 ///购物车换购
 Future<ResponseData> getCartsSubmit(Map<String, dynamic> postParams) async {
-  return await HttpManager.post(GET_CARTS_SUBMIT, postParams: postParams);
+  return await HttpManager.post(GET_CARTS_SUBMIT, data: postParams);
 }
 
 ///清除无效商品
@@ -323,12 +330,10 @@ Future<ResponseData> clearInvalidItem(Map<String, dynamic> params) async {
 
 ///check-cart
 Future<ResponseData> checkBeforeInit(Map<String, dynamic> postParams) async {
-  // postParams.addAll(_getParams());
   return await HttpManager.post(
     CHECK_BEFORE_INIT,
     params: _getParams(),
-    postData: postParams,
-    // postParams: postParams,
+    formData: postParams,
   );
 }
 
@@ -362,9 +367,9 @@ Future<ResponseData> interestCategory(Map<String, dynamic> params) async {
 }
 
 ///提交感兴趣分类
-Future<ResponseData> interestCategoryUpsert({dynamic postData}) async {
+Future<ResponseData> interestCategoryUpsert({dynamic data}) async {
   return await HttpManager.post(INTEREST_CATEGORY_UPSERT,
-      params: _getParams(), postData: postData);
+      params: _getParams(), data: data);
 }
 
 ///保存个人信息
@@ -394,13 +399,6 @@ Future<ResponseData> querySizeId(Map<String, dynamic> params) async {
 Future<ResponseData> pointsRcmd() async {
   return await HttpManager.post(POINTS_RCMD, params: _getParams());
 }
-
-_getParams() => {'csrf_token': csrf_token};
-
-_timestampParams() => {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
 
 ///去使用红包
 Future<ResponseData> redpackageItems(Map<String, dynamic> params) async {

@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
 import 'package:flutter_app/widget/check_box.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/normal_textfiled.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -91,6 +89,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             right: 0,
             child: Container(
               width: double.infinity,
+              color: backWhite,
               child: Row(
                 children: [
                   Expanded(
@@ -277,11 +276,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     minTime: DateTime(1980, 1, 31),
                     maxTime: DateTime(2021, 1, 31),
                     theme: DatePickerTheme(
-                      headerColor: backWhite,
-                      backgroundColor: backWhite,
-                      itemStyle: t14black,
-                      doneStyle: t14black,
-                    ),
+                        headerColor: backWhite,
+                        backgroundColor: backWhite,
+                        itemStyle: t14black,
+                        doneStyle: t14black,
+                        cancelStyle: t14grey),
                     onChanged: (date) {}, onConfirm: (DateTime date) {
                   setState(() {
                     _bYear = date.year.toString();

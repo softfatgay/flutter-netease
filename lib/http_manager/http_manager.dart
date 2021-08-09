@@ -4,21 +4,81 @@ import 'dart:convert';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
+const String _baseUrl = "https://m.you.163.com/";
+
 class HttpManager {
-  static Future<ResponseData> request(
+  static _netError() {
+    BotToast.showSimpleNotification(
+        title: "请检查网络是否连接",
+        backgroundColor: backYellow,
+        titleStyle: t16white,
+        closeIcon: Icon(
+          Icons.cancel,
+          color: textWhite,
+        ));
+  }
+
+  static Dio _dio;
+
+  static get dioInstance {
+    if (_dio == null) {
+      var baseOptions = BaseOptions(
+        baseUrl: _baseUrl,
+        sendTimeout: 1500,
+        receiveTimeout: 1500,
+        connectTimeout: 1500,
+        headers: commonHeaders(),
+      );
+      var interceptorsWrapper = InterceptorsWrapper(onRequest:
+          (RequestOptions options, RequestInterceptorHandler handler) {
+        _print("请求数据开始 ---------->\n");
+        _print("method = ${options.method.toString()}");
+        _print("url = ${options.uri.toString()}");
+        _print("headers = ${options.headers}");
+        _print("params = ${options.queryParameters}");
+        _print("body = ${options.data}");
+
+        handler.next(options);
+      }, onResponse: (Response response, ResponseInterceptorHandler handler) {
+        _print("开始响应 ---------->\n");
+        _print("${response.realUri}\n");
+        _print("code = ${response.statusCode}");
+        _print("data = ${json.encode(response.data)}");
+        LogUtil.v("data = ${json.encode(response.data)}"); //打印长Log
+        handler.next(response);
+        _print("响应结束 ---------->\n\n\n\n\n");
+      }, onError: (DioError e, ErrorInterceptorHandler handler) {
+        _print("错误响应数据 ---------->\n");
+        _print("type = ${e.type}");
+        if (e.type == DioErrorType.other) {
+          _netError();
+        }
+        _print("message = ${e.message}");
+        _print("stackTrace = ${e.message}");
+        _print("\n");
+        handler.next(e);
+      });
+      _dio = Dio(baseOptions);
+      _dio.interceptors.add(interceptorsWrapper);
+    }
+    return _dio;
+  }
+
+  static Future<ResponseData> _request(
     //TODO GET和POST添加静态
     String path, {
     String method = 'GET',
     Map<String, dynamic> queryParameters,
     Map<String, dynamic> headers,
-    Map<String, dynamic> postParams,
-    dynamic postData,
+    dynamic data,
+    dynamic formData,
     String accept,
     int sendTimeout,
     int receiveTimeout,
@@ -27,10 +87,14 @@ class HttpManager {
     bool needAuthentication,
     bool needCommonParameters,
     bool needCommonHeaders,
-    bool showProgress,
+    bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) async {
-    print('showProgress = $showProgress');
+    _print('showProgress = $showProgress');
+    if (showProgress) {
+      BotToast.showLoading(
+          clickClose: true, backgroundColor: Colors.transparent);
+    }
     // get native data
     cancelToken = cancelToken ?? RequestCancelToken();
     headers = headers ?? Map();
@@ -38,68 +102,11 @@ class HttpManager {
     sendTimeout = sendTimeout ?? 15000;
     receiveTimeout = receiveTimeout ?? 15000;
 
-    // if (accept != null) {
-    //   headers['accept'] = 'application/json, text/javascript, */*; q=0.01';
-    //   headers['Content-Type'] =
-    //       'application/x-www-form-urlencoded; charset=UTF-8';
-    // }
-
-    if (needCommonParameters ?? false) {
-      queryParameters.addAll(commonParameters());
-    }
-
     if (needCommonHeaders ?? true) {
       headers.addAll(commonHeaders());
     }
-    Dio dio = Dio();
-    dio.interceptors.add(InterceptorsWrapper(
-        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-      if (showProgress ?? true) {
-        BotToast.showLoading(
-            clickClose: true, backgroundColor: Colors.transparent);
-      }
-      print("----------------------- 请求数据 -----------------------\n");
-      print("method = ${options.method.toString()}");
-      print("url = ${options.uri.toString()}");
-      print("headers = ${options.headers}");
-      print("params = ${options.queryParameters}");
-      print("body = ${options.data}");
-
-      handler.next(options);
-    }, onResponse: (Response response, ResponseInterceptorHandler handler) {
-      if (showProgress ?? true) {
-        BotToast.closeAllLoading();
-      }
-      print("----------------------- 响应开始 -----------------------\n");
-      print("code = ${response.statusCode}");
-      print("data = ${json.encode(response.data)}");
-      LogUtil.v("data = ${json.encode(response.data)}"); //打印长Log
-      handler.next(response);
-      print("----------------------- 响应结束 -----------------------\n");
-    }, onError: (DioError e, ErrorInterceptorHandler handler) {
-      if (showProgress ?? true) {
-        BotToast.closeAllLoading();
-      }
-      print("-----------------------错误响应数据 -----------------------\n");
-      print("type = ${e.type}");
-      if (e.type == DioErrorType.other) {
-        BotToast.showSimpleNotification(
-            title: "请检查网络是否连接",
-            backgroundColor: backYellow,
-            titleStyle: t16white,
-            closeIcon: Icon(
-              Icons.cancel,
-              color: textWhite,
-            ));
-      }
-      print("message = ${e.message}");
-      print("stackTrace = ${e.message}");
-      print("\n");
-      handler.next(e);
-    }));
 
     ///注意代理必须配置到await dio.request之后，否则不打开抓包工具时无法访问网络
-
     Options options = Options(
       method: method,
       headers: headers,
@@ -107,9 +114,9 @@ class HttpManager {
       receiveTimeout: receiveTimeout,
     );
     try {
-      Response response = await dio.request(
+      Response response = await dioInstance.request(
         path,
-        data: postData == null ? postParams : FormData.fromMap(postData),
+        data: formData == null ? data : FormData.fromMap(formData),
         options: options,
         queryParameters: queryParameters,
         cancelToken: cancelToken.cancelToken,
@@ -122,6 +129,12 @@ class HttpManager {
     } on DioError catch (e) {
       // BotToast.showText(text: '请求失败，请稍后重试');
       return Future.value(ResponseData());
+    } catch (e) {
+      _netError();
+    } finally {
+      if (showProgress ?? true) {
+        BotToast.closeAllLoading();
+      }
     }
   }
 
@@ -129,7 +142,7 @@ class HttpManager {
     path, {
     Map<String, dynamic> header,
     Map<String, dynamic> params,
-    Map<String, dynamic> postParams,
+    dynamic data,
     int sendTimeout, // 毫秒
     int receiveTimeout, // 毫秒
     RequestCancelToken cancelToken, // 取消网络请求的Token
@@ -138,15 +151,15 @@ class HttpManager {
     bool needCommonParameters,
     bool needCommonHeaders,
     String accept,
-    dynamic postData,
+    dynamic formData,
     bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) {
-    return HttpManager.request(
+    return _request(
       path,
       queryParameters: params,
-      postParams: postParams,
-      postData: postData,
+      data: data,
+      formData: formData,
       method: 'POST',
       sendTimeout: sendTimeout,
       receiveTimeout: receiveTimeout,
@@ -176,7 +189,7 @@ class HttpManager {
     bool showProgress = false,
     SignatureCondition signatureCondition, // 签名条件
   }) {
-    return HttpManager.request(
+    return _request(
       path,
       queryParameters: params,
       method: 'GET',
@@ -193,27 +206,21 @@ class HttpManager {
     );
   }
 
-  static Map<String, dynamic> commonParameters() {
-    Map<String, dynamic> parameters = {
-      "csrf_token": csrf_token,
-      "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
-    };
-    return parameters;
-  }
+  static Map<String, dynamic> commonParameters() => {
+        "csrf_token": csrf_token,
+        "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
+      };
 
-  static Map<String, dynamic> commonHeaders() {
-    Map<String, dynamic> headers = {"Cookie": cookie};
-    return headers;
-  }
+  static Map<String, dynamic> commonHeaders() => {"Cookie": cookie};
 
-  static Map<String, dynamic> authenticationHeader() {
-    Map<String, dynamic> auth = {'auth': 'auth'};
-    return auth;
-  }
+  static Map<String, dynamic> authenticationHeader() => {'auth': 'auth'};
 
-  static Future<Map<String, dynamic>> signatureHeader() async {
-    Map<String, dynamic> headers = {};
-    return headers;
+  static Future<Map<String, dynamic>> signatureHeader() async => {};
+
+  static _print(Object object) {
+    if (kDebugMode) {
+      print(object ?? '');
+    }
   }
 }
 

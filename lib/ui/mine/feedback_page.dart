@@ -3,6 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/widget/button_widget.dart';
 
 class FeedBack extends StatefulWidget {
   @override
@@ -139,6 +140,7 @@ class _FeedBackState extends State<FeedBack> {
                     ),
                   ),
                   Container(
+                    padding: EdgeInsets.only(left: 10),
                     child: Text(
                       '手机号码',
                       style: t14grey,
@@ -155,22 +157,12 @@ class _FeedBackState extends State<FeedBack> {
               ),
             ),
           ),
-          GestureDetector(
-            child: Container(
-              width: double.infinity,
-              color: redColor,
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: Center(
-                child: Text(
-                  '提交',
-                  style: t16white,
-                ),
-              ),
-            ),
-            onTap: () {
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+            child: NormalBtn('提交', backRed, () {
               _submit();
               Navigator.pop(context);
-            },
+            }),
           )
         ],
       ),

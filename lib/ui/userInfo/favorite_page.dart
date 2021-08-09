@@ -9,6 +9,7 @@ import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/app_bar.dart';
 import 'package:flutter_app/widget/button_widget.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -61,7 +62,7 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(
-        title: '爱好',
+        title: '感兴趣',
       ).build(context),
       body: _buildBody(),
     );
@@ -120,11 +121,15 @@ class _FavoritePageState extends State<FavoritePage> {
           children: [
             Expanded(
               child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Stack(
                   children: [
                     Container(
-                      child: CachedNetworkImage(
-                        imageUrl: '${item.picUrl}',
+                      child: RoundNetImage(
+                        corner: 4,
+                        width: double.infinity,
+                        height: double.infinity,
+                        url: '${item.picUrl}',
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -134,10 +139,15 @@ class _FavoritePageState extends State<FavoritePage> {
                       right: 0,
                       bottom: 0,
                       child: item.selectFlag
-                          ? Icon(
-                              Icons.check_circle_rounded,
-                              color: Colors.green,
-                              size: 35,
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0X33000000),
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Icon(
+                                Icons.check_circle_rounded,
+                                color: Colors.green,
+                                size: 35,
+                              ),
                             )
                           : Container(),
                     )
@@ -168,9 +178,9 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   _submit() async {
-    var responseData = await interestCategoryUpsert(postData: _up);
+    var responseData = await interestCategoryUpsert(data: _up);
     if (responseData.code == '200') {
-      Toast.show('提交成功', context);
+      Toast.show('保存成功', context);
     }
   }
 }

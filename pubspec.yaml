@@ -1,6 +1,6 @@
 name: flutter_app
 description: A new Flutter application.
-version: 3.7.0+370
+version: 3.8.0+380
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,7 +15,7 @@ dependencies:
 
   #  webview
   webview_flutter: ^2.0.10
-  webview_cookie_manager: ^2.0.0
+  webview_cookie_manager: ^2.0.1
   #状态管理
   #  provider: ^3.2.0
   flutter_bloc: ^7.0.1
@@ -25,8 +25,6 @@ dependencies:
 
   #  图片
   cached_network_image: ^3.0.0
-  #如果package get报错,改成下面的版本
-  #  cached_network_image: ^2.0.0-rc.1
 
   #  banner
   flutter_swiper: ^1.1.6
@@ -37,18 +35,16 @@ dependencies:
   #语言包
   flutter_localizations:
     sdk: flutter
-  #相机相册-注销,导致打包失败
-  #  image_picker: ^0.6.3+1
 
   #包信息
   package_info: ^2.0.2
-
+  #url启动
   url_launcher: ^6.0.7
 
   #shared_preferences插件
   shared_preferences: ^2.0.6
 
-  screen: ^0.0.5
+#  screen: ^0.0.5
 
   open_iconic_flutter: ^0.3.0
 
@@ -91,4 +87,5 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mine/
+    - assets/images/service/
     - assets/json/home_data_json.json

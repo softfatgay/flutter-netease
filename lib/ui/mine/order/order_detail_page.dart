@@ -58,7 +58,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(
-        title: '订单',
+        title: '订单详情',
       ).build(context),
       body: _firstLoading ? Loading() : _buildBody(),
     );
@@ -84,16 +84,18 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           left: 0,
           right: 0,
           child: Container(
-            color: backWhite,
+            decoration: BoxDecoration(
+                color: backWhite,
+                border: Border(top: BorderSide(color: lineColor, width: 1))),
             height: 50,
-            alignment: Alignment.topRight,
+            alignment: Alignment.centerRight,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
             child: GestureDetector(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: textGrey, width: 1)),
+                    border: Border.all(color: textBlack, width: 0.5)),
                 child: Text(
                   '删除订单',
                   style: t14black,
@@ -365,7 +367,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                      border: Border.all(color: textGrey, width: 1),
+                      border: Border.all(color: textBlack, width: 0.5),
                       borderRadius: BorderRadius.circular(2)),
                   child: Text(
                     '复制',
@@ -613,7 +615,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/kefu.png',
+                      'assets/images/call_phone_icon.png',
                       width: 20,
                       height: 20,
                     ),
