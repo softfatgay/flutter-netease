@@ -31,9 +31,9 @@ class HttpManager {
     if (_dio == null) {
       var baseOptions = BaseOptions(
         baseUrl: _baseUrl,
-        sendTimeout: 1500,
-        receiveTimeout: 1500,
-        connectTimeout: 1500,
+        sendTimeout: 15000,
+        receiveTimeout: 15000,
+        connectTimeout: 15000,
         headers: commonHeaders(),
       );
       var interceptorsWrapper = InterceptorsWrapper(onRequest:
@@ -110,8 +110,6 @@ class HttpManager {
     Options options = Options(
       method: method,
       headers: headers,
-      sendTimeout: sendTimeout,
-      receiveTimeout: receiveTimeout,
     );
     try {
       Response response = await dioInstance.request(

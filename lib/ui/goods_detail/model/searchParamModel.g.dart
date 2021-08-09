@@ -10,6 +10,7 @@ SearchParamModel _$SearchParamModelFromJson(Map<String, dynamic> json) {
   return SearchParamModel(
     keyWord: json['keyWord'] as String,
     sortType: json['sortType'] as num,
+    statSearch: json['statSearch'] as String,
     descSorted: json['descSorted'] as bool,
     categoryId: json['categoryId'] as num,
     matchType: json['matchType'] as num,
@@ -26,6 +27,7 @@ SearchParamModel _$SearchParamModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$SearchParamModelToJson(SearchParamModel instance) =>
     <String, dynamic>{
       'keyWord': instance.keyWord,
+      'statSearch': instance.statSearch,
       'sortType': instance.sortType,
       'descSorted': instance.descSorted,
       'categoryId': instance.categoryId,

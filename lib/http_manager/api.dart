@@ -260,7 +260,7 @@ Future<ResponseData> searchTips(Map<String, dynamic> params) async {
 ///搜索关键字
 Future<ResponseData> searchSearch(Map<String, dynamic> params,
     {bool showProgress}) async {
-  params.addAll(_timestampParams());
+  // params.addAll(_timestampParams());
   return await HttpManager.post(SEARCH_SEARCH,
       params: params, showProgress: showProgress);
 }

@@ -5,6 +5,7 @@ part 'searchParamModel.g.dart';
 @JsonSerializable()
 class SearchParamModel {
   String keyWord;
+  String statSearch;
   num sortType;
   bool descSorted;
   num categoryId;
@@ -20,6 +21,7 @@ class SearchParamModel {
   SearchParamModel(
       {this.keyWord = '',
       this.sortType = 0,
+      this.statSearch = '',
       this.descSorted,
       this.categoryId = 0,
       this.matchType = 0,

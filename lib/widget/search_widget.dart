@@ -116,10 +116,10 @@ class _SearchGoodsState extends State<SearchWidget> {
                       child: GestureDetector(
                         child: TextUtil.isEmpty(_controller.text)
                             ? Container()
-                            : Icon(
-                                Icons.cancel,
-                                size: 20,
-                                color: textLightGrey,
+                            : Image.asset(
+                                'assets/images/clear_icon.png',
+                                width: 14,
+                                height: 14,
                               ),
                         onTap: () {
                           setState(() {

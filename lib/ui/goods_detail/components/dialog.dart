@@ -93,7 +93,7 @@ fullRefundPolicyDialog(
   );
 }
 
-buildSkuFreightDialog(
+_buildSkuFreightDialog(
     BuildContext context, String title, List<PolicyListItem> contentList) {
   //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
   return showModalBottomSheet(

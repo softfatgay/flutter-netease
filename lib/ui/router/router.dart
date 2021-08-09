@@ -245,15 +245,12 @@ class Routers {
         case 9: //支付安全
           return PaySafeCenterPage();
           break;
-        case 10: //帮助客服
-          return WebViewPage(
-              {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
-          break;
         case 11: //反馈
           return FeedBack();
           break;
         case 5: //优先购
         case 7: //会员俱乐部
+        case 10: //帮助客服
         case 12: //关于
         case 13: //关于
           return WebViewPage({'url': arguments['item']['url']});

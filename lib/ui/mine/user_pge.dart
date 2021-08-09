@@ -536,7 +536,7 @@ class _MinePageState extends State<UserPage>
       "name": "帮助与客服",
       "status": "0",
       "image": "assets/images/mine/kefu.png",
-      "url": "https://cs.you.163.com/client?k=$kefuKey",
+      "url": "https://m.you.163.com/help/new#/",
       "id": 10
     },
     {

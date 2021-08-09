@@ -80,7 +80,9 @@ class SearchSliverBar extends SliverPersistentHeaderDelegate {
     return Container(
       decoration: BoxDecoration(
           color: backWhite,
-          border: Border(bottom: BorderSide(color: lineColor, width: 1))),
+          border: Border(
+            bottom: BorderSide(color: lineColor, width: 0.5),
+          )),
       height: maxExtent,
       width: double.infinity,
       //堆叠布局,和frame差不多,一层一层堆叠

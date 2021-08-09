@@ -14,6 +14,7 @@ import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
+import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/search_widget.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 
@@ -44,7 +45,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   //初始化,状态
   var _isFirstLoading = true;
-  var _bottomTipsText = '搜索更大的世界';
+  var _bottomTipsText = '';
 
   //请求是以这个参数为加载更多
   var _paeSize = 40;
@@ -123,7 +124,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   void _getTipsResult(bool showProgress) async {
     var params = {
-      '_stat_search': 'autoComplete',
+      '_stat_search': _searchModel.statSearch,
       'keyword': _searchModel.keyWord,
       'sortType': _searchModel.sortType,
       // 'descSorted': _searchModel.descSorted,
@@ -151,14 +152,15 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     if (_searchModel.descSorted != null) {
       params.addAll({'descSorted': _searchModel.descSorted});
     }
-    if (!_hasMore) {
-      params.addAll({'_stat_search': 'userhand'});
-    } else {
-      params.remove('_stat_search');
-    }
     var responseData = await searchSearch(params, showProgress: showProgress);
-    print(responseData.data);
     var data = responseData.data;
+    if (data == null) {
+      setState(() {
+        if (_isFirstLoading) {
+          _noData = true;
+        }
+      });
+    }
     var searchResultModel = SearchResultModel.fromJson(data);
     setState(() {
       var directlyList = searchResultModel.directlyList;
@@ -404,11 +406,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                 ),
                 Container(
                   padding: EdgeInsets.only(right: 10),
-                  child: Image.asset(
-                    'assets/images/search_icon.png',
-                    width: 12.0,
-                    height: 12.0,
-                  ),
+                  child: arrowRightIcon,
                 )
               ],
             ));
@@ -417,6 +415,8 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           onTap: () {
             setState(() {
               _searchModel.keyWord = _searchTipsData[index];
+              _searchModel.searchWordSource = 7;
+              _searchModel.statSearch = 'autoComplete';
               _searchResult();
               _getKeyword();
             });
@@ -494,6 +494,8 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               onTap: () {
                 setState(() {
                   _searchModel.keyWord = value;
+                  _searchModel.searchWordSource = 5;
+                  _searchModel.statSearch = 'history';
                   _searchResult();
                 });
               },

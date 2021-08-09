@@ -605,13 +605,16 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             showDialog: () {
               var title = _skuFreight.title;
               List policyList = _skuFreight.policyList;
-              buildSkuFreightDialog(context, title, policyList);
+              _buildSkuFreightDialog(context, title, policyList);
             },
           ),
 
           ///促销限制
           PromotionWidget(
             hdrkDetailVOList: _hdrkDetailVOList,
+            onPress: () {
+              _showPromotionDialog();
+            },
           ),
 
           ///购物反
@@ -619,7 +622,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             shoppingReward: shoppingReward,
             showDialog: () {
               var shoppingRewardRule = _goodDetail.shoppingRewardRule;
-              buildSkuFreightDialog(context, shoppingRewardRule.title,
+              _buildSkuFreightDialog(context, shoppingRewardRule.title,
                   shoppingRewardRule.ruleList);
             },
           ),
@@ -1289,6 +1292,80 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
+  ///------------------------------------------促销弹窗------------------------------------------
+  _showPromotionDialog() {
+    return showModalBottomSheet(
+      //设置true,不会造成底部溢出
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          constraints: BoxConstraints(maxHeight: 500),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(5.0),
+            ),
+          ),
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: lineColor, width: 1))),
+                  padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Text(
+                          '${_hdrkDetailVOList.length}个促销',
+                          style: t16black,
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Image.asset(
+                              'assets/images/close.png',
+                              width: 20,
+                              height: 20,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                DetailCuxiaoItems(
+                  hdrkDetailVOList: _hdrkDetailVOList,
+                  itemClick: (item) {
+                    Routers.push(Routers.webView, context, {
+                      'url':
+                          'https://m.you.163.com/cart/itemPool?promotionId=${item.id}'
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 100,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   ///------------------------------------------邮费-购物反-服务综合弹窗------------------------------------------
   _buildSkuFreightDialog(
       BuildContext context, String title, List<PolicyListItem> contentList) {
@@ -1316,7 +1393,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   child: Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.symmetric(vertical: 15),
                         child: Center(
                           child: Text(
                             '$title',
@@ -1331,10 +1408,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Icon(
-                              Icons.close,
-                              color: redColor,
+                            padding: EdgeInsets.all(15),
+                            child: Image.asset(
+                              'assets/images/close.png',
+                              width: 20,
+                              height: 20,
                             ),
                           ),
                         ),
