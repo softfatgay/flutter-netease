@@ -4,10 +4,14 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/widget/global.dart';
 
 ///领券
+typedef void OnPress();
+
 class CouponWidget extends StatelessWidget {
   final List<String> couponShortNameList;
   final num id;
-  const CouponWidget({Key key, this.couponShortNameList, this.id})
+  final OnPress onPress;
+
+  const CouponWidget({Key key, this.couponShortNameList, this.id, this.onPress})
       : super(key: key);
 
   @override
@@ -33,18 +37,21 @@ class CouponWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Row(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFFFBBB65)),
-                              borderRadius: BorderRadius.circular(2)),
-                          padding: EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(
-                            couponShortNameList[0],
-                            style: t12red,
-                          ),
-                        ),
-                      ],
+                      children: couponShortNameList
+                          .map((item) => Container(
+                                margin: EdgeInsets.only(right: 3),
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Color(0xFFFBBB65)),
+                                    borderRadius: BorderRadius.circular(2)),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 2),
+                                child: Text(
+                                  item,
+                                  style: t12red,
+                                ),
+                              ))
+                          .toList(),
                     ),
                   ),
                   arrowRightIcon,
@@ -52,9 +59,12 @@ class CouponWidget extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Routers.push(Routers.webView, context, {
-                'url': 'https://m.you.163.com/item/detail?id=$id#/coupon/$id}'
-              });
+              if (onPress != null) {
+                onPress();
+              }
+              // Routers.push(Routers.webView, context, {
+              //   'url': 'https://m.you.163.com/item/detail?id=$id#/coupon/$id}'
+              // });
             },
           );
   }

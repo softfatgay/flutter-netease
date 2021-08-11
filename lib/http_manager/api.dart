@@ -445,3 +445,16 @@ Future<ResponseData> orderDetail(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.get(ORDER_DETAIL, params: params);
 }
+
+///详情领券
+Future<ResponseData> queryByItemAndUser(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(QUERY_BY_ITEM_AND_USER, params: params);
+}
+
+///领券
+Future<ResponseData> getItemCoupon(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.post(GET_ITEM_COUPON,
+      params: params, data: _getParams(), formData: params);
+}

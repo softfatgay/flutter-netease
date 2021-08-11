@@ -235,6 +235,13 @@ final String CHECK_IF_SET_PSW = '${suffixUrl}xhr/userPayPwd/checkIfSet.json';
 ///订单详情
 final String ORDER_DETAIL = '${suffixUrl}xhr/order/getDetail.json';
 
+///详情领券
+final String QUERY_BY_ITEM_AND_USER =
+    '${suffixUrl}xhr/item/queryByItemAndUser.json';
+
+///领券
+final String GET_ITEM_COUPON = '${suffixUrl}xhr/coupon/getItemCoupon.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -435,3 +442,9 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///订单详情
 //https://m.you.163.com/xhr/order/getDetail.json?csrf_token=7704c0162dd9505942bea22270eefcf8&orderId=252207309
+
+///详情领券
+///https://m.you.163.com/xhr/item/queryByItemAndUser.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59&itemId=3993383
+
+///领券
+//https://m.you.163.com/xhr/coupon/getItemCoupon.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59

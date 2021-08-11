@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/widget/global.dart';
 
 typedef void OnPress();
@@ -8,9 +9,14 @@ class GoodSelectWidget extends StatelessWidget {
   final String selectedStrDec;
   final int goodCount;
   final OnPress onPress;
+  final SkuMapValue skuMapItem;
 
   const GoodSelectWidget(
-      {Key key, this.selectedStrDec, this.goodCount, this.onPress})
+      {Key key,
+      this.selectedStrDec,
+      this.goodCount,
+      this.onPress,
+      this.skuMapItem})
       : super(key: key);
 
   @override
@@ -24,27 +30,32 @@ class GoodSelectWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         decoration: bottomBorder,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               child: Text(
-                '已选：',
-                style: t14grey,
+                skuMapItem == null ? '请选择参数规格' : '已选：',
+                style: skuMapItem == null ? t14black : t14grey,
               ),
             ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Expanded(child: Text('$selectedStrDec')),
+                    Text(
+                      '$selectedStrDec',
+                      style: t14black,
+                    ),
+                    skuMapItem == null
+                        ? Container()
+                        : Text(
+                            'x$goodCount',
+                            style: t16black,
+                          )
                   ],
                 ),
-              ),
-            ),
-            Container(
-              child: Text(
-                'x$goodCount',
-                style: TextStyle(fontSize: 14, color: Colors.red),
               ),
             ),
             arrowRightIcon,

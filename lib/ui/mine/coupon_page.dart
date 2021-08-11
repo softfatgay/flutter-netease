@@ -147,14 +147,14 @@ class _CouponPageState extends State<CouponPage> {
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            '${_cashName(item)}',
+                            '${item.briefDesc}',
                             style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w700,
                                 color: textWhite),
                           ),
                           Text(
-                            '元',
+                            '${item.unit}',
                             style: TextStyle(color: textWhite),
                           ),
                         ],

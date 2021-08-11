@@ -60,6 +60,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                     Expanded(
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
                           goodCmtRate == null ? "" : goodCmtRate,
@@ -69,7 +70,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                           (goodCmtRate == null || goodCmtRate == '')
                               ? '查看全部'
                               : '好评率',
-                          style: t12black,
+                          style: t14black,
                         ),
                       ],
                     )),

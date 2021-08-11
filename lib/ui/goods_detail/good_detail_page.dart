@@ -25,6 +25,7 @@ import 'package:flutter_app/ui/goods_detail/components/shopping_reward_widget.da
 import 'package:flutter_app/ui/goods_detail/components/skulimit_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/title_tags_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetailDownData.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetailPre.dart';
@@ -127,6 +128,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///券活动/标签等
   List<String> _couponShortNameList = [];
+
+  List<CouponModel> _couponList = [];
 
   ///商品数量
   int _goodCount = 1;
@@ -437,7 +440,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ///选择属性
           singleSliverWidget(_buildSelectProperty()),
 
-          ///评论
+          ///用户评价
           singleSliverWidget(_buildComment()),
 
           ///详情title
@@ -597,6 +600,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           CouponWidget(
             couponShortNameList: _couponShortNameList,
             id: _goodId,
+            onPress: () {
+              _getCoupon(0);
+            },
           ),
 
           ///邮费
@@ -631,6 +637,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
           ///选择属性
           GoodSelectWidget(
+            skuMapItem: _skuMapItem,
             selectedStrDec: _selectStrDec,
             goodCount: _goodCount,
             onPress: () {
@@ -643,6 +650,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             skuLimit: _skuLimit,
           ),
 
+          ///配送
           DeliveryWidget(
             wapitemDelivery: _wapitemDeliveryModel,
             onPress: () {
@@ -1240,7 +1248,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 1),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(10),
                             color: Color(0xFFEF7C15)),
                         child: Text(
                           '${_skuMapItem.promotionDesc ?? ''}',
@@ -1290,6 +1298,225 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         ],
       ),
     );
+  }
+
+  ///------------------------------------------领券弹窗------------------------------------------
+  _getCoupon(int type) async {
+    Map<String, dynamic> params = {'itemId': _goodId};
+    var responseData = await queryByItemAndUser(params);
+    if (responseData.code == '200') {
+      List data = responseData.data;
+      List<CouponModel> couponList = [];
+      data.forEach((element) {
+        couponList.add(CouponModel.fromJson(element));
+      });
+      setState(() {
+        _couponList = couponList;
+      });
+    }
+    if (type == 0) {
+      _showCouponDialog();
+    }
+  }
+
+  _showCouponDialog() {
+    List<CouponModel> couponList = _couponList;
+    return showModalBottomSheet(
+      //设置true,不会造成底部溢出
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          constraints: BoxConstraints(maxHeight: 500),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(5.0),
+            ),
+          ),
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      'assets/images/close.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: couponList
+                      .map((item) => Container(
+                            child: _buildCouponItem(item),
+                          ))
+                      .toList(),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _buildCouponItem(CouponModel item) {
+    var backColor = Color(0xFFDFB875);
+    var botomColor = Color(0XFFCEAC6C);
+    return Container(
+        margin: EdgeInsets.all(10),
+        child: StatefulBuilder(builder: (context, setstate) {
+          return Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                    color: backColor, borderRadius: BorderRadius.circular(4)),
+                padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(color: backColor),
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text(
+                                '${item.briefDesc}',
+                                style: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w700,
+                                    color: textWhite),
+                              ),
+                              Text(
+                                '${item.unit}',
+                                style: TextStyle(color: textWhite),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(item.name, style: t14white),
+                                  Text('${item.timeDesc}', style: t12white),
+                                ],
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 2),
+                              child: Text(
+                                '立即领取',
+                                style: TextStyle(
+                                    color: Color(0XFFb69150), fontSize: 12),
+                              ),
+                            ),
+                            onTap: () {
+                              _getItemCoupon(item.activationCode);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        decoration: BoxDecoration(
+                            color: botomColor,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(4))),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item.useCondition,
+                                style: t12white,
+                                maxLines: item.isSelected == null
+                                    ? 1
+                                    : (item.isSelected ? 15 : 1),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Icon(
+                              _returnIcon(item),
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        setstate(() {
+                          if (item.isSelected == null) {
+                            item.isSelected = true;
+                          } else {
+                            item.isSelected = !item.isSelected;
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Image.asset(
+                  'assets/images/has_coupon.png',
+                  width: 50,
+                  height: 50,
+                ),
+              )
+            ],
+          );
+        }));
+  }
+
+  _getItemCoupon(String code) async {
+    Map<String, dynamic> params = {'token': code};
+    var responseData = await getItemCoupon(params);
+    if (responseData.code == '200') {
+      Toast.show('领取成功', context);
+      _getCoupon(1);
+    }
+  }
+
+  _returnIcon(CouponModel item) {
+    if (item.isSelected == null) {
+      return Icons.keyboard_arrow_down_rounded;
+    } else {
+      if (item.isSelected) {
+        return Icons.keyboard_arrow_up_rounded;
+      } else {
+        return Icons.keyboard_arrow_down_rounded;
+      }
+    }
   }
 
   ///------------------------------------------促销弹窗------------------------------------------

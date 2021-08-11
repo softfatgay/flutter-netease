@@ -30,6 +30,7 @@ class DeliveryWidget extends StatelessWidget {
               '配送：',
               style: t14grey,
             ),
+            SizedBox(width: 10),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
