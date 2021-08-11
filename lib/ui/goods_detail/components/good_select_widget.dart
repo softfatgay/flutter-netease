@@ -25,6 +25,8 @@ class GoodSelectWidget extends StatelessWidget {
   }
 
   _buildWidget() {
+    print('------');
+    print('$selectedStrDec');
     return InkResponse(
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -34,8 +36,12 @@ class GoodSelectWidget extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Text(
-                skuMapItem == null ? '请选择参数规格' : '已选：',
-                style: skuMapItem == null ? t14black : t14grey,
+                selectedStrDec == null || selectedStrDec == ''
+                    ? '请选择参数规格'
+                    : '已选：',
+                style: selectedStrDec == null || selectedStrDec == ''
+                    ? t14black
+                    : t14grey,
               ),
             ),
             Expanded(
@@ -48,7 +54,7 @@ class GoodSelectWidget extends StatelessWidget {
                       '$selectedStrDec',
                       style: t14black,
                     ),
-                    skuMapItem == null
+                    selectedStrDec == null || selectedStrDec == ''
                         ? Container()
                         : Text(
                             'x$goodCount',

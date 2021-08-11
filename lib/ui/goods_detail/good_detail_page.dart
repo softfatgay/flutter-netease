@@ -1037,6 +1037,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           setstate(() {
             _selectModelDialogSize(context, index, item);
           });
+          // setState(() {
+          //   _selectModelDialogSize(context, index, item);
+          // });
         },
       );
     }).toList();
@@ -1783,7 +1786,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             border: Border(left: BorderSide(color: lineColor, width: 1))),
         child: FlatButton(
           onPressed: () {
-            print(_selectStrDec);
             if (_skuMapItem == null) {
               if (type == 1) {
                 _buildSizeModel(context);
