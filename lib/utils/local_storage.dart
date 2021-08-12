@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
   static String keyWord = "key_word";
+  static String noticeList = "notice_list";
 
   static SharedPreferences _sp;
 

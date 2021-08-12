@@ -12,6 +12,9 @@ final String CHECK_LOGIN = "${suffixUrl}xhr/common/checklogin.json";
 ///首页
 final String URL_HOME_NEW = "${suffixUrl}xhr/index.json";
 
+///首页
+final String GLOBAL = "${suffixUrl}xhr/page/global.json";
+
 ///分类
 final String URL_SORT_NEW = "${suffixUrl}item/cateList.json";
 
@@ -448,3 +451,6 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///领券
 //https://m.you.163.com/xhr/coupon/getItemCoupon.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///globle
+//https://m.you.163.com/xhr/page/global.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59

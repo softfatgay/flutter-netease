@@ -15,6 +15,11 @@ Future<ResponseData> homeData() async {
   return await HttpManager.get(URL_HOME_NEW, params: _timestampParams());
 }
 
+///全局
+Future<ResponseData> global() async {
+  return await HttpManager.post(GLOBAL, params: _getParams());
+}
+
 Future<ResponseData> sortData(Map<String, dynamic> params) async {
   params.addAll(_timestampParams());
   return await HttpManager.get(URL_SORT_NEW, params: params);
