@@ -21,7 +21,9 @@ SearchParamModel _$SearchParamModelFromJson(Map<String, dynamic> json) {
     stillSearch: json['stillSearch'] as bool,
     searchWordSource: json['searchWordSource'] as num,
     needPopWindow: json['needPopWindow'] as bool,
-  );
+  )
+    ..promotionId = json['promotionId'] as num
+    ..source = json['source'] as num;
 }
 
 Map<String, dynamic> _$SearchParamModelToJson(SearchParamModel instance) =>
@@ -36,7 +38,9 @@ Map<String, dynamic> _$SearchParamModelToJson(SearchParamModel instance) =>
       'upperPrice': instance.upperPrice,
       'size': instance.size,
       'itemId': instance.itemId,
+      'promotionId': instance.promotionId,
       'stillSearch': instance.stillSearch,
       'searchWordSource': instance.searchWordSource,
       'needPopWindow': instance.needPopWindow,
+      'source': instance.source,
     };

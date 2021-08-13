@@ -47,7 +47,7 @@ class GoodItemWidget extends StatelessWidget {
             child: buildGoodItem,
             onTap: () {
               Routers.push(
-                  Routers.goodDetailTag, context, {'id': data[index].id});
+                  Routers.goodDetail, context, {'id': data[index].id});
             },
           );
         });

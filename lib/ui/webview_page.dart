@@ -151,7 +151,7 @@ class _WebViewPageState extends State<WebViewPage> {
                 var split3 = split2.split('&')[0];
                 if (split3 != null && split3.isNotEmpty) {
                   Routers.push(
-                      Routers.goodDetailTag, context, {'id': '$split3'});
+                      Routers.goodDetail, context, {'id': '$split3'});
                 }
                 return NavigationDecision.prevent;
               } else if (url.startsWith('https://m.you.163.com/cart')) {

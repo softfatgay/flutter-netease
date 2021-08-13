@@ -524,6 +524,7 @@ class CartItemWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Container(
+                        margin: EdgeInsets.only(left: 4),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '${itemData.promTip}',
@@ -651,7 +652,7 @@ class CartItemWidget extends StatelessWidget {
 
   void _goDetail(BuildContext context, CartItemListItem itemData) {
     Routers.push(
-        Routers.goodDetailTag, context, {'id': itemData.itemId.toString()});
+        Routers.goodDetail, context, {'id': itemData.itemId.toString()});
   }
 
   _line() {

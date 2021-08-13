@@ -53,7 +53,7 @@ class Routers {
   static const String qrCodeResultPage = 'qrCodeResultPage';
   static const String testPage = 'testPage';
   static const String brandTag = 'brandTag';
-  static const String goodDetailTag = 'goodDetailTag';
+  static const String goodDetail = 'goodDetailTag';
   static const String catalogTag = 'catalogTag';
   static const String kingKong = 'kingKong';
   static const String topicDetail = 'topicDetail';
@@ -104,7 +104,7 @@ class Routers {
     testPage: (context, {arguments}) => ErrorPage(),
 
     ///商品详情
-    goodDetailTag: (context, {arguments}) =>
+    goodDetail: (context, {arguments}) =>
         GoodsDetailPage(arguments: arguments),
 
     ///商品详情选择地址
@@ -176,7 +176,7 @@ class Routers {
     getCouponPage: (context, {arguments}) => GetCouponPage(),
 
     ///去使用红包
-    makeUpPage: (context, {arguments}) => MakeUpPage(),
+    makeUpPage: (context, {arguments}) => MakeUpPage(params: arguments),
 
     ///用户信息
     userInfoPageIndex: (context, {arguments}) {

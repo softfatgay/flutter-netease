@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/model/categoryL1ListItem.dart';
+import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
 
 typedef void SeletedIndex(int index);
 
 class TypePopWidget extends StatelessWidget {
-  final List<CategoryL1ListItem> categoryList;
+  final List<CategorytListItem> categoryList;
   final int selectIndex;
   final SeletedIndex seletedIndex;
 
@@ -25,7 +25,7 @@ class TypePopWidget extends StatelessWidget {
             .map(
               (item) => GestureDetector(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -35,7 +35,7 @@ class TypePopWidget extends StatelessWidget {
                           width: 1),
                       borderRadius: BorderRadius.circular(3)),
                   child: Text(
-                    '${item.name}',
+                    '${item.categoryVO.name}',
                     style: selectIndex == categoryList.indexOf(item)
                         ? t12red
                         : t12black,

@@ -37,18 +37,9 @@ class CartNavBarWidget extends StatelessWidget {
           isEdit
               ? Container()
               : GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/lingquan.png'),
-                      ),
-                    ),
-                    child: Text(
-                      '领券',
-                      style: t12white,
-                    ),
+                  child: Text(
+                    '领券',
+                    style: t14red,
                   ),
                   onTap: () {
                     Routers.push(Routers.getCouponPage, context);

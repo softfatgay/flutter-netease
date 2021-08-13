@@ -763,7 +763,7 @@ class _HomeState extends State<HomePage>
                 )
               ],
             );
-            return Routers.link(widget, Routers.goodDetailTag, context,
+            return Routers.link(widget, Routers.goodDetail, context,
                 {'id': _flashSaleModuleItemList[index].itemId});
           },
           childCount: _flashSaleModuleItemList.length,
@@ -823,7 +823,7 @@ class _HomeState extends State<HomePage>
                 ),
               );
               return Routers.link(
-                  widget, Routers.goodDetailTag, context, {'id': item.id});
+                  widget, Routers.goodDetail, context, {'id': item.id});
             },
             childCount: _newItemList.length > 6 ? 6 : _newItemList.length,
           ),

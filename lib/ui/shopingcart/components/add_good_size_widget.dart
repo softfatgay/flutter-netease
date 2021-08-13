@@ -277,7 +277,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                     ? Container()
                     : Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
                             color: Color(0xFFEF7C15)),

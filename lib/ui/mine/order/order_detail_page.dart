@@ -246,7 +246,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         child: _goodItem(element),
         onTap: () {
           Routers.push(
-              Routers.goodDetailTag, context, {'id': '${element.itemId}'});
+              Routers.goodDetail, context, {'id': '${element.itemId}'});
         },
       );
     }).toList();

@@ -444,7 +444,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
             ),
           );
           return Routers.link(
-              widget, Routers.goodDetailTag, context, {'id': item.itemId});
+              widget, Routers.goodDetail, context, {'id': item.itemId});
         }).toList(),
       ),
     );

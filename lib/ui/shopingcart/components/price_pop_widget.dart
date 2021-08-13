@@ -91,13 +91,19 @@ class PricePopWidget extends StatelessWidget {
               SizedBox(width: 20),
               GestureDetector(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  height: 30,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                      border: Border.all(color: _desSortColor(1), width: 1),
+                      border: Border.all(
+                          color: descSorted == 0 ? textRed : textBlack,
+                          width: 1),
                       borderRadius: BorderRadius.circular(3)),
                   child: Text(
                     '从低到高',
-                    style: TextStyle(fontSize: 12, color: _desSortColor(1)),
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: descSorted == 0 ? textRed : textBlack),
                   ),
                 ),
                 onTap: () {
@@ -111,13 +117,19 @@ class PricePopWidget extends StatelessWidget {
               ),
               GestureDetector(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  alignment: Alignment.center,
+                  height: 30,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                      border: Border.all(color: _desSortColor(2), width: 1),
+                      border: Border.all(
+                          color: descSorted == 1 ? textRed : textBlack,
+                          width: 1),
                       borderRadius: BorderRadius.circular(3)),
                   child: Text(
                     '从高到低',
-                    style: TextStyle(fontSize: 12, color: _desSortColor(2)),
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: descSorted == 1 ? textRed : textBlack),
                   ),
                 ),
                 onTap: () {
@@ -183,14 +195,14 @@ class PricePopWidget extends StatelessWidget {
 
   ///排序点击颜色
   Color _desSortColor(int type) {
-    if (type == 1) {
-      if (descSorted == 1) {
+    if (type == 0) {
+      if (descSorted == 0) {
         return textRed;
       } else {
         return textBlack;
       }
-    } else if (type == 2) {
-      if (descSorted == 2) {
+    } else if (type == 1) {
+      if (descSorted == 1) {
         return textRed;
       } else {
         return textBlack;

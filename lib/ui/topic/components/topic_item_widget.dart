@@ -161,7 +161,7 @@ class TopicItemWidget extends StatelessWidget {
             ),
             onTap: () {
               Routers.push(
-                  Routers.goodDetailTag, context, {'id': '${buyNow.itemId}'});
+                  Routers.goodDetail, context, {'id': '${buyNow.itemId}'});
             },
           );
   }

@@ -14,9 +14,11 @@ class SearchParamModel {
   num upperPrice;
   num size;
   num itemId;
+  num promotionId;
   bool stillSearch;
   num searchWordSource;
   bool needPopWindow;
+  num source;
 
   SearchParamModel(
       {this.keyWord = '',

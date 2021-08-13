@@ -4,8 +4,10 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/getCouponModel.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 
 class GetCouponPage extends StatefulWidget {
@@ -21,6 +23,8 @@ class _GetCouponPageState extends State<GetCouponPage> {
   List<CouponItem> _avalibleCouponList = [];
   List<CouponItem> _receiveCouponList = [];
 
+  bool _isLoading = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,6 +38,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
       _couponModel = GetCouponModel.fromJson(responseData.data);
       _avalibleCouponList = _couponModel.avalibleCouponList;
       _receiveCouponList = _couponModel.receiveCouponList;
+      _isLoading = false;
     });
   }
 
@@ -41,15 +46,17 @@ class _GetCouponPageState extends State<GetCouponPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(
-        title: '领券',
+        title: '优惠券',
       ).build(context),
-      body: _buildBody(),
+      body: _isLoading ? Loading() : _buildBody(),
     );
   }
 
   _buildBody() {
     List<Widget> childs = [];
-    childs.add(_title("可领取的优惠券"));
+    childs.add(_avalibleCouponList == null || _avalibleCouponList.isEmpty
+        ? Container()
+        : _title("可领取的优惠券"));
     childs.add(_avalibleCoupon(_avalibleCouponList));
     childs.add(_title("已领取的优惠券"));
     childs.add(_avalibleCoupon(_receiveCouponList));
@@ -69,7 +76,8 @@ class _GetCouponPageState extends State<GetCouponPage> {
       child: Row(
         children: [
           Container(
-            height: 14,
+            margin: EdgeInsets.only(right: 5),
+            height: 12,
             color: textBlack,
             width: 3,
           ),
@@ -83,6 +91,15 @@ class _GetCouponPageState extends State<GetCouponPage> {
   }
 
   _avalibleCoupon(List<CouponItem> avalibleCouponList) {
+    if (avalibleCouponList == null || avalibleCouponList.isEmpty) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 40),
+        child: Text(
+          '暂时没有可领的优惠券',
+          style: t12grey,
+        ),
+      );
+    }
     return Column(
       children:
           avalibleCouponList.map<Widget>((item) => _buildItem(item)).toList(),
@@ -147,7 +164,14 @@ class _GetCouponPageState extends State<GetCouponPage> {
                       style: item.receiveFlag ? t12Orange : t12white,
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    if (item.receiveFlag) {
+                      Routers.push(
+                          Routers.makeUpPage, context, {'id': item.id});
+                    } else {
+                      _couponActivate(item.activationCode);
+                    }
+                  },
                 ),
               ],
             ),
@@ -205,15 +229,18 @@ class _GetCouponPageState extends State<GetCouponPage> {
                             child: Row(
                               children: item.skuList
                                   .map(
-                                    (skuItem) => Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5),
-                                      child: RoundNetImage(
-                                        backColor: Color(0XFFf4f4f4),
-                                        url: skuItem.picUrl,
-                                        width: 80,
-                                        height: 80,
+                                    (skuItem) => GestureDetector(
+                                      child: Container(
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 5),
+                                        child: RoundNetImage(
+                                          backColor: Color(0XFFf4f4f4),
+                                          url: skuItem.picUrl,
+                                          width: 80,
+                                          height: 80,
+                                        ),
                                       ),
+                                      onTap: () {},
                                     ),
                                   )
                                   .toList(),
@@ -258,6 +285,15 @@ class _GetCouponPageState extends State<GetCouponPage> {
       } else {
         return Icons.keyboard_arrow_down_rounded;
       }
+    }
+  }
+
+  ///立即领取
+  void _couponActivate(String value) async {
+    Map<String, dynamic> params = {'activationCode': value};
+    var responseData = await couponActivate(params);
+    if (responseData.code == '200') {
+      Toast.show(responseData.data['countInfo'], context);
     }
   }
 }

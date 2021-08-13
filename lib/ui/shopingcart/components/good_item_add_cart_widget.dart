@@ -38,7 +38,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
                   onTap: () {
                     print(data[index]);
                     Routers.push(
-                        Routers.goodDetailTag, context, {'id': data[index].id});
+                        Routers.goodDetail, context, {'id': data[index].id});
                   },
                 );
               }, childCount: data.length),

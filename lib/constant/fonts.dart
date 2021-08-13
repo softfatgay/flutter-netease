@@ -37,7 +37,6 @@ const TextStyle t10white = TextStyle(
 const TextStyle t12white = TextStyle(
   color: textWhite,
   fontSize: 12,
-  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
@@ -111,7 +110,6 @@ const TextStyle t12black = TextStyle(
   color: textBlack,
   fontSize: 12,
   decoration: TextDecoration.none,
-  height: 1.1,
   fontWeight: fontWeightRegular,
 );
 
@@ -217,7 +215,6 @@ const TextStyle t10red = TextStyle(
 const TextStyle t12red = TextStyle(
   color: textRed,
   fontSize: 12,
-  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
@@ -289,7 +286,6 @@ const TextStyle t12darkGrey = TextStyle(
 const TextStyle t12lightGrey = TextStyle(
   color: textHint,
   fontSize: 12,
-  height: 1.1,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );

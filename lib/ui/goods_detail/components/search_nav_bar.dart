@@ -25,6 +25,7 @@ class SearchNavBar extends StatelessWidget {
 
   _buildTops(BuildContext context) {
     return Container(
+      color: backWhite,
       width: MediaQuery.of(context).size.width,
       height: collapsedHeight,
       child: Row(

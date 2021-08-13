@@ -51,7 +51,7 @@ class HotListItem extends StatelessWidget {
       ),
     );
     return Routers.link(
-        widget, Routers.goodDetailTag, context, {'id': item.id});
+        widget, Routers.goodDetail, context, {'id': item.id});
   }
 
   _sortIcon() {

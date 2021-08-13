@@ -473,3 +473,6 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///领券页面数据列表
 //https://m.you.163.com/xhr/coupon/listInCart.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///凑单
+//https://m.you.163.com/xhr/item/getItemPool.json?csrf_token=f04b3a55d2a236d461f08d18e082a6c6&promotionId=240528894&page=1&size=10&sortType=0&descSorted=false&source=3&categoryId=0&priceRangeId=0
