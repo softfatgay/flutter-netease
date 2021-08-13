@@ -13,6 +13,7 @@ import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/sortData.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/vertical_tab.dart';
@@ -43,6 +44,8 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
+
+  num _totalNum = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +109,11 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   }
 
   _getInitData(String id) async {
+    var sp = await LocalStorage.sp;
+    setState(() {
+      _totalNum = sp.get(LocalStorage.totalNum);
+    });
+
     _isLoading = true;
     var responseData = await sortData({"categoryId": "$id"});
     if (responseData.data != null) {
@@ -126,6 +134,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: TopSearch(
         abool: true,
+        totalNum: _totalNum,
       ),
     );
   }

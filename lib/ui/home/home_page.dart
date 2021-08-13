@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/home_page_header.dart';
 import 'package:flutter_app/widget/round_net_image.dart';
@@ -78,6 +80,8 @@ class _HomeState extends State<HomePage>
   //动画控制器
   AnimationController _animalController;
 
+  num _totalNum = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -96,6 +100,18 @@ class _HomeState extends State<HomePage>
     _newUserGift();
     _checkVersion();
     _initAnimal();
+    _totalNumbersOfProducts();
+  }
+
+  _totalNumbersOfProducts() async {
+    var responseData = await totalNumbersOfProducts();
+    if (responseData.code == '200') {
+      setState(() {
+        _totalNum = responseData.data;
+      });
+      var sp = await LocalStorage.sp;
+      sp.setInt(LocalStorage.totalNum, responseData.data);
+    }
   }
 
   void _incrementCounter() {
@@ -109,6 +125,15 @@ class _HomeState extends State<HomePage>
     if (data != null) {
       var homeModel = HomeModel.fromJson(data['data']);
       setData(homeModel);
+      try {
+        var sp = await LocalStorage.sp;
+        var noticeList = data['noticeList'];
+        if (noticeList != null && noticeList.isNotEmpty) {
+          sp.setString(LocalStorage.noticeList, json.encode(noticeList));
+        } else {
+          sp.remove(LocalStorage.noticeList);
+        }
+      } catch (e) {}
     }
   }
 
@@ -199,6 +224,7 @@ class _HomeState extends State<HomePage>
       delegate: HomeHeader(
         showBack: false,
         title: '',
+        totalNum: _totalNum,
         collapsedHeight: 50,
         expandedHeight: 100 + MediaQuery.of(context).padding.top,
         paddingTop: MediaQuery.of(context).padding.top,

@@ -463,3 +463,18 @@ Future<ResponseData> getItemCoupon(Map<String, dynamic> params) async {
   return await HttpManager.post(GET_ITEM_COUPON,
       params: params, data: _getParams(), formData: params);
 }
+
+///搜索框数量
+Future<ResponseData> totalNumbersOfProducts() async {
+  return await HttpManager.post(TOTAL_NUMBERS_PRODUCTS, params: _getParams());
+}
+
+///优惠券商品列表
+Future<ResponseData> itemAggregate(Map<String, dynamic> params) async {
+  return await HttpManager.get(ITEM_AGGREGATE, params: params);
+}
+
+///领券页面数据列表
+Future<ResponseData> couponListInCart() async {
+  return await HttpManager.post(COUPON_LIST_IN_CART, params: _getParams());
+}

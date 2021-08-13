@@ -9,8 +9,10 @@ import 'package:flutter_app/ui/router/router.dart';
 
 class TopSearch extends StatelessWidget {
   final bool abool;
+  final num totalNum;
 
-  const TopSearch({Key key, this.abool = true}) : super(key: key);
+  const TopSearch({Key key, this.abool = true, this.totalNum = 0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class TopSearch extends StatelessWidget {
                   SizedBox(width: 5),
                   Expanded(
                     child: Text(
-                      "搜索商品，共30000+款好物",
+                      "搜索商品，共$totalNum款好物",
                       style: t12black,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

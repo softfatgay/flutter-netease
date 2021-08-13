@@ -14,6 +14,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
   final String title;
   final UserModel userInfo;
   final bool showBack;
+  final num totalNum;
 
   HomeHeader({
     this.collapsedHeight,
@@ -22,6 +23,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
     this.child,
     this.title,
     this.userInfo,
+    this.totalNum = 0,
     this.showBack = false,
   });
 
@@ -122,7 +124,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
             SizedBox(width: 5),
             Expanded(
               child: Text(
-                "搜索商品，共30000+款好物",
+                "搜索商品，共$totalNum款好物",
                 style: t12grey,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

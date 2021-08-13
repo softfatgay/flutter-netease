@@ -245,6 +245,16 @@ final String QUERY_BY_ITEM_AND_USER =
 ///领券
 final String GET_ITEM_COUPON = '${suffixUrl}xhr/coupon/getItemCoupon.json';
 
+///搜索框数量
+final String TOTAL_NUMBERS_PRODUCTS =
+    '${suffixUrl}xhr/search/getTotalNumbersOfProducts.json';
+
+///优惠券商品列表
+final String ITEM_AGGREGATE = '${suffixUrl}item/itemAggregate.json';
+
+///领券页面数据列表
+final String COUPON_LIST_IN_CART = '${suffixUrl}xhr/coupon/listInCart.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -454,3 +464,12 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///globle
 //https://m.you.163.com/xhr/page/global.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///搜索框数量
+//https://m.you.163.com/xhr/search/getTotalNumbersOfProducts.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///优惠券商品列表
+//https://m.you.163.com/item/itemAggregate?id=coupon_240528294
+
+///领券页面数据列表
+//https://m.you.163.com/xhr/coupon/listInCart.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59

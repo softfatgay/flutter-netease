@@ -31,6 +31,8 @@ import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
 import 'package:flutter_app/ui/shopingcart/cart_pool_page.dart';
 import 'package:flutter_app/ui/shopingcart/get_cars_page.dart';
+import 'package:flutter_app/ui/shopingcart/get_coupons_page.dart';
+import 'package:flutter_app/ui/shopingcart/make_up_page.dart';
 import 'package:flutter_app/ui/shopingcart/payment_page.dart';
 import 'package:flutter_app/ui/shopingcart/shopping_cart_page.dart';
 import 'package:flutter_app/ui/sort/sort_list_page.dart';
@@ -43,7 +45,6 @@ import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/userInfo/user_info_page.dart';
 import 'package:flutter_app/ui/video_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
-import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/widget/full_screenImage.dart';
 
 class Routers {
@@ -81,9 +82,11 @@ class Routers {
   static const String selectAddressPage = 'selectAddressPage';
   static const String redPackageUsePage = 'redPackageUsePage';
   static const String orderDetailPage = 'orderDetailPage';
+  static const String getCouponPage = 'getCouponPage';
+  static const String makeUpPage = 'makeUpPage';
 
   static Map<String, Function> routes = {
-    ///二维码扫描
+    ///订单详情
     orderDetailPage: (context, {arguments}) =>
         OrderDetailPage(arguments: arguments),
 
@@ -93,7 +96,7 @@ class Routers {
     ///视频
     videoPage: (context, {arguments}) => VideoPage(params: arguments),
 
-    ///二维码扫描
+    ///二维码扫描结果
     qrCodeResultPage: (context, {arguments}) =>
         QRCodeResultPage(param: arguments),
 
@@ -168,6 +171,12 @@ class Routers {
     ///去使用红包
     redPackageUsePage: (context, {arguments}) =>
         RedPackageUsePage(param: arguments),
+
+    ///去使用红包
+    getCouponPage: (context, {arguments}) => GetCouponPage(),
+
+    ///去使用红包
+    makeUpPage: (context, {arguments}) => MakeUpPage(),
 
     ///用户信息
     userInfoPageIndex: (context, {arguments}) {

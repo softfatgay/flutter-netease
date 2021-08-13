@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/search_nav_bar.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
@@ -91,93 +92,15 @@ class SearchSliverBar extends SliverPersistentHeaderDelegate {
         children: <Widget>[
           //定位,相当于绝对布局
           Positioned(
-            child: _buildTops(context, shrinkOffset, isShowLogo),
+            child: SearchNavBar(
+                collapsedHeight: collapsedHeight,
+                index: index,
+                pressIndex: pressIndex,
+                descSorted: descSorted),
             top: paddingTop,
           ),
         ],
       ),
     );
   }
-
-  _buildTops(BuildContext context, double shrinkOffset, bool isShowLogo) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: collapsedHeight,
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              child: Container(
-                color: backWhite,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                alignment: Alignment.center,
-                child: Text(
-                  '综合',
-                  style: index == 0 ? t14red : t14black,
-                ),
-              ),
-              onTap: () {
-                if (pressIndex != null) {
-                  pressIndex(0);
-                }
-              },
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              child: Container(
-                color: backWhite,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '价格',
-                      style: index == 1 ? t14red : t14black,
-                    ),
-                    descSorted == null
-                        ? _dftSort()
-                        : (descSorted ? _dftSortDown() : _dftSortUp())
-                  ],
-                ),
-              ),
-              onTap: () {
-                if (pressIndex != null) {
-                  pressIndex(1);
-                }
-              },
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                color: backWhite,
-                alignment: Alignment.center,
-                child: Text(
-                  '分类',
-                  style: index == 2 ? t14red : t14black,
-                ),
-              ),
-              onTap: () {
-                if (pressIndex != null) {
-                  pressIndex(2);
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
-
-_dftSort() => Image.asset('assets/images/sort_dft.png', width: 14);
-
-_dftSortUp() => Image.asset('assets/images/sort_up.png', width: 14);
-
-_dftSortDown() => Image.asset('assets/images/sort_down.png', width: 14);

@@ -51,8 +51,9 @@ class CartNavBarWidget extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Routers.push(Routers.webView, context,
-                        {'url': 'https://m.you.163.com/coupon/cartCoupon'});
+                    Routers.push(Routers.getCouponPage, context);
+                    // Routers.push(Routers.webView, context,
+                    //     {'url': 'https://m.you.163.com/coupon/cartCoupon'});
                   },
                 ),
           SizedBox(

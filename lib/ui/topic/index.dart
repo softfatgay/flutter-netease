@@ -13,6 +13,7 @@ import 'package:flutter_app/ui/topic/model/topNavData.dart';
 import 'package:flutter_app/ui/topic/model/topicData.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
@@ -60,6 +61,8 @@ class _TopicPageState extends State<TopicPage>
   bool get wantKeepAlive => true;
 
   var _toolbarHeight = 0;
+
+  num _totalNum = 0;
 
   @override
   void initState() {
@@ -109,6 +112,10 @@ class _TopicPageState extends State<TopicPage>
 
   ///头部nav
   void _getTopicData() async {
+    var sp = await LocalStorage.sp;
+    setState(() {
+      _totalNum = sp.get(LocalStorage.totalNum);
+    });
     var responseData = await knowNavwap();
     setState(() {
       _isFirstLoading = false;
@@ -211,7 +218,9 @@ class _TopicPageState extends State<TopicPage>
                 backgroundColor: Colors.white,
                 brightness: Brightness.light,
                 toolbarHeight: double.parse(snapshot.data.toString()),
-                title: TopSearch(),
+                title: TopSearch(
+                  totalNum: _totalNum,
+                ),
                 centerTitle: true,
                 flexibleSpace: FlexibleSpaceBar(
                   background: _buildNav(),
