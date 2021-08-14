@@ -1,4 +1,5 @@
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'searchResultModel.g.dart';
@@ -7,7 +8,7 @@ part 'searchResultModel.g.dart';
 class SearchResultModel {
   bool hasMore;
   List<ItemListItem> directlyList;
-  List<CategoryL1ListItem> categoryL1List;
+  List<CategoryL1Item> categoryL1List;
 
   SearchResultModel();
 

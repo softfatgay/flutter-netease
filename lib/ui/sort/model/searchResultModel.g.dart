@@ -16,7 +16,7 @@ SearchResultModel _$SearchResultModelFromJson(Map<String, dynamic> json) {
     ..categoryL1List = (json['categoryL1List'] as List)
         ?.map((e) => e == null
             ? null
-            : CategoryL1ListItem.fromJson(e as Map<String, dynamic>))
+            : CategoryL1Item.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 

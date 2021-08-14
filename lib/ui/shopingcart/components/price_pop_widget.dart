@@ -25,6 +25,8 @@ class PricePopWidget extends StatelessWidget {
       this.cancelClick})
       : super(key: key);
 
+  final childHeiht = 25.0;
+
   @override
   Widget build(BuildContext context) {
     return _widget();
@@ -47,7 +49,7 @@ class PricePopWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  height: 30,
+                  height: childHeiht,
                   child: SearchPriceTextFiled(
                     hintText: '最低价',
                     controller: lowPriceController,
@@ -64,7 +66,7 @@ class PricePopWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  height: 30,
+                  height: childHeiht,
                   child: SearchPriceTextFiled(
                     hintText: '最高价',
                     // textStyle: t12black,
@@ -91,7 +93,7 @@ class PricePopWidget extends StatelessWidget {
               SizedBox(width: 20),
               GestureDetector(
                 child: Container(
-                  height: 30,
+                  height: childHeiht,
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
@@ -118,7 +120,7 @@ class PricePopWidget extends StatelessWidget {
               GestureDetector(
                 child: Container(
                   alignment: Alignment.center,
-                  height: 30,
+                  height: childHeiht,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -150,6 +152,7 @@ class PricePopWidget extends StatelessWidget {
                 flex: 1,
                 child: GestureDetector(
                   child: Container(
+                    color: backWhite,
                     padding: EdgeInsets.symmetric(vertical: 13),
                     alignment: Alignment.center,
                     child: Text(
@@ -159,7 +162,7 @@ class PricePopWidget extends StatelessWidget {
                   ),
                   onTap: () {
                     if (cancelClick != null) {
-                      confirmClick();
+                      cancelClick();
                     }
                   },
                 ),
@@ -169,8 +172,10 @@ class PricePopWidget extends StatelessWidget {
                 child: GestureDetector(
                   child: Container(
                     decoration: BoxDecoration(
-                        border: Border(
-                            left: BorderSide(color: lineColor, width: 1))),
+                      border:
+                          Border(left: BorderSide(color: lineColor, width: 1)),
+                      color: backWhite,
+                    ),
                     padding: EdgeInsets.symmetric(vertical: 13),
                     alignment: Alignment.center,
                     child: Text(

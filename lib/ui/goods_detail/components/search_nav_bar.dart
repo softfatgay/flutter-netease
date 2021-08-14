@@ -5,14 +5,14 @@ import 'package:flutter_app/constant/fonts.dart';
 typedef void PressIndex(int index);
 
 class SearchNavBar extends StatelessWidget {
-  final double collapsedHeight;
+  final double height;
   final int index;
   final PressIndex pressIndex;
   final bool descSorted;
 
   const SearchNavBar(
       {Key key,
-      this.collapsedHeight,
+      this.height,
       this.index,
       this.pressIndex,
       this.descSorted})
@@ -25,9 +25,12 @@ class SearchNavBar extends StatelessWidget {
 
   _buildTops(BuildContext context) {
     return Container(
-      color: backWhite,
       width: MediaQuery.of(context).size.width,
-      height: collapsedHeight,
+      height: height,
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: lineColor, width: 0.5)),
+        color: backWhite,
+      ),
       child: Row(
         children: [
           Expanded(

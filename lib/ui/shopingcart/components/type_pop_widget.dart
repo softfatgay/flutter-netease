@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 typedef void SeletedIndex(int index);
 
 class TypePopWidget extends StatelessWidget {
-  final List<CategorytListItem> categoryList;
+  final List<CategoryL1Item> categoryList;
   final int selectIndex;
   final SeletedIndex seletedIndex;
 
@@ -35,7 +36,7 @@ class TypePopWidget extends StatelessWidget {
                           width: 1),
                       borderRadius: BorderRadius.circular(3)),
                   child: Text(
-                    '${item.categoryVO.name}',
+                    '${item.name}',
                     style: selectIndex == categoryList.indexOf(item)
                         ? t12red
                         : t12black,
