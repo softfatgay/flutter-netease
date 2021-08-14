@@ -30,11 +30,11 @@ class ShoppingRewardWidget extends StatelessWidget {
                   Container(
                     child: Text(
                       '${shoppingReward.name ?? ''}：',
-                      style: t14grey,
+                      style: t14black,
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 5),
+                    padding: EdgeInsets.only(left: 6),
                     child: Text(
                       '${shoppingReward.rewardDesc ?? ''}',
                       style: t14black,

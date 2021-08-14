@@ -100,8 +100,10 @@ class GoodDetail {
 
   SpmcBanner spmcBanner;
   ListPromBanner listPromBanner;
+  BrandInfo brandInfo;
   String promTag;
   List<SpecListItem> specList;
+  List<AdBannersItem> adBanners;
 
   GoodDetail();
 
@@ -257,6 +259,56 @@ class SpecListItem {
   String specValue;
 
   SpecListItem();
+
   factory SpecListItem.fromJson(Map<String, dynamic> json) =>
       _$SpecListItemFromJson(json);
+}
+
+@JsonSerializable()
+class BrandInfo {
+  num brandId;
+  String title;
+  String subTitle;
+  String desc;
+  num brandType;
+  num type;
+  String picUrl;
+  num ownType;
+  dynamic merchantId;
+
+  BrandInfo();
+
+  factory BrandInfo.fromJson(Map<String, dynamic> json) =>
+      _$BrandInfoFromJson(json);
+}
+
+@JsonSerializable()
+class AdBannersItem {
+  String picUrl;
+  String targetUrl;
+  AdBannersExtra extra;
+
+  AdBannersItem();
+  factory AdBannersItem.fromJson(Map<String, dynamic> json) =>
+      _$AdBannersItemFromJson(json);
+}
+
+@JsonSerializable()
+class AdBannersExtra {
+  num materialContentFrom;
+  String materialName;
+  bool rcmdSort;
+  num taskType;
+  num itemFrom;
+  String crmUserGroupName;
+  num resourcesId;
+  String materialType;
+  String crmUserGroupId;
+  String materialId;
+  String taskId;
+
+  AdBannersExtra();
+
+  factory AdBannersExtra.fromJson(Map<String, dynamic> json) =>
+      _$AdBannersExtraFromJson(json);
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/error_page.dart';
+import 'package:flutter_app/ui/goods_detail/brand_info_page.dart';
 import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
 import 'package:flutter_app/ui/goods_detail/search_index_page.dart';
@@ -84,11 +85,15 @@ class Routers {
   static const String orderDetailPage = 'orderDetailPage';
   static const String getCouponPage = 'getCouponPage';
   static const String makeUpPage = 'makeUpPage';
+  static const String brandInfoPage = 'brandInfoPage';
 
   static Map<String, Function> routes = {
     ///订单详情
     orderDetailPage: (context, {arguments}) =>
         OrderDetailPage(arguments: arguments),
+    ///品牌研究所
+    brandInfoPage: (context, {arguments}) =>
+        BrandInfoPage(params: arguments),
 
     ///二维码扫描
     qrScanPage: (context, {arguments}) => QRScanPage(),

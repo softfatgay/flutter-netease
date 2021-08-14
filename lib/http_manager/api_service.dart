@@ -255,6 +255,12 @@ final String ITEM_AGGREGATE = '${suffixUrl}item/itemAggregate.json';
 ///领券页面数据列表
 final String COUPON_LIST_IN_CART = '${suffixUrl}xhr/coupon/listInCart.json';
 
+///商品详情品牌研究所
+final String BRAND_INFO = '${suffixUrl}xhr/brand/info.json';
+
+///屁拍研究所商品
+final String BRAND_INDEX = '${suffixUrl}xhr/item/brand/index.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -476,3 +482,10 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///凑单
 //https://m.you.163.com/xhr/item/getItemPool.json?csrf_token=f04b3a55d2a236d461f08d18e082a6c6&promotionId=240528894&page=1&size=10&sortType=0&descSorted=false&source=3&categoryId=0&priceRangeId=0
+
+
+//商品详情品牌研究所
+///https://m.you.163.com/xhr/brand/info.json?csrf_token=69338db97d2ccc5c4584c5a2307e6d9e&__timestamp=1628952138312&itemId=3998559&brandId=2000631&type=1&merchantId=undefined
+
+///屁拍研究所商品
+//https://m.you.163.com/xhr/item/brand/index.json?csrf_token=69338db97d2ccc5c4584c5a2307e6d9e

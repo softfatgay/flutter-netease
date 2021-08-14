@@ -256,78 +256,79 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
             }));
   }
 
-   _searchInitWidget(BuildContext context) {
+  _searchInitWidget(BuildContext context) {
     return Column(
-            children: <Widget>[
-              Container(height: _searchHeight),
+      children: <Widget>[
+        Container(height: _searchHeight),
+        Container(
+          color: backWhite,
+          padding: EdgeInsets.fromLTRB(
+              10, MediaQuery.of(context).padding.top + 15, 10, 10),
+          // padding: EdgeInsets.fromLTRB(10, MediaQuery.of(context).padding.top + 15), 10, 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Container(
-                color: backWhite,
-                padding: EdgeInsets.fromLTRB(
-                    10, MediaQuery.of(context).padding.top + 15, 10, 10),
-                // padding: EdgeInsets.fromLTRB(10, MediaQuery.of(context).padding.top + 15), 10, 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text(
-                        '历史记录',
-                        style: t14grey,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          _clearKeyword();
-                        },
-                        child: Image.asset(
-                          'assets/images/delete.png',
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                color: backWhite,
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  spacing: 5,
-                  runSpacing: 10,
-                  children: _historyItem(context),
-                ),
-              ),
-              Container(
-                color: backWhite,
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                alignment: Alignment.centerLeft,
                 child: Text(
-                  '热门搜索',
+                  '历史记录',
                   style: t14grey,
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                color: backWhite,
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  spacing: 5,
-                  runSpacing: 10,
-                  children: _hotItem(context),
+                padding: EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    _clearKeyword();
+                  },
+                  child: Image.asset(
+                    'assets/images/delete.png',
+                    width: 20,
+                    height: 20,
+                  ),
                 ),
-              ),
+              )
             ],
-          );
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+          color: backWhite,
+          alignment: Alignment.centerLeft,
+          child: Wrap(
+            spacing: 5,
+            runSpacing: 10,
+            children: _historyItem(context),
+          ),
+        ),
+        Container(
+          color: backWhite,
+          margin: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '热门搜索',
+            style: t14grey,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+          color: backWhite,
+          alignment: Alignment.centerLeft,
+          child: Wrap(
+            spacing: 5,
+            runSpacing: 10,
+            children: _hotItem(context),
+          ),
+        ),
+      ],
+    );
   }
 
   _showResult() {
     return Container(
       color: backWhite,
-      padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top+ _searchHeight +35),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + _searchHeight + 35),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[

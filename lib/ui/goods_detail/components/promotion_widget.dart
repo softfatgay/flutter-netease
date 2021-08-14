@@ -31,7 +31,7 @@ class PromotionWidget extends StatelessWidget {
                   Container(
                     child: Text(
                       '促销：',
-                      style: t14grey,
+                      style: t14black,
                     ),
                   ),
                   Expanded(
@@ -60,7 +60,7 @@ class CuxiaoItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 6),
       child: Column(
         children: hdrkDetailVOList
             .map((item) => Container(
@@ -91,7 +91,7 @@ class CuxiaoItems extends StatelessWidget {
                       Expanded(
                           child: Text(
                         '${item.name}',
-                        style: t12black,
+                        style: t14black,
                       ))
                     ],
                   ),

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/goods_detail/components/brandInfo_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/delivery_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/detail_prom_banner_widget.dart';
@@ -48,6 +50,7 @@ import 'package:flutter_app/widget/dashed_decoration.dart';
 import 'package:flutter_app/widget/floating_action_button.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/round_net_image.dart';
 import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/widget/slivers.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
@@ -148,6 +151,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///配送信息
   WapitemDeliveryModel _wapitemDeliveryModel;
+
+  BrandInfo _brandInfo;
 
   ///底部推荐列表
   List<ItemListItem> _rmdList = [];
@@ -285,16 +290,23 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   }
 
   void _getDetailPageUp() async {
-    // var param = {'id': _goodId};
-    // var response = await goodDetail(param);
+    var param = {'id': _goodId};
+    var response = await goodDetail(param);
+    var oData = response.OData;
 
-    Response response = await Dio().get(
-        'https://m.you.163.com/item/detail.json',
-        queryParameters: {'id': _goodId});
-    Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
+    // Response response = await Dio().get(
+    //     'https://m.you.163.com/item/detail.json',
+    //     queryParameters: {'id': _goodId});
+    //
+    // Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
+    //
+    // print('{{{{{{{{{{{{{{');
+    // print(dataMap['item']['name']);
+    // print(dataMap['item']['fullRefundPolicy']);
 
     setState(() {
-      _goodDetailPre = GoodDetailPre.fromJson(dataMap);
+      _goodDetailPre = GoodDetailPre.fromJson(oData);
+      // _goodDetailPre = GoodDetailPre.fromJson(dataMap);
 
       _goodDetail = _goodDetailPre.item;
       _detailPromBanner = _goodDetail.detailPromBanner;
@@ -314,7 +326,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
       _skuFreight = _goodDetail.skuFreight;
 
+      _brandInfo = _goodDetail.brandInfo;
+
       _fullRefundPolicy = _goodDetail.fullRefundPolicy;
+
       var itemDetail = _goodDetail.itemDetail;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
@@ -354,6 +369,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: backColor,
         body: Stack(
           children: <Widget>[
             _buildContent(),
@@ -440,8 +456,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ///选择属性
           singleSliverWidget(_buildSelectProperty()),
 
+          ///addbanners
+          singleSliverWidget(_addBanners()),
+
           ///用户评价
           singleSliverWidget(_buildComment()),
+
+          ///_brandInfo
+          singleSliverWidget(_brandInfoWidget()),
 
           ///详情title
           singleSliverWidget(_buildDetailTitle()),
@@ -633,7 +655,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             },
           ),
 
-          Container(height: 10, color: backGrey),
+          Container(height: 10, color: backColor),
 
           ///选择属性
           GoodSelectWidget(
@@ -675,6 +697,44 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
+  _addBanners() {
+    var adBanners = _goodDetail.adBanners;
+    return adBanners == null || adBanners.isEmpty
+        ? Container()
+        : Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5), color: backWhite),
+            child: CarouselSlider(
+              items: adBanners.map<Widget>((e) {
+                return GestureDetector(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: backWhite),
+                    child: CachedNetworkImage(
+                      imageUrl: '${e.picUrl}',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  onTap: () {
+                    Routers.push(
+                        Routers.webView, context, {'url': e.targetUrl});
+                  },
+                );
+              }).toList(),
+              options: CarouselOptions(
+                  height: 100,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 5),
+                  viewportFraction: 1.0,
+                  // enlargeCenterPage: true,
+                  onPageChanged: (index, reason) {
+                    // setState(() {});
+                  }),
+            ),
+          );
+  }
+
   _buildComment() {
     var commentCount = _goodDetailPre.commentCount;
     List<CommentsItem> comments = _goodDetail.comments;
@@ -684,6 +744,16 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         comments: comments,
         goodCmtRate: goodCmtRate,
         goodId: _goodId);
+  }
+
+  _brandInfoWidget() {
+    return BrandInfoWidget(
+      brandInfo: _brandInfo,
+      onPress: () {
+        Routers.push(Routers.brandInfoPage, context,
+            {'brandInfo': _brandInfo, 'id': _goodId});
+      },
+    );
   }
 
   _buildGoodDetail() {
@@ -839,28 +909,25 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var simpleBrandInfo = _goodDetail.simpleBrandInfo;
     return simpleBrandInfo == null
         ? Container()
-        : (simpleBrandInfo.title == null || simpleBrandInfo.logoUrl == null)
-            ? Container()
-            : Container(
-                decoration: BoxDecoration(color: Colors.white),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CachedNetworkImage(
-                      height: 16,
-                      width: 16,
-                      imageUrl: '${simpleBrandInfo.logoUrl ?? ''}',
-                    ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text('${simpleBrandInfo.title}',
-                        style:
-                            TextStyle(color: Color(0xFF7F7F7F), fontSize: 14)),
-                  ],
+        : Container(
+            decoration: BoxDecoration(color: Colors.white),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CachedNetworkImage(
+                  height: 16,
+                  imageUrl:
+                      '${simpleBrandInfo.logoUrl ?? 'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png'}',
                 ),
-              );
+                SizedBox(
+                  width: 3,
+                ),
+                Text('${simpleBrandInfo.title ?? ''}',
+                    style: TextStyle(color: Color(0xFF7F7F7F), fontSize: 14)),
+              ],
+            ),
+          );
   }
 
   _buildOnlyText(String text) {
@@ -1331,7 +1398,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-          constraints: BoxConstraints(maxHeight: 500),
+          constraints: BoxConstraints(maxHeight: 400),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
@@ -1531,7 +1598,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-          constraints: BoxConstraints(maxHeight: 500),
+          constraints: BoxConstraints(maxHeight: 400),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
@@ -1607,7 +1674,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-          constraints: BoxConstraints(maxHeight: 500),
+          constraints: BoxConstraints(maxHeight: 400),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
@@ -1619,11 +1686,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             child: Column(
               children: [
                 Container(
+                  padding: EdgeInsets.symmetric(vertical: 15),
                   width: double.infinity,
                   child: Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
                         child: Center(
                           child: Text(
                             '$title',
@@ -1638,7 +1705,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            padding: EdgeInsets.all(15),
                             child: Image.asset(
                               'assets/images/close.png',
                               width: 20,
@@ -1667,18 +1733,16 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                                 children: <Widget>[
                                   Container(
                                     padding:
-                                        EdgeInsets.only(top: 10, bottom: 3),
+                                        EdgeInsets.only(top: 15),
                                     child: Text(
                                       item.title,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 16),
+                                      style: t14black,
                                     ),
                                   ),
                                   Container(
                                     child: Text(
                                       item.content,
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14),
+                                      style: t14grey,
                                     ),
                                   )
                                 ],

@@ -28,9 +28,9 @@ class DeliveryWidget extends StatelessWidget {
           children: [
             Text(
               '配送：',
-              style: t14grey,
+              style: t14black,
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 6),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -39,6 +39,8 @@ class DeliveryWidget extends StatelessWidget {
                   Text(
                     '${wapitemDelivery.addressName}',
                     style: t14black,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     '${wapitemDelivery.deliveryTime}',
@@ -47,10 +49,7 @@ class DeliveryWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: arrowRightIcon,
-            )
+            arrowRightIcon
           ],
         ),
       ),

@@ -30,7 +30,7 @@ class FreightWidget extends StatelessWidget {
                   Container(
                     child: Text(
                       '${skuFreight.title}：',
-                      style: t14grey,
+                      style: t14black,
                     ),
                   ),
                   Expanded(

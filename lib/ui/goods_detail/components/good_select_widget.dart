@@ -39,9 +39,7 @@ class GoodSelectWidget extends StatelessWidget {
                 selectedStrDec == null || selectedStrDec == ''
                     ? '请选择参数规格'
                     : '已选：',
-                style: selectedStrDec == null || selectedStrDec == ''
-                    ? t14black
-                    : t14grey,
+                  style: t14black,
               ),
             ),
             Expanded(

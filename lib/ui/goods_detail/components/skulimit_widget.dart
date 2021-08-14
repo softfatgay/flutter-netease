@@ -23,11 +23,11 @@ class SkulimitWidget extends StatelessWidget {
                 Container(
                   child: Text(
                     '限制：',
-                    style: t14grey,
+                    style: t14black,
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
                     skuLimit,
                     style: t14black,

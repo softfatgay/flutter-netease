@@ -32,7 +32,7 @@ class CouponWidget extends StatelessWidget {
                     margin: EdgeInsets.only(right: 5),
                     child: Text(
                       '领券：',
-                      style: t14grey,
+                      style: t14black,
                     ),
                   ),
                   Expanded(

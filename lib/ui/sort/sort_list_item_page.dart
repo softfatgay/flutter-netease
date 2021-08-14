@@ -7,6 +7,7 @@ import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/footer.dart';
 import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
 class SortListItemPage extends StatefulWidget {
@@ -24,7 +25,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
   bool _isLoading = true;
   int _total = 0;
   bool _moreLoading = false;
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = new ScrollController();
   Category category;
 
   ///商品
@@ -91,7 +92,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
                     )),
                   ),
             GoodItemWidget(dataList: _itemList),
-            singleSliverWidget(buildFooter()),
+            SliverFooter(hasMore: _itemList.length != _total),
           ],
         ),
       );

@@ -118,6 +118,7 @@ class HttpManager {
         options: options,
         queryParameters: queryParameters,
         cancelToken: cancelToken.cancelToken,
+        // formData:formData,
       );
       if (response.data != null) {
         return ResponseData.convertData(response);

@@ -136,8 +136,10 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
         json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
     ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>)
     ..listPromBanner = json['listPromBanner'] == null ? null : ListPromBanner.fromJson(json['listPromBanner'] as Map<String, dynamic>)
+    ..brandInfo = json['brandInfo'] == null ? null : BrandInfo.fromJson(json['brandInfo'] as Map<String, dynamic>)
     ..promTag = json['promTag'] as String
-    ..specList = (json['specList'] as List)?.map((e) => e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))?.toList();
+    ..specList = (json['specList'] as List)?.map((e) => e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))?.toList()
+    ..adBanners = (json['adBanners'] as List)?.map((e) => e == null ? null : AdBannersItem.fromJson(e as Map<String, dynamic>))?.toList();
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -216,8 +218,10 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'simpleBrandInfo': instance.simpleBrandInfo,
       'spmcBanner': instance.spmcBanner,
       'listPromBanner': instance.listPromBanner,
+      'brandInfo': instance.brandInfo,
       'promTag': instance.promTag,
       'specList': instance.specList,
+      'adBanners': instance.adBanners,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -411,4 +415,75 @@ Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
     <String, dynamic>{
       'specName': instance.specName,
       'specValue': instance.specValue,
+    };
+
+BrandInfo _$BrandInfoFromJson(Map<String, dynamic> json) {
+  return BrandInfo()
+    ..brandId = json['brandId'] as num
+    ..title = json['title'] as String
+    ..subTitle = json['subTitle'] as String
+    ..desc = json['desc'] as String
+    ..brandType = json['brandType'] as num
+    ..type = json['type'] as num
+    ..picUrl = json['picUrl'] as String
+    ..ownType = json['ownType'] as num
+    ..merchantId = json['merchantId'];
+}
+
+Map<String, dynamic> _$BrandInfoToJson(BrandInfo instance) => <String, dynamic>{
+      'brandId': instance.brandId,
+      'title': instance.title,
+      'subTitle': instance.subTitle,
+      'desc': instance.desc,
+      'brandType': instance.brandType,
+      'type': instance.type,
+      'picUrl': instance.picUrl,
+      'ownType': instance.ownType,
+      'merchantId': instance.merchantId,
+    };
+
+AdBannersItem _$AdBannersItemFromJson(Map<String, dynamic> json) {
+  return AdBannersItem()
+    ..picUrl = json['picUrl'] as String
+    ..targetUrl = json['targetUrl'] as String
+    ..extra = json['extra'] == null
+        ? null
+        : AdBannersExtra.fromJson(json['extra'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$AdBannersItemToJson(AdBannersItem instance) =>
+    <String, dynamic>{
+      'picUrl': instance.picUrl,
+      'targetUrl': instance.targetUrl,
+      'extra': instance.extra,
+    };
+
+AdBannersExtra _$AdBannersExtraFromJson(Map<String, dynamic> json) {
+  return AdBannersExtra()
+    ..materialContentFrom = json['materialContentFrom'] as num
+    ..materialName = json['materialName'] as String
+    ..rcmdSort = json['rcmdSort'] as bool
+    ..taskType = json['taskType'] as num
+    ..itemFrom = json['itemFrom'] as num
+    ..crmUserGroupName = json['crmUserGroupName'] as String
+    ..resourcesId = json['resourcesId'] as num
+    ..materialType = json['materialType'] as String
+    ..crmUserGroupId = json['crmUserGroupId'] as String
+    ..materialId = json['materialId'] as String
+    ..taskId = json['taskId'] as String;
+}
+
+Map<String, dynamic> _$AdBannersExtraToJson(AdBannersExtra instance) =>
+    <String, dynamic>{
+      'materialContentFrom': instance.materialContentFrom,
+      'materialName': instance.materialName,
+      'rcmdSort': instance.rcmdSort,
+      'taskType': instance.taskType,
+      'itemFrom': instance.itemFrom,
+      'crmUserGroupName': instance.crmUserGroupName,
+      'resourcesId': instance.resourcesId,
+      'materialType': instance.materialType,
+      'crmUserGroupId': instance.crmUserGroupId,
+      'materialId': instance.materialId,
+      'taskId': instance.taskId,
     };

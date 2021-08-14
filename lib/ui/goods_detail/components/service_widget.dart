@@ -38,10 +38,10 @@ class ServiceWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(right: 10),
+                          margin: EdgeInsets.only(right: 6),
                           child: Text(
                             '服务:',
-                            style: t14grey,
+                            style: t14black,
                           ),
                         ),
                         Expanded(
@@ -52,7 +52,7 @@ class ServiceWidget extends StatelessWidget {
                             children: _buildSerVice(),
                           ),
                         )),
-                        Container(child: arrowRightIcon)
+                        arrowRightIcon
                       ],
                     ),
                   )

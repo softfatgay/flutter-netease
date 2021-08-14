@@ -35,6 +35,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
 
   _buildWidget(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 10),
         color: Colors.white,
         child: Column(
           children: <Widget>[

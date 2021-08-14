@@ -478,3 +478,16 @@ Future<ResponseData> itemAggregate(Map<String, dynamic> params) async {
 Future<ResponseData> couponListInCart() async {
   return await HttpManager.post(COUPON_LIST_IN_CART, params: _getParams());
 }
+
+///商品详情品牌研究所
+Future<ResponseData> brandInfo(Map<String, dynamic> params) async {
+  params.addAll(_timestampParams());
+  return await HttpManager.get(BRAND_INFO, params: params);
+}
+
+///屁拍研究所商品
+Future<ResponseData> brandIndex(Map<String, dynamic> params) async {
+  return await HttpManager.post(BRAND_INDEX,
+      params: _getParams(),
+      data: params);
+}
