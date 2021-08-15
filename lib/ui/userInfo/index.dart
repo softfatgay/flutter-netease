@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class UserIndexPage extends StatefulWidget {
-  final Map param;
+  final Map params;
 
-  const UserIndexPage({Key key, this.param}) : super(key: key);
+  const UserIndexPage({Key key, this.params}) : super(key: key);
 
   @override
   _UserIndexPageState createState() => _UserIndexPageState();
@@ -91,7 +92,7 @@ class _UserIndexPageState extends State<UserIndexPage> {
       onTap: () {
         if (id == 3) {
           Routers.push(Routers.webView, context,
-              {'url': 'https://m.you.163.com/membership/index'});
+              {'url': '${NetContants.baseUrl}membership/index'});
         } else {
           Routers.push(Routers.userInfoPageIndex, context, {'id': id});
         }

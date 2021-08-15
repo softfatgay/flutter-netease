@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/banner.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/page_loading.dart';
+import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/home/model/categoryItemListItem.dart';
 import 'package:flutter_app/ui/home/model/kingkongModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
-import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/page_loading.dart';
-import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
 
 class KingKongPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const KingKongPage({Key key, this.arguments}) : super(key: key);
+  const KingKongPage({Key key, this.params}) : super(key: key);
 
   @override
   _KingKongPageState createState() => _KingKongPageState();
@@ -45,7 +46,7 @@ class _KingKongPageState extends State<KingKongPage> {
   void _getInitData() async {
     var categoryId;
 
-    String schemeUrl = widget.arguments["schemeUrl"];
+    String schemeUrl = widget.params["schemeUrl"];
     if (schemeUrl.contains("categoryId")) {
       var split = schemeUrl.split("?");
       var params = split[1];
@@ -96,14 +97,14 @@ class _KingKongPageState extends State<KingKongPage> {
       hasMore: false,
       tipsText: '更多精彩，敬请期待',
     ));
-    return _initLoading
-        ? PageLoading()
-        : Scaffold(
-            backgroundColor: backColor,
-            body: CustomScrollView(
+    return Scaffold(
+      backgroundColor: backColor,
+      body: _initLoading
+          ? PageLoading()
+          : CustomScrollView(
               slivers: slivers,
             ),
-          );
+    );
   }
 
   _buildTitle(BuildContext context) {

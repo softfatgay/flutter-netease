@@ -28,11 +28,11 @@ import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/home_page_header.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/sliver_refresh_indicator.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/ui/component/home_page_header.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/sliver_refresh_indicator.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -852,15 +852,15 @@ class _HomeState extends State<HomePage>
   }
 
   _bottomView(BuildContext context) {
-    if (_sceneLightShoppingGuideModule == null ||
-        _sceneLightShoppingGuideModule.isEmpty) {
+    List<SceneLightShoppingGuideModule> _sceneModule =
+        _sceneLightShoppingGuideModule;
+    if (_sceneModule == null || _sceneModule.isEmpty) {
       return singleSliverWidget(Container());
     }
-
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(10, 15, 15, 15),
       sliver: singleSliverWidget(Row(
-        children: _sceneLightShoppingGuideModule.map((item) {
+        children: _sceneModule.map((item) {
           Widget widget = Expanded(
             flex: 1,
             child: GestureDetector(
@@ -888,7 +888,9 @@ class _HomeState extends State<HomePage>
                           ),
                           Text(
                             item.styleItem.desc,
-                            style: t12warmingRed,
+                            style: _sceneModule.indexOf(item) % 2 == 1
+                                ? t12warmingRed
+                                : t12violet,
                           ),
                         ],
                       ),

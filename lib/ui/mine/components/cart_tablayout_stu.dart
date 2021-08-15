@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/tabModel.dart';
 import 'package:flutter_app/ui/sort/model/currentCategory.dart';
-import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
+import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 
 typedef void IndexChange(int index);
 typedef void ScrollPress(bool isScroll);

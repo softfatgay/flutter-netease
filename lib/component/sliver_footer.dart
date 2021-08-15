@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/component/loading.dart';
 
-class NormalFooter extends StatelessWidget {
+class SliverFooter extends StatelessWidget {
   final bool hasMore;
   final String tipsText;
 
-  const NormalFooter({Key key, this.hasMore = false, this.tipsText = '没有更多了'})
+  const SliverFooter({Key key, this.hasMore = false, this.tipsText = '没有更多了'})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildFooter();
+    return _buildSliver(_buildFooter());
+  }
+
+  _buildSliver(Widget child) {
+    return SliverToBoxAdapter(
+      child: child,
+    );
   }
 
   Widget _buildFooter() {
@@ -20,7 +27,7 @@ class NormalFooter extends StatelessWidget {
         child: Center(
           child: Text(
             tipsText,
-            style: TextStyle(color: Colors.grey),
+            style: t12grey,
           ),
         ),
       );

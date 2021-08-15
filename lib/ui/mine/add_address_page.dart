@@ -4,15 +4,15 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/addressItem.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/m_textfiled.dart';
-import 'package:flutter_app/widget/my_under_line_tabindicator.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/m_textfiled.dart';
+import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 
 class AddAddressPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const AddAddressPage({Key key, this.arguments}) : super(key: key);
+  const AddAddressPage({Key key, this.params}) : super(key: key);
 
   @override
   _AddAddressPageState createState() => _AddAddressPageState();
@@ -50,9 +50,9 @@ class _AddAddressPageState extends State<AddAddressPage>
   @override
   void initState() {
     // TODO: implement initState
-    if (widget.arguments != null) {
+    if (widget.params != null) {
       setState(() {
-        var argument = widget.arguments['address'];
+        var argument = widget.params['address'];
         print(']]]]]]]]]');
         if (argument != null) {
           _title = '修改地址';

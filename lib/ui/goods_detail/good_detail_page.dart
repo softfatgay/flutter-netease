@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/goods_detail/components/brandInfo_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
@@ -38,30 +38,29 @@ import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
-import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/count.dart';
-import 'package:flutter_app/widget/dashed_decoration.dart';
-import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/banner.dart';
+import 'package:flutter_app/component/count.dart';
+import 'package:flutter_app/component/dashed_decoration.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class GoodsDetailPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
   @override
   _GoodsDetailPageState createState() => _GoodsDetailPageState();
 
-  GoodsDetailPage({this.arguments});
+  GoodsDetailPage({this.params});
 }
 
 class _GoodsDetailPageState extends State<GoodsDetailPage> {
@@ -175,10 +174,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _goodId = num.parse(widget.arguments['id'].toString());
+      _goodId = num.parse(widget.params['id'].toString());
     });
     super.initState();
-    print(widget.arguments['id']);
+    print(widget.params['id']);
     _getDetailPageUp();
     _getDetail();
     _getRMD();
@@ -293,16 +292,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var param = {'id': _goodId};
     var response = await goodDetail(param);
     var oData = response.OData;
-
-    // Response response = await Dio().get(
-    //     'https://m.you.163.com/item/detail.json',
-    //     queryParameters: {'id': _goodId});
-    //
-    // Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
-    //
-    // print('{{{{{{{{{{{{{{');
-    // print(dataMap['item']['name']);
-    // print(dataMap['item']['fullRefundPolicy']);
 
     setState(() {
       _goodDetailPre = GoodDetailPre.fromJson(oData);
@@ -597,7 +586,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             onTap: () {
               Routers.push(Routers.webView, context, {
                 'url':
-                    'https://m.you.163.com/featuredSeries/detail?id=${_featuredSeries.id}'
+                    '${NetContants.baseUrl}featuredSeries/detail?id=${_featuredSeries.id}'
               });
             },
           ));
@@ -677,8 +666,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             wapitemDelivery: _wapitemDeliveryModel,
             onPress: () {
               Routers.push(Routers.selectAddressPage, context, {}, (value) {
-                print(value);
-                print(value.address);
                 _wapitemDelivery(value);
               });
             },
@@ -1194,7 +1181,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     var isValue = false;
     for (var element in keys) {
       var split = element.split(';');
-      print(split);
       for (var spitElement in selectSkuMapKey) {
         if (spitElement == null || spitElement == '') {
           isMatch = true;
@@ -1648,7 +1634,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                   itemClick: (item) {
                     Routers.push(Routers.webView, context, {
                       'url':
-                          'https://m.you.163.com/cart/itemPool?promotionId=${item.id}'
+                          '${NetContants.baseUrl}cart/itemPool?promotionId=${item.id}'
                     });
                   },
                 ),
@@ -1955,7 +1941,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///加入购物车
   void _addShoppingCart() async {
-    print(_skuMapItem);
     Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem.id};
     await addCart(params).then((value) {
       Toast.show('添加成功', context);

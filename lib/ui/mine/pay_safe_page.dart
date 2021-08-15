@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/global.dart';
 
 class PaySafeCenterPage extends StatefulWidget {
   @override
@@ -72,7 +73,7 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
       'id': 1,
       'type': 2,
       'url':
-          'https://m.you.163.com/user/securityCenter/setPayPwd?fromSource=securityCenterV2',
+          '${NetContants.baseUrl}user/securityCenter/setPayPwd?fromSource=securityCenterV2',
       'name': '应用支付密码',
       'icon': Icons.loop
     },

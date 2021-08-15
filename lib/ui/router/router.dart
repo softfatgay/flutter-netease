@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/error_page.dart';
+import 'package:flutter_app/ui/full_screen/full_screenImage.dart';
 import 'package:flutter_app/ui/goods_detail/brand_info_page.dart';
 import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
@@ -46,146 +47,139 @@ import 'package:flutter_app/ui/userInfo/qr_code_mine_page.dart';
 import 'package:flutter_app/ui/userInfo/user_info_page.dart';
 import 'package:flutter_app/ui/video_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
-import 'package:flutter_app/widget/full_screenImage.dart';
 
 class Routers {
-  static const String videoPage = 'videoPage';
-  static const String qrScanPage = 'qrScanPage';
-  static const String qrCodeResultPage = 'qrCodeResultPage';
-  static const String testPage = 'testPage';
-  static const String brandTag = 'brandTag';
-  static const String goodDetail = 'goodDetailTag';
-  static const String catalogTag = 'catalogTag';
-  static const String kingKong = 'kingKong';
-  static const String topicDetail = 'topicDetail';
-  static const String setting = 'setting';
-  static const String search = 'search';
-  static const String comment = 'comment';
-  static const String image = 'image';
-  static const String orderList = 'orderList';
-  static const String mineItems = 'mineItems';
-  static const String mineTopItems = 'mineTopItems';
-  static const String addAddress = 'addAddress';
-  static const String hotList = 'hotList';
-  static const String orderInit = 'orderInit';
-  static const String shoppingCart = 'shoppingCart';
-  static const String webLogin = 'webLogin';
-  static const String getCarsPage = 'getCarsPage';
-  static const String cartItemPoolPage = 'cartItemPoolPage';
-  static const String orderInitPage = 'orderInitPage';
-  static const String webView = 'webView';
-  static const String webViewPageAPP = 'WebViewPageAPP';
-  static const String userInfoPageIndex = 'userInfoPageIndex';
-  static const String userInfoPage = 'userInfoPage';
-  static const String favorite = 'favorite';
-  static const String addNewSize = 'addNewSize';
-  static const String accountManagePage = 'accountManagePage';
-  static const String selectAddressPage = 'selectAddressPage';
-  static const String redPackageUsePage = 'redPackageUsePage';
-  static const String orderDetailPage = 'orderDetailPage';
-  static const String getCouponPage = 'getCouponPage';
-  static const String makeUpPage = 'makeUpPage';
-  static const String brandInfoPage = 'brandInfoPage';
+  static const String videoPage = '/videoPage';
+  static const String qrScanPage = '/qrScanPage';
+  static const String qrCodeResultPage = '/qrCodeResultPage';
+  static const String testPage = '/testPage';
+  static const String brandTag = '/brandTag';
+  static const String goodDetail = '/goodDetailTag';
+  static const String catalogTag = '/catalogTag';
+  static const String kingKong = '/kingKong';
+  static const String topicDetail = '/topicDetail';
+  static const String setting = '/setting';
+  static const String search = '/search';
+  static const String comment = '/comment';
+  static const String image = '/image';
+  static const String orderList = '/orderList';
+  static const String mineItems = '/mineItems';
+  static const String mineTopItems = '/mineTopItems';
+  static const String addAddress = '/addAddress';
+  static const String hotList = '/hotList';
+  static const String orderInit = '/orderInit';
+  static const String shoppingCart = '/shoppingCart';
+  static const String webLogin = '/webLogin';
+  static const String getCarsPage = '/getCarsPage';
+  static const String cartItemPoolPage = '/cartItemPoolPage';
+  static const String orderInitPage = '/orderInitPage';
+  static const String webView = '/webView';
+  static const String webViewPageAPP = '/WebViewPageAPP';
+  static const String userInfoPageIndex = '/userInfoPageIndex';
+  static const String userInfoPage = '/userInfoPage';
+  static const String favorite = '/favorite';
+  static const String addNewSize = '/addNewSize';
+  static const String accountManagePage = '/accountManagePage';
+  static const String selectAddressPage = '/selectAddressPage';
+  static const String redPackageUsePage = '/redPackageUsePage';
+  static const String orderDetailPage = '/orderDetailPage';
+  static const String getCouponPage = '/getCouponPage';
+  static const String makeUpPage = '/makeUpPage';
+  static const String brandInfoPage = '/brandInfoPage';
 
   static Map<String, Function> routes = {
     ///订单详情
-    orderDetailPage: (context, {arguments}) =>
-        OrderDetailPage(arguments: arguments),
+    orderDetailPage: (context, {params}) => OrderDetailPage(params: params),
+
     ///品牌研究所
-    brandInfoPage: (context, {arguments}) =>
-        BrandInfoPage(params: arguments),
+    brandInfoPage: (context, {params}) => BrandInfoPage(params: params),
 
     ///二维码扫描
-    qrScanPage: (context, {arguments}) => QRScanPage(),
+    qrScanPage: (context, {params}) => QRScanPage(),
 
     ///视频
-    videoPage: (context, {arguments}) => VideoPage(params: arguments),
+    videoPage: (context, {params}) => VideoPage(params: params),
 
     ///二维码扫描结果
-    qrCodeResultPage: (context, {arguments}) =>
-        QRCodeResultPage(param: arguments),
+    qrCodeResultPage: (context, {params}) => QRCodeResultPage(param: params),
 
     ///测试
-    testPage: (context, {arguments}) => ErrorPage(),
+    testPage: (context, {params}) => ErrorPage(),
 
     ///商品详情
-    goodDetail: (context, {arguments}) =>
-        GoodsDetailPage(arguments: arguments),
+    goodDetail: (context, {params}) => GoodsDetailPage(params: params),
 
     ///商品详情选择地址
-    selectAddressPage: (context, {arguments}) => SelectAddressPage(),
+    selectAddressPage: (context, {params}) => SelectAddressPage(),
 
     ///分类
-    catalogTag: (context, {arguments}) => SortListPage(arguments: arguments),
+    catalogTag: (context, {params}) => SortListPage(params: params),
 
     ///kingKong
-    kingKong: (context, {arguments}) {
-      String schemeUrl = arguments['schemeUrl'];
+    kingKong: (context, {params}) {
+      String schemeUrl = params['schemeUrl'];
       if (schemeUrl.contains("categoryId")) {
-        return KingKongPage(arguments: arguments);
+        return KingKongPage(params: params);
       } else {
-        return NewItemPage(arguments: arguments);
+        return NewItemPage(params: params);
       }
     },
 
     ///搜索
-    search: (context, {arguments}) => SearchIndexPage(arguments: arguments),
+    search: (context, {params}) => SearchIndexPage(params: params),
 
     ///评论
-    comment: (context, {arguments}) => CommentList(arguments: arguments),
+    comment: (context, {params}) => CommentList(params: params),
 
     ///添加地址
-    addAddress: (context, {arguments}) => AddAddressPage(arguments: arguments),
+    addAddress: (context, {params}) => AddAddressPage(params: params),
 
     ///热销榜
-    hotList: (context, {arguments}) => HotListPage(param: arguments),
+    hotList: (context, {params}) => HotListPage(param: params),
 
     ///大图
-    image: (context, {arguments}) => FullScreenImage(arguments),
+    image: (context, {params}) => FullScreenImage(params),
 
     ///确认订单
-    orderInit: (context, {arguments}) => PaymentPage(
-          arguments: arguments,
-        ),
+    orderInit: (context, {params}) => PaymentPage(params: params),
 
     ///webView
-    webView: (context, {arguments}) => WebViewPage(arguments),
+    webView: (context, {params}) => WebViewPage(params),
 
     ///购物车
-    shoppingCart: (context, {arguments}) =>
-        ShoppingCartPage(argument: arguments),
+    shoppingCart: (context, {params}) => ShoppingCartPage(params: params),
 
     ///购物车换购
-    getCarsPage: (context, {arguments}) => GetCarsPage(param: arguments),
+    getCarsPage: (context, {params}) => GetCarsPage(params: params),
 
     ///购物车凑单
-    cartItemPoolPage: (context, {arguments}) => CartItemPoolPage(),
+    cartItemPoolPage: (context, {params}) => CartItemPoolPage(),
 
     ///订单确认页面
-    orderInitPage: (context, {arguments}) => OrderInitPage(params: arguments),
+    orderInitPage: (context, {params}) => OrderInitPage(params: params),
 
     ///用户信息
-    userInfoPage: (context, {arguments}) => UserIndexPage(param: arguments),
+    userInfoPage: (context, {params}) => UserIndexPage(params: params),
 
     ///感兴趣分类
-    favorite: (context, {arguments}) => FavoritePage(),
+    favorite: (context, {params}) => FavoritePage(),
 
     ///感兴趣分类
-    addNewSize: (context, {arguments}) => AddNewSize(param: arguments),
+    addNewSize: (context, {params}) => AddNewSize(params: params),
 
     ///去使用红包
-    redPackageUsePage: (context, {arguments}) =>
-        RedPackageUsePage(param: arguments),
+    redPackageUsePage: (context, {params}) =>
+        RedPackageUsePage(params: params),
 
     ///去使用红包
-    getCouponPage: (context, {arguments}) => GetCouponPage(),
+    getCouponPage: (context, {params}) => GetCouponPage(),
 
     ///去使用红包
-    makeUpPage: (context, {arguments}) => MakeUpPage(params: arguments),
+    makeUpPage: (context, {params}) => MakeUpPage(params: params),
 
     ///用户信息
-    userInfoPageIndex: (context, {arguments}) {
-      var id = arguments['id'];
+    userInfoPageIndex: (context, {params}) {
+      var id = params['id'];
       switch (id) {
         case 0:
           return UserInfoPage();
@@ -203,12 +197,12 @@ class Routers {
     },
 
     ///回馈金等
-    mineTopItems: (context, {arguments}) {
-      var id = arguments['id'];
+    mineTopItems: (context, {params}) {
+      var id = params['id'];
       switch (id) {
         case 1: //  回馈金
           return RewardNumPage(
-            arguments: arguments,
+            params: params,
           );
           break;
         case 2: //
@@ -219,12 +213,12 @@ class Routers {
           break;
         case 4: //津贴
           return RewardNumPage(
-            arguments: arguments,
+            params: params,
           );
           break;
         case 5: //礼品卡
           return GiftCardPage(
-            arguments: arguments,
+            params: params,
           );
           break;
       }
@@ -232,8 +226,8 @@ class Routers {
     },
 
     ///orderList
-    mineItems: (context, {arguments}) {
-      var id = arguments['id'];
+    mineItems: (context, {params}) {
+      var id = params['id'];
       switch (id) {
         case 0: //订单界面
           return OrderListPage();
@@ -267,15 +261,15 @@ class Routers {
         case 10: //帮助客服
         case 12: //关于
         case 13: //关于
-          return WebViewPage({'url': arguments['item']['url']});
+          return WebViewPage({'url': params['item']['url']});
           break;
       }
 
       return ErrorPage();
     },
     //专题详情
-    setting: (context, {arguments}) {
-      var id = arguments['id'];
+    setting: (context, {params}) {
+      var id = params['id'];
       switch (id) {
         case 0: //关于界面
           return AboutPage();
@@ -349,8 +343,8 @@ class Routers {
     if (pageContentBuilder != null) {
       if (routeSettings.arguments != null) {
         return MaterialPageRoute(
-            builder: (context) => pageContentBuilder(context,
-                arguments: routeSettings.arguments));
+            builder: (context) =>
+                pageContentBuilder(context, params: routeSettings.arguments));
       } else {
         // 无参数路由
         return MaterialPageRoute(

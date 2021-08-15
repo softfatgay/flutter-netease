@@ -4,17 +4,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const WebViewPage(this.arguments);
+  const WebViewPage(this.params);
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
@@ -35,7 +36,7 @@ class _WebViewPageState extends State<WebViewPage> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      _url = widget.arguments['url'];
+      _url = widget.params['url'];
       print('url=$_url');
     });
   }
@@ -145,7 +146,7 @@ class _WebViewPageState extends State<WebViewPage> {
             },
             navigationDelegate: (NavigationRequest request) {
               var url = request.url;
-              if (url.startsWith('https://m.you.163.com/item/detail?id=')) {
+              if (url.startsWith('${NetContants.baseUrl}item/detail?id=')) {
                 var split = url.split('id=');
                 var split2 = split[1];
                 var split3 = split2.split('&')[0];
@@ -154,7 +155,7 @@ class _WebViewPageState extends State<WebViewPage> {
                       Routers.goodDetail, context, {'id': '$split3'});
                 }
                 return NavigationDecision.prevent;
-              } else if (url.startsWith('https://m.you.163.com/cart')) {
+              } else if (url.startsWith('${NetContants.baseUrl}cart')) {
                 Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
                 return NavigationDecision.prevent;
               } else {
@@ -218,7 +219,7 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   void hideTop() {
-    Timer(Duration(milliseconds: 100), () {
+    Timer(Duration(milliseconds: 10), () {
       try {
         if (_webController != null) {
           _webController.future.then((value) {

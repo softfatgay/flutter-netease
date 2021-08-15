@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/mine/red_packet_list_page.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class RedPacketPage extends StatefulWidget {
   @override

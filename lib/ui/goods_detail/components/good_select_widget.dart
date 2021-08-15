@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
-import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/component/global.dart';
 
 typedef void OnPress();
 
@@ -25,8 +25,6 @@ class GoodSelectWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    print('------');
-    print('$selectedStrDec');
     return InkResponse(
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),

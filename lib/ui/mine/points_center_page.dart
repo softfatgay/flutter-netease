@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/mine/model/pointsModel.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/head_portrait.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/swiper.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/ui/mine/components/head_portrait.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/ui/mine/components/swiper.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 
 class PointCenterPage extends StatefulWidget {
   @override
@@ -165,7 +166,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
               ),
               onTap: () {
                 Routers.push(Routers.webView, context,
-                    {'url': 'https://m.you.163.com/help/new#/36/81'});
+                    {'url': '${NetContants.baseUrl}help/new#/36/81'});
               },
             ),
           ),
@@ -198,7 +199,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
               ),
               onTap: () {
                 Routers.push(Routers.webView, context,
-                    {'url': 'https://m.you.163.com/points/detail'});
+                    {'url': '${NetContants.baseUrl}points/detail'});
               },
             ),
           ),
@@ -327,7 +328,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
         );
         return Routers.link(widget, Routers.webView, context, {
           "url":
-              'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
+              '${NetContants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
         });
       }).toList(),
     );
@@ -381,7 +382,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
           );
           return Routers.link(widget, Routers.webView, context, {
             "url":
-                'https://m.you.163.com/points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
+                '${NetContants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
           });
         }).toList(),
       ),
@@ -516,7 +517,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       ),
       onTap: () {
         Routers.push(Routers.webView, context, {
-          'url': 'https://m.you.163.com/layaway/detail?id=${item.id.toString()}'
+          'url': '${NetContants.baseUrl}layaway/detail?id=${item.id.toString()}'
         });
       },
     );

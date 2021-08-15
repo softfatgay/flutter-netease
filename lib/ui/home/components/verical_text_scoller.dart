@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
 typedef void ItemClick(int index);

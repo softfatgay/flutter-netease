@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class RecommendWidget extends StatelessWidget {
   final List<String> recommendReason;

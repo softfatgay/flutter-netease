@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/widget/timer_text.dart';
+import 'package:flutter_app/component/timer_text.dart';
 
 ///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
@@ -61,12 +61,12 @@ class DetailPromBannerWidget extends StatelessWidget {
     var countdown = detailPromBanner.countdown;
     if (countdown != null && countdown > 0) {
       var d = countdown;
-      print('----------------');
-      print(d);
+      // print('----------------');
+      // print(d);
       var e = d ~/ 1000;
-      print(e);
+      // print(e);
       var f = e ~/ 3600;
-      print(f);
+      // print(f);
       hour = (f % 24).toInt();
       day = f ~/ 24;
     }

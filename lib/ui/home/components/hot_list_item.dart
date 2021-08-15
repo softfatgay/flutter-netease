@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/arrow_icon.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
 
 class HotListItem extends StatelessWidget {
   final ItemListItem item;
@@ -50,8 +49,7 @@ class HotListItem extends StatelessWidget {
         ],
       ),
     );
-    return Routers.link(
-        widget, Routers.goodDetail, context, {'id': item.id});
+    return Routers.link(widget, Routers.goodDetail, context, {'id': item.id});
   }
 
   _sortIcon() {

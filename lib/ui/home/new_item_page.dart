@@ -4,15 +4,15 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
-import 'package:flutter_app/widget/banner.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/sliver_custom_header_delegate.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/banner.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class NewItemPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const NewItemPage({Key key, this.arguments}) : super(key: key);
+  const NewItemPage({Key key, this.params}) : super(key: key);
 
   @override
   _KingKongPageState createState() => _KingKongPageState();
@@ -32,7 +32,7 @@ class _KingKongPageState extends State<NewItemPage> {
   }
 
   void _getInitData() async {
-    String schemeUrl = widget.arguments["schemeUrl"];
+    String schemeUrl = widget.params["schemeUrl"];
     if (schemeUrl.contains("categoryId")) {
     } else {
       _getNewData();

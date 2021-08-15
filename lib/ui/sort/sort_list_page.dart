@@ -5,13 +5,13 @@ import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/ui/sort/sort_list_item_page.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart' as prefix0;
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/tab_app_bar.dart' as prefix0;
 
 class SortListPage extends StatefulWidget {
-  Map arguments;
+  Map params;
 
-  SortListPage({this.arguments});
+  SortListPage({this.params});
 
   @override
   _SortChildState createState() => _SortChildState();
@@ -47,17 +47,16 @@ class _SortChildState extends State<SortListPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _id = widget.arguments["subCategoryId"];
+    _id = widget.params["subCategoryId"];
     _getInitData();
   }
 
   _getInitData() async {
-    // https://m.you.163.com/item/list.json?csrf_token=61f57b79a343933be0cb10aa37a51cc8&__timestamp=1603184092320&categoryType=0&subCategoryId=109284000&categoryId=1005002
     _mController = TabController(length: _catalogList.length, vsync: this);
     var responseData = await sortListData({
       "categoryType": "0",
       "subCategoryId": _id,
-      "categoryId": widget.arguments["categoryId"],
+      "categoryId": widget.params["categoryId"],
     });
     var data = responseData.data;
     var sortListDataModel = SortListData.fromJson(data);
@@ -68,7 +67,7 @@ class _SortChildState extends State<SortListPage>
 
       if (_firstLoading) {
         for (int i = 0; i < (_catalogList.length); i++) {
-          if (widget.arguments['subCategoryId'] == _catalogList[i].id) {
+          if (widget.params['subCategoryId'] == _catalogList[i].id) {
             _activeIndex = i;
           }
         }

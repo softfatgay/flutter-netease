@@ -5,15 +5,15 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/component/normalSearchModel.dart';
+import 'package:flutter_app/ui/component/model/normalSearchModel.dart';
 import 'package:flutter_app/ui/component/normal_conditions.dart';
 import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/model/brandIndexModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class BrandInfoPage extends StatefulWidget {
   final Map params;

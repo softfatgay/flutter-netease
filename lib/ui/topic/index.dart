@@ -14,10 +14,9 @@ import 'package:flutter_app/ui/topic/model/topicData.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -244,7 +243,6 @@ class _TopicPageState extends State<TopicPage>
     if (_navList == null) {
       return Container();
     }
-    // AssetImage('assets/images/user_header_back.png'),
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(

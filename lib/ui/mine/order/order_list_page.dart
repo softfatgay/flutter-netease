@@ -7,7 +7,7 @@ import 'package:flutter_app/ui/home/model/noticeListModel.dart';
 import 'package:flutter_app/ui/mine/order/order_list_item_page.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class OrderListPage extends StatefulWidget {
   final Map arguments;

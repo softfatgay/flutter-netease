@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/footer.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
 
 class SortListItemPage extends StatefulWidget {
   var arguments;
@@ -101,14 +99,6 @@ class _CatalogGoodsState extends State<SortListItemPage>
 
   Future _refresh() async {
     _getInitData();
-  }
-
-  Widget buildFooter() {
-    if (_itemList.length == _total) {
-      return NoMoreText();
-    } else {
-      return Loading();
-    }
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
-import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/component/global.dart';
 
 typedef void OnPress();
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/ui/component/price_pop_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/search_nav_bar.dart';
-import 'package:flutter_app/ui/goods_detail/model/searchParamModel.dart';
-import 'package:flutter_app/ui/shopingcart/components/price_pop_widget.dart';
-import 'package:flutter_app/ui/shopingcart/components/type_pop_widget.dart';
+import 'package:flutter_app/ui/component/model/searchParamModel.dart';
+import 'package:flutter_app/ui/component/type_pop_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 

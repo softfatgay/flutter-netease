@@ -18,8 +18,6 @@ class PopMenuWidet extends StatelessWidget {
   }
 
   _widget() {
-    print('///////////');
-    print(child);
     return child == null
         ? Container()
         : showPopMenu

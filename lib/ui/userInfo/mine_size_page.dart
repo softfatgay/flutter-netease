@@ -5,8 +5,8 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/sizeItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/button_widget.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
 
 class MineSizePage extends StatefulWidget {
   const MineSizePage({Key key}) : super(key: key);

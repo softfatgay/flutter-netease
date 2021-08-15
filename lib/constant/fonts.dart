@@ -435,6 +435,13 @@ const TextStyle t14Green = TextStyle(
 );
 
 ///提醒字体
+const TextStyle t12violet = TextStyle(
+  color: Color(0XFF8E62D3),
+  fontSize: 12,
+  decoration: TextDecoration.none,
+);
+
+///提醒字体
 const TextStyle t12warmingRed = TextStyle(
   color: textWarning,
   fontSize: 12,

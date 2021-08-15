@@ -6,6 +6,7 @@ import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
 import 'package:flutter_app/ui/mine/model/phoneStatusModel.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
@@ -13,12 +14,12 @@ import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/sliver_refresh_indicator.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/user_page_header.dart';
-import 'package:flutter_app/widget/webview_login_page.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/sliver_refresh_indicator.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/ui/mine/components/user_page_header.dart';
+import 'package:flutter_app/ui/component/webview_login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
@@ -168,7 +169,7 @@ class _MinePageState extends State<UserPage>
             "status": "${_phoneStatusModel.status}",
             "image": "assets/images/mine/phone.png",
             "url":
-                "https://m.you.163.com/ucenter/mymobile?mobile=${_phoneStatusModel.mobile}&status=${_phoneStatusModel.status}&callback=https://m.you.163.com/ucenter",
+                "${NetContants.baseUrl}ucenter/mymobile?mobile=${_phoneStatusModel.mobile}&status=${_phoneStatusModel.status}&callback=${NetContants.baseUrl}ucenter",
             "id": 12
           });
         });
@@ -504,7 +505,7 @@ class _MinePageState extends State<UserPage>
       "name": "优先购",
       "status": "0",
       "image": "assets/images/mine/youxiangou.png",
-      "url": "https://m.you.163.com/preemption/index.html",
+      "url": "${NetContants.baseUrl}preemption/index.html",
       "id": 5
     },
     {
@@ -517,7 +518,7 @@ class _MinePageState extends State<UserPage>
       "name": "会员俱乐部",
       "status": "0",
       "image": "assets/images/mine/huiyuanzhongxin.png",
-      "url": "https://m.you.163.com/membership/index",
+      "url": "${NetContants.baseUrl}membership/index",
       "id": 7
     },
     {
@@ -536,7 +537,7 @@ class _MinePageState extends State<UserPage>
       "name": "帮助与客服",
       "status": "0",
       "image": "assets/images/mine/kefu.png",
-      "url": "https://m.you.163.com/help/new#/",
+      "url": "${NetContants.baseUrl}help/new#/",
       "id": 10
     },
     {
@@ -549,7 +550,7 @@ class _MinePageState extends State<UserPage>
       "name": "我的拍卖",
       "status": "0",
       "image": "assets/images/mine/paimai.png",
-      "url": "https://m.you.163.com/auction/wap/profile/list",
+      "url": "${NetContants.baseUrl}auction/wap/profile/list",
       "id": 13
     }
   ];

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/component/normalSearchModel.dart';
+import 'package:flutter_app/ui/component/model/normalSearchModel.dart';
 
 typedef void PressChange(NormalSearchModel searchModel);
 

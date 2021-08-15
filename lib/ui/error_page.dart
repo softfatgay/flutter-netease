@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class ErrorPage extends StatelessWidget {
   @override

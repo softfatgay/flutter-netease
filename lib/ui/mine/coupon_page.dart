@@ -3,6 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/api_service.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/mine/components/coupon_filed_widget.dart';
@@ -10,10 +11,10 @@ import 'package:flutter_app/ui/mine/model/couponItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class CouponPage extends StatefulWidget {
   @override
@@ -188,7 +189,7 @@ class _CouponPageState extends State<CouponPage> {
                               ),
                               onTap: () {
                                 Routers.push(Routers.webView, context,
-                                    {'url': '$baseUrl${item.path}'});
+                                    {'url': '${NetContants.baseUrl}${item.path}'});
                               },
                             )
                           : Container(),
@@ -403,7 +404,7 @@ class _CouponPageState extends State<CouponPage> {
         ),
         onTap: () {
           Routers.push(Routers.webView, context,
-              {'url': 'https://m.you.163.com/help/new#/24'});
+              {'url': '${NetContants.baseUrl}help/new#/24'});
         },
       ),
     );

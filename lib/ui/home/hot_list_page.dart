@@ -12,8 +12,8 @@ import 'package:flutter_app/ui/home/components/hot_list_item.dart';
 import 'package:flutter_app/ui/sort/model/currentCategory.dart';
 import 'package:flutter_app/ui/sort/model/hotListModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/verical_text_scoller.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/ui/home/components/verical_text_scoller.dart';
 
 class HotListPage extends StatefulWidget {
   final Map param;

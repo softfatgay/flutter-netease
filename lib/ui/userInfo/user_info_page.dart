@@ -6,11 +6,11 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/check_box.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/normal_textfiled.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/check_box.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class UserInfoPage extends StatefulWidget {

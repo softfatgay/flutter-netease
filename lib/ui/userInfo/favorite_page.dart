@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/goods_detail/model/interstItemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key key}) : super(key: key);
@@ -38,7 +39,7 @@ class _FavoritePageState extends State<FavoritePage> {
       headers: headers,
     );
     Response response = await Dio().get(
-        'https://m.you.163.com/interestCategory/list.json',
+        '${NetContants.baseUrl}interestCategory/list.json',
         queryParameters: {'csrf_token': csrf_token},
         options: options);
     Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);

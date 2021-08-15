@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
-import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/component/global.dart';
 
 typedef void ShowDialog();
 

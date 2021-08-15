@@ -6,9 +6,9 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/my_vertical_text.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/component/my_vertical_text.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class GoodItemWidget extends StatelessWidget {

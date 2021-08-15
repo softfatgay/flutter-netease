@@ -3,13 +3,13 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/goods_detail/model/searchParamModel.dart';
+import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
-import 'package:flutter_app/ui/shopingcart/components/menu_pop_widget.dart';
+import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
 
 ///凑单
 class MakeUpPage extends StatefulWidget {

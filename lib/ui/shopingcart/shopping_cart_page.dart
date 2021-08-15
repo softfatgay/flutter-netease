@@ -18,19 +18,19 @@ import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/service_tag_widget.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/webview_login_page.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/service_tag_widget.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/ui/component/webview_login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'model/postageVO.dart';
 
 class ShoppingCartPage extends StatefulWidget {
-  final Map argument;
+  final Map params;
 
-  const ShoppingCartPage({Key key, this.argument}) : super(key: key);
+  const ShoppingCartPage({Key key, this.params}) : super(key: key);
 
   @override
   _ShoppingCartPageState createState() => _ShoppingCartPageState();
@@ -60,8 +60,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   bool isEdit = false; // 是否正在编辑
 
   bool _isLogin = true;
-  int allCount = 0;
-  List checkList = [];
+  int _allCount = 0;
+  List _checkList = [];
 
   final _controller = TextEditingController();
 
@@ -236,14 +236,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         "extId": item.extId
       };
       setState(() {
-        checkList.add(map);
+        _checkList.add(map);
       });
     } else {
-      if (checkList.length > 0) {
-        for (int i = 0; i < checkList.length; i++) {
-          if (checkList[i]['skuId'] == item.skuId) {
+      if (_checkList.length > 0) {
+        for (int i = 0; i < _checkList.length; i++) {
+          if (_checkList[i]['skuId'] == item.skuId) {
             setState(() {
-              checkList.removeAt(i);
+              _checkList.removeAt(i);
             });
           }
         }
@@ -254,7 +254,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   // 购物车编辑删除
   void _deleteCart() async {
     Map<String, dynamic> item = {
-      "skuList": checkList,
+      "skuList": _checkList,
     };
     Map<String, dynamic> params = {'selectedSku': json.encode(item)};
     var responseData = await deleteCart(params);
@@ -301,7 +301,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   @override
   Widget build(BuildContext context) {
-    var argument = widget.argument;
+    var argument = widget.params;
     return _isLogin ? _buildBody(argument, context) : _loginPage(context);
   }
 
@@ -317,7 +317,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           isEdit: isEdit,
           editPress: () {
             setState(() {
-              checkList.clear();
+              _checkList.clear();
               isEdit = !isEdit;
             });
           },
@@ -523,21 +523,21 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
               child: Container(
                 margin: EdgeInsets.only(left: 15),
                 child: Text(
-                  '已选(${checkList.length})',
+                  '已选(${_checkList.length})',
                   style: t14grey,
                 ),
               ),
             ),
             GestureDetector(
               onTap: () {
-                if (checkList.length > 0) {
+                if (_checkList.length > 0) {
                   _deleteCart();
                 }
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
                 alignment: Alignment.center,
-                color: checkList.length > 0 ? redColor : Color(0xFFB4B4B4),
+                color: _checkList.length > 0 ? redColor : Color(0xFFB4B4B4),
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 height: double.infinity,
                 child: Text(
@@ -642,8 +642,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
               onTap: () {
                 Toast.show('暂未开发', context);
                 // _goPay();
-                // Routers.push(Routers.webView, context,
-                //     {'url': 'https://m.you.163.com/order/confirm'});
+
               },
             )
           ],

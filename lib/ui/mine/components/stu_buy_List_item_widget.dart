@@ -2,9 +2,10 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/saturdayBuyModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 
 class StuBuyListItemWidget extends StatelessWidget {
   final Result item;
@@ -35,7 +36,7 @@ class StuBuyListItemWidget extends StatelessWidget {
           context,
           {
             'url':
-                'https://m.you.163.com/pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
+                '${NetContants.baseUrl}pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
           },
         );
       },

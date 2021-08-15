@@ -1,26 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/ui/goods_detail/components/flow_widget.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/component/start_widget.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/flow_widget.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/start_widget.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
 
 class CommentList extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  CommentList({this.arguments});
+  CommentList({this.params});
 
   @override
   _CommentListState createState() => _CommentListState();
@@ -84,7 +82,7 @@ class _CommentListState extends State<CommentList> {
   ///评价列表
   void _getCommentList() async {
     Map<String, dynamic> params = {
-      'itemId': widget.arguments['id'],
+      'itemId': widget.params['id'],
       'page': _page,
       'tag': _tag,
     };
@@ -100,7 +98,7 @@ class _CommentListState extends State<CommentList> {
 
   ///好评率
   void _getCommentPraise() async {
-    var params = {'itemId': widget.arguments['id']};
+    var params = {'itemId': widget.params['id']};
     var responseData = await commentPraiseApi(params);
     setState(() {
       _praise = Praise.fromJson(responseData.data);
@@ -109,7 +107,7 @@ class _CommentListState extends State<CommentList> {
 
   ///评价Tag
   void _getCommentTags() async {
-    var params = {'itemId': widget.arguments['id']};
+    var params = {'itemId': widget.params['id']};
     var responseData = await commentTagsApi(params);
     List data = responseData.data;
     List<CommentItem> list = [];

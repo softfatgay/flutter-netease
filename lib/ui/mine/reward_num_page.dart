@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class RewardNumPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const RewardNumPage({Key key, this.arguments}) : super(key: key);
+  const RewardNumPage({Key key, this.params}) : super(key: key);
 
   @override
   _RewardNumPageState createState() => _RewardNumPageState();
@@ -92,12 +93,12 @@ class _RewardNumPageState extends State<RewardNumPage> {
     return Scaffold(
         backgroundColor: backWhite,
         appBar: TopAppBar(
-          title: widget.arguments['id'] == 4 ? '津贴' : '余额',
+          title: widget.params['id'] == 4 ? '津贴' : '余额',
         ).build(context),
         body: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            singleSliverWidget(widget.arguments['id'] == 4
+            singleSliverWidget(widget.params['id'] == 4
                 ? _buildjintieTop(context)
                 : _buildBalanceTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
@@ -152,7 +153,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     ),
                     onTap: () {
                       Routers.push(Routers.webView, context,
-                          {'url': 'https://m.you.163.com/help/new#/36/137'});
+                          {'url': '${NetContants.baseUrl}help/new#/36/137'});
                     },
                   )
                 ],
@@ -160,7 +161,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
               SizedBox(height: 10),
               Center(
                 child: Text(
-                  '¥${widget.arguments['value']}',
+                  '¥${widget.params['value']}',
                   style: t20whitebold,
                 ),
               ),
@@ -180,10 +181,10 @@ class _RewardNumPageState extends State<RewardNumPage> {
                 ),
                 onTap: () {
                   String url = '';
-                  if (widget.arguments['id'] == 4) {
-                    url = 'https://m.you.163.com/bonus/detail';
+                  if (widget.params['id'] == 4) {
+                    url = '${NetContants.baseUrl}bonus/detail';
                   } else {
-                    url = 'https://m.you.163.com/reward/detail';
+                    url = '${NetContants.baseUrl}reward/detail';
                   }
                   Routers.push(Routers.webView, context, {'url': url});
                 },
@@ -209,7 +210,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                               height: 5,
                             ),
                             Text(
-                              '¥${widget.arguments['value']}',
+                              '¥${widget.params['value']}',
                               style: TextStyle(
                                   color: textWhite,
                                   fontWeight: FontWeight.bold,
@@ -239,7 +240,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                               height: 5,
                             ),
                             Text(
-                              '¥${widget.arguments['value']}',
+                              '¥${widget.params['value']}',
                               style: TextStyle(
                                   color: textWhite,
                                   fontWeight: FontWeight.bold,
@@ -269,7 +270,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                               height: 5,
                             ),
                             Text(
-                              '¥${widget.arguments['value']}',
+                              '¥${widget.params['value']}',
                               style: TextStyle(
                                   color: textWhite,
                                   fontWeight: FontWeight.bold,
@@ -322,7 +323,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     ),
                     onTap: () {
                       Routers.push(Routers.webView, context,
-                          {'url': 'https://m.you.163.com/help/new#/36/119'});
+                          {'url': '${NetContants.baseUrl}help/new#/36/119'});
                     },
                   ),
                 ),
@@ -374,7 +375,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                 ),
                               ),
                               Text(
-                                '${widget.arguments['value']}',
+                                '${widget.params['value']}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 30,
@@ -404,10 +405,10 @@ class _RewardNumPageState extends State<RewardNumPage> {
                           ),
                           onTap: () {
                             String url = '';
-                            if (widget.arguments['id'] == 4) {
-                              url = 'https://m.you.163.com/bonus/detail';
+                            if (widget.params['id'] == 4) {
+                              url = '${NetContants.baseUrl}bonus/detail';
                             } else {
-                              url = 'https://m.you.163.com/reward/detail';
+                              url = '${NetContants.baseUrl}reward/detail';
                             }
                             Routers.push(
                                 Routers.webView, context, {'url': url});

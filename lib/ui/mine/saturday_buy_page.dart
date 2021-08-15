@@ -11,9 +11,9 @@ import 'package:flutter_app/model/tabModel.dart';
 import 'package:flutter_app/ui/mine/components/cart_tablayout_stu.dart';
 import 'package:flutter_app/ui/mine/components/stu_buy_List_item_widget.dart';
 import 'package:flutter_app/ui/mine/components/stu_buy_grid_item_widget.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/normal_footer.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/normal_footer.dart';
 
 class SaturdayTBuyPage extends StatefulWidget {
   @override

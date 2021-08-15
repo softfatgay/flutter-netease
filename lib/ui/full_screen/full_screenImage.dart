@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
 
 class FullScreenImage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const FullScreenImage(this.arguments);
+  const FullScreenImage(this.params);
 
   @override
   _FullScreenImageState createState() => _FullScreenImageState();
@@ -21,8 +21,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _images = widget.arguments['images'];
-      var page = widget.arguments['page'];
+      _images = widget.params['images'];
+      var page = widget.params['page'];
       if (page != null) {
         initPage = page;
       }

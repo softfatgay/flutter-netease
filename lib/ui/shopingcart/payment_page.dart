@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class PaymentPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const PaymentPage({Key key, this.arguments}) : super(key: key);
+  const PaymentPage({Key key, this.params}) : super(key: key);
 
   @override
   _PaymentPageState createState() => _PaymentPageState();
@@ -25,7 +25,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void _getData() async {
     List list = [];
-    list.add(widget.arguments);
+    list.add(widget.params);
 
     Map<String, dynamic> cartGroupList = {'cartGroupList': list};
 

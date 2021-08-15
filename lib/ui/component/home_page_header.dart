@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/home/components/top_search.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
 
 class HomeHeader extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;

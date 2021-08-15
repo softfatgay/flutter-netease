@@ -4,9 +4,9 @@ import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 
 class CartItemPoolPage extends StatefulWidget {
   const CartItemPoolPage({Key key}) : super(key: key);

@@ -20,6 +20,7 @@ Future<ResponseData> global() async {
   return await HttpManager.post(GLOBAL, params: _getParams());
 }
 
+///分类
 Future<ResponseData> sortData(Map<String, dynamic> params) async {
   params.addAll(_timestampParams());
   return await HttpManager.get(URL_SORT_NEW, params: params);

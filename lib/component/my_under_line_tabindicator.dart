@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 /// The [borderSide] defines the line's color and weight.
 ///
 /// The [TabBar.indicatorSize] property can be used to define the indicator's
-/// bounds in terms of its (centered) widget with [TabIndicatorSize.label],
+/// bounds in terms of its (centered) component with [TabIndicatorSize.label],
 /// or the entire tab with [TabIndicatorSize.tab].
 class MyUnderlineTabIndicator extends Decoration {
   /// Create an underline style selected tab indicator.
@@ -30,7 +30,7 @@ class MyUnderlineTabIndicator extends Decoration {
   /// Locates the selected tab's underline relative to the tab's boundary.
   ///
   /// The [TabBar.indicatorSize] property can be used to define the
-  /// tab indicator's bounds in terms of its (centered) tab widget with
+  /// tab indicator's bounds in terms of its (centered) tab component with
   /// [TabIndicatorSize.label], or the entire tab with [TabIndicatorSize.tab].
   final EdgeInsetsGeometry insets;
 

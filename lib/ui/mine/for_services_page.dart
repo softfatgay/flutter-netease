@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/global.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/global.dart';
 
 class ForServicesPage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 0,
       'type': 2,
-      'url': 'https://m.you.163.com/aftersale/packageList?type=2',
+      'url': '${NetContants.baseUrl}aftersale/packageList?type=2',
       'name': '申请退货',
       'icon': 'assets/images/service/tuihuo.png',
       'color': textBlack
@@ -24,7 +25,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 1,
       'type': 2,
-      'url': 'https://m.you.163.com/aftersale/packageList?type=',
+      'url': '${NetContants.baseUrl}aftersale/packageList?type=',
       'name': '申请换货',
       'icon': 'assets/images/service/huanhuo.png',
       'color': textBlack
@@ -32,7 +33,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 2,
       'type': 5,
-      'url': 'https://m.you.163.com/aftersale/packageList?type=5',
+      'url': '${NetContants.baseUrl}aftersale/packageList?type=5',
       'name': '仅退款',
       'icon': 'assets/images/service/tuikuan.png',
       'color': textBlack
@@ -40,7 +41,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 3,
       'type': 4,
-      'url': 'https://m.you.163.com/aftersale/packageList?type=4',
+      'url': '${NetContants.baseUrl}aftersale/packageList?type=4',
       'name': '申请维修',
       'icon': 'assets/images/service/weixiu.png',
       'color': textBlack
@@ -48,7 +49,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 4,
       'type': 2,
-      'url': 'https://m.you.163.com/aftersale/list',
+      'url': '${NetContants.baseUrl}aftersale/list',
       'name': '售后记录',
       'icon': 'assets/images/service/shouhoujilu.png',
       'color': textBlack
@@ -56,7 +57,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 5,
       'type': 2,
-      'url': 'https://m.you.163.com/priceProtect/list',
+      'url': '${NetContants.baseUrl}priceProtect/list',
       'name': '价格保护',
       'icon': 'assets/images/service/jiagebaohu.png',
       'color': textBlack
@@ -64,7 +65,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 6,
       'type': 2,
-      'url': 'https://m.you.163.com/invoice/list',
+      'url': '${NetContants.baseUrl}invoice/list',
       'name': '发票服务',
       'icon': 'assets/images/service/fapiaofuwu.png',
       'color': textBlack
@@ -72,7 +73,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 7,
       'type': 2,
-      'url': 'https://cs.you.163.com/client?k=$kefuKey',
+      'url': '${NetContants.baseUrl}client?k=$kefuKey',
       'name': '在线客服',
       'icon': 'assets/images/service/zaixiankefu.png',
       'color': textBlack

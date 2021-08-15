@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
-import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
 
 class SelectAddressPage extends StatefulWidget {
   const SelectAddressPage({Key key}) : super(key: key);

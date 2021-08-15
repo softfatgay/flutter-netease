@@ -5,25 +5,23 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/goods_detail/components/search_price_filed.dart';
-import 'package:flutter_app/ui/goods_detail/components/search_sliver_bar.dart';
+import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
-import 'package:flutter_app/ui/goods_detail/model/searchParamModel.dart';
-import 'package:flutter_app/ui/shopingcart/components/menu_pop_widget.dart';
+import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/floating_action_button.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/search_widget.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
 
 class SearchIndexPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  SearchIndexPage({this.arguments});
+  SearchIndexPage({this.params});
 
   @override
   _SearchIndexPageState createState() => _SearchIndexPageState();
@@ -79,7 +77,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
             affinity: TextAffinity.downstream, offset: _textValue.length))));
 
     setState(() {
-      _textValue = widget.arguments['id'];
+      _textValue = widget.params['id'];
     });
     _scrollController.addListener(() {
       // 如果下拉的当前位置到scroll的最下面

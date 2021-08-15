@@ -6,8 +6,8 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class RedPacketListPage extends StatefulWidget {
   final int searchType;

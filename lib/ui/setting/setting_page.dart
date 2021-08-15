@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/arrow_icon.dart';
+import 'package:flutter_app/component/app_bar.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -74,7 +74,7 @@ class _SettingPageState extends State<SettingPage> {
                             : Text('${itemList[index].name}'),
                       ),
                     ),
-                    arrowRight,
+                    arrowRightIcon,
                     SizedBox(
                       width: 10,
                     )

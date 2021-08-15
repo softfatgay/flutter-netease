@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class OrderInitPage extends StatefulWidget {
   final Map params;
@@ -59,7 +59,7 @@ class _OrderInitPageState extends State<OrderInitPage> {
   }
 
 // _buildAddressData() {
-//   Widget widget = Container(
+//   Widget component = Container(
 //     color: Colors.white,
 //     padding: EdgeInsets.only(left: 15),
 //     child: Container(
@@ -138,7 +138,7 @@ class _OrderInitPageState extends State<OrderInitPage> {
 //     ),
 //   );
 //
-//   return Routers.link(widget, Util.addAddress, context, item, () {
+//   return Routers.link(component, Util.addAddress, context, item, () {
 //     _getLocations();
 //   });
 // }

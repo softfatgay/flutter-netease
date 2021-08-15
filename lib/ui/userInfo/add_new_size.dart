@@ -8,14 +8,14 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/sizeItemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/check_box.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/check_box.dart';
 
 class AddNewSize extends StatefulWidget {
-  final Map param;
+  final Map params;
 
-  const AddNewSize({Key key, this.param}) : super(key: key);
+  const AddNewSize({Key key, this.params}) : super(key: key);
 
   @override
   _AddNewSizeState createState() => _AddNewSizeState();
@@ -52,8 +52,8 @@ class _AddNewSizeState extends State<AddNewSize> {
     // TODO: implement initState
     setState(() {
       _sizeImg = _manImg;
-      if (widget.param != null) {
-        _id = widget.param['id'];
+      if (widget.params != null) {
+        _id = widget.params['id'];
         print(_id);
         _querySizeId(_id);
       }

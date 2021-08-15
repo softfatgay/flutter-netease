@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 
 class TopicItemWidget extends StatelessWidget {
   final TopicItem item;

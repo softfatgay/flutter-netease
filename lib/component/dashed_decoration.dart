@@ -111,7 +111,7 @@ class DashedDecoration extends Decoration {
   ///
   ///  * [kElevationToShadow], for some predefined shadows used in Material
   ///    Design.
-  ///  * [PhysicalModel], a widget for showing shadows.
+  ///  * [PhysicalModel], a component for showing shadows.
   final List<BoxShadow> boxShadow;
 
   /// A gradient to use when filling the box.

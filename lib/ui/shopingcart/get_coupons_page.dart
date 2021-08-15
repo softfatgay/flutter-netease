@@ -6,9 +6,9 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/getCouponModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 
 class GetCouponPage extends StatefulWidget {
   const GetCouponPage({Key key}) : super(key: key);

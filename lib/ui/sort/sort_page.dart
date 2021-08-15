@@ -14,9 +14,9 @@ import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/sortData.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/vertical_tab.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/ui/sort/component/vertical_tab.dart';
 
 ///分类
 class SortPage extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/timer_text.dart';
+import 'package:flutter_app/component/timer_text.dart';
 
 void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
   var newUserGift2 = newUserGift.newUserGift;

@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
 
 ///账户中没有礼品
 class GiftCardPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const GiftCardPage({Key key, this.arguments}) : super(key: key);
+  const GiftCardPage({Key key, this.params}) : super(key: key);
 
   @override
   _GiftCardPageState createState() => _GiftCardPageState();
@@ -99,7 +100,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '¥${double.parse(widget.arguments['value'].toString())}',
+                  '¥${double.parse(widget.params['value'].toString())}',
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w300,
@@ -120,7 +121,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                     ),
                   ),
                   onTap: () {
-                    _goWebView('https://m.you.163.com/user/securityCenter');
+                    _goWebView('${NetContants.baseUrl}user/securityCenter');
                   },
                 )
               ],
@@ -146,7 +147,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
               ),
               onTap: () {
                 _goWebView(
-                    'https://m.you.163.com/giftCard/records?giftCardGroup=0');
+                    '${NetContants.baseUrl}giftCard/records?giftCardGroup=0');
               },
             ),
           )
@@ -194,7 +195,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                 ),
                 onTap: () {
                   Routers.push(Routers.webView, context,
-                      {'url': 'https://m.you.163.com/help/new#/29'});
+                      {'url': '${NetContants.baseUrl}help/new#/29'});
                 },
               )
             ],

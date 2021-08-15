@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/button_widget.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
 
 class FeedBack extends StatefulWidget {
   @override

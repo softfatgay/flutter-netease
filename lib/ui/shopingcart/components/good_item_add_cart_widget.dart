@@ -6,9 +6,9 @@ import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/my_vertical_text.dart';
-import 'package:flutter_app/widget/slivers.dart';
-import 'package:flutter_app/widget/top_round_net_image.dart';
+import 'package:flutter_app/component/my_vertical_text.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 
 class GoodItemAddCartWidget extends StatelessWidget {
   final List<GoodDetail> dataList;

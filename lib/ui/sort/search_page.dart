@@ -7,9 +7,9 @@ import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/widget/loading.dart';
-import 'package:flutter_app/widget/search_widget.dart';
-import 'package:flutter_app/widget/sliver_footer.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
 
 @Deprecated('使用SearchIndexPage代替')
 class SearchGoodsPage extends StatefulWidget {

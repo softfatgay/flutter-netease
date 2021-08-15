@@ -4,9 +4,9 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/orderListModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/timer_text.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/timer_text.dart';
 
 class OrderListItemPage extends StatefulWidget {
   final Map arguments;

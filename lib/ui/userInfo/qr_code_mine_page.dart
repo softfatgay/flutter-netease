@@ -8,10 +8,10 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/qrCodeModel.dart';
 import 'package:flutter_app/ui/userInfo/model/qrUserInfoModel.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/back_loading.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/tab_app_bar.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRCodeMinePage extends StatefulWidget {

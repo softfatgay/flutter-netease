@@ -94,7 +94,8 @@ class InvalidCartItemWidget extends StatelessWidget {
                                 color: textLightGrey,
                                 borderRadius: BorderRadius.circular(3)),
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 2),
                               child: Text(
                                 "售罄",
                                 style: t12white,

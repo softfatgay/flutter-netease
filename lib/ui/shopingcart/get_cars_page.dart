@@ -7,14 +7,14 @@ import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/button_widget.dart';
-import 'package:flutter_app/widget/slivers.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/slivers.dart';
 
 class GetCarsPage extends StatefulWidget {
-  final Map param;
+  final Map params;
 
-  const GetCarsPage({Key key, this.param}) : super(key: key);
+  const GetCarsPage({Key key, this.params}) : super(key: key);
 
   @override
   _GetCarsPageState createState() => _GetCarsPageState();
@@ -34,7 +34,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
     // TODO: implement initState
     super.initState();
     List<CartItemListItem> dataList = [];
-    _carItem = widget.param['data'];
+    _carItem = widget.params['data'];
     var addBuyStepList = _carItem.addBuyStepList;
     int totalCnt = 0;
     if (addBuyStepList != null && addBuyStepList.isNotEmpty) {

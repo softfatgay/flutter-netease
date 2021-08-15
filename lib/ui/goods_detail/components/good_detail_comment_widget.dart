@@ -5,9 +5,9 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/widget/global.dart';
-import 'package:flutter_app/widget/round_net_image.dart';
-import 'package:flutter_app/widget/start_widget.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/start_widget.dart';
 
 typedef void OnPress();
 

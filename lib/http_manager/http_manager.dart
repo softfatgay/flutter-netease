@@ -8,10 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
-
-const String _baseUrl = "https://m.you.163.com/";
 
 class HttpManager {
   static _netError() {
@@ -30,7 +29,7 @@ class HttpManager {
   static get dioInstance {
     if (_dio == null) {
       var baseOptions = BaseOptions(
-        baseUrl: _baseUrl,
+        baseUrl: NetContants.baseUrl,
         sendTimeout: 15000,
         receiveTimeout: 15000,
         connectTimeout: 15000,
