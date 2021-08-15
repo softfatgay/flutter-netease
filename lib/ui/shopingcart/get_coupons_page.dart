@@ -53,6 +53,20 @@ class _GetCouponPageState extends State<GetCouponPage> {
   }
 
   _buildBody() {
+    if (_avalibleCouponList == null || _receiveCouponList == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/no_coupon.png',height: 124,),
+            Text(
+              '暂时没有可领的优惠券',
+              style: t12grey,
+            )
+          ],
+        ),
+      );
+    }
     List<Widget> childs = [];
     childs.add(_avalibleCouponList == null || _avalibleCouponList.isEmpty
         ? Container()

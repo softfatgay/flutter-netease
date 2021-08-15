@@ -1,14 +1,17 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/component/normalSearchModel.dart';
+import 'package:flutter_app/ui/component/normal_conditions.dart';
+import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/model/brandIndexModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/widget/app_bar.dart';
-import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/sliver_footer.dart';
 import 'package:flutter_app/widget/slivers.dart';
 
@@ -35,8 +38,13 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   bool _isLoading = true;
   String _extInfo = '';
 
+  double narbarHeight = 40;
+
+  bool resetPage = false;
 
   final _scrollController = new ScrollController();
+
+  var _searchModel = NormalSearchModel(index: 0, descSorted: true);
 
   @override
   void initState() {
@@ -72,20 +80,22 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
     };
     var responseData = await brandInfo(params);
 
+    var brandInfodata = BrandInfo.fromJson(responseData.data);
     setState(() {
-      _brandInfo = BrandInfo.fromJson(responseData.data);
+      _brandInfo.subTitle = brandInfodata.subTitle;
+      _brandInfo.desc = brandInfodata.desc;
     });
   }
 
   void _getBrandIndex() async {
     Map<String, dynamic> params = {
-      'itemId': _goodId,
       'brandId': _brandInfo.brandId,
-      'type': _brandInfo.type,
+      'descSorted': _searchModel.descSorted ?? true,
       'extInfo': _extInfo,
-      'descSorted': true,
-      'sortType': 0,
-      'merchantId': _brandInfo.merchantId ?? 'undefined'
+      'itemId': _goodId,
+      'merchantId': _brandInfo.merchantId ?? 'undefined',
+      'sortType': _searchModel.sortType,
+      'type': _brandInfo.type,
     };
     var responseData = await brandIndex(params);
     if (responseData.code == '200') {
@@ -93,6 +103,9 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
         _isLoading = false;
         _brandIndexModel = BrandIndexModel.fromJson(responseData.data);
         var itemList = _brandIndexModel.itemList;
+        if (resetPage) {
+          _itemList.clear();
+        }
         _itemList.addAll(itemList);
         _hasMore = _brandIndexModel.hasMore;
         _extInfo = _brandIndexModel.extInfo;
@@ -103,6 +116,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backColor,
       appBar: TopAppBar(title: '${_brandInfo.title ?? ''}').build(context),
       body: _body(),
     );
@@ -113,16 +127,45 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       controller: _scrollController,
       slivers: [
         singleSliverWidget(_branchWidget()),
+        _buildStickyBar(),
         GoodItemWidget(dataList: _itemList),
         SliverFooter(hasMore: _hasMore),
       ],
     );
   }
 
+  Widget _buildStickyBar() {
+    return SliverPersistentHeader(
+      pinned: true, //是否固定在顶部
+      floating: true,
+      delegate: SliverAppBarDelegate(
+          minHeight: narbarHeight, //收起的高度
+          maxHeight: narbarHeight, //展开的最大高度
+          child: Container(
+            child: NormalConditionsBar(
+              height: narbarHeight,
+              pressChange: (searchModel) {
+                _resetPage(searchModel);
+              },
+            ),
+          )),
+    );
+  }
+
+  void _resetPage(NormalSearchModel searchModel) {
+    setState(() {
+      _extInfo = '';
+      resetPage = true;
+      _searchModel = searchModel;
+    });
+    _getBrandIndex();
+  }
+
   _branchWidget() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       color: backWhite,
+      margin: EdgeInsets.only(bottom: 10),
       child: Column(
         textBaseline: TextBaseline.alphabetic,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -139,14 +182,14 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${_brandInfo.title}',
+                      '${_brandInfo.title??''}',
                       style: t16blackbold,
                     ),
                     SizedBox(
                       height: 6,
                     ),
                     Text(
-                      '${_brandInfo.subTitle}',
+                      '${_brandInfo.subTitle??''}',
                       style: t12black,
                     ),
                   ],

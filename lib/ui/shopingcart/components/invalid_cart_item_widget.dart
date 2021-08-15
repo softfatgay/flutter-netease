@@ -79,12 +79,30 @@ class InvalidCartItemWidget extends StatelessWidget {
         Widget widget = Container(
           margin: EdgeInsets.only(bottom: 0.5),
           color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: EdgeInsets.symmetric(vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
+                  Container(
+                    width: 40,
+                    child: item.sellVolume == 0
+                        ? Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                                color: textLightGrey,
+                                borderRadius: BorderRadius.circular(3)),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                              child: Text(
+                                "售罄",
+                                style: t12white,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: backGrey,
@@ -95,25 +113,57 @@ class InvalidCartItemWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: EdgeInsets.only(left: 10),
                             child: Text(
                               '${item.itemName}',
-                              style: t16grey,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                            child: Text(
-                              '${_specValue(item)}',
                               style: t14grey,
                             ),
                           ),
+                          GestureDetector(
+                            child: Container(
+                              margin: EdgeInsets.only(top: 5),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 3, vertical: 1),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: lineColor, width: 0.5),
+                                borderRadius: BorderRadius.circular(2),
+                                color: Color(0xFFFAFAFA),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    constraints: BoxConstraints(
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width /
+                                                2),
+                                    child: Text(
+                                      '${_specValue(item)}',
+                                      style: t12grey,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  // item.id != 0
+                                  //     ? Image.asset(
+                                  //   'assets/images/arrow_down.png',
+                                  //   width: 10,
+                                  //   height: 10,
+                                  // )
+                                  //     : Container()
+                                ],
+                              ),
+                            ),
+                            onTap: () {},
+                          ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            margin: EdgeInsets.only(top: 10),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [

@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:common_utils/common_utils.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -21,7 +18,6 @@ import 'package:flutter_app/ui/shopingcart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/widget/back_loading.dart';
 import 'package:flutter_app/widget/global.dart';
 import 'package:flutter_app/widget/service_tag_widget.dart';
