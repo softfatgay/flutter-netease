@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/slivers.dart';
 
+///换购
 class GetCarsPage extends StatefulWidget {
   final Map params;
 
@@ -136,9 +138,26 @@ class _GetCarsPageState extends State<GetCarsPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildCheckBox(item),
+            GestureDetector(
+              child: _buildCheckBox(item),
+              onTap: () {
+                setState(() {
+                  if (!item.checked) {
+                    if (_allowCount > _totalCnt) {
+                      _totalCnt++;
+                      item.checked = true;
+                    } else {
+                      Toast.show('最多可领取$_allowCount件', context);
+                    }
+                  } else {
+                    _totalCnt--;
+                    item.checked = false;
+                  }
+                });
+              },
+            ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
                   color: backGrey, borderRadius: BorderRadius.circular(4)),
               height: 76,
@@ -150,19 +169,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
         ),
       ),
       onTap: () {
-        setState(() {
-          if (!item.checked) {
-            if (_allowCount > _totalCnt) {
-              _totalCnt++;
-              item.checked = true;
-            } else {
-              Toast.show('最多可领取$_allowCount件', context);
-            }
-          } else {
-            _totalCnt--;
-            item.checked = false;
-          }
-        });
+        Routers.push(Routers.goodDetail, context, {'id': item.itemId});
       },
     );
   }
@@ -218,9 +225,10 @@ class _GetCarsPageState extends State<GetCarsPage> {
 
   _buildCheckBox(CartItemListItem item) {
     return Container(
-      margin: EdgeInsets.only(left: 15),
-      child: Padding(
-        padding: EdgeInsets.all(2),
+      color: backWhite,
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      alignment: Alignment.center,
+      child: Center(
         child: item.checked
             ? Icon(
                 Icons.check_circle,

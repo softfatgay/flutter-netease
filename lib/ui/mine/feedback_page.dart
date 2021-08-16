@@ -106,10 +106,11 @@ class _FeedBackState extends State<FeedBack> {
                               },
                             ),
                           ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: textGrey,
-                          )
+                          Image.asset(
+                            'assets/images/arrow_down.png',
+                            width: 12,
+                            height: 12,
+                          ),
                         ],
                       ),
                     ),
@@ -194,13 +195,13 @@ class _FeedBackState extends State<FeedBack> {
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(color: lineColor, width: 1))),
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(vertical: 15),
                     child: Center(
                       child: Text(
                         item['desc'],
                         style: selectType['desc'] == item['desc']
                             ? t14red
-                            : t14grey,
+                            : t14black,
                       ),
                     ),
                   ),

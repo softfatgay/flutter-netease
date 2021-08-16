@@ -499,142 +499,147 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _redeem(CarItem itemData, int index, BuildContext context) {
-    if (itemData.promTip != null) {
-      if (itemData.promType == 4) {
-        ///换购
-        return Container(
-          color: backWhite,
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                      margin: EdgeInsets.only(left: _checkBoxWith / 2),
-                      decoration: BoxDecoration(
-                        color: redLightColor,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
+    // if (itemData.promTip != null) {
+    //   if (itemData.promType == 4) {
+    //     ///换购
+    //   } else if (itemData.promType == 108) {
+    //     ///满减
+    //   }
+    // }
+    if (itemData.addBuyStepList != null && itemData.addBuyStepList.isNotEmpty) {
+      ///换购
+      return Container(
+        color: backWhite,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                    margin: EdgeInsets.only(left: _checkBoxWith / 2),
+                    decoration: BoxDecoration(
+                      color: redLightColor,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: Text(
+                      '换购',
+                      style: t12white,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4),
+                      alignment: Alignment.centerLeft,
                       child: Text(
-                        index == 0 ? '全场换购' : '换购',
-                        style: t12white,
+                        '${itemData.promTip}',
+                        style: t14black,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 4),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${itemData.promTip}',
-                          style: t14black,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                  ),
+                  GestureDetector(
+                    child: Row(
+                      children: [
+                        Text(
+                          '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
+                          style: t12red,
                         ),
-                      ),
+                        arrowRightRed10Icon
+                      ],
                     ),
-                    GestureDetector(
-                      child: Row(
-                        children: [
-                          Text(
-                            '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
-                            style: t12red,
-                          ),
-                          arrowRightRed10Icon
-                        ],
-                      ),
-                      onTap: () {
-                        Routers.push(Routers.webView, context, {
-                          'url':
-                              '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
-                        });
-                      },
-                    )
-                  ],
-                ),
+                    onTap: () {
+                      Routers.push(Routers.webView, context, {
+                        'url':
+                            '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
+                      });
+                    },
+                  )
+                ],
               ),
-              GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFF7F5),
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  margin: EdgeInsets.fromLTRB(_checkBoxWith, 0, 15, 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          itemData.promSatisfy ? '去换购商品' : '查看换购商品',
-                          style: t12black,
-                        ),
-                      ),
-                      arrowRightIcon
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  if (goRedeem != null) {
-                    goRedeem(itemData);
-                  }
-                },
-              ),
-            ],
-          ),
-        );
-      } else if (itemData.promType == 108) {
-        ///满减
-        return Container(
-          color: backWhite,
-          padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(right: 6),
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            ),
+            GestureDetector(
+              child: Container(
                 decoration: BoxDecoration(
-                  color: redLightColor,
-                  borderRadius: BorderRadius.circular(2),
+                  color: Color(0xFFFFF7F5),
+                  borderRadius: BorderRadius.circular(3),
                 ),
-                child: Text(
-                  '满额减',
-                  style: t12white,
-                ),
-              ),
-              Expanded(
-                  child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '${itemData.promTip}',
-                  style: t14black,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )),
-              GestureDetector(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                margin: EdgeInsets.fromLTRB(_checkBoxWith, 0, 15, 8),
                 child: Row(
                   children: [
-                    Text(
-                      '去凑单',
-                      style: t12red,
+                    Expanded(
+                      child: Text(
+                        itemData.promSatisfy ? '去换购商品' : '查看换购商品',
+                        style: t12black,
+                      ),
                     ),
-                    arrowRightRed10Icon
+                    arrowRightIcon
                   ],
                 ),
-                onTap: () {
-                  Routers.push(Routers.webView, context, {
-                    'url':
-                        '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
-                  });
-                },
-              )
-            ],
-          ),
-        );
-      }
+              ),
+              onTap: () {
+                if (goRedeem != null) {
+                  goRedeem(itemData);
+                }
+              },
+            ),
+          ],
+        ),
+      );
+    } else if (itemData.promType == 108) {
+      ///满减
+      return Container(
+        color: backWhite,
+        padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 6),
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              decoration: BoxDecoration(
+                color: redLightColor,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: Text(
+                '满额减',
+                style: t12white,
+              ),
+            ),
+            Expanded(
+                child: Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${itemData.promTip}',
+                style: t14black,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            )),
+            GestureDetector(
+              child: Row(
+                children: [
+                  Text(
+                    '去凑单',
+                    style: t12red,
+                  ),
+                  arrowRightRed10Icon
+                ],
+              ),
+              onTap: () {
+                Routers.push(Routers.webView, context, {
+                  'url':
+                      '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
+                });
+              },
+            )
+          ],
+        ),
+      );
     }
     return Container();
   }
