@@ -330,8 +330,8 @@ Future<ResponseData> getCartsSubmit(Map<String, dynamic> postParams) async {
 
 ///清除无效商品
 Future<ResponseData> clearInvalidItem(Map<String, dynamic> params) async {
-  params.addAll(_getParams());
-  return await HttpManager.post(CLEAR_INVALID_ITEMS, params: params);
+  return await HttpManager.post(CLEAR_INVALID_ITEMS,
+      params: _getParams(), data: params);
 }
 
 ///check-cart
@@ -489,6 +489,5 @@ Future<ResponseData> brandInfo(Map<String, dynamic> params) async {
 ///屁拍研究所商品
 Future<ResponseData> brandIndex(Map<String, dynamic> params) async {
   return await HttpManager.post(BRAND_INDEX,
-      params: _getParams(),
-      data: params);
+      params: _getParams(), data: params);
 }

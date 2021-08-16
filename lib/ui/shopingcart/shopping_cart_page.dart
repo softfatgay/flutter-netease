@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -286,7 +286,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var map = {
       'skuList': invalidSku,
     };
-    Map<String, dynamic> param = {'invalidSku': map};
+    Map<String, dynamic> param = {'invalidSku': '${convert.jsonEncode(map)}'};
     var response = await clearInvalidItem(param);
     if (response.code == 200) {
       _getData();
@@ -642,7 +642,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
               onTap: () {
                 Toast.show('暂未开发', context);
                 // _goPay();
-
               },
             )
           ],
