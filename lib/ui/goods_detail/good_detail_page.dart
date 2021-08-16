@@ -695,9 +695,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               items: adBanners.map<Widget>((e) {
                 return GestureDetector(
                   child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: backWhite),
+                    width: double.infinity,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
                     child: CachedNetworkImage(
                       imageUrl: '${e.picUrl}',
                       fit: BoxFit.cover,
@@ -1718,8 +1718,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    padding:
-                                        EdgeInsets.only(top: 15),
+                                    padding: EdgeInsets.only(top: 15),
                                     child: Text(
                                       item.title,
                                       style: t14black,

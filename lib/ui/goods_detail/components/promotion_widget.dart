@@ -24,7 +24,7 @@ class PromotionWidget extends StatelessWidget {
         ? Container()
         : GestureDetector(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
               decoration: bottomBorder,
               child: Row(
                 children: <Widget>[
@@ -54,9 +54,7 @@ class PromotionWidget extends StatelessWidget {
 
 class CuxiaoItems extends StatelessWidget {
   final List<HdrkDetailVOListItem> hdrkDetailVOList;
-
   const CuxiaoItems({Key key, this.hdrkDetailVOList}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,7 +62,7 @@ class CuxiaoItems extends StatelessWidget {
       child: Column(
         children: hdrkDetailVOList
             .map((item) => Container(
-                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  padding: EdgeInsets.symmetric(vertical: 3),
                   child: Row(
                     children: [
                       Container(
