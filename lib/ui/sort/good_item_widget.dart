@@ -46,8 +46,7 @@ class GoodItemWidget extends StatelessWidget {
           return GestureDetector(
             child: buildGoodItem,
             onTap: () {
-              Routers.push(
-                  Routers.goodDetail, context, {'id': data[index].id});
+              Routers.push(Routers.goodDetail, context, {'id': data[index].id});
             },
           );
         });

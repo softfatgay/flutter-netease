@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/error_page.dart';
 import 'package:flutter_app/ui/full_screen/full_screenImage.dart';
+import 'package:flutter_app/ui/goods_detail/LookPage.dart';
 import 'package:flutter_app/ui/goods_detail/brand_info_page.dart';
 import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
@@ -86,10 +87,14 @@ class Routers {
   static const String getCouponPage = '/getCouponPage';
   static const String makeUpPage = '/makeUpPage';
   static const String brandInfoPage = '/brandInfoPage';
+  static const String lookPage = '/lookPage';
 
   static Map<String, Function> routes = {
     ///订单详情
     orderDetailPage: (context, {params}) => OrderDetailPage(params: params),
+
+    ///晒单
+    lookPage: (context, {params}) => LookPage(),
 
     ///品牌研究所
     brandInfoPage: (context, {params}) => BrandInfoPage(params: params),
@@ -168,8 +173,7 @@ class Routers {
     addNewSize: (context, {params}) => AddNewSize(params: params),
 
     ///去使用红包
-    redPackageUsePage: (context, {params}) =>
-        RedPackageUsePage(params: params),
+    redPackageUsePage: (context, {params}) => RedPackageUsePage(params: params),
 
     ///去使用红包
     getCouponPage: (context, {params}) => GetCouponPage(),

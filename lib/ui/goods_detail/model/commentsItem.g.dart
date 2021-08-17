@@ -24,7 +24,11 @@ CommentsItem _$CommentsItemFromJson(Map<String, dynamic> json) {
     ..starVO = json['starVO'] == null
         ? null
         : StarVO.fromJson(json['starVO'] as Map<String, dynamic>)
-    ..star = json['star'] as num;
+    ..star = json['star'] as num
+    ..commentItemTagVO = json['commentItemTagVO'] == null
+        ? null
+        : CommentItemTagVO.fromJson(
+            json['commentItemTagVO'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CommentsItemToJson(CommentsItem instance) =>
@@ -44,6 +48,7 @@ Map<String, dynamic> _$CommentsItemToJson(CommentsItem instance) =>
       'memberLevel': instance.memberLevel,
       'starVO': instance.starVO,
       'star': instance.star,
+      'commentItemTagVO': instance.commentItemTagVO,
     };
 
 StarVO _$StarVOFromJson(Map<String, dynamic> json) {
@@ -52,4 +57,16 @@ StarVO _$StarVOFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$StarVOToJson(StarVO instance) => <String, dynamic>{
       'star': instance.star,
+    };
+
+CommentItemTagVO _$CommentItemTagVOFromJson(Map<String, dynamic> json) {
+  return CommentItemTagVO()
+    ..type = json['type'] as num
+    ..schemeUrl = json['schemeUrl'] as String;
+}
+
+Map<String, dynamic> _$CommentItemTagVOToJson(CommentItemTagVO instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'schemeUrl': instance.schemeUrl,
     };

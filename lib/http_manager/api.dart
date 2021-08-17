@@ -491,3 +491,28 @@ Future<ResponseData> brandIndex(Map<String, dynamic> params) async {
   return await HttpManager.post(BRAND_INDEX,
       params: _getParams(), data: params);
 }
+
+///晒单请求1
+Future<ResponseData> lookHomeData() async {
+  return await HttpManager.get(LOOK_HOMEDATA, params: _getParams());
+}
+
+///晒单头部
+Future<ResponseData> lookGetList(
+    Map<String, dynamic> params, bool showProgress) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(LOOK_GETLIST,
+      params: params, showProgress: showProgress);
+}
+
+///晒单列表数据
+Future<ResponseData> lookGetCollection(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(LOOK_GETCOLLECTION, params: params);
+}
+
+///晒单列表数据
+Future<ResponseData> lookSupport(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(LOOK_SUPPORT, params: params);
+}

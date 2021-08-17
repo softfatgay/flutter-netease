@@ -15,6 +15,7 @@ TopicItem _$TopicItemFromJson(Map<String, dynamic> json) {
     ..style = json['style'] as num
     ..schemeUrl = json['schemeUrl'] as String
     ..nickname = json['nickname'] as String
+    ..bannerUrl = json['bannerUrl'] as String
     ..avatar = json['avatar'] as String
     ..title = json['title'] as String
     ..subTitle = json['subTitle'] as String
@@ -23,6 +24,11 @@ TopicItem _$TopicItemFromJson(Map<String, dynamic> json) {
     ..hasLookCollects = json['hasLookCollects'] as bool
     ..size = json['size'] as num
     ..duration = json['duration'] as num
+    ..supportNum = json['supportNum'] as num
+    ..supportFlag = json['supportFlag'] as bool
+    ..bannerInfo = json['bannerInfo'] == null
+        ? null
+        : BannerInfo.fromJson(json['bannerInfo'] as Map<String, dynamic>)
     ..buyNow = json['buyNow'] == null
         ? null
         : BuyNow.fromJson(json['buyNow'] as Map<String, dynamic>);
@@ -36,6 +42,7 @@ Map<String, dynamic> _$TopicItemToJson(TopicItem instance) => <String, dynamic>{
       'style': instance.style,
       'schemeUrl': instance.schemeUrl,
       'nickname': instance.nickname,
+      'bannerUrl': instance.bannerUrl,
       'avatar': instance.avatar,
       'title': instance.title,
       'subTitle': instance.subTitle,
@@ -44,5 +51,8 @@ Map<String, dynamic> _$TopicItemToJson(TopicItem instance) => <String, dynamic>{
       'hasLookCollects': instance.hasLookCollects,
       'size': instance.size,
       'duration': instance.duration,
+      'supportNum': instance.supportNum,
+      'supportFlag': instance.supportFlag,
+      'bannerInfo': instance.bannerInfo,
       'buyNow': instance.buyNow,
     };

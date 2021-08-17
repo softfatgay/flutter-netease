@@ -151,8 +151,7 @@ class _WebViewPageState extends State<WebViewPage> {
                 var split2 = split[1];
                 var split3 = split2.split('&')[0];
                 if (split3 != null && split3.isNotEmpty) {
-                  Routers.push(
-                      Routers.goodDetail, context, {'id': '$split3'});
+                  Routers.push(Routers.goodDetail, context, {'id': '$split3'});
                 }
                 return NavigationDecision.prevent;
               } else if (url.startsWith('${NetContants.baseUrl}cart')) {
@@ -207,6 +206,12 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   //隐藏头部
+  String hideHeaderJs4() {
+    var js = "document.querySelector('.psc-m-topbar').style.display = 'none';";
+    return js;
+  }
+
+  //隐藏头部
   String hideHeaderJs() {
     var js = "document.querySelector('.hdWraper').style.display = 'none';";
     return js;
@@ -227,6 +232,7 @@ class _WebViewPageState extends State<WebViewPage> {
             value.evaluateJavascript(hideHeaderJs1()).then((result) {});
             value.evaluateJavascript(hideHeaderJs2()).then((result) {});
             value.evaluateJavascript(hideHeaderJs3()).then((result) {});
+            value.evaluateJavascript(hideHeaderJs4()).then((result) {});
             value.evaluateJavascript(hideOpenAppJs()).then((result) {});
             value.evaluateJavascript(hideBottom1()).then((result) {});
             value.evaluateJavascript(hideBottom2()).then((result) {});

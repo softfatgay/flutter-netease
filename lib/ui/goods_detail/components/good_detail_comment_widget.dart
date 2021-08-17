@@ -34,8 +34,12 @@ class GoodDetailCommentWidget extends StatelessWidget {
   }
 
   _buildWidget(BuildContext context) {
+    CommentsItem item;
+    if (comments.length > 0) {
+      item = comments[0];
+    }
     return Container(
-      margin: EdgeInsets.only(top: 10),
+        margin: EdgeInsets.only(top: 10),
         color: Colors.white,
         child: Column(
           children: <Widget>[
@@ -59,22 +63,23 @@ class GoodDetailCommentWidget extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          goodCmtRate == null ? "" : goodCmtRate,
-                          style: t16red,
-                        ),
-                        Text(
-                          (goodCmtRate == null || goodCmtRate == '')
-                              ? '查看全部'
-                              : '好评率',
-                          style: t14black,
-                        ),
-                      ],
-                    )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            goodCmtRate == null ? "" : goodCmtRate,
+                            style: t16red,
+                          ),
+                          Text(
+                            (goodCmtRate == null || goodCmtRate == '')
+                                ? '查看全部'
+                                : '好评率',
+                            style: t14black,
+                          ),
+                        ],
+                      ),
+                    ),
                     arrowRightIcon
                   ],
                 ),
@@ -101,7 +106,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                                 width: 30,
                                 height: 30,
                                 child: CachedNetworkImage(
-                                  imageUrl: comments[0].frontUserAvatar ?? '',
+                                  imageUrl: item.frontUserAvatar ?? '',
                                   errorWidget: (context, url, error) {
                                     return ClipOval(
                                       child: Container(
@@ -118,8 +123,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                             Container(
                               child: Container(
                                 margin: EdgeInsets.only(left: 10),
-                                child:
-                                    Text('${comments[0].frontUserName ?? ''}'),
+                                child: Text('${item.frontUserName ?? ''}'),
                               ),
                             ),
                             Container(
@@ -143,7 +147,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     TextSpan(
-                                        text: '${comments[0].memberLevel}',
+                                        text: '${item.memberLevel}',
                                         style: TextStyle(
                                             fontStyle: FontStyle.normal,
                                             fontSize: 8,
@@ -155,16 +159,34 @@ class GoodDetailCommentWidget extends StatelessWidget {
                             Container(
                               child: StaticRatingBar(
                                 size: 15,
-                                rate: double.parse(
-                                    comments[0].memberLevel.toString()),
+                                rate: double.parse(item.memberLevel.toString()),
                               ),
                             ),
+                            item.commentItemTagVO == null
+                                ? Container()
+                                : Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child: GestureDetector(
+                                        child: Image.asset(
+                                            item.commentItemTagVO.type == 1
+                                                ? 'assets/images/commond_look.png'
+                                                : '',
+                                            height: 40,
+                                            width: 40),
+                                        onTap: () {
+                                          Routers.push(
+                                              Routers.lookPage, context);
+                                        },
+                                      ),
+                                    ),
+                                  ),
                           ],
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 5),
                           child: Text(
-                            '${DateUtil.formatDateMs(comments[0].createTime) + '   ' + comments[0].skuInfo[0]}',
+                            '${DateUtil.formatDateMs(item.createTime) + '   ' + item.skuInfo[0]}',
                             style: t12grey,
                             maxLines: 2,
                             textAlign: TextAlign.left,
@@ -174,16 +196,15 @@ class GoodDetailCommentWidget extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(bottom: 5),
                           child: Text(
-                            '${comments[0].content}',
+                            '${item.content}',
                             style: t14black,
                           ),
                         ),
                         Wrap(
                           spacing: 5,
                           runSpacing: 5,
-                          children:
-                              commentPic(context, comments[0].picList ?? []),
-                        )
+                          children: commentPic(context, item.picList ?? []),
+                        ),
                       ],
                     ),
                   )

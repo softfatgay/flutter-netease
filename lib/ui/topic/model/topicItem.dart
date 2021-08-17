@@ -1,3 +1,4 @@
+import 'package:flutter_app/ui/goods_detail/model/bannerInfo.dart';
 import 'package:flutter_app/ui/topic/model/buyNow.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,6 +13,7 @@ class TopicItem {
   num style;
   String schemeUrl;
   String nickname;
+  String bannerUrl;
   String avatar;
   String title;
   String subTitle;
@@ -20,6 +22,9 @@ class TopicItem {
   bool hasLookCollects;
   num size;
   num duration;
+  num supportNum;
+  bool supportFlag;
+  BannerInfo bannerInfo;
 
   BuyNow buyNow;
 

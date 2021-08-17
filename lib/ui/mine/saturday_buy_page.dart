@@ -57,9 +57,7 @@ class _TestPageState extends State<SaturdayTBuyPage>
           if (!_isLoading) {
             setState(() {
               this._isLoading = true;
-              setState(() {
-                _page += 1;
-              });
+              _page += 1;
             });
             _getPinDataList(false); //加载数据
           }

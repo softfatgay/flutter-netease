@@ -269,111 +269,132 @@ class _CommentListState extends State<CommentList> {
   _buildCommentList() {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return Container(
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        padding: EdgeInsets.only(bottom: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                ClipOval(
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    child: CachedNetworkImage(
-                      imageUrl: _commentList[index].frontUserAvatar == null
-                          ? ''
-                          : _commentList[index].frontUserAvatar,
-                      errorWidget: (context, url, error) {
-                        return ClipOval(
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(color: Colors.grey),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(_commentList[index].frontUserName),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 2),
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFB19C6D),
-                      borderRadius: BorderRadius.circular(2)),
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                          color: Colors.grey, fontSize: 14, letterSpacing: -2),
-                      children: [
-                        TextSpan(
-                          text: 'V',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                            text: '${_commentList[index].memberLevel}',
-                            style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontSize: 8,
-                                color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  child: StaticRatingBar(
-                    size: 15,
-                    rate: double.parse(_commentList[index].star.toString() ??
-                        _commentList[index].star.toString()),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5),
-              child: Text(
-                '${DateUtil.formatDateMs(_commentList[index].createTime) + '   ' + _commentList[index].skuInfo[0]}',
-                style: t12grey,
-                maxLines: 2,
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Text(
-                _commentList[index].content,
-                style: t14black,
-              ),
-            ),
-            Wrap(
-              spacing: 5,
-              runSpacing: 5,
-              children: _commentPic(_commentList[index].picList == null
-                  ? []
-                  : _commentList[index].picList),
-            ),
-            _buildCommentReplyVO(index),
-            _commentReplyVO(index),
-          ],
-        ),
-      );
+      return _buildItem(index);
     }, childCount: _commentList.length));
+  }
+
+  Container _buildItem(int index) {
+    var item = _commentList[index];
+    return Container(
+      decoration: BoxDecoration(
+          border:
+              Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ClipOval(
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  child: CachedNetworkImage(
+                    imageUrl: item.frontUserAvatar == null
+                        ? ''
+                        : item.frontUserAvatar,
+                    errorWidget: (context, url, error) {
+                      return ClipOval(
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(color: Colors.grey),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Container(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(item.frontUserName),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 2),
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                    color: Color(0xFFB19C6D),
+                    borderRadius: BorderRadius.circular(2)),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                        color: Colors.grey, fontSize: 14, letterSpacing: -2),
+                    children: [
+                      TextSpan(
+                        text: 'V',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: '${item.memberLevel}',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 8,
+                              color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                child: StaticRatingBar(
+                  size: 15,
+                  rate: double.parse(
+                      item.star.toString() ?? item.star.toString()),
+                ),
+              ),
+              Expanded(
+                child: item.commentItemTagVO == null
+                    ? Container()
+                    : Container(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          child: Image.asset(
+                              item.commentItemTagVO.type == 1
+                                  ? 'assets/images/commond_look.png'
+                                  : '',
+                              height: 40,
+                              width: 40),
+                          onTap: () {
+                            Routers.push(Routers.lookPage, context);
+                          },
+                        ),
+                      ),
+              ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5),
+            child: Text(
+              '${DateUtil.formatDateMs(item.createTime) + '   ' + item.skuInfo[0]}',
+              style: t12grey,
+              maxLines: 2,
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 5),
+            child: Text(
+              item.content,
+              style: t14black,
+            ),
+          ),
+          Wrap(
+            spacing: 5,
+            runSpacing: 5,
+            children: _commentPic(item.picList == null ? [] : item.picList),
+          ),
+          _buildCommentReplyVO(index),
+          _commentReplyVO(index),
+        ],
+      ),
+    );
   }
 
   List<Widget> _commentPic(List _commentList) =>

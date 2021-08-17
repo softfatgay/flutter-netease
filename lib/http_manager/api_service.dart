@@ -261,6 +261,19 @@ final String BRAND_INFO = '${suffixUrl}xhr/brand/info.json';
 ///屁拍研究所商品
 final String BRAND_INDEX = '${suffixUrl}xhr/item/brand/index.json';
 
+///晒单请求1
+final String LOOK_HOMEDATA = '${suffixUrl}topic/v1/look/homeData.json';
+
+///晒单头部
+final String LOOK_GETLIST = '${suffixUrl}topic/v1/look/getList.json';
+
+///晒单列表数据
+final String LOOK_GETCOLLECTION =
+    '${suffixUrl}topic/v1/look/getCollection.json';
+
+///晒单列表点赞
+final String LOOK_SUPPORT = '${suffixUrl}topic/v1/look/support.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -483,9 +496,20 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 ///凑单
 //https://m.you.163.com/xhr/item/getItemPool.json?csrf_token=f04b3a55d2a236d461f08d18e082a6c6&promotionId=240528894&page=1&size=10&sortType=0&descSorted=false&source=3&categoryId=0&priceRangeId=0
 
-
 //商品详情品牌研究所
 ///https://m.you.163.com/xhr/brand/info.json?csrf_token=69338db97d2ccc5c4584c5a2307e6d9e&__timestamp=1628952138312&itemId=3998559&brandId=2000631&type=1&merchantId=undefined
 
 ///屁拍研究所商品
 //https://m.you.163.com/xhr/item/brand/index.json?csrf_token=69338db97d2ccc5c4584c5a2307e6d9e
+
+///晒单请求1
+//https://m.you.163.com/topic/v1/look/homeData.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///晒单头部
+// https://m.you.163.com/topic/v1/look/getList.json?page=1&size=20&type=4&csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///晒单列表数据
+//https://m.you.163.com/topic/v1/look/getCollection.json?id=142&csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///点赞
+//https://m.you.163.com/topic/v1/look/support.json?topicId=104707&csrf_token=66aed4b6a860e2c66324d42c46ac8b59

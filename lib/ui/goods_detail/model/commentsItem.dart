@@ -23,6 +23,8 @@ class CommentsItem {
   StarVO starVO;
   num star;
 
+  CommentItemTagVO commentItemTagVO;
+
   CommentsItem();
 
   factory CommentsItem.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +36,16 @@ class StarVO {
   num star;
 
   StarVO();
-
   factory StarVO.fromJson(Map<String, dynamic> json) => _$StarVOFromJson(json);
+}
+
+@JsonSerializable()
+class CommentItemTagVO {
+  num type;
+  String schemeUrl;
+
+  CommentItemTagVO();
+
+  factory CommentItemTagVO.fromJson(Map<String, dynamic> json) =>
+      _$CommentItemTagVOFromJson(json);
 }

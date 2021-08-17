@@ -776,29 +776,35 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               return Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: topBorder,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        child: Text('${attrList[index].attrName}'),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          '${attrList[index].attrValue}',
+                color: backWhite,
+                child: Container(
+                  decoration: const DashedDecoration(
+                      dashedColor: textGrey,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0))),
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          child: Text('${attrList[index].attrName}'),
                         ),
                       ),
-                    )
-                  ],
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            '${attrList[index].attrValue}',
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               );
             }, childCount: attrList == null ? 0 : attrList.length),
@@ -814,8 +820,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Text(
         '商品参数',
-        style: TextStyle(
-            fontSize: 16, color: textBlack, fontWeight: FontWeight.bold),
+        style: t16black,
       ),
     );
   }
