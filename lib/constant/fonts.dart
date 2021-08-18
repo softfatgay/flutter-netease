@@ -225,6 +225,12 @@ const TextStyle t14red = TextStyle(
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
+const TextStyle t14redBold = TextStyle(
+  color: textRed,
+  fontSize: 14,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightSemibold,
+);
 
 const TextStyle t16red = TextStyle(
   color: textRed,

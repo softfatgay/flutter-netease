@@ -30,9 +30,9 @@ class HttpManager {
     if (_dio == null) {
       var baseOptions = BaseOptions(
         baseUrl: NetContants.baseUrl,
-        sendTimeout: 15000,
-        receiveTimeout: 15000,
-        connectTimeout: 15000,
+        sendTimeout: 30000,
+        receiveTimeout: 30000,
+        connectTimeout: 30000,
         headers: commonHeaders(),
       );
       var interceptorsWrapper = InterceptorsWrapper(onRequest:
@@ -98,8 +98,8 @@ class HttpManager {
     cancelToken = cancelToken ?? RequestCancelToken();
     headers = headers ?? Map();
     queryParameters = queryParameters ?? Map();
-    sendTimeout = sendTimeout ?? 15000;
-    receiveTimeout = receiveTimeout ?? 15000;
+    sendTimeout = sendTimeout ?? 30000;
+    receiveTimeout = receiveTimeout ?? 30000;
 
     if (needCommonHeaders ?? true) {
       headers.addAll(commonHeaders());

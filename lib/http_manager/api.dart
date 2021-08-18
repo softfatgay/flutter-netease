@@ -516,3 +516,9 @@ Future<ResponseData> lookSupport(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.get(LOOK_SUPPORT, params: params);
 }
+
+///晒单列表数据
+Future<ResponseData> itemPoolBar(Map<String, dynamic> params) async {
+  return await HttpManager.post(ITEM_POOL_BAR,
+      params: _getParams(), formData: params);
+}

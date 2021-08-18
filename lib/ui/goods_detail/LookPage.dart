@@ -36,21 +36,22 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
       "type": 1,
     },
     {
-      "name": "本月最热",
+      "name": "",
       "type": 2,
     },
     {
-      "name": "晒单合辑",
+      "name": "",
       "type": 3,
     }
   ];
 
-  double narbarHeight = 60;
+  double narbarHeight = 70;
   final _scrollController = new ScrollController();
 
   int _type = 4;
   int _page = 1;
   int _size = 20;
+  int _id = 0;
 
   bool _hasMore = true;
   String _recommendName = '';
@@ -105,6 +106,8 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
       setState(() {
         _lookHomeDataModel = LookHomeDataModel.fromJson(data);
         var recModule = _lookHomeDataModel.recModule;
+        _tabItem[2]['name'] = _lookHomeDataModel.hotTabName;
+        _tabItem[3]['name'] = recModule.topicTagName;
         _recommendName = recModule.recommendName;
         var collectionList = recModule.collectionList;
         if (collectionList != null && collectionList.isNotEmpty) {
@@ -112,6 +115,9 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
           _title = collection.title;
         }
         if (collectionList != null && collectionList.isNotEmpty) {
+          setState(() {
+            _id = collectionList[0].id;
+          });
           _lookGetCollection(collectionList[0].id);
         }
       });
@@ -156,6 +162,39 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
         title: '晒单',
       ).build(context),
       body: _body(),
+      floatingActionButton: _floatingAB(),
+    );
+  }
+
+  _floatingAB() {
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 50),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: backRed,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/images/edit_icon.png',
+              color: backWhite,
+              width: 16,
+              height: 16,
+            ),
+            SizedBox(width: 4),
+            Text(
+              '立即投稿',
+              style: t14white,
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Routers.mineItems, context, {'id': 0, 'tab': 4});
+      },
     );
   }
 
@@ -193,14 +232,22 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: _lookCollectionModel.lookList
-                        .map((item) => Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: RoundNetImage(
-                                height: 120,
-                                width: 120,
-                                corner: 6,
-                                url: item.banner.picUrl,
+                        .map((item) => GestureDetector(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: RoundNetImage(
+                                  height: 120,
+                                  width: 120,
+                                  corner: 6,
+                                  url: item.banner.picUrl,
+                                ),
                               ),
+                              onTap: () {
+                                Routers.push(Routers.webView, context, {
+                                  'url':
+                                      'https://you.163.com/act/pub/7F3DBEV0Rn.html?id=142&index=$_id'
+                                });
+                              },
                             ))
                         .toList(),
                   ),
@@ -215,7 +262,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
       pinned: true, //是否固定在顶部
       floating: true,
       delegate: SliverAppBarDelegate(
-          minHeight: narbarHeight - 20, //收起的高度
+          minHeight: narbarHeight - 30, //收起的高度
           maxHeight: narbarHeight, //展开的最大高度
           child: Container(
             color: backWhite,
@@ -223,7 +270,8 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Padding(
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       '他们的严选生活',
@@ -288,12 +336,12 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
               onTap: () {
                 var dataItem = _dataList[index];
                 String tagUrl =
-                    'https://you.163.com/act/pub/7F3DBEV0Rn.html?id=';
+                    '${NetContants.baseUrl}act/pub/7F3DBEV0Rn.html?id=';
                 String url = '';
                 if (dataItem.bannerUrl == null) {
                   url = '$tagUrl${dataItem.topicId}';
                 } else {
-                  url = 'https://m.you.163.com${_dataList[index].bannerUrl}';
+                  url = '${NetContants.baseUrl_}${_dataList[index].bannerUrl}';
                 }
                 Routers.push(Routers.webView, context, {'url': url});
               },

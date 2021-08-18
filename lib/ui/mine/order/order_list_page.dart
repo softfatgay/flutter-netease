@@ -10,9 +10,9 @@ import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 
 class OrderListPage extends StatefulWidget {
-  final Map arguments;
+  final Map params;
 
-  const OrderListPage({Key key, this.arguments}) : super(key: key);
+  const OrderListPage({Key key, this.params}) : super(key: key);
 
   @override
   _OrderListPageState createState() => _OrderListPageState();
@@ -42,12 +42,27 @@ class _OrderListPageState extends State<OrderListPage>
       "status": 4,
     },
     {
-      "name": "已评价",
+      "name": "待评价",
       "status": 5,
     }
   ];
 
   int _activeIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.params['tab'] != null) {
+      setState(() {
+        _activeIndex = widget.params['tab'];
+      });
+    }
+    super.initState();
+    _mController = TabController(
+        length: _tabItem.length, vsync: this, initialIndex: _activeIndex);
+
+    _getNotice();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +77,6 @@ class _OrderListPageState extends State<OrderListPage>
       ).build(context),
       body: _buildBody(context),
     );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _mController = TabController(
-        length: _tabItem.length, vsync: this, initialIndex: _activeIndex);
-
-    _getNotice();
   }
 
   @override

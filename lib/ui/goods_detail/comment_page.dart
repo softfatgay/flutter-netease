@@ -164,21 +164,26 @@ class _CommentListState extends State<CommentList> {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: GestureDetector(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                _showTagsNum == _commentTags.length ? '收起' : '更多',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
-              ),
-              Icon(
-                _showTagsNum == _commentTags.length
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-                color: Colors.grey,
-              )
-            ],
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  _showTagsNum == _commentTags.length ? '收起' : '更多',
+                  style: t14grey,
+                ),
+                SizedBox(width: 4),
+                Image.asset(
+                  _showTagsNum == _commentTags.length
+                      ? 'assets/images/arrow_up.png'
+                      : 'assets/images/arrow_down.png',
+                  width: 16,
+                  height: 16,
+                ),
+              ],
+            ),
           ),
           onTap: () {
             setState(() {

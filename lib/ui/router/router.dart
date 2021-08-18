@@ -32,7 +32,7 @@ import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
-import 'package:flutter_app/ui/shopingcart/cart_pool_page.dart';
+import 'package:flutter_app/ui/shopingcart/all_cart_pool_page.dart';
 import 'package:flutter_app/ui/shopingcart/get_cars_page.dart';
 import 'package:flutter_app/ui/shopingcart/get_coupons_page.dart';
 import 'package:flutter_app/ui/shopingcart/make_up_page.dart';
@@ -158,7 +158,7 @@ class Routers {
     getCarsPage: (context, {params}) => GetCarsPage(params: params),
 
     ///购物车凑单
-    cartItemPoolPage: (context, {params}) => CartItemPoolPage(),
+    cartItemPoolPage: (context, {params}) => AllCartItemPoolPage(),
 
     ///订单确认页面
     orderInitPage: (context, {params}) => OrderInitPage(params: params),
@@ -234,7 +234,7 @@ class Routers {
       var id = params['id'];
       switch (id) {
         case 0: //订单界面
-          return OrderListPage();
+          return OrderListPage(params: params);
           break;
         case 1: //  账号管理
           return AccountManagePage();

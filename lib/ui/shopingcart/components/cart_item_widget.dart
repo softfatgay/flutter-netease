@@ -499,13 +499,8 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _redeem(CarItem itemData, int index, BuildContext context) {
-    // if (itemData.promTip != null) {
-    //   if (itemData.promType == 4) {
-    //     ///换购
-    //   } else if (itemData.promType == 108) {
-    //     ///满减
-    //   }
-    // }
+    bool cartItemEmpty =
+        itemData.cartItemList == null || itemData.cartItemList.isEmpty;
     if (itemData.addBuyStepList != null && itemData.addBuyStepList.isNotEmpty) {
       ///换购
       return Container(
@@ -525,7 +520,7 @@ class CartItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(2),
                     ),
                     child: Text(
-                      '换购',
+                      cartItemEmpty ? '全场换购' : '换购',
                       style: t12white,
                     ),
                   ),
@@ -552,10 +547,14 @@ class CartItemWidget extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Routers.push(Routers.webView, context, {
-                        'url':
-                            '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
+                      Routers.push(Routers.makeUpPage, context, {
+                        'id': cartItemEmpty ? -1 : itemData.promId,
+                        'from': 'cart-item'
                       });
+                      // Routers.push(Routers.webView, context, {
+                      //   'url':
+                      //       '${NetContants.baseUrl}cart/itemPool?promotionId=${cartItemEmpty ? -1 : itemData.promId}'
+                      // });
                     },
                   )
                 ],
@@ -590,7 +589,7 @@ class CartItemWidget extends StatelessWidget {
           ],
         ),
       );
-    } else if (itemData.promType == 108) {
+    } else if (itemData.promType == 108 || itemData.promType == 107) {
       ///满减
       return Container(
         color: backWhite,
@@ -606,7 +605,7 @@ class CartItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
               child: Text(
-                '满额减',
+                itemData.promType == 108 ? '满额减' : '满件减',
                 style: t12white,
               ),
             ),
@@ -631,10 +630,15 @@ class CartItemWidget extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                Routers.push(Routers.webView, context, {
-                  'url':
-                      '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
+                Routers.push(Routers.makeUpPage, context, {
+                  'id': cartItemEmpty ? -1 : itemData.promId,
+                  'from': 'cart-item'
                 });
+                //
+                // Routers.push(Routers.webView, context, {
+                //   'url':
+                //       '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
+                // });
               },
             )
           ],

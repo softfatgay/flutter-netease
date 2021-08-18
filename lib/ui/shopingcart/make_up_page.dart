@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/model/pagination.dart';
-import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/component/model/searchParamModel.dart';
-import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
-import 'package:flutter_app/ui/component/menu_pop_widget.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
-import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
+import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/model/pagination.dart';
+import 'package:flutter_app/ui/component/menu_pop_widget.dart';
+import 'package:flutter_app/ui/component/model/searchParamModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
+import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 ///凑单
 class MakeUpPage extends StatefulWidget {
@@ -33,12 +33,22 @@ class _MakeUpPageState extends State<MakeUpPage> {
   int _page = 1;
   int _pageSize = 10;
 
+  var _from;
+
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
       _searchModel.promotionId = widget.params['id'];
-      _searchModel.source = 3;
+      if (widget.params['from'] != null) {
+        _from = widget.params['from'];
+
+        ///购物车点击过来
+        _searchModel.source = 0;
+      } else {
+        ///红包点击过来
+        _searchModel.source = 3;
+      }
     });
     super.initState();
     _scrollController.addListener(() {
@@ -64,8 +74,16 @@ class _MakeUpPageState extends State<MakeUpPage> {
       'descSorted': _searchModel.descSorted ?? false,
       'source': _searchModel.source,
       'categoryId': _searchModel.categoryId,
-      'priceRangeId': _searchModel.promotionId,
+      'priceRangeId': 0,
     };
+
+    if (_searchModel.floorPrice == -1) {
+      params.remove('floorPrice');
+    }
+    if (_searchModel.upperPrice == -1) {
+      params.remove('upperPrice');
+    }
+
     var responseData = await itemPool(params);
     if (responseData.code == '200') {
       setState(() {
@@ -92,11 +110,9 @@ class _MakeUpPageState extends State<MakeUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 0,
-          backgroundColor: backWhite,
-        ),
+        appBar: TopAppBar(
+          title: '凑单',
+        ).build(context),
         body: Stack(
           children: [
             Positioned(
@@ -145,7 +161,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _scrollController.dispose();
+    super.dispose();
   }
 }

@@ -274,6 +274,9 @@ final String LOOK_GETCOLLECTION =
 ///晒单列表点赞
 final String LOOK_SUPPORT = '${suffixUrl}topic/v1/look/support.json';
 
+///未达到包邮，凑单
+final String ITEM_POOL_BAR = '${suffixUrl}xhr/cart/getItemPoolBar.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -513,3 +516,6 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///点赞
 //https://m.you.163.com/topic/v1/look/support.json?topicId=104707&csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///未达到包邮，凑单
+//https://m.you.163.com/xhr/cart/getItemPoolBar.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59

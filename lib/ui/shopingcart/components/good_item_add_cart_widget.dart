@@ -10,10 +10,14 @@ import 'package:flutter_app/component/my_vertical_text.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 
+typedef void AddCarSuccess();
+
 class GoodItemAddCartWidget extends StatelessWidget {
   final List<GoodDetail> dataList;
+  final AddCarSuccess addCarSuccess;
 
-  const GoodItemAddCartWidget({Key key, this.dataList}) : super(key: key);
+  const GoodItemAddCartWidget({Key key, this.dataList, this.addCarSuccess})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +314,14 @@ class GoodItemAddCartWidget extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return AddGoodSizeWidget(goodDetail: item);
+        return AddGoodSizeWidget(
+          goodDetail: item,
+          addCarSuccess: () {
+            if (addCarSuccess != null) {
+              addCarSuccess();
+            }
+          },
+        );
       },
     );
   }

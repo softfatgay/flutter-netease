@@ -18,12 +18,14 @@ import 'package:flutter_app/component/dashed_decoration.dart';
 typedef void ConfigClick(SkuMapValue value);
 typedef void CancelClick();
 typedef void UpdateSkuSuccess();
+typedef void AddCarSuccess();
 
 class AddGoodSizeWidget extends StatefulWidget {
   final GoodDetail goodDetail;
   final ConfigClick configClick;
   final CancelClick cancelClick;
   final UpdateSkuSuccess updateSkuSuccess;
+  final AddCarSuccess addCarSuccess;
   final num skuId;
   final String extId;
   final num type;
@@ -36,6 +38,7 @@ class AddGoodSizeWidget extends StatefulWidget {
     this.skuId,
     this.extId,
     this.updateSkuSuccess,
+    this.addCarSuccess,
     this.type,
   }) : super(key: key);
 
@@ -612,7 +615,9 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       };
       await addCart(params).then((value) {
         Toast.show('添加成功', context);
-        Navigator.pop(context);
+        if (widget.addCarSuccess != null) {
+          widget.addCarSuccess();
+        }
       });
     }
   }
