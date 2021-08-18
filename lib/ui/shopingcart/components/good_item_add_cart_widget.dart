@@ -34,7 +34,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 Widget widget = Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(color: Colors.transparent),
+                  decoration: BoxDecoration(color: Color(0XFFF4F4F4)),
                   child: _buildGoodItem(context, index, data),
                 );
                 return GestureDetector(
@@ -48,7 +48,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
               }, childCount: data.length),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.67,
+                  childAspectRatio: 0.6,
                   mainAxisSpacing: 5,
                   crossAxisSpacing: 5),
             ),
@@ -157,7 +157,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
           GestureDetector(
             child: Container(
               margin: EdgeInsets.only(left: 5, top: 5),
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               decoration: BoxDecoration(
                 border: Border.all(color: lineColor, width: 1),
                 borderRadius: BorderRadius.circular(3),

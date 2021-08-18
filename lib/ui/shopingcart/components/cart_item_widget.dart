@@ -27,8 +27,11 @@ typedef void SkuClick(CartItemListItem item);
 const double _checkBoxWith = 40.0;
 const double _imageWith = 90.0;
 
+typedef void CallBack();
+
 ///购物车条目
 class CartItemWidget extends StatelessWidget {
+  final CallBack callBack;
   final SkuClick skuClick;
   final NumChange numChange;
   final CheckOne checkOne;
@@ -40,6 +43,7 @@ class CartItemWidget extends StatelessWidget {
 
   const CartItemWidget(
       {Key key,
+      this.callBack,
       this.numChange,
       this.checkOne,
       this.goRedeem,
@@ -550,11 +554,11 @@ class CartItemWidget extends StatelessWidget {
                       Routers.push(Routers.makeUpPage, context, {
                         'id': cartItemEmpty ? -1 : itemData.promId,
                         'from': 'cart-item'
+                      }, (value) {
+                        if (callBack != null) {
+                          callBack();
+                        }
                       });
-                      // Routers.push(Routers.webView, context, {
-                      //   'url':
-                      //       '${NetContants.baseUrl}cart/itemPool?promotionId=${cartItemEmpty ? -1 : itemData.promId}'
-                      // });
                     },
                   )
                 ],
@@ -599,7 +603,7 @@ class CartItemWidget extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(right: 6),
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical:1),
               decoration: BoxDecoration(
                 color: redLightColor,
                 borderRadius: BorderRadius.circular(2),
@@ -633,12 +637,11 @@ class CartItemWidget extends StatelessWidget {
                 Routers.push(Routers.makeUpPage, context, {
                   'id': cartItemEmpty ? -1 : itemData.promId,
                   'from': 'cart-item'
+                }, (value) {
+                  if (callBack != null) {
+                    callBack();
+                  }
                 });
-                //
-                // Routers.push(Routers.webView, context, {
-                //   'url':
-                //       '${NetContants.baseUrl}cart/itemPool?promotionId=${itemData.promId}'
-                // });
               },
             )
           ],

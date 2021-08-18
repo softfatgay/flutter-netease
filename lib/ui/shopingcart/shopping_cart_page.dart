@@ -54,7 +54,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   bool isChecked = false; // 是否全部勾选选中
   bool _isCheckedAll = false; // 是否全部勾选选中
 
-  bool loading = false; // 是否正在加载
+  bool _loading = false; // 是否正在加载
   int _selectedNum = 0; // 选中商品数量
 
   bool isEdit = false; // 是否正在编辑
@@ -105,6 +105,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   // 获取购物车数据
   void _getData() async {
+    setState(() {
+      _loading = true;
+    });
     var responseData = await shoppingCart();
     if (responseData.code == '200') {
       setState(() {
@@ -124,7 +127,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
     var shoppingCartModel = ShoppingCartModel.fromJson(_data);
     setState(() {
-      loading = false;
+      _loading = false;
       _shoppingCartModel = shoppingCartModel;
       _cartGroupList = shoppingCartModel.cartGroupList;
       _postageVO = shoppingCartModel.postageVO;
@@ -171,7 +174,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   /// 购物车 全选/不选 网络请求
   _check() async {
     setState(() {
-      loading = true;
+      _loading = true;
     });
     Map<String, dynamic> params = {'isChecked': isChecked};
     var responseData = await shoppingCartCheck(params);
@@ -184,7 +187,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   /// 购物车  某个勾选框 选/不选 请求
   _checkOne(int source, int type, int skuId, bool isChecked, var extId) async {
     setState(() {
-      loading = true;
+      _loading = true;
     });
     Map<String, dynamic> params = {
       'source': source,
@@ -203,7 +206,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   /// 购物车  商品 选购数量变化 请求
   _checkOneNum(int source, int type, int skuId, int cnt, var extId) async {
     setState(() {
-      loading = true;
+      _loading = true;
     });
     Map<String, dynamic> params = {
       'source': source,
@@ -345,9 +348,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
             left: 0,
             right: 0,
           ),
-          loading ? Loading() : Container(),
+          _loading ? _pageLoading() : Container(),
         ],
       ),
+    );
+  }
+
+  Container _pageLoading() {
+    return Container(
+      color: Colors.transparent,
+      child: Loading(),
+      width: double.infinity,
+      height: double.infinity,
     );
   }
 
@@ -458,6 +470,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       },
       isEdit: isEdit,
       itemList: _itemList,
+      callBack: () {
+        _getData();
+      },
     );
   }
 

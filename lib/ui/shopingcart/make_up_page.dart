@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/shopingcart/components/bottom_pool_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
+import 'package:flutter_app/ui/shopingcart/model/itemPoolBarModel.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/shopingcart/model/makeUpCartInfoModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 ///凑单
@@ -34,6 +40,8 @@ class _MakeUpPageState extends State<MakeUpPage> {
   int _pageSize = 10;
 
   var _from;
+  var _itemPoolBarModel = ItemPoolBarModel(0, '');
+  var _makeUpCartInfoModel = MakeUpCartInfoModel(validTimeDesc: '');
 
   @override
   void initState() {
@@ -61,6 +69,30 @@ class _MakeUpPageState extends State<MakeUpPage> {
       }
     });
     _itemPool();
+    _itemPoolBar();
+    _getMakeUpCartInfo();
+  }
+
+  void _itemPoolBar() async {
+    Map<String, dynamic> params = {'promotionId': 0};
+    var responseData = await itemPoolBar(params);
+    if (responseData.code == '200') {
+      setState(() {
+        _itemPoolBarModel = ItemPoolBarModel.fromJson(responseData.data);
+      });
+    }
+  }
+
+  _getMakeUpCartInfo() async {
+    Map<String, dynamic> params = {
+      'promotionId': _searchModel.promotionId,
+    };
+    var responseData = await getMakeUpCartInfo(params);
+    if (responseData.code == '200') {
+      setState(() {
+        _makeUpCartInfoModel = MakeUpCartInfoModel.fromJson(responseData.data);
+      });
+    }
   }
 
   void _itemPool() async {
@@ -110,6 +142,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: backColor,
         appBar: TopAppBar(
           title: '凑单',
         ).build(context),
@@ -119,13 +152,19 @@ class _MakeUpPageState extends State<MakeUpPage> {
               top: 35,
               left: 0,
               right: 0,
-              bottom: 0,
+              bottom: _from == null ? 0 : 45,
               child: _isLoading
                   ? Loading()
                   : CustomScrollView(
                       controller: _scrollController,
                       slivers: [
-                        GoodItemAddCartWidget(dataList: _result),
+                        singleSliverWidget(_topBarInfo()),
+                        GoodItemAddCartWidget(
+                          dataList: _result,
+                          addCarSuccess: () {
+                            _itemPoolBar();
+                          },
+                        ),
                         SliverFooter(hasMore: !_pagination.lastPage)
                       ],
                     ),
@@ -146,6 +185,16 @@ class _MakeUpPageState extends State<MakeUpPage> {
                 },
               ),
             ),
+            _from == null
+                ? Container()
+                : Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: BottomPoolWidget(
+                      itemPoolBarModel: _itemPoolBarModel,
+                    ),
+                  ),
           ],
         ));
   }
@@ -163,5 +212,17 @@ class _MakeUpPageState extends State<MakeUpPage> {
     // TODO: implement dispose
     _scrollController.dispose();
     super.dispose();
+  }
+
+  _topBarInfo() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      color: backLightYellow,
+      alignment: Alignment.center,
+      child: Text(
+        '${_makeUpCartInfoModel.validTimeDesc}',
+        style: t12Orange,
+      ),
+    );
   }
 }

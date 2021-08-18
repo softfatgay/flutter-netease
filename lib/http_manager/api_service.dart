@@ -223,6 +223,9 @@ final String MINI_CART_NUM = '${suffixUrl}xhr/cart/getMiniCartNum.json';
 ///凑单
 final String ITEM_POOL = '${suffixUrl}xhr/item/getItemPool.json';
 
+///凑单头部信息
+final String MAKE_UP_CART_INFO = '${suffixUrl}xhr/cart/getMakeUpCartInfo.json';
+
 ///购物车更改商品属性
 final String DETAIL_FOR_CART = '${suffixUrl}xhr/item/detailForCart.json';
 
@@ -498,6 +501,9 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///凑单
 //https://m.you.163.com/xhr/item/getItemPool.json?csrf_token=f04b3a55d2a236d461f08d18e082a6c6&promotionId=240528894&page=1&size=10&sortType=0&descSorted=false&source=3&categoryId=0&priceRangeId=0
+
+///凑单头部信息
+//https://m.you.163.com/xhr/cart/getMakeUpCartInfo.json?csrf_token=c0359bfd4e9823e6db5492b01060f52d
 
 //商品详情品牌研究所
 ///https://m.you.163.com/xhr/brand/info.json?csrf_token=69338db97d2ccc5c4584c5a2307e6d9e&__timestamp=1628952138312&itemId=3998559&brandId=2000631&type=1&merchantId=undefined

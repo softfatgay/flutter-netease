@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: backColor,
           primarySwatch: Colors.red,
         ),
-        title: '网易严选',
+        title: '仿网易严选-Flutter',
         onGenerateRoute: (RouteSettings settings) {
           return Routers.run(settings);
         },

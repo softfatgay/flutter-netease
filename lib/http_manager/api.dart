@@ -353,8 +353,7 @@ Future<ResponseData> phoneStatus() async {
 ///appKey:
 ///buildVersion
 Future<ResponseData> checkVersion(Map<String, dynamic> params) async {
-  return await HttpManager.post(CHECK_VERSION,
-      params: params, showProgress: true);
+  return await HttpManager.post(CHECK_VERSION, params: params);
 }
 
 ///首页弹窗
@@ -420,6 +419,12 @@ Future<ResponseData> miniCartNum() async {
 Future<ResponseData> itemPool(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.get(ITEM_POOL, params: params);
+}
+
+///凑单头部信息
+Future<ResponseData> getMakeUpCartInfo(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(MAKE_UP_CART_INFO, params: params);
 }
 
 ///购物车更改商品属性
