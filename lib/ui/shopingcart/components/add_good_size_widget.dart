@@ -274,21 +274,19 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _skuMapItem == null ||
-                        _skuMapItem.promotionDesc == null ||
-                        _skuMapItem.promotionDesc == ''
-                    ? Container()
-                    : Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: Color(0xFFEF7C15)),
-                        child: Text(
-                          '${_skuMapItem.promotionDesc ?? ''}',
-                          style: t12white,
-                        ),
-                      ),
+                if (_skuMapItem != null &&
+                    _skuMapItem.promotionDesc != null &&
+                    _skuMapItem.promotionDesc != '')
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Color(0xFFEF7C15)),
+                    child: Text(
+                      '${_skuMapItem.promotionDesc ?? ''}',
+                      style: t12white,
+                    ),
+                  ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 6),
                   child: Row(
@@ -303,18 +301,17 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: t14red,
                       ),
-                      _price == _counterPrice
-                          ? Container()
-                          : Container(
-                              child: Text(
-                                '￥$_counterPrice',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: textGrey,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              ),
+                      if (_price != _counterPrice)
+                        Container(
+                          child: Text(
+                            '￥$_counterPrice',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: textGrey,
+                              decoration: TextDecoration.lineThrough,
                             ),
+                          ),
+                        ),
                     ],
                   ),
                 ),

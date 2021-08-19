@@ -1,5 +1,6 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
@@ -22,7 +23,7 @@ class StuBuyListItemWidget extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(bottom: 6),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(2)),
+            color: Colors.white, borderRadius: BorderRadius.circular(4)),
         child: Row(
           children: [
             _image(item),
@@ -31,14 +32,8 @@ class StuBuyListItemWidget extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Routers.push(
-          Routers.webView,
-          context,
-          {
-            'url':
-                '${NetContants.baseUrl}pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
-          },
-        );
+        Routers.push(Routers.pinPage, context,
+            {'itemId': item.itemId, 'baseId': item.id});
       },
     );
   }
@@ -50,7 +45,10 @@ class StuBuyListItemWidget extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: Stack(
         children: [
-          TopRoundNetImage(
+          RoundNetImage(
+            height: 130,
+            width: 130,
+            corner: 4,
             url: item.picUrl,
           ),
           Container(

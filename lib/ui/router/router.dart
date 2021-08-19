@@ -27,8 +27,9 @@ import 'package:flutter_app/ui/mine/points_center_page.dart';
 import 'package:flutter_app/ui/mine/red_package_use_page.dart';
 import 'package:flutter_app/ui/mine/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
-import 'package:flutter_app/ui/mine/saturday_buy_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
+import 'package:flutter_app/ui/pin/pin_main_page.dart';
+import 'package:flutter_app/ui/pin/pin_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
@@ -88,6 +89,7 @@ class Routers {
   static const String makeUpPage = '/makeUpPage';
   static const String brandInfoPage = '/brandInfoPage';
   static const String lookPage = '/lookPage';
+  static const String pinPage = '/pinPage';
 
   static Map<String, Function> routes = {
     ///订单详情
@@ -113,6 +115,9 @@ class Routers {
 
     ///商品详情
     goodDetail: (context, {params}) => GoodsDetailPage(params: params),
+
+    ///拼团
+    pinPage: (context, {params}) => PinPage(params: params),
 
     ///商品详情选择地址
     selectAddressPage: (context, {params}) => SelectAddressPage(),
@@ -169,16 +174,16 @@ class Routers {
     ///感兴趣分类
     favorite: (context, {params}) => FavoritePage(),
 
-    ///感兴趣分类
+    ///添加尺寸
     addNewSize: (context, {params}) => AddNewSize(params: params),
 
     ///去使用红包
     redPackageUsePage: (context, {params}) => RedPackageUsePage(params: params),
 
-    ///去使用红包
+    ///领券
     getCouponPage: (context, {params}) => GetCouponPage(),
 
-    ///去使用红包
+    ///凑单
     makeUpPage: (context, {params}) => MakeUpPage(params: params),
 
     ///用户信息
@@ -240,7 +245,7 @@ class Routers {
           return AccountManagePage();
           break;
         case 2: //  账号管理
-          return SaturdayTBuyPage();
+          return PinMainPage();
           break;
         case 3:
           return ForServicesPage();

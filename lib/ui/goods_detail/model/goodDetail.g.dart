@@ -53,7 +53,7 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..comments = (json['comments'] as List)
         ?.map((e) =>
-            e == null ? null : CommentsItem.fromJson(e as Map<String, dynamic>))
+            e == null ? null : ResultItem.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..newItemFlag = json['newItemFlag'] as bool
     ..primarySkuPreSellPrice = json['primarySkuPreSellPrice'] as num

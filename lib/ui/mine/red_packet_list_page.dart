@@ -60,8 +60,6 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   _buildItem(BuildContext context, PackageItem item, int index) {
     var backColor =
         widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFAFB4BC);
-    var tipsColor =
-        widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFA3A5AD);
     var botomColor =
         widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFA3A5AE);
     return Container(
@@ -183,20 +181,19 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
               ],
             ),
           ),
-          item.tagList == null || item.tagList.isEmpty
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.only(top: 10, left: 5),
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                  decoration: BoxDecoration(
-                      color: Color(0xFFFBE8E8),
-                      borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(10))),
-                  child: Text(
-                    '${item.tagList[0].tagName}',
-                    style: t12red,
-                  ),
-                ),
+          if (item.tagList != null && item.tagList.isNotEmpty)
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 5),
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+              decoration: BoxDecoration(
+                  color: Color(0xFFFBE8E8),
+                  borderRadius:
+                      BorderRadius.horizontal(right: Radius.circular(10))),
+              child: Text(
+                '${item.tagList[0].tagName}',
+                style: t12red,
+              ),
+            ),
         ],
       ),
     );

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/tab_app_bar.dart' as prefix0;
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/ui/sort/sort_list_item_page.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/tab_app_bar.dart' as prefix0;
 
 class SortListPage extends StatefulWidget {
   Map params;

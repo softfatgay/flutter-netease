@@ -1,6 +1,7 @@
 import 'package:flutter_app/model/categoryL1ListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/issueListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
@@ -41,7 +42,7 @@ class GoodDetail {
   List<IssueListItem> issueList;
   List<HdrkDetailVOListItem> hdrkDetailVOList;
 
-  List<CommentsItem> comments;
+  List<ResultItem> comments;
 
   bool newItemFlag;
   num primarySkuPreSellPrice;

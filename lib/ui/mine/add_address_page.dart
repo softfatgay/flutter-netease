@@ -53,7 +53,6 @@ class _AddAddressPageState extends State<AddAddressPage>
     if (widget.params != null) {
       setState(() {
         var argument = widget.params['address'];
-        print(']]]]]]]]]');
         if (argument != null) {
           _title = '修改地址';
           _addressItem = argument;

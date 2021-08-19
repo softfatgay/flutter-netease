@@ -527,3 +527,15 @@ Future<ResponseData> itemPoolBar(Map<String, dynamic> params) async {
   return await HttpManager.post(ITEM_POOL_BAR,
       params: _getParams(), formData: params);
 }
+
+///拼团
+Future<ResponseData> pinItemDetail(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(PIN_ITEM_DETAIL, params: params);
+}
+
+///拼团推荐
+Future<ResponseData> pinRecommend(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(PIN_RECOMMEND, params: params);
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -31,10 +32,11 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   List<GoodDetail> _result = [];
   Pagination _pagination;
   int _id = 3;
-  final _scrollController = ScrollController();
   ItemPoolModel _itemPoolModel;
 
   var _itemPoolBarModel = ItemPoolBarModel(0, '');
+  final _scrollController = ScrollController();
+  bool _isShowFloatBtn = false;
 
   @override
   void initState() {
@@ -42,15 +44,28 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
     super.initState();
     _tabController = TabController(length: _categorytList.length, vsync: this);
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_pagination != null) {
-          if (_pagination.totalPage > _pagination.page) {
-            setState(() {
-              _page++;
-            });
-            _itemPool();
+      if (_scrollController.position.pixels > 500) {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (_pagination != null) {
+            if (_pagination.totalPage > _pagination.page) {
+              setState(() {
+                _page++;
+              });
+              _itemPool();
+            }
           }
+        }
+        if (!_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = true;
+          });
+        }
+      } else {
+        if (_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = false;
+          });
         }
       }
     });
@@ -72,6 +87,8 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
         title: '${tabItem.length > 0 ? tabItem[_activeIndex] : ''}',
       ).build(context),
       body: _buildBody(),
+      floatingActionButton:
+          _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
     );
   }
 

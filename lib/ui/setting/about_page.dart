@@ -54,7 +54,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ),
             onTap: () {
-              _launchURL('https://www.pgyer.com/QjBP');
+              _launchURL('http://d.firim.top/y5zm');
             },
           ),
           Container(

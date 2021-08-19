@@ -82,13 +82,13 @@ class _VerticalTab extends State<VerticalTab> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> tabList = List<Widget>(widget.tabs.length);
+    final List<Widget> tabList = List.filled(widget.tabs.length, Container());
     for (var i = 0; i < widget.tabs.length; i++) {
       tabList[i] = buildTabItem(widget.tabs[i], i);
     }
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: splitLineColor),
+        border: Border.all(color: lineColor, width: 0.5),
         color: Colors.white,
       ),
       width: opWidth,

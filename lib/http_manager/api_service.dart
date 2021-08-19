@@ -280,6 +280,12 @@ final String LOOK_SUPPORT = '${suffixUrl}topic/v1/look/support.json';
 ///未达到包邮，凑单
 final String ITEM_POOL_BAR = '${suffixUrl}xhr/cart/getItemPoolBar.json';
 
+///拼团
+final String PIN_ITEM_DETAIL = '${suffixUrl}pin/group/item/detail';
+
+///拼团
+final String PIN_RECOMMEND = '${suffixUrl}pin/xhr/item/recommend';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -525,3 +531,9 @@ final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
 
 ///未达到包邮，凑单
 //https://m.you.163.com/xhr/cart/getItemPoolBar.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
+
+///拼团
+//https://m.you.163.com/pin/group/item/detail?csrf_token=66aed4b6a860e2c66324d42c46ac8b59&baseId=2054404
+
+///拼团推荐
+//https://m.you.163.com/pin/xhr/item/recommend?csrf_token=66aed4b6a860e2c66324d42c46ac8b59&baseId=2054404

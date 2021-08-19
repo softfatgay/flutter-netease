@@ -1,6 +1,6 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -43,6 +43,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   bool resetPage = false;
 
   final _scrollController = new ScrollController();
+  bool _isShowFloatBtn = false;
 
   var _searchModel = NormalSearchModel(index: 0, descSorted: true);
 
@@ -58,10 +59,23 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
 
     _scrollController.addListener(() {
       // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_hasMore) {
-          _getBrandIndex();
+      if (_scrollController.position.pixels > 500) {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (_hasMore) {
+            _getBrandIndex();
+          }
+        }
+        if (!_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = true;
+          });
+        }
+      } else {
+        if (_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = false;
+          });
         }
       }
     });
@@ -119,6 +133,8 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       backgroundColor: backColor,
       appBar: TopAppBar(title: '${_brandInfo.title ?? ''}').build(context),
       body: _body(),
+      floatingActionButton:
+          _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
     );
   }
 
@@ -182,14 +198,14 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${_brandInfo.title??''}',
+                      '${_brandInfo.title ?? ''}',
                       style: t16blackbold,
                     ),
                     SizedBox(
                       height: 6,
                     ),
                     Text(
-                      '${_brandInfo.subTitle??''}',
+                      '${_brandInfo.subTitle ?? ''}',
                       style: t12black,
                     ),
                   ],

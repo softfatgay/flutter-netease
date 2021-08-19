@@ -38,7 +38,8 @@ Widget floatingAB(ScrollController _scrollController) {
       ),
     ),
     onTap: () {
-      _scrollController.position.jumpTo(0);
+      _scrollController.animateTo(.0,
+          duration: Duration(milliseconds: 200), curve: Curves.ease);
     },
   );
 }

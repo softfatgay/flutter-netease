@@ -91,22 +91,21 @@ class GoodItemNormalWidget extends StatelessWidget {
                           : _buildPromBanner(item.listPromBanner),
                     ],
                   ),
-                  dataList[index].productPlace == null ||
-                          dataList[index].productPlace == ""
-                      ? Container()
-                      : Container(
-                          padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color(0xFFA28C63), width: 0.5),
-                            borderRadius: BorderRadius.circular(1),
-                          ),
-                          margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                          child: MyVerticalText(
-                            dataList[index].productPlace,
-                            TextStyle(color: Color(0xFFA28C63), fontSize: 12),
-                          ),
-                        ),
+                  if (dataList[index].productPlace != null &&
+                      dataList[index].productPlace != "")
+                    Container(
+                      padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Color(0xFFA28C63), width: 0.5),
+                        borderRadius: BorderRadius.circular(1),
+                      ),
+                      margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                      child: MyVerticalText(
+                        dataList[index].productPlace,
+                        TextStyle(color: Color(0xFFA28C63), fontSize: 12),
+                      ),
+                    ),
                 ],
               ),
             ),

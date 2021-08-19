@@ -173,14 +173,6 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _refresh() {
-    return RefreshIndicator(
-        child: _contentBody(),
-        onRefresh: () async {
-          _getData();
-        });
-  }
-
   _contentBody() {
     return CustomScrollView(
       controller: _scrollController,

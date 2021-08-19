@@ -6,7 +6,6 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
-import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/button_widget.dart';
@@ -27,7 +26,6 @@ class _GetCarsPageState extends State<GetCarsPage> {
   int _totalCnt = 0;
   int _allowCount = 0;
   String _listTitle = "";
-  List _submitData = [];
 
   CarItem _carItem;
 
@@ -181,48 +179,6 @@ class _GetCarsPageState extends State<GetCarsPage> {
     }, childCount: _dataList.length));
   }
 
-  void _getData() async {
-    Map<String, dynamic> params = {"promId": 128579024};
-    var responseData = await getCarts(params);
-    var data = responseData.data;
-    if (data != null) {
-      var redeemModel = RedeemModel.fromJson(data);
-      var cartGroupList = redeemModel.cartGroupList;
-      List<CartItemListItem> dataList = [];
-      int totalCnt = 0;
-      cartGroupList.forEach((element_1) {
-        if (_allowCount == 0) {
-          _allowCount = element_1.allowCount;
-        }
-        if (element_1.addBuyStepList != null &&
-            element_1.addBuyStepList.isNotEmpty) {
-          var addBuyStepList = element_1.addBuyStepList;
-          addBuyStepList.forEach((element_2) {
-            if (_listTitle.isEmpty) {
-              _listTitle = element_2.title;
-            }
-            if (element_2.addBuyItemList != null &&
-                element_2.addBuyItemList.isNotEmpty) {
-              var addBuyItemList = element_2.addBuyItemList;
-              addBuyItemList.forEach((element_3) {
-                if (element_3.checked) {
-                  totalCnt += 1;
-                  _submitData.add(element_3);
-                }
-                dataList.add(element_3);
-              });
-            }
-          });
-        }
-      });
-
-      setState(() {
-        _totalCnt = totalCnt;
-        _dataList = dataList;
-      });
-    }
-  }
-
   _buildCheckBox(CartItemListItem item) {
     return Container(
       color: backWhite,
@@ -312,7 +268,6 @@ class _GetCarsPageState extends State<GetCarsPage> {
     List dataList = [];
     _dataList.forEach((element) {
       if (element.checked) {
-        print('-----------------------------');
         var item = {
           'promotionId': _carItem.promId,
           'stepNo': element.stepNo,

@@ -10,7 +10,6 @@ import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
 import 'package:flutter_app/ui/mine/model/phoneStatusModel.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
-import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/ui/router/router.dart';
@@ -35,11 +34,7 @@ class _MinePageState extends State<UserPage>
   bool _firstLoading = true;
   List<MinePageItems> _mineItems = [];
   UserModel _userInfo;
-  String _userIcon =
-      'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
-
   //动画控制器
-
   double _expandedHeight = 180;
 
   @override

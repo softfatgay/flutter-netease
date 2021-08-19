@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
@@ -44,25 +45,11 @@ class TopicItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          ClipOval(
-            child: item.avatar == null
-                ? Container()
-                : Container(
-                    width: 20,
-                    height: 20,
-                    child: CachedNetworkImage(
-                      imageUrl: item.avatar,
-                      errorWidget: (context, url, error) {
-                        return ClipOval(
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(color: Colors.grey),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+          RoundNetImage(
+            url: item.avatar,
+            height: 20,
+            width: 20,
+            corner: 10,
           ),
           Expanded(
             child: Container(

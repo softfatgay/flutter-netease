@@ -154,7 +154,6 @@ class _TopicPageState extends State<TopicPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _streamController.close();
     _streamControllerTab.close();
     _footerController.close();
@@ -162,6 +161,7 @@ class _TopicPageState extends State<TopicPage>
     if (_timer != null) {
       _timer.cancel();
     }
+    super.dispose();
   }
 
   @override
@@ -186,7 +186,7 @@ class _TopicPageState extends State<TopicPage>
     }
   }
 
-  _stagegeredGridview() {
+  _staggeredGridview() {
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       sliver: SliverStaggeredGrid.countBuilder(
@@ -226,7 +226,7 @@ class _TopicPageState extends State<TopicPage>
                 ),
               );
             }),
-        _stagegeredGridview(),
+        _staggeredGridview(),
         SliverFooter(hasMore: _hasMore)
       ],
     );

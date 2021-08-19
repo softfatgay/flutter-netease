@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/model/pagination.dart';
@@ -11,10 +14,6 @@ import 'package:flutter_app/ui/mine/model/couponItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/sliver_footer.dart';
-import 'package:flutter_app/component/slivers.dart';
 
 class CouponPage extends StatefulWidget {
   @override
@@ -174,25 +173,24 @@ class _CouponPageState extends State<CouponPage> {
                           ),
                         ),
                       ),
-                      index < _nowCoupon.length
-                          ? GestureDetector(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(2),
-                                    color: backWhite),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 2),
-                                child: Text(
-                                  '去使用',
-                                  style: t14Orange,
-                                ),
-                              ),
-                              onTap: () {
-                                Routers.push(Routers.webView, context,
-                                    {'url': '${NetContants.baseUrl}${item.path}'});
-                              },
-                            )
-                          : Container(),
+                      if (index < _nowCoupon.length)
+                        GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(2),
+                                color: backWhite),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 2),
+                            child: Text(
+                              '去使用',
+                              style: t14Orange,
+                            ),
+                          ),
+                          onTap: () {
+                            Routers.push(Routers.webView, context,
+                                {'url': '${NetContants.baseUrl}${item.path}'});
+                          },
+                        )
                     ],
                   ),
                 ),

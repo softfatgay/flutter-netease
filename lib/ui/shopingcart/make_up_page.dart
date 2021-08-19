@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -29,7 +30,7 @@ class MakeUpPage extends StatefulWidget {
 
 class _MakeUpPageState extends State<MakeUpPage> {
   final _scrollController = new ScrollController();
-
+  bool _isShowFloatBtn = false;
   var _searchModel = SearchParamModel();
   ItemPoolModel _itemPoolModel;
   bool _isLoading = true;
@@ -60,11 +61,24 @@ class _MakeUpPageState extends State<MakeUpPage> {
     });
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (!_pagination.lastPage) {
-          _page += 1;
-          _itemPool();
+      if (_scrollController.position.pixels > 500) {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (!_pagination.lastPage) {
+            _page += 1;
+            _itemPool();
+          }
+        }
+        if (!_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = true;
+          });
+        }
+      } else {
+        if (_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = false;
+          });
         }
       }
     });
@@ -142,61 +156,63 @@ class _MakeUpPageState extends State<MakeUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backColor,
-        appBar: TopAppBar(
-          title: '凑单',
-        ).build(context),
-        body: Stack(
-          children: [
-            Positioned(
-              top: 35,
-              left: 0,
-              right: 0,
-              bottom: _from == null ? 0 : 45,
-              child: _isLoading
-                  ? Loading()
-                  : CustomScrollView(
-                      controller: _scrollController,
-                      slivers: [
-                        singleSliverWidget(_topBarInfo()),
-                        GoodItemAddCartWidget(
-                          dataList: _result,
-                          addCarSuccess: () {
-                            _itemPoolBar();
-                          },
-                        ),
-                        SliverFooter(hasMore: !_pagination.lastPage)
-                      ],
-                    ),
+      backgroundColor: backColor,
+      appBar: TopAppBar(
+        title: '凑单',
+      ).build(context),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 35,
+            left: 0,
+            right: 0,
+            bottom: _from == null ? 0 : 45,
+            child: _isLoading
+                ? Loading()
+                : CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      singleSliverWidget(_topBarInfo()),
+                      GoodItemAddCartWidget(
+                        dataList: _result,
+                        addCarSuccess: () {
+                          _itemPoolBar();
+                        },
+                      ),
+                      SliverFooter(hasMore: !_pagination.lastPage)
+                    ],
+                  ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: MenuPopWidget(
+              searchParamModel: _searchModel,
+              categorytList: _categorytList,
+              menuChange: (searchModel) {
+                setState(() {
+                  _searchModel = searchModel;
+                });
+                _resetPage();
+              },
             ),
+          ),
+          if (_from != null)
             Positioned(
-              top: 0,
+              bottom: 0,
               left: 0,
               right: 0,
-              bottom: 0,
-              child: MenuPopWidget(
-                searchParamModel: _searchModel,
-                categorytList: _categorytList,
-                menuChange: (searchModel) {
-                  setState(() {
-                    _searchModel = searchModel;
-                  });
-                  _resetPage();
-                },
+              child: BottomPoolWidget(
+                itemPoolBarModel: _itemPoolBarModel,
               ),
             ),
-            _from == null
-                ? Container()
-                : Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: BottomPoolWidget(
-                      itemPoolBarModel: _itemPoolBarModel,
-                    ),
-                  ),
-          ],
-        ));
+        ],
+      ),
+      floatingActionButton:
+          _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
+    );
   }
 
   void _resetPage() {

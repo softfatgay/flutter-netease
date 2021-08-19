@@ -58,7 +58,10 @@ class _GetCouponPageState extends State<GetCouponPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/no_coupon.png',height: 124,),
+            Image.asset(
+              'assets/images/no_coupon.png',
+              height: 124,
+            ),
             Text(
               '暂时没有可领的优惠券',
               style: t12grey,
@@ -234,33 +237,29 @@ class _GetCouponPageState extends State<GetCouponPage> {
                     });
                   },
                 ),
-                item.isSelected == null
-                    ? Container()
-                    : item.isSelected
-                        ? SingleChildScrollView(
-                            padding: EdgeInsets.only(bottom: 15),
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: item.skuList
-                                  .map(
-                                    (skuItem) => GestureDetector(
-                                      child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 5),
-                                        child: RoundNetImage(
-                                          backColor: Color(0XFFf4f4f4),
-                                          url: skuItem.picUrl,
-                                          width: 80,
-                                          height: 80,
-                                        ),
-                                      ),
-                                      onTap: () {},
-                                    ),
-                                  )
-                                  .toList(),
+                if (item.isSelected != null && item.isSelected)
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(bottom: 15),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: item.skuList
+                          .map(
+                            (skuItem) => GestureDetector(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                child: RoundNetImage(
+                                  backColor: Color(0XFFf4f4f4),
+                                  url: skuItem.picUrl,
+                                  width: 80,
+                                  height: 80,
+                                ),
+                              ),
+                              onTap: () {},
                             ),
                           )
-                        : Container(),
+                          .toList(),
+                    ),
+                  )
               ],
             ),
           ),

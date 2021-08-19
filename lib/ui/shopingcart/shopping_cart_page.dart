@@ -289,7 +289,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var map = {
       'skuList': invalidSku,
     };
-    Map<String, dynamic> param = {'invalidSku': '${convert.jsonEncode(map)}'};
+    Map<String, dynamic> param = {
+      'invalidSku': convert.jsonEncode(convert.jsonEncode(map))
+    };
     var response = await clearInvalidItem(param);
     if (response.code == 200) {
       _getData();
@@ -629,15 +631,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                             color: textRed, fontSize: 14, height: 1.1),
                       ),
                     ),
-                    _promotionPrice == 0
-                        ? Container()
-                        : Container(
-                            child: Text(
-                              '已优惠：¥$_promotionPrice',
-                              style: TextStyle(
-                                  color: textGrey, fontSize: 12, height: 1.1),
-                            ),
-                          ),
+                    if (_promotionPrice != 0)
+                      Container(
+                        child: Text(
+                          '已优惠：¥$_promotionPrice',
+                          style: TextStyle(
+                              color: textGrey, fontSize: 12, height: 1.1),
+                        ),
+                      ),
                   ],
                 ),
               ),

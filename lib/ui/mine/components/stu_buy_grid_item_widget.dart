@@ -25,14 +25,17 @@ class StuBuyGridItemWidget extends StatelessWidget {
         child: _detailDes(item),
       ),
       onTap: () {
-        Routers.push(
-          Routers.webView,
-          context,
-          {
-            'url':
-                '${NetContants.baseUrl}pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
-          },
-        );
+        Routers.push(Routers.pinPage, context,
+            {'itemId': item.itemId, 'baseId': item.id});
+
+        // Routers.push(
+        //   Routers.webView,
+        //   context,
+        //   {
+        //     'url':
+        //         '${NetContants.baseUrl}pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
+        //   },
+        // );
       },
     );
   }

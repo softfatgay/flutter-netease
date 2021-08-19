@@ -13,8 +13,10 @@ import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/delivery_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/detail_prom_banner_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/dialog.dart';
+import 'package:flutter_app/ui/goods_detail/components/diaolog_title_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/freight_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/full_refund_policy_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/goodMaterialWidget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_detail_comment_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_price_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_select_widget.dart';
@@ -27,6 +29,7 @@ import 'package:flutter_app/ui/goods_detail/components/shopping_reward_widget.da
 import 'package:flutter_app/ui/goods_detail/components/skulimit_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/title_tags_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetailDownData.dart';
@@ -724,7 +727,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   _buildComment() {
     var commentCount = _goodDetailPre.commentCount;
-    List<CommentsItem> comments = _goodDetail.comments;
+    List<ResultItem> comments = _goodDetail.comments;
     var goodCmtRate = _goodDetail.goodCmtRate;
     return GoodDetailCommentWidget(
         commentCount: commentCount,
@@ -771,44 +774,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     if (_goodDetailDownData != null) {
       attrList = _goodDetailDownData.attrList;
     }
-    return _goodDetailDownData == null
-        ? singleSliverWidget(Container())
-        : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Container(
-                color: backWhite,
-                child: Container(
-                  decoration: const DashedDecoration(
-                      dashedColor: textGrey,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(4.0))),
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          child: Text('${attrList[index].attrName}'),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            '${attrList[index].attrValue}',
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }, childCount: attrList == null ? 0 : attrList.length),
-          );
+    return GoodMaterialWidget(
+      attrList: attrList,
+    );
   }
 
   _buildDetailTitle() {
@@ -1400,26 +1368,15 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    alignment: Alignment.centerRight,
-                    child: Image.asset(
-                      'assets/images/close.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                DialogTitleWidget(title: ''),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: couponList
-                      .map((item) => Container(
-                            child: _buildCouponItem(item),
-                          ))
+                      .map(
+                        (item) => Container(
+                          child: _buildCouponItem(item),
+                        ),
+                      )
                       .toList(),
                 )
               ],
@@ -1600,47 +1557,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: lineColor, width: 1))),
-                  padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Text(
-                          '${_hdrkDetailVOList.length}个促销',
-                          style: t16black,
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          child: Container(
-                            alignment: Alignment.centerRight,
-                            child: Image.asset(
-                              'assets/images/close.png',
-                              width: 20,
-                              height: 20,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                DialogTitleWidget(title: '${_hdrkDetailVOList.length}个促销'),
                 DetailCuxiaoItems(
                   hdrkDetailVOList: _hdrkDetailVOList,
                   itemClick: (item) {
-                    Routers.push(Routers.webView, context, {
-                      'url':
-                          '${NetContants.baseUrl}cart/itemPool?promotionId=${item.id}'
-                    });
+                    String url = '';
+                    if (item.huodongUrlWap.startsWith('http')) {
+                      url = item.huodongUrlWap;
+                    } else {
+                      url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
+                    }
+                    Routers.push(Routers.webView, context, {'url': url});
                   },
                 ),
                 SizedBox(
@@ -1673,76 +1600,38 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
             ),
           ),
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Container(
-                        child: Center(
-                          child: Text(
-                            '$title',
-                            style: t18black,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: InkResponse(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            child: Image.asset(
-                              'assets/images/close.png',
-                              width: 20,
-                              height: 20,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: lineColor,
-                ),
-                Expanded(
+          child: Column(
+            children: [
+              DialogTitleWidget(title: '$title'),
+              Expanded(
                   child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: contentList
-                          .map<Widget>((item) => Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.only(top: 15),
-                                    child: Text(
-                                      item.title,
-                                      style: t14black,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      item.content,
-                                      style: t14grey,
-                                    ),
-                                  )
-                                ],
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                )
-              ],
-            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: contentList
+                      .map<Widget>((item) => Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 15),
+                                child: Text(
+                                  item.title,
+                                  style: t14black,
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  item.content,
+                                  style: t14grey,
+                                ),
+                              )
+                            ],
+                          ))
+                      .toList(),
+                ),
+              ))
+            ],
           ),
         );
       },

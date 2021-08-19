@@ -57,4 +57,8 @@ class Util {
     var formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     return formatter.format(time);
   }
+
+  static int currentTimeMillis() {
+    return new DateTime.now().millisecondsSinceEpoch;
+  }
 }

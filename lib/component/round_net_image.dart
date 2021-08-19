@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 
 class RoundNetImage extends StatelessWidget {
   final String url;
@@ -37,6 +38,15 @@ class RoundNetImage extends StatelessWidget {
           ),
         ),
         imageUrl: url,
+        errorWidget: (context, url, error) {
+          return Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+                border: Border.all(color: lineColor, width: 1),
+                borderRadius: BorderRadius.circular(corner)),
+          );
+        },
       ),
     );
   }

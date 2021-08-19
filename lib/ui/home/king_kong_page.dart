@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/banner.dart';
-import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/page_loading.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
@@ -35,11 +35,29 @@ class _KingKongPageState extends State<KingKongPage> {
   ///_banner
   List<BannerItem> _bannerList;
 
+  final _scrollController = new ScrollController();
+  bool _isShowFloatBtn = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    _scrollController.addListener(() {
+      // 如果下拉的当前位置到scroll的最下面
+      if (_scrollController.position.pixels > 500) {
+        if (!_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = true;
+          });
+        }
+      } else {
+        if (_isShowFloatBtn) {
+          setState(() {
+            _isShowFloatBtn = false;
+          });
+        }
+      }
+    });
     _getInitData();
   }
 
@@ -102,8 +120,11 @@ class _KingKongPageState extends State<KingKongPage> {
       body: _initLoading
           ? PageLoading()
           : CustomScrollView(
+              controller: _scrollController,
               slivers: slivers,
             ),
+      floatingActionButton:
+          _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
     );
   }
 
@@ -164,5 +185,12 @@ class _KingKongPageState extends State<KingKongPage> {
 
   void _getNewData() async {
     var responseData = await kingKongNewItemData();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
   }
 }

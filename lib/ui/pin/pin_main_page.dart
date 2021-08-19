@@ -8,20 +8,19 @@ import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/model/saturdayBuyModel.dart';
 import 'package:flutter_app/model/tabGroupModel.dart';
 import 'package:flutter_app/model/tabModel.dart';
-import 'package:flutter_app/ui/mine/components/cart_tablayout_stu.dart';
+import 'package:flutter_app/ui/pin/components/cart_tablayout_stu.dart';
 import 'package:flutter_app/ui/mine/components/stu_buy_List_item_widget.dart';
 import 'package:flutter_app/ui/mine/components/stu_buy_grid_item_widget.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/normal_footer.dart';
 
-class SaturdayTBuyPage extends StatefulWidget {
+class PinMainPage extends StatefulWidget {
   @override
   _TestPageState createState() => _TestPageState();
 }
 
-class _TestPageState extends State<SaturdayTBuyPage>
-    with TickerProviderStateMixin {
+class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   String _topBackImg =
       'http://yanxuan.nosdn.127.net/18522f8bd4b81e454eee3317f0b77bdc.png';
 
@@ -29,7 +28,6 @@ class _TestPageState extends State<SaturdayTBuyPage>
 
   List<TabModel> _tabTitle = [];
   bool _isLoading = true;
-  bool _bodyLoading = true;
   bool _isFirstLoading = true;
   int _pageSize = 10;
   int _page = 1;
@@ -266,28 +264,29 @@ class _TestPageState extends State<SaturdayTBuyPage>
     var categoryList = tabGroupModel.categoryList;
     dataList.addAll(categoryList);
 
-    setState(() {
-      _tabTitle = dataList;
-      _tabController = TabController(length: _tabTitle.length, vsync: this);
-      _tabController.addListener(() {
-        setState(() {
-          if (_tabController.index == _tabController.animation.value) {
-            _bodyLoading = true;
-            _hasMore = true;
-            _page = 1;
-            if (_tabTitle[_tabController.index].type != null) {
-              _tabIdType = 'tabId';
-            } else {
-              _tabIdType = 'categoryId';
-            }
-            tabId = _tabTitle[_tabController.index].id;
-            _getPinDataList(true);
-          }
-        });
+    if (_tabTitle.isEmpty) {
+      setState(() {
+        _tabTitle = dataList;
+        _tabController = TabController(length: _tabTitle.length, vsync: this)
+          ..addListener(() {
+            setState(() {
+              if (_tabController.index == _tabController.animation.value) {
+                _hasMore = true;
+                _page = 1;
+                if (_tabTitle[_tabController.index].type != null) {
+                  _tabIdType = 'tabId';
+                } else {
+                  _tabIdType = 'categoryId';
+                }
+                tabId = _tabTitle[_tabController.index].id;
+                _getPinDataList(true);
+              }
+            });
+          });
+        _isFirstLoading = false;
+        _getPinDataList(false);
       });
-      _isFirstLoading = false;
-      _getPinDataList(false);
-    });
+    }
   }
 
   _getPinDataList(bool showLoading) async {
@@ -300,7 +299,6 @@ class _TestPageState extends State<SaturdayTBuyPage>
     var saturdayBuyModel = SaturdayBuyModel.fromJson(responseData.data);
 
     setState(() {
-      _bodyLoading = false;
       _isLoading = false;
       _pagination = saturdayBuyModel.pagination;
       if (_page >= _pagination.totalPage) {

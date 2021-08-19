@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
-import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
-import 'package:flutter_app/component/sliver_footer.dart';
 
 @Deprecated('使用SearchIndexPage代替')
 class SearchGoodsPage extends StatefulWidget {
@@ -43,7 +42,6 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
-  // var _itemId = 0;
   var _hasMore = false;
 
   @override
@@ -137,7 +135,6 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       color: backColor,
       child: Stack(
         children: <Widget>[
-//          _showPop(),
           _isLoading ? Loading() : _showPop(),
           Container(
             decoration: BoxDecoration(color: Colors.white),

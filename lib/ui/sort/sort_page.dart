@@ -78,8 +78,8 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        top: BorderSide(width: 1, color: splitLineColor),
-                        bottom: BorderSide(width: 1, color: splitLineColor),
+                        top: BorderSide(width: 0.5, color: lineColor),
+                        bottom: BorderSide(width: 0.5, color: lineColor),
                       ),
                     ),
                     child: _buildContent(),
@@ -179,28 +179,26 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                       (BuildContext context, int index) {
                         List<Category> itemItem =
                             _categoryGroupList[index].categoryList;
-                        // List itemItem = _categoryGroupList[index].categoryList;
                         return Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _categoryGroupList[index].name == null ||
-                                      _categoryGroupList[index].name.isEmpty
-                                  ? Container()
-                                  : Container(
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(bottom: 5),
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                        bottom: BorderSide(
-                                            color: lineColor, width: 1),
-                                      )),
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        "${_categoryGroupList[index].name ?? ''}",
-                                        style: t16blackbold,
-                                      ),
-                                    ),
+                              if (_categoryGroupList[index].name != null &&
+                                  _categoryGroupList[index].name.isNotEmpty)
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(bottom: 5),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                    bottom: BorderSide(
+                                        color: lineColor, width: 0.5),
+                                  )),
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    "${_categoryGroupList[index].name ?? ''}",
+                                    style: t16blackbold,
+                                  ),
+                                ),
                               GridView.count(
                                 ///这两个属性起关键性作用，列表嵌套列表一定要有Container
                                 physics: const NeverScrollableScrollPhysics(),

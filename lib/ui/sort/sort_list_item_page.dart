@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
@@ -77,18 +79,19 @@ class _CatalogGoodsState extends State<SortListItemPage>
         child: CustomScrollView(
           controller: _scrollController,
           slivers: <Widget>[
-            category.frontName == null || category.frontName == ""
-                ? singleSliverWidget(Container())
-                : SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    sliver: singleSliverWidget(Container(
-                      child: Container(
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        child: Text(category.frontName),
-                      ),
-                    )),
+            if (category.frontName != null && category.frontName != "")
+              singleSliverWidget(Container(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  color: backWhite,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: Text(
+                    category.frontName,
+                    style: t14black,
                   ),
+                ),
+              )),
             GoodItemWidget(dataList: _itemList),
             SliverFooter(hasMore: _itemList.length != _total),
           ],
