@@ -355,6 +355,14 @@ Future<ResponseData> phoneStatus() async {
 Future<ResponseData> checkVersion(Map<String, dynamic> params) async {
   return await HttpManager.post(CHECK_VERSION, params: params);
 }
+///检查更新fir
+Future<ResponseData> checkVersionFir(Map<String, dynamic> params) async {
+  return await HttpManager.get(CHECK_VERSION_FIR, params: params);
+}
+///最新版本
+Future<ResponseData> lastVersionFir(Map<String, dynamic> params) async {
+  return await HttpManager.get(LAST_VERSION_FIR, params: params);
+}
 
 ///首页弹窗
 Future<ResponseData> newUserGift() async {

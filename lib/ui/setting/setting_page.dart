@@ -3,7 +3,9 @@ import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
+import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/component/app_bar.dart';
@@ -124,56 +126,44 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   void _checkVersion() async {
+    // var packageInfo = await PackageInfo.fromPlatform();
+    // var param = {
+    //   '_api_key': pgy_api_key,
+    //   'buildVersion': packageInfo.version,
+    //   'appKey': pgy_appKey,
+    // };
+    //
+    //
+    //
+    // var responseData = await checkVersion(param);
+    // if (responseData.code == 0) {
+    //   var data = responseData.data;
+    //   var versionModel = VersionModel.fromJson(data);
+    //   if (packageInfo.version != versionModel.buildVersion) {
+    //   }
+    // }
     var packageInfo = await PackageInfo.fromPlatform();
-    var param = {
-      '_api_key': '5fd74f41bc1842bb97b3f62859937b34',
-      'buildVersion': packageInfo.version,
-      'appKey': '86f30c074e0db173411dfe6369ba818b',
+    var paramFir = {
+      'api_token': '68c6b9bc36bc9cfd3572dd1c903cb176',
     };
-
-    var responseData = await checkVersion(param);
-    if (responseData.code == 0) {
-      var data = responseData.data;
-      var versionModel = VersionModel.fromJson(data);
-      if (packageInfo.version != versionModel.buildVersion) {
-        _versionDialog(versionModel);
-      } else {
-        Toast.show('已是最新版本', context);
+    var responseData = await lastVersionFir(paramFir);
+    try {
+      var versionFirModel = VersionFirModel.fromJson(responseData.OData);
+      if (packageInfo.version != versionFirModel.versionShort) {
+        _versionDialog(versionFirModel);
       }
-    }
+    } catch (e) {}
   }
 
-  void _versionDialog(VersionModel versionModel) {
+  void _versionDialog(VersionFirModel versionModel) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('${versionModel.buildName}'),
-            content: Text('有新版本更新，是否更新?'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('取消', style: t14grey),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Navigator.pop(context);
-                  _launchURL(versionModel.downloadURL);
-                },
-                child: Text('确定', style: t14red),
-              ),
-            ],
+          return AppVersionChecker(
+            versionFirModel: versionModel,
           );
         });
-  }
-
-  _launchURL(apkUrl) async {
-    if (await canLaunch(apkUrl)) {
-      await launch(apkUrl);
-    } else {
-      throw 'Could not launch $apkUrl';
-    }
   }
 }
 

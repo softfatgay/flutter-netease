@@ -1,6 +1,6 @@
 name: flutter_app
 description: A new Flutter application.
-version: 4.0.6+406
+version: 4.0.5+405
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -72,6 +72,9 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   qr_code_scanner: ^0.5.2
   video_player: ^2.1.12
+  permission_handler: ^8.1.4+2
+  path_provider: ^2.0.2
+  install_plugin: ^2.0.1
 
 dev_dependencies:
   flutter_test:

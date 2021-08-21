@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter_app/ui/mine/check_info.dart';
+import 'package:flutter_app/utils/toast.dart';
+import 'package:install_plugin/install_plugin.dart';
+import 'package:path/path.dart' as path;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,6 +28,7 @@ import 'package:flutter_app/ui/home/model/newItemModel.dart';
 import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
 import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
+import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/home/model/versionModel.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/ui/router/router.dart';
@@ -34,7 +39,11 @@ import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:package_info/package_info.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+enum VersionState { none, loading, shouldUpdate, downloading }
 
 class HomePage extends StatefulWidget {
   @override
@@ -961,46 +970,42 @@ class _HomeState extends State<HomePage>
   }
 
   void _checkVersion() async {
+    // var packageInfo = await PackageInfo.fromPlatform();
+    // var param = {
+    //   '_api_key': pgy_api_key,
+    //   'buildVersion': packageInfo.version,
+    //   'appKey': pgy_appKey,
+    // };
+    //
+    //
+    //
+    // var responseData = await checkVersion(param);
+    // if (responseData.code == 0) {
+    //   var data = responseData.data;
+    //   var versionModel = VersionModel.fromJson(data);
+    //   if (packageInfo.version != versionModel.buildVersion) {
+    //   }
+    // }
     var packageInfo = await PackageInfo.fromPlatform();
-    var param = {
-      '_api_key': pgy_api_key,
-      'buildVersion': packageInfo.version,
-      'appKey': pgy_appKey,
+    var paramFir = {
+      'api_token': '68c6b9bc36bc9cfd3572dd1c903cb176',
     };
-
-    var responseData = await checkVersion(param);
-    if (responseData.code == 0) {
-      var data = responseData.data;
-      var versionModel = VersionModel.fromJson(data);
-      if (packageInfo.version != versionModel.buildVersion) {
-        _versionDialog(versionModel);
+    var responseData = await lastVersionFir(paramFir);
+    try {
+      var versionFirModel = VersionFirModel.fromJson(responseData.OData);
+      if (packageInfo.version != versionFirModel.versionShort) {
+        _versionDialog(versionFirModel);
       }
-    }
+    } catch (e) {}
   }
 
-  void _versionDialog(VersionModel versionModel) {
+  void _versionDialog(VersionFirModel versionModel) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('${versionModel.buildName}'),
-            content: Text('有新版本更新，是否更新?'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('取消', style: t14grey),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Navigator.pop(context);
-                  if (Platform.isAndroid) {
-                    _launchURL(versionModel.downloadURL);
-                  }
-                },
-                child: Text('确定', style: t14red),
-              ),
-            ],
+          return AppVersionChecker(
+            versionFirModel: versionModel,
           );
         });
   }

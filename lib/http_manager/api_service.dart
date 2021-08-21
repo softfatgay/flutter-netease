@@ -290,8 +290,16 @@ final String PIN_RECOMMEND = '${suffixUrl}pin/xhr/item/recommend';
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
 
-///检查更新
+///检查更新PGY
 final String CHECK_VERSION = 'https://www.pgyer.com/apiv2/app/check';
+
+///fir 基本信息
+final String CHECK_VERSION_FIR = 'http://api.bq04.com/apps/611d1af023389f6fb0972c11';
+
+///fir 最新版本
+final String LAST_VERSION_FIR = 'http://api.bq04.com/apps/latest/611d1af023389f6fb0972c11';
+
+
 
 // ///配送地址
 // final String WAPITEM_DELIVERY = '${baseUrl}xhr/wapitem/delivery.json';
