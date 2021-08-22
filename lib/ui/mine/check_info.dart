@@ -45,23 +45,6 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     super.initState();
   }
 
-  _doDownload(String url) async {
-    Directory dir = await getExternalStorageDirectory();
-    String dstPath = path.join(dir.path, 'FlutterWant.apk');
-
-    if (File(dstPath).existsSync()) {
-      InstallPlugin.installApk(dstPath, 'com.example.want');
-      return;
-    }
-    versionState.value = VersionState.downloading;
-
-    await Dio().download(url, dstPath,
-        onReceiveProgress: _onReceiveProgress,
-        options: Options(receiveTimeout: 24 * 60 * 60 * 1000));
-    // versionState.value = VersionState.none;
-    InstallPlugin.installApk(dstPath, 'com.example.want');
-  }
-
   void _onReceiveProgress(int count, int total) {
     totalSize = total;
     progress.value = count / total;
@@ -76,7 +59,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('有新版本更新，是否更新?'),
+          Text('有新版本(${versionModel.versionShort})更新，是否更新?'),
           SizedBox(
             height: 20,
           ),
@@ -113,6 +96,25 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
       Toast.show('permissions denied', context);
     }
   }
+
+
+  _doDownload(String url) async {
+    Directory dir = await getExternalStorageDirectory();
+    String dstPath = path.join(dir.path, 'FlutterWant-${versionModel.version}.apk');
+
+    if (File(dstPath).existsSync()) {
+      InstallPlugin.installApk(dstPath, 'com.example.want');
+      return;
+    }
+    versionState.value = VersionState.downloading;
+
+    await Dio().download(url, dstPath,
+        onReceiveProgress: _onReceiveProgress,
+        options: Options(receiveTimeout: 24 * 60 * 60 * 1000));
+    // versionState.value = VersionState.none;
+    InstallPlugin.installApk(dstPath, 'com.example.want');
+  }
+
 
   Widget _buildTrailByState(
       BuildContext context, VersionState value, Widget child) {
