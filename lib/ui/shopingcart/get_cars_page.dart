@@ -28,6 +28,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
   String _listTitle = "";
 
   CarItem _carItem;
+  String _from = '';
+  num _promotionId = -1;
 
   @override
   void initState() {
@@ -55,6 +57,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
       });
     }
     setState(() {
+      _from = widget.params['from'];
+      _promotionId = widget.params['promotionId'];
       _allowCount = _carItem.allowCount;
       _totalCnt = totalCnt;
       _dataList = dataList;
@@ -243,13 +247,13 @@ class _GetCarsPageState extends State<GetCarsPage> {
           Row(
             children: [
               Text(
-                '${item.actualPrice}',
+                '¥${item.actualPrice}',
                 style: t14black,
               ),
               Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Text(
-                  '${item.actualPrice}',
+                  '¥${item.retailPrice}',
                   style: TextStyle(
                     fontSize: 14,
                     color: textGrey,
@@ -290,7 +294,11 @@ class _GetCarsPageState extends State<GetCarsPage> {
 
   _buildSubmitBtn() {
     return ActiveBtn(backRed, () {
-      _submit();
+      if (_from != null) {
+        Routers.push(Routers.makeUpPage, context, {'id': _promotionId,'from':Routers.goodDetail});
+      } else {
+        _submit();
+      }
     });
   }
 }

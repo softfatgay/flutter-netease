@@ -26,6 +26,7 @@ CarItem _$CarItemFromJson(Map<String, dynamic> json) {
     ..allowCount = json['allowCount'] as int
     ..type = json['type'] as num
     ..suitCount = json['suitCount'] as num
+    ..source = json['source'] as num
     ..addBuyStepList = (json['addBuyStepList'] as List)
         ?.map((e) => e == null
             ? null
@@ -48,5 +49,6 @@ Map<String, dynamic> _$CarItemToJson(CarItem instance) => <String, dynamic>{
       'allowCount': instance.allowCount,
       'type': instance.type,
       'suitCount': instance.suitCount,
+      'source': instance.source,
       'addBuyStepList': instance.addBuyStepList,
     };

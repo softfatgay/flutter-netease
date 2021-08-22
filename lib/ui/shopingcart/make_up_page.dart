@@ -11,6 +11,7 @@ import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/components/bottom_pool_widget.dart';
 import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolBarModel.dart';
@@ -52,8 +53,15 @@ class _MakeUpPageState extends State<MakeUpPage> {
       if (widget.params['from'] != null) {
         _from = widget.params['from'];
 
-        ///购物车点击过来
-        _searchModel.source = 0;
+        if (_from == Routers.goodDetail) {
+          ///商品详情过来
+          _searchModel.source = 0;
+        }else{
+          ///购物车点击过来
+          _searchModel.source = 0;
+        }
+
+
       } else {
         ///红包点击过来
         _searchModel.source = 3;

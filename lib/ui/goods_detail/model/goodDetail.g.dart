@@ -139,7 +139,8 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..brandInfo = json['brandInfo'] == null ? null : BrandInfo.fromJson(json['brandInfo'] as Map<String, dynamic>)
     ..promTag = json['promTag'] as String
     ..specList = (json['specList'] as List)?.map((e) => e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))?.toList()
-    ..adBanners = (json['adBanners'] as List)?.map((e) => e == null ? null : AdBannersItem.fromJson(e as Map<String, dynamic>))?.toList();
+    ..adBanners = (json['adBanners'] as List)?.map((e) => e == null ? null : AdBannersItem.fromJson(e as Map<String, dynamic>))?.toList()
+    ..tryOutEventReport = json['tryOutEventReport'] == null ? null : TryOutEventReport.fromJson(json['tryOutEventReport'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -222,6 +223,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'promTag': instance.promTag,
       'specList': instance.specList,
       'adBanners': instance.adBanners,
+      'tryOutEventReport': instance.tryOutEventReport,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -486,4 +488,32 @@ Map<String, dynamic> _$AdBannersExtraToJson(AdBannersExtra instance) =>
       'crmUserGroupId': instance.crmUserGroupId,
       'materialId': instance.materialId,
       'taskId': instance.taskId,
+    };
+
+TryOutEventReport _$TryOutEventReportFromJson(Map<String, dynamic> json) {
+  return TryOutEventReport()
+    ..nickName = json['nickName'] as String
+    ..job = json['job'] as String
+    ..title = json['title'] as String
+    ..score = json['score'] as num
+    ..detail = json['detail'] == null
+        ? null
+        : Detail.fromJson(json['detail'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$TryOutEventReportToJson(TryOutEventReport instance) =>
+    <String, dynamic>{
+      'nickName': instance.nickName,
+      'job': instance.job,
+      'title': instance.title,
+      'score': instance.score,
+      'detail': instance.detail,
+    };
+
+Detail _$DetailFromJson(Map<String, dynamic> json) {
+  return Detail()..reportDetail = json['reportDetail'] as String;
+}
+
+Map<String, dynamic> _$DetailToJson(Detail instance) => <String, dynamic>{
+      'reportDetail': instance.reportDetail,
     };

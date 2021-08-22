@@ -3,11 +3,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/components/brandInfo_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/delivery_widget.dart';
@@ -42,6 +44,8 @@ import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
+import 'package:flutter_app/ui/shopingcart/model/makeUpCartInfoModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
@@ -55,6 +59,7 @@ import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class GoodsDetailPage extends StatefulWidget {
@@ -66,7 +71,8 @@ class GoodsDetailPage extends StatefulWidget {
   GoodsDetailPage({this.params});
 }
 
-class _GoodsDetailPageState extends State<GoodsDetailPage> {
+class _GoodsDetailPageState extends State<GoodsDetailPage>
+    with TickerProviderStateMixin {
   ///红色选中边框
   var redBorder = BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(3)),
@@ -99,6 +105,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   ///商品详情
   GoodDetail _goodDetail;
+
+  TryOutEventReport _tryOutEventReport;
 
   ///下半部分数据
   GoodDetailDownData _goodDetailDownData;
@@ -172,6 +180,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   ///skuMap 描述信息
   var _selectSkuMapDec = [];
   var _selectStrDec = '';
+  TabController _tabController;
+  int _tabIndex = 0;
 
   @override
   void initState() {
@@ -207,6 +217,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     _textEditingController.addListener(() {
       _textEditingController.text = _goodCount.toString();
     });
+    _tabController =
+        TabController(length: 2, vsync: this, initialIndex: _tabIndex);
   }
 
   void _getDetail() async {
@@ -322,6 +334,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
       _fullRefundPolicy = _goodDetail.fullRefundPolicy;
 
+      _tryOutEventReport = _goodDetail.tryOutEventReport;
+
       var itemDetail = _goodDetail.itemDetail;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
@@ -398,6 +412,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               child: _buildSwiper(context, _banner),
             ),
           ),
+
           // banner底部活动
           singleSliverWidget(DetailPromBannerWidget(
             detailPromBanner: _detailPromBanner,
@@ -415,8 +430,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           )),
 
           ///标题标签
-          singleSliverWidget(
-              TitleTagsWidget(itemTagListGood: _goodDetail.itemTagList)),
+          // singleSliverWidget(
+          //     TitleTagsWidget(itemTagListGood: _goodDetail.itemTagList)),
 
           ///pro会员
           singleSliverWidget(ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
@@ -457,24 +472,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           ///_brandInfo
           singleSliverWidget(_brandInfoWidget()),
 
-          ///详情title
-          singleSliverWidget(_buildDetailTitle()),
-
-          ///成分
-          _buildIntro(),
+          ///甄选家测评
+          // if (_tryOutEventReport != null) singleSliverWidget(_detailTab()),
 
           ///商品详情
-          singleSliverWidget(
-              _detailImages.isEmpty ? Container() : _buildGoodDetail()),
-
-          ///报告
-          _buildReport(),
+          singleSliverWidget(_buildGoodDetail()),
 
           ///常见问题
           singleSliverWidget(_goodDetailDownData == null
               ? Container()
               : _buildIssueTitle('― 常见问题 ―')),
-          _buildIssueList(),
+          singleSliverWidget(_buildIssueList()),
 
           ///推荐
           singleSliverWidget(_goodDetailDownData == null
@@ -485,6 +493,50 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         ],
       );
     }
+  }
+
+  double narbarHeight = 30;
+  final tabs = ['商品详情', '甄选家评测'];
+
+  _detailTab() {
+    return Container(
+        margin: EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+                bottom: BorderSide(width: 0.5, color: Color(0xFFEAEAEA)))),
+        width: double.infinity,
+        child: TabBar(
+          isScrollable: false,
+          controller: this._tabController,
+          labelStyle: TextStyle(fontSize: 15),
+          labelColor: redColor,
+          indicatorColor: Colors.red,
+          unselectedLabelColor: Colors.black,
+          indicator: MyUnderlineTabIndicator(
+            borderSide: BorderSide(width: 2.0, color: redColor),
+          ),
+          tabs: tabs
+              .map((f) => Tab(
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 34,
+                      child: Text(
+                        f,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ));
+  }
+
+  _tabDetail2() {
+    return TabBarView(
+      children: [_buildGoodDetail(), _tryOutEventReportWidget()],
+      controller: _tabController,
+      physics: NeverScrollableScrollPhysics(),
+    );
   }
 
   Widget _buildSwiper(BuildContext context, List imgList) {
@@ -746,19 +798,54 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  _buildGoodDetail() {
-    final imgWidget = _detailImages
-        .map<Widget>((e) => GestureDetector(
-              child: CachedNetworkImage(
-                imageUrl: e,
-                fit: BoxFit.cover,
-              ),
-              onTap: () {
-                // Routers.push(Util.image, context, {'images': _detailImages});
-              },
-            ))
-        .toList();
+  _detailAndOutReport() {
     return Container(
+      child: TabBarView(
+        children: [
+          Container(
+            height: 50,
+            color: textGrey,
+          ),
+          Container(
+            height: 50,
+            color: backRed,
+          ),
+          // _buildGoodDetail(),
+          // _tryOutEventReport == null?Container():_tryOutEventReportWidget()
+        ],
+        controller: _tabController,
+      ),
+    );
+  }
+
+  _tryOutEventReportWidget() {
+    if (_tryOutEventReport == null || _tryOutEventReport.detail == null) {
+      return Container();
+    }
+    return Html(data: _tryOutEventReport.detail.reportDetail ?? '');
+  }
+
+  _buildGoodDetail() {
+    final List<Widget> imgWidget = [];
+    final imgList = _detailImages.isEmpty
+        ? List.filled(0, Container())
+        : _detailImages
+            .map<Widget>((e) => GestureDetector(
+                  child: CachedNetworkImage(
+                    imageUrl: e,
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () {
+                    // Routers.push(Util.image, context, {'images': _detailImages});
+                  },
+                ))
+            .toList();
+    imgWidget.add(_buildDetailTitle());
+    imgWidget.add(_buildIntro());
+    imgWidget.add(Container(height: 20));
+    imgWidget.addAll(imgList);
+    return Container(
+      margin: EdgeInsets.only(top: 10),
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       child: Column(
         children: imgWidget,
@@ -769,6 +856,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
+  ///成分
   _buildIntro() {
     List<AttrListItem> attrList = [];
     if (_goodDetailDownData != null) {
@@ -781,11 +869,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   _buildDetailTitle() {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: Colors.white,
       ),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Text(
         '商品参数',
         style: t16black,
@@ -795,54 +883,54 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
 
   _buildReport() {
     if (_goodDetailDownData == null) {
-      return singleSliverWidget(Container());
+      return Container();
     }
     return _goodDetailDownData.reportPicList == null
-        ? singleSliverWidget(Container())
-        : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Container(
-                width: double.infinity,
-                child: CachedNetworkImage(
-                  imageUrl: _goodDetailDownData.reportPicList[index],
-                  fit: BoxFit.cover,
-                ),
-              );
-            }, childCount: _goodDetailDownData.reportPicList.length),
+        ? Container()
+        : Column(
+            children: _goodDetailDownData.reportPicList
+                .map<Widget>((item) => Container(
+                      width: double.infinity,
+                      child: CachedNetworkImage(
+                        imageUrl: item,
+                        fit: BoxFit.cover,
+                      ),
+                    ))
+                .toList(),
           );
   }
 
   _buildIssueList() {
+    var issueList = _goodDetailDownData.issueList;
     return _goodDetailDownData == null
-        ? singleSliverWidget(Container())
-        : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              var issueList = _goodDetailDownData.issueList;
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(color: Colors.white),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        '• ${issueList[index].question}',
-                        style: t14black,
+        ? Container()
+        : Column(
+            children: issueList
+                .map((item) => Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              '• ${item.question}',
+                              style: t14black,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              '${item.answer}',
+                              style: t12grey,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        '${issueList[index].answer}',
-                        style: t12grey,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }, childCount: _goodDetailDownData.issueList.length),
-          );
+                    ))
+                .toList());
   }
 
   _buildIssueTitle(String title) {
@@ -862,6 +950,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
+    _tabController.dispose();
     _textEditingController.dispose();
   }
 
@@ -1561,13 +1650,20 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                 DetailCuxiaoItems(
                   hdrkDetailVOList: _hdrkDetailVOList,
                   itemClick: (item) {
-                    String url = '';
-                    if (item.huodongUrlWap.startsWith('http')) {
-                      url = item.huodongUrlWap;
+                    if (item.huodongUrlWap.contains('cart/itemPool')) {
+                      _getMakeUpCartInfo(item);
+                      //
+                      // Routers.push(Routers.makeUpPage, context,
+                      //     {'id': item.id, 'from': 'cart-item'});
                     } else {
-                      url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
+                      String url = '';
+                      if (item.huodongUrlWap.startsWith('http')) {
+                        url = item.huodongUrlWap;
+                      } else {
+                        url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
+                      }
+                      Routers.push(Routers.webView, context, {'url': url});
                     }
-                    Routers.push(Routers.webView, context, {'url': url});
                   },
                 ),
                 SizedBox(
@@ -1579,6 +1675,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
         );
       },
     );
+  }
+
+  _getMakeUpCartInfo(HdrkDetailVOListItem item) async {
+    Map<String, dynamic> params = {
+      'promotionId': item.canUseCoupon ? -1 : item.id,
+    };
+    var responseData = await getMakeUpCartInfo(params, showProgress: true);
+    if (responseData.code == '200') {
+      var makeUpCartInfoModel = CarItem.fromJson(responseData.data);
+      if (item.huodongUrlWap.contains('giftView')) {
+        Routers.push(Routers.getCarsPage, context, {
+          'data': makeUpCartInfoModel,
+          'from': Routers.goodDetail,
+          'promotionId': item.canUseCoupon ? -1 : item.id
+        });
+      } else {
+        Routers.push(Routers.makeUpPage, context, {
+          'data': makeUpCartInfoModel,
+          'from': Routers.goodDetail,
+          'id': item.canUseCoupon ? -1 : item.id
+        });
+      }
+    }
   }
 
   ///------------------------------------------邮费-购物反-服务综合弹窗------------------------------------------

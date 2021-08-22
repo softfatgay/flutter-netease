@@ -20,6 +20,7 @@ class CarItem {
   int allowCount;
   num type;
   num suitCount;
+  num source;
   List<AddBuyStepListItem> addBuyStepList;
 
   CarItem();

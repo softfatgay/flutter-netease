@@ -14,7 +14,12 @@ MakeUpCartInfoModel _$MakeUpCartInfoModelFromJson(Map<String, dynamic> json) {
         ? null
         : ItemPoolBarVO.fromJson(json['itemPoolBarVO'] as Map<String, dynamic>)
     ..validStartTime = json['validStartTime'] as num
-    ..validEndTime = json['validEndTime'] as num;
+    ..validEndTime = json['validEndTime'] as num
+    ..addBuyStepList = (json['addBuyStepList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$MakeUpCartInfoModelToJson(
@@ -24,6 +29,7 @@ Map<String, dynamic> _$MakeUpCartInfoModelToJson(
       'validStartTime': instance.validStartTime,
       'validEndTime': instance.validEndTime,
       'validTimeDesc': instance.validTimeDesc,
+      'addBuyStepList': instance.addBuyStepList,
     };
 
 ItemPoolBarVO _$ItemPoolBarVOFromJson(Map<String, dynamic> json) {

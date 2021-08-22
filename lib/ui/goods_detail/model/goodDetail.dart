@@ -106,6 +106,8 @@ class GoodDetail {
   List<SpecListItem> specList;
   List<AdBannersItem> adBanners;
 
+  TryOutEventReport tryOutEventReport;
+
   GoodDetail();
 
   factory GoodDetail.fromJson(Map<String, dynamic> json) =>
@@ -312,4 +314,26 @@ class AdBannersExtra {
 
   factory AdBannersExtra.fromJson(Map<String, dynamic> json) =>
       _$AdBannersExtraFromJson(json);
+}
+
+@JsonSerializable()
+class TryOutEventReport{
+  String nickName;
+  String job;
+  String title;
+  num score;
+  Detail detail;
+
+  TryOutEventReport();
+  factory TryOutEventReport.fromJson(Map<String, dynamic> json) =>
+      _$TryOutEventReportFromJson(json);
+}
+
+@JsonSerializable()
+class Detail{
+  String reportDetail;
+
+  Detail();
+  factory Detail.fromJson(Map<String, dynamic> json) =>
+      _$DetailFromJson(json);
 }

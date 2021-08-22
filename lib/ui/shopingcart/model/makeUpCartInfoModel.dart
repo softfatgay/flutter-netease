@@ -1,3 +1,4 @@
+import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'makeUpCartInfoModel.g.dart';
@@ -8,6 +9,7 @@ class MakeUpCartInfoModel {
   num validStartTime;
   num validEndTime;
   String validTimeDesc;
+  List<AddBuyStepListItem> addBuyStepList;
 
   MakeUpCartInfoModel({this.validTimeDesc = ''});
 
