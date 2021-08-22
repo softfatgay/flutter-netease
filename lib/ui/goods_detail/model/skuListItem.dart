@@ -14,6 +14,17 @@ class SkuListItem {
   num noActivitySellVolume;
   bool valid;
 
+  num baseId;
+  num startTime;
+  num endTime;
+  String name;
+  num pinPrice;
+  num skuNum;
+  num userNum;
+  num skuId;
+
+
+
   List<ItemSkuSpecValueListItem> itemSkuSpecValueList;
 
   SkuListItem();

@@ -286,6 +286,12 @@ final String PIN_ITEM_DETAIL = '${suffixUrl}pin/group/item/detail';
 ///拼团
 final String PIN_RECOMMEND = '${suffixUrl}pin/xhr/item/recommend';
 
+///拼团详情
+final String PIN_ORDER = '${suffixUrl}pin/xhr/order/init.json';
+
+///发起拼团
+final String PIN_SUBMIT = '${suffixUrl}pin/xhr/order/submit.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
@@ -545,3 +551,9 @@ final String LAST_VERSION_FIR = 'http://api.bq04.com/apps/latest/611d1af023389f6
 
 ///拼团推荐
 //https://m.you.163.com/pin/xhr/item/recommend?csrf_token=66aed4b6a860e2c66324d42c46ac8b59&baseId=2054404
+
+///拼团详情
+//https://m.you.163.com/pin/xhr/order/init.json?csrf_token=11d08b8df035d292cf4aa3956d1ff2f2&pinItemId=2054404&skuId=300212854&huoDongId=0
+
+///发起拼团
+//https://m.you.163.com/pin/xhr/order/submit.json?csrf_token=11d08b8df035d292cf4aa3956d1ff2f2

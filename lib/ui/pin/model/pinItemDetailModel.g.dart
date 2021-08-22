@@ -28,7 +28,21 @@ PinItemDetailModel _$PinItemDetailModelFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null
             ? null
             : SkuSpecListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+        ?.toList()
+    ..shipAddressList = (json['shipAddressList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : LocationItemModel.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..pinOrderCartItemList = (json['pinOrderCartItemList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PinOrderCartItem.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..skuInfo = json['skuInfo'] == null
+        ? null
+        : SkuInfo.fromJson(json['skuInfo'] as Map<String, dynamic>)
+    ..huoDongId = json['huoDongId'] as num;
 }
 
 Map<String, dynamic> _$PinItemDetailModelToJson(PinItemDetailModel instance) =>
@@ -39,6 +53,10 @@ Map<String, dynamic> _$PinItemDetailModelToJson(PinItemDetailModel instance) =>
       'skuList': instance.skuList,
       'skuMap': instance.skuMap,
       'skuSpecList': instance.skuSpecList,
+      'shipAddressList': instance.shipAddressList,
+      'pinOrderCartItemList': instance.pinOrderCartItemList,
+      'skuInfo': instance.skuInfo,
+      'huoDongId': instance.huoDongId,
     };
 
 ItemInfo _$ItemInfoFromJson(Map<String, dynamic> json) {
@@ -156,4 +174,54 @@ Map<String, dynamic> _$TagListItemToJson(TagListItem instance) =>
     <String, dynamic>{
       'name': instance.name,
       'type': instance.type,
+    };
+
+PinOrderCartItem _$PinOrderCartItemFromJson(Map<String, dynamic> json) {
+  return PinOrderCartItem()
+    ..count = json['count'] as num
+    ..itemId = json['itemId'] as num
+    ..name = json['name'] as String
+    ..originPrice = json['originPrice'] as num
+    ..picUrl = json['picUrl'] as String
+    ..retailPrice = json['retailPrice'] as num
+    ..skuId = json['skuId'] as num
+    ..specValueList =
+        (json['specValueList'] as List)?.map((e) => e as String)?.toList()
+    ..subtotalPrice = json['subtotalPrice'] as num;
+}
+
+Map<String, dynamic> _$PinOrderCartItemToJson(PinOrderCartItem instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'itemId': instance.itemId,
+      'name': instance.name,
+      'originPrice': instance.originPrice,
+      'picUrl': instance.picUrl,
+      'retailPrice': instance.retailPrice,
+      'skuId': instance.skuId,
+      'specValueList': instance.specValueList,
+      'subtotalPrice': instance.subtotalPrice,
+    };
+
+SkuInfo _$SkuInfoFromJson(Map<String, dynamic> json) {
+  return SkuInfo()
+    ..counterPrice = json['counterPrice'] as num
+    ..id = json['id'] as num
+    ..maxBuyCount = json['maxBuyCount'] as num
+    ..pinPrice = json['pinPrice'] as num
+    ..primarySku = json['primarySku'] as bool
+    ..retailPrice = json['retailPrice'] as num
+    ..sellVolume = json['sellVolume'] as num
+    ..valid = json['valid'] as bool;
+}
+
+Map<String, dynamic> _$SkuInfoToJson(SkuInfo instance) => <String, dynamic>{
+      'counterPrice': instance.counterPrice,
+      'id': instance.id,
+      'maxBuyCount': instance.maxBuyCount,
+      'pinPrice': instance.pinPrice,
+      'primarySku': instance.primarySku,
+      'retailPrice': instance.retailPrice,
+      'sellVolume': instance.sellVolume,
+      'valid': instance.valid,
     };

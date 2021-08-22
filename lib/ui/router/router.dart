@@ -30,6 +30,7 @@ import 'package:flutter_app/ui/mine/reward_num_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/pin/pin_main_page.dart';
 import 'package:flutter_app/ui/pin/pin_page.dart';
+import 'package:flutter_app/ui/pin/send_pin_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
@@ -90,6 +91,7 @@ class Routers {
   static const String brandInfoPage = '/brandInfoPage';
   static const String lookPage = '/lookPage';
   static const String pinPage = '/pinPage';
+  static const String sendPinPage = '/SendPinPage';
 
   static Map<String, Function> routes = {
     ///订单详情
@@ -118,6 +120,9 @@ class Routers {
 
     ///拼团
     pinPage: (context, {params}) => PinPage(params: params),
+
+    ///发起拼团
+    sendPinPage: (context, {params}) => SendPinPage(params: params),
 
     ///商品详情选择地址
     selectAddressPage: (context, {params}) => SelectAddressPage(),

@@ -2,6 +2,8 @@ import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
+import 'package:flutter_app/ui/mine/model/addressItem.dart';
+import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pinItemDetailModel.g.dart';
@@ -14,6 +16,11 @@ class PinItemDetailModel {
   List<SkuListItem> skuList;
   Map<String, SkuMapValue> skuMap;
   List<SkuSpecListItem> skuSpecList;
+  List<LocationItemModel> shipAddressList;
+  List<PinOrderCartItem> pinOrderCartItemList;
+
+  SkuInfo skuInfo;
+  num huoDongId;
 
   PinItemDetailModel();
 
@@ -88,4 +95,39 @@ class TagListItem {
 
   factory TagListItem.fromJson(Map<String, dynamic> json) =>
       _$TagListItemFromJson(json);
+}
+
+@JsonSerializable()
+class PinOrderCartItem {
+  num count;
+  num itemId;
+  String name;
+  num originPrice;
+  String picUrl;
+  num retailPrice;
+  num skuId;
+  List<String> specValueList;
+  num subtotalPrice;
+
+  PinOrderCartItem();
+
+  factory PinOrderCartItem.fromJson(Map<String, dynamic> json) =>
+      _$PinOrderCartItemFromJson(json);
+}
+
+@JsonSerializable()
+class SkuInfo {
+  num counterPrice;
+  num id;
+  num maxBuyCount;
+  num pinPrice;
+  bool primarySku;
+  num retailPrice;
+  num sellVolume;
+  bool valid;
+
+  SkuInfo();
+
+  factory SkuInfo.fromJson(Map<String, dynamic> json) =>
+      _$SkuInfoFromJson(json);
 }

@@ -15,6 +15,14 @@ SkuListItem _$SkuListItemFromJson(Map<String, dynamic> json) {
     ..sellVolume = json['sellVolume'] as num
     ..noActivitySellVolume = json['noActivitySellVolume'] as num
     ..valid = json['valid'] as bool
+    ..baseId = json['baseId'] as num
+    ..startTime = json['startTime'] as num
+    ..endTime = json['endTime'] as num
+    ..name = json['name'] as String
+    ..pinPrice = json['pinPrice'] as num
+    ..skuNum = json['skuNum'] as num
+    ..userNum = json['userNum'] as num
+    ..skuId = json['skuId'] as num
     ..itemSkuSpecValueList = (json['itemSkuSpecValueList'] as List)
         ?.map((e) => e == null
             ? null
@@ -31,6 +39,14 @@ Map<String, dynamic> _$SkuListItemToJson(SkuListItem instance) =>
       'sellVolume': instance.sellVolume,
       'noActivitySellVolume': instance.noActivitySellVolume,
       'valid': instance.valid,
+      'baseId': instance.baseId,
+      'startTime': instance.startTime,
+      'endTime': instance.endTime,
+      'name': instance.name,
+      'pinPrice': instance.pinPrice,
+      'skuNum': instance.skuNum,
+      'userNum': instance.userNum,
+      'skuId': instance.skuId,
       'itemSkuSpecValueList': instance.itemSkuSpecValueList,
     };
 

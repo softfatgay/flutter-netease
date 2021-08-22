@@ -12,6 +12,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/goods_detail/components/goodMaterialWidget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_detail_comment_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
 import 'package:flutter_app/ui/pin/components/pin_top_widget.dart';
 import 'package:flutter_app/ui/pin/components/ruleWidget.dart';
 import 'package:flutter_app/ui/pin/model/pinItemDetailModel.dart';
@@ -240,7 +241,17 @@ class _PinPageState extends State<PinPage> {
                 ),
               ),
               onTap: () {
-                Toast.show('暂未开发', context);
+
+                var itemInfo = SkuListItem();
+                var skuList = _itemInfo.skuList;
+                for(var item in skuList){
+                  if (_itemInfo.id == item.baseId) {
+                    itemInfo = item;
+                    break;
+                  }
+                }
+                Routers.push(Routers.sendPinPage, context,{'skuItem':itemInfo});
+                // Toast.show('暂未开发', context);
               },
             ),
           ),
@@ -271,7 +282,7 @@ class _PinPageState extends State<PinPage> {
 
         ///详情title
         singleSliverWidget(_buildDetailTitle()),
-        GoodMaterialWidget(attrList: _detailModel.attrList),
+        singleSliverWidget(GoodMaterialWidget(attrList: _detailModel.attrList)),
 
         ///商品详情
         singleSliverWidget(_buildGoodDetail()),
@@ -458,5 +469,13 @@ class _PinPageState extends State<PinPage> {
               ))
           .toList(),
     );
+  }
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
   }
 }

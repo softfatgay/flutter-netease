@@ -12,7 +12,7 @@ class RoundNetImage extends StatelessWidget {
 
   const RoundNetImage(
       {Key key,
-      this.url,
+      @required this.url,
       this.height = 100,
       this.width = 100,
       this.corner = 5,

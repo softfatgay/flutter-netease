@@ -551,3 +551,15 @@ Future<ResponseData> pinRecommend(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.get(PIN_RECOMMEND, params: params);
 }
+
+///拼团详情
+Future<ResponseData> pinOrder(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(PIN_ORDER, params: params);
+}
+
+///发起拼团
+Future<ResponseData> pinSubmit(Map<String, dynamic> params) async {
+  return await HttpManager.post(PIN_SUBMIT,
+      params: _getParams(), data: params);
+}
