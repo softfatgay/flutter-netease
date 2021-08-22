@@ -563,3 +563,9 @@ Future<ResponseData> pinSubmit(Map<String, dynamic> params) async {
   return await HttpManager.post(PIN_SUBMIT,
       params: _getParams(), data: params);
 }
+
+///发起拼团
+Future<ResponseData> pinTuanCheck(Map<String, dynamic> params) async {
+  return await HttpManager.post(PIN_TUAN_CHECK,
+      params: _getParams(), data: params);
+}

@@ -241,16 +241,17 @@ class _PinPageState extends State<PinPage> {
                 ),
               ),
               onTap: () {
-
                 var itemInfo = SkuListItem();
                 var skuList = _itemInfo.skuList;
-                for(var item in skuList){
+                for (var item in skuList) {
                   if (_itemInfo.id == item.baseId) {
                     itemInfo = item;
                     break;
                   }
                 }
-                Routers.push(Routers.sendPinPage, context,{'skuItem':itemInfo});
+
+                _pinTuanCheck(itemInfo);
+
                 // Toast.show('暂未开发', context);
               },
             ),
@@ -258,6 +259,16 @@ class _PinPageState extends State<PinPage> {
         ],
       ),
     );
+  }
+
+  _pinTuanCheck(SkuListItem itemInfo) async {
+    Map<String, dynamic> params = {
+      'huoDongId': 0,
+      'baseId': itemInfo.baseId,
+      'skuId': itemInfo.skuId
+    };
+    var responseData = await pinTuanCheck(params);
+    Routers.push(Routers.sendPinPage, context, {'skuItem': itemInfo});
   }
 
   _buildContent() {
@@ -470,7 +481,6 @@ class _PinPageState extends State<PinPage> {
           .toList(),
     );
   }
-
 
   @override
   void dispose() {
