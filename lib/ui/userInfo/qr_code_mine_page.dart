@@ -103,7 +103,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                   alignment: Alignment.center,
                   height: 80,
                   child: RoundNetImage(
-                    url: user_icon_url,
+                    url: '${_userData.avatar ?? user_icon_url}',
                     corner: 40,
                     height: 80,
                     width: 80,

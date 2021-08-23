@@ -90,6 +90,7 @@ class _MinePageState extends State<UserPage>
         SliverPersistentHeader(
           pinned: true,
           delegate: UserHeader(
+            avatar: _userInfo.userSimpleVO.avatar,
             showBack: false,
             title: '',
             collapsedHeight: 50,

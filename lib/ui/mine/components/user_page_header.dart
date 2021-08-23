@@ -12,8 +12,10 @@ class UserHeader extends SliverPersistentHeaderDelegate {
   final String title;
   final UserModel userInfo;
   final bool showBack;
+  final String avatar;
 
   UserHeader({
+    this.avatar,
     this.collapsedHeight,
     this.expandedHeight,
     this.paddingTop,
@@ -134,7 +136,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(50)),
                       image: DecorationImage(
-                        image: NetworkImage('$user_icon_url'),
+                        image: NetworkImage('${avatar ?? user_icon_url}'),
                         fit: BoxFit.cover,
                       ),
                     ), // 通过 container 实现圆角
@@ -179,7 +181,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
               ),
             ),
             onTap: () {
-              Routers.push(Routers.userInfoPage, context);
+              Routers.push(Routers.userInfoPage, context, {'avatar': avatar});
             },
           ),
         ],

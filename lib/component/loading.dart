@@ -9,8 +9,8 @@ class Loading extends StatelessWidget {
           strokeWidth: 2,
           valueColor: AlwaysStoppedAnimation(Colors.red),
         ),
-        height: 25,
-        width: 25,
+        height: 22,
+        width: 22,
       ),
     );
   }

@@ -21,21 +21,12 @@ class StuBuyGridItemWidget extends StatelessWidget {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(2)),
+            color: Colors.white, borderRadius: BorderRadius.circular(6)),
         child: _detailDes(item),
       ),
       onTap: () {
         Routers.push(Routers.pinPage, context,
             {'itemId': item.itemId, 'baseId': item.id});
-
-        // Routers.push(
-        //   Routers.webView,
-        //   context,
-        //   {
-        //     'url':
-        //         '${NetContants.baseUrl}pin/static/index.html#/pages/pin/detail/goods?pinBaseId=${item.id}'
-        //   },
-        // );
       },
     );
   }
@@ -160,6 +151,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
         child: Stack(
           children: [
             TopRoundNetImage(
+              corner: 6,
               url: item.picUrl,
             ),
             Container(

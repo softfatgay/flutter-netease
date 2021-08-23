@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/timer_text.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/shopingcart/components/cart_check_box.dart';
 import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
+import 'package:flutter_app/ui/shopingcart/components/shopping_cart_count.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/ui/shopingcart/components/cart_check_box.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/ui/shopingcart/components/shopping_cart_count.dart';
-import 'package:flutter_app/component/timer_text.dart';
 
 typedef void NumChange(num source, num type, num skuId, num cnt, String extId);
 typedef void CheckOne(CarItem itemData, num source, num type, num skuId,
@@ -58,7 +57,7 @@ class CartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics:  NeverScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         CarItem itemData = itemList[index];
         List<CartItemListItem> _itemList = [];
@@ -517,7 +516,7 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                     margin: EdgeInsets.only(left: _checkBoxWith / 2),
                     decoration: BoxDecoration(
                       color: redLightColor,
@@ -525,7 +524,8 @@ class CartItemWidget extends StatelessWidget {
                     ),
                     child: Text(
                       cartItemEmpty ? '全场换购' : '换购',
-                      style: t12white,
+                      style: TextStyle(
+                          fontSize: 12, color: textWhite, height: 1.1),
                     ),
                   ),
                   Expanded(
@@ -603,14 +603,14 @@ class CartItemWidget extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(right: 6),
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical:1),
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3),
               decoration: BoxDecoration(
                 color: redLightColor,
                 borderRadius: BorderRadius.circular(2),
               ),
               child: Text(
                 itemData.promType == 108 ? '满额减' : '满件减',
-                style: t12white,
+                style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
               ),
             ),
             Expanded(

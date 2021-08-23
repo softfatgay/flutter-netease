@@ -209,7 +209,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                         child: Container(
                           alignment: Alignment.center,
                           color: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 18),
+                          padding: EdgeInsets.symmetric(vertical: 14),
                           child: Text(
                             '取消',
                             style: TextStyle(color: textGrey, fontSize: 16),
@@ -223,7 +223,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                         child: Container(
                           alignment: Alignment.center,
                           color: redColor,
-                          padding: EdgeInsets.symmetric(vertical: 18),
+                          padding: EdgeInsets.symmetric(vertical: 14),
                           child: Text(
                             '保存',
                             style: TextStyle(color: Colors.white, fontSize: 16),

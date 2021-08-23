@@ -4,6 +4,7 @@ import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 
 class UserIndexPage extends StatefulWidget {
   final Map params;
@@ -18,6 +19,16 @@ class _UserIndexPageState extends State<UserIndexPage> {
   String _userIcon =
       'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
 
+  String avatar;
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      avatar = widget.params['avatar'];
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +38,8 @@ class _UserIndexPageState extends State<UserIndexPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _tabWidget('个人信息', borderRadius: 30, imageUrl: _userIcon, id: 0),
+            _tabWidget('个人信息',
+                borderRadius: 30, imageUrl: avatar ?? user_icon_url, id: 0),
             _tabWidget('我的二维码',
                 borderRadius: 30,
                 icon: 'assets/images/mine/qr_icon.png',

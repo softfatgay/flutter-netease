@@ -1,20 +1,20 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter_app/ui/mine/check_info.dart';
-import 'package:flutter_app/utils/toast.dart';
-import 'package:install_plugin/install_plugin.dart';
-import 'package:path/path.dart' as path;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/sliver_refresh_indicator.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/component/home_page_header.dart';
 import 'package:flutter_app/ui/home/components/gift_dialog.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
@@ -29,18 +29,11 @@ import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
 import 'package:flutter_app/ui/home/model/policyDescItem.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
-import 'package:flutter_app/ui/home/model/versionModel.dart';
-import 'package:flutter_app/utils/constans.dart';
+import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/component/floating_action_button.dart';
-import 'package:flutter_app/ui/component/home_page_header.dart';
-import 'package:flutter_app/component/round_net_image.dart';
-import 'package:flutter_app/component/sliver_refresh_indicator.dart';
-import 'package:flutter_app/component/slivers.dart';
 import 'package:package_info/package_info.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum VersionState { none, loading, shouldUpdate, downloading }
@@ -421,21 +414,14 @@ class _HomeState extends State<HomePage>
   _newcomerPack(BuildContext context) {
     return singleSliverWidget(Column(children: [
       Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Text(
-                "- 新人专享礼包 -",
-                style: t14black,
-              ),
-            )
-          ],
+        padding: EdgeInsets.symmetric(vertical: 12),
+        child: Text(
+          "- 新人专享礼包 -",
+          style: t14black,
         ),
       ),
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         height: 200,
         child: Row(
           children: [
@@ -443,17 +429,15 @@ class _HomeState extends State<HomePage>
                 flex: 1,
                 child: GestureDetector(
                   child: Container(
-                    margin: EdgeInsets.only(top: 3),
+                    height: double.infinity,
+                    margin: EdgeInsets.only(bottom: 3),
                     color: Color(0xFFF6E5C4),
                     child: Stack(
                       children: [
                         Container(
-                          padding: EdgeInsets.fromLTRB(40, 60, 20, 20),
-                          height: 197,
+                          padding: EdgeInsets.fromLTRB(40, 60, 40, 20),
                           child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl:
-                                  "http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png"),
+                              fit: BoxFit.cover, imageUrl: '$redPackageUrl'),
                         ),
                         Container(
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
@@ -466,8 +450,7 @@ class _HomeState extends State<HomePage>
                     ),
                   ),
                   onTap: () {
-                    _goWebview(
-                        'https://act.you.163.com/act/pub/qAU4P437asfF.html');
+                    _goWebview('$redPackageHtml');
                   },
                 )),
             Container(
@@ -487,7 +470,7 @@ class _HomeState extends State<HomePage>
                             width: double.infinity / 2,
                             height: 97,
                             color: Color(0xFFF9DCC9),
-                            margin: EdgeInsets.only(top: 3),
+                            margin: EdgeInsets.only(bottom: 3),
                             child: CachedNetworkImage(
                               alignment: Alignment.bottomRight,
                               fit: BoxFit.fitHeight,
@@ -543,7 +526,7 @@ class _HomeState extends State<HomePage>
       return singleSliverWidget(Container());
     }
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 7, 15, 0),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       sliver: singleSliverWidget(
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -618,14 +601,17 @@ class _HomeState extends State<HomePage>
   }
 
   _categoryHotSellItem(BuildContext context) {
-    if (_categoryHotSellModule == null) {
+    if (_categoryHotSellModule == null ||
+        _categoryList == null ||
+        _categoryList.length < 2) {
       return singleSliverWidget(Container());
     }
+    var sublist = _categoryList.sublist(2, _categoryList.length);
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 5, 15, 10),
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, crossAxisSpacing: 5, mainAxisSpacing: 5),
+            crossAxisCount: 4, crossAxisSpacing: 4, mainAxisSpacing: 4),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
             return GestureDetector(
@@ -643,7 +629,7 @@ class _HomeState extends State<HomePage>
                         color: Color(0xFFF2F2F2),
                         child: Center(
                           child: Text(
-                            _categoryList[index].categoryName,
+                            sublist[index].categoryName,
                             style: TextStyle(
                                 color: textBlack,
                                 fontSize: 12,
@@ -657,7 +643,7 @@ class _HomeState extends State<HomePage>
                         color: Color(0xFFF2F2F2),
                         child: Center(
                           child: CachedNetworkImage(
-                            imageUrl: _categoryList[index].picUrl,
+                            imageUrl: sublist[index].picUrl,
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -666,7 +652,7 @@ class _HomeState extends State<HomePage>
               ),
             );
           },
-          childCount: _categoryList.length > 8 ? 8 : _categoryList.length,
+          childCount: sublist.length,
         ),
       ),
     );
@@ -859,7 +845,7 @@ class _HomeState extends State<HomePage>
       return singleSliverWidget(Container());
     }
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(10, 15, 15, 15),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
       sliver: singleSliverWidget(Row(
         children: _sceneModule.map((item) {
           Widget widget = Expanded(
@@ -870,7 +856,7 @@ class _HomeState extends State<HomePage>
               },
               child: Container(
                 color: Color(0xFFF2F2F2),
-                margin: EdgeInsets.only(left: 5),
+                margin: EdgeInsets.symmetric(horizontal: 2),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -249,7 +249,7 @@ class Routers {
         case 1: //  账号管理
           return AccountManagePage();
           break;
-        case 2: //  账号管理
+        case 2: // 拼团
           return PinMainPage();
           break;
         case 3:

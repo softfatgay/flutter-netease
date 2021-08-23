@@ -476,7 +476,10 @@ class _PinPageState extends State<PinPage> {
                     ],
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Routers.push(Routers.pinPage, context,
+                      {'itemId': item.itemId, 'baseId': item.id});
+                },
               ))
           .toList(),
     );

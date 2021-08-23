@@ -121,7 +121,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             borderRadius: BorderRadius.circular(80),
             border: Border.all(color: lineColor, width: 1),
             image: DecorationImage(
-              image: NetworkImage('$_userIcon'),
+              image: NetworkImage('${_userInfoModel.user.avatar ?? _userIcon}'),
               fit: BoxFit.cover,
             ),
           ),

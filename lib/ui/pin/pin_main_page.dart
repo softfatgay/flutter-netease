@@ -109,7 +109,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
                 children: [
                   Column(
                     children: [
-                      _buildList(),
+                      // _buildList(),
                       _buildGrid(),
                       NormalFooter(hasMore: _hasMore),
                     ],
@@ -221,10 +221,10 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   }
 
   _buildGrid() {
-    return _moreDataList.isEmpty
+    return _dataList.isEmpty
         ? Container()
         : Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+            margin: EdgeInsets.only(left: 10, right: 10, top: 55),
             child: GridView.count(
               padding: EdgeInsets.all(0),
               crossAxisCount: 2,
@@ -233,9 +233,8 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
               childAspectRatio: 0.6,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              children: _moreDataList
-                  .map((e) => StuBuyGridItemWidget(item: e))
-                  .toList(),
+              children:
+                  _dataList.map((e) => StuBuyGridItemWidget(item: e)).toList(),
             ),
           );
   }
@@ -298,6 +297,22 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
     var responseData = await getPinDataList(params, showLoading);
     var saturdayBuyModel = SaturdayBuyModel.fromJson(responseData.data);
 
+    // setState(() {
+    //   _isLoading = false;
+    //   _pagination = saturdayBuyModel.pagination;
+    //   if (_page >= _pagination.totalPage) {
+    //     _hasMore = false;
+    //   }
+    //   if (_page == 1) {
+    //     _dataList.clear();
+    //     _moreDataList.clear();
+    //     _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
+    //     _scrollController.position.jumpTo(0);
+    //   } else {
+    //     _moreDataList.insertAll(_moreDataList.length, saturdayBuyModel.result);
+    //   }
+    // });
+
     setState(() {
       _isLoading = false;
       _pagination = saturdayBuyModel.pagination;
@@ -310,7 +325,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
         _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
         _scrollController.position.jumpTo(0);
       } else {
-        _moreDataList.insertAll(_moreDataList.length, saturdayBuyModel.result);
+        _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
       }
     });
   }
