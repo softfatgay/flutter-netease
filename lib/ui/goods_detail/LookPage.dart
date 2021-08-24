@@ -212,7 +212,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
 
   _topWidget() {
     return _lookCollectionModel == null
-        ? Loading()
+        ? Container()
         : Container(
             color: backWhite,
             padding: EdgeInsets.symmetric(vertical: 10),

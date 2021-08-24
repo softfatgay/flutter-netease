@@ -211,9 +211,17 @@ class _AddNewSizeState extends State<AddNewSize> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
-          Text('$title', style: t14black),
+          Expanded(
+            flex: 1,
+            child: Text(
+              '$title',
+              style: t14black,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(width: 10),
           Expanded(
+            flex: 1,
             child: _textFiled(controller),
           ),
           SizedBox(width: 20)

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -139,15 +140,17 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   }
 
   _body() {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        singleSliverWidget(_branchWidget()),
-        _buildStickyBar(),
-        GoodItemWidget(dataList: _itemList),
-        SliverFooter(hasMore: _hasMore),
-      ],
-    );
+    return _isLoading
+        ? Loading()
+        : CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              singleSliverWidget(_branchWidget()),
+              _buildStickyBar(),
+              GoodItemWidget(dataList: _itemList),
+              SliverFooter(hasMore: _hasMore),
+            ],
+          );
   }
 
   Widget _buildStickyBar() {

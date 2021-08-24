@@ -45,36 +45,45 @@ class _WebViewPageState extends State<WebViewPage> {
 
   void setcookie() async {
     if (!CookieConfig.isLogin) return;
-    await cookieManager.setCookies([
-      Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = true,
-      Cookie("P_INFO", CookieConfig.P_INFO)
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = false,
-      Cookie("yx_csrf", CookieConfig.token)
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = false,
-      Cookie("yx_app_type", 'android')
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = false,
-      Cookie("yx_app_chann", 'aos_market_oppo')
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = false,
-      Cookie("yx_from", '')
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = false,
-      Cookie("YX_SUPPORT_WEBP", '')
-        ..domain = '.163.com'
-        ..path = '/'
-        ..httpOnly = false,
-    ]);
+
+    List<Cookie> cookies = [];
+
+    for (var key in CookieConfig.cookieMap.keys) {
+      var cookie = Cookie(key, CookieConfig.cookieMap[key]);
+      cookies.add(cookie);
+    }
+    await cookieManager.setCookies(cookies);
+
+    // await cookieManager.setCookies([
+    //   Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = true,
+    //   Cookie("P_INFO", CookieConfig.P_INFO)
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = false,
+    //   Cookie("yx_csrf", CookieConfig.token)
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = false,
+    //   Cookie("yx_app_type", 'android')
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = false,
+    //   Cookie("yx_app_chann", 'aos_market_oppo')
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = false,
+    //   Cookie("yx_from", '')
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = false,
+    //   Cookie("YX_SUPPORT_WEBP", '')
+    //     ..domain = '.163.com'
+    //     ..path = '/'
+    //     ..httpOnly = false,
+    // ]);
   }
 
   @override
@@ -146,20 +155,7 @@ class _WebViewPageState extends State<WebViewPage> {
             },
             navigationDelegate: (NavigationRequest request) {
               var url = request.url;
-              if (url.startsWith('${NetContants.baseUrl}item/detail?id=')) {
-                var split = url.split('id=');
-                var split2 = split[1];
-                var split3 = split2.split('&')[0];
-                if (split3 != null && split3.isNotEmpty) {
-                  Routers.push(Routers.goodDetail, context, {'id': '$split3'});
-                }
-                return NavigationDecision.prevent;
-              } else if (url.startsWith('${NetContants.baseUrl}cart')) {
-                Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
-                return NavigationDecision.prevent;
-              } else {
-                return NavigationDecision.navigate;
-              }
+              return _interceptUrl(url);
             },
           ),
           _isLoading
@@ -172,6 +168,23 @@ class _WebViewPageState extends State<WebViewPage> {
         ],
       ),
     );
+  }
+
+  NavigationDecision _interceptUrl(String url) {
+    if (url.startsWith('${NetContants.baseUrl}item/detail')) {
+      var split = url.split('id=');
+      var split2 = split[1];
+      var split3 = split2.split('&')[0];
+      if (split3 != null && split3.isNotEmpty) {
+        Routers.push(Routers.goodDetail, context, {'id': '$split3'});
+      }
+      return NavigationDecision.prevent;
+    } else if (url.startsWith('${NetContants.baseUrl}cart')) {
+      Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
+      return NavigationDecision.prevent;
+    } else {
+      return NavigationDecision.navigate;
+    }
   }
 
   //隐藏头部

@@ -3,13 +3,19 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/component/count.dart';
+import 'package:flutter_app/component/dashed_decoration.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/my_under_line_tabindicator.dart';
+import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/globle/scrollState.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/components/brandInfo_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/delivery_widget.dart';
@@ -19,6 +25,7 @@ import 'package:flutter_app/ui/goods_detail/components/diaolog_title_widget.dart
 import 'package:flutter_app/ui/goods_detail/components/freight_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/full_refund_policy_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/goodMaterialWidget.dart';
+import 'package:flutter_app/ui/goods_detail/components/good_detail_banner.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_detail_comment_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_price_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_select_widget.dart';
@@ -29,8 +36,6 @@ import 'package:flutter_app/ui/goods_detail/components/recommend_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/service_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/shopping_reward_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/skulimit_widget.dart';
-import 'package:flutter_app/ui/goods_detail/components/title_tags_widget.dart';
-import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
@@ -45,20 +50,11 @@ import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
-import 'package:flutter_app/ui/shopingcart/model/makeUpCartInfoModel.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/component/banner.dart';
-import 'package:flutter_app/component/count.dart';
-import 'package:flutter_app/component/dashed_decoration.dart';
-import 'package:flutter_app/component/floating_action_button.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
-import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 
@@ -170,8 +166,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///banner
   List<String> _banner = [];
 
-  int _bannerIndex = 0;
-
   num _goodId;
 
   ///skuMap key键值
@@ -182,6 +176,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   var _selectStrDec = '';
   TabController _tabController;
   int _tabIndex = 0;
+
+  final _scrollState = ValueNotifier<ScrollState>(ScrollState.shoppingCart);
 
   @override
   void initState() {
@@ -200,16 +196,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > 500) {
-        if (!_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = true;
-          });
+        if (_scrollState.value == ScrollState.shoppingCart) {
+          _scrollState.value = ScrollState.toTop;
         }
       } else {
-        if (_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = false;
-          });
+        if (_scrollState.value == ScrollState.toTop) {
+          _scrollState.value = ScrollState.shoppingCart;
         }
       }
     });
@@ -266,16 +258,16 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (item == null) {
       params = {
         'type': 1,
-        'provinceId': 130000,
-        'cityId': 130300,
-        'districtId': 130304,
-        'townId': 130304100000,
-        'provinceName': '河北省',
-        'cityName': '秦皇岛市',
-        'districtName': '北戴河区',
-        'townName': '海滨镇',
-        'address': '6464dhdjzjzjjz',
-        'skuId': 3659237,
+        'provinceId': 110000,
+        'cityId': 110100,
+        'districtId': 110105,
+        'townId': 110105004000,
+        'provinceName': '北京市',
+        'cityName': '北京市',
+        'districtName': '朝阳区',
+        'townName': '三里屯街道',
+        'address': '三里屯',
+        'skuId': _skuMapItem.id,
       };
     } else {
       params = {
@@ -375,23 +367,28 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backColor,
-        body: Stack(
-          children: <Widget>[
-            _buildContent(),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: SafeArea(
-                child: _buildFoot(1),
-              ),
-            )
-          ],
-        ),
-        floatingActionButton: !_isShowFloatBtn
-            ? floatingABCart(context, _scrollController)
-            : floatingAB(_scrollController));
+      backgroundColor: backColor,
+      body: Stack(
+        children: <Widget>[
+          _buildContent(),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: _buildFoot(1),
+            ),
+          )
+        ],
+      ),
+      floatingActionButton: ValueListenableBuilder(
+          valueListenable: _scrollState,
+          builder: (BuildContext context, ScrollState value, Widget child) {
+            return _scrollState.value == ScrollState.toTop
+                ? floatingAB(_scrollController)
+                : floatingABCart(context);
+          }),
+    );
   }
 
   //内容
@@ -399,6 +396,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_initLoading) {
       return Loading();
     } else {
+      print('重新绘制--->');
       return CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
@@ -416,6 +414,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           // banner底部活动
           singleSliverWidget(DetailPromBannerWidget(
             detailPromBanner: _detailPromBanner,
+            price: _price,
+            counterPrice: _counterPrice,
           )),
           singleSliverWidget(_buildActivity()),
 
@@ -423,11 +423,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           singleSliverWidget(_featuredSeriesWidget()),
 
           ///商品价格，detailPromBanner为null的时候展示
-          singleSliverWidget(GoodPriceWidget(
-            detailPromBanner: _detailPromBanner,
-            price: _price,
-            counterPrice: _counterPrice,
-          )),
+          singleSliverWidget(_promBanner()),
 
           ///标题标签
           // singleSliverWidget(
@@ -495,6 +491,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
   }
 
+  _promBanner() {
+    return GoodPriceWidget(
+      detailPromBanner: _detailPromBanner,
+      price: _price,
+      counterPrice: _counterPrice,
+    );
+  }
+
   double narbarHeight = 30;
   final tabs = ['商品详情', '甄选家评测'];
 
@@ -539,62 +543,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  Widget _buildSwiper(BuildContext context, List imgList) {
-    return Stack(
-      children: [
-        BannerCacheImg(
-          imageList: imgList,
-          onIndexChanged: (index) {
-            setState(() {
-              _bannerIndex = index;
-            });
-          },
-          onTap: (index) {
-            Routers.push(
-                Routers.image, context, {'images': imgList, 'page': index});
-          },
-        ),
-        Positioned(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-                color: Color(0x80FFFFFF),
-                borderRadius: BorderRadius.circular(2)),
-            child: Text(
-              '$_bannerIndex/${imgList.length}',
-              style: t12black,
-            ),
-          ),
-          right: 15,
-          bottom: 10,
-        ),
-        _videoInfo == null ||
-                _videoInfo.mp4VideoUrl == null ||
-                _videoInfo.mp4VideoUrl == ''
-            ? Container()
-            : Positioned(
-                left: 15,
-                bottom: 10,
-                child: GestureDetector(
-                  child: Container(
-                    height: 31,
-                    width: 31,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.white),
-                    child: Image.asset(
-                      'assets/images/video_play.png',
-                      height: 28,
-                      width: 28,
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Routers.videoPage, context,
-                        {'url': _videoInfo.mp4VideoUrl});
-                  },
-                ),
-              ),
-      ],
+  _buildSwiper(BuildContext context, List imgList) {
+    return GoodDetailBanner(
+      imgList: imgList,
+      videoInfo: _videoInfo,
     );
   }
 
@@ -949,6 +901,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _scrollState.dispose();
     _scrollController.dispose();
     _tabController.dispose();
     _textEditingController.dispose();
@@ -1298,7 +1251,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
     _selectStrDec = selectStrDec;
     _skuMapItem = skuMapItem;
-
     if (_skuMapItem == null) {
       ///顺序不同，导致选择失败
       var keys = _skuMap.keys;
@@ -1323,6 +1275,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_skuMapItem != null) {
       _price = _skuMapItem.retailPrice.toString();
       _counterPrice = _skuMapItem.counterPrice.toString();
+
+      setState(() {
+        _price = _skuMapItem.retailPrice.toString();
+        _counterPrice = _skuMapItem.counterPrice.toString();
+      });
     }
   }
 

@@ -96,6 +96,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   }
 
   _bodyContent() {
+    print('重新绘制---->');
     return SingleChildScrollView(
       controller: _scrollController,
       child: Stack(

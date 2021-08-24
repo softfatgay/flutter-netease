@@ -22,7 +22,7 @@ class GoodPriceWidget extends StatelessWidget {
     return detailPromBanner == null
         ? Container(
             color: backWhite,
-            padding: EdgeInsets.fromLTRB(10,10, 10, 0),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,

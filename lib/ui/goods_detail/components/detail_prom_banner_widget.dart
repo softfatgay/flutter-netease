@@ -8,8 +8,11 @@ import 'package:flutter_app/component/timer_text.dart';
 ///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
   final DetailPromBanner detailPromBanner;
+  final String price;
+  final String counterPrice;
 
-  const DetailPromBannerWidget({Key key, this.detailPromBanner})
+  const DetailPromBannerWidget(
+      {Key key, this.detailPromBanner, this.price, this.counterPrice})
       : super(key: key);
 
   @override
@@ -135,7 +138,7 @@ class DetailPromBannerWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '${detailPromBanner.activityPrice}',
+              '$price',
               style: TextStyle(
                 fontSize: 24,
                 color: textWhite,
@@ -145,7 +148,7 @@ class DetailPromBannerWidget extends StatelessWidget {
             ),
             SizedBox(width: 3),
             Text(
-              '${detailPromBanner.retailPrice ?? ''}',
+              '${counterPrice ?? ''}',
               style: TextStyle(
                   decoration: TextDecoration.lineThrough,
                   fontSize: 12,

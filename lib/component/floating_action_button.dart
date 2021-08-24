@@ -39,13 +39,12 @@ Widget floatingAB(ScrollController _scrollController) {
     ),
     onTap: () {
       _scrollController.animateTo(.0,
-          duration: Duration(milliseconds: 200), curve: Curves.ease);
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
     },
   );
 }
 
-Widget floatingABCart(
-    BuildContext context, ScrollController _scrollController) {
+Widget floatingABCart(BuildContext context) {
   return GestureDetector(
     child: Container(
       height: 35,
