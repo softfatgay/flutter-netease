@@ -14,3 +14,5 @@ const String redPackageHtml =
 
 const String pgy_api_key = '5fd74f41bc1842bb97b3f62859937b34';
 const String pgy_appKey = '86f30c074e0db173411dfe6369ba818b';
+
+const scroll_duration = 1500;

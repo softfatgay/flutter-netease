@@ -77,7 +77,9 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
             affinity: TextAffinity.downstream, offset: _textValue.length))));
 
     setState(() {
-      _textValue = widget.params['id'];
+      if (widget.params != null) {
+        _textValue = widget.params['id'];
+      }
     });
     _scrollController.addListener(() {
       // 如果下拉的当前位置到scroll的最下面

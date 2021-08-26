@@ -83,6 +83,11 @@ class _MainPageState extends State<MainPage> {
     HosEventBusUtils.on((event) {
       if (event == REFRESH_CART_NUM) {
         _getMiniCartNum();
+      } else if (event == GO_HOME) {
+        setState(() {
+          _tabIndex = 0;
+          _pageController.jumpToPage(0);
+        });
       }
     });
     _initData();

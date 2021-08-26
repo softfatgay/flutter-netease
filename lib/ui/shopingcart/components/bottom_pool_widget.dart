@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -12,12 +10,11 @@ class BottomPoolWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 15),
+      padding: EdgeInsets.only(left: 25),
       height: 45,
       decoration: BoxDecoration(
           color: backWhite,
-          border: Border(top: BorderSide(color: lineColor,width: 0.5))
-      ),
+          border: Border(top: BorderSide(color: lineColor, width: 0.5))),
       child: Row(
         children: [
           Expanded(

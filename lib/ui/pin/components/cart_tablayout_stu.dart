@@ -26,10 +26,10 @@ class StuBuyTabLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildTabLayout();
+    return _buildTabLayout(context);
   }
 
-  _buildTabLayout() {
+  _buildTabLayout(BuildContext context) {
     return Container(
       // height: 45,
       width: double.infinity,

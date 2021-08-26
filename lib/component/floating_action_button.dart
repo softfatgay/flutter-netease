@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
 FloatingActionButton floatingActionButton(ScrollController _scrollController) {
@@ -39,7 +40,8 @@ Widget floatingAB(ScrollController _scrollController) {
     ),
     onTap: () {
       _scrollController.animateTo(.0,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+          duration: Duration(milliseconds: scroll_duration),
+          curve: Curves.ease);
     },
   );
 }
@@ -64,7 +66,7 @@ Widget floatingABCart(BuildContext context) {
       ),
     ),
     onTap: () {
-      Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
+      Routers.push(Routers.shoppingCart, context, {'from': Routers.goodDetail});
     },
   );
 }

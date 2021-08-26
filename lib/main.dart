@@ -5,6 +5,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/statusbar_style.dart';
 import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/http_manager/api_service.dart';
+import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/main/index.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -62,7 +63,19 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: S.delegate.supportedLocales,
         //国际化-----------------------------------------------
 
-        home: MainPage(),
+        routes: {
+          Routers.mainPage: (context) => MainPage(),
+          Routers.homePage: (context) => HomePage(),
+        },
+        initialRoute: Routers.mainPage,
+        // onGenerateInitialRoutes: (name) {
+        //   return [
+        //     MaterialPageRoute(builder: (context) {
+        //       return MainPage();
+        //     })
+        //   ];
+        // },
+        // home: MainPage(),
       ),
     );
   }

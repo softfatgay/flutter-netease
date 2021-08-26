@@ -133,7 +133,6 @@ class _KingKongPageState extends State<KingKongPage> {
       pinned: true,
       delegate: SliverCustomHeaderDelegate(
         title: _initLoading ? 'loading...' : '${_currentCategory.name}',
-        collapsedHeight: 50,
         expandedHeight: 200,
         paddingTop: MediaQuery.of(context).padding.top,
         child: _buildSwiper(context),

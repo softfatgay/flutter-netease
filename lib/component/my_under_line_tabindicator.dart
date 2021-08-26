@@ -20,12 +20,14 @@ class MyUnderlineTabIndicator extends Decoration {
   /// The [borderSide] and [insets] arguments must not be null.
   const MyUnderlineTabIndicator({
     this.borderSide = const BorderSide(width: 2.0, color: Colors.white),
+    this.width = 50,
     this.insets = EdgeInsets.zero,
   })  : assert(borderSide != null),
         assert(insets != null);
 
   /// The color and weight of the horizontal line drawn below the selected tab.
   final BorderSide borderSide;
+  final double width;
 
   /// Locates the selected tab's underline relative to the tab's boundary.
   ///
@@ -70,6 +72,7 @@ class _MyUnderlinePainter extends BoxPainter {
   final MyUnderlineTabIndicator decoration;
 
   BorderSide get borderSide => decoration.borderSide;
+  double get width => decoration.width;
   EdgeInsetsGeometry get insets => decoration.insets;
 
   Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
@@ -78,7 +81,7 @@ class _MyUnderlinePainter extends BoxPainter {
     final Rect indicator = insets.resolve(textDirection).deflateRect(rect);
 
     //希望的宽度
-    double wantWidth = 50;
+    double wantWidth = width;
     //取中间坐标
     double cw = (indicator.left + indicator.right) / 2;
     return Rect.fromLTWH(cw - wantWidth / 2,

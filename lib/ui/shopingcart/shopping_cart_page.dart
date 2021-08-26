@@ -314,11 +314,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     return Scaffold(
       backgroundColor: backColor,
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0.3,
         backgroundColor: Colors.white,
         brightness: Brightness.light,
-        centerTitle: true,
+        centerTitle: false,
+        toolbarHeight: 45,
+        leadingWidth: 0,
+        titleSpacing: 0,
+        shadowColor: backColor,
         title: CartNavBarWidget(
+          canBack: widget.params != null,
           isEdit: isEdit,
           editPress: () {
             setState(() {
@@ -327,19 +332,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
             });
           },
         ),
-        leading: argument == null
-            ? Container()
-            : GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  child: Image.asset(
-                    'assets/images/back.png',
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
       ),
       body: Stack(
         children: [
@@ -390,7 +382,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
               context: context,
               child: CustomScrollView(
                 slivers: [
-                  singleSliverWidget(_buildTitle()),
+                  if (_topItem != null) singleSliverWidget(_buildTitle()),
                   singleSliverWidget(_dataList()),
                   singleSliverWidget(Container(height: 10)),
                   singleSliverWidget(_invalidList()),
@@ -398,7 +390,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                 ],
               ),
             ),
-      bottom: 40,
+      bottom: 36,
       top: 0,
       left: 0,
       right: 0,
@@ -407,45 +399,43 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   /// 导航下面，商品上面  标题部分
   _buildTitle() {
-    return _topItem == null
-        ? Container()
-        : Container(
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _shoppingCartModel.postageVO.postageTip == null
-                    ? ServiceTagWidget()
-                    : GestureDetector(
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          color: Color(0xFFFFF6E5),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          height: 40,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  '${_postageVO == null ? '' : _postageVO.postageTip}',
-                                  style: t14Orange,
-                                ),
-                              ),
-                              _postageVO.postFree ? Container() : arrowRightIcon
-                            ],
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _shoppingCartModel.postageVO.postageTip == null
+              ? ServiceTagWidget()
+              : GestureDetector(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    color: Color(0xFFFFF6E5),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            '${_postageVO == null ? '' : _postageVO.postageTip}',
+                            style: t14Orange,
                           ),
                         ),
-                        onTap: () {
-                          if (!_postageVO.postFree) {
-                            Routers.push(Routers.cartItemPoolPage, context, {},
-                                (value) {
-                              _getData();
-                            });
-                          }
-                        },
-                      ),
-              ],
-            ),
-          );
+                        _postageVO.postFree ? Container() : arrowRightIcon
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    if (!_postageVO.postFree) {
+                      Routers.push(Routers.cartItemPoolPage, context, {},
+                          (value) {
+                        _getData();
+                      });
+                    }
+                  },
+                ),
+        ],
+      ),
+    );
   }
 
   /// 有效商品列表
@@ -531,8 +521,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     ///编辑状态
     if (isEdit) {
       return Container(
-        color: Colors.white,
-        height: ScreenUtil().setHeight(50),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(top: BorderSide(color: backColor, width: 0.5))),
+        height: 46,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -569,8 +561,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     } else {
       ///正常状态
       return Container(
-        color: Colors.white,
-        height: 50,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(top: BorderSide(color: backColor, width: 0.5))),
+        height: 46,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

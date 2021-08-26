@@ -19,11 +19,11 @@ class TabAppBar extends StatelessWidget {
   final bool isScrollable;
 
   Widget buildAppBar(BuildContext context) {
-    return new Container(
+    return Container(
       width: double.infinity,
       color: Colors.white,
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      child: new Container(
+      child: Container(
         child: Row(
           children: <Widget>[
             InkResponse(

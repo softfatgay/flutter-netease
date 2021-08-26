@@ -180,7 +180,7 @@ class _WebViewPageState extends State<WebViewPage> {
       }
       return NavigationDecision.prevent;
     } else if (url.startsWith('${NetContants.baseUrl}cart')) {
-      Routers.push(Routers.shoppingCart, context, {'from': 'detail'});
+      Routers.push(Routers.shoppingCart, context, {'from': Routers.goodDetail});
       return NavigationDecision.prevent;
     } else {
       return NavigationDecision.navigate;

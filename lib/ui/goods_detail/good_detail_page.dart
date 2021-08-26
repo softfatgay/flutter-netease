@@ -54,6 +54,7 @@ import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
+import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
@@ -89,8 +90,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   final _scrollController = ScrollController();
   final _textEditingController = TextEditingController();
-
-  bool _isShowFloatBtn = false;
 
   ///--------------------------------------------------------------------------------------
   bool _initLoading = true;
@@ -178,6 +177,18 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   int _tabIndex = 0;
 
   final _scrollState = ValueNotifier<ScrollState>(ScrollState.shoppingCart);
+  final _tabState = ValueNotifier<int>(0);
+
+  final _goodsKey = GlobalKey();
+  final _commentKey = GlobalKey();
+  final _detailKey = GlobalKey();
+  final _RCMKey = GlobalKey();
+
+  var _commentH = 0.0;
+  var _detailH = 0.0;
+  var _RCMKeyH = 0.0;
+
+  final topTabs = ['商品', '评价', '详情', '推荐'];
 
   @override
   void initState() {
@@ -204,11 +215,36 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           _scrollState.value = ScrollState.shoppingCart;
         }
       }
+
+      var scrollY = _scrollController.position.pixels;
+      if (scrollY < _commentH) {
+        if (_tabState.value != 0) {
+          _tabState.value = 0;
+        }
+        print('滑动到头部区域');
+      } else if (scrollY >= _commentH && scrollY < _detailH) {
+        if (_tabState.value != 1) {
+          _tabState.value = 1;
+        }
+        print('滑动到评论区');
+      } else if (scrollY >= _detailH && scrollY < _RCMKeyH) {
+        if (_tabState.value != 2) {
+          _tabState.value = 2;
+        }
+
+        print('滑动到详情区');
+      } else if (scrollY >= _RCMKeyH) {
+        if (_tabState.value != 3) {
+          _tabState.value = 3;
+        }
+        print('滑动到推荐区');
+      } else {}
     });
 
     _textEditingController.addListener(() {
       _textEditingController.text = _goodCount.toString();
     });
+
     _tabController =
         TabController(length: 2, vsync: this, initialIndex: _tabIndex);
   }
@@ -293,6 +329,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             WapitemDeliveryModel.fromJson(responseData.data);
       });
     }
+
+    setState(() {
+      _commentH = RenderBoxUtil.offsetY(context, _commentKey);
+      _detailH = RenderBoxUtil.offsetY(context, _detailKey);
+      _RCMKeyH = RenderBoxUtil.offsetY(context, _RCMKey);
+    });
   }
 
   void _getDetailPageUp() async {
@@ -338,7 +380,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       });
       _initLoading = false;
     });
-
     _getLocations();
   }
 
@@ -400,17 +441,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       return CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: SliverCustomHeaderDelegate(
-              title: _initLoading ? 'loading...' : '${_goodDetail.name ?? ''}',
-              collapsedHeight: 50,
-              expandedHeight: MediaQuery.of(context).size.width,
-              paddingTop: MediaQuery.of(context).padding.top,
-              child: _buildSwiper(context, _banner),
-            ),
-          ),
-
+          _sliverHeader(),
           // banner底部活动
           singleSliverWidget(DetailPromBannerWidget(
             detailPromBanner: _detailPromBanner,
@@ -424,10 +455,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
           ///商品价格，detailPromBanner为null的时候展示
           singleSliverWidget(_promBanner()),
-
-          ///标题标签
-          // singleSliverWidget(
-          //     TitleTagsWidget(itemTagListGood: _goodDetail.itemTagList)),
 
           ///pro会员
           singleSliverWidget(ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
@@ -477,18 +504,54 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ///常见问题
           singleSliverWidget(_goodDetailDownData == null
               ? Container()
-              : _buildIssueTitle('― 常见问题 ―')),
+              : _buildIssueTitle(' 常见问题 ', null)),
           singleSliverWidget(_buildIssueList()),
 
           ///推荐
-          singleSliverWidget(_goodDetailDownData == null
-              ? Container()
-              : _buildIssueTitle('― 你可能还喜欢 ―')),
+          singleSliverWidget(Container(
+            key: _RCMKey,
+          )),
+          singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
           GoodItemWidget(dataList: _rmdList),
-          singleSliverWidget(Container(height: 60)),
+          singleSliverWidget(Container(height: 45)),
         ],
       );
     }
+  }
+
+  ValueListenableBuilder<int> _sliverHeader() {
+    return ValueListenableBuilder(
+        valueListenable: _tabState,
+        builder: (BuildContext context, int value, Widget child) {
+          return SliverPersistentHeader(
+            pinned: true,
+            delegate: SliverCustomHeaderDelegate(
+                index: _tabState.value,
+                // title:
+                //     _initLoading ? 'loading...' : '${_goodDetail.name ?? ''}',
+                collapsedHeight: 70,
+                tabs: topTabs,
+                expandedHeight: MediaQuery.of(context).size.width,
+                paddingTop: MediaQuery.of(context).padding.top,
+                child: _buildSwiper(context, _banner),
+                onPress: (index) {
+                  if (index == 0) {
+                    _scrollT0(0.0);
+                  } else if (index == 1) {
+                    _scrollT0(_commentH);
+                  } else if (index == 2) {
+                    _scrollT0(_detailH);
+                  } else if (index == 3) {
+                    _scrollT0(_RCMKeyH);
+                  }
+                }),
+          );
+        });
+  }
+
+  _scrollT0(double dy) {
+    _scrollController.animateTo(dy,
+        duration: Duration(milliseconds: 1000), curve: Curves.ease);
   }
 
   _promBanner() {
@@ -499,7 +562,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  double narbarHeight = 30;
+  double narbarHeight = 40;
   final tabs = ['商品详情', '甄选家评测'];
 
   _detailTab() {
@@ -734,6 +797,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     List<ResultItem> comments = _goodDetail.comments;
     var goodCmtRate = _goodDetail.goodCmtRate;
     return GoodDetailCommentWidget(
+        key: _commentKey,
         commentCount: commentCount,
         comments: comments,
         goodCmtRate: goodCmtRate,
@@ -797,6 +861,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     imgWidget.add(Container(height: 20));
     imgWidget.addAll(imgList);
     return Container(
+      key: _detailKey,
       margin: EdgeInsets.only(top: 10),
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       child: Column(
@@ -885,7 +950,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                 .toList());
   }
 
-  _buildIssueTitle(String title) {
+  _buildQuestionTitle(String title) {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -897,14 +962,47 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
+  _buildIssueTitle(String title, GlobalKey key) {
+    return Container(
+      key: key,
+      decoration: BoxDecoration(color: Colors.white),
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _titleLine(),
+          Text(
+            title,
+            style: TextStyle(
+              color: textBlack,
+              fontSize: 16,
+              height: 1,
+            ),
+          ),
+          _titleLine(),
+        ],
+      ),
+    );
+  }
+
+  _titleLine() {
+    return Container(
+      width: 20,
+      color: lineColor,
+      height: 1,
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _scrollState.dispose();
+    _tabState.dispose();
     _scrollController.dispose();
     _tabController.dispose();
     _textEditingController.dispose();
+    super.dispose();
   }
 
   _buildYanxuanTitle() {

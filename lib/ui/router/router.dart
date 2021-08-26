@@ -8,11 +8,13 @@ import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
 import 'package:flutter_app/ui/goods_detail/search_index_page.dart';
 import 'package:flutter_app/ui/goods_detail/select_address_page.dart';
+import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/home/hot_list_page.dart';
 import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/home/qr_code_result.dart';
 import 'package:flutter_app/ui/home/qr_scan_page.dart';
+import 'package:flutter_app/ui/main/index.dart';
 import 'package:flutter_app/ui/mine/add_address_page.dart';
 import 'package:flutter_app/ui/mine/coupon_page.dart';
 import 'package:flutter_app/ui/mine/feedback_page.dart';
@@ -52,6 +54,8 @@ import 'package:flutter_app/ui/video_page.dart';
 import 'package:flutter_app/ui/webview_page.dart';
 
 class Routers {
+  static const String mainPage = '/mainPage';
+  static const String homePage = '/homePage';
   static const String videoPage = '/videoPage';
   static const String qrScanPage = '/qrScanPage';
   static const String qrCodeResultPage = '/qrCodeResultPage';
@@ -94,6 +98,12 @@ class Routers {
   static const String sendPinPage = '/SendPinPage';
 
   static Map<String, Function> routes = {
+    ///主页
+    mainPage: (context, {params}) => MainPage(),
+
+    ///首页
+    homePage: (context, {params}) => HomePage(),
+
     ///订单详情
     orderDetailPage: (context, {params}) => OrderDetailPage(params: params),
 
@@ -364,8 +374,6 @@ class Routers {
         return MaterialPageRoute(
             builder: (context) => pageContentBuilder(context));
       }
-    } else {
-      return MaterialPageRoute(builder: (context) => ErrorPage());
     }
   }
 
