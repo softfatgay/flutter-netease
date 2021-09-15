@@ -19,90 +19,45 @@ class ProVipWidget extends StatelessWidget {
     if (spmcBanner != null) {
       return GestureDetector(
         child: Container(
-          padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6), color: backWhite),
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.horizontal(left: Radius.circular(6)),
-                  color: backYellow,
+          padding: EdgeInsets.only(top: 10),
+          color: backWhite,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Color(0XFFFFF1D2)),
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/pro_icon.png',
+                  height: 12,
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  '${spmcBanner.spmcTagDesc}',
-                  style: t14blackBold,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 5),
-                        height: 40,
-                        decoration: ShapeDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/images/detail_vip_icon.png"),
-                              fit: BoxFit.fitWidth),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusDirectional.horizontal(
-                              end: Radius.circular(6),
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: RichText(
-                                text: TextSpan(style: t14black, children: [
-                                  TextSpan(
-                                      text: '${spmcBanner.spmcDesc}',
-                                      style: TextStyle(
-                                          color: Color(0xFFFFF1D2),
-                                          fontSize: 14)),
-                                  TextSpan(
-                                      text: '${spmcBanner.spmcPrice}',
-                                      style: t14Yellow),
-                                ]),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 3),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    colors: [
-                                      Color(0xFFFFD883),
-                                      Color(0xFFEFB965),
-                                    ],
-                                  ),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text(
-                                '开通',
-                                style: t12black,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                          ],
-                        ),
-                      ),
-                    ],
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: RichText(
+                      text: TextSpan(style: t14black, children: [
+                        TextSpan(
+                            text: '${spmcBanner.spmcDesc}', style: t14black),
+                        TextSpan(
+                            text: '${spmcBanner.spmcPrice}', style: t14red),
+                      ]),
+                    ),
                   ),
                 ),
-              )
-            ],
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                  decoration: BoxDecoration(
+                      color: Color(0XFF12161C),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Text(
+                    '开通',
+                    style: t12Yellow,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         onTap: () {

@@ -8,6 +8,7 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/ui/mine/components/head_portrait.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/utils/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @Deprecated('no used')
@@ -33,10 +34,10 @@ class _VipCenterPageState extends State<VipCenterPage> {
   }
 
   void getUserInfo() async {
-    var prefs = await SharedPreferences.getInstance();
+    var sp = await LocalStorage.sp;
     setState(() {
-      _name = prefs.getString('name');
-      _pointsCnt = prefs.getString('pointsCnt');
+      _name = sp.getString(LocalStorage.userName);
+      _pointsCnt = sp.getString(LocalStorage.pointsCnt);
     });
   }
 

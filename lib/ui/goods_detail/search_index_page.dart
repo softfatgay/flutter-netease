@@ -417,7 +417,6 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   void _getKeyword() async {
     var sp = await LocalStorage.sp;
     var keyword = sp.getString(LocalStorage.keyWord);
-    print('sp-----------$keyword');
     if (keyword != null && keyword != '') {
       var split = keyword.split(';');
       // split.removeAt(0);

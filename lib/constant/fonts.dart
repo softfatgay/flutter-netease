@@ -29,7 +29,7 @@ const double textHeight = 1.1;
 const TextStyle t10white = TextStyle(
   color: textWhite,
   fontSize: 10,
-  height: 1.1,
+  height: 1.2,
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );

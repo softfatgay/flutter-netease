@@ -33,7 +33,7 @@ class ServiceWidget extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 6),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -45,13 +45,15 @@ class ServiceWidget extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                            child: Container(
-                          child: Wrap(
-                            spacing: 5,
-                            runSpacing: 5,
-                            children: _buildSerVice(),
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: Wrap(
+                              spacing: 5,
+                              runSpacing: 5,
+                              children: _buildSerVice(),
+                            ),
                           ),
-                        )),
+                        ),
                         arrowRightIcon
                       ],
                     ),
@@ -81,7 +83,7 @@ class ServiceWidget extends StatelessWidget {
               SizedBox(width: 2),
               Text(
                 '${policyList[index].title}',
-                style: t12black,
+                style: t14black,
               )
             ],
           ),

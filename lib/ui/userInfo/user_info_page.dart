@@ -152,30 +152,34 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   _buildAccount() {
-    Widget widget = Container(
-      decoration: BoxDecoration(
-          color: backWhite,
-          border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Text('账号关联'),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              child: Text(
-                '${_userInfoModel.user.aliases.length}个',
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+            color: backWhite,
+            border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Text('账号关联'),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                child: Text(
+                  '${_userInfoModel.user.aliases.length}个',
+                ),
               ),
             ),
-          ),
-          arrowRightIcon
-        ],
+            arrowRightIcon
+          ],
+        ),
       ),
+      onTap: () {
+        return Routers.push(Routers.mineItems, context, {"id": 1});
+      },
     );
-    return Routers.link(widget, Routers.mineItems, context, {"id": 1});
   }
 
   _buildNickame() {
@@ -252,49 +256,49 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   _buildBirthday() {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-          color: backWhite,
-          border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Text('出生日期'),
-          ),
-          Expanded(
-            flex: 2,
-            child: GestureDetector(
+    return GestureDetector(
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+            color: backWhite,
+            border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Text('出生日期'),
+            ),
+            Expanded(
+              flex: 2,
               child: Container(
                 child: Text('$_bYear-$_bMonth-$_bDay'),
               ),
-              onTap: () {
-                DatePicker.showDatePicker(context,
-                    showTitleActions: true,
-                    minTime: DateTime(1980, 1, 31),
-                    maxTime: DateTime(2021, 1, 31),
-                    theme: DatePickerTheme(
-                        headerColor: backWhite,
-                        backgroundColor: backWhite,
-                        itemStyle: t14black,
-                        doneStyle: t14black,
-                        cancelStyle: t14grey),
-                    onChanged: (date) {}, onConfirm: (DateTime date) {
-                  setState(() {
-                    _bYear = date.year.toString();
-                    _bMonth = date.month.toString();
-                    _bDay = date.day.toString();
-                    _birthDay = date;
-                  });
-                }, currentTime: DateTime.now(), locale: LocaleType.zh);
-              },
             ),
-          ),
-          arrowRightIcon
-        ],
+            arrowRightIcon
+          ],
+        ),
       ),
+      onTap: () {
+        DatePicker.showDatePicker(context,
+            showTitleActions: true,
+            minTime: DateTime(1980, 1, 31),
+            maxTime: DateTime(2021, 1, 31),
+            theme: DatePickerTheme(
+                headerColor: backWhite,
+                backgroundColor: backWhite,
+                itemStyle: t14black,
+                doneStyle: t14black,
+                cancelStyle: t14grey),
+            onChanged: (date) {}, onConfirm: (DateTime date) {
+          setState(() {
+            _bYear = date.year.toString();
+            _bMonth = date.month.toString();
+            _bDay = date.day.toString();
+            _birthDay = date;
+          });
+        }, currentTime: DateTime.now(), locale: LocaleType.zh);
+      },
     );
   }
 

@@ -2,6 +2,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
   static String keyWord = "key_word";
+  static String userName = "user_name";
+  static String userIcon = "user_icon";
+  static String pointsCnt = "points_cnt";
   static String noticeList = "notice_list";
   static String totalNum = 'total_num';
 

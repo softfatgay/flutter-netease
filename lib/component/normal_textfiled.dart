@@ -19,11 +19,12 @@ class NormalTextFiled extends TextField {
           controller: controller,
           style: t16black,
           enabled: enabled,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.start,
           inputFormatters: [],
           decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 10),
+              contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
               fillColor: Colors.white,
+              filled: true,
               hintStyle: t14hintText,
               disabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(

@@ -7,7 +7,6 @@ import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -56,7 +55,6 @@ import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class GoodsDetailPage extends StatefulWidget {
@@ -100,8 +98,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///商品详情
   GoodDetail _goodDetail;
-
-  TryOutEventReport _tryOutEventReport;
 
   ///下半部分数据
   GoodDetailDownData _goodDetailDownData;
@@ -179,7 +175,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   final _scrollState = ValueNotifier<ScrollState>(ScrollState.shoppingCart);
   final _tabState = ValueNotifier<int>(0);
 
-  final _goodsKey = GlobalKey();
   final _commentKey = GlobalKey();
   final _detailKey = GlobalKey();
   final _RCMKey = GlobalKey();
@@ -198,8 +193,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
     super.initState();
     print(widget.params['id']);
-    _getDetailPageUp();
     _getDetail();
+    _getDetailPageUp();
     _getRMD();
 
     ///配送信息
@@ -215,7 +210,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           _scrollState.value = ScrollState.shoppingCart;
         }
       }
-
       var scrollY = _scrollController.position.pixels;
       if (scrollY < _commentH) {
         if (_tabState.value != 0) {
@@ -329,7 +323,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             WapitemDeliveryModel.fromJson(responseData.data);
       });
     }
+    WidgetsBinding.instance.addPostFrameCallback((callback) {});
+    _calculateAfterLayout();
+  }
 
+  void _calculateAfterLayout() {
     setState(() {
       _commentH = RenderBoxUtil.offsetY(context, _commentKey);
       _detailH = RenderBoxUtil.offsetY(context, _detailKey);
@@ -367,8 +365,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _brandInfo = _goodDetail.brandInfo;
 
       _fullRefundPolicy = _goodDetail.fullRefundPolicy;
-
-      _tryOutEventReport = _goodDetail.tryOutEventReport;
 
       var itemDetail = _goodDetail.itemDetail;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
@@ -437,7 +433,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_initLoading) {
       return Loading();
     } else {
-      print('重新绘制--->');
       return CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
@@ -508,9 +503,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           singleSliverWidget(_buildIssueList()),
 
           ///推荐
-          singleSliverWidget(Container(
-            key: _RCMKey,
-          )),
+          singleSliverWidget(Container(key: _RCMKey)),
           singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
           GoodItemWidget(dataList: _rmdList),
           singleSliverWidget(Container(height: 45)),
@@ -536,20 +529,27 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                 child: _buildSwiper(context, _banner),
                 onPress: (index) {
                   if (index == 0) {
-                    _scrollT0(0.0);
+                    _scrollT0(null, 0.0);
                   } else if (index == 1) {
-                    _scrollT0(_commentH);
+                    _scrollT0(_commentKey, _commentH);
                   } else if (index == 2) {
-                    _scrollT0(_detailH);
+                    _scrollT0(_detailKey, _detailH);
                   } else if (index == 3) {
-                    _scrollT0(_RCMKeyH);
+                    _scrollT0(_RCMKey, _RCMKeyH);
                   }
                 }),
           );
         });
   }
 
-  _scrollT0(double dy) {
+  _scrollT0(GlobalKey key, double dy) {
+    // if (key == null) {
+    //   _scrollController.animateTo(dy,
+    //       duration: Duration(milliseconds: 1000), curve: Curves.ease);
+    // } else {
+    //   Scrollable.ensureVisible(key.currentContext);
+    // }
+
     _scrollController.animateTo(dy,
         duration: Duration(milliseconds: 1000), curve: Curves.ease);
   }
@@ -564,47 +564,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   double narbarHeight = 40;
   final tabs = ['商品详情', '甄选家评测'];
-
-  _detailTab() {
-    return Container(
-        margin: EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-                bottom: BorderSide(width: 0.5, color: Color(0xFFEAEAEA)))),
-        width: double.infinity,
-        child: TabBar(
-          isScrollable: false,
-          controller: this._tabController,
-          labelStyle: TextStyle(fontSize: 15),
-          labelColor: redColor,
-          indicatorColor: Colors.red,
-          unselectedLabelColor: Colors.black,
-          indicator: MyUnderlineTabIndicator(
-            borderSide: BorderSide(width: 2.0, color: redColor),
-          ),
-          tabs: tabs
-              .map((f) => Tab(
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 34,
-                      child: Text(
-                        f,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ))
-              .toList(),
-        ));
-  }
-
-  _tabDetail2() {
-    return TabBarView(
-      children: [_buildGoodDetail(), _tryOutEventReportWidget()],
-      controller: _tabController,
-      physics: NeverScrollableScrollPhysics(),
-    );
-  }
 
   _buildSwiper(BuildContext context, List imgList) {
     return GoodDetailBanner(
@@ -814,33 +773,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  _detailAndOutReport() {
-    return Container(
-      child: TabBarView(
-        children: [
-          Container(
-            height: 50,
-            color: textGrey,
-          ),
-          Container(
-            height: 50,
-            color: backRed,
-          ),
-          // _buildGoodDetail(),
-          // _tryOutEventReport == null?Container():_tryOutEventReportWidget()
-        ],
-        controller: _tabController,
-      ),
-    );
-  }
-
-  _tryOutEventReportWidget() {
-    if (_tryOutEventReport == null || _tryOutEventReport.detail == null) {
-      return Container();
-    }
-    return Html(data: _tryOutEventReport.detail.reportDetail ?? '');
-  }
-
   _buildGoodDetail() {
     final List<Widget> imgWidget = [];
     final imgList = _detailImages.isEmpty
@@ -898,25 +830,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  _buildReport() {
-    if (_goodDetailDownData == null) {
-      return Container();
-    }
-    return _goodDetailDownData.reportPicList == null
-        ? Container()
-        : Column(
-            children: _goodDetailDownData.reportPicList
-                .map<Widget>((item) => Container(
-                      width: double.infinity,
-                      child: CachedNetworkImage(
-                        imageUrl: item,
-                        fit: BoxFit.cover,
-                      ),
-                    ))
-                .toList(),
-          );
-  }
-
   _buildIssueList() {
     var issueList = _goodDetailDownData.issueList;
     return _goodDetailDownData == null
@@ -948,18 +861,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                       ),
                     ))
                 .toList());
-  }
-
-  _buildQuestionTitle(String title) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      padding: EdgeInsets.symmetric(vertical: 20),
-      child: Text(
-        title,
-        style: TextStyle(fontSize: 18),
-        textAlign: TextAlign.center,
-      ),
-    );
   }
 
   _buildIssueTitle(String title, GlobalKey key) {
