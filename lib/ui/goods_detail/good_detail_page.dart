@@ -200,40 +200,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     ///配送信息
     // _wapitemDelivery();
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 500) {
-        if (_scrollState.value == ScrollState.shoppingCart) {
-          _scrollState.value = ScrollState.toTop;
-        }
-      } else {
-        if (_scrollState.value == ScrollState.toTop) {
-          _scrollState.value = ScrollState.shoppingCart;
-        }
-      }
-      var scrollY = _scrollController.position.pixels;
-      if (scrollY < _commentH) {
-        if (_tabState.value != 0) {
-          _tabState.value = 0;
-        }
-        print('滑动到头部区域');
-      } else if (scrollY >= _commentH && scrollY < _detailH) {
-        if (_tabState.value != 1) {
-          _tabState.value = 1;
-        }
-        print('滑动到评论区');
-      } else if (scrollY >= _detailH && scrollY < _RCMKeyH) {
-        if (_tabState.value != 2) {
-          _tabState.value = 2;
-        }
-
-        print('滑动到详情区');
-      } else if (scrollY >= _RCMKeyH) {
-        if (_tabState.value != 3) {
-          _tabState.value = 3;
-        }
-        print('滑动到推荐区');
-      } else {}
-    });
+    _scrollController.addListener(_scrollerListener);
 
     _textEditingController.addListener(() {
       _textEditingController.text = _goodCount.toString();
@@ -241,6 +208,41 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
     _tabController =
         TabController(length: 2, vsync: this, initialIndex: _tabIndex);
+  }
+
+  void _scrollerListener() {
+    if (_scrollController.position.pixels > 500) {
+      if (_scrollState.value == ScrollState.shoppingCart) {
+        _scrollState.value = ScrollState.toTop;
+      }
+    } else {
+      if (_scrollState.value == ScrollState.toTop) {
+        _scrollState.value = ScrollState.shoppingCart;
+      }
+    }
+    var scrollY = _scrollController.position.pixels;
+    if (scrollY < _commentH) {
+      if (_tabState.value != 0) {
+        _tabState.value = 0;
+      }
+      print('滑动到头部区域');
+    } else if (scrollY >= _commentH && scrollY < _detailH) {
+      if (_tabState.value != 1) {
+        _tabState.value = 1;
+      }
+      print('滑动到评论区');
+    } else if (scrollY >= _detailH && scrollY < _RCMKeyH) {
+      if (_tabState.value != 2) {
+        _tabState.value = 2;
+      }
+
+      print('滑动到详情区');
+    } else if (scrollY >= _RCMKeyH) {
+      if (_tabState.value != 3) {
+        _tabState.value = 3;
+      }
+      print('滑动到推荐区');
+    } else {}
   }
 
   void _getDetail() async {
@@ -323,8 +325,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             WapitemDeliveryModel.fromJson(responseData.data);
       });
     }
-    WidgetsBinding.instance.addPostFrameCallback((callback) {});
     _calculateAfterLayout();
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      _calculateAfterLayout();
+    });
   }
 
   void _calculateAfterLayout() {

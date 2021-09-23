@@ -45,8 +45,6 @@ class _TopicPageState extends State<TopicPage>
   int _rondomIndex = 0;
   var _timer;
 
-  var _alignmentY = 0.0;
-
   ///头部nav
   List<NavItem> _navList;
 
@@ -60,6 +58,7 @@ class _TopicPageState extends State<TopicPage>
   bool get wantKeepAlive => true;
 
   var _toolbarHeight = 0;
+  var _expandedHeight = 280.0;
 
   num _totalNum = 0;
 
@@ -68,7 +67,7 @@ class _TopicPageState extends State<TopicPage>
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 180) {
+      if (_scrollController.position.pixels > _expandedHeight - 50) {
         if (_toolbarHeight == 0) {
           setState(() {
             _toolbarHeight = 50;
@@ -213,7 +212,7 @@ class _TopicPageState extends State<TopicPage>
             builder: (context, snapshot) {
               return SliverAppBar(
                 pinned: true,
-                expandedHeight: 260,
+                expandedHeight: _expandedHeight,
                 backgroundColor: Colors.white,
                 brightness: Brightness.light,
                 toolbarHeight: double.parse(snapshot.data.toString()),

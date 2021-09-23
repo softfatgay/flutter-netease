@@ -1,20 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/ui/goods_detail/components/common_item_widget.dart';
-import 'package:flutter_app/ui/goods_detail/components/flow_widget.dart';
+import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/component/start_widget.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
+import 'package:flutter_app/ui/goods_detail/components/common_item_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/flow_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
-import 'package:flutter_app/ui/router/router.dart';
 
 class CommentList extends StatefulWidget {
   final Map params;
@@ -49,7 +46,7 @@ class _CommentListState extends State<CommentList> {
   void initState() {
     _getCommentPraise();
     _getCommentTags();
-    reset();
+    _reset();
     super.initState();
 
 //    https://m.you.163.com/xhr/comment/listByItemByTag.json?itemId=1006013&page=1&tag=全部
@@ -71,7 +68,7 @@ class _CommentListState extends State<CommentList> {
     });
   }
 
-  void reset() {
+  void _reset() {
     setState(() {
       _page = 1;
       _commentList.clear();
@@ -155,6 +152,7 @@ class _CommentListState extends State<CommentList> {
                         (_commentList.length == 0))
               ],
             ),
+      floatingActionButton: floatingAB(_scrollController),
     );
   }
 
@@ -216,23 +214,21 @@ class _CommentListState extends State<CommentList> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          _praise.star == null
-              ? Container()
-              : Container(
-                  child: StaticRatingBar(
-                    size: 15,
-                    rate: (_praise.star / 100) * 100,
-                  ),
-                ),
-          _praise.goodCmtRate == null
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    _praise.goodCmtRate,
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
+          if (_praise.star != null)
+            Container(
+              child: StaticRatingBar(
+                size: 15,
+                rate: (_praise.star / 100) * 100,
+              ),
+            ),
+          if (_praise.goodCmtRate != null)
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                _praise.goodCmtRate,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
         ],
       ),
     );
@@ -258,7 +254,7 @@ class _CommentListState extends State<CommentList> {
                 this._checkedItem =
                     '${_commentTags[index].name}(${_commentTags[index].strCount})';
               });
-              reset();
+              _reset();
             },
           ));
     }
