@@ -107,6 +107,8 @@ class GoodDetail {
   List<AdBannersItem> adBanners;
 
   TryOutEventReport tryOutEventReport;
+  BannerModel banner;
+  bool showPrice;
 
   GoodDetail();
 
@@ -317,7 +319,7 @@ class AdBannersExtra {
 }
 
 @JsonSerializable()
-class TryOutEventReport{
+class TryOutEventReport {
   String nickName;
   String job;
   String title;
@@ -330,10 +332,57 @@ class TryOutEventReport{
 }
 
 @JsonSerializable()
-class Detail{
+class Detail {
   String reportDetail;
 
   Detail();
-  factory Detail.fromJson(Map<String, dynamic> json) =>
-      _$DetailFromJson(json);
+  factory Detail.fromJson(Map<String, dynamic> json) => _$DetailFromJson(json);
+}
+
+@JsonSerializable()
+class BannerModel {
+  num status;
+  ProcessBanner processBanner;
+  num type;
+
+  BannerModel();
+  factory BannerModel.fromJson(Map<String, dynamic> json) =>
+      _$BannerModelFromJson(json);
+}
+
+@JsonSerializable()
+class ProcessBanner {
+  String title;
+  String supplementText;
+  PriceInfo priceInfo;
+  String timePrefix;
+  num endTimeGap;
+  String bgColor;
+  String priceBgColor;
+
+  ProcessBanner();
+  factory ProcessBanner.fromJson(Map<String, dynamic> json) =>
+      _$ProcessBannerFromJson(json);
+}
+
+@JsonSerializable()
+class PriceInfo {
+  String counterPrice;
+  String basicPrice;
+  FinalPrice finalPrice;
+
+  PriceInfo();
+  factory PriceInfo.fromJson(Map<String, dynamic> json) =>
+      _$PriceInfoFromJson(json);
+}
+
+@JsonSerializable()
+class FinalPrice {
+  String prefix;
+  String price;
+  String suffix;
+
+  FinalPrice();
+  factory FinalPrice.fromJson(Map<String, dynamic> json) =>
+      _$FinalPriceFromJson(json);
 }

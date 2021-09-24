@@ -90,6 +90,14 @@ const TextStyle t20whitebold = TextStyle(
   decoration: TextDecoration.none,
 );
 
+const TextStyle t32whiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 32,
+  height: 1.1,
+  fontWeight: fontWeightMedium,
+  decoration: TextDecoration.none,
+);
+
 ///黑色字体-----------------------------------
 
 const TextStyle t10black = TextStyle(

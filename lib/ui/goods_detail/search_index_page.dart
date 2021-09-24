@@ -196,15 +196,13 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
         body: Stack(
           children: [
             ///历史记录
+            if (_noData)
+              Center(
+                child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
+              ),
             _searchInitWidget(context),
-            _controller.text == null || _controller.text == ''
-                ? Container()
-                : _showResult(),
-            _noData
-                ? Center(
-                    child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
-                  )
-                : Container(),
+            _controller.text == '' ? Container() : _showResult(),
+
             Container(
               decoration: BoxDecoration(color: Colors.white),
               child: SearchWidget(
@@ -215,7 +213,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                   setState(() {
                     _textValue = value;
                   });
-                  if (value == '' || value == null) {
+                  if (value == '') {
                     _controller.text = '';
                   } else {
                     _getSearchTips();
@@ -226,24 +224,23 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                 },
               ),
             ),
-            _controller.text == null || _controller.text == ''
-                ? Container()
-                : Positioned(
-                    top: MediaQuery.of(context).padding.top + _searchHeight,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: MenuPopWidget(
-                      searchParamModel: _searchModel,
-                      categorytList: _categoryL1List,
-                      menuChange: (searchModel) {
-                        setState(() {
-                          _searchModel = searchModel;
-                        });
-                        _resetPage();
-                      },
-                    ),
-                  ),
+            if (_controller.text.isNotEmpty)
+              Positioned(
+                top: MediaQuery.of(context).padding.top + _searchHeight,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: MenuPopWidget(
+                  searchParamModel: _searchModel,
+                  categorytList: _categoryL1List,
+                  menuChange: (searchModel) {
+                    setState(() {
+                      _searchModel = searchModel;
+                    });
+                    _resetPage();
+                  },
+                ),
+              ),
           ],
         ),
         floatingActionButton: StreamBuilder(

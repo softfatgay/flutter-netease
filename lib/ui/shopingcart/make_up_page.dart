@@ -56,12 +56,10 @@ class _MakeUpPageState extends State<MakeUpPage> {
         if (_from == Routers.goodDetail) {
           ///商品详情过来
           _searchModel.source = 0;
-        }else{
+        } else {
           ///购物车点击过来
           _searchModel.source = 0;
         }
-
-
       } else {
         ///红包点击过来
         _searchModel.source = 3;
@@ -239,6 +237,9 @@ class _MakeUpPageState extends State<MakeUpPage> {
   }
 
   _topBarInfo() {
+    if (_makeUpCartInfoModel.validTimeDesc == null) {
+      return Container();
+    }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       color: backLightYellow,

@@ -92,7 +92,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
   _buildBody() {
     return Container(
       color: backWhite,
-      padding: EdgeInsets.symmetric(vertical: 45),
+      padding: EdgeInsets.only(bottom: 45, top: 38),
       child: CustomScrollView(
         slivers: [
           singleSliverWidget(
@@ -295,7 +295,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
   _buildSubmitBtn() {
     return ActiveBtn(backRed, () {
       if (_from != null) {
-        Routers.push(Routers.makeUpPage, context, {'id': _promotionId,'from':Routers.goodDetail});
+        Routers.push(Routers.makeUpPage, context,
+            {'id': _promotionId, 'from': Routers.goodDetail});
       } else {
         _submit();
       }

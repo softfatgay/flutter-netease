@@ -5,6 +5,6 @@ class RenderBoxUtil {
     RenderBox renderObject = globalKey.currentContext.findRenderObject();
     var offset = renderObject.localToGlobal(Offset.zero);
 
-    return offset.dy - 35;
+    return offset.dy;
   }
 }

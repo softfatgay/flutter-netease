@@ -7,6 +7,7 @@ import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/page_loading.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -56,6 +57,8 @@ import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
+
+const _toolbarHeight = 70.0;
 
 class GoodsDetailPage extends StatefulWidget {
   final Map params;
@@ -326,16 +329,19 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       });
     }
     _calculateAfterLayout();
-    Future.delayed(const Duration(milliseconds: 2000), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       _calculateAfterLayout();
     });
   }
 
   void _calculateAfterLayout() {
+    var top = MediaQuery.of(context).padding.top;
     setState(() {
-      _commentH = RenderBoxUtil.offsetY(context, _commentKey);
-      _detailH = RenderBoxUtil.offsetY(context, _detailKey);
-      _RCMKeyH = RenderBoxUtil.offsetY(context, _RCMKey);
+      _commentH =
+          RenderBoxUtil.offsetY(context, _commentKey) - _toolbarHeight - top;
+      _detailH =
+          RenderBoxUtil.offsetY(context, _detailKey) - _toolbarHeight - top;
+      _RCMKeyH = RenderBoxUtil.offsetY(context, _RCMKey) - _toolbarHeight - top;
     });
   }
 
@@ -419,7 +425,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             child: SafeArea(
               child: _buildFoot(1),
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: ValueListenableBuilder(
@@ -443,7 +449,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           _sliverHeader(),
           // banner底部活动
           singleSliverWidget(DetailPromBannerWidget(
-            detailPromBanner: _detailPromBanner,
+            banner: _goodDetail.banner,
             price: _price,
             counterPrice: _counterPrice,
           )),
@@ -452,7 +458,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ///banner下面图片
           singleSliverWidget(_featuredSeriesWidget()),
 
-          ///商品价格，detailPromBanner为null的时候展示
+          ///商品价格，showPrice字段控制
           singleSliverWidget(_promBanner()),
 
           ///pro会员
@@ -526,7 +532,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                 index: _tabState.value,
                 // title:
                 //     _initLoading ? 'loading...' : '${_goodDetail.name ?? ''}',
-                collapsedHeight: 70,
+                collapsedHeight: _toolbarHeight,
                 tabs: topTabs,
                 expandedHeight: MediaQuery.of(context).size.width,
                 paddingTop: MediaQuery.of(context).padding.top,
@@ -559,11 +565,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _promBanner() {
-    return GoodPriceWidget(
-      detailPromBanner: _detailPromBanner,
-      price: _price,
-      counterPrice: _counterPrice,
-    );
+    if (_goodDetail.showPrice) {
+      return GoodPriceWidget(
+        detailPromBanner: _detailPromBanner,
+        price: _price,
+        counterPrice: _counterPrice,
+      );
+    }
+    return Container();
   }
 
   double narbarHeight = 40;

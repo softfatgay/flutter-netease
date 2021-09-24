@@ -325,7 +325,8 @@ Future<ResponseData> getCarts(Map<String, dynamic> params) async {
 
 ///购物车换购
 Future<ResponseData> getCartsSubmit(Map<String, dynamic> postParams) async {
-  return await HttpManager.post(GET_CARTS_SUBMIT, data: postParams);
+  return await HttpManager.post(GET_CARTS_SUBMIT,
+      data: postParams, showProgress: true);
 }
 
 ///清除无效商品
@@ -560,8 +561,7 @@ Future<ResponseData> pinOrder(Map<String, dynamic> params) async {
 
 ///发起拼团
 Future<ResponseData> pinSubmit(Map<String, dynamic> params) async {
-  return await HttpManager.post(PIN_SUBMIT,
-      params: _getParams(), data: params);
+  return await HttpManager.post(PIN_SUBMIT, params: _getParams(), data: params);
 }
 
 ///发起拼团

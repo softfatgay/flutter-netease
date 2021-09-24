@@ -140,7 +140,9 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..promTag = json['promTag'] as String
     ..specList = (json['specList'] as List)?.map((e) => e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))?.toList()
     ..adBanners = (json['adBanners'] as List)?.map((e) => e == null ? null : AdBannersItem.fromJson(e as Map<String, dynamic>))?.toList()
-    ..tryOutEventReport = json['tryOutEventReport'] == null ? null : TryOutEventReport.fromJson(json['tryOutEventReport'] as Map<String, dynamic>);
+    ..tryOutEventReport = json['tryOutEventReport'] == null ? null : TryOutEventReport.fromJson(json['tryOutEventReport'] as Map<String, dynamic>)
+    ..banner = json['banner'] == null ? null : BannerModel.fromJson(json['banner'] as Map<String, dynamic>)
+    ..showPrice = json['showPrice'] as bool;
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -224,6 +226,8 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'specList': instance.specList,
       'adBanners': instance.adBanners,
       'tryOutEventReport': instance.tryOutEventReport,
+      'banner': instance.banner,
+      'showPrice': instance.showPrice,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
@@ -516,4 +520,73 @@ Detail _$DetailFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DetailToJson(Detail instance) => <String, dynamic>{
       'reportDetail': instance.reportDetail,
+    };
+
+BannerModel _$BannerModelFromJson(Map<String, dynamic> json) {
+  return BannerModel()
+    ..status = json['status'] as num
+    ..processBanner = json['processBanner'] == null
+        ? null
+        : ProcessBanner.fromJson(json['processBanner'] as Map<String, dynamic>)
+    ..type = json['type'] as num;
+}
+
+Map<String, dynamic> _$BannerModelToJson(BannerModel instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'processBanner': instance.processBanner,
+      'type': instance.type,
+    };
+
+ProcessBanner _$ProcessBannerFromJson(Map<String, dynamic> json) {
+  return ProcessBanner()
+    ..title = json['title'] as String
+    ..supplementText = json['supplementText'] as String
+    ..priceInfo = json['priceInfo'] == null
+        ? null
+        : PriceInfo.fromJson(json['priceInfo'] as Map<String, dynamic>)
+    ..timePrefix = json['timePrefix'] as String
+    ..endTimeGap = json['endTimeGap'] as num
+    ..bgColor = json['bgColor'] as String
+    ..priceBgColor = json['priceBgColor'] as String;
+}
+
+Map<String, dynamic> _$ProcessBannerToJson(ProcessBanner instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'supplementText': instance.supplementText,
+      'priceInfo': instance.priceInfo,
+      'timePrefix': instance.timePrefix,
+      'endTimeGap': instance.endTimeGap,
+      'bgColor': instance.bgColor,
+      'priceBgColor': instance.priceBgColor,
+    };
+
+PriceInfo _$PriceInfoFromJson(Map<String, dynamic> json) {
+  return PriceInfo()
+    ..counterPrice = json['counterPrice'] as String
+    ..basicPrice = json['basicPrice'] as String
+    ..finalPrice = json['finalPrice'] == null
+        ? null
+        : FinalPrice.fromJson(json['finalPrice'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$PriceInfoToJson(PriceInfo instance) => <String, dynamic>{
+      'counterPrice': instance.counterPrice,
+      'basicPrice': instance.basicPrice,
+      'finalPrice': instance.finalPrice,
+    };
+
+FinalPrice _$FinalPriceFromJson(Map<String, dynamic> json) {
+  return FinalPrice()
+    ..prefix = json['prefix'] as String
+    ..price = json['price'] as String
+    ..suffix = json['suffix'] as String;
+}
+
+Map<String, dynamic> _$FinalPriceToJson(FinalPrice instance) =>
+    <String, dynamic>{
+      'prefix': instance.prefix,
+      'price': instance.price,
+      'suffix': instance.suffix,
     };
