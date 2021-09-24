@@ -8,6 +8,7 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
@@ -81,22 +82,24 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
         _textValue = widget.params['id'];
       }
     });
-    _scrollController.addListener(() {
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels > 700) {
-        _streamController.sink.add(true);
-      } else {
-        _streamController.sink.add(false);
-      }
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_hasMore) {
-          _getTipsResult(false);
-        }
-      }
-    });
+    _scrollController.addListener(_scrollerListener);
     _getKeyword();
     _searchInit();
+  }
+
+  void _scrollerListener() {
+    // 如果下拉的当前位置到scroll的最下面
+    if (_scrollController.position.pixels > 700) {
+      _streamController.sink.add(true);
+    } else {
+      _streamController.sink.add(false);
+    }
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_hasMore) {
+        _getTipsResult(false);
+      }
+    }
   }
 
   void _searchInit() async {
@@ -146,6 +149,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       params.addAll({'descSorted': _searchModel.descSorted});
     }
     var responseData = await searchSearch(params, showProgress: showProgress);
+
     var data = responseData.data;
     if (data == null) {
       setState(() {
@@ -154,25 +158,27 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
         }
       });
     }
-    var searchResultModel = SearchResultModel.fromJson(data);
-    setState(() {
-      var directlyList = searchResultModel.directlyList;
-      var categoryL1List = searchResultModel.categoryL1List;
-      _categoryL1List = categoryL1List;
-      _hasMore = searchResultModel.hasMore;
-      if (directlyList == null || directlyList.isEmpty) {
-        _bottomTipsText = '没有找到您想要的内容';
-        if (_isFirstLoading) {
-          _noData = true;
+    if (responseData.code == '200') {
+      var searchResultModel = SearchResultModel.fromJson(data);
+      setState(() {
+        var directlyList = searchResultModel.directlyList;
+        var categoryL1List = searchResultModel.categoryL1List;
+        _categoryL1List = categoryL1List;
+        _hasMore = searchResultModel.hasMore;
+        if (directlyList == null || directlyList.isEmpty) {
+          _bottomTipsText = '没有找到您想要的内容';
+          if (_isFirstLoading) {
+            _noData = true;
+          }
+        } else {
+          _directlyList.addAll(directlyList);
+          if (!_hasMore) {
+            _bottomTipsText = '没有更多了';
+          }
+          _serachResult = true;
         }
-      } else {
-        _directlyList.addAll(directlyList);
-        if (!_hasMore) {
-          _bottomTipsText = '没有更多了';
-        }
-        _serachResult = true;
-      }
-    });
+      });
+    }
   }
 
   void _getSearchTips() async {
@@ -195,14 +201,12 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     return Scaffold(
         body: Stack(
           children: [
-            ///历史记录
-            if (_noData)
+            if (_noData && _controller.text.isNotEmpty)
               Center(
                 child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
               ),
             _searchInitWidget(context),
             _controller.text == '' ? Container() : _showResult(),
-
             Container(
               decoration: BoxDecoration(color: Colors.white),
               child: SearchWidget(
@@ -221,6 +225,9 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                 },
                 onBtnClick: (value) {
                   Navigator.pop(context);
+                },
+                onSubmitted: (value) {
+                  _getTipsResult(true);
                 },
               ),
             ),
@@ -432,7 +439,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     return _keywordList
         .map((value) => GestureDetector(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
@@ -459,21 +466,28 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
         .map(
           (value) => GestureDetector(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
-                  border: Border.all(color: textLightGrey, width: 0.5)),
+                  border: Border.all(
+                      color: value.highlight == 1 ? textRed : textLightGrey,
+                      width: 0.5)),
               child: Text(
                 '${value.keyword}',
-                style: t12black,
+                style: value.highlight == 1 ? t12red : t12black,
               ),
             ),
             onTap: () {
-              setState(() {
-                _searchModel.keyWord = value.keyword;
-              });
-              _searchResult();
+              if (value.schemeUrl != null) {
+                Routers.push(
+                    Routers.webView, context, {'url': '${value.schemeUrl}'});
+              } else {
+                setState(() {
+                  _searchModel.keyWord = value.keyword;
+                });
+                _searchResult();
+              }
             },
           ),
         )

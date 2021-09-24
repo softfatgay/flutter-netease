@@ -245,7 +245,7 @@ final String ORDER_DETAIL = '${suffixUrl}xhr/order/getDetail.json';
 final String QUERY_BY_ITEM_AND_USER =
     '${suffixUrl}xhr/item/queryByItemAndUser.json';
 
-///领券
+///领券xhr/coupon/getItemCoupon.json
 final String GET_ITEM_COUPON = '${suffixUrl}xhr/coupon/getItemCoupon.json';
 
 ///搜索框数量
@@ -563,3 +563,6 @@ final String LAST_VERSION_FIR =
 
 ///发起拼团确认
 //https://m.you.163.com/pin/xhr/tuan/check.json?csrf_token=11d08b8df035d292cf4aa3956d1ff2f2
+
+///领券信息
+//https://m.you.163.com/xhr/item/queryByItemAndUser.json?csrf_token=b5caa6dfc6ba9202a25278af48040c88&__timestamp=1632453030712&itemId=3992307&skuId=300223103

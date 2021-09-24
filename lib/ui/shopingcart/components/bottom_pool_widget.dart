@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/itemPoolBarModel.dart';
 
 class BottomPoolWidget extends StatelessWidget {
   final ItemPoolBarModel itemPoolBarModel;
-  const BottomPoolWidget({Key key, this.itemPoolBarModel}) : super(key: key);
+  final String from;
+
+  const BottomPoolWidget({Key key, this.itemPoolBarModel, this.from})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,11 @@ class BottomPoolWidget extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pop(context);
+              if (from == Routers.shoppingCart) {
+                Navigator.pop(context);
+              } else {
+                Routers.push(Routers.shoppingCart, context);
+              }
             },
           )
         ],

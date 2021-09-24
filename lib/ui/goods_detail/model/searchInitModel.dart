@@ -5,6 +5,7 @@ part 'searchInitModel.g.dart';
 @JsonSerializable()
 class SearchInitModel {
   List<HotKeywordVOListItem> hotKeywordVOList;
+  List<HotKeywordVOListItem> defaultKeywords;
   SearchInitModel();
 
   factory SearchInitModel.fromJson(Map<String, dynamic> json) =>

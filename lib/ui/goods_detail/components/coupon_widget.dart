@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/global.dart';
 
 ///领券
@@ -41,14 +40,14 @@ class CouponWidget extends StatelessWidget {
                           .map((item) => Container(
                                 margin: EdgeInsets.only(right: 3),
                                 decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xFFFBBB65)),
+                                    border: Border.all(
+                                        color: Color(0xFFF48F18), width: 0.5),
                                     borderRadius: BorderRadius.circular(2)),
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 2),
+                                    horizontal: 5, vertical: 1),
                                 child: Text(
                                   item,
-                                  style: t12red,
+                                  style: t12Yellow,
                                 ),
                               ))
                           .toList(),

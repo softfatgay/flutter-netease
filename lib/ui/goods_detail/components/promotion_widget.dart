@@ -70,20 +70,19 @@ class CuxiaoItems extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                Color(0xFFFE2C30),
-                                Color(0xFFFF8659),
-                              ],
-                            ),
-                            color: redLightColor,
-                            border: Border.all(color: Colors.red),
+                            // gradient: LinearGradient(
+                            //   begin: Alignment.centerLeft,
+                            //   end: Alignment.centerRight,
+                            //   colors: [
+                            //     Color(0xFFFE2C30),
+                            //     Color(0xFFFF8659),
+                            //   ],
+                            // ),
+                            border: Border.all(color: Colors.red, width: 1),
                             borderRadius: BorderRadius.circular(14)),
                         child: Text(
                           item.activityType,
-                          style: t10white,
+                          style: t10red,
                         ),
                       ),
                       Expanded(

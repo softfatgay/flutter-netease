@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/error_page.dart';
-import 'package:flutter_app/ui/full_screen/full_screenImage.dart';
-import 'package:flutter_app/ui/goods_detail/LookPage.dart';
+import 'package:flutter_app/ui/full_screen/full_screen_image.dart';
 import 'package:flutter_app/ui/goods_detail/brand_info_page.dart';
 import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
+import 'package:flutter_app/ui/goods_detail/look_page.dart';
 import 'package:flutter_app/ui/goods_detail/search_index_page.dart';
 import 'package:flutter_app/ui/goods_detail/select_address_page.dart';
 import 'package:flutter_app/ui/home/home_page.dart';

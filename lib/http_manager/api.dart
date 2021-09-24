@@ -472,7 +472,7 @@ Future<ResponseData> orderDetail(Map<String, dynamic> params) async {
 
 ///详情领券
 Future<ResponseData> queryByItemAndUser(Map<String, dynamic> params) async {
-  params.addAll(_getParams());
+  params.addAll(_timestampParams());
   return await HttpManager.get(QUERY_BY_ITEM_AND_USER, params: params);
 }
 

@@ -35,23 +35,30 @@ class ServiceWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     margin: EdgeInsets.only(top: 6),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 6),
-                          child: Text(
-                            '服务:',
-                            style: t14black,
-                          ),
-                        ),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
                         Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(right: 10),
-                            child: Wrap(
-                              spacing: 5,
-                              runSpacing: 5,
-                              children: _buildSerVice(),
-                            ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 6),
+                                child: Text(
+                                  '服务:',
+                                  style: t14black,
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Wrap(
+                                    spacing: 5,
+                                    runSpacing: 5,
+                                    children: _buildSerVice(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         arrowRightIcon

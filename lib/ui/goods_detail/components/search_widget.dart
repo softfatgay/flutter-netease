@@ -6,6 +6,7 @@ import 'package:flutter_app/constant/fonts.dart';
 
 typedef void OnValueChanged(String value);
 typedef void OnBtnClick(String value);
+typedef void OnSubmitted(String value);
 
 class SearchWidget extends StatefulWidget {
   final String textValue;
@@ -18,6 +19,7 @@ class SearchWidget extends StatefulWidget {
   final TextEditingController controller;
   final OnValueChanged onValueChangedCallBack;
   final OnBtnClick onBtnClick;
+  final OnSubmitted onSubmitted;
 
   SearchWidget(
       {this.textValue = '',
@@ -27,7 +29,8 @@ class SearchWidget extends StatefulWidget {
       this.hintText,
       this.textChangeDuration = 500,
       this.onBtnClick,
-      this.onValueChangedCallBack});
+      this.onValueChangedCallBack,
+      this.onSubmitted});
 
   @override
   _SearchGoodsState createState() => _SearchGoodsState();
@@ -98,8 +101,8 @@ class _SearchGoodsState extends State<SearchWidget> {
                             onSubmitted: (text) {
                               //回车按钮
                               setState(() {
-                                if (widget.onBtnClick != null) {
-                                  widget.onBtnClick(text);
+                                if (widget.onSubmitted != null) {
+                                  widget.onSubmitted(text);
                                 }
                               });
                             },

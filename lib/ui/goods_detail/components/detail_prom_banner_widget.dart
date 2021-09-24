@@ -197,7 +197,7 @@ class DetailPromBannerWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: backWhite, borderRadius: BorderRadius.circular(20)),
       child: Text(
-        '${finalPrice.prefix} ¥${finalPrice.price} ${finalPrice.suffix}',
+        '${finalPrice.prefix ?? ''} ¥${finalPrice.price ?? ''} ${finalPrice.suffix ?? ''}',
         style: t14redBold,
       ),
     );

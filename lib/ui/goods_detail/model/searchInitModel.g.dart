@@ -12,12 +12,18 @@ SearchInitModel _$SearchInitModelFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null
             ? null
             : HotKeywordVOListItem.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..defaultKeywords = (json['defaultKeywords'] as List)
+        ?.map((e) => e == null
+            ? null
+            : HotKeywordVOListItem.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 
 Map<String, dynamic> _$SearchInitModelToJson(SearchInitModel instance) =>
     <String, dynamic>{
       'hotKeywordVOList': instance.hotKeywordVOList,
+      'defaultKeywords': instance.defaultKeywords,
     };
 
 HotKeywordVOListItem _$HotKeywordVOListItemFromJson(Map<String, dynamic> json) {
