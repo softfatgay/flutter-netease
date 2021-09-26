@@ -91,37 +91,60 @@ class DetailPromBannerWidget extends StatelessWidget {
       day = f ~/ 24;
     }
 
-    if (day == 0) {
-      return _timer(banner.processBanner.endTimeGap);
+    var title = Text(
+      '${banner.processBanner.title ?? ''}',
+      style: t12white,
+    );
+
+    var cntTimer = Expanded(child: _timer(banner.processBanner.endTimeGap));
+
+    var spline = Container(
+      height: 10,
+      width: 1,
+      color: backWhite,
+      margin: EdgeInsets.symmetric(horizontal: 5),
+    );
+
+    var cntDay = Expanded(
+        child: Text(
+      '距结束$day天$hour小时',
+      style: t12white,
+    ));
+
+    List<Widget> list = [];
+    list.add(title);
+    if (banner.processBanner.endTimeGap != null &&
+        banner.processBanner.endTimeGap > 0) {
+      if (day == 0) {
+        list.add(spline);
+        list.add(cntTimer);
+      } else {
+        if (day < 30) {
+          list.add(spline);
+          list.add(cntDay);
+        }
+      }
     }
-    return (banner.processBanner.endTimeGap != null &&
-            banner.processBanner.endTimeGap > 0)
-        ? Row(
-            children: [
-              Text(
-                '${banner.processBanner.title ?? ''}',
-                style: t12white,
-              ),
-              if (day < 30)
-                Container(
-                  height: 10,
-                  width: 1,
-                  color: backWhite,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                ),
-              if (day < 30)
-                Text(
-                  '距结束$day天$hour小时',
-                  style: t12white,
-                ),
-              SizedBox(width: 5),
-              Text(
-                '${banner.processBanner.supplementText ?? ''}',
-                style: t12white,
-              ),
-            ],
-          )
-        : Container();
+
+    if (day == 0) {
+      return Row(
+        children: [
+          Text(
+            '${banner.processBanner.title ?? ''}',
+            style: t12white,
+          ),
+          if (day == 0)
+            Container(
+              height: 10,
+              width: 1,
+              color: backWhite,
+              margin: EdgeInsets.symmetric(horizontal: 5),
+            ),
+          _timer(banner.processBanner.endTimeGap),
+        ],
+      );
+    }
+    return Row(children: list);
   }
 
   _basicTextInt() {
@@ -187,6 +210,7 @@ class DetailPromBannerWidget extends StatelessWidget {
     return TimerText(
       time: second ~/ 1000,
       tips: '距结束',
+      textStyle: t12white,
     );
   }
 

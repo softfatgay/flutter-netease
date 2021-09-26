@@ -83,9 +83,10 @@ class ServiceWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
+                decoration: BoxDecoration(
+                    color: textRed, borderRadius: BorderRadius.circular(2)),
                 width: 4,
                 height: 4,
-                color: textRed,
               ),
               SizedBox(width: 2),
               Text(

@@ -46,10 +46,12 @@ class DeliveryWidget extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text(
-                          '${wapitemDelivery.deliveryTime}',
-                          style: t14grey,
-                        ),
+                        if (wapitemDelivery.deliveryTime != null &&
+                            wapitemDelivery.deliveryTime.isNotEmpty)
+                          Text(
+                            '${wapitemDelivery.deliveryTime}',
+                            style: t14grey,
+                          ),
                       ],
                     ),
                   ),

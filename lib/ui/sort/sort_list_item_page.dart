@@ -7,6 +7,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 
@@ -75,6 +76,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
       return Loading();
     } else {
       return RefreshIndicator(
+        backgroundColor: backWhite,
         onRefresh: _refresh,
         child: CustomScrollView(
           controller: _scrollController,
@@ -92,7 +94,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
                   ),
                 ),
               )),
-            GoodItemWidget(dataList: _itemList),
+            GoodItemNormalWidget(dataList: _itemList),
             SliverFooter(hasMore: _itemList.length != _total),
           ],
         ),

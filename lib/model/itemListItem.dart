@@ -1,3 +1,4 @@
+import 'package:flutter_app/model/finalPriceInfoVO.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/home/model/hotSaleListBottomInfo.dart';
@@ -19,6 +20,8 @@ class ItemListItem {
   num primarySkuId;
   num retailPrice;
   num status;
+  num colorNum;
+  String promDesc;
   bool soldOut;
   bool underShelf;
   String scenePicUrl;
@@ -31,6 +34,8 @@ class ItemListItem {
   List<SkuSpecListItem> skuSpecList;
 
   ItemListItem();
+
+  FinalPriceInfoVO finalPriceInfoVO;
 
   factory ItemListItem.fromJson(Map<String, dynamic> json) =>
       _$ItemListItemFromJson(json);

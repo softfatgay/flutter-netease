@@ -7,6 +7,7 @@ class LocalStorage {
   static String pointsCnt = "points_cnt";
   static String noticeList = "notice_list";
   static String totalNum = 'total_num';
+  static String dftAddress = 'dft_address';
 
   static SharedPreferences _sp;
 

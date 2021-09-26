@@ -93,6 +93,7 @@ class _SortChildState extends State<SortListPage>
 
   _buildBody(BuildContext context) {
     return Container(
+      color: backWhite,
       child: _isLoading
           ? Loading()
           : TabBarView(

@@ -149,6 +149,13 @@ const TextStyle t14blackBold = TextStyle(
   decoration: TextDecoration.none,
 );
 
+const TextStyle t15blackBold = TextStyle(
+  color: textBlack,
+  fontSize: 15,
+  fontWeight: fontWeightMedium,
+  decoration: TextDecoration.none,
+);
+
 const TextStyle t16black = TextStyle(
   color: textBlack,
   fontSize: 16,
@@ -226,6 +233,12 @@ const TextStyle t12red = TextStyle(
   decoration: TextDecoration.none,
   fontWeight: fontWeightRegular,
 );
+const TextStyle t12redBold = TextStyle(
+  color: textRed,
+  fontSize: 12,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightSemibold,
+);
 
 const TextStyle t14red = TextStyle(
   color: textRed,
@@ -257,6 +270,13 @@ const TextStyle t16redBold = TextStyle(
 const TextStyle t18redBold = TextStyle(
   color: textRed,
   fontSize: 18,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightSemibold,
+);
+
+const TextStyle t20redBold = TextStyle(
+  color: textRed,
+  fontSize: 20,
   decoration: TextDecoration.none,
   fontWeight: fontWeightSemibold,
 );

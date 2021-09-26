@@ -17,7 +17,7 @@ class MyVerticalText extends StatelessWidget {
                 string,
                 style: textStyle ??
                     TextStyle(color: Color(0xFFA28C63), fontSize: 12),
-                textAlign: TextAlign.end,
+                textAlign: TextAlign.center,
               ))
           .toList(),
     );

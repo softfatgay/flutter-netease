@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,6 +33,7 @@ import 'package:flutter_app/ui/goods_detail/components/good_detail_comment_widge
 import 'package:flutter_app/ui/goods_detail/components/good_price_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_select_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_title.dart';
+import 'package:flutter_app/ui/goods_detail/components/normal_dialog.dart';
 import 'package:flutter_app/ui/goods_detail/components/pro_vip_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/promotion_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/recommend_widget.dart';
@@ -51,10 +54,12 @@ import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
+import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
@@ -170,6 +175,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///skuMap key键值
   var _selectSkuMapKey = [];
 
+  List<LocationItemModel> _addressList = [];
+
   ///skuMap 描述信息
   var _selectSkuMapDec = [];
   var _selectStrDec = '';
@@ -189,6 +196,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   final topTabs = ['商品', '评价', '详情', '推荐'];
 
+  ///默认配送地址
+  var _dftAddress = LocationItemModel();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -200,6 +210,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     _getDetail();
     _getDetailPageUp();
     _getRMD();
+    _getAddressList(0);
 
     ///配送信息
     // _wapitemDelivery();
@@ -249,6 +260,21 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     } else {}
   }
 
+  _getDftAddress() async {
+    var sp = await LocalStorage.sp;
+    var dftAddress = sp.getString(LocalStorage.dftAddress);
+    if (dftAddress == null || dftAddress.isEmpty) {
+      _getAddressList(1);
+    } else {
+      var decode = json.decode(dftAddress);
+      var locationItemModel = LocationItemModel.fromJson(decode);
+      setState(() {
+        _dftAddress = locationItemModel;
+      });
+      _wapitemDelivery(locationItemModel);
+    }
+  }
+
   void _getDetail() async {
     Map<String, dynamic> param = {'id': _goodId};
     var responseData = await goodDetailDownApi(param);
@@ -275,7 +301,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
   }
 
-  void _getLocations() async {
+  _getAddressList(int type) async {
     var responseData = await getLocationList();
     if (responseData.code == '200' &&
         responseData.data != null &&
@@ -285,7 +311,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       data.forEach((element) {
         dataList.add(LocationItemModel.fromJson(element));
       });
-      _wapitemDelivery(dataList[0]);
+      setState(() {
+        _addressList = dataList;
+      });
+      if (type == 1) {
+        ///当本地无保存地址时取第一个，当作邮寄地址
+        _wapitemDelivery(dataList[0]);
+      }
     }
   }
 
@@ -390,8 +422,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         _getCoupon();
       }
     });
-
-    _getLocations();
+    _getDftAddress();
   }
 
   void _getRMD() async {
@@ -520,7 +551,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ///推荐
           singleSliverWidget(Container(key: _RCMKey)),
           singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
-          GoodItemWidget(dataList: _rmdList),
+          GoodItemNormalWidget(dataList: _rmdList),
           singleSliverWidget(Container(height: 45)),
         ],
       );
@@ -712,9 +743,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           DeliveryWidget(
             wapitemDelivery: _wapitemDeliveryModel,
             onPress: () {
-              Routers.push(Routers.selectAddressPage, context, {}, (value) {
-                _wapitemDelivery(value);
-              });
+              NormalDialog(
+                  title: '配送至',
+                  child: Column(
+                    children: _addressList
+                        .map<Widget>((item) => _buildItem(item))
+                        .toList(),
+                  )).build(context);
+
+              // Routers.push(Routers.selectAddressPage, context, {}, (value) {
+              //   _wapitemDelivery(value);
+              // });
             },
           ),
 
@@ -729,6 +768,42 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         ],
       ),
     );
+  }
+
+  _buildItem(LocationItemModel item) {
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: lineColor, width: 1))),
+        padding: EdgeInsets.symmetric(vertical: 15),
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: [
+            if (_dftAddress != null)
+              Icon(
+                Icons.check_circle_rounded,
+                color: _dftAddress.id == item.id ? textRed : textLightGrey,
+              ),
+            SizedBox(width: 10),
+            Text('${item.fullAddress}'),
+          ],
+        ),
+      ),
+      onTap: () {
+        _saveDftAddress(item);
+        _wapitemDelivery(item);
+        Navigator.pop(context, item);
+      },
+    );
+  }
+
+  _saveDftAddress(LocationItemModel item) async {
+    var encode = json.encode(item);
+    var sp = await LocalStorage.sp;
+    sp.setString(LocalStorage.dftAddress, encode);
+    setState(() {
+      _dftAddress = item;
+    });
   }
 
   _addBanners() {
@@ -850,35 +925,36 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildIssueList() {
     var issueList = _goodDetailDownData.issueList;
-    return _goodDetailDownData == null
-        ? Container()
-        : Column(
-            children: issueList
-                .map((item) => Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(color: Colors.white),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              '• ${item.question}',
-                              style: t14black,
-                            ),
+    if (_goodDetailDownData != null) {
+      return Column(
+          children: issueList
+              .map((item) => Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            '• ${item.question}',
+                            style: t14black,
                           ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              '${item.answer}',
-                              style: t12grey,
-                            ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            '${item.answer}',
+                            style: t12grey,
                           ),
-                        ],
-                      ),
-                    ))
-                .toList());
+                        ),
+                      ],
+                    ),
+                  ))
+              .toList());
+    }
+    return Container();
   }
 
   _buildIssueTitle(String title, GlobalKey key) {

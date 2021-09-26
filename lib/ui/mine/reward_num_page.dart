@@ -9,6 +9,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 
@@ -100,7 +101,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                 ? _buildjintieTop(context)
                 : _buildBalanceTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
-            GoodItemWidget(dataList: _dataList),
+            GoodItemNormalWidget(dataList: _dataList),
             SliverFooter(hasMore: _hasMore),
           ],
         ),

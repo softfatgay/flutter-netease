@@ -116,7 +116,7 @@ class _KingKongPageState extends State<KingKongPage> {
       tipsText: '更多精彩，敬请期待',
     ));
     return Scaffold(
-      backgroundColor: backColor,
+      backgroundColor: backWhite,
       body: _initLoading
           ? PageLoading()
           : CustomScrollView(

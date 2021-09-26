@@ -11,6 +11,7 @@ import 'package:flutter_app/ui/component/normal_conditions.dart';
 import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/model/brandIndexModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
@@ -131,7 +132,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backColor,
+      backgroundColor: backWhite,
       appBar: TopAppBar(title: '${_brandInfo.title ?? ''}').build(context),
       body: _body(),
       floatingActionButton:
@@ -146,8 +147,12 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
             controller: _scrollController,
             slivers: [
               singleSliverWidget(_branchWidget()),
+              singleSliverWidget(Container(
+                height: 10,
+                color: backColor,
+              )),
               _buildStickyBar(),
-              GoodItemWidget(dataList: _itemList),
+              GoodItemNormalWidget(dataList: _itemList),
               SliverFooter(hasMore: _hasMore),
             ],
           );
@@ -183,8 +188,6 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   _branchWidget() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      color: backWhite,
-      margin: EdgeInsets.only(bottom: 10),
       child: Column(
         textBaseline: TextBaseline.alphabetic,
         crossAxisAlignment: CrossAxisAlignment.end,
