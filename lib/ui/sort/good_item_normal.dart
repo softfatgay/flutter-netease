@@ -46,7 +46,7 @@ class GoodItemNormalWidget extends StatelessWidget {
               }, childCount: data.length),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.6,
+                  childAspectRatio: 0.58,
                   mainAxisSpacing: 0,
                   crossAxisSpacing: marginS),
             ),
@@ -63,10 +63,6 @@ class GoodItemNormalWidget extends StatelessWidget {
         children: [
           Container(
             height: imgHeight,
-            decoration: BoxDecoration(
-              color: Color(0x33E9E9E8),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(3)),
-            ),
             child: Stack(
               children: [
                 _roundImg(
@@ -98,7 +94,7 @@ class GoodItemNormalWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: EdgeInsets.only(top: 3),
                   child: Text(
                     '${dataList[index].name}',
                     style: t15blackBold,
@@ -109,10 +105,11 @@ class GoodItemNormalWidget extends StatelessWidget {
                 // _buildTags(itemTagList),
                 _price(item),
                 _priceDec(item),
-                if (_getBannerContent(item).length > 7)
+                if (_isShowTips(item))
                   Expanded(
                       child: Container(
                     margin: EdgeInsets.only(top: 3),
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Text(
                       '${_getBannerContent(item)}',
                       style: TextStyle(
@@ -132,6 +129,28 @@ class GoodItemNormalWidget extends StatelessWidget {
     );
   }
 
+  _isShowTips(ItemListItem item) {
+    bool isShow = false;
+    if (item.finalPriceInfoVO.banner != null) {
+      var banner = item.finalPriceInfoVO.banner;
+      if ((banner.content != null &&
+              banner.content.length > 7 &&
+              banner.title != banner.content) &&
+          !(banner.title == null && banner.content != null)) {
+        isShow = true;
+      }
+    }
+    return isShow;
+  }
+
+  _getBannerTitle(ItemListItem item) {
+    var bannerTitle;
+    if (item.finalPriceInfoVO.banner != null) {
+      bannerTitle = item.finalPriceInfoVO.banner.title;
+    }
+    return bannerTitle;
+  }
+
   _getBannerContent(ItemListItem item) {
     var content = '';
     if (item.finalPriceInfoVO.banner != null) {
@@ -149,14 +168,14 @@ class GoodItemNormalWidget extends StatelessWidget {
       if (banner.title == null && banner.content != null) {
         return Container(
           margin: EdgeInsets.only(top: 5),
-          padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           decoration: BoxDecoration(
-            color: backRed,
-            borderRadius: BorderRadius.circular(10),
-          ),
+              color: backRed,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Color(0xFFFFE9EB), width: 1)),
           child: Text(
             '${banner.content}',
-            style: t12white,
+            style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
           ),
         );
       }
@@ -165,19 +184,19 @@ class GoodItemNormalWidget extends StatelessWidget {
       margin: EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
         color: Color(0xFFFFE9EB),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             decoration: BoxDecoration(
-              color: backRed,
-              borderRadius: BorderRadius.circular(10),
-            ),
+                color: backRed,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Color(0xFFFFE9EB), width: 1)),
             child: Text(
               '${banner.title}',
-              style: t12white,
+              style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
             ),
           ),
           SizedBox(width: 3),

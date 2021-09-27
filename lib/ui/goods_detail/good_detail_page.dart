@@ -62,6 +62,7 @@ import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 
 const _toolbarHeight = 70.0;
@@ -210,7 +211,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     _getDetail();
     _getDetailPageUp();
     _getRMD();
-    _getAddressList(0);
+    _checkLogin(0);
 
     ///配送信息
     // _wapitemDelivery();
@@ -264,7 +265,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     var sp = await LocalStorage.sp;
     var dftAddress = sp.getString(LocalStorage.dftAddress);
     if (dftAddress == null || dftAddress.isEmpty) {
-      _getAddressList(1);
+      _checkLogin(1);
     } else {
       var decode = json.decode(dftAddress);
       var locationItemModel = LocationItemModel.fromJson(decode);
@@ -299,6 +300,19 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _goodDetailDownData = goodDetailDownData;
       _detailImages = imageUrls;
     });
+  }
+
+  _checkLogin(int type) async {
+    var responseData = await checkLogin();
+    var isLogin = responseData.data;
+    if (isLogin) {
+      _getAddressList(type);
+    } else {
+      _calculateAfterLayout();
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _calculateAfterLayout();
+      });
+    }
   }
 
   _getAddressList(int type) async {
@@ -1883,11 +1897,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///加入购物车
   void _addShoppingCart() async {
+    ///判断是否登录
+    if (true) {
+      _goLogin();
+      return;
+    }
+    var csrfToken = csrf_token;
+    if (csrfToken == null || csrfToken.isEmpty) {
+      _goLogin();
+      return;
+    }
     Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem.id};
     await addCart(params).then((value) {
       Toast.show('添加成功', context);
       HosEventBusUtils.fire(REFRESH_CART_NUM);
       // _getDetailPageUp();
+    });
+  }
+
+  _goLogin() {
+    Routers.push(Routers.loginPage, context, {}, (value) {
+      if (value == 'success') {
+        Toast.show('登录成功', context);
+      }
     });
   }
 

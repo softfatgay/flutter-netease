@@ -8,6 +8,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
+import 'package:flutter_app/ui/mine/components/open_vip_widget.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/good_item_widget.dart';
@@ -111,197 +112,211 @@ class _RewardNumPageState extends State<RewardNumPage> {
 
   ///https://yanxuan.nosdn.127.net/429ac440ce956e70752b6a249ddfe468.png
   _buildBalanceTop(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: AssetImage('assets/images/balance_header_back.png'),
-        ),
-      ),
-      child: Stack(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage('assets/images/balance_header_back.png'),
+            ),
+          ),
+          child: Stack(
             children: [
-              SizedBox(height: 15),
-              Row(
+              Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '余额(元)',
-                    style: t12white,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    child: Container(
-                      width: 13,
-                      height: 13,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: backWhite, width: 0.5),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(
-                        '?',
-                        textAlign: TextAlign.center,
-                        style: t10white,
-                      ),
-                    ),
-                    onTap: () {
-                      Routers.push(Routers.webView, context,
-                          {'url': '${NetContants.baseUrl}help/new#/36/137'});
-                    },
-                  )
-                ],
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: Text(
-                  '¥${widget.params['value']}',
-                  style: t20whitebold,
-                ),
-              ),
-              SizedBox(height: 10),
-              GestureDetector(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('查看明细', style: t14white),
-                    Image.asset(
-                      'assets/images/arrow_right.png',
-                      color: backWhite,
-                      width: 12,
-                      height: 12,
-                    )
-                  ],
-                ),
-                onTap: () {
-                  String url = '';
-                  if (widget.params['id'] == 4) {
-                    url = '${NetContants.baseUrl}bonus/detail';
-                  } else {
-                    url = '${NetContants.baseUrl}reward/detail';
-                  }
-                  Routers.push(Routers.webView, context, {'url': url});
-                },
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '即将过期',
-                              style: TextStyle(color: textWhite, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              '¥${widget.params['value']}',
-                              style: TextStyle(
-                                  color: textWhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            )
-                          ],
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '余额(元)',
+                        style: t12white,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        child: Container(
+                          width: 13,
+                          height: 13,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: backWhite, width: 0.5),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(
+                            '?',
+                            textAlign: TextAlign.center,
+                            style: t10white,
+                          ),
                         ),
-                      )),
-                  Container(
-                    height: 20,
-                    width: 1,
-                    color: backWhite,
+                        onTap: () {
+                          Routers.push(Routers.webView, context, {
+                            'url': '${NetContants.baseUrl}help/new#/36/137'
+                          });
+                        },
+                      )
+                    ],
                   ),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '待发放',
-                              style: TextStyle(color: textWhite, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              '¥${widget.params['value']}',
-                              style: TextStyle(
-                                  color: textWhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            )
-                          ],
-                        ),
-                      )),
-                  Container(
-                    height: 20,
-                    width: 1,
-                    color: backWhite,
+                  SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      '¥${widget.params['value']}',
+                      style: t20whitebold,
+                    ),
                   ),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '累计获得',
-                              style: TextStyle(color: textWhite, fontSize: 12),
+                  SizedBox(height: 10),
+                  GestureDetector(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('查看明细', style: t14white),
+                        Image.asset(
+                          'assets/images/arrow_right.png',
+                          color: backWhite,
+                          width: 12,
+                          height: 12,
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      String url = '';
+                      if (widget.params['id'] == 4) {
+                        url = '${NetContants.baseUrl}bonus/detail';
+                      } else {
+                        url = '${NetContants.baseUrl}reward/detail';
+                      }
+                      Routers.push(Routers.webView, context, {'url': url});
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '即将过期',
+                                  style:
+                                      TextStyle(color: textWhite, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '¥${widget.params['value']}',
+                                  style: TextStyle(
+                                      color: textWhite,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              height: 5,
+                          )),
+                      Container(
+                        height: 20,
+                        width: 1,
+                        color: backWhite,
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '待发放',
+                                  style:
+                                      TextStyle(color: textWhite, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '¥${widget.params['value']}',
+                                  style: TextStyle(
+                                      color: textWhite,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )
+                              ],
                             ),
-                            Text(
-                              '¥${widget.params['value']}',
-                              style: TextStyle(
-                                  color: textWhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            )
-                          ],
-                        ),
-                      )),
+                          )),
+                      Container(
+                        height: 20,
+                        width: 1,
+                        color: backWhite,
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '累计获得',
+                                  style:
+                                      TextStyle(color: textWhite, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '¥${widget.params['value']}',
+                                  style: TextStyle(
+                                      color: textWhite,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )
+                              ],
+                            ),
+                          )),
+                    ],
+                  ),
                 ],
+              ),
+              Positioned(
+                right: 20,
+                top: 0,
+                child: GestureDetector(
+                  child: Container(
+                    height: 26,
+                    padding: EdgeInsets.all(3),
+                    width: 26,
+                    decoration: BoxDecoration(
+                        color: backWhite,
+                        borderRadius: BorderRadius.circular(13)),
+                    child: Image.asset('assets/images/kefu.png'),
+                  ),
+                  onTap: () {
+                    Routers.push(Routers.webView, context,
+                        {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+                  },
+                ),
               )
             ],
           ),
-          Positioned(
-            right: 20,
-            top: 0,
-            child: GestureDetector(
-              child: Container(
-                height: 26,
-                padding: EdgeInsets.all(3),
-                width: 26,
-                decoration: BoxDecoration(
-                    color: backWhite, borderRadius: BorderRadius.circular(13)),
-                child: Image.asset('assets/images/kefu.png'),
-              ),
-              onTap: () {
-                Routers.push(Routers.webView, context,
-                    {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
-              },
-            ),
-          )
-        ],
-      ),
+        ),
+        OpenVipWidget(),
+        Container(
+          height: 10,
+          color: backColor,
+        )
+      ],
     );
   }
 

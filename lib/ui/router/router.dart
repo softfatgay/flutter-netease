@@ -14,6 +14,7 @@ import 'package:flutter_app/ui/home/king_kong_page.dart';
 import 'package:flutter_app/ui/home/new_item_page.dart';
 import 'package:flutter_app/ui/home/qr_code_result.dart';
 import 'package:flutter_app/ui/home/qr_scan_page.dart';
+import 'package:flutter_app/ui/login/index.dart';
 import 'package:flutter_app/ui/main/index.dart';
 import 'package:flutter_app/ui/mine/add_address_page.dart';
 import 'package:flutter_app/ui/mine/coupon_page.dart';
@@ -96,8 +97,12 @@ class Routers {
   static const String lookPage = '/lookPage';
   static const String pinPage = '/pinPage';
   static const String sendPinPage = '/SendPinPage';
+  static const String loginPage = '/loginPage';
 
   static Map<String, Function> routes = {
+    ///登录
+    loginPage: (context, {params}) => LoginPage(),
+
     ///主页
     mainPage: (context, {params}) => MainPage(),
 

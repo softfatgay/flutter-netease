@@ -69,60 +69,57 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
         children: <Widget>[
           SizedBox(width: 10),
           Expanded(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.grey[100],
-                      border: Border.all(color: Colors.grey[100], width: 0.1),
-                      borderRadius: new BorderRadius.circular(5.0)),
-                  margin: EdgeInsets.symmetric(vertical: 7),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 8),
-                          height: widget.textFiledHeight,
-                          child: TextField(
-                            style: t14black,
-                            decoration: InputDecoration(
-                                hintStyle: t14grey,
-                                hintText: widget.hintText,
-                                border: InputBorder.none),
-                            textInputAction: TextInputAction.search,
-                            onSubmitted: (text) {
-                              //回车按钮
-                              if (widget.onBtnClick != null) {
-                                widget.onBtnClick(text);
-                              }
-                            },
-                            maxLines: 1,
-                            onChanged: (textValue) {},
-                            controller: _controller,
-                          )),
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.grey[100],
+                border: Border.all(color: Colors.grey[100], width: 0.1),
+                borderRadius: new BorderRadius.circular(5.0),
+              ),
+              margin: EdgeInsets.symmetric(vertical: 7),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        height: widget.textFiledHeight,
+                        child: TextField(
+                          style: t14black,
+                          decoration: InputDecoration(
+                              hintStyle: t14grey,
+                              hintText: widget.hintText,
+                              border: InputBorder.none),
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (text) {
+                            //回车按钮
+                            if (widget.onBtnClick != null) {
+                              widget.onBtnClick(text);
+                            }
+                          },
+                          maxLines: 1,
+                          onChanged: (textValue) {},
+                          controller: _controller,
+                        )),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 8),
+                    child: GestureDetector(
+                      child: !showIcon
+                          ? Container()
+                          : Icon(
+                              Icons.cancel,
+                              size: 20,
+                              color: textLightGrey,
+                            ),
+                      onTap: () {
+                        setState(() {
+                          _controller.clear();
+                        });
+                      },
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 8),
-                      child: GestureDetector(
-                        child: !showIcon
-                            ? Container()
-                            : Icon(
-                                Icons.cancel,
-                                size: 20,
-                                color: textLightGrey,
-                              ),
-                        onTap: () {
-                          setState(() {
-                            _controller.clear();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Container(

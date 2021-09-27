@@ -12,6 +12,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 typedef void OnValueChanged(bool result);
 
+const _tips = '部分手机登录页面，邮箱登录密码弹出软键盘导致页面空白，没有找到解决办法，正常输入就可以，收回键盘页面会正常显示';
+
 class WebLoginWidget extends StatefulWidget {
   final OnValueChanged onValueChanged;
 
@@ -22,24 +24,16 @@ class WebLoginWidget extends StatefulWidget {
 }
 
 class _WebLoginWidgetState extends State<WebLoginWidget> {
-  final Completer<WebViewController> _webController =
-      Completer<WebViewController>();
+  final _webController = Completer<WebViewController>();
 
   String _url = '';
   bool hide = true;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  var _title = '';
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        _backPress(context);
         return false;
       },
       child: Scaffold(
@@ -47,6 +41,16 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
         body: _buildBody(),
       ),
     );
+  }
+
+  _backPress(BuildContext context) async {
+    var controller = await _webController.future.then((value) => value);
+    print(await controller.canGoBack());
+    if (await controller.canGoBack()) {
+      _webController.future.then((value) => value.goBack());
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   _buildBody() {
@@ -59,17 +63,14 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             alignment: Alignment.center,
             child: Text(
-              '部分手机登录页面，邮箱登录密码弹出软键盘导致页面空白，没有找到解决办法，正常输入就可以，收回键盘页面会正常显示',
+              '$_tips',
               style: t10red,
             ),
             height: 45,
             color: warmingBack,
           ),
           Container(
-            height: MediaQuery.of(context).size.height -
-                60 -
-                MediaQuery.of(context).padding.top -
-                45,
+            height: MediaQuery.of(context).size.height - 45,
             child: WebView(
               initialUrl: LOGIN_PAGE_URL,
               //JS执行模式 是否允许JS执行
@@ -84,7 +85,6 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
               onPageStarted: (url) async {
                 hideTop();
               },
-
               onPageFinished: (url) async {
                 hideTop();
                 final updateCookie = await globalCookie.globalCookieValue(url);
@@ -114,12 +114,6 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
   }
 
   //隐藏头部
-  String setHeaderJs() {
-    var js = "document.querySelector('.hdWraper').style.display = 'none';";
-    return js;
-  }
-
-  //隐藏头部
   String hideHeaderJs() {
     var js = "document.querySelector('.hdWraper').style.display = 'none';";
     return js;
@@ -135,26 +129,10 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
     Timer(Duration(milliseconds: 10), () {
       try {
         if (_webController != null) {
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideHeaderJs()).then((result) {}));
-        }
-      } catch (e) {}
-    });
-
-    Timer(Duration(milliseconds: 100), () {
-      try {
-        if (_webController != null) {
-          _webController.future.then((value) =>
-              value.evaluateJavascript(setHeaderJs()).then((result) {}));
-        }
-      } catch (e) {}
-    });
-
-    Timer(Duration(milliseconds: 100), () {
-      try {
-        if (_webController != null) {
-          _webController.future.then((value) =>
-              value.evaluateJavascript(hideOpenAppJs()).then((result) {}));
+          _webController.future.then((value) {
+            value.evaluateJavascript(hideHeaderJs()).then((result) {});
+            value.evaluateJavascript(hideOpenAppJs()).then((result) {});
+          });
         }
       } catch (e) {}
     });
@@ -163,6 +141,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
   @override
   void dispose() {
     // TODO: implement dispose
+    _webController.future.then((value) => value.clearCache());
     super.dispose();
   }
 }

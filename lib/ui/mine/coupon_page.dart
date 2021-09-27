@@ -35,9 +35,8 @@ class _CouponPageState extends State<CouponPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopAppBar(
-        title: '优惠券',
-      ).build(context),
+      backgroundColor: backGrey,
+      appBar: TopAppBar(title: '优惠券').build(context),
       body: _isLoading
           ? Loading()
           : CustomScrollView(
@@ -46,9 +45,7 @@ class _CouponPageState extends State<CouponPage> {
                 singleSliverWidget(_addCoupon()),
                 singleSliverWidget(_couponTips()),
                 _buildList(context),
-                SliverFooter(
-                  hasMore: !_pagination.lastPage,
-                )
+                SliverFooter(hasMore: !_pagination.lastPage)
               ],
             ),
     );
@@ -127,124 +124,107 @@ class _CouponPageState extends State<CouponPage> {
     var botomColor =
         index < _nowCoupon.length ? Color(0XFFCEAC6C) : Color(0xFFA3A5AE);
     return Container(
-      margin: EdgeInsets.all(10),
-      child: Stack(
+      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+      decoration: BoxDecoration(
+          color: backColor, borderRadius: BorderRadius.circular(4)),
+      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 5),
-            decoration: BoxDecoration(
-                color: backColor, borderRadius: BorderRadius.circular(4)),
-            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            decoration: BoxDecoration(color: backColor),
+            margin: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
               children: [
-                Container(
-                  decoration: BoxDecoration(color: backColor),
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text(
-                            '${item.briefDesc}',
-                            style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w700,
-                                color: textWhite),
-                          ),
-                          Text(
-                            '${item.unit}',
-                            style: TextStyle(color: textWhite),
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item.name, style: t14white),
-                              Text('${_valueDate(item)}', style: t12white),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (index < _nowCoupon.length)
-                        GestureDetector(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2),
-                                color: backWhite),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 2),
-                            child: Text(
-                              '去使用',
-                              style: t14Orange,
-                            ),
-                          ),
-                          onTap: () {
-                            Routers.push(Routers.webView, context,
-                                {'url': '${NetContants.baseUrl}${item.path}'});
-                          },
-                        )
-                    ],
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text(
+                      '${item.briefDesc}',
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
+                          color: textWhite),
+                    ),
+                    Text(
+                      '${item.unit}',
+                      style: TextStyle(color: textWhite),
+                    ),
+                  ],
                 ),
-                GestureDetector(
+                Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                    decoration: BoxDecoration(
-                        color: botomColor,
-                        borderRadius:
-                            BorderRadius.vertical(bottom: Radius.circular(4))),
-                    child: Row(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Text(
-                            item.useCondition,
-                            style: t12white,
-                            maxLines: item.isSelected == null
-                                ? 1
-                                : (item.isSelected ? 15 : 1),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Icon(
-                          _returnIcon(item),
-                          color: Colors.white,
-                          size: 16,
-                        ),
+                        Text(item.name, style: t14white),
+                        Text('${_valueDate(item)}', style: t12white),
                       ],
                     ),
                   ),
-                  onTap: () {
-                    setState(() {
-                      if (item.isSelected == null) {
-                        item.isSelected = true;
-                      } else {
-                        item.isSelected = !item.isSelected;
-                      }
-                    });
-                  },
                 ),
+                if (index < _nowCoupon.length)
+                  GestureDetector(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          color: Color(0xFFF8F1E4)),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                      child: Text(
+                        '去使用',
+                        style: t12Orange,
+                      ),
+                    ),
+                    onTap: () {
+                      Routers.push(Routers.webView, context,
+                          {'url': '${NetContants.baseUrl}${item.path}'});
+                    },
+                  )
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 6),
-            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-            decoration: BoxDecoration(
-                color: tipsColor, borderRadius: BorderRadius.circular(2)),
-            child: Text(
-              item.newUserOnly == 1 ? '新人专享' : '优惠券',
-              style: t12white,
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              decoration: BoxDecoration(
+                  color: botomColor,
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(4))),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      item.useCondition,
+                      style: t12white,
+                      maxLines: item.isSelected == null
+                          ? 1
+                          : (item.isSelected ? 15 : 1),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    _returnIcon(item),
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ],
+              ),
             ),
+            onTap: () {
+              setState(() {
+                if (item.isSelected == null) {
+                  item.isSelected = true;
+                } else {
+                  item.isSelected = !item.isSelected;
+                }
+              });
+            },
           ),
         ],
       ),
@@ -353,6 +333,7 @@ class _CouponPageState extends State<CouponPage> {
 
   _addCoupon() {
     return Container(
+      color: backWhite,
       child: NormalFiledClearWidget(
         controller: controller,
         hintText: '请输入激活码',
@@ -373,7 +354,7 @@ class _CouponPageState extends State<CouponPage> {
 
   _couponTips() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: GestureDetector(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -387,11 +368,11 @@ class _CouponPageState extends State<CouponPage> {
               height: 14,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: lineColor, width: 1),
+                border: Border.all(color: textGrey, width: 1),
               ),
               child: Text(
                 '?',
-                style: t10grey,
+                style: t12grey,
               ),
             ),
             Text(

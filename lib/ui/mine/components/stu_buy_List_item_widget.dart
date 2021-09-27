@@ -21,7 +21,7 @@ class StuBuyListItemWidget extends StatelessWidget {
   _buildItem(BuildContext context) {
     return GestureDetector(
       child: Container(
-        margin: EdgeInsets.only(bottom: 6),
+        margin: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(4)),
         child: Row(
@@ -78,13 +78,11 @@ class StuBuyListItemWidget extends StatelessWidget {
   _detailDes(Result item) {
     return Expanded(
       child: Container(
-        height: 130,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
+              margin: EdgeInsets.symmetric(horizontal: 6),
               child: Text(
                 item.title,
                 maxLines: 2,
@@ -132,6 +130,7 @@ class StuBuyListItemWidget extends StatelessWidget {
                 )
               ],
             ),
+            _priceDec(),
             _price()
           ],
         ),
@@ -139,9 +138,27 @@ class StuBuyListItemWidget extends StatelessWidget {
     );
   }
 
+  _priceDec() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 6),
+      alignment: Alignment.centerRight,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+        decoration: BoxDecoration(
+          color: Color(0xFFFFA543),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          '成团立返${item.price}元余额',
+          style: t12white,
+        ),
+      ),
+    );
+  }
+
   _price() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 5),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
