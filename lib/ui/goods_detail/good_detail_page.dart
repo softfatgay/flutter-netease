@@ -148,14 +148,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///商品数量
   int _goodCount = 1;
 
-  ///商品价格（真实价格）
-  String _price = '';
-
   ///banner下面活动
   DetailPromBanner _detailPromBanner;
-
-  ///商品价格（原始价格）
-  String _counterPrice = '';
 
   ///商品限制规则
   String _skuLimit;
@@ -411,9 +405,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _detailPromBanner = _goodDetail.detailPromBanner;
       _bannerModel = _goodDetail.banner;
       _welfareCardVO = _goodDetail.welfareCardVO;
-      _price = _goodDetail.retailPrice.toString();
       _priceModel = _goodDetail.price;
-      _counterPrice = _goodDetail.counterPrice.toString();
       _skuLimit = _goodDetail.itemLimit;
       _skuSpecList = _goodDetail.skuSpecList;
 
@@ -624,9 +616,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_goodDetail.showPrice) {
       return GoodPriceWidget(
         detailPromBanner: _detailPromBanner,
-        price: _price,
         priceModel: _priceModel,
-        counterPrice: _counterPrice,
       );
     }
     return Container();
@@ -1443,14 +1433,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_skuMapItem != null) {
       _priceModel = _skuMapItem.price;
       _bannerModel = _skuMapItem.banner;
-      _price = _skuMapItem.retailPrice.toString();
-      _counterPrice = _skuMapItem.counterPrice.toString();
 
       setState(() {
         _priceModel = _skuMapItem.price;
         _bannerModel = _skuMapItem.banner;
-        _price = _skuMapItem.retailPrice.toString();
-        _counterPrice = _skuMapItem.counterPrice.toString();
       });
     }
   }

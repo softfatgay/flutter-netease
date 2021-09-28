@@ -7,16 +7,9 @@ import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 ///价格
 class GoodPriceWidget extends StatelessWidget {
   final DetailPromBanner detailPromBanner;
-  final String price;
-  final String counterPrice;
   final PriceModel priceModel;
 
-  const GoodPriceWidget(
-      {Key key,
-      this.detailPromBanner,
-      this.price,
-      this.counterPrice,
-      this.priceModel})
+  const GoodPriceWidget({Key key, this.detailPromBanner, this.priceModel})
       : super(key: key);
 
   @override
