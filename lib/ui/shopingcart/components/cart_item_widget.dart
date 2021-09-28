@@ -460,8 +460,10 @@ class CartItemWidget extends StatelessWidget {
       );
     } else {
       return Container(
+        alignment: Alignment.center,
+        color: Colors.transparent,
         width: _checkBoxWith,
-        child: InkWell(
+        child: GestureDetector(
           onTap: () {
             if (itemData.canCheck || item.checked) {
               if (checkOne != null) {
@@ -473,32 +475,59 @@ class CartItemWidget extends StatelessWidget {
             }
           },
           child: Container(
-            child: Padding(
-              padding: EdgeInsets.all(2),
-              child: item.id == 0
-                  ? Icon(
-                      Icons.check_circle,
-                      size: 22,
-                      color: Color(0xFFDBDBDB),
-                    )
-                  : (item.checked
-                      ? Icon(
-                          Icons.check_circle,
-                          size: 22,
-                          color: redColor,
-                        )
-                      : Icon(
-                          Icons.brightness_1_outlined,
-                          size: 22,
-                          color: itemData.canCheck
-                              ? Color(0xFFDBDBDB)
-                              : Color(0xFFF7F6FA),
-                        )),
-            ),
-          ),
+              padding: EdgeInsets.all(10),
+              color: Colors.transparent,
+              child: _checkBox(itemData, item)),
         ),
       );
     }
+  }
+
+  _checkBox(CarItem itemData, CartItemListItem item) {
+    if (item.id == 0) {
+      return _cantClickBox();
+    } else {
+      if (item.checked) {
+        return _checkedBox();
+      } else {
+        if (itemData.canCheck) {
+          return _canClickBox();
+        } else {
+          return _cantClickBox();
+        }
+      }
+    }
+    return Container();
+  }
+
+  ///不能点击
+  _cantClickBox() {
+    return Container(
+      height: 20,
+      width: 20,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: backGrey,
+      ),
+    );
+  }
+
+  ///可以点击
+  _canClickBox() {
+    return Icon(
+      Icons.brightness_1_outlined,
+      size: 22,
+      color: Color(0xFFDBDBDB),
+    );
+  }
+
+  ///已选择
+  _checkedBox() {
+    return Icon(
+      Icons.check_circle,
+      size: 22,
+      color: redColor,
+    );
   }
 
   _redeem(CarItem itemData, int index, BuildContext context) {
@@ -511,13 +540,14 @@ class CartItemWidget extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              margin: EdgeInsets.only(
+                  left: cartItemEmpty ? 15 : _checkBoxWith, right: 15),
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                    margin: EdgeInsets.only(left: _checkBoxWith / 2),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                     decoration: BoxDecoration(
                       color: redLightColor,
                       borderRadius: BorderRadius.circular(2),
@@ -593,8 +623,11 @@ class CartItemWidget extends StatelessWidget {
           ],
         ),
       );
-    } else if (itemData.promType == 108 || itemData.promType == 107) {
-      ///满减
+    } else if (itemData.promType == 102 ||
+        itemData.promType == 107 ||
+        itemData.promType == 108 ||
+        itemData.promType == 109) {
+      ///108满额减,107满件减,109满折
       return Container(
         color: backWhite,
         padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 10),
@@ -603,13 +636,13 @@ class CartItemWidget extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(right: 6),
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               decoration: BoxDecoration(
                 color: redLightColor,
                 borderRadius: BorderRadius.circular(2),
               ),
               child: Text(
-                itemData.promType == 108 ? '满额减' : '满件减',
+                '${_getActivityTv(itemData)}',
                 style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
               ),
             ),
@@ -649,6 +682,25 @@ class CartItemWidget extends StatelessWidget {
       );
     }
     return Container();
+  }
+
+  _getActivityTv(CarItem itemData) {
+    String promType = '';
+    switch (itemData.promType) {
+      case 102:
+        promType = '满赠';
+        break;
+      case 107:
+        promType = '满件减';
+        break;
+      case 108:
+        promType = '满额减';
+        break;
+      case 109:
+        promType = '满折';
+        break;
+    }
+    return promType;
   }
 
   _specValue(CartItemListItem item) {

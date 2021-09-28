@@ -405,22 +405,24 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _shoppingCartModel.postageVO.postageTip == null
-              ? ServiceTagWidget()
+              ? ServerTagWidget()
               : GestureDetector(
                   child: Container(
                     alignment: Alignment.centerLeft,
                     color: Color(0xFFFFF6E5),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     height: 40,
                     child: Row(
                       children: [
                         Expanded(
                           child: Text(
-                            '${_postageVO == null ? '' : _postageVO.postageTip}',
+                            '${_postageVO == null ? '' : _postageVO.postageTip ?? ''}',
                             style: t14Orange,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        _postageVO.postFree ? Container() : arrowRightIcon
+                        if (!_postageVO.postFree) arrowRightIcon
                       ],
                     ),
                   ),

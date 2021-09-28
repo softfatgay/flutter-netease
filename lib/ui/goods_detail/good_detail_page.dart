@@ -1898,10 +1898,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///加入购物车
   void _addShoppingCart() async {
     ///判断是否登录
-    if (true) {
-      _goLogin();
-      return;
-    }
     var csrfToken = csrf_token;
     if (csrfToken == null || csrfToken.isEmpty) {
       _goLogin();

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
-class ServiceTagWidget extends StatelessWidget {
-  List tags = ['30天无忧退货', '48小时快速退货', '满99免邮费'];
+class ServerTagWidget extends StatelessWidget {
+  final tags = ['30天无忧退货', '48小时快速退货', '满99免邮费'];
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,9 @@ class ServiceTagWidget extends StatelessWidget {
                   width: 4,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                   borderRadius: BorderRadius.circular(2),
-                  border: Border.all(color: textLightGrey,width: 1)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: textLightGrey, width: 1)),
                 ),
                 SizedBox(width: 3),
                 Text(
