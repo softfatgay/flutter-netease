@@ -62,7 +62,7 @@ class ProVipWidget extends StatelessWidget {
         ),
         onTap: () {
           Routers.push(
-              Routers.webView, context, {'url': '${spmcBanner.spmcLinkUrl}'});
+              Routers.webView, context, {'url': '${spmcBanner.btnValue}'});
         },
       );
     } else {

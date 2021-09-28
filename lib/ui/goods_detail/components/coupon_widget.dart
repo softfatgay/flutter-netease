@@ -44,7 +44,7 @@ class CouponWidget extends StatelessWidget {
                                         color: Color(0xFFF48F18), width: 0.5),
                                     borderRadius: BorderRadius.circular(2)),
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 1),
+                                    horizontal: 5, vertical: 0),
                                 child: Text(
                                   item,
                                   style: t12Yellow,

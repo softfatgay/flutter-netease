@@ -9,7 +9,6 @@ import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/page_loading.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -23,7 +22,6 @@ import 'package:flutter_app/ui/goods_detail/components/coupon_item_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/coupon_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/delivery_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/detail_prom_banner_widget.dart';
-import 'package:flutter_app/ui/goods_detail/components/dialog.dart';
 import 'package:flutter_app/ui/goods_detail/components/diaolog_title_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/freight_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/full_refund_policy_widget.dart';
@@ -40,22 +38,24 @@ import 'package:flutter_app/ui/goods_detail/components/recommend_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/service_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/shopping_reward_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/skulimit_widget.dart';
+import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetailDownData.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetailPre.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
+import 'package:flutter_app/ui/mine/address_selector.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
@@ -199,6 +199,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///默认配送地址
   var _dftAddress = LocationItemModel();
+
+  ///价格
+  var _priceModel = PriceModel();
+
+  ///头部展示使用
+  var _bannerModel = BannerModel();
 
   @override
   void initState() {
@@ -403,8 +409,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
       _goodDetail = _goodDetailPre.item;
       _detailPromBanner = _goodDetail.detailPromBanner;
+      _bannerModel = _goodDetail.banner;
       _welfareCardVO = _goodDetail.welfareCardVO;
       _price = _goodDetail.retailPrice.toString();
+      _priceModel = _goodDetail.price;
       _counterPrice = _goodDetail.counterPrice.toString();
       _skuLimit = _goodDetail.itemLimit;
       _skuSpecList = _goodDetail.skuSpecList;
@@ -499,9 +507,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           _sliverHeader(),
           // banner底部活动
           singleSliverWidget(DetailPromBannerWidget(
-            banner: _goodDetail.banner,
-            price: _price,
-            counterPrice: _counterPrice,
+            banner: _bannerModel,
           )),
           singleSliverWidget(_buildActivity()),
 
@@ -619,6 +625,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       return GoodPriceWidget(
         detailPromBanner: _detailPromBanner,
         price: _price,
+        priceModel: _priceModel,
         counterPrice: _counterPrice,
       );
     }
@@ -695,7 +702,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           FullRefundPolicyWidget(
             fullRefundPolicy: _fullRefundPolicy,
             showDialog: () {
-              fullRefundPolicyDialog(context, _fullRefundPolicy);
+              _fullRefundPolicyDialog(context, _fullRefundPolicy);
             },
           ),
 
@@ -757,17 +764,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           DeliveryWidget(
             wapitemDelivery: _wapitemDeliveryModel,
             onPress: () {
-              NormalDialog(
-                  title: '配送至',
-                  child: Column(
-                    children: _addressList
-                        .map<Widget>((item) => _buildItem(item))
-                        .toList(),
-                  )).build(context);
-
-              // Routers.push(Routers.selectAddressPage, context, {}, (value) {
-              //   _wapitemDelivery(value);
-              // });
+              _addressServe();
             },
           ),
 
@@ -784,7 +781,68 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  _buildItem(LocationItemModel item) {
+  _addressServe() {
+    List<Widget> widgets = [];
+    List<Widget> addressWidgets =
+        _addressList.map<Widget>((item) => _buildAddressItem(item)).toList();
+    widgets.addAll(addressWidgets);
+
+    var addBtn = GestureDetector(
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 12),
+        alignment: Alignment.center,
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border.all(color: textRed, width: 1),
+            borderRadius: BorderRadius.circular(4)),
+        child: Text(
+          '选择其他地区',
+          style: t14red,
+        ),
+      ),
+      onTap: () {
+        print('-------------------');
+        NormalDialog(
+          title: '配送至',
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: AddressSelector(
+              addressValue: (province, city, dis, town) {
+                var model = LocationItemModel();
+                model.townName = town.zonename;
+                model.address = '';
+                model.incompleteDesc = '';
+                model.districtName = dis.zonename;
+                model.mobile = '';
+                model.cityId = city.id;
+                model.completed = false;
+                model.townId = town.id;
+                model.provinceId = province.id;
+                model.districtId = dis.id;
+                model.cityName = city.zonename;
+                model.fullAddress = '';
+                model.provinceName = province.zonename;
+                _wapitemDelivery(model);
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ).build(context);
+      },
+    );
+    widgets.add(addBtn);
+    NormalDialog(
+        title: '配送至',
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            children: widgets,
+          ),
+        )).build(context);
+  }
+
+  _buildAddressItem(LocationItemModel item) {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
@@ -804,6 +862,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         ),
       ),
       onTap: () {
+        print('[[[[[[[[[[[[');
+        print(item);
         _saveDftAddress(item);
         _wapitemDelivery(item);
         Navigator.pop(context, item);
@@ -813,6 +873,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _saveDftAddress(LocationItemModel item) async {
     var encode = json.encode(item);
+    print(encode);
     var sp = await LocalStorage.sp;
     sp.setString(LocalStorage.dftAddress, encode);
     setState(() {
@@ -1380,10 +1441,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
 
     if (_skuMapItem != null) {
+      _priceModel = _skuMapItem.price;
+      _bannerModel = _skuMapItem.banner;
       _price = _skuMapItem.retailPrice.toString();
       _counterPrice = _skuMapItem.counterPrice.toString();
 
       setState(() {
+        _priceModel = _skuMapItem.price;
+        _bannerModel = _skuMapItem.banner;
         _price = _skuMapItem.retailPrice.toString();
         _counterPrice = _skuMapItem.counterPrice.toString();
       });
@@ -1428,13 +1493,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                     ? Container()
                     : Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(4),
                             color: Color(0xFFEF7C15)),
                         child: Text(
                           '${_skuMapItem.promotionDesc ?? ''}',
-                          style: t12white,
+                          style: TextStyle(
+                              fontSize: 12, color: textWhite, height: 1.1),
                         ),
                       ),
                 Container(
@@ -1447,22 +1513,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                         style: t14red,
                       ),
                       Text(
-                        '￥$_price',
+                        '￥${_priceModel.basicPrice} ',
                         overflow: TextOverflow.ellipsis,
                         style: t14red,
                       ),
-                      _price == _counterPrice
-                          ? Container()
-                          : Container(
-                              child: Text(
-                                '￥$_counterPrice',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: textGrey,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              ),
+                      if (_priceModel.basicPrice != _priceModel.counterPrice &&
+                          _priceModel.counterPrice != null)
+                        Container(
+                          child: Text(
+                            '¥${_priceModel.counterPrice ?? ''}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: textGrey,
+                              decoration: TextDecoration.lineThrough,
                             ),
+                          ),
+                        ),
+                      if (_priceModel.finalPrice != null)
+                        Container(
+                          child: Text(
+                            '${_priceModel.finalPrice.prefix ?? ''}${_priceModel.finalPrice.price == null ? '' : '¥${_priceModel.finalPrice.price}'}${_priceModel.finalPrice.suffix ?? ''}',
+                            style: t14red,
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -1500,6 +1573,33 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       });
     }
   }
+
+  ///------------------------------------------规则------------------------------------------
+  _fullRefundPolicyDialog(
+      BuildContext context, FullRefundPolicy fullRefundPolicy) {
+    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
+    if (fullRefundPolicy == null) {
+      return;
+    }
+    String title = fullRefundPolicy.detailTitle;
+    List<String> content = fullRefundPolicy.content;
+    NormalDialog(
+        title: '$title',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: content.map<Widget>((item) {
+            return Container(
+              padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+              child: Text(
+                item,
+                style: t14grey,
+              ),
+            );
+          }).toList(),
+        )).build(context);
+  }
+
+  ///------------------------------------------领券------------------------------------------
 
   _showCouponDialog() {
     List<CouponModel> couponList = _couponList;
@@ -1572,53 +1672,35 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///------------------------------------------促销弹窗------------------------------------------
   _showPromotionDialog() {
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          constraints: BoxConstraints(maxHeight: 400),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(5.0),
-            ),
+    NormalDialog(
+      child: Column(
+        children: [
+          DetailCuxiaoItems(
+            hdrkDetailVOList: _hdrkDetailVOList,
+            itemClick: (item) {
+              if (item.huodongUrlWap.contains('cart/itemPool')) {
+                _getMakeUpCartInfo(item);
+                //
+                // Routers.push(Routers.makeUpPage, context,
+                //     {'id': item.id, 'from': 'cart-item'});
+              } else {
+                String url = '';
+                if (item.huodongUrlWap.startsWith('http')) {
+                  url = item.huodongUrlWap;
+                } else {
+                  url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
+                }
+                Routers.push(Routers.webView, context, {'url': url});
+              }
+            },
           ),
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                DialogTitleWidget(title: '${_hdrkDetailVOList.length}个促销'),
-                DetailCuxiaoItems(
-                  hdrkDetailVOList: _hdrkDetailVOList,
-                  itemClick: (item) {
-                    if (item.huodongUrlWap.contains('cart/itemPool')) {
-                      _getMakeUpCartInfo(item);
-                      //
-                      // Routers.push(Routers.makeUpPage, context,
-                      //     {'id': item.id, 'from': 'cart-item'});
-                    } else {
-                      String url = '';
-                      if (item.huodongUrlWap.startsWith('http')) {
-                        url = item.huodongUrlWap;
-                      } else {
-                        url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
-                      }
-                      Routers.push(Routers.webView, context, {'url': url});
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 100,
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
+          SizedBox(
+            height: 100,
+          )
+        ],
+      ),
+      title: '${_hdrkDetailVOList.length}个促销',
+    ).build(context);
   }
 
   _getMakeUpCartInfo(HdrkDetailVOListItem item) async {
@@ -1645,60 +1727,38 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   ///------------------------------------------邮费-购物反-服务综合弹窗------------------------------------------
+
   _buildSkuFreightDialog(
       BuildContext context, String title, List<PolicyListItem> contentList) {
-    //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          constraints: BoxConstraints(maxHeight: 400),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(5.0),
-            ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              DialogTitleWidget(title: '$title'),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
+    NormalDialog(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: contentList
+            .map<Widget>((item) => Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: contentList
-                      .map<Widget>((item) => Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(top: 15),
-                                child: Text(
-                                  item.title,
-                                  style: t14black,
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  item.content,
-                                  style: t14grey,
-                                ),
-                              )
-                            ],
-                          ))
-                      .toList(),
-                ),
-              ))
-            ],
-          ),
-        );
-      },
-    );
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                      child: Text(
+                        item.title,
+                        style: t14black,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        item.content,
+                        style: t14grey,
+                      ),
+                    )
+                  ],
+                ))
+            .toList(),
+      ),
+      title: '$title',
+    ).build(context);
   }
 
   ///------------------------------------------底部按钮------------------------------------------------------------------------------------------------------

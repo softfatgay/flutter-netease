@@ -91,7 +91,7 @@ class ServiceWidget extends StatelessWidget {
               SizedBox(width: 2),
               Text(
                 '${policyList[index].title}',
-                style: t14black,
+                style: t14grey,
               )
             ],
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpec.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
@@ -36,7 +38,8 @@ class SkuMapValue {
   bool promValid;
   List<HdrkDetailVOListItem> hdrkDetailVOList;
   String promotionDesc;
-
+  PriceModel price;
+  BannerModel banner;
   List<ItemTagListItem> itemTagList;
   num points;
   num pointsPrice;

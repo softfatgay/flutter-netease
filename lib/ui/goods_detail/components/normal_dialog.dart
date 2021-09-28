@@ -28,7 +28,6 @@ class NormalDialog {
               top: Radius.circular(5.0),
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               DialogTitleWidget(title: '$title'),

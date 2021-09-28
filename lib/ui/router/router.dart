@@ -17,6 +17,7 @@ import 'package:flutter_app/ui/home/qr_scan_page.dart';
 import 'package:flutter_app/ui/login/index.dart';
 import 'package:flutter_app/ui/main/index.dart';
 import 'package:flutter_app/ui/mine/add_address_page.dart';
+import 'package:flutter_app/ui/mine/address_selector.dart';
 import 'package:flutter_app/ui/mine/coupon_page.dart';
 import 'package:flutter_app/ui/mine/feedback_page.dart';
 import 'package:flutter_app/ui/mine/for_services_page.dart';
@@ -98,6 +99,7 @@ class Routers {
   static const String pinPage = '/pinPage';
   static const String sendPinPage = '/SendPinPage';
   static const String loginPage = '/loginPage';
+  static const String addressSelector = '/addressSelector';
 
   static Map<String, Function> routes = {
     ///登录
@@ -144,6 +146,9 @@ class Routers {
 
     ///分类
     catalogTag: (context, {params}) => SortListPage(params: params),
+
+    ///选择地址
+    addressSelector: (context, {params}) => AddressSelector(),
 
     ///kingKong
     kingKong: (context, {params}) {

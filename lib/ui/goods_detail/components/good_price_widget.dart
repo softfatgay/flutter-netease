@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 
 ///价格
 class GoodPriceWidget extends StatelessWidget {
   final DetailPromBanner detailPromBanner;
   final String price;
   final String counterPrice;
+  final PriceModel priceModel;
 
   const GoodPriceWidget(
-      {Key key, this.detailPromBanner, this.price, this.counterPrice})
+      {Key key,
+      this.detailPromBanner,
+      this.price,
+      this.counterPrice,
+      this.priceModel})
       : super(key: key);
 
   @override
@@ -33,24 +39,23 @@ class GoodPriceWidget extends StatelessWidget {
                   style: t16redBold,
                 ),
                 Text(
-                  '$price',
+                  '${priceModel.basicPrice}',
                   overflow: TextOverflow.ellipsis,
                   style: t27redBold,
                 ),
-                price == counterPrice
-                    ? Container()
-                    : Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child: Text(
-                          '${counterPrice == 'null' ? '' : '￥$counterPrice'}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: textGrey,
-                            height: 1,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
+                if (priceModel.counterPrice != priceModel.basicPrice)
+                  Container(
+                    margin: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '${priceModel.counterPrice ?? ''}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: textGrey,
+                        height: 1,
+                        decoration: TextDecoration.lineThrough,
                       ),
+                    ),
+                  )
               ],
             ))
         : Container();

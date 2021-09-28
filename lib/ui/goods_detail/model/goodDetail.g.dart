@@ -22,6 +22,9 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..soldOut = json['soldOut'] as bool
     ..underShelf = json['underShelf'] as bool
     ..updateTime = json['updateTime'] as num
+    ..price = json['price'] == null
+        ? null
+        : PriceModel.fromJson(json['price'] as Map<String, dynamic>)
     ..itemDetail = json['itemDetail'] as Map<String, dynamic>
     ..skuList = (json['skuList'] as List)
         ?.map((e) =>
@@ -127,13 +130,9 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
         (json['couponShortNameList'] as List)?.map((e) => e as String)?.toList()
     ..detailPromBanner = json['detailPromBanner'] == null
         ? null
-        : DetailPromBanner.fromJson(
-            json['detailPromBanner'] as Map<String, dynamic>)
-    ..welfareCardVO = json['welfareCardVO'] == null
-        ? null
-        : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
-    ..simpleBrandInfo =
-        json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
+        : DetailPromBanner.fromJson(json['detailPromBanner'] as Map<String, dynamic>)
+    ..welfareCardVO = json['welfareCardVO'] == null ? null : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
+    ..simpleBrandInfo = json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
     ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>)
     ..listPromBanner = json['listPromBanner'] == null ? null : ListPromBanner.fromJson(json['listPromBanner'] as Map<String, dynamic>)
     ..brandInfo = json['brandInfo'] == null ? null : BrandInfo.fromJson(json['brandInfo'] as Map<String, dynamic>)
@@ -161,6 +160,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'soldOut': instance.soldOut,
       'underShelf': instance.underShelf,
       'updateTime': instance.updateTime,
+      'price': instance.price,
       'itemDetail': instance.itemDetail,
       'skuList': instance.skuList,
       'attrList': instance.attrList,
@@ -356,7 +356,8 @@ SpmcBanner _$SpmcBannerFromJson(Map<String, dynamic> json) {
     ..spmcPrivilegeMess = json['spmcPrivilegeMess'] as String
     ..spmcEconomizePrice = json['spmcEconomizePrice'] as String
     ..spmcTagDesc = json['spmcTagDesc'] as String
-    ..spmcLinkUrl = json['spmcLinkUrl'] as String;
+    ..spmcLinkUrl = json['spmcLinkUrl'] as String
+    ..btnValue = json['btnValue'] as String;
 }
 
 Map<String, dynamic> _$SpmcBannerToJson(SpmcBanner instance) =>
@@ -367,6 +368,7 @@ Map<String, dynamic> _$SpmcBannerToJson(SpmcBanner instance) =>
       'spmcEconomizePrice': instance.spmcEconomizePrice,
       'spmcTagDesc': instance.spmcTagDesc,
       'spmcLinkUrl': instance.spmcLinkUrl,
+      'btnValue': instance.btnValue,
     };
 
 SimpleBrandInfo _$SimpleBrandInfoFromJson(Map<String, dynamic> json) {
@@ -520,73 +522,4 @@ Detail _$DetailFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DetailToJson(Detail instance) => <String, dynamic>{
       'reportDetail': instance.reportDetail,
-    };
-
-BannerModel _$BannerModelFromJson(Map<String, dynamic> json) {
-  return BannerModel()
-    ..status = json['status'] as num
-    ..processBanner = json['processBanner'] == null
-        ? null
-        : ProcessBanner.fromJson(json['processBanner'] as Map<String, dynamic>)
-    ..type = json['type'] as num;
-}
-
-Map<String, dynamic> _$BannerModelToJson(BannerModel instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'processBanner': instance.processBanner,
-      'type': instance.type,
-    };
-
-ProcessBanner _$ProcessBannerFromJson(Map<String, dynamic> json) {
-  return ProcessBanner()
-    ..title = json['title'] as String
-    ..supplementText = json['supplementText'] as String
-    ..priceInfo = json['priceInfo'] == null
-        ? null
-        : PriceInfo.fromJson(json['priceInfo'] as Map<String, dynamic>)
-    ..timePrefix = json['timePrefix'] as String
-    ..endTimeGap = json['endTimeGap'] as num
-    ..bgColor = json['bgColor'] as String
-    ..priceBgColor = json['priceBgColor'] as String;
-}
-
-Map<String, dynamic> _$ProcessBannerToJson(ProcessBanner instance) =>
-    <String, dynamic>{
-      'title': instance.title,
-      'supplementText': instance.supplementText,
-      'priceInfo': instance.priceInfo,
-      'timePrefix': instance.timePrefix,
-      'endTimeGap': instance.endTimeGap,
-      'bgColor': instance.bgColor,
-      'priceBgColor': instance.priceBgColor,
-    };
-
-PriceInfo _$PriceInfoFromJson(Map<String, dynamic> json) {
-  return PriceInfo()
-    ..counterPrice = json['counterPrice'] as String
-    ..basicPrice = json['basicPrice'] as String
-    ..finalPrice = json['finalPrice'] == null
-        ? null
-        : FinalPrice.fromJson(json['finalPrice'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$PriceInfoToJson(PriceInfo instance) => <String, dynamic>{
-      'counterPrice': instance.counterPrice,
-      'basicPrice': instance.basicPrice,
-      'finalPrice': instance.finalPrice,
-    };
-
-FinalPrice _$FinalPriceFromJson(Map<String, dynamic> json) {
-  return FinalPrice()
-    ..prefix = json['prefix'] as String
-    ..price = json['price'] as String
-    ..suffix = json['suffix'] as String;
-}
-
-Map<String, dynamic> _$FinalPriceToJson(FinalPrice instance) =>
-    <String, dynamic>{
-      'prefix': instance.prefix,
-      'price': instance.price,
-      'suffix': instance.suffix,
     };

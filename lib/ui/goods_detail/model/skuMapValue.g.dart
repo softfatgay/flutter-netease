@@ -43,6 +43,12 @@ SkuMapValue _$SkuMapValueFromJson(Map<String, dynamic> json) {
             : HdrkDetailVOListItem.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..promotionDesc = json['promotionDesc'] as String
+    ..price = json['price'] == null
+        ? null
+        : PriceModel.fromJson(json['price'] as Map<String, dynamic>)
+    ..banner = json['banner'] == null
+        ? null
+        : BannerModel.fromJson(json['banner'] as Map<String, dynamic>)
     ..itemTagList = (json['itemTagList'] as List)
         ?.map((e) => e == null
             ? null
@@ -98,6 +104,8 @@ Map<String, dynamic> _$SkuMapValueToJson(SkuMapValue instance) =>
       'promValid': instance.promValid,
       'hdrkDetailVOList': instance.hdrkDetailVOList,
       'promotionDesc': instance.promotionDesc,
+      'price': instance.price,
+      'banner': instance.banner,
       'itemTagList': instance.itemTagList,
       'points': instance.points,
       'pointsPrice': instance.pointsPrice,

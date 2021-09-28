@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/component/timer_text.dart';
 import 'package:flutter_app/utils/color_util.dart';
 
 ///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
   final BannerModel banner;
-  final String price;
-  final String counterPrice;
 
-  const DetailPromBannerWidget(
-      {Key key, this.banner, this.price, this.counterPrice})
-      : super(key: key);
+  const DetailPromBannerWidget({Key key, this.banner}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +17,21 @@ class DetailPromBannerWidget extends StatelessWidget {
   }
 
   _detailPromBannerWidget() {
-    return banner == null ? Container() : _activity();
+    return banner == null || banner.processBanner == null
+        ? Container()
+        : _activity();
   }
 
   _activity() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-      decoration:
-          BoxDecoration(color: HexColor.fromHex(banner.processBanner.bgColor)),
+      decoration: BoxDecoration(
+          color: HexColor.fromHex(banner.processBanner == null
+              ? '#E53B44'
+              : banner.processBanner.bgColor ?? '#E53B44')),
       child: Column(
         children: [
-          _sellDes(),
+          if (banner.processBanner != null) _sellDes(),
           Container(
             margin: EdgeInsets.only(top: 5),
             child: Row(
@@ -217,7 +217,7 @@ class DetailPromBannerWidget extends StatelessWidget {
   _finalPrice() {
     var finalPrice = banner.processBanner.priceInfo.finalPrice;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
       decoration: BoxDecoration(
           color: backWhite, borderRadius: BorderRadius.circular(20)),
       child: Text(

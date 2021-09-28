@@ -1,9 +1,12 @@
 import 'package:flutter_app/model/categoryL1ListItem.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
+import 'package:flutter_app/ui/goods_detail/model/finalPrice.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/issueListItem.dart';
+import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingRewardRule.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
@@ -29,6 +32,7 @@ class GoodDetail {
   bool soldOut;
   bool underShelf;
   num updateTime;
+  PriceModel price;
 
   Map<String, dynamic> itemDetail;
 
@@ -219,6 +223,7 @@ class SpmcBanner {
   String spmcEconomizePrice;
   String spmcTagDesc;
   String spmcLinkUrl;
+  String btnValue;
 
   SpmcBanner();
 
@@ -337,52 +342,4 @@ class Detail {
 
   Detail();
   factory Detail.fromJson(Map<String, dynamic> json) => _$DetailFromJson(json);
-}
-
-@JsonSerializable()
-class BannerModel {
-  num status;
-  ProcessBanner processBanner;
-  num type;
-
-  BannerModel();
-  factory BannerModel.fromJson(Map<String, dynamic> json) =>
-      _$BannerModelFromJson(json);
-}
-
-@JsonSerializable()
-class ProcessBanner {
-  String title;
-  String supplementText;
-  PriceInfo priceInfo;
-  String timePrefix;
-  num endTimeGap;
-  String bgColor;
-  String priceBgColor;
-
-  ProcessBanner();
-  factory ProcessBanner.fromJson(Map<String, dynamic> json) =>
-      _$ProcessBannerFromJson(json);
-}
-
-@JsonSerializable()
-class PriceInfo {
-  String counterPrice;
-  String basicPrice;
-  FinalPrice finalPrice;
-
-  PriceInfo();
-  factory PriceInfo.fromJson(Map<String, dynamic> json) =>
-      _$PriceInfoFromJson(json);
-}
-
-@JsonSerializable()
-class FinalPrice {
-  String prefix;
-  String price;
-  String suffix;
-
-  FinalPrice();
-  factory FinalPrice.fromJson(Map<String, dynamic> json) =>
-      _$FinalPriceFromJson(json);
 }
