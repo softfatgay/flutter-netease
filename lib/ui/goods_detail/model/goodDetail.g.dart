@@ -141,7 +141,8 @@ GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
     ..adBanners = (json['adBanners'] as List)?.map((e) => e == null ? null : AdBannersItem.fromJson(e as Map<String, dynamic>))?.toList()
     ..tryOutEventReport = json['tryOutEventReport'] == null ? null : TryOutEventReport.fromJson(json['tryOutEventReport'] as Map<String, dynamic>)
     ..banner = json['banner'] == null ? null : BannerModel.fromJson(json['banner'] as Map<String, dynamic>)
-    ..showPrice = json['showPrice'] as bool;
+    ..showPrice = json['showPrice'] as bool
+    ..countryInfo = json['countryInfo'] as String;
 }
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
@@ -228,6 +229,7 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'tryOutEventReport': instance.tryOutEventReport,
       'banner': instance.banner,
       'showPrice': instance.showPrice,
+      'countryInfo': instance.countryInfo,
     };
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {

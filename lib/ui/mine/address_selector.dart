@@ -205,6 +205,12 @@ class _AddressSelectorState extends State<AddressSelector>
 
     var responseData = await getTown(params);
     List data = responseData.data;
+    if (data.isEmpty) {
+      if (widget.addressValue != null) {
+        widget.addressValue(_provinceItem, _cityItem, _disItem, _townItem);
+      }
+      Navigator.pop(context);
+    }
     List<AddressItem> dataList = [];
     data.forEach((element) {
       dataList.add(AddressItem.fromJson(element));
@@ -251,5 +257,12 @@ class _AddressSelectorState extends State<AddressSelector>
         _selectType = 4;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _tabController.dispose();
+    super.dispose();
   }
 }

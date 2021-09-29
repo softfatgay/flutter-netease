@@ -47,7 +47,10 @@ ItemListItem _$ItemListItemFromJson(Map<String, dynamic> json) {
     ..finalPriceInfoVO = json['finalPriceInfoVO'] == null
         ? null
         : FinalPriceInfoVO.fromJson(
-            json['finalPriceInfoVO'] as Map<String, dynamic>);
+            json['finalPriceInfoVO'] as Map<String, dynamic>)
+    ..topLogo = json['topLogo'] == null
+        ? null
+        : TopLogo.fromJson(json['topLogo'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$ItemListItemToJson(ItemListItem instance) =>
@@ -75,4 +78,5 @@ Map<String, dynamic> _$ItemListItemToJson(ItemListItem instance) =>
       'listPromBanner': instance.listPromBanner,
       'skuSpecList': instance.skuSpecList,
       'finalPriceInfoVO': instance.finalPriceInfoVO,
+      'topLogo': instance.topLogo,
     };

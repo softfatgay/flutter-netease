@@ -12,7 +12,7 @@ class DialogTitleWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: lineColor, width: 1))),
-      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 15),
       width: double.infinity,
       child: Stack(
         children: [

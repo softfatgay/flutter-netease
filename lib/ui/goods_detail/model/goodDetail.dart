@@ -113,6 +113,7 @@ class GoodDetail {
   TryOutEventReport tryOutEventReport;
   BannerModel banner;
   bool showPrice;
+  String countryInfo;
 
   GoodDetail();
 

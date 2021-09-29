@@ -1,5 +1,6 @@
 import 'package:flutter_app/model/finalPriceInfoVO.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/model/topLogo.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/home/model/hotSaleListBottomInfo.dart';
 import 'package:flutter_app/ui/sort/model/listPromBanner.dart';
@@ -32,10 +33,11 @@ class ItemListItem {
   List<ItemTagListItem> itemTagList;
   ListPromBanner listPromBanner;
   List<SkuSpecListItem> skuSpecList;
+  FinalPriceInfoVO finalPriceInfoVO;
+
+  TopLogo topLogo;
 
   ItemListItem();
-
-  FinalPriceInfoVO finalPriceInfoVO;
 
   factory ItemListItem.fromJson(Map<String, dynamic> json) =>
       _$ItemListItemFromJson(json);

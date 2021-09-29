@@ -32,6 +32,7 @@ import 'package:flutter_app/ui/goods_detail/components/good_price_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_select_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_title.dart';
 import 'package:flutter_app/ui/goods_detail/components/normal_dialog.dart';
+import 'package:flutter_app/ui/goods_detail/components/normal_scroll_dialog.dart';
 import 'package:flutter_app/ui/goods_detail/components/pro_vip_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/promotion_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/recommend_widget.dart';
@@ -780,7 +781,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     var addBtn = GestureDetector(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 12),
+        height: 40,
         alignment: Alignment.center,
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -793,7 +794,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       ),
       onTap: () {
         print('-------------------');
-        NormalDialog(
+        NormalScrollDialog(
           title: '配送至',
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -821,15 +822,35 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         ).build(context);
       },
     );
-    widgets.add(addBtn);
+    // widgets.add(addBtn);
     NormalDialog(
+        maxHeight: 400,
         title: '配送至',
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: widgets,
-          ),
-        )).build(context);
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    bottom: 60,
+                    left: 0,
+                    right: 0,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: widgets,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: addBtn,
+                  )
+                ],
+              ),
+            ))).build(context);
   }
 
   _buildAddressItem(LocationItemModel item) {
@@ -841,19 +862,26 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           children: [
-            if (_dftAddress != null)
-              Icon(
-                Icons.check_circle_rounded,
-                color: _dftAddress.id == item.id ? textRed : textLightGrey,
-              ),
+            _dftAddress == null
+                ? Icon(
+                    Icons.circle_outlined,
+                    color: backGrey,
+                  )
+                : (_dftAddress.id == item.id
+                    ? Icon(
+                        Icons.check_circle_rounded,
+                        color: textRed,
+                      )
+                    : Icon(
+                        Icons.circle_outlined,
+                        color: lineColor,
+                      )),
             SizedBox(width: 10),
             Text('${item.fullAddress}'),
           ],
         ),
       ),
       onTap: () {
-        print('[[[[[[[[[[[[');
-        print(item);
         _saveDftAddress(item);
         _wapitemDelivery(item);
         Navigator.pop(context, item);
@@ -1075,16 +1103,42 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                if (simpleBrandInfo.ownType == 1)
+                  Container(
+                    margin: EdgeInsets.only(right: 3),
+                    child: Image.asset(
+                      'assets/images/ziying_tag.png',
+                      width: 32,
+                    ),
+                  ),
                 CachedNetworkImage(
-                  height: 16,
+                  height: 14,
                   imageUrl:
                       '${simpleBrandInfo.logoUrl ?? 'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png'}',
                 ),
                 SizedBox(
                   width: 3,
                 ),
-                Text('${simpleBrandInfo.title ?? ''}',
-                    style: TextStyle(color: Color(0xFF7F7F7F), fontSize: 14)),
+                Text(
+                  '${simpleBrandInfo.title ?? ''}',
+                  style: TextStyle(
+                      color: Color(0xFF7F7F7F), fontSize: 14, height: 1.1),
+                ),
+                if (_goodDetail.countryInfo != null)
+                  Container(
+                    height: 14,
+                    width: 1,
+                    color: Color(0xFF7F7F7F),
+                    margin: EdgeInsets.symmetric(horizontal: 6),
+                  ),
+                if (_goodDetail.countryInfo != null)
+                  Container(
+                    child: Text(
+                      '${_goodDetail.countryInfo}',
+                      style: TextStyle(
+                          color: Color(0xFF7F7F7F), fontSize: 14, height: 1.1),
+                    ),
+                  ),
               ],
             ),
           );
@@ -1569,7 +1623,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
     String title = fullRefundPolicy.detailTitle;
     List<String> content = fullRefundPolicy.content;
-    NormalDialog(
+    NormalScrollDialog(
         title: '$title',
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1658,7 +1712,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///------------------------------------------促销弹窗------------------------------------------
   _showPromotionDialog() {
-    NormalDialog(
+    NormalScrollDialog(
       child: Column(
         children: [
           DetailCuxiaoItems(
@@ -1716,7 +1770,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildSkuFreightDialog(
       BuildContext context, String title, List<PolicyListItem> contentList) {
-    NormalDialog(
+    NormalScrollDialog(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

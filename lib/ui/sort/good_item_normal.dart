@@ -68,8 +68,7 @@ class GoodItemNormalWidget extends StatelessWidget {
                 _roundImg(
                   item.listPicUrl,
                 ),
-                if (dataList[index].colorNum != null &&
-                    dataList[index].colorNum > 0)
+                if (item.colorNum != null && item.colorNum > 0)
                   Container(
                     padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
                     decoration: BoxDecoration(
@@ -79,13 +78,25 @@ class GoodItemNormalWidget extends StatelessWidget {
                     ),
                     margin: EdgeInsets.only(top: 5, left: 5),
                     child: MyVerticalText(
-                      '${dataList[index].colorNum}色可选',
+                      '${item.colorNum}色可选',
                       TextStyle(color: Color(0xFFA28C63), fontSize: 10),
                     ),
                   ),
                 if (item.promDesc != null)
                   Positioned(
-                      bottom: 10, left: 10, child: _promDesc(item.promDesc))
+                    bottom: 10,
+                    left: 10,
+                    child: _promDesc(item.promDesc),
+                  ),
+                if (item.topLogo != null)
+                  Positioned(
+                    top: 10,
+                    right: 5,
+                    child: CachedNetworkImage(
+                      imageUrl: '${item.topLogo.logoUrl}',
+                      width: 20,
+                    ),
+                  )
               ],
             ),
           ),

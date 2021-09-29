@@ -2,16 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/goods_detail/components/diaolog_title_widget.dart';
 
-class NormalDialog {
+class NormalScrollDialog {
   final Widget child;
   final String title;
-  final double maxHeight;
 
-  NormalDialog({
-    @required this.child,
-    this.title = '',
-    this.maxHeight = 400.0,
-  });
+  NormalScrollDialog({@required this.child, this.title = ''});
 
   build(BuildContext context) async {
     return _showDialog(context);
@@ -26,7 +21,7 @@ class NormalDialog {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-          constraints: BoxConstraints(maxHeight: maxHeight),
+          constraints: BoxConstraints(maxHeight: 400),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
@@ -37,7 +32,9 @@ class NormalDialog {
             children: [
               DialogTitleWidget(title: '$title'),
               Expanded(
-                child: child,
+                child: SingleChildScrollView(
+                  child: child,
+                ),
               )
             ],
           ),
