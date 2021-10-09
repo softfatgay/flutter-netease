@@ -107,13 +107,6 @@ const TextStyle t10black = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
-const TextStyle t12blackbold = TextStyle(
-  color: textBlack,
-  fontSize: 12,
-  fontWeight: fontWeightMedium,
-  decoration: TextDecoration.none,
-);
-
 const TextStyle t12black = TextStyle(
   color: textBlack,
   fontSize: 12,

@@ -575,7 +575,7 @@ class _HomeState extends State<HomePage>
                   children: [
                     Text(
                       _categoryList[index].categoryName,
-                      style: t12blackbold,
+                      style: t12blackBold,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 5),

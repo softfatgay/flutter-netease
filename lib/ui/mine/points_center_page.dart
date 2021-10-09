@@ -314,7 +314,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
               ),
               Text(
                 '${item.title}',
-                style: t12blackbold,
+                style: t12blackBold,
               ),
               Text(
                 '${item.needPoint}积分兑',
@@ -364,7 +364,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Text(
                     '${item.title}',
-                    style: t12blackbold,
+                    style: t12blackBold,
                   ),
                 ),
                 Container(

@@ -158,7 +158,7 @@ class CartItemWidget extends StatelessWidget {
             margin: EdgeInsets.only(left: 5),
             child: TimerText(
               time: item.remainTime ~/ 1000,
-              textStyle: t12blackbold,
+              textStyle: t12blackBold,
             ),
           ),
         ],

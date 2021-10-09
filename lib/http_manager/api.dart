@@ -535,7 +535,7 @@ Future<ResponseData> lookSupport(Map<String, dynamic> params) async {
   return await HttpManager.get(LOOK_SUPPORT, params: params);
 }
 
-///晒单列表数据
+///晒单底部按钮提示
 Future<ResponseData> itemPoolBar(Map<String, dynamic> params) async {
   return await HttpManager.post(ITEM_POOL_BAR,
       params: _getParams(), formData: params);

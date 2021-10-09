@@ -288,18 +288,18 @@ class _GetCarsPageState extends State<GetCarsPage> {
 
     var responseData = await getCartsSubmit(param);
     if (responseData.code == '200') {
-      Navigator.pop(context);
+      if (_from != null) {
+        Routers.push(Routers.makeUpPage, context,
+            {'id': _promotionId, 'from': Routers.goodDetail});
+      } else {
+        Navigator.pop(context);
+      }
     }
   }
 
   _buildSubmitBtn() {
     return ActiveBtn(backRed, () {
-      if (_from != null) {
-        Routers.push(Routers.makeUpPage, context,
-            {'id': _promotionId, 'from': Routers.goodDetail});
-      } else {
-        _submit();
-      }
+      _submit();
     });
   }
 }

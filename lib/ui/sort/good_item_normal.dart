@@ -55,7 +55,6 @@ class GoodItemNormalWidget extends StatelessWidget {
 
   _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
     var item = dataList[index];
-    var itemTagList = dataList[index].itemTagList;
     var imgHeight = MediaQuery.of(context).size.width / 2;
     return Container(
       child: Column(
@@ -152,14 +151,6 @@ class GoodItemNormalWidget extends StatelessWidget {
       }
     }
     return isShow;
-  }
-
-  _getBannerTitle(ItemListItem item) {
-    var bannerTitle;
-    if (item.finalPriceInfoVO.banner != null) {
-      bannerTitle = item.finalPriceInfoVO.banner.title;
-    }
-    return bannerTitle;
   }
 
   _getBannerContent(ItemListItem item) {

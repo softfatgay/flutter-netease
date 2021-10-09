@@ -33,6 +33,8 @@ class BottomPoolWidget extends StatelessWidget {
                 Text(
                   '${itemPoolBarModel.promTip.replaceAll('#', '')}',
                   style: t12black,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -44,12 +46,12 @@ class BottomPoolWidget extends StatelessWidget {
               color: backRed,
               alignment: Alignment.center,
               child: Text(
-                '去购物车',
+                '${from == Routers.goodDetail ? '重新换购' : '去购物车'}',
                 style: t16white,
               ),
             ),
             onTap: () {
-              if (from == Routers.shoppingCart) {
+              if (from == Routers.shoppingCart || from == Routers.goodDetail) {
                 Navigator.pop(context);
               } else {
                 Routers.push(Routers.shoppingCart, context);

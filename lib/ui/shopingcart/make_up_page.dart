@@ -94,7 +94,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
   }
 
   void _itemPoolBar() async {
-    Map<String, dynamic> params = {'promotionId': 0};
+    Map<String, dynamic> params = {'promotionId': _searchModel.promotionId};
     var responseData = await itemPoolBar(params);
     if (responseData.code == '200') {
       setState(() {
@@ -212,6 +212,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
               right: 0,
               child: BottomPoolWidget(
                 itemPoolBarModel: _itemPoolBarModel,
+                from: _from,
               ),
             ),
         ],
