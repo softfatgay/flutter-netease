@@ -1759,7 +1759,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       } else {
         Routers.push(Routers.makeUpPage, context, {
           'data': makeUpCartInfoModel,
-          'from': Routers.goodDetail,
+          'from': 'cuxiao',
           'id': item.canUseCoupon ? -1 : item.id
         });
       }

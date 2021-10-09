@@ -9,6 +9,10 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/my_vertical_text.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
+import 'package:flutter_app/utils/price_util.dart';
+
+const marginS = 8.0;
+const mrr = 5.0;
 
 typedef void AddCarSuccess();
 
@@ -28,13 +32,14 @@ class GoodItemAddCartWidget extends StatelessWidget {
     return data.isEmpty
         ? buildASingleSliverGrid(Container(), 2)
         : SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            padding:
+                EdgeInsets.symmetric(horizontal: marginS, vertical: marginS),
             sliver: SliverGrid(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 Widget widget = Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(color: Color(0XFFF4F4F4)),
+                  decoration: BoxDecoration(color: Colors.transparent),
                   child: _buildGoodItem(context, index, data),
                 );
                 return GestureDetector(
@@ -48,258 +53,297 @@ class GoodItemAddCartWidget extends StatelessWidget {
               }, childCount: data.length),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.6,
-                  mainAxisSpacing: 5,
-                  crossAxisSpacing: 5),
+                  childAspectRatio: 0.55,
+                  mainAxisSpacing: 0,
+                  crossAxisSpacing: marginS),
             ),
           );
   }
 
   _buildGoodItem(BuildContext context, int index, List<GoodDetail> dataList) {
     var item = dataList[index];
-    var itemTagList = dataList[index].itemTagList;
+    var imgHeight = MediaQuery.of(context).size.width / 2;
     return Container(
-      decoration: BoxDecoration(
-        color: backWhite,
-        borderRadius: BorderRadius.circular(3),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0x33E9E9E8),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(3)),
-              ),
-              child: Stack(
-                children: [
-                  Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      Column(
-                        children: [
-                          Expanded(
-                            child: TopRoundNetImage(
-                              url: item.listPicUrl,
-                              corner: 3,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                        ],
-                      ),
-                      (item.promTag == null || item.listPromBanner == null)
-                          ? _buildTextDesc(item.simpleDesc)
-                          : _buildPromBanner(item.listPromBanner),
-                    ],
-                  ),
-                  if (dataList[index].productPlace != null &&
-                      dataList[index].productPlace != "")
-                    Container(
-                      padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Color(0xFFA28C63), width: 0.5),
-                        borderRadius: BorderRadius.circular(1),
-                      ),
-                      margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                      child: MyVerticalText(
-                        dataList[index].productPlace,
-                        TextStyle(color: Color(0xFFA28C63), fontSize: 12),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
           Container(
-            padding: EdgeInsets.only(left: 5),
-            child: Text(
-              dataList[index].name,
-              style: t14blackBold,
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          _buildTags(itemTagList),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(width: 5),
-              Text(
-                "¥${dataList[index].retailPrice}",
-                style: t18redBold,
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                dataList[index].counterPrice == null
-                    ? ""
-                    : "¥${dataList[index].counterPrice}",
-                style: TextStyle(
-                    color: textGrey,
-                    decoration: TextDecoration.lineThrough,
-                    fontSize: 12),
-              ),
-            ],
-          ),
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 5, top: 5),
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-              decoration: BoxDecoration(
-                border: Border.all(color: lineColor, width: 1),
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Text(
-                '加入购物车',
-                style: t12black,
-              ),
-            ),
-            onTap: () {
-              _buildSizeModel(context, item);
-            },
-          ),
-          SizedBox(height: 8)
-        ],
-      ),
-    );
-  }
-
-  _buildTags(List<ItemTagListItem> itemTagList) {
-    if (itemTagList == null || itemTagList.isEmpty) {
-      return Container();
-    } else {
-      if (itemTagList.length > 3) {
-        itemTagList.removeRange(2, itemTagList.length - 1);
-      }
-      return Row(
-        children: itemTagList
-            .map((item) => Container(
-                  padding: EdgeInsets.fromLTRB(4, 2, 4, 1),
-                  margin: EdgeInsets.only(left: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(color: textRed, width: 0.5),
-                  ),
-                  child: Text(
-                    item.name,
-                    style: TextStyle(
-                      fontSize: 9,
-                      color: textRed,
-                      height: 1.1,
-                    ),
-                  ),
-                ))
-            .toList(),
-      );
-    }
-  }
-
-  ///仅描述
-  _buildTextDesc(String text) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      height: 30,
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      width: double.infinity,
-      color: Color(0xFFEDE8DB),
-      child: Text(
-        text,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: Color(0xFF958259), fontSize: 12),
-        textAlign: TextAlign.start,
-      ),
-    );
-  }
-
-  ///特价描述
-  _buildPromBanner(ListPromBanner item) {
-    return Container(
-      height: 30,
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            width: double.infinity,
-            height: 25,
-            child: CachedNetworkImage(
-              imageUrl: item.bannerContentUrl,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            child: Row(
+            height: imgHeight,
+            child: Stack(
               children: [
-                Container(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 30,
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: NetworkImage(item.bannerTitleUrl),
-                          fit: BoxFit.fill,
-                        )),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                item.promoTitle ?? "",
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: t12whiteBold,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.topCenter,
-                                child: Text(
-                                  item.promoSubTitle ?? "",
-                                  textAlign: TextAlign.center,
-                                  style: t12whiteBold,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                _roundImg(
+                  item.listPicUrl,
                 ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Text(
-                      item.content ?? "",
-                      style: TextStyle(fontSize: 11, color: Colors.white),
-                      overflow: TextOverflow.ellipsis,
+                if (item.colorNum != null && item.colorNum > 0)
+                  Container(
+                    padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
+                    decoration: BoxDecoration(
+                      color: Color(0XFFF4F4F4),
+                      border: Border.all(color: Color(0xFFA28C63), width: 0.5),
+                      borderRadius: BorderRadius.circular(1),
+                    ),
+                    margin: EdgeInsets.only(top: 5, left: 5),
+                    child: MyVerticalText(
+                      '${item.colorNum}色可选',
+                      TextStyle(color: Color(0xFFA28C63), fontSize: 10),
                     ),
                   ),
-                )
+                if (item.promDesc != null)
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: _promDesc(item.promDesc),
+                  ),
+                if (item.topLogo != null)
+                  Positioned(
+                    top: 10,
+                    right: 5,
+                    child: CachedNetworkImage(
+                      imageUrl: '${item.topLogo.logoUrl}',
+                      width: 20,
+                    ),
+                  )
               ],
             ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 3),
+                child: Text(
+                  '${dataList[index].name}',
+                  style: t15blackBold,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              _price(item),
+              _priceDec(item),
+              if (_isShowTips(item))
+                Container(
+                  margin: EdgeInsets.only(top: 3),
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: Text(
+                    '${_getBannerContent(item)}',
+                    style: TextStyle(
+                        color: textRed,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        height: 1),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+            ],
+          ),
+          Row(
+            children: [
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(top: 3),
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: item.sellVolume == 0 ? lineColor : textBlack,
+                        width: 0.5),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  child: Text(
+                    '加入购物车',
+                    style: TextStyle(
+                        fontSize: 12,
+                        height: 1.1,
+                        color: item.sellVolume == 0 ? lineColor : textBlack),
+                  ),
+                ),
+                onTap: () {
+                  if (item.sellVolume != 0) {
+                    _buildSizeModel(context, item);
+                  }
+                },
+              ),
+              if (item.sellVolume == 0)
+                Container(
+                  margin: EdgeInsets.only(top: 3, left: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: lineColor, width: 0.5),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    '售罄',
+                    style: TextStyle(
+                        fontSize: 12, height: 1.1, color: textLightGrey),
+                  ),
+                )
+            ],
           )
         ],
+      ),
+    );
+  }
+
+  _isShowTips(GoodDetail item) {
+    bool isShow = false;
+    if (item.finalPriceInfoVO.banner != null) {
+      var banner = item.finalPriceInfoVO.banner;
+      if ((banner.content != null &&
+              banner.content.length > 7 &&
+              banner.title != banner.content) &&
+          !(banner.title == null && banner.content != null)) {
+        isShow = true;
+      }
+    }
+    return isShow;
+  }
+
+  _getBannerContent(GoodDetail item) {
+    var content = '';
+    if (item.finalPriceInfoVO.banner != null) {
+      content = item.finalPriceInfoVO.banner.content ?? '';
+    }
+    return content;
+  }
+
+  _priceDec(GoodDetail item) {
+    var finalPriceInfoVO = item.finalPriceInfoVO;
+    var banner = finalPriceInfoVO.banner;
+    if (banner == null) {
+      return Container();
+    } else {
+      if (banner.title == null && banner.content != null) {
+        return Container(
+          margin: EdgeInsets.only(top: 5),
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          decoration: BoxDecoration(
+              color: backRed,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Color(0xFFFFE9EB), width: 1)),
+          child: Text(
+            '${banner.content}',
+            style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
+          ),
+        );
+      }
+    }
+    return Container(
+      margin: EdgeInsets.only(top: 5),
+      decoration: BoxDecoration(
+        color: Color(0xFFFFE9EB),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            decoration: BoxDecoration(
+                color: backRed,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Color(0xFFFFE9EB), width: 1)),
+            child: Text(
+              '${banner.title}',
+              style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
+            ),
+          ),
+          SizedBox(width: 3),
+          if (_getBannerContent(item).length <= 7)
+            Text(
+              '${_getBannerContent(item)}',
+              style: t12redBold,
+            )
+        ],
+      ),
+    );
+  }
+
+  _price(GoodDetail item) {
+    List<String> priceToStr = ['', ''];
+    String pricePrefix = '';
+    String priceSuffix = '';
+    String counterPrice = '';
+    var finalPrice = item.finalPriceInfoVO.priceInfo.finalPrice;
+    counterPrice = item.finalPriceInfoVO.priceInfo.counterPrice;
+    if (finalPrice != null) {
+      priceToStr = PriceUtil.priceToStr(finalPrice.price);
+      pricePrefix = finalPrice.prefix ?? '';
+      priceSuffix = finalPrice.suffix ?? '';
+    } else {
+      priceToStr = PriceUtil.priceToStr(item.retailPrice.toString());
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      children: [
+        Text("$pricePrefix¥", style: t12redBold),
+        Text(
+          "${priceToStr[0]}",
+          style: t20redBold,
+        ),
+        Text(
+          "${priceToStr[1]}$priceSuffix",
+          style: t12redBold,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Text(
+          _getCounterPrice(item) == null
+              ? ""
+              : "¥${_getCounterPrice(item) ?? ''}",
+          style: TextStyle(
+              color: textGrey,
+              decoration: TextDecoration.lineThrough,
+              fontSize: 11),
+        ),
+      ],
+    );
+  }
+
+  _getCounterPrice(GoodDetail item) {
+    var finalCounterPrice = item.finalPriceInfoVO.priceInfo.counterPrice;
+    var counterPrice = finalCounterPrice ?? (item.counterPrice ?? null);
+    return counterPrice;
+  }
+
+  _promDesc(String dec) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+          color: backWhite,
+          border: Border.all(color: textRed, width: 1),
+          borderRadius: BorderRadius.circular(20)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/good_red.png',
+            width: 7,
+          ),
+          SizedBox(width: 2),
+          Text(
+            '$dec',
+            style: t12red,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _roundImg(String url) {
+    return Container(
+      child: CachedNetworkImage(
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Color(0xFFF4F4F4),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        imageUrl: url,
       ),
     );
   }

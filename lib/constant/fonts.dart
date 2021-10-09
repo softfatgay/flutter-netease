@@ -220,6 +220,14 @@ const TextStyle t10red = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
+const TextStyle t11red = TextStyle(
+  color: textRed,
+  fontSize: 11,
+  height: 1.1,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 const TextStyle t12red = TextStyle(
   color: textRed,
   fontSize: 12,

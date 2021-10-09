@@ -10,6 +10,7 @@ HdrkDetailVOListItem _$HdrkDetailVOListItemFromJson(Map<String, dynamic> json) {
   return HdrkDetailVOListItem()
     ..id = json['id'] as num
     ..name = json['name'] as String
+    ..promLimitDesc = json['promLimitDesc'] as String
     ..activityType = json['activityType'] as String
     ..huodongUrlWap = json['huodongUrlWap'] as String
     ..startTime = json['startTime'] as num
@@ -23,6 +24,7 @@ Map<String, dynamic> _$HdrkDetailVOListItemToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'promLimitDesc': instance.promLimitDesc,
       'activityType': instance.activityType,
       'huodongUrlWap': instance.huodongUrlWap,
       'startTime': instance.startTime,

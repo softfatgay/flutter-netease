@@ -1,5 +1,7 @@
 import 'package:flutter_app/model/categoryL1ListItem.dart';
+import 'package:flutter_app/model/finalPriceInfoVO.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
+import 'package:flutter_app/model/topLogo.dart';
 import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
@@ -114,6 +116,10 @@ class GoodDetail {
   BannerModel banner;
   bool showPrice;
   String countryInfo;
+
+  String promDesc;
+  TopLogo topLogo;
+  FinalPriceInfoVO finalPriceInfoVO;
 
   GoodDetail();
 

@@ -152,54 +152,80 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                     //最小包裹高度
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Stack(
-                        children: [
-                          ///商品描述
-                          _selectGoodDetail(context, widget.goodDetail),
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(top: 15, right: 5),
-                                child: Image.asset(
-                                  'assets/images/close.png',
-                                  width: 20,
-                                  height: 20,
-                                ),
-                              ),
+                      SingleChildScrollView(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(5.0),
                             ),
                           ),
-                        ],
-                      ),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            //最小包裹高度
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Stack(
+                                children: [
+                                  ///商品描述
+                                  _selectGoodDetail(context, goodDetail),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: InkResponse(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.only(top: 10, right: 5),
+                                        child: Image.asset(
+                                          'assets/images/close.png',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
 
-                      ///颜色，规格等参数
-                      _modelAndSize(context, widget.goodDetail, setstate),
-                      //数量
-                      Container(
-                        margin: EdgeInsets.only(top: 15, bottom: 10),
-                        child: Text(
-                          '数量',
-                          style: TextStyle(color: Colors.black, fontSize: 14),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
-                        child: Count(
-                          number: _goodCount,
-                          min: 1,
-                          max: _skuMapItem == null ? 1 : _skuMapItem.sellVolume,
-                          onChange: (index) {
-                            setstate(() {
-                              _goodCount = index;
-                            });
-                            setState(() {
-                              _goodCount = index;
-                            });
-                          },
+                              ///颜色，规格等参数
+                              _modelAndSize(context, goodDetail, setstate),
+                              //数量
+                              Container(
+                                margin: EdgeInsets.only(top: 15, bottom: 10),
+                                child: Text(
+                                  '数量',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
+                                child: Count(
+                                  number: _goodCount,
+                                  min: 1,
+                                  max: _skuMapItem == null
+                                      ? 1
+                                      : _skuMapItem.sellVolume,
+                                  onChange: (index) {
+                                    setstate(() {
+                                      _goodCount = index;
+                                    });
+                                    setState(() {
+                                      _goodCount = index;
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 45,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(

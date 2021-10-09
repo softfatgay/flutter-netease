@@ -6,6 +6,7 @@ part 'hdrkDetailVOListItem.g.dart';
 class HdrkDetailVOListItem {
   num id;
   String name;
+  String promLimitDesc;
   String activityType;
   String huodongUrlWap;
   num startTime;

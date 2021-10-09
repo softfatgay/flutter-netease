@@ -162,7 +162,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backColor,
+      backgroundColor: backWhite,
       appBar: TopAppBar(
         title: '凑单',
       ).build(context),

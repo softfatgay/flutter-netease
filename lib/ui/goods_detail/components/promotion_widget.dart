@@ -54,7 +54,9 @@ class PromotionWidget extends StatelessWidget {
 
 class CuxiaoItems extends StatelessWidget {
   final List<HdrkDetailVOListItem> hdrkDetailVOList;
+
   const CuxiaoItems({Key key, this.hdrkDetailVOList}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,14 +84,25 @@ class CuxiaoItems extends StatelessWidget {
                             borderRadius: BorderRadius.circular(14)),
                         child: Text(
                           item.activityType,
-                          style: t10red,
+                          style: t11red,
                         ),
                       ),
                       Expanded(
-                          child: Text(
-                        '${item.name}',
-                        style: t14black,
-                      ))
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${item.name}',
+                              style: t14black,
+                            ),
+                            if (item.promLimitDesc != null)
+                              Text(
+                                '${item.promLimitDesc ?? ''}',
+                                style: t12lightGrey,
+                              )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ))
@@ -144,10 +157,21 @@ class DetailCuxiaoItems extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                            child: Text(
-                          '${item.name}',
-                          style: t14black,
-                        )),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${item.name}',
+                                style: t14black,
+                              ),
+                              if (item.promLimitDesc != null)
+                                Text(
+                                  '${item.promLimitDesc ?? ''}',
+                                  style: t12lightGrey,
+                                )
+                            ],
+                          ),
+                        ),
                         arrowRightIcon,
                         SizedBox(width: 10)
                       ],
