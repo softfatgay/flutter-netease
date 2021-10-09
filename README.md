@@ -24,7 +24,7 @@
 
 |         个人          |        商品详情        |         添加购物车        |          订单           |
 | :-------------------: | :-------------------------: | :----------------------------: | :-------------------------: |
-| ![](./screenshot/wechatimg87.jpeg) | ![](./screenshot/wechatimg92.jpg) | ![](./screenshot/wechatimg91.jpeg) | ![](./screenshot/wechatimg98.jpeg) |
+| ![](./screenshot/wechatimg87.jpeg) | ![](./screenshot/wechatimg92.jpg) | ![](./screenshot/wechatimg91.jpg) | ![](./screenshot/wechatimg98.jpeg) |
 
 
 ## 主要功能点
