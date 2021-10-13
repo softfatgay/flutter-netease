@@ -14,6 +14,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B73860564AA96E227DB98325 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA9EEAB09BC6437D935BC1C8 /* Pods_Runner.framework */; };
+		BB1FFCA62716C5B800ACD31E /* SwiftInstallPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1FFCA32716C5B800ACD31E /* SwiftInstallPlugin.swift */; };
+		BB1FFCA72716C5B800ACD31E /* InstallPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FFCA42716C5B800ACD31E /* InstallPlugin.m */; };
 		BB598702257741B60081FAA3 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = BB598700257741B60081FAA3 /* Aspects.m */; };
 		BB59870F257759CB0081FAA3 /* GloableCookie.m in Sources */ = {isa = PBXBuildFile; fileRef = BB59870E257759CB0081FAA3 /* GloableCookie.m */; };
 		BB598749257769E70081FAA3 /* CustomPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = BB598748257769E70081FAA3 /* CustomPluginRegistrant.m */; };
@@ -49,6 +51,9 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A839520EB6B512E0A1DA0274 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		AE85242DE54ADCBBF379298C /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		BB1FFCA32716C5B800ACD31E /* SwiftInstallPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftInstallPlugin.swift; sourceTree = "<group>"; };
+		BB1FFCA42716C5B800ACD31E /* InstallPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallPlugin.m; sourceTree = "<group>"; };
+		BB1FFCA52716C5B800ACD31E /* InstallPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallPlugin.h; sourceTree = "<group>"; };
 		BB598700257741B60081FAA3 /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
 		BB598701257741B60081FAA3 /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
 		BB59870D257759CB0081FAA3 /* GloableCookie.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GloableCookie.h; sourceTree = "<group>"; };
@@ -137,11 +142,30 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BB59870C2577596C0081FAA3 /* Channel */ = {
+		BB1FFCA22716C5B800ACD31E /* installPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				BB1FFCA52716C5B800ACD31E /* InstallPlugin.h */,
+				BB1FFCA42716C5B800ACD31E /* InstallPlugin.m */,
+				BB1FFCA32716C5B800ACD31E /* SwiftInstallPlugin.swift */,
+			);
+			path = installPlugin;
+			sourceTree = "<group>";
+		};
+		BB1FFCA82716C6C800ACD31E /* GlobleCookie */ = {
 			isa = PBXGroup;
 			children = (
 				BB59870D257759CB0081FAA3 /* GloableCookie.h */,
 				BB59870E257759CB0081FAA3 /* GloableCookie.m */,
+			);
+			path = GlobleCookie;
+			sourceTree = "<group>";
+		};
+		BB59870C2577596C0081FAA3 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				BB1FFCA82716C6C800ACD31E /* GlobleCookie */,
+				BB1FFCA22716C5B800ACD31E /* installPlugin */,
 			);
 			name = Channel;
 			sourceTree = "<group>";
@@ -334,7 +358,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB1FFCA62716C5B800ACD31E /* SwiftInstallPlugin.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				BB1FFCA72716C5B800ACD31E /* InstallPlugin.m in Sources */,
 				BB598749257769E70081FAA3 /* CustomPluginRegistrant.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				BB59870F257759CB0081FAA3 /* GloableCookie.m in Sources */,
