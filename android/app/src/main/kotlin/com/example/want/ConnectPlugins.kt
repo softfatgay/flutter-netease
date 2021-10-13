@@ -70,6 +70,7 @@ object ConnectPlugins {
                         result.success("Android ${android.os.Build.VERSION.RELEASE}")
                     }
                     "installApk" -> {
+
                         val filePath = call.argument<String>("filePath")
                         val appId = call.argument<String>("appId")
                         Log.d("android plugin", "installApk $filePath $appId")

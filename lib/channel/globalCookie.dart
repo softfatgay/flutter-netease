@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/services.dart';
+import 'package:flutter_app/channel/index.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 
 class GlobalCookie {
-  static const _channel =
-      MethodChannel('plugins.want.flutter.io.GloableCookie');
-
   factory GlobalCookie() {
     return _instance ??= GlobalCookie._();
   }
@@ -17,7 +14,7 @@ class GlobalCookie {
 
   /// Get globalCookieValue
   Future<String> globalCookieValue(String url) {
-    return _channel.invokeMethod<String>(
+    return channel.invokeMethod<String>(
         'globalCookieValue', {'url': url}).then<String>((String result) {
       return result;
     });
@@ -25,7 +22,7 @@ class GlobalCookie {
 
   /// Get globalCookieValue
   Future<bool> clearCookie() {
-    return _channel.invokeMethod<bool>(
+    return channel.invokeMethod<bool>(
         'clearCookie', {'url': NetContants.baseUrl}).then<bool>((bool result) {
       return result;
     });
@@ -33,7 +30,7 @@ class GlobalCookie {
 
   /// Get globalCookieValue
   Future<bool> install() {
-    return _channel.invokeMethod<bool>(
+    return channel.invokeMethod<bool>(
         Platform.isIOS ? 'gotoAppStore' : 'installApk',
         {'url': NetContants.baseUrl}).then<bool>((bool result) {
       return result;
