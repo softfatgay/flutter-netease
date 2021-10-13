@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/channel/installPlugin.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:install_plugin/install_plugin.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -85,7 +85,6 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     );
   }
 
-
   checkPermission(String url) async {
     Map<Permission, PermissionStatus> permissions = await [
       Permission.storage,
@@ -97,10 +96,10 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     }
   }
 
-
   _doDownload(String url) async {
     Directory dir = await getExternalStorageDirectory();
-    String dstPath = path.join(dir.path, 'FlutterWant-${versionModel.version}.apk');
+    String dstPath =
+        path.join(dir.path, 'FlutterWant-${versionModel.version}.apk');
 
     if (File(dstPath).existsSync()) {
       InstallPlugin.installApk(dstPath, 'com.example.want');
@@ -114,7 +113,6 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     // versionState.value = VersionState.none;
     InstallPlugin.installApk(dstPath, 'com.example.want');
   }
-
 
   Widget _buildTrailByState(
       BuildContext context, VersionState value, Widget child) {
@@ -170,12 +168,10 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
           const SizedBox(
             height: 5,
           ),
-
           Text(
             '${(value * 100).toStringAsFixed(0)} %',
             style: t14blackBold,
           ),
-
           const SizedBox(
             width: 15,
           ),
@@ -194,7 +190,6 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     }
   }
 
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -202,6 +197,4 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     progress.dispose();
     super.dispose();
   }
-
-
 }
