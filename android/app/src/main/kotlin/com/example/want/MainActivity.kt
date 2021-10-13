@@ -10,5 +10,6 @@ class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
         ConnectPlugins.initConnectPlugins(flutterEngine,this)
+        InstallPlugin.initInstallPlugin(flutterEngine,this)
     }
 }
