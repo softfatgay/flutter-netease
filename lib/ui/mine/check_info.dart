@@ -77,7 +77,13 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
         TextButton(
           onPressed: () {
             // Navigator.pop(context);
-            checkPermission(versionModel.installUrl);
+            if (Platform.isIOS) {
+              final appStoreUrl =
+                  "https://apps.apple.com/cn/app/%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89-%E6%96%B0%E4%BA%BA%E9%A6%96%E5%8D%95%E5%85%A8%E9%A2%9D%E8%BF%94/id1065178761";
+              InstallPlugin.gotoAppStore(appStoreUrl);
+            } else {
+              checkPermission(versionModel.installUrl);
+            }
           },
           child: Text('确定', style: t14red),
         ),
@@ -115,11 +121,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
   }
 
   _installApk(String dstPath) {
-    if (Platform.isIOS) {
-      InstallPlugin.gotoAppStore(dstPath);
-    } else {
-      InstallPlugin.installApk(dstPath, 'com.example.want');
-    }
+    InstallPlugin.installApk(dstPath, 'com.example.want');
   }
 
   Widget _buildTrailByState(
