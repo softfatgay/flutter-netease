@@ -630,6 +630,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     return GoodDetailBanner(
       imgList: imgList,
       videoInfo: _videoInfo,
+      height: MediaQuery.of(context).size.width,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/banner.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/ui/mine/components/head_portrait.dart';
 import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/ui/mine/components/swiper.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 
 class PointCenterPage extends StatefulWidget {
@@ -211,15 +211,13 @@ class _PointCenterPageState extends State<PointCenterPage> {
   //轮播图
   _buildSwiper() {
     return SliverToBoxAdapter(
-      child: _banner == null
-          ? Container()
-          : SwiperView(
-              _banner,
-              onTap: (index) {
-                _goWebview('${_bannerData[index].targetUrl}');
-              },
-              height: 110,
-            ),
+      child: BannerCacheImg(
+        imageList: _banner,
+        onTap: (index) {
+          _goWebview('${_bannerData[index].targetUrl}');
+        },
+        height: 110,
+      ),
     );
   }
 

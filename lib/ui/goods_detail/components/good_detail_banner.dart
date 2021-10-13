@@ -7,8 +7,9 @@ import 'package:flutter_app/ui/router/router.dart';
 class GoodDetailBanner extends StatefulWidget {
   final VideoInfo videoInfo;
   final List<String> imgList;
+  final double height;
 
-  const GoodDetailBanner({Key key, this.videoInfo, this.imgList})
+  const GoodDetailBanner({Key key, this.videoInfo, this.imgList, this.height})
       : super(key: key);
 
   @override
@@ -29,6 +30,7 @@ class _GoodDetailState extends State<GoodDetailBanner> {
     return Stack(
       children: [
         BannerCacheImg(
+          height: widget.height,
           imageList: imgList,
           onIndexChanged: (index) {
             setState(() {

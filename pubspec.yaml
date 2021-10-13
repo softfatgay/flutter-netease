@@ -26,9 +26,6 @@ dependencies:
   #  图片
   cached_network_image: ^3.0.0
 
-  #  banner
-  flutter_swiper: ^1.1.6
-
   #标签加载,类似html
   flutter_html: ^2.0.0
 
@@ -44,14 +41,7 @@ dependencies:
   #shared_preferences插件
   shared_preferences: ^2.0.6
 
-#  screen: ^0.0.5
-
-  open_iconic_flutter: ^0.3.0
-
   english_words: ^4.0.0
-
-  #下拉菜单
-#  dropdown_menu: ^1.1.1
 
   #  瀑布流
   flutter_staggered_grid_view: ^0.4.0
@@ -62,9 +52,9 @@ dependencies:
   qr_flutter: ^4.0.0
   intl: ^0.17.0
   #轮播
-  carousel_slider: ^3.0.0
+  carousel_slider: ^4.0.0
   #高性能json序列化
-  json_annotation: ^3.1.1
+  json_annotation: ^4.2.0
 
   #  对话框
   bot_toast: 4.0.1
@@ -80,8 +70,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   #  json序列化需要的库，只需要dev
-  build_runner: ^1.0.0
-  json_serializable: ^3.5.1
+  build_runner: ^2.1.4
+#  json_serializable: ^5.0.2
 
 flutter:
 

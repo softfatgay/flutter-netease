@@ -359,6 +359,7 @@ class _PinPageState extends State<PinPage> {
     return Stack(
       children: [
         BannerCacheImg(
+          height: MediaQuery.of(context).size.width,
           imageList: banner,
           onIndexChanged: (index) {
             setState(() {
