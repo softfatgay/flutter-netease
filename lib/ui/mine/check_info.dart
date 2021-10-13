@@ -102,7 +102,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
         path.join(dir.path, 'FlutterWant-${versionModel.version}.apk');
 
     if (File(dstPath).existsSync()) {
-      InstallPlugin.installApk(dstPath, 'com.example.want');
+      _installApk(dstPath);
       return;
     }
     versionState.value = VersionState.downloading;
@@ -111,7 +111,15 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
         onReceiveProgress: _onReceiveProgress,
         options: Options(receiveTimeout: 24 * 60 * 60 * 1000));
     // versionState.value = VersionState.none;
-    InstallPlugin.installApk(dstPath, 'com.example.want');
+    _installApk(dstPath);
+  }
+
+  _installApk(String dstPath) {
+    if (Platform.isIOS) {
+      InstallPlugin.gotoAppStore(dstPath);
+    } else {
+      InstallPlugin.installApk(dstPath, 'com.example.want');
+    }
   }
 
   Widget _buildTrailByState(

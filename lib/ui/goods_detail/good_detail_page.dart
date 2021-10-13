@@ -473,9 +473,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             bottom: 0,
             left: 0,
             right: 0,
-            child: SafeArea(
-              child: _buildFoot(1),
-            ),
+            child: _buildFoot(1),
           ),
         ],
       ),
