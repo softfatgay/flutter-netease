@@ -130,19 +130,17 @@ class _PinPageState extends State<PinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backColor,
+      backgroundColor: backWhite,
       body: _initLoading
           ? Loading()
           : Stack(
               children: <Widget>[
                 _buildContent(),
                 Positioned(
-                  bottom: 0,
+                  bottom: MediaQuery.of(context).padding.bottom,
                   left: 0,
                   right: 0,
-                  child: SafeArea(
-                    child: _buildFoot(),
-                  ),
+                  child: _buildFoot(),
                 )
               ],
             ),
@@ -272,33 +270,44 @@ class _PinPageState extends State<PinPage> {
   }
 
   _buildContent() {
-    return CustomScrollView(
-      slivers: [
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: SliverCustomHeaderDelegate(
-            title: '拼团',
-            collapsedHeight: 50,
-            expandedHeight: MediaQuery.of(context).size.width,
-            paddingTop: MediaQuery.of(context).padding.top,
-            child: _buildSwiper(context),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+      child: CustomScrollView(
+        slivers: [
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: SliverCustomHeaderDelegate(
+              title: '拼团',
+              collapsedHeight: 50,
+              expandedHeight: MediaQuery.of(context).size.width,
+              paddingTop: MediaQuery.of(context).padding.top,
+              child: _buildSwiper(context),
+            ),
           ),
-        ),
-        singleSliverWidget(PinTopWidget(itemInfo: _itemInfo)),
-        singleSliverWidget(_titleWidget()),
-        singleSliverWidget(_ruleWidget()),
-        singleSliverWidget(_buildComment()),
-        singleSliverWidget(Container(height: 10)),
-        _recommonData(),
+          singleSliverWidget(PinTopWidget(itemInfo: _itemInfo)),
+          singleSliverWidget(_titleWidget()),
+          singleSliverWidget(Container(
+            height: 10,
+            color: backColor,
+          )),
+          singleSliverWidget(_ruleWidget()),
+          singleSliverWidget(Container(
+            height: 10,
+            color: backColor,
+          )),
+          singleSliverWidget(_buildComment()),
+          _recommonData(),
 
-        ///详情title
-        singleSliverWidget(_buildDetailTitle()),
-        singleSliverWidget(GoodMaterialWidget(attrList: _detailModel.attrList)),
+          ///详情title
+          singleSliverWidget(_buildDetailTitle()),
+          singleSliverWidget(
+              GoodMaterialWidget(attrList: _detailModel.attrList)),
 
-        ///商品详情
-        singleSliverWidget(_buildGoodDetail()),
-        singleSliverWidget(Container(height: 50)),
-      ],
+          ///商品详情
+          singleSliverWidget(_buildGoodDetail()),
+          singleSliverWidget(Container(height: 50)),
+        ],
+      ),
     );
   }
 

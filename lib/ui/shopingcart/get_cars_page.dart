@@ -78,7 +78,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
             _buildBody(),
             _buildTips(),
             Positioned(
-              bottom: 0,
+              bottom: MediaQuery.of(context).padding.bottom,
               left: 0,
               right: 0,
               child: _buildSubmitBtn(),
@@ -92,7 +92,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
   _buildBody() {
     return Container(
       color: backWhite,
-      padding: EdgeInsets.only(bottom: 45, top: 38),
+      padding: EdgeInsets.only(
+          bottom: 45 + MediaQuery.of(context).padding.bottom, top: 38),
       child: CustomScrollView(
         slivers: [
           singleSliverWidget(

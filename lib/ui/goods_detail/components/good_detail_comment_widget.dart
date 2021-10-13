@@ -41,7 +41,6 @@ class GoodDetailCommentWidget extends StatelessWidget {
       item = comments[0];
     }
     return Container(
-        margin: EdgeInsets.only(top: 10),
         color: Colors.white,
         child: Column(
           children: <Widget>[

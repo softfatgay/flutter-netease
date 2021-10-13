@@ -53,7 +53,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
               }, childCount: data.length),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.55,
+                  childAspectRatio: 0.53,
                   mainAxisSpacing: 0,
                   crossAxisSpacing: marginS),
             ),

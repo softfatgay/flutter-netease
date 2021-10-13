@@ -172,7 +172,9 @@ class _MakeUpPageState extends State<MakeUpPage> {
             top: 35,
             left: 0,
             right: 0,
-            bottom: _from == null ? 0 : 45,
+            bottom: _from == null
+                ? MediaQuery.of(context).padding.bottom
+                : 45 + MediaQuery.of(context).padding.bottom,
             child: _isLoading
                 ? Loading()
                 : CustomScrollView(
@@ -207,7 +209,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
           ),
           if (_from != null)
             Positioned(
-              bottom: 0,
+              bottom: MediaQuery.of(context).padding.bottom,
               left: 0,
               right: 0,
               child: BottomPoolWidget(

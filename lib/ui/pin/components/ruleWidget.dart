@@ -9,7 +9,6 @@ class RuleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
       color: backWhite,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Column(

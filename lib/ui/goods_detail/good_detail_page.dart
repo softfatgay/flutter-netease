@@ -465,12 +465,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backColor,
+      backgroundColor: backWhite,
       body: Stack(
         children: <Widget>[
           _buildContent(),
           Positioned(
-            bottom: 0,
+            bottom: MediaQuery.of(context).padding.bottom,
             left: 0,
             right: 0,
             child: _buildFoot(1),
@@ -492,79 +492,92 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_initLoading) {
       return Loading();
     } else {
-      return CustomScrollView(
-        controller: _scrollController,
-        slivers: <Widget>[
-          _sliverHeader(),
-          // banner底部活动
-          singleSliverWidget(DetailPromBannerWidget(
-            banner: _bannerModel,
-          )),
-          singleSliverWidget(_buildActivity()),
+      return Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: <Widget>[
+            _sliverHeader(),
+            // banner底部活动
+            singleSliverWidget(DetailPromBannerWidget(
+              banner: _bannerModel,
+            )),
+            singleSliverWidget(_buildActivity()),
 
-          ///banner下面图片
-          singleSliverWidget(_featuredSeriesWidget()),
+            ///banner下面图片
+            singleSliverWidget(_featuredSeriesWidget()),
 
-          ///商品价格，showPrice字段控制
-          singleSliverWidget(_promBanner()),
+            ///商品价格，showPrice字段控制
+            singleSliverWidget(_promBanner()),
 
-          ///pro会员
-          singleSliverWidget(ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
+            ///pro会员
+            singleSliverWidget(
+                ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
 
-          ///商品名称
-          singleSliverWidget(GoodTitleWidget(
-            name: _goodDetail.name,
-            goodCmtRate: _goodDetail.goodCmtRate,
-            goodId: _goodId,
-          )),
+            ///商品名称
+            singleSliverWidget(GoodTitleWidget(
+              name: _goodDetail.name,
+              goodCmtRate: _goodDetail.goodCmtRate,
+              goodId: _goodId,
+            )),
 
-          ///网易严选
-          singleSliverWidget(_buildYanxuanTitle()),
+            ///网易严选
+            singleSliverWidget(_buildYanxuanTitle()),
 
-          ///推荐理由
-          singleSliverWidget(_buildOnlyText('推荐理由')),
-          RecommendWidget(
-            recommendReason: _goodDetail.recommendReason,
-            simpleDesc: _goodDetail.simpleDesc,
-          ),
-          singleSliverWidget(Container(
-            height: 15,
-            color: Colors.white,
-          )),
+            ///推荐理由
+            singleSliverWidget(_buildOnlyText('推荐理由')),
+            RecommendWidget(
+              recommendReason: _goodDetail.recommendReason,
+              simpleDesc: _goodDetail.simpleDesc,
+            ),
+            singleSliverWidget(Container(
+              height: 15,
+              color: Colors.white,
+            )),
 
-          ///活动卡
-          singleSliverWidget(_buildWelfareCardVO()),
+            ///活动卡
+            singleSliverWidget(_buildWelfareCardVO()),
 
-          ///选择属性
-          singleSliverWidget(_buildSelectProperty()),
+            singleSliverWidget(Container(
+              color: backColor,
+              height: 10,
+            )),
 
-          ///addbanners
-          singleSliverWidget(_addBanners()),
+            ///选择属性
+            singleSliverWidget(_buildSelectProperty()),
 
-          ///用户评价
-          singleSliverWidget(_buildComment()),
+            ///addbanners
+            singleSliverWidget(_addBanners()),
+            singleSliverWidget(Container(
+              color: backColor,
+              height: 10,
+            )),
 
-          ///_brandInfo
-          singleSliverWidget(_brandInfoWidget()),
+            ///用户评价
+            singleSliverWidget(_buildComment()),
 
-          ///甄选家测评
-          // if (_tryOutEventReport != null) singleSliverWidget(_detailTab()),
+            ///_brandInfo
+            singleSliverWidget(_brandInfoWidget()),
 
-          ///商品详情
-          singleSliverWidget(_buildGoodDetail()),
+            ///甄选家测评
+            // if (_tryOutEventReport != null) singleSliverWidget(_detailTab()),
 
-          ///常见问题
-          singleSliverWidget(_goodDetailDownData == null
-              ? Container()
-              : _buildIssueTitle(' 常见问题 ', null)),
-          singleSliverWidget(_buildIssueList()),
+            ///商品详情
+            singleSliverWidget(_buildGoodDetail()),
 
-          ///推荐
-          singleSliverWidget(Container(key: _RCMKey)),
-          singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
-          GoodItemNormalWidget(dataList: _rmdList),
-          singleSliverWidget(Container(height: 45)),
-        ],
+            ///常见问题
+            singleSliverWidget(_goodDetailDownData == null
+                ? Container()
+                : _buildIssueTitle(' 常见问题 ', null)),
+            singleSliverWidget(_buildIssueList()),
+
+            ///推荐
+            singleSliverWidget(Container(key: _RCMKey)),
+            singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
+            GoodItemNormalWidget(dataList: _rmdList),
+            singleSliverWidget(Container(height: 45)),
+          ],
+        ),
       );
     }
   }
@@ -684,7 +697,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _buildSelectProperty() {
     ShoppingReward shoppingReward = _goodDetail.shoppingReward;
     return Container(
-      margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
@@ -876,7 +888,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                         color: lineColor,
                       )),
             SizedBox(width: 10),
-            Text('${item.fullAddress}'),
+            Expanded(
+                child: Text(
+              '${item.fullAddress}',
+              style: t13black,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            )),
           ],
         ),
       ),
