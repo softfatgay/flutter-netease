@@ -90,7 +90,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
                 final updateCookie = await globalCookie.globalCookieValue(url);
                 print('更新Cookie-------------->');
                 print(updateCookie.toString());
-                if (updateCookie.length > 0) {
+                if (updateCookie != null && updateCookie.length > 0) {
                   CookieConfig.cookie = updateCookie;
                   _checkLogin();
                 }
