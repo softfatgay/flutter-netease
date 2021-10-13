@@ -8,7 +8,7 @@
 
 #import "GloableCookie.h"
 #import "Aspects.h"
-#import <webview_flutter/FLTWKNavigationDelegate.h>
+#import <webview_flutter_wkwebview/FLTWKNavigationDelegate.h>
 
 NSString *COOKIESAVEKEY = @"FlutterUseCookie";
 
