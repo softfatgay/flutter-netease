@@ -9,7 +9,8 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
+
+// import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -23,13 +24,15 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   final _webController = Completer<WebViewController>();
-  final cookieManager = WebviewCookieManager();
+  // final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
   String _url = '';
   bool hide = true;
 
   var _isLoading = true;
+
+  Timer _timer;
 
   @override
   void initState() {
@@ -52,7 +55,15 @@ class _WebViewPageState extends State<WebViewPage> {
       var cookie = Cookie(key, CookieConfig.cookieMap[key]);
       cookies.add(cookie);
     }
-    await cookieManager.setCookies(cookies);
+    // await cookieManager.setCookies(cookies);
+
+    String cookie = '';
+    for (var item in cookies) {
+      cookie += 'document.cookie = ' + "'${item.name}=" + "${item.value}';";
+    }
+    _webController.future.then((value) {
+      value.evaluateJavascript(cookie).then((result) {});
+    });
 
     // await cookieManager.setCookies([
     //   Cookie("NTES_YD_SESS", CookieConfig.NTES_YD_SESS)
@@ -139,6 +150,7 @@ class _WebViewPageState extends State<WebViewPage> {
               });
             },
             onPageFinished: (url) async {
+              setcookie();
               hideTop();
               String aa =
                   await _webController.future.then((value) => value.getTitle());
@@ -197,61 +209,88 @@ class _WebViewPageState extends State<WebViewPage> {
   String hideBottom2() {
     var js =
         "document.querySelector('.lazy-component-wrapper').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   //隐藏头部
   String hideHeaderJs1() {
     var js = "document.querySelector('.m-topBar').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   //隐藏头部
   String hideHeaderJs2() {
     var js = "document.querySelector('.m-hd').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   //隐藏头部
   String hideHeaderJs3() {
     var js = "document.querySelector('.YX_M_507221').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   //隐藏头部
   String hideHeaderJs4() {
     var js = "document.querySelector('.psc-m-topbar').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   //隐藏头部
   String hideHeaderJs() {
     var js = "document.querySelector('.hdWraper').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   //隐藏打开appicon
   String hideOpenAppJs() {
     var js = "document.querySelector('.X_icon_5982').style.display = 'none';";
+    if (js == 'null') {
+      return '';
+    }
     return js;
   }
 
   void hideTop() {
-    Timer(Duration(milliseconds: 10), () {
+    _timer = Timer(Duration(milliseconds: 10), () {
       try {
         if (_webController != null) {
-          _webController.future.then((value) {
-            value.evaluateJavascript(hideHeaderJs()).then((result) {});
-            value.evaluateJavascript(hideHeaderJs1()).then((result) {});
-            value.evaluateJavascript(hideHeaderJs2()).then((result) {});
-            value.evaluateJavascript(hideHeaderJs3()).then((result) {});
-            value.evaluateJavascript(hideHeaderJs4()).then((result) {});
-            value.evaluateJavascript(hideOpenAppJs()).then((result) {});
-            value.evaluateJavascript(hideBottom1()).then((result) {});
-            value.evaluateJavascript(hideBottom2()).then((result) {});
+          _webController.future.then((value) async {
+            print('----------------------------');
+            print(hideHeaderJs3());
+            print(await value.evaluateJavascript(hideHeaderJs() ?? ''));
+
+            await value.evaluateJavascript(hideHeaderJs() ?? '');
+            await value.evaluateJavascript(hideHeaderJs1() ?? '');
+            await value.evaluateJavascript(hideHeaderJs2() ?? '');
+            await value.evaluateJavascript(hideHeaderJs3() ?? '');
+            await value.evaluateJavascript(hideHeaderJs4() ?? '');
+            await value.evaluateJavascript(hideOpenAppJs() ?? '');
+            await value.evaluateJavascript(hideBottom1() ?? '');
+            await value.evaluateJavascript(hideBottom2() ?? '');
           });
         }
-      } catch (e) {}
+      } catch (e) {
+        _timerCancel();
+      }
     });
   }
 
@@ -261,6 +300,13 @@ class _WebViewPageState extends State<WebViewPage> {
     // _webController.future.then((value) {
     //   value.clearCache();
     // });
+    _timerCancel();
     super.dispose();
+  }
+
+  _timerCancel() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
   }
 }

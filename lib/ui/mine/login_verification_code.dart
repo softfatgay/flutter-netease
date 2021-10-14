@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/utils/flutter_activity.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/component/tab_app_bar.dart';
 
 @Deprecated("no used")
 class LoginForCode extends StatefulWidget {
@@ -175,14 +174,7 @@ class _LoginState extends State<LoginForCode> {
                                           fontSize: 14,
                                           decoration: TextDecoration.none),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          Flutter2Activity.toActivity(
-                                              Flutter2Activity.webView,
-                                              arguments: {
-                                                'url':
-                                                    'https://www.qq.com/yszc.htm'
-                                              });
-                                        }),
+                                        ..onTap = () {}),
                                 ]),
                           )),
                         ],

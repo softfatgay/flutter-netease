@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
@@ -72,11 +72,8 @@ class _AboutPageState extends State<AboutPage> {
                           decoration: TextDecoration.underline),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Flutter2Activity.toActivity(Flutter2Activity.webView,
-                              arguments: {
-                                'url':
-                                    'https://github.com/softfatgay/FlutterWant'
-                              });
+                          _goWebview(
+                              'https://github.com/softfatgay/FlutterWant');
                         }),
                   TextSpan(text: '关于:          ', style: t16blackbold),
                   TextSpan(
@@ -87,10 +84,7 @@ class _AboutPageState extends State<AboutPage> {
                           decoration: TextDecoration.underline),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Flutter2Activity.toActivity(Flutter2Activity.webView,
-                              arguments: {
-                                'url': 'https://github.com/softfatgay'
-                              });
+                          _goWebview('https://github.com/softfatgay');
                         })
                 ],
               ),
@@ -167,8 +161,7 @@ class _AboutPageState extends State<AboutPage> {
         textAlign: TextAlign.left,
       ),
       onTap: () {
-        Flutter2Activity.toActivity(Flutter2Activity.webView,
-            arguments: {'url': '$url'});
+        _goWebview(url);
       },
     );
   }
@@ -210,5 +203,9 @@ class _AboutPageState extends State<AboutPage> {
         ],
       ),
     );
+  }
+
+  _goWebview(String url) {
+    Routers.push(Routers.webView, context, {'url': url});
   }
 }

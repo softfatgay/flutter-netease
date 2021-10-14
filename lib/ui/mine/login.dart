@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:flutter_app/ui/mine/login_verification_code.dart';
-import 'package:flutter_app/utils/flutter_activity.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/component/tab_app_bar.dart';
 
 @Deprecated("no used")
 class Login extends StatefulWidget {
@@ -137,12 +136,8 @@ class _LoginState extends State<Login> {
                                               decoration: TextDecoration.none),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              Flutter2Activity.toActivity(
-                                                  Flutter2Activity.webView,
-                                                  arguments: {
-                                                    'url':
-                                                        'https://www.qq.com/yszc.htm'
-                                                  });
+                                              _goWebview(
+                                                  'https://www.qq.com/yszc.htm');
                                             }),
                                     ]),
                               )),
@@ -199,6 +194,10 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  _goWebview(String url) {
+    Routers.push(Routers.webView, context, {'url': url});
   }
 
   void login(BuildContext context) {

@@ -15,7 +15,7 @@ dependencies:
 
   #  webview
   webview_flutter: ^2.0.10
-  webview_cookie_manager: ^2.0.1
+#  webview_cookie_manager: ^2.0.6
   #状态管理
   #  provider: ^3.2.0
   flutter_bloc: ^7.0.1
