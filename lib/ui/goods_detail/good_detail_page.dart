@@ -336,7 +336,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
   }
 
-  _wapitemDelivery(LocationItemModel item) async {
+  _wapitemDelivery(LocationItemModel? item) async {
     var params;
     if (item == null) {
       params = {
@@ -1910,7 +1910,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         height: 45,
         decoration: BoxDecoration(
             border: Border(left: BorderSide(color: lineColor, width: 1))),
-        child: FlatButton(
+        child: TextButton(
           onPressed: () {
             if (_skuMapItem == null) {
               if (type == 1) {
@@ -1927,7 +1927,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             '$text',
             style: purchaseAttribute == 0 ? t16blackbold : t16white,
           ),
-          color: purchaseAttribute == 0 ? Colors.white : redColor,
         ),
       ),
     );
@@ -1940,7 +1939,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             flex: 1,
             child: Container(
               height: 45,
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0))),
+                  backgroundColor: MaterialStateProperty.resolveWith((states) {
+                    return redColor;
+                  }),
+                ),
                 onPressed: () {
                   _selectSkuMapKey.forEach((element) {
                     if (element == '') {
@@ -1966,7 +1972,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                color: redColor,
               ),
             ),
           );

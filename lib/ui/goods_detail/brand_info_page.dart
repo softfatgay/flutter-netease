@@ -29,15 +29,15 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   // num _brandId;
   num? _goodId;
 
-  BrandInfo? _brandInfo;
+  late BrandInfo _brandInfo;
 
   late BrandIndexModel _brandIndexModel;
 
   List<ItemListItem> _itemList = [];
 
-  bool? _hasMore = true;
+  bool _hasMore = true;
   bool _isLoading = true;
-  String? _extInfo = '';
+  String _extInfo = '';
 
   double narbarHeight = 40;
 
@@ -63,7 +63,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       if (_scrollController.position.pixels > 500) {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
-          if (_hasMore!) {
+          if (_hasMore) {
             _getBrandIndex();
           }
         }
@@ -89,28 +89,28 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   void _getBrandInfo() async {
     Map<String, dynamic> params = {
       'itemId': _goodId,
-      'brandId': _brandInfo!.brandId,
-      'type': _brandInfo!.type,
-      'merchantId': _brandInfo!.merchantId ?? 'undefined'
+      'brandId': _brandInfo.brandId,
+      'type': _brandInfo.type,
+      'merchantId': _brandInfo.merchantId ?? 'undefined'
     };
     var responseData = await brandInfo(params);
 
-    var brandInfodata = BrandInfo.fromJson(responseData.data);
+    var brandInfoData = BrandInfo.fromJson(responseData.data);
     setState(() {
-      _brandInfo!.subTitle = brandInfodata.subTitle;
-      _brandInfo!.desc = brandInfodata.desc;
+      _brandInfo.subTitle = brandInfoData.subTitle;
+      _brandInfo.desc = brandInfoData.desc;
     });
   }
 
   void _getBrandIndex() async {
     Map<String, dynamic> params = {
-      'brandId': _brandInfo!.brandId,
+      'brandId': _brandInfo.brandId,
       'descSorted': _searchModel.descSorted ?? true,
       'extInfo': _extInfo,
       'itemId': _goodId,
-      'merchantId': _brandInfo!.merchantId ?? 'undefined',
+      'merchantId': _brandInfo.merchantId ?? 'undefined',
       'sortType': _searchModel.sortType,
-      'type': _brandInfo!.type,
+      'type': _brandInfo.type,
     };
     var responseData = await brandIndex(params);
     if (responseData.code == '200') {
@@ -122,8 +122,8 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
           _itemList.clear();
         }
         _itemList.addAll(itemList);
-        _hasMore = _brandIndexModel.hasMore;
-        _extInfo = _brandIndexModel.extInfo;
+        _hasMore = _brandIndexModel.hasMore ?? false;
+        _extInfo = _brandIndexModel.extInfo ?? '';
       });
     }
   }
@@ -132,7 +132,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backWhite,
-      appBar: TopAppBar(title: '${_brandInfo!.title ?? ''}').build(context),
+      appBar: TopAppBar(title: '${_brandInfo.title ?? ''}').build(context),
       body: _body(),
       floatingActionButton:
           _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
@@ -193,7 +193,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
         children: [
           Row(
             children: [
-              CachedNetworkImage(height: 35, imageUrl: '${_brandInfo!.picUrl}'),
+              CachedNetworkImage(height: 35, imageUrl: '${_brandInfo.picUrl}'),
               SizedBox(
                 width: 12,
               ),
@@ -203,14 +203,14 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${_brandInfo!.title ?? ''}',
+                      '${_brandInfo.title ?? ''}',
                       style: t16blackbold,
                     ),
                     SizedBox(
                       height: 6,
                     ),
                     Text(
-                      '${_brandInfo!.subTitle ?? ''}',
+                      '${_brandInfo.subTitle ?? ''}',
                       style: t12black,
                     ),
                   ],
@@ -222,7 +222,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
             height: 20,
           ),
           Text(
-            '${_brandInfo!.desc}',
+            '${_brandInfo.desc}',
             style: t12black,
           ),
         ],

@@ -56,13 +56,11 @@ class _CommentListState extends State<CommentList> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (_pagination != null) {
-          if (_pagination!.totalPage! > _pagination!.page!) {
-            setState(() {
-              _page++;
-            });
-            _getCommentList();
-          }
+        if (_pagination!.totalPage! > _pagination!.page!) {
+          setState(() {
+            _page++;
+          });
+          _getCommentList();
         }
       }
     });
@@ -114,7 +112,7 @@ class _CommentListState extends State<CommentList> {
     });
     setState(() {
       _commentTags = list;
-      if (_commentTags != null && _commentTags.length > 6) {
+      if (_commentTags.length > 6) {
         _showTagsNum = 6;
       } else {
         _showTagsNum = _commentTags.length;
@@ -235,7 +233,7 @@ class _CommentListState extends State<CommentList> {
   }
 
   _buildCommentTags() {
-    if (_commentTags == null || _commentTags.isEmpty) {
+    if (_commentTags.isEmpty) {
       return Loading();
     } else {
       List items = [];
