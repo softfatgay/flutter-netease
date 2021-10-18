@@ -66,7 +66,6 @@ import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const _toolbarHeight = 70.0;
 
@@ -110,7 +109,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   VideoInfo? _videoInfo;
 
   ///商品详情
-  GoodDetail? _goodDetail;
+  late GoodDetail _goodDetail;
 
   ///下半部分数据
   GoodDetailDownData? _goodDetailDownData;
@@ -195,7 +194,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   final topTabs = ['商品', '评价', '详情', '推荐'];
 
   ///默认配送地址
-  var _dftAddress = LocationItemModel();
+  LocationItemModel? _dftAddress;
 
   ///价格
   PriceModel? _priceModel = PriceModel();
@@ -367,7 +366,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         'townName': item.townName,
         'address': item.address,
         'skuId':
-            _skuMapItem == null ? _goodDetail!.primarySkuId : _skuMapItem!.id,
+            _skuMapItem == null ? _goodDetail.primarySkuId : _skuMapItem!.id,
       };
     }
 
@@ -404,29 +403,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _goodDetailPre = GoodDetailPre.fromJson(oData);
       // _goodDetailPre = GoodDetailPre.fromJson(dataMap);
 
-      _goodDetail = _goodDetailPre.item;
-      _detailPromBanner = _goodDetail!.detailPromBanner;
-      _bannerModel = _goodDetail!.banner;
-      _welfareCardVO = _goodDetail!.welfareCardVO;
-      _priceModel = _goodDetail!.price;
-      _skuLimit = _goodDetail!.itemLimit;
-      _skuSpecList = _goodDetail!.skuSpecList;
+      _goodDetail = _goodDetailPre.item!;
+      _detailPromBanner = _goodDetail.detailPromBanner;
+      _bannerModel = _goodDetail.banner;
+      _welfareCardVO = _goodDetail.welfareCardVO;
+      _priceModel = _goodDetail.price;
+      _skuLimit = _goodDetail.itemLimit;
+      _skuSpecList = _goodDetail.skuSpecList;
 
       _selectSkuMapKey = List.filled(_skuSpecList!.length, '');
       _selectSkuMapDec = List.filled(_skuSpecList!.length, '');
-      _skuMap = _goodDetail!.skuMap;
-      _promoTip = _goodDetail!.promoTip;
-      _featuredSeries = _goodDetail!.featuredSeries;
-      _couponShortNameList = _goodDetail!.couponShortNameList;
-      _hdrkDetailVOList = _goodDetail!.hdrkDetailVOList;
+      _skuMap = _goodDetail.skuMap;
+      _promoTip = _goodDetail.promoTip;
+      _featuredSeries = _goodDetail.featuredSeries;
+      _couponShortNameList = _goodDetail.couponShortNameList;
+      _hdrkDetailVOList = _goodDetail.hdrkDetailVOList;
 
-      _skuFreight = _goodDetail!.skuFreight;
+      _skuFreight = _goodDetail.skuFreight;
 
-      _brandInfo = _goodDetail!.brandInfo;
+      _brandInfo = _goodDetail.brandInfo;
 
-      _fullRefundPolicy = _goodDetail!.fullRefundPolicy;
+      _fullRefundPolicy = _goodDetail.fullRefundPolicy;
 
-      var itemDetail = _goodDetail!.itemDetail!;
+      var itemDetail = _goodDetail.itemDetail!;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
       bannerList.forEach((image) {
@@ -514,12 +513,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
             ///pro会员
             singleSliverWidget(
-                ProVipWidget(spmcBanner: _goodDetail!.spmcBanner)),
+                ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
 
             ///商品名称
             singleSliverWidget(GoodTitleWidget(
-              name: _goodDetail!.name,
-              goodCmtRate: _goodDetail!.goodCmtRate,
+              name: _goodDetail.name,
+              goodCmtRate: _goodDetail.goodCmtRate,
               goodId: _goodId,
             )),
 
@@ -529,8 +528,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             ///推荐理由
             singleSliverWidget(_buildOnlyText('推荐理由')),
             RecommendWidget(
-              recommendReason: _goodDetail!.recommendReason,
-              simpleDesc: _goodDetail!.simpleDesc,
+              recommendReason: _goodDetail.recommendReason,
+              simpleDesc: _goodDetail.simpleDesc,
             ),
             singleSliverWidget(Container(
               height: 15,
@@ -627,7 +626,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _promBanner() {
-    if (_goodDetail!.showPrice!) {
+    if (_goodDetail.showPrice!) {
       return GoodPriceWidget(
         detailPromBanner: _detailPromBanner,
         priceModel: _priceModel,
@@ -697,7 +696,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _buildSelectProperty() {
-    ShoppingReward? shoppingReward = _goodDetail!.shoppingReward;
+    ShoppingReward? shoppingReward = _goodDetail.shoppingReward;
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
@@ -742,7 +741,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ShoppingRewardWidget(
             shoppingReward: shoppingReward,
             showDialog: () {
-              var shoppingRewardRule = _goodDetail!.shoppingRewardRule!;
+              var shoppingRewardRule = _goodDetail.shoppingRewardRule!;
               _buildSkuFreightDialog(context, shoppingRewardRule.title,
                   shoppingRewardRule.ruleList!);
             },
@@ -881,7 +880,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                     Icons.circle_outlined,
                     color: backGrey,
                   )
-                : (_dftAddress.id == item.id
+                : (_dftAddress!.id == item.id
                     ? Icon(
                         Icons.check_circle_rounded,
                         color: textRed,
@@ -920,7 +919,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _addBanners() {
-    var adBanners = _goodDetail!.adBanners;
+    var adBanners = _goodDetail.adBanners;
     return adBanners == null || adBanners.isEmpty
         ? Container()
         : Container(
@@ -959,8 +958,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildComment() {
     var commentCount = _goodDetailPre.commentCount;
-    List<ResultItem>? comments = _goodDetail!.comments;
-    var goodCmtRate = _goodDetail!.goodCmtRate;
+    List<ResultItem>? comments = _goodDetail.comments;
+    var goodCmtRate = _goodDetail.goodCmtRate;
     return GoodDetailCommentWidget(
         key: _commentKey,
         commentCount: commentCount,
@@ -1114,7 +1113,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _buildYanxuanTitle() {
-    var simpleBrandInfo = _goodDetail!.simpleBrandInfo;
+    var simpleBrandInfo = _goodDetail.simpleBrandInfo;
     return simpleBrandInfo == null
         ? Container()
         : Container(
@@ -1144,17 +1143,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                   style: TextStyle(
                       color: Color(0xFF7F7F7F), fontSize: 14, height: 1.1),
                 ),
-                if (_goodDetail!.countryInfo != null)
+                if (_goodDetail.countryInfo != null)
                   Container(
                     height: 14,
                     width: 1,
                     color: Color(0xFF7F7F7F),
                     margin: EdgeInsets.symmetric(horizontal: 6),
                   ),
-                if (_goodDetail!.countryInfo != null)
+                if (_goodDetail.countryInfo != null)
                   Container(
                     child: Text(
-                      '${_goodDetail!.countryInfo}',
+                      '${_goodDetail.countryInfo}',
                       style: TextStyle(
                           color: Color(0xFF7F7F7F), fontSize: 14, height: 1.1),
                     ),
@@ -1518,7 +1517,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _selectGoodDetail(BuildContext context) {
     String img = (_skuMapItem == null || _skuMapItem!.pic == null)
-        ? _goodDetail!.primaryPicUrl!
+        ? _goodDetail.primaryPicUrl!
         : _skuMapItem!.pic!;
     return Container(
       child: Row(
@@ -1621,7 +1620,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _getCoupon() async {
     Map<String, dynamic> params = {
       'itemId': _goodId,
-      'skuId': _goodDetail!.primarySkuId,
+      'skuId': _goodDetail.primarySkuId,
     };
     var responseData = await queryByItemAndUser(params);
     if (responseData.code == '200') {
