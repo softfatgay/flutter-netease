@@ -9,7 +9,6 @@ import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/main/index.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'channel/globalCookie.dart';
 import 'config/cookieConfig.dart';
@@ -39,44 +38,41 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(statusBarDark);
-    return ScreenUtilInit(
-      designSize: Size(360, 690),
-      builder: () => MaterialApp(
-        builder: BotToastInit(),
-        // flutter build appbundle --target-platform android-arm
-        theme: ThemeData(
-          platform: TargetPlatform.iOS,
-          backgroundColor: backColor,
-          primarySwatch: Colors.red,
-        ),
-        title: '仿网易严选-Flutter',
-        onGenerateRoute: (RouteSettings settings) {
-          return Routers.run(settings);
-        },
-        // showPerformanceOverlay: true, // 开启
-        //国际化-----------------------------------------------
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        //国际化-----------------------------------------------
-
-        routes: {
-          Routers.mainPage: (context) => MainPage(),
-          Routers.homePage: (context) => HomePage(),
-        },
-        initialRoute: Routers.mainPage,
-        // onGenerateInitialRoutes: (name) {
-        //   return [
-        //     MaterialPageRoute(builder: (context) {
-        //       return MainPage();
-        //     })
-        //   ];
-        // },
-        // home: MainPage(),
+    return MaterialApp(
+      builder: BotToastInit(),
+      // flutter build appbundle --target-platform android-arm
+      theme: ThemeData(
+        platform: TargetPlatform.iOS,
+        backgroundColor: backColor,
+        primarySwatch: Colors.red,
       ),
+      title: '仿网易严选-Flutter',
+      onGenerateRoute: (RouteSettings settings) {
+        return Routers.run(settings);
+      },
+      // showPerformanceOverlay: true, // 开启
+      //国际化-----------------------------------------------
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      //国际化-----------------------------------------------
+
+      routes: {
+        Routers.mainPage: (context) => MainPage(),
+        Routers.homePage: (context) => HomePage(),
+      },
+      initialRoute: Routers.mainPage,
+      // onGenerateInitialRoutes: (name) {
+      //   return [
+      //     MaterialPageRoute(builder: (context) {
+      //       return MainPage();
+      //     })
+      //   ];
+      // },
+      // home: MainPage(),
     );
   }
 }

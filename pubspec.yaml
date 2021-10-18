@@ -15,9 +15,9 @@ dependencies:
 
   #  webview
   webview_flutter: ^2.0.10
-#  webview_cookie_manager: ^2.0.6
+  # 弃用（无法支持null-safety）
+  # webview_cookie_manager: ^2.0.6
   #状态管理
-  #  provider: ^3.2.0
   flutter_bloc: ^7.0.1
 
   #工具类
@@ -25,9 +25,6 @@ dependencies:
 
   #  图片
   cached_network_image: ^3.0.0
-
-  #标签加载,类似html
-  flutter_html: ^2.0.0
 
   #语言包
   flutter_localizations:
@@ -41,12 +38,8 @@ dependencies:
   #shared_preferences插件
   shared_preferences: ^2.0.6
 
-  english_words: ^4.0.0
-
   #  瀑布流
   flutter_staggered_grid_view: ^0.4.0
-
-  flutter_screenutil: ^5.0.0+2
 
   #二维码
   qr_flutter: ^4.0.0

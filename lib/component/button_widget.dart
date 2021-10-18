@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ///普通按钮
 Widget NormalBtn(String text, Color color, Function onPressed,

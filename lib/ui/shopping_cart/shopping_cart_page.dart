@@ -23,7 +23,6 @@ import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/service_tag_widget.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/ui/component/webview_login_page.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'model/postageVO.dart';
 

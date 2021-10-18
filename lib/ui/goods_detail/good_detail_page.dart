@@ -64,7 +64,6 @@ import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_html/shims/dart_ui_real.dart';
 
 const _toolbarHeight = 70.0;
 

@@ -17,7 +17,6 @@ import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class TopicPage extends StatefulWidget {
@@ -291,8 +290,8 @@ class _TopicPageState extends State<TopicPage>
                             children: [
                               Expanded(
                                 child: Container(
-                                  height: ScreenUtil().setHeight(50),
-                                  width: ScreenUtil().setHeight(50),
+                                  height: 50,
+                                  width: 50,
                                   child: CachedNetworkImage(
                                     imageUrl: '${item.picUrl}',
                                   ),
