@@ -7,10 +7,10 @@ import 'package:flutter_app/component/global.dart';
 typedef void ShowDialog();
 
 class ServiceWidget extends StatelessWidget {
-  final List<PolicyListItem> policyList;
-  final ShowDialog showDialog;
+  final List<PolicyListItem>? policyList;
+  final ShowDialog? showDialog;
 
-  const ServiceWidget({Key key, this.policyList, this.showDialog})
+  const ServiceWidget({Key? key, this.policyList, this.showDialog})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class ServiceWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    return policyList == null || policyList.isEmpty
+    return policyList == null || policyList!.isEmpty
         ? Container()
         : GestureDetector(
             child: Container(
@@ -70,13 +70,13 @@ class ServiceWidget extends StatelessWidget {
             ),
             onTap: () {
               if (showDialog != null) {
-                showDialog();
+                showDialog!();
               }
             },
           );
   }
 
-  List<Widget> _buildSerVice() => List.generate(policyList.length, (index) {
+  List<Widget> _buildSerVice() => List.generate(policyList!.length, (index) {
         return Container(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 5),
           child: Row(
@@ -90,7 +90,7 @@ class ServiceWidget extends StatelessWidget {
               ),
               SizedBox(width: 2),
               Text(
-                '${policyList[index].title}',
+                '${policyList![index].title}',
                 style: t14grey,
               )
             ],

@@ -6,28 +6,24 @@ part of 'category.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Category _$CategoryFromJson(Map<String, dynamic> json) {
-  return Category()
-    ..id = json['id'] as num
-    ..superCategoryId = json['superCategoryId'] as num
-    ..showIndex = json['showIndex'] as num
-    ..picUrl = json['picUrl'] as String
-    ..categoryName = json['categoryName'] as String
-    ..targetUrl = json['targetUrl'] as String
-    ..showPicUrl = json['showPicUrl'] as String
-    ..wapBannerUrl = json['wapBannerUrl'] as String
-    ..name = json['name'] as String
-    ..frontName = json['frontName'] as String
-    ..itemPicBeanList = (json['itemPicBeanList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ItemPicBeanList.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..bannerList = (json['bannerList'] as List)
-        ?.map((e) =>
-            e == null ? null : BannerItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+Category _$CategoryFromJson(Map<String, dynamic> json) => Category()
+  ..id = json['id'] as num?
+  ..superCategoryId = json['superCategoryId'] as num?
+  ..showIndex = json['showIndex'] as num?
+  ..picUrl = json['picUrl'] as String?
+  ..categoryName = json['categoryName'] as String?
+  ..targetUrl = json['targetUrl'] as String?
+  ..showPicUrl = json['showPicUrl'] as String?
+  ..wapBannerUrl = json['wapBannerUrl'] as String?
+  ..name = json['name'] as String?
+  ..frontName = json['frontName'] as String?
+  ..itemPicBeanList = (json['itemPicBeanList'] as List<dynamic>?)
+      ?.map((e) => ItemPicBeanList.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..bannerList = (json['bannerList'] as List<dynamic>?)
+      ?.map((e) => BannerItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..test = json['test'] as String?;
 
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'id': instance.id,
@@ -42,4 +38,5 @@ Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'frontName': instance.frontName,
       'itemPicBeanList': instance.itemPicBeanList,
       'bannerList': instance.bannerList,
+      'test': instance.test,
     };

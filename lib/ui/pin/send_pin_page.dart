@@ -13,19 +13,19 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
 
 class SendPinPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const SendPinPage({Key key, this.params}) : super(key: key);
+  const SendPinPage({Key? key, this.params}) : super(key: key);
 
   @override
   _SendPinPageState createState() => _SendPinPageState();
 }
 
 class _SendPinPageState extends State<SendPinPage> {
-  SkuListItem _skuListItem;
+  SkuListItem? _skuListItem;
 
-  PinItemDetailModel _detailModel;
-  ItemInfo _itemInfo;
+  late PinItemDetailModel _detailModel;
+  ItemInfo? _itemInfo;
 
   bool _loading = true;
 
@@ -35,7 +35,7 @@ class _SendPinPageState extends State<SendPinPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _skuListItem = widget.params['skuItem'];
+      _skuListItem = widget.params!['skuItem'];
     });
     super.initState();
     _sendInfo();
@@ -43,8 +43,8 @@ class _SendPinPageState extends State<SendPinPage> {
 
   void _sendInfo() async {
     Map<String, dynamic> params = {
-      'pinItemId': _skuListItem.baseId,
-      'skuId': _skuListItem.skuId,
+      'pinItemId': _skuListItem!.baseId,
+      'skuId': _skuListItem!.skuId,
       'huoDongId': 0,
     };
     var responseData = await pinOrder(params);
@@ -97,14 +97,14 @@ class _SendPinPageState extends State<SendPinPage> {
                               top: BorderSide(color: lineColor, width: 1))),
                       child: Row(
                         children: [
-                          Expanded(child: Text('实付：¥${_itemInfo.totalPrice}',style: t14red,)),
+                          Expanded(child: Text('实付：¥${_itemInfo!.totalPrice}',style: t14red,)),
                           GestureDetector(child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 40),
                             decoration: BoxDecoration(color: backRed,borderRadius: BorderRadius.circular(25)),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('${_itemInfo.totalPrice}',style: t14whiteBold,),
+                                Text('${_itemInfo!.totalPrice}',style: t14whiteBold,),
                                 Text('发起拼团',style: t12white,),
                               ],
                             ),),onTap: (){
@@ -121,9 +121,9 @@ class _SendPinPageState extends State<SendPinPage> {
 
   _address() {
     var addressItem = LocationItemModel();
-    var address = _detailModel.shipAddressList;
+    var address = _detailModel.shipAddressList!;
     for (var item in address) {
-      if (item.dft) {
+      if (item.dft!) {
         addressItem = item;
       }
     }
@@ -184,7 +184,7 @@ class _SendPinPageState extends State<SendPinPage> {
             '商品合计',
             style: t14black,
           )),
-          Text('¥${_itemInfo.totalPrice}'),
+          Text('¥${_itemInfo!.totalPrice}'),
         ],
       ),
     );
@@ -197,7 +197,7 @@ class _SendPinPageState extends State<SendPinPage> {
       color: backWhite,
       child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: _detailModel.pinOrderCartItemList
+          children: _detailModel.pinOrderCartItemList!
               .map((item) => Container(
                     child: Row(
                       children: [
@@ -244,7 +244,7 @@ class _SendPinPageState extends State<SendPinPage> {
                               if (item.specValueList != null)
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: item.specValueList
+                                  children: item.specValueList!
                                       .map((e) => Container(
                                             child: Text('$e'),
                                           ))
@@ -309,16 +309,16 @@ class _SendPinPageState extends State<SendPinPage> {
   void _pinSubmit() async{
 
     var addressItem = LocationItemModel();
-    var address = _detailModel.shipAddressList;
+    var address = _detailModel.shipAddressList!;
     for (var item in address) {
-      if (item.dft) {
+      if (item.dft!) {
         addressItem = item;
       }
     }
 
     Map<String, dynamic> params = {
-      'pinItemId':_itemInfo.id,
-      'skuId':_detailModel.skuInfo.id,
+      'pinItemId':_itemInfo!.id,
+      'skuId':_detailModel.skuInfo!.id,
       'huoDongId':_detailModel.huoDongId,
       'shipAddressId':addressItem.id
     };

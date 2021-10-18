@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -65,11 +66,12 @@ import 'package:flutter_app/utils/renderBoxUtil.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const _toolbarHeight = 70.0;
 
 class GoodsDetailPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
   @override
   _GoodsDetailPageState createState() => _GoodsDetailPageState();
@@ -102,47 +104,47 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///--------------------------------------------------------------------------------------
   bool _initLoading = true;
-  GoodDetailPre _goodDetailPre;
+  late GoodDetailPre _goodDetailPre;
 
   ///视频
-  VideoInfo _videoInfo;
+  VideoInfo? _videoInfo;
 
   ///商品详情
-  GoodDetail _goodDetail;
+  GoodDetail? _goodDetail;
 
   ///下半部分数据
-  GoodDetailDownData _goodDetailDownData;
+  GoodDetailDownData? _goodDetailDownData;
 
   ///详情图片
   List<String> _detailImages = [];
 
   ///商品属性规格等
-  List<SkuSpecListItem> _skuSpecList;
+  List<SkuSpecListItem>? _skuSpecList;
 
   ///规格集合
-  Map<String, SkuMapValue> _skuMap;
+  Map<String, SkuMapValue>? _skuMap;
 
   ///选择的规格
-  SkuMapValue _skuMapItem;
+  SkuMapValue? _skuMapItem;
 
   ///商品活动介绍
-  String _promoTip = '';
+  String? _promoTip = '';
 
   ///banner下面图片
-  FeaturedSeries _featuredSeries;
-  WelfareCardVO _welfareCardVO;
+  FeaturedSeries? _featuredSeries;
+  WelfareCardVO? _welfareCardVO;
 
   ///推荐理由下面//促销
-  List<HdrkDetailVOListItem> _hdrkDetailVOList;
+  List<HdrkDetailVOListItem>? _hdrkDetailVOList;
 
   ///邮费
-  SkuFreight _skuFreight;
+  SkuFreight? _skuFreight;
 
   ///规则
-  FullRefundPolicy _fullRefundPolicy;
+  FullRefundPolicy? _fullRefundPolicy;
 
   ///券活动/标签等
-  List<String> _couponShortNameList = [];
+  List<String>? _couponShortNameList = [];
 
   List<CouponModel> _couponList = [];
 
@@ -150,15 +152,15 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   int _goodCount = 1;
 
   ///banner下面活动
-  DetailPromBanner _detailPromBanner;
+  DetailPromBanner? _detailPromBanner;
 
   ///商品限制规则
-  String _skuLimit;
+  String? _skuLimit;
 
   ///配送信息
-  WapitemDeliveryModel _wapitemDeliveryModel;
+  WapitemDeliveryModel? _wapitemDeliveryModel;
 
-  BrandInfo _brandInfo;
+  BrandInfo? _brandInfo;
 
   ///底部推荐列表
   List<ItemListItem> _rmdList = [];
@@ -166,7 +168,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///banner
   List<String> _banner = [];
 
-  num _goodId;
+  num? _goodId;
 
   ///skuMap key键值
   var _selectSkuMapKey = [];
@@ -176,7 +178,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///skuMap 描述信息
   var _selectSkuMapDec = [];
   var _selectStrDec = '';
-  TabController _tabController;
+  late TabController _tabController;
   int _tabIndex = 0;
 
   final _scrollState = ValueNotifier<ScrollState>(ScrollState.shoppingCart);
@@ -196,19 +198,19 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   var _dftAddress = LocationItemModel();
 
   ///价格
-  var _priceModel = PriceModel();
+  PriceModel? _priceModel = PriceModel();
 
   ///头部展示使用
-  var _bannerModel = BannerModel();
+  BannerModel? _bannerModel = BannerModel();
 
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
-      _goodId = num.parse(widget.params['id'].toString());
+      _goodId = num.parse(widget.params!['id'].toString());
     });
     super.initState();
-    print(widget.params['id']);
+    print(widget.params!['id']);
     _getDetail();
     _getDetailPageUp();
     _getRMD();
@@ -264,7 +266,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _getDftAddress() async {
     var sp = await LocalStorage.sp;
-    var dftAddress = sp.getString(LocalStorage.dftAddress);
+    var dftAddress = sp?.getString(LocalStorage.dftAddress);
     if (dftAddress == null || dftAddress.isEmpty) {
       _checkLogin(1);
     } else {
@@ -284,12 +286,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
     ///商品详情数据
     var goodDetailDownData = GoodDetailDownData.fromJson(data);
-    var html = goodDetailDownData.html;
+    var html = goodDetailDownData.html!;
     RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
     List<String> imageUrls = [];
     Iterable<Match> mobiles = exp.allMatches(html);
     for (Match m in mobiles) {
-      String match = m.group(0);
+      String? match = m.group(0);
       String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
       if (!imageUrls.contains(imageUrl)) {
         print(imageUrl);
@@ -350,7 +352,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         'districtName': '朝阳区',
         'townName': '三里屯街道',
         'address': '三里屯',
-        'skuId': _skuMapItem.id,
+        'skuId': _skuMapItem!.id,
       };
     } else {
       params = {
@@ -365,7 +367,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         'townName': item.townName,
         'address': item.address,
         'skuId':
-            _skuMapItem == null ? _goodDetail.primarySkuId : _skuMapItem.id,
+            _skuMapItem == null ? _goodDetail!.primarySkuId : _skuMapItem!.id,
       };
     }
 
@@ -403,28 +405,28 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       // _goodDetailPre = GoodDetailPre.fromJson(dataMap);
 
       _goodDetail = _goodDetailPre.item;
-      _detailPromBanner = _goodDetail.detailPromBanner;
-      _bannerModel = _goodDetail.banner;
-      _welfareCardVO = _goodDetail.welfareCardVO;
-      _priceModel = _goodDetail.price;
-      _skuLimit = _goodDetail.itemLimit;
-      _skuSpecList = _goodDetail.skuSpecList;
+      _detailPromBanner = _goodDetail!.detailPromBanner;
+      _bannerModel = _goodDetail!.banner;
+      _welfareCardVO = _goodDetail!.welfareCardVO;
+      _priceModel = _goodDetail!.price;
+      _skuLimit = _goodDetail!.itemLimit;
+      _skuSpecList = _goodDetail!.skuSpecList;
 
-      _selectSkuMapKey = List.filled(_skuSpecList.length, '');
-      _selectSkuMapDec = List.filled(_skuSpecList.length, '');
-      _skuMap = _goodDetail.skuMap;
-      _promoTip = _goodDetail.promoTip;
-      _featuredSeries = _goodDetail.featuredSeries;
-      _couponShortNameList = _goodDetail.couponShortNameList;
-      _hdrkDetailVOList = _goodDetail.hdrkDetailVOList;
+      _selectSkuMapKey = List.filled(_skuSpecList!.length, '');
+      _selectSkuMapDec = List.filled(_skuSpecList!.length, '');
+      _skuMap = _goodDetail!.skuMap;
+      _promoTip = _goodDetail!.promoTip;
+      _featuredSeries = _goodDetail!.featuredSeries;
+      _couponShortNameList = _goodDetail!.couponShortNameList;
+      _hdrkDetailVOList = _goodDetail!.hdrkDetailVOList;
 
-      _skuFreight = _goodDetail.skuFreight;
+      _skuFreight = _goodDetail!.skuFreight;
 
-      _brandInfo = _goodDetail.brandInfo;
+      _brandInfo = _goodDetail!.brandInfo;
 
-      _fullRefundPolicy = _goodDetail.fullRefundPolicy;
+      _fullRefundPolicy = _goodDetail!.fullRefundPolicy;
 
-      var itemDetail = _goodDetail.itemDetail;
+      var itemDetail = _goodDetail!.itemDetail!;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
       List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
       bannerList.forEach((image) {
@@ -433,7 +435,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         }
       });
       _initLoading = false;
-      if (_couponShortNameList != null && _couponShortNameList.isNotEmpty) {
+      if (_couponShortNameList != null && _couponShortNameList!.isNotEmpty) {
         _getCoupon();
       }
     });
@@ -479,7 +481,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       ),
       floatingActionButton: ValueListenableBuilder(
           valueListenable: _scrollState,
-          builder: (BuildContext context, ScrollState value, Widget child) {
+          builder: (BuildContext context, ScrollState value, Widget? child) {
             return _scrollState.value == ScrollState.toTop
                 ? floatingAB(_scrollController)
                 : floatingABCart(context);
@@ -512,12 +514,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
             ///pro会员
             singleSliverWidget(
-                ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
+                ProVipWidget(spmcBanner: _goodDetail!.spmcBanner)),
 
             ///商品名称
             singleSliverWidget(GoodTitleWidget(
-              name: _goodDetail.name,
-              goodCmtRate: _goodDetail.goodCmtRate,
+              name: _goodDetail!.name,
+              goodCmtRate: _goodDetail!.goodCmtRate,
               goodId: _goodId,
             )),
 
@@ -527,8 +529,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             ///推荐理由
             singleSliverWidget(_buildOnlyText('推荐理由')),
             RecommendWidget(
-              recommendReason: _goodDetail.recommendReason,
-              simpleDesc: _goodDetail.simpleDesc,
+              recommendReason: _goodDetail!.recommendReason,
+              simpleDesc: _goodDetail!.simpleDesc,
             ),
             singleSliverWidget(Container(
               height: 15,
@@ -585,7 +587,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ValueListenableBuilder<int> _sliverHeader() {
     return ValueListenableBuilder(
         valueListenable: _tabState,
-        builder: (BuildContext context, int value, Widget child) {
+        builder: (BuildContext context, int value, Widget? child) {
           return SliverPersistentHeader(
             pinned: true,
             delegate: SliverCustomHeaderDelegate(
@@ -612,7 +614,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         });
   }
 
-  _scrollT0(GlobalKey key, double dy) {
+  _scrollT0(GlobalKey? key, double dy) {
     // if (key == null) {
     //   _scrollController.animateTo(dy,
     //       duration: Duration(milliseconds: 1000), curve: Curves.ease);
@@ -625,7 +627,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _promBanner() {
-    if (_goodDetail.showPrice) {
+    if (_goodDetail!.showPrice!) {
       return GoodPriceWidget(
         detailPromBanner: _detailPromBanner,
         priceModel: _priceModel,
@@ -639,7 +641,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildSwiper(BuildContext context, List imgList) {
     return GoodDetailBanner(
-      imgList: imgList,
+      imgList: imgList as List<String>?,
       videoInfo: _videoInfo,
       height: MediaQuery.of(context).size.width,
     );
@@ -653,11 +655,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
             child: GestureDetector(
               child: CachedNetworkImage(
-                imageUrl: _welfareCardVO.picUrl,
+                imageUrl: _welfareCardVO!.picUrl!,
               ),
               onTap: () {
                 Routers.push(Routers.webView, context,
-                    {'url': _welfareCardVO.schemeUrl});
+                    {'url': _welfareCardVO!.schemeUrl});
               },
             ),
           );
@@ -683,19 +685,19 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         : Container(
             child: GestureDetector(
             child: CachedNetworkImage(
-              imageUrl: _featuredSeries.detailPicUrl,
+              imageUrl: _featuredSeries!.detailPicUrl!,
             ),
             onTap: () {
               Routers.push(Routers.webView, context, {
                 'url':
-                    '${NetContants.baseUrl}featuredSeries/detail?id=${_featuredSeries.id}'
+                    '${NetContants.baseUrl}featuredSeries/detail?id=${_featuredSeries!.id}'
               });
             },
           ));
   }
 
   _buildSelectProperty() {
-    ShoppingReward shoppingReward = _goodDetail.shoppingReward;
+    ShoppingReward? shoppingReward = _goodDetail!.shoppingReward;
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
@@ -721,9 +723,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           FreightWidget(
             skuFreight: _skuFreight,
             showDialog: () {
-              var title = _skuFreight.title;
-              List policyList = _skuFreight.policyList;
-              _buildSkuFreightDialog(context, title, policyList);
+              var title = _skuFreight!.title;
+              List policyList = _skuFreight!.policyList!;
+              _buildSkuFreightDialog(
+                  context, title, policyList as List<PolicyListItem>);
             },
           ),
 
@@ -739,9 +742,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ShoppingRewardWidget(
             shoppingReward: shoppingReward,
             showDialog: () {
-              var shoppingRewardRule = _goodDetail.shoppingRewardRule;
+              var shoppingRewardRule = _goodDetail!.shoppingRewardRule!;
               _buildSkuFreightDialog(context, shoppingRewardRule.title,
-                  shoppingRewardRule.ruleList);
+                  shoppingRewardRule.ruleList!);
             },
           ),
 
@@ -774,7 +777,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ServiceWidget(
             policyList: _goodDetailPre.policyList,
             showDialog: () {
-              List<PolicyListItem> policyList = _goodDetailPre.policyList;
+              List<PolicyListItem> policyList = _goodDetailPre.policyList!;
               _buildSkuFreightDialog(context, '服务', policyList);
             },
           )
@@ -910,14 +913,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     var encode = json.encode(item);
     print(encode);
     var sp = await LocalStorage.sp;
-    sp.setString(LocalStorage.dftAddress, encode);
+    sp?.setString(LocalStorage.dftAddress, encode);
     setState(() {
       _dftAddress = item;
     });
   }
 
   _addBanners() {
-    var adBanners = _goodDetail.adBanners;
+    var adBanners = _goodDetail!.adBanners;
     return adBanners == null || adBanners.isEmpty
         ? Container()
         : Container(
@@ -956,8 +959,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildComment() {
     var commentCount = _goodDetailPre.commentCount;
-    List<ResultItem> comments = _goodDetail.comments;
-    var goodCmtRate = _goodDetail.goodCmtRate;
+    List<ResultItem>? comments = _goodDetail!.comments;
+    var goodCmtRate = _goodDetail!.goodCmtRate;
     return GoodDetailCommentWidget(
         key: _commentKey,
         commentCount: commentCount,
@@ -1010,9 +1013,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///成分
   _buildIntro() {
-    List<AttrListItem> attrList = [];
+    List<AttrListItem>? attrList = [];
     if (_goodDetailDownData != null) {
-      attrList = _goodDetailDownData.attrList;
+      attrList = _goodDetailDownData!.attrList;
     }
     return GoodMaterialWidget(
       attrList: attrList,
@@ -1034,10 +1037,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _buildIssueList() {
-    var issueList = _goodDetailDownData.issueList;
+    var issueList = _goodDetailDownData!.issueList;
     if (_goodDetailDownData != null) {
       return Column(
-          children: issueList
+          children: issueList!
               .map((item) => Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1067,7 +1070,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     return Container();
   }
 
-  _buildIssueTitle(String title, GlobalKey key) {
+  _buildIssueTitle(String title, GlobalKey? key) {
     return Container(
       key: key,
       decoration: BoxDecoration(color: Colors.white),
@@ -1111,7 +1114,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _buildYanxuanTitle() {
-    var simpleBrandInfo = _goodDetail.simpleBrandInfo;
+    var simpleBrandInfo = _goodDetail!.simpleBrandInfo;
     return simpleBrandInfo == null
         ? Container()
         : Container(
@@ -1141,17 +1144,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                   style: TextStyle(
                       color: Color(0xFF7F7F7F), fontSize: 14, height: 1.1),
                 ),
-                if (_goodDetail.countryInfo != null)
+                if (_goodDetail!.countryInfo != null)
                   Container(
                     height: 14,
                     width: 1,
                     color: Color(0xFF7F7F7F),
                     margin: EdgeInsets.symmetric(horizontal: 6),
                   ),
-                if (_goodDetail.countryInfo != null)
+                if (_goodDetail!.countryInfo != null)
                   Container(
                     child: Text(
-                      '${_goodDetail.countryInfo}',
+                      '${_goodDetail!.countryInfo}',
                       style: TextStyle(
                           color: Color(0xFF7F7F7F), fontSize: 14, height: 1.1),
                     ),
@@ -1245,7 +1248,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                               min: 1,
                               max: _skuMapItem == null
                                   ? 1
-                                  : _skuMapItem.sellVolume,
+                                  : _skuMapItem!.sellVolume as int?,
                               onChange: (index) {
                                 setstate(() {
                                   _goodCount = index;
@@ -1284,8 +1287,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         shrinkWrap: true,
         physics: new NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          SkuSpecListItem skuSpecItem = _skuSpecList[index];
-          List<SkuSpecValue> skuSpecItemNameList = skuSpecItem.skuSpecValueList;
+          SkuSpecListItem skuSpecItem = _skuSpecList![index];
+          List<SkuSpecValue> skuSpecItemNameList =
+              skuSpecItem.skuSpecValueList!;
           return Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -1294,7 +1298,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  child: Text(skuSpecItem.name),
+                  child: Text(skuSpecItem.name!),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -1310,7 +1314,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             ),
           );
         },
-        itemCount: _skuSpecList.length,
+        itemCount: _skuSpecList!.length,
       ),
     );
   }
@@ -1419,7 +1423,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       selectSkuMapKey[i] = _selectSkuMapKey[i];
     }
     selectSkuMapKey[index] = item.id.toString();
-    var keys = _skuMap.keys;
+    var keys = _skuMap!.keys;
     bool isMatch = false;
 
     var isValue = false;
@@ -1438,7 +1442,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         }
       }
       if (isMatch) {
-        SkuMapValue skuMapItem = _skuMap['$element'];
+        SkuMapValue skuMapItem = _skuMap!['$element']!;
         if (skuMapItem.sellVolume != 0) {
           isValue = true;
           break;
@@ -1471,7 +1475,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
 
     skuMapKey = skuMapKey.replaceFirst(';', '');
-    SkuMapValue skuMapItem = _skuMap['$skuMapKey'];
+    SkuMapValue? skuMapItem = _skuMap!['$skuMapKey'];
 
     ///描述信息
     String selectStrDec = '';
@@ -1482,7 +1486,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     _skuMapItem = skuMapItem;
     if (_skuMapItem == null) {
       ///顺序不同，导致选择失败
-      var keys = _skuMap.keys;
+      var keys = _skuMap!.keys;
       for (var element in keys) {
         var split = element.split(';');
         bool isMatch = false;
@@ -1495,27 +1499,27 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           }
         }
         if (isMatch) {
-          _skuMapItem = _skuMap['$element'];
+          _skuMapItem = _skuMap!['$element'];
           break;
         }
       }
     }
 
     if (_skuMapItem != null) {
-      _priceModel = _skuMapItem.price;
-      _bannerModel = _skuMapItem.banner;
+      _priceModel = _skuMapItem!.price;
+      _bannerModel = _skuMapItem!.banner;
 
       setState(() {
-        _priceModel = _skuMapItem.price;
-        _bannerModel = _skuMapItem.banner;
+        _priceModel = _skuMapItem!.price;
+        _bannerModel = _skuMapItem!.banner;
       });
     }
   }
 
   _selectGoodDetail(BuildContext context) {
-    String img = (_skuMapItem == null || _skuMapItem.pic == null)
-        ? _goodDetail.primaryPicUrl
-        : _skuMapItem.pic;
+    String img = (_skuMapItem == null || _skuMapItem!.pic == null)
+        ? _goodDetail!.primaryPicUrl!
+        : _skuMapItem!.pic!;
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -1545,8 +1549,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _skuMapItem == null ||
-                        _skuMapItem.promotionDesc == null ||
-                        _skuMapItem.promotionDesc == ''
+                        _skuMapItem!.promotionDesc == null ||
+                        _skuMapItem!.promotionDesc == ''
                     ? Container()
                     : Container(
                         padding:
@@ -1555,7 +1559,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                             borderRadius: BorderRadius.circular(4),
                             color: Color(0xFFEF7C15)),
                         child: Text(
-                          '${_skuMapItem.promotionDesc ?? ''}',
+                          '${_skuMapItem!.promotionDesc ?? ''}',
                           style: TextStyle(
                               fontSize: 12, color: textWhite, height: 1.1),
                         ),
@@ -1570,15 +1574,16 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                         style: t14red,
                       ),
                       Text(
-                        '￥${_priceModel.basicPrice} ',
+                        '￥${_priceModel!.basicPrice} ',
                         overflow: TextOverflow.ellipsis,
                         style: t14red,
                       ),
-                      if (_priceModel.basicPrice != _priceModel.counterPrice &&
-                          _priceModel.counterPrice != null)
+                      if (_priceModel!.basicPrice !=
+                              _priceModel!.counterPrice &&
+                          _priceModel!.counterPrice != null)
                         Container(
                           child: Text(
-                            '¥${_priceModel.counterPrice ?? ''}',
+                            '¥${_priceModel!.counterPrice ?? ''}',
                             style: TextStyle(
                               fontSize: 12,
                               color: textGrey,
@@ -1586,10 +1591,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                             ),
                           ),
                         ),
-                      if (_priceModel.finalPrice != null)
+                      if (_priceModel!.finalPrice != null)
                         Container(
                           child: Text(
-                            '${_priceModel.finalPrice.prefix ?? ''}${_priceModel.finalPrice.price == null ? '' : '¥${_priceModel.finalPrice.price}'}${_priceModel.finalPrice.suffix ?? ''}',
+                            '${_priceModel!.finalPrice!.prefix ?? ''}${_priceModel!.finalPrice!.price == null ? '' : '¥${_priceModel!.finalPrice!.price}'}${_priceModel!.finalPrice!.suffix ?? ''}',
                             style: t14red,
                           ),
                         )
@@ -1616,7 +1621,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _getCoupon() async {
     Map<String, dynamic> params = {
       'itemId': _goodId,
-      'skuId': _goodDetail.primarySkuId,
+      'skuId': _goodDetail!.primarySkuId,
     };
     var responseData = await queryByItemAndUser(params);
     if (responseData.code == '200') {
@@ -1633,13 +1638,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///------------------------------------------规则------------------------------------------
   _fullRefundPolicyDialog(
-      BuildContext context, FullRefundPolicy fullRefundPolicy) {
+      BuildContext context, FullRefundPolicy? fullRefundPolicy) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     if (fullRefundPolicy == null) {
       return;
     }
-    String title = fullRefundPolicy.detailTitle;
-    List<String> content = fullRefundPolicy.content;
+    String? title = fullRefundPolicy.detailTitle;
+    List<String> content = fullRefundPolicy.content!;
     NormalScrollDialog(
         title: '$title',
         child: Column(
@@ -1703,7 +1708,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     return CouponItemWidget(
       couponItem: item,
       receiveClick: (albeToActivated) {
-        if (albeToActivated) {
+        if (albeToActivated!) {
           ///领券
           _getItemCoupon(item);
         } else {
@@ -1735,14 +1740,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           DetailCuxiaoItems(
             hdrkDetailVOList: _hdrkDetailVOList,
             itemClick: (item) {
-              if (item.huodongUrlWap.contains('cart/itemPool')) {
+              if (item.huodongUrlWap!.contains('cart/itemPool')) {
                 _getMakeUpCartInfo(item);
                 //
                 // Routers.push(Routers.makeUpPage, context,
                 //     {'id': item.id, 'from': 'cart-item'});
               } else {
-                String url = '';
-                if (item.huodongUrlWap.startsWith('http')) {
+                String? url = '';
+                if (item.huodongUrlWap!.startsWith('http')) {
                   url = item.huodongUrlWap;
                 } else {
                   url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
@@ -1756,28 +1761,28 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           )
         ],
       ),
-      title: '${_hdrkDetailVOList.length}个促销',
+      title: '${_hdrkDetailVOList!.length}个促销',
     ).build(context);
   }
 
   _getMakeUpCartInfo(HdrkDetailVOListItem item) async {
     Map<String, dynamic> params = {
-      'promotionId': item.canUseCoupon ? -1 : item.id,
+      'promotionId': item.canUseCoupon! ? -1 : item.id,
     };
     var responseData = await getMakeUpCartInfo(params, showProgress: true);
     if (responseData.code == '200') {
       var makeUpCartInfoModel = CarItem.fromJson(responseData.data);
-      if (item.huodongUrlWap.contains('giftView')) {
+      if (item.huodongUrlWap!.contains('giftView')) {
         Routers.push(Routers.getCarsPage, context, {
           'data': makeUpCartInfoModel,
           'from': Routers.goodDetail,
-          'promotionId': item.canUseCoupon ? -1 : item.id
+          'promotionId': item.canUseCoupon! ? -1 : item.id
         });
       } else {
         Routers.push(Routers.makeUpPage, context, {
           'data': makeUpCartInfoModel,
           'from': 'cuxiao',
-          'id': item.canUseCoupon ? -1 : item.id
+          'id': item.canUseCoupon! ? -1 : item.id
         });
       }
     }
@@ -1786,7 +1791,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///------------------------------------------邮费-购物反-服务综合弹窗------------------------------------------
 
   _buildSkuFreightDialog(
-      BuildContext context, String title, List<PolicyListItem> contentList) {
+      BuildContext context, String? title, List<PolicyListItem> contentList) {
     NormalScrollDialog(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -1799,14 +1804,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                     Container(
                       padding: EdgeInsets.only(top: 15, left: 10, right: 10),
                       child: Text(
-                        item.title,
+                        item.title!,
                         style: t14black,
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        item.content,
+                        item.content!,
                         style: t14grey,
                       ),
                     )
@@ -1824,8 +1829,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (_skuMapItem == null) {
       return _defaultBottomBtns(type);
     } else {
-      int sellVolume = _skuMapItem.sellVolume;
-      int purchaseAttribute = _skuMapItem.purchaseAttribute;
+      int sellVolume = _skuMapItem!.sellVolume as int;
+      int? purchaseAttribute = _skuMapItem!.purchaseAttribute as int?;
       if (sellVolume > 0) {
         return _activityBtns(purchaseAttribute, type);
       } else {
@@ -1853,7 +1858,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  _activityBtns(int purchaseAttribute, int type) {
+  _activityBtns(int? purchaseAttribute, int type) {
     return Container(
       height: 45,
       width: double.infinity,
@@ -1893,12 +1898,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  _buyButton(int purchaseAttribute, int type) {
+  _buyButton(int? purchaseAttribute, int type) {
     String text = '立即购买';
     if (_skuMapItem != null &&
-        _skuMapItem.buyTitle != null &&
+        _skuMapItem!.buyTitle != null &&
         purchaseAttribute == 1) {
-      var buyTitle = _skuMapItem.buyTitle;
+      var buyTitle = _skuMapItem!.buyTitle!;
       text = '${buyTitle.title}${buyTitle.subTitle}';
     }
     return Expanded(
@@ -1930,7 +1935,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  _putCarShop(int purchaseAttribute, int type) {
+  _putCarShop(int? purchaseAttribute, int type) {
     return purchaseAttribute == 1
         ? Container()
         : Expanded(
@@ -1942,7 +1947,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                   _selectSkuMapKey.forEach((element) {
                     if (element == '') {
                       var indexOf = _selectSkuMapKey.indexOf(element);
-                      var name = _skuSpecList[indexOf].name;
+                      var name = _skuSpecList![indexOf].name;
                       Toast.show('请选择$name', context);
                       return;
                     }
@@ -2020,7 +2025,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _goLogin();
       return;
     }
-    Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem.id};
+    Map<String, dynamic> params = {"cnt": _goodCount, "skuId": _skuMapItem!.id};
     await addCart(params).then((value) {
       Toast.show('添加成功', context);
       HosEventBusUtils.fire(REFRESH_CART_NUM);

@@ -13,9 +13,9 @@ import 'package:flutter_app/component/slivers.dart';
 
 ///换购
 class GetCarsPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const GetCarsPage({Key key, this.params}) : super(key: key);
+  const GetCarsPage({Key? key, this.params}) : super(key: key);
 
   @override
   _GetCarsPageState createState() => _GetCarsPageState();
@@ -24,31 +24,31 @@ class GetCarsPage extends StatefulWidget {
 class _GetCarsPageState extends State<GetCarsPage> {
   List<CartItemListItem> _dataList = [];
   int _totalCnt = 0;
-  int _allowCount = 0;
-  String _listTitle = "";
+  int? _allowCount = 0;
+  String? _listTitle = "";
 
-  CarItem _carItem;
-  String _from = '';
-  num _promotionId = -1;
+  CarItem? _carItem;
+  String? _from = '';
+  num? _promotionId = -1;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     List<CartItemListItem> dataList = [];
-    _carItem = widget.params['data'];
-    var addBuyStepList = _carItem.addBuyStepList;
+    _carItem = widget.params!['data'];
+    var addBuyStepList = _carItem!.addBuyStepList;
     int totalCnt = 0;
     if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
       addBuyStepList.forEach((element_1) {
-        if (_listTitle.isEmpty) {
+        if (_listTitle!.isEmpty) {
           _listTitle = element_1.title;
         }
         var addBuyItemList = element_1.addBuyItemList;
         if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
           addBuyItemList.forEach((element_2) {
-            element_2.stepNo = element_1.stepNo;
-            if (element_2.checked) {
+            element_2.stepNo = element_1.stepNo as int?;
+            if (element_2.checked!) {
               totalCnt += 1;
             }
             dataList.add(element_2);
@@ -57,9 +57,9 @@ class _GetCarsPageState extends State<GetCarsPage> {
       });
     }
     setState(() {
-      _from = widget.params['from'];
-      _promotionId = widget.params['promotionId'];
-      _allowCount = _carItem.allowCount;
+      _from = widget.params!['from'];
+      _promotionId = widget.params!['promotionId'];
+      _allowCount = _carItem!.allowCount;
       _totalCnt = totalCnt;
       _dataList = dataList;
     });
@@ -145,8 +145,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
               child: _buildCheckBox(item),
               onTap: () {
                 setState(() {
-                  if (!item.checked) {
-                    if (_allowCount > _totalCnt) {
+                  if (!item.checked!) {
+                    if (_allowCount! > _totalCnt) {
                       _totalCnt++;
                       item.checked = true;
                     } else {
@@ -190,7 +190,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       alignment: Alignment.center,
       child: Center(
-        child: item.checked
+        child: item.checked!
             ? Icon(
                 Icons.check_circle,
                 size: 22,
@@ -234,10 +234,10 @@ class _GetCarsPageState extends State<GetCarsPage> {
           SizedBox(
             height: 3,
           ),
-          item.specList == null || item.specList.isEmpty
+          item.specList == null || item.specList!.isEmpty
               ? Container()
               : Text(
-                  '${item.specList[0].specValue}',
+                  '${item.specList![0].specValue}',
                   style: t12grey,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -272,9 +272,9 @@ class _GetCarsPageState extends State<GetCarsPage> {
   _submit() async {
     List dataList = [];
     _dataList.forEach((element) {
-      if (element.checked) {
+      if (element.checked!) {
         var item = {
-          'promotionId': _carItem.promId,
+          'promotionId': _carItem!.promId,
           'stepNo': element.stepNo,
           'skuId': element.skuId,
         };
@@ -283,7 +283,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
     });
 
     var param = {
-      'promotionId': _carItem.promId,
+      'promotionId': _carItem!.promId,
       'selectList': dataList,
     };
 

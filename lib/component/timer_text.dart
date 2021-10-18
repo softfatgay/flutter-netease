@@ -9,7 +9,7 @@ class TimerText extends StatefulWidget {
   final TextStyle textStyle;
 
   const TimerText(
-      {Key key, this.time = 0, this.tips = '', this.textStyle = t14white})
+      {Key? key, this.time = 0, this.tips = '', this.textStyle = t14white})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class TimerText extends StatefulWidget {
 
 class _TimerTextState extends State<TimerText> {
   int data = 0;
-  Timer _timer;
+  late Timer _timer;
   String dataTime = '';
 
   @override

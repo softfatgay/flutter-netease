@@ -4,9 +4,9 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class OrderInitPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const OrderInitPage({Key key, this.params}) : super(key: key);
+  const OrderInitPage({Key? key, this.params}) : super(key: key);
 
   @override
   _OrderInitPageState createState() => _OrderInitPageState();
@@ -19,7 +19,7 @@ class _OrderInitPageState extends State<OrderInitPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _postdata = widget.params['data'];
+      _postdata = widget.params!['data'];
     });
     super.initState();
     _initData();

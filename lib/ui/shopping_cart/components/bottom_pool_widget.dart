@@ -5,10 +5,10 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/model/itemPoolBarModel.dart';
 
 class BottomPoolWidget extends StatelessWidget {
-  final ItemPoolBarModel itemPoolBarModel;
-  final String from;
+  final ItemPoolBarModel? itemPoolBarModel;
+  final String? from;
 
-  const BottomPoolWidget({Key key, this.itemPoolBarModel, this.from})
+  const BottomPoolWidget({Key? key, this.itemPoolBarModel, this.from})
       : super(key: key);
 
   @override
@@ -27,11 +27,11 @@ class BottomPoolWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '小计：¥${itemPoolBarModel.subtotalPrice}',
+                  '小计：¥${itemPoolBarModel!.subtotalPrice}',
                   style: t14redBold,
                 ),
                 Text(
-                  '${itemPoolBarModel.promTip.replaceAll('#', '')}',
+                  '${itemPoolBarModel!.promTip!.replaceAll('#', '')}',
                   style: t12black,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

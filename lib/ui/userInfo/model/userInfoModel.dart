@@ -4,8 +4,8 @@ part 'userInfoModel.g.dart';
 
 @JsonSerializable()
 class UserInfoModel {
-  bool isUrs = true;
-  User user = User();
+  bool? isUrs = true;
+  User? user = User();
 
   UserInfoModel();
 
@@ -15,19 +15,19 @@ class UserInfoModel {
 
 @JsonSerializable()
 class User {
-  String avatar;
-  String nickname = '';
-  String id = '';
-  num gender;
-  String mobile;
-  num birthYear;
-  num birthMonth;
-  num birthDay;
-  num memberLevel;
-  String uid;
-  num userType;
-  bool hasInterestCategory;
-  List<Aliases> aliases = [];
+  String? avatar;
+  String? nickname = '';
+  String? id = '';
+  num? gender;
+  String? mobile;
+  num? birthYear;
+  num? birthMonth;
+  num? birthDay;
+  num? memberLevel;
+  String? uid;
+  num? userType;
+  bool? hasInterestCategory;
+  List<Aliases>? aliases = [];
 
   User();
 
@@ -36,10 +36,10 @@ class User {
 
 @JsonSerializable()
 class Aliases {
-  String alias;
-  num aliasType;
-  String mobile;
-  num frontGroupType;
+  String? alias;
+  num? aliasType;
+  String? mobile;
+  num? frontGroupType;
 
   Aliases();
 

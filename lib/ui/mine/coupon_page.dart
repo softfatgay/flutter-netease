@@ -26,7 +26,7 @@ class _CouponPageState extends State<CouponPage> {
   var _nowCoupon = [];
 
   bool _isLoading = true;
-  Pagination _pagination;
+  Pagination? _pagination;
   final controller = TextEditingController();
 
   List<CouponItemModel> _dataList = [];
@@ -45,7 +45,7 @@ class _CouponPageState extends State<CouponPage> {
                 singleSliverWidget(_addCoupon()),
                 singleSliverWidget(_couponTips()),
                 _buildList(context),
-                SliverFooter(hasMore: !_pagination.lastPage)
+                SliverFooter(hasMore: !_pagination!.lastPage!)
               ],
             ),
     );
@@ -59,7 +59,7 @@ class _CouponPageState extends State<CouponPage> {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (_pagination != null && !_pagination.lastPage) {
+        if (_pagination != null && !_pagination!.lastPage!) {
           _getMore();
         }
       }
@@ -160,7 +160,7 @@ class _CouponPageState extends State<CouponPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.name, style: t14white),
+                        Text(item.name!, style: t14white),
                         Text('${_valueDate(item)}', style: t12white),
                       ],
                     ),
@@ -200,11 +200,11 @@ class _CouponPageState extends State<CouponPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      item.useCondition,
+                      item.useCondition!,
                       style: t12white,
                       maxLines: item.isSelected == null
                           ? 1
-                          : (item.isSelected ? 15 : 1),
+                          : (item.isSelected! ? 15 : 1),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -221,7 +221,7 @@ class _CouponPageState extends State<CouponPage> {
                 if (item.isSelected == null) {
                   item.isSelected = true;
                 } else {
-                  item.isSelected = !item.isSelected;
+                  item.isSelected = !item.isSelected!;
                 }
               });
             },
@@ -277,20 +277,20 @@ class _CouponPageState extends State<CouponPage> {
     if (item.validEndTime == null) {
       end = '已过期';
     } else {
-      end = '${Util.long2dateD(item.validEndTime * 1000)}';
+      end = '${Util.long2dateD(item.validEndTime! * 1000 as int)}';
     }
 
     if (item.validStartTime == null) {
       start = '';
     } else {
-      start = '${Util.long2dateD(item.validStartTime * 1000)}';
+      start = '${Util.long2dateD(item.validStartTime! * 1000 as int)}';
     }
 
     return '$start-$end';
   }
 
   _cashName(CouponItemModel item) {
-    var cash = item.cash ~/ 1;
+    var cash = item.cash! ~/ 1;
 
     return cash == 0 ? item.name : cash;
   }
@@ -299,7 +299,7 @@ class _CouponPageState extends State<CouponPage> {
     if (item.isSelected == null) {
       return Icons.keyboard_arrow_down_rounded;
     } else {
-      if (item.isSelected) {
+      if (item.isSelected!) {
         return Icons.keyboard_arrow_up_rounded;
       } else {
         return Icons.keyboard_arrow_down_rounded;

@@ -5,20 +5,20 @@ import 'package:flutter_app/utils/toast.dart';
 class ResponseData<T> {
   /// Response body. may have been transformed, please refer to [ResponseType].
 
-  final T OData;
-  final T data;
-  final T item;
-  final T newItems;
+  final T? OData;
+  final T? data;
+  final T? item;
+  final T? newItems;
 
   ///  Server Status
-  final T status;
+  final T? status;
 
   ///  Server Message
-  final T code;
-  final T errorCode;
+  final T? code;
+  final T? errorCode;
 
   /// The corresponding request info.
-  final HttpRequestOptions httpRequestOptions;
+  final HttpRequestOptions? httpRequestOptions;
 
   const ResponseData({
     this.item,
@@ -52,15 +52,15 @@ class ResponseData<T> {
 }
 
 class HttpRequestOptions {
-  final String method;
-  final int sendTimeout;
-  final int receiveTimeout;
-  final String path;
-  final String baseUrl;
-  final Map<String, dynamic> headers;
-  final Map<String, dynamic> queryParameters;
-  final ProgressCallback onReceiveProgress;
-  final ProgressCallback onSendProgress;
+  final String? method;
+  final int? sendTimeout;
+  final int? receiveTimeout;
+  final String? path;
+  final String? baseUrl;
+  final Map<String, dynamic>? headers;
+  final Map<String, dynamic>? queryParameters;
+  final ProgressCallback? onReceiveProgress;
+  final ProgressCallback? onSendProgress;
 
   const HttpRequestOptions({
     this.method,

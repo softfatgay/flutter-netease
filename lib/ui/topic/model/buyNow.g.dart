@@ -6,17 +6,15 @@ part of 'buyNow.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BuyNow _$BuyNowFromJson(Map<String, dynamic> json) {
-  return BuyNow()
-    ..itemId = json['itemId'] as num
-    ..purchaseAttribute = json['purchaseAttribute'] as num
-    ..countPrice = json['countPrice'] as num
-    ..retailPrice = json['retailPrice'] as num
-    ..primarySkuId = json['primarySkuId'] as num
-    ..itemName = json['itemName'] as String
-    ..itemUrl = json['itemUrl'] as String
-    ..valid = json['valid'] as bool;
-}
+BuyNow _$BuyNowFromJson(Map<String, dynamic> json) => BuyNow()
+  ..itemId = json['itemId'] as num?
+  ..purchaseAttribute = json['purchaseAttribute'] as num?
+  ..countPrice = json['countPrice'] as num?
+  ..retailPrice = json['retailPrice'] as num?
+  ..primarySkuId = json['primarySkuId'] as num?
+  ..itemName = json['itemName'] as String?
+  ..itemUrl = json['itemUrl'] as String?
+  ..valid = json['valid'] as bool?;
 
 Map<String, dynamic> _$BuyNowToJson(BuyNow instance) => <String, dynamic>{
       'itemId': instance.itemId,

@@ -27,10 +27,10 @@ class _CatalogGoodsState extends State<SortListItemPage>
   int _total = 0;
   bool _moreLoading = false;
   final _scrollController = new ScrollController();
-  Category category;
+  Category? category;
 
   ///商品
-  List<ItemListItem> _itemList;
+  List<ItemListItem>? _itemList;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (!_moreLoading && (_total > _itemList.length)) {
+        if (!_moreLoading && (_total > _itemList!.length)) {
           // _getMore();
         }
       }
@@ -60,13 +60,13 @@ class _CatalogGoodsState extends State<SortListItemPage>
     var sortListDataModel = SortListData.fromJson(data);
 
     setState(() {
-      _itemList = sortListDataModel.categoryItems.itemList;
+      _itemList = sortListDataModel.categoryItems!.itemList;
 
-      category = sortListDataModel.categoryItems.category;
+      category = sortListDataModel.categoryItems!.category;
 
       // category = data["categoryItems"]["category"];
       _isLoading = false;
-      _total = _itemList.length;
+      _total = _itemList!.length;
     });
   }
 
@@ -81,7 +81,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
         child: CustomScrollView(
           controller: _scrollController,
           slivers: <Widget>[
-            if (category.frontName != null && category.frontName != "")
+            if (category!.frontName != null && category!.frontName != "")
               singleSliverWidget(Container(
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 15),
@@ -89,13 +89,13 @@ class _CatalogGoodsState extends State<SortListItemPage>
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: Text(
-                    category.frontName,
+                    category!.frontName!,
                     style: t14black,
                   ),
                 ),
               )),
             GoodItemNormalWidget(dataList: _itemList),
-            SliverFooter(hasMore: _itemList.length != _total),
+            SliverFooter(hasMore: _itemList!.length != _total),
           ],
         ),
       );

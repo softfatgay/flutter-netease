@@ -5,7 +5,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/component/app_bar.dart';
 
 class FullScreenImage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
   const FullScreenImage(this.params);
 
@@ -14,15 +14,15 @@ class FullScreenImage extends StatefulWidget {
 }
 
 class _FullScreenImageState extends State<FullScreenImage> {
-  List<String> _images = [];
+  List<String>? _images = [];
   int initPage = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
-      _images = widget.params['images'];
-      var page = widget.params['page'];
+      _images = widget.params!['images'];
+      var page = widget.params!['page'];
       if (page != null) {
         initPage = page;
       }
@@ -41,7 +41,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
           child: Stack(
             children: <Widget>[
               CarouselSlider(
-                items: _images.map<Widget>((e) {
+                items: _images!.map<Widget>((e) {
                   return GestureDetector(
                     child: Container(
                       child: CachedNetworkImage(

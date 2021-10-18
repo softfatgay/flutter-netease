@@ -7,11 +7,11 @@ typedef void OnCheckChanged(bool check);
 typedef void Onpress();
 
 class MCheckBox extends StatelessWidget {
-  final Onpress onPress;
-  final bool check;
-  final String suffixText;
+  final Onpress? onPress;
+  final bool? check;
+  final String? suffixText;
 
-  const MCheckBox({Key key, this.onPress, this.check, this.suffixText})
+  const MCheckBox({Key? key, this.onPress, this.check, this.suffixText})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class MCheckBox extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onPress != null) {
-          onPress();
+          onPress!();
         }
       },
       child: Container(
@@ -29,7 +29,7 @@ class MCheckBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              child: check
+              child: check!
                   ? Icon(
                       Icons.check_circle,
                       size: 22,

@@ -4,9 +4,9 @@ part 'tabModel.g.dart';
 
 @JsonSerializable()
 class TabModel {
-  num id;
-  String name;
-  String type;
+  num? id;
+  String? name;
+  String? type;
 
   TabModel();
 

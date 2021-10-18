@@ -5,8 +5,8 @@ part 'saturdayBuyModel.g.dart';
 
 @JsonSerializable()
 class SaturdayBuyModel {
-  Pagination pagination;
-  List<Result> result;
+  Pagination? pagination;
+  List<Result>? result;
 
   SaturdayBuyModel();
 
@@ -16,27 +16,27 @@ class SaturdayBuyModel {
 
 @JsonSerializable()
 class Result {
-  num categoryId;
-  String description;
-  num id;
-  bool isRefundPay;
-  num itemId;
-  num joinUsers;
-  bool limitNewUser;
-  num limitPlatform;
-  bool limitTime;
-  num originPrice;
-  String picUrl;
-  bool postageFree;
-  num price;
-  List<String> recentUsers;
-  num recommendRank;
-  num skuNum;
-  num startTime;
-  num status;
-  num tabId;
-  String title;
-  num userNum;
+  num? categoryId;
+  String? description;
+  num? id;
+  bool? isRefundPay;
+  num? itemId;
+  num? joinUsers;
+  bool? limitNewUser;
+  num? limitPlatform;
+  bool? limitTime;
+  num? originPrice;
+  String? picUrl;
+  bool? postageFree;
+  num? price;
+  List<String>? recentUsers;
+  num? recommendRank;
+  num? skuNum;
+  num? startTime;
+  num? status;
+  num? tabId;
+  String? title;
+  num? userNum;
 
   Result();
 

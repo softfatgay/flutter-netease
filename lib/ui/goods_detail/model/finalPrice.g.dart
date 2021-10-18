@@ -6,12 +6,10 @@ part of 'finalPrice.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FinalPrice _$FinalPriceFromJson(Map<String, dynamic> json) {
-  return FinalPrice()
-    ..prefix = json['prefix'] as String
-    ..price = json['price'] as String
-    ..suffix = json['suffix'] as String;
-}
+FinalPrice _$FinalPriceFromJson(Map<String, dynamic> json) => FinalPrice()
+  ..prefix = json['prefix'] as String?
+  ..price = json['price'] as String?
+  ..suffix = json['suffix'] as String?;
 
 Map<String, dynamic> _$FinalPriceToJson(FinalPrice instance) =>
     <String, dynamic>{

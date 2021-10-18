@@ -10,16 +10,16 @@ import 'package:flutter_app/utils/util_mine.dart';
 typedef void ClearInvalida();
 
 class InvalidCartItemWidget extends StatelessWidget {
-  final List<CarItem> invalidCartGroupList;
-  final ClearInvalida clearInvalida;
+  final List<CarItem>? invalidCartGroupList;
+  final ClearInvalida? clearInvalida;
 
   const InvalidCartItemWidget(
-      {Key key, this.invalidCartGroupList, this.clearInvalida})
+      {Key? key, this.invalidCartGroupList, this.clearInvalida})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return (invalidCartGroupList == null || invalidCartGroupList.length == 0)
+    return (invalidCartGroupList == null || invalidCartGroupList!.length == 0)
         ? Container()
         : Column(
             children: [
@@ -51,7 +51,7 @@ class InvalidCartItemWidget extends StatelessWidget {
                       ),
                       onTap: () {
                         if (clearInvalida != null) {
-                          clearInvalida();
+                          clearInvalida!();
                         }
                       },
                     )
@@ -63,9 +63,9 @@ class InvalidCartItemWidget extends StatelessWidget {
                 physics: new NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return _buildInvalidItem(
-                      context, invalidCartGroupList[index]);
+                      context, invalidCartGroupList![index]);
                 },
-                itemCount: invalidCartGroupList.length,
+                itemCount: invalidCartGroupList!.length,
               ),
             ],
           );
@@ -73,7 +73,7 @@ class InvalidCartItemWidget extends StatelessWidget {
 
   // 无效商品列表Item
   Widget _buildInvalidItem(BuildContext context, CarItem itemD) {
-    List<CartItemListItem> items = itemD.cartItemList;
+    List<CartItemListItem> items = itemD.cartItemList!;
     return Column(
       children: items.map<Widget>((item) {
         Widget widget = Container(
@@ -110,7 +110,7 @@ class InvalidCartItemWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4)),
                     height: 90,
                     width: 90,
-                    child: CachedNetworkImage(imageUrl: item.pic),
+                    child: CachedNetworkImage(imageUrl: item.pic!),
                   ),
                   Expanded(
                     child: Container(
@@ -191,10 +191,10 @@ class InvalidCartItemWidget extends StatelessWidget {
   }
 
   _specValue(CartItemListItem item) {
-    List<SpecListItem> specList = item.specList;
+    List<SpecListItem> specList = item.specList!;
     String specName = '';
     for (var value in specList) {
-      specName += value.specValue;
+      specName += value.specValue!;
       specName += "; ";
     }
     var replaceRange =

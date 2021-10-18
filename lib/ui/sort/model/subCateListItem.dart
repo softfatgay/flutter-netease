@@ -5,13 +5,13 @@ part 'subCateListItem.g.dart';
 
 @JsonSerializable()
 class SubCateListItem {
-  num id;
-  num superCategoryId;
-  num showIndex;
-  String name;
-  String frontName;
-  String frontDesc;
-  String bannerUrl;
+  num? id;
+  num? superCategoryId;
+  num? showIndex;
+  String? name;
+  String? frontName;
+  String? frontDesc;
+  String? bannerUrl;
 
   SubCateListItem();
 

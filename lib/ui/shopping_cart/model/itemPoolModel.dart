@@ -9,8 +9,8 @@ part 'itemPoolModel.g.dart';
 
 @JsonSerializable()
 class ItemPoolModel {
-  List<CategorytListItem> categorytList;
-  SearcherItemListResult searcherItemListResult;
+  List<CategorytListItem>? categorytList;
+  SearcherItemListResult? searcherItemListResult;
 
   ItemPoolModel();
 
@@ -20,8 +20,8 @@ class ItemPoolModel {
 
 @JsonSerializable()
 class CategorytListItem {
-  CategoryL1Item categoryVO;
-  num count;
+  CategoryL1Item? categoryVO;
+  num? count;
 
   CategorytListItem();
 
@@ -31,8 +31,8 @@ class CategorytListItem {
 
 @JsonSerializable()
 class SearcherItemListResult {
-  Pagination pagination;
-  List<GoodDetail> result;
+  Pagination? pagination;
+  List<GoodDetail>? result;
 
   SearcherItemListResult();
 

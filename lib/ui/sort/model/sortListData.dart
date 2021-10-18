@@ -7,8 +7,8 @@ part 'sortListData.g.dart';
 ///
 @JsonSerializable()
 class SortListData {
-  SortlistCategoryItem categoryItems;
-  List<Category> categoryL2List;
+  SortlistCategoryItem? categoryItems;
+  List<Category>? categoryL2List;
 
   SortListData();
 

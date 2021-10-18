@@ -6,22 +6,22 @@ part 'carItem.g.dart';
 
 @JsonSerializable()
 class CarItem {
-  num id;
-  num promId;
-  num promType;
-  List<CartItemListItem> cartItemList;
-  String promTip;
-  Object promTipList;
-  bool promSatisfy;
-  bool checked;
-  bool canCheck;
-  num promNotSatisfyType;
-  num promotionBtn;
-  int allowCount;
-  num type;
-  num suitCount;
-  num source;
-  List<AddBuyStepListItem> addBuyStepList;
+  num? id;
+  num? promId;
+  num? promType;
+  List<CartItemListItem>? cartItemList;
+  String? promTip;
+  Object? promTipList;
+  bool? promSatisfy;
+  bool? checked;
+  bool? canCheck;
+  num? promNotSatisfyType;
+  num? promotionBtn;
+  int? allowCount;
+  num? type;
+  num? suitCount;
+  num? source;
+  List<AddBuyStepListItem>? addBuyStepList;
 
   CarItem();
 

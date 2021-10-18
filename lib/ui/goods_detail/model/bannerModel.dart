@@ -5,9 +5,9 @@ part 'bannerModel.g.dart';
 
 @JsonSerializable()
 class BannerModel {
-  num status;
-  ProcessBanner processBanner;
-  num type;
+  num? status;
+  ProcessBanner? processBanner;
+  num? type;
 
   BannerModel();
   factory BannerModel.fromJson(Map<String, dynamic> json) =>
@@ -16,13 +16,13 @@ class BannerModel {
 
 @JsonSerializable()
 class ProcessBanner {
-  String title;
-  String supplementText;
-  PriceModel priceInfo;
-  String timePrefix;
-  num endTimeGap;
-  String bgColor;
-  String priceBgColor;
+  String? title;
+  String? supplementText;
+  PriceModel? priceInfo;
+  String? timePrefix;
+  num? endTimeGap;
+  String? bgColor;
+  String? priceBgColor;
 
   ProcessBanner();
   factory ProcessBanner.fromJson(Map<String, dynamic> json) =>

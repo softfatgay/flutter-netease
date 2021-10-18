@@ -6,26 +6,25 @@ part of 'locationItemModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LocationItemModel _$LocationItemModelFromJson(Map<String, dynamic> json) {
-  return LocationItemModel()
-    ..zipCode = json['zipCode'] as String
-    ..townName = json['townName'] as String
-    ..address = json['address'] as String
-    ..incompleteDesc = json['incompleteDesc'] as String
-    ..districtName = json['districtName'] as String
-    ..mobile = json['mobile'] as String
-    ..cityId = json['cityId'] as num
-    ..completed = json['completed'] as bool
-    ..townId = json['townId'] as num
-    ..provinceId = json['provinceId'] as num
-    ..dft = json['dft'] as bool
-    ..districtId = json['districtId'] as num
-    ..cityName = json['cityName'] as String
-    ..fullAddress = json['fullAddress'] as String
-    ..name = json['name'] as String
-    ..id = json['id'] as num
-    ..provinceName = json['provinceName'] as String;
-}
+LocationItemModel _$LocationItemModelFromJson(Map<String, dynamic> json) =>
+    LocationItemModel()
+      ..zipCode = json['zipCode'] as String?
+      ..townName = json['townName'] as String?
+      ..address = json['address'] as String?
+      ..incompleteDesc = json['incompleteDesc'] as String?
+      ..districtName = json['districtName'] as String?
+      ..mobile = json['mobile'] as String?
+      ..cityId = json['cityId'] as num?
+      ..completed = json['completed'] as bool?
+      ..townId = json['townId'] as num?
+      ..provinceId = json['provinceId'] as num?
+      ..dft = json['dft'] as bool?
+      ..districtId = json['districtId'] as num?
+      ..cityName = json['cityName'] as String?
+      ..fullAddress = json['fullAddress'] as String?
+      ..name = json['name'] as String?
+      ..id = json['id'] as num?
+      ..provinceName = json['provinceName'] as String?;
 
 Map<String, dynamic> _$LocationItemModelToJson(LocationItemModel instance) =>
     <String, dynamic>{

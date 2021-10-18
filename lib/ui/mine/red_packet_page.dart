@@ -23,7 +23,7 @@ class _RedEnvelopeState extends State<RedPacketPage>
       'searchType': 3,
     },
   ];
-  TabController _controller;
+  TabController? _controller;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _RedEnvelopeState extends State<RedPacketPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TabAppBar(
-        tabs: _tabs.map<String>((e) => e['name']).toList(),
+        tabs: _tabs.map<String?>((e) => e['name']).toList(),
         title: '红包',
         controller: _controller,
       ).build(context),

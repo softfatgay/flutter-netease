@@ -40,16 +40,16 @@ class _TopicPageState extends State<TopicPage>
   final int _pageSize = 5;
   int _page = 1;
 
-  bool _hasMore = true;
+  bool? _hasMore = true;
   List _roundWords = [];
   int _rondomIndex = 0;
   var _timer;
 
   ///头部nav
-  List<NavItem> _navList;
+  List<NavItem>? _navList;
 
   ///数据
-  List<Result> _result;
+  List<Result>? _result;
 
   ///条目数据
   List<TopicItem> _dataList = [];
@@ -60,7 +60,7 @@ class _TopicPageState extends State<TopicPage>
   var _toolbarHeight = 0;
   var _expandedHeight = 280.0;
 
-  num _totalNum = 0;
+  num? _totalNum = 0;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _TopicPageState extends State<TopicPage>
   void _getTopicData() async {
     var sp = await LocalStorage.sp;
     setState(() {
-      _totalNum = sp.get(LocalStorage.totalNum);
+      _totalNum = sp!.get(LocalStorage.totalNum) as num?;
     });
     var responseData = await knowNavwap();
     setState(() {
@@ -140,8 +140,8 @@ class _TopicPageState extends State<TopicPage>
         _page++;
         _hasMore = topicData.hasMore;
         _result = topicData.result;
-        _result.forEach((element) {
-          _dataList.addAll(element.topics);
+        _result!.forEach((element) {
+          _dataList.addAll(element.topics!);
         });
       });
       if (_dataList.length < 3 && _page == 2) {
@@ -171,8 +171,8 @@ class _TopicPageState extends State<TopicPage>
       floatingActionButton: StreamBuilder(
           stream: _footerController.stream,
           initialData: false,
-          builder: (context, snapshot) {
-            return snapshot.data ? floatingAB(_scrollController) : Container();
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            return snapshot.data! ? floatingAB(_scrollController) : Container();
           }),
     );
   }
@@ -283,7 +283,7 @@ class _TopicPageState extends State<TopicPage>
                     crossAxisCount: 2,
                     childAspectRatio: 1.1,
                     scrollDirection: Axis.horizontal,
-                    children: _navList.map((item) {
+                    children: _navList!.map((item) {
                       return GestureDetector(
                         child: Container(
                           margin: EdgeInsets.only(bottom: 10),
@@ -329,7 +329,8 @@ class _TopicPageState extends State<TopicPage>
                   StreamBuilder(
                       stream: _streamController.stream,
                       initialData: -1.0,
-                      builder: (context, snapshot) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<double> snapshot) {
                         return Container(
                           height: 3,
                           decoration: BoxDecoration(
@@ -337,7 +338,7 @@ class _TopicPageState extends State<TopicPage>
                             borderRadius: BorderRadius.circular(2),
                           ),
                           width: 100,
-                          alignment: Alignment(snapshot.data, 1),
+                          alignment: Alignment(snapshot.data!, 1),
                           child: Container(
                             decoration: BoxDecoration(
                                 color: redColor,

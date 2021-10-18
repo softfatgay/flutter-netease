@@ -14,9 +14,10 @@ import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 
-typedef void NumChange(num source, num type, num skuId, num cnt, String extId);
-typedef void CheckOne(CarItem itemData, num source, num type, num skuId,
-    bool check, String extId);
+typedef void NumChange(
+    num? source, num? type, num? skuId, num cnt, String? extId);
+typedef void CheckOne(CarItem itemData, num? source, num? type, num? skuId,
+    bool check, String? extId);
 
 typedef void DeleteCheckItem(
     bool check, CarItem itemData, CartItemListItem item);
@@ -30,18 +31,18 @@ typedef void CallBack();
 
 ///购物车条目
 class CartItemWidget extends StatelessWidget {
-  final CallBack callBack;
-  final SkuClick skuClick;
-  final NumChange numChange;
-  final CheckOne checkOne;
-  final GoRedeem goRedeem;
-  final DeleteCheckItem deleteCheckItem;
-  final List<CarItem> itemList;
-  final bool isEdit;
-  final TextEditingController controller;
+  final CallBack? callBack;
+  final SkuClick? skuClick;
+  final NumChange? numChange;
+  final CheckOne? checkOne;
+  final GoRedeem? goRedeem;
+  final DeleteCheckItem? deleteCheckItem;
+  final List<CarItem>? itemList;
+  final bool? isEdit;
+  final TextEditingController? controller;
 
   const CartItemWidget(
-      {Key key,
+      {Key? key,
       this.callBack,
       this.numChange,
       this.checkOne,
@@ -59,24 +60,24 @@ class CartItemWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        CarItem itemData = itemList[index];
+        CarItem itemData = itemList![index];
         List<CartItemListItem> _itemList = [];
 
         ///换购
-        List<AddBuyStepListItem> addBuyStepList = itemData.addBuyStepList;
+        List<AddBuyStepListItem>? addBuyStepList = itemData.addBuyStepList;
         if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
           addBuyStepList.forEach((element_1) {
             var addBuyItemList = element_1.addBuyItemList;
             if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
               addBuyItemList.forEach((element_2) {
-                if (element_2.checked) {
+                if (element_2.checked!) {
                   _itemList.add(element_2);
                 }
               });
             }
           });
         }
-        var cartItemList = itemData.cartItemList;
+        var cartItemList = itemData.cartItemList!;
         _itemList.addAll(cartItemList);
 
         List<Widget> itemItems = [];
@@ -94,14 +95,14 @@ class CartItemWidget extends StatelessWidget {
           children: itemItems,
         );
       },
-      itemCount: itemList.length,
+      itemCount: itemList!.length,
     );
   }
 
   /// 有效商品列表Item
   _buildItem(BuildContext context, CarItem itemData, CartItemListItem item,
       int index) {
-    List<String> cartItemTips = item.cartItemTips;
+    List<String>? cartItemTips = item.cartItemTips;
     return Container(
       color: Colors.white,
       child: Column(
@@ -157,7 +158,7 @@ class CartItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: 5),
             child: TimerText(
-              time: item.remainTime ~/ 1000,
+              time: item.remainTime! ~/ 1000,
               textStyle: t12blackBold,
             ),
           ),
@@ -171,7 +172,7 @@ class CartItemWidget extends StatelessWidget {
     if (item.warehouseInfo == null) {
       return Container();
     }
-    var warehouseInfo = item.warehouseInfo;
+    var warehouseInfo = item.warehouseInfo!;
     return Container(
       margin: EdgeInsets.only(left: _checkBoxWith, top: 8, right: 10),
       child: Row(
@@ -191,7 +192,7 @@ class CartItemWidget extends StatelessWidget {
     );
   }
 
-  _cartItemTips(List<String> cartItemTips) {
+  _cartItemTips(List<String>? cartItemTips) {
     return (cartItemTips == null || cartItemTips.length == 0)
         ? Container()
         : Container(
@@ -256,7 +257,7 @@ class CartItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              isEdit
+              isEdit!
                   ? Container()
                   : Container(
                       padding: EdgeInsets.only(left: 10),
@@ -311,7 +312,7 @@ class CartItemWidget extends StatelessWidget {
                 onTap: () {
                   if (item.id != 0) {
                     if (skuClick != null) {
-                      skuClick(item);
+                      skuClick!(item);
                     }
                   }
                 },
@@ -331,7 +332,7 @@ class CartItemWidget extends StatelessWidget {
                       child: Container(
                         margin: EdgeInsets.only(left: 5),
                         child: Text(
-                          item.retailPrice > item.actualPrice
+                          item.retailPrice! > item.actualPrice!
                               ? '¥${item.retailPrice}'
                               : '',
                           style: TextStyle(
@@ -345,14 +346,12 @@ class CartItemWidget extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
                       child: CartCount(
-                        number: item.cnt,
+                        number: item.cnt as int?,
                         min: 1,
-                        max: item.id == 0 ? 1 : item.sellVolume,
+                        max: item.id == 0 ? 1 : item.sellVolume as int?,
                         onChange: (numValue) {
-                          if (numChange != null) {
-                            numChange(item.source, item.type, item.skuId,
-                                numValue, item.extId);
-                          }
+                          numChange!(item.source, item.type, item.skuId,
+                              numValue!, item.extId);
                         },
                         numClick: () {
                           if (item.id != 0) {
@@ -375,7 +374,7 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _showNumClickDialog(BuildContext context, CartItemListItem item) {
-    controller.text = item.cnt.toString();
+    controller!.text = item.cnt.toString();
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -408,14 +407,15 @@ class CartItemWidget extends StatelessWidget {
                 style: t16red,
               ),
               onPressed: () {
-                if (!controller.text.isEmpty) {
-                  if (num.parse(controller.text.toString()) > item.sellVolume) {
+                if (!controller!.text.isEmpty) {
+                  if (num.parse(controller!.text.toString()) >
+                      item.sellVolume!) {
                     Toast.show('不能超过最大库存量(${item.sellVolume})', context,
                         duration: 3);
                     return;
                   }
-                  numChange(item.source, item.type, item.skuId,
-                      num.parse(controller.text.toString()), item.extId);
+                  numChange!(item.source, item.type, item.skuId,
+                      num.parse(controller!.text.toString()), item.extId);
                   Navigator.of(context).pop();
                   // item.cnt = int.parse(controller.text.toString());
                 }
@@ -428,7 +428,7 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _buildSaveMoney(CartItemListItem item) {
-    return item.priceReductDesc == null || item.priceReductDesc.isEmpty
+    return item.priceReductDesc == null || item.priceReductDesc!.isEmpty
         ? Container()
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
@@ -446,14 +446,14 @@ class CartItemWidget extends StatelessWidget {
 
   ///左侧选择框，编辑框
   _buildCheckBox(CarItem itemData, CartItemListItem item, int index) {
-    if (isEdit) {
+    if (isEdit!) {
       return Container(
         width: _checkBoxWith,
         child: CartCheckBox(
           canCheck: true,
           onCheckChanged: (check) {
             if (deleteCheckItem != null) {
-              deleteCheckItem(check, itemData, item);
+              deleteCheckItem!(check, itemData, item);
             }
           },
         ),
@@ -465,11 +465,11 @@ class CartItemWidget extends StatelessWidget {
         width: _checkBoxWith,
         child: GestureDetector(
           onTap: () {
-            if (itemData.canCheck || item.checked) {
+            if (itemData.canCheck! || item.checked!) {
               if (checkOne != null) {
                 if (item.id != 0 && item.id != null) {
-                  checkOne(itemData, item.source, item.type, item.skuId,
-                      !item.checked, item.extId);
+                  checkOne!(itemData, item.source, item.type, item.skuId,
+                      !item.checked!, item.extId);
                 }
               }
             }
@@ -487,10 +487,10 @@ class CartItemWidget extends StatelessWidget {
     if (item.id == 0) {
       return _cantClickBox();
     } else {
-      if (item.checked) {
+      if (item.checked!) {
         return _checkedBox();
       } else {
-        if (itemData.canCheck) {
+        if (itemData.canCheck!) {
           return _canClickBox();
         } else {
           return _cantClickBox();
@@ -532,8 +532,9 @@ class CartItemWidget extends StatelessWidget {
 
   _redeem(CarItem itemData, int index, BuildContext context) {
     bool cartItemEmpty =
-        itemData.cartItemList == null || itemData.cartItemList.isEmpty;
-    if (itemData.addBuyStepList != null && itemData.addBuyStepList.isNotEmpty) {
+        itemData.cartItemList == null || itemData.cartItemList!.isEmpty;
+    if (itemData.addBuyStepList != null &&
+        itemData.addBuyStepList!.isNotEmpty) {
       ///换购
       return Container(
         color: backWhite,
@@ -586,7 +587,7 @@ class CartItemWidget extends StatelessWidget {
                         'from': 'cart-item'
                       }, (value) {
                         if (callBack != null) {
-                          callBack();
+                          callBack!();
                         }
                       });
                     },
@@ -606,7 +607,7 @@ class CartItemWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        itemData.promSatisfy ? '去换购商品' : '查看换购商品',
+                        itemData.promSatisfy! ? '去换购商品' : '查看换购商品',
                         style: t12black,
                       ),
                     ),
@@ -616,7 +617,7 @@ class CartItemWidget extends StatelessWidget {
               ),
               onTap: () {
                 if (goRedeem != null) {
-                  goRedeem(itemData);
+                  goRedeem!(itemData);
                 }
               },
             ),
@@ -672,7 +673,7 @@ class CartItemWidget extends StatelessWidget {
                   'from': 'cart-item'
                 }, (value) {
                   if (callBack != null) {
-                    callBack();
+                    callBack!();
                   }
                 });
               },
@@ -704,10 +705,10 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _specValue(CartItemListItem item) {
-    List<SpecListItem> specList = item.specList;
+    List<SpecListItem> specList = item.specList!;
     String specName = '';
     for (var value in specList) {
-      specName += value.specValue;
+      specName += value.specValue!;
       specName += "; ";
     }
     var replaceRange =

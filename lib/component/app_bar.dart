@@ -6,11 +6,11 @@ import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 typedef void BackPress();
 
 class TopAppBar extends StatelessWidget {
-  final String title;
+  final String? title;
   final bool closeIcon;
-  final BackPress backPress;
+  final BackPress? backPress;
 
-  const TopAppBar({Key key, this.title, this.closeIcon = false, this.backPress})
+  const TopAppBar({Key? key, this.title, this.closeIcon = false, this.backPress})
       : super(key: key);
 
   Widget buildAppBar(BuildContext context) {
@@ -33,7 +33,7 @@ class TopAppBar extends StatelessWidget {
               ),
               onTap: () {
                 if (backPress != null) {
-                  backPress();
+                  backPress!();
                 } else {
                   Navigator.pop(context);
                 }
@@ -57,7 +57,7 @@ class TopAppBar extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Center(
                   child: Text(
-                    title == null ? '' : title,
+                    title == null ? '' : title!,
                     style: t16black,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

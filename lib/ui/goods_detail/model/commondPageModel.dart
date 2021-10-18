@@ -5,8 +5,8 @@ part 'commondPageModel.g.dart';
 
 @JsonSerializable()
 class CommondPageModel {
-  Pagination pagination;
-  List<ResultItem> result;
+  Pagination? pagination;
+  List<ResultItem>? result;
 
   CommondPageModel();
 
@@ -16,18 +16,18 @@ class CommondPageModel {
 
 @JsonSerializable()
 class ResultItem {
-  List<String> skuInfo;
-  String frontUserName;
-  String content;
-  num createTime;
-  List<String> picList;
-  String frontUserAvatar;
-  CommentReplyVO commentReplyVO;
-  num memberLevel;
-  AppendCommentVO appendCommentVO;
-  num star;
-  num itemId;
-  CommentItemTagVO commentItemTagVO;
+  List<String>? skuInfo;
+  String? frontUserName;
+  String? content;
+  num? createTime;
+  List<String>? picList;
+  String? frontUserAvatar;
+  CommentReplyVO? commentReplyVO;
+  num? memberLevel;
+  AppendCommentVO? appendCommentVO;
+  num? star;
+  num? itemId;
+  CommentItemTagVO? commentItemTagVO;
 
   ResultItem();
 
@@ -37,7 +37,7 @@ class ResultItem {
 
 @JsonSerializable()
 class CommentReplyVO {
-  String replyContent;
+  String? replyContent;
 
   CommentReplyVO();
 
@@ -47,9 +47,9 @@ class CommentReplyVO {
 
 @JsonSerializable()
 class AppendCommentVO {
-  String content;
-  num createTime;
-  List<String> picList;
+  String? content;
+  num? createTime;
+  List<String>? picList;
 
   AppendCommentVO();
 
@@ -59,8 +59,8 @@ class AppendCommentVO {
 
 @JsonSerializable()
 class CommentItemTagVO {
-  String schemeUrl;
-  num type;
+  String? schemeUrl;
+  num? type;
 
   CommentItemTagVO();
 
@@ -70,9 +70,9 @@ class CommentItemTagVO {
 
 @JsonSerializable()
 class Praise {
-  String goodCmtRate;
-  num star;
-  num defGoodCmtCnt;
+  String? goodCmtRate;
+  num? star;
+  num? defGoodCmtCnt;
 
   Praise();
 

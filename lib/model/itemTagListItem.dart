@@ -4,13 +4,13 @@ part 'itemTagListItem.g.dart';
 
 @JsonSerializable()
 class ItemTagListItem {
-  num type;
-  num subType;
-  num tagId;
-  num itemId;
-  String name;
-  bool forbidJump;
-  bool freshmanExclusive;
+  num? type;
+  num? subType;
+  num? tagId;
+  num? itemId;
+  String? name;
+  bool? forbidJump;
+  bool? freshmanExclusive;
 
   ItemTagListItem();
 

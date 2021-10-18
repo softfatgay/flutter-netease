@@ -5,14 +5,14 @@ part 'flashSaleModule.g.dart';
 
 @JsonSerializable()
 class FlashSaleModule {
-  num activityPrice;
+  num? activityPrice;
 
-  String primaryPicUrl;
-  num nextStartTime;
-  num remainTime;
-  num flashSaleScreenId;
-  bool showFlash;
-  List<FlashSaleModuleItem> itemList;
+  String? primaryPicUrl;
+  num? nextStartTime;
+  num? remainTime;
+  num? flashSaleScreenId;
+  bool? showFlash;
+  List<FlashSaleModuleItem>? itemList;
 
   FlashSaleModule();
 

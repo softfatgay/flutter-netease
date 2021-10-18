@@ -4,14 +4,14 @@ part 'newItemTagModul.g.dart';
 
 @JsonSerializable()
 class NewItemTagModel {
-  num itemId;
-  num tagId;
-  bool freshmanExclusive;
-  bool forbidJump;
+  num? itemId;
+  num? tagId;
+  bool? freshmanExclusive;
+  bool? forbidJump;
 
-  String name;
-  num subType;
-  num type;
+  String? name;
+  num? subType;
+  num? type;
 
   NewItemTagModel();
 

@@ -5,13 +5,13 @@ import 'package:flutter_app/constant/fonts.dart';
 typedef void ItemClick(int index);
 
 class VerticalSliderText extends StatelessWidget {
-  final List<String> dateList;
-  final ItemClick itemClick;
-  final BoxDecoration decoration;
-  final double width;
+  final List<String>? dateList;
+  final ItemClick? itemClick;
+  final BoxDecoration? decoration;
+  final double? width;
 
   const VerticalSliderText(
-      {Key key, this.dateList, this.itemClick, this.decoration, this.width})
+      {Key? key, this.dateList, this.itemClick, this.decoration, this.width})
       : super(key: key);
 
   @override
@@ -25,9 +25,9 @@ class VerticalSliderText extends StatelessWidget {
           height: 25,
           aspectRatio: 1.0,
           scrollDirection: Axis.vertical,
-          autoPlay: dateList.length > 1 ? true : false,
+          autoPlay: dateList!.length > 1 ? true : false,
         ),
-        items: itemList(dateList),
+        items: itemList(dateList!),
       ),
     );
   }
@@ -45,7 +45,7 @@ class VerticalSliderText extends StatelessWidget {
         ),
         onTap: () {
           if (itemClick != null) {
-            itemClick(dateList.indexOf(item));
+            itemClick!(dateList.indexOf(item));
           }
         },
       );

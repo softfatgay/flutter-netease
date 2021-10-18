@@ -6,9 +6,9 @@ import 'package:flutter_app/ui/router/router.dart';
 
 ///开通pro-vip
 class ProVipWidget extends StatelessWidget {
-  final SpmcBanner spmcBanner;
+  final SpmcBanner? spmcBanner;
 
-  const ProVipWidget({Key key, this.spmcBanner}) : super(key: key);
+  const ProVipWidget({Key? key, this.spmcBanner}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,9 @@ class ProVipWidget extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(style: t14black, children: [
                         TextSpan(
-                            text: '${spmcBanner.spmcDesc}', style: t14black),
+                            text: '${spmcBanner!.spmcDesc}', style: t14black),
                         TextSpan(
-                            text: '${spmcBanner.spmcPrice}', style: t14red),
+                            text: '${spmcBanner!.spmcPrice}', style: t14red),
                       ]),
                     ),
                   ),
@@ -62,7 +62,7 @@ class ProVipWidget extends StatelessWidget {
         ),
         onTap: () {
           Routers.push(
-              Routers.webView, context, {'url': '${spmcBanner.btnValue}'});
+              Routers.webView, context, {'url': '${spmcBanner!.btnValue}'});
         },
       );
     } else {

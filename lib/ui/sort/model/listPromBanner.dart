@@ -4,14 +4,14 @@ part 'listPromBanner.g.dart';
 
 @JsonSerializable()
 class ListPromBanner {
-  bool valid;
-  String promoTitle;
-  String promoSubTitle;
-  String content;
-  String bannerTitleUrl;
-  String bannerContentUrl;
-  num styleType;
-  num timeType;
+  bool? valid;
+  String? promoTitle;
+  String? promoSubTitle;
+  String? content;
+  String? bannerTitleUrl;
+  String? bannerContentUrl;
+  num? styleType;
+  num? timeType;
 
   ListPromBanner();
 

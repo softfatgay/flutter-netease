@@ -34,5 +34,5 @@ class CookieConfig {
     return token.length > 0;
   }
 
-  static bool checkLogin;
+  static bool? checkLogin;
 }

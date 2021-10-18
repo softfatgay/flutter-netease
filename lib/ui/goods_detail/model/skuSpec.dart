@@ -5,10 +5,10 @@ part 'skuSpec.g.dart';
 
 @JsonSerializable()
 class SkuSpec {
-  num id;
-  String name;
-  num type;
-  List<SkuSpecValueListItem> skuSpecValueList;
+  num? id;
+  String? name;
+  num? type;
+  List<SkuSpecValueListItem>? skuSpecValueList;
 
   SkuSpec();
 
@@ -19,8 +19,8 @@ class SkuSpec {
 
 @JsonSerializable()
 class SkuSpecValueListItem {
-  num id;
-  String value;
+  num? id;
+  String? value;
 
   SkuSpecValueListItem();
 

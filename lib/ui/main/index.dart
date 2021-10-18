@@ -79,7 +79,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    HosEventBusUtils.on((event) {
+    HosEventBusUtils.on((dynamic event) {
       if (event == REFRESH_CART_NUM) {
         _getMiniCartNum();
       } else if (event == GO_HOME) {
@@ -151,7 +151,7 @@ class _MainPageState extends State<MainPage> {
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 11),
                 child: Image.asset(
-                  item.normalIcon,
+                  item.normalIcon!,
                   width: 22.0,
                   height: 22.0,
                 ),
@@ -182,7 +182,7 @@ class _MainPageState extends State<MainPage> {
               Container(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  item.activeIcon,
+                  item.activeIcon!,
                   width: 22.0,
                   height: 22.0,
                 ),
@@ -212,13 +212,13 @@ class _MainPageState extends State<MainPage> {
       } else {
         return BottomNavigationBarItem(
           icon: Image.asset(
-            item.normalIcon,
+            item.normalIcon!,
             width: 22.0,
             height: 22.0,
           ),
           label: item.name,
           activeIcon: Image.asset(
-            item.activeIcon,
+            item.activeIcon!,
             width: 22.0,
             height: 22.0,
           ),
@@ -229,7 +229,7 @@ class _MainPageState extends State<MainPage> {
 }
 
 class _Item {
-  String name, activeIcon, normalIcon, cartNum;
+  String? name, activeIcon, normalIcon, cartNum;
 
   _Item(this.name, this.activeIcon, this.normalIcon, {this.cartNum});
 }

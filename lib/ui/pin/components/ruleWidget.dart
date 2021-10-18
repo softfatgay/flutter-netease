@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
 class RuleWidget extends StatelessWidget {
-  const RuleWidget({Key key}) : super(key: key);
+  const RuleWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

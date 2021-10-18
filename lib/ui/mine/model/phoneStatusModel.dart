@@ -4,12 +4,12 @@ part 'phoneStatusModel.g.dart';
 
 @JsonSerializable()
 class PhoneStatusModel {
-  num status;
-  String mobile;
-  String ucMobile;
-  bool degrade;
-  bool mobileBindFlowControl;
-  bool frequentlyAccount;
+  num? status;
+  String? mobile;
+  String? ucMobile;
+  bool? degrade;
+  bool? mobileBindFlowControl;
+  bool? frequentlyAccount;
 
   PhoneStatusModel();
 

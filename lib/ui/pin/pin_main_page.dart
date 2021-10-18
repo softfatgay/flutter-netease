@@ -24,16 +24,16 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   String _topBackImg =
       'http://yanxuan.nosdn.127.net/18522f8bd4b81e454eee3317f0b77bdc.png';
 
-  TabController _tabController;
+  TabController? _tabController;
 
   List<TabModel> _tabTitle = [];
   bool _isLoading = true;
   bool _isFirstLoading = true;
   int _pageSize = 10;
   int _page = 1;
-  int tabId = 0;
+  int? tabId = 0;
   String _tabIdType = 'tabId';
-  Pagination _pagination;
+  Pagination? _pagination;
   bool _hasMore = true;
 
   List<Result> _dataList = [];
@@ -81,8 +81,8 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
       floatingActionButton: StreamBuilder(
           stream: _upStreamController.stream,
           initialData: false,
-          builder: (context, snapshot) {
-            return snapshot.data ? floatingAB(_scrollController) : Container();
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            return snapshot.data! ? floatingAB(_scrollController) : Container();
           }),
     );
   }
@@ -119,7 +119,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
                     tabController: _tabController,
                     indexChange: (index) {
                       setState(() {
-                        _tabController.index = index;
+                        _tabController!.index = index;
                       });
                     },
                     isTabScroll: isScroll,
@@ -144,7 +144,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
         stream: _streamController.stream,
         initialData: false,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          return snapshot.data
+          return snapshot.data!
               ? Container(
                   decoration: BoxDecoration(
                     color: backWhite,
@@ -158,7 +158,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
                     tabController: _tabController,
                     indexChange: (index) {
                       setState(() {
-                        _tabController.index = index;
+                        _tabController!.index = index;
                       });
                     },
                     isTabScroll: isScroll,
@@ -247,7 +247,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController.dispose();
+    _tabController!.dispose();
     _streamController.close();
     _upStreamController.close();
     _scrollController.dispose();
@@ -259,13 +259,13 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
     var data = responseData.data;
 
     var tabGroupModel = TabGroupModel.fromJson(data);
-    var tabList = tabGroupModel.tabList;
+    var tabList = tabGroupModel.tabList!;
     List<TabModel> dataList = [];
     tabList.forEach((element) {
       element.type = 'tabId';
       dataList.add(element);
     });
-    var categoryList = tabGroupModel.categoryList;
+    var categoryList = tabGroupModel.categoryList!;
     dataList.addAll(categoryList);
 
     if (_tabTitle.isEmpty) {
@@ -274,15 +274,15 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
         _tabController = TabController(length: _tabTitle.length, vsync: this)
           ..addListener(() {
             setState(() {
-              if (_tabController.index == _tabController.animation.value) {
+              if (_tabController!.index == _tabController!.animation!.value) {
                 _hasMore = true;
                 _page = 1;
-                if (_tabTitle[_tabController.index].type != null) {
+                if (_tabTitle[_tabController!.index].type != null) {
                   _tabIdType = 'tabId';
                 } else {
                   _tabIdType = 'categoryId';
                 }
-                tabId = _tabTitle[_tabController.index].id;
+                tabId = _tabTitle[_tabController!.index].id as int?;
                 _getPinDataList(true);
               }
             });
@@ -305,13 +305,13 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
     setState(() {
       _isLoading = false;
       _pagination = saturdayBuyModel.pagination;
-      if (_page >= _pagination.totalPage) {
+      if (_page >= _pagination!.totalPage!) {
         _hasMore = false;
       }
       if (_page == 1) {
         _dataList.clear();
         _moreDataList.clear();
-        List result = saturdayBuyModel.result;
+        List result = saturdayBuyModel.result!;
         List<Result> listData = [];
         List<Result> moreData = [];
 
@@ -331,7 +331,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
         print('================================');
         setState(() {
           _moreDataList.insertAll(
-              _moreDataList.length, saturdayBuyModel.result);
+              _moreDataList.length, saturdayBuyModel.result!);
         });
       }
     });

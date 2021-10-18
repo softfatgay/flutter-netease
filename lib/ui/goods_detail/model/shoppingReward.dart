@@ -5,9 +5,9 @@ part 'shoppingReward.g.dart';
 
 @JsonSerializable()
 class ShoppingReward {
-  String name;
-  String rewardDesc;
-  String rewardValue;
+  String? name;
+  String? rewardDesc;
+  String? rewardValue;
 
   ShoppingReward();
 

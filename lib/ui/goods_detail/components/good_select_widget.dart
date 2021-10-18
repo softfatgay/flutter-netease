@@ -6,13 +6,13 @@ import 'package:flutter_app/component/global.dart';
 typedef void OnPress();
 
 class GoodSelectWidget extends StatelessWidget {
-  final String selectedStrDec;
-  final int goodCount;
-  final OnPress onPress;
-  final SkuMapValue skuMapItem;
+  final String? selectedStrDec;
+  final int? goodCount;
+  final OnPress? onPress;
+  final SkuMapValue? skuMapItem;
 
   const GoodSelectWidget(
-      {Key key,
+      {Key? key,
       this.selectedStrDec,
       this.goodCount,
       this.onPress,
@@ -66,7 +66,7 @@ class GoodSelectWidget extends StatelessWidget {
       ),
       onTap: () {
         if (onPress != null) {
-          onPress();
+          onPress!();
         }
       },
     );

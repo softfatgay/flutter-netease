@@ -7,8 +7,8 @@ part 'kingkongModel.g.dart';
 
 @JsonSerializable()
 class KingkongModel {
-  Category currentCategory;
-  List<CategoryItemListItem> categoryItemList;
+  Category? currentCategory;
+  List<CategoryItemListItem>? categoryItemList;
 
   KingkongModel();
 

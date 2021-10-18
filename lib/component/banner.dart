@@ -9,16 +9,16 @@ typedef void OnTap(int value);
 typedef void OnIndexChanged(int index);
 
 class BannerCacheImg extends StatelessWidget {
-  final List imageList;
-  final double height;
+  final List? imageList;
+  final double? height;
   final double corner;
   final int autoplayDelay;
   final bool autoplay;
   final Axis scrollDirection;
-  final OnTap onTap;
+  final OnTap? onTap;
   final BoxFit boxFit;
   final String localImagePath;
-  final OnIndexChanged onIndexChanged;
+  final OnIndexChanged? onIndexChanged;
 
   BannerCacheImg(
       {this.imageList,
@@ -34,7 +34,7 @@ class BannerCacheImg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (imageList == null || imageList.isEmpty)
+    return (imageList == null || imageList!.isEmpty)
         ? Container(
             child: Image.asset(
               localImagePath,
@@ -47,7 +47,7 @@ class BannerCacheImg extends StatelessWidget {
 
   _buildSwiper() {
     return CarouselSlider(
-      items: imageList.map<Widget>((e) {
+      items: imageList!.map<Widget>((e) {
         return GestureDetector(
           child: Container(
             width: double.infinity,
@@ -61,7 +61,7 @@ class BannerCacheImg extends StatelessWidget {
             ),
           ),
           onTap: () {
-            onTap(imageList.indexOf(e));
+            onTap!(imageList!.indexOf(e));
           },
         );
       }).toList(),

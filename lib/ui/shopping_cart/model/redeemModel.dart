@@ -5,10 +5,10 @@ part 'redeemModel.g.dart';
 
 @JsonSerializable()
 class RedeemModel {
-  List<CartGroupListItem> cartGroupList;
-  num totalPrice;
-  num promotionPrice;
-  num actualPrice;
+  List<CartGroupListItem>? cartGroupList;
+  num? totalPrice;
+  num? promotionPrice;
+  num? actualPrice;
 
   RedeemModel();
 
@@ -18,11 +18,11 @@ class RedeemModel {
 
 @JsonSerializable()
 class CartGroupListItem {
-  num promId;
-  num promType;
-  String promTip;
-  num allowCount;
-  List<AddBuyStepListItem> addBuyStepList;
+  num? promId;
+  num? promType;
+  String? promTip;
+  num? allowCount;
+  List<AddBuyStepListItem>? addBuyStepList;
 
   CartGroupListItem();
 
@@ -32,10 +32,10 @@ class CartGroupListItem {
 
 @JsonSerializable()
 class AddBuyStepListItem {
-  num stepNo;
-  String title;
-  bool isSatisfy;
-  List<CartItemListItem> addBuyItemList;
+  num? stepNo;
+  String? title;
+  bool? isSatisfy;
+  List<CartItemListItem>? addBuyItemList;
 
   AddBuyStepListItem();
 
@@ -45,24 +45,24 @@ class AddBuyStepListItem {
 
 @JsonSerializable()
 class AddBuyItemListItem {
-  String uniqueKey;
-  num id;
-  num itemId;
-  String itemName;
-  num status;
-  String pic;
-  num skuId;
-  bool valid;
-  num sellVolume;
-  List<SpecListItem> specList;
-  num cnt;
-  num totalPrice;
-  num retailPrice;
-  num actualPrice;
-  num subtotalPrice;
-  String extId;
-  bool checked;
-  num promId;
+  String? uniqueKey;
+  num? id;
+  num? itemId;
+  String? itemName;
+  num? status;
+  String? pic;
+  num? skuId;
+  bool? valid;
+  num? sellVolume;
+  List<SpecListItem>? specList;
+  num? cnt;
+  num? totalPrice;
+  num? retailPrice;
+  num? actualPrice;
+  num? subtotalPrice;
+  String? extId;
+  bool? checked;
+  num? promId;
 
   AddBuyItemListItem();
 

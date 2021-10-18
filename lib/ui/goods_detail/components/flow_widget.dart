@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 typedef void OnTap(int index);
 
 class FlowWidget<String> extends StatefulWidget {
-  final List<String> items;
+  final List<String>? items;
   final Color checkedColor;
   final Color unCheckColor;
-  final String checkedItem;
-  final OnTap onTap;
-  final int showItemCount;
+  final String? checkedItem;
+  final OnTap? onTap;
+  final int? showItemCount;
   final double spacing;
   final double runSpacing;
   final int checkindex;
@@ -41,9 +41,9 @@ class _FlowWidgetState extends State<FlowWidget> {
   List<Widget> buildItem() {
     return List.generate(
         widget.showItemCount == null
-            ? widget.items.length
-            : widget.showItemCount, (index) {
-      Color checkColor = widget.checkedItem == widget.items[index]
+            ? widget.items!.length
+            : widget.showItemCount!, (index) {
+      Color checkColor = widget.checkedItem == widget.items![index]
           ? widget.checkedColor
           : widget.unCheckColor;
       return GestureDetector(
@@ -53,12 +53,12 @@ class _FlowWidgetState extends State<FlowWidget> {
               borderRadius: BorderRadius.all(Radius.circular(4)),
               border: Border.all(width: 0.5, color: checkColor)),
           child: Text(
-            '${widget.items[index]}',
+            '${widget.items![index]}',
             style: TextStyle(color: checkColor, fontSize: 12, height: 1.1),
           ),
         ),
         onTap: () {
-          widget.onTap(index);
+          widget.onTap!(index);
         },
       );
     });

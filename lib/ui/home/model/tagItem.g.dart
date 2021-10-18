@@ -6,17 +6,15 @@ part of 'tagItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TagItem _$TagItemFromJson(Map<String, dynamic> json) {
-  return TagItem()
-    ..floorPrice = (json['floorPrice'] as num)?.toDouble()
-    ..picUrl = json['picUrl'] as String
-    ..newOnShelf = json['newOnShelf'] as bool
-    ..webIndexVerticalPicUrl = json['webIndexVerticalPicUrl'] as String
-    ..simpleDesc = json['simpleDesc'] as String
-    ..name = json['name'] as String
-    ..appListPicUrl = json['appListPicUrl'] as String
-    ..id = json['id'] as int;
-}
+TagItem _$TagItemFromJson(Map<String, dynamic> json) => TagItem()
+  ..floorPrice = (json['floorPrice'] as num?)?.toDouble()
+  ..picUrl = json['picUrl'] as String?
+  ..newOnShelf = json['newOnShelf'] as bool?
+  ..webIndexVerticalPicUrl = json['webIndexVerticalPicUrl'] as String?
+  ..simpleDesc = json['simpleDesc'] as String?
+  ..name = json['name'] as String?
+  ..appListPicUrl = json['appListPicUrl'] as String?
+  ..id = json['id'] as int?;
 
 Map<String, dynamic> _$TagItemToJson(TagItem instance) => <String, dynamic>{
       'floorPrice': instance.floorPrice,

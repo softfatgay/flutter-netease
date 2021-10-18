@@ -5,7 +5,7 @@ class NormalFooter extends StatelessWidget {
   final bool hasMore;
   final String tipsText;
 
-  const NormalFooter({Key key, this.hasMore = false, this.tipsText = '没有更多了'})
+  const NormalFooter({Key? key, this.hasMore = false, this.tipsText = '没有更多了'})
       : super(key: key);
 
   @override

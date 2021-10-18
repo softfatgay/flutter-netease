@@ -4,15 +4,15 @@ part 'navItem.g.dart';
 
 @JsonSerializable()
 class NavItem {
-  num id;
-  String picUrl;
-  String mainTitle;
-  String viceTitle;
-  String columnUrl;
-  bool onlineType;
-  num vaildStartTime;
-  num vaildEndTime;
-  num rank;
+  num? id;
+  String? picUrl;
+  String? mainTitle;
+  String? viceTitle;
+  String? columnUrl;
+  bool? onlineType;
+  num? vaildStartTime;
+  num? vaildEndTime;
+  num? rank;
 
   NavItem();
 

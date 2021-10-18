@@ -6,15 +6,15 @@ part 'shoppingCartModel.g.dart';
 
 @JsonSerializable()
 class ShoppingCartModel {
-  num totalPrice;
-  num promotionPrice;
-  num actualPrice;
-  num totalPoint;
-  num actualPoint;
-  PostageVO postageVO;
+  num? totalPrice;
+  num? promotionPrice;
+  num? actualPrice;
+  num? totalPoint;
+  num? actualPoint;
+  PostageVO? postageVO;
 
-  List<CarItem> cartGroupList;
-  List<CarItem> invalidCartGroupList;
+  List<CarItem>? cartGroupList;
+  List<CarItem>? invalidCartGroupList;
 
   ShoppingCartModel();
 

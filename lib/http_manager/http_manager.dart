@@ -24,7 +24,7 @@ class HttpManager {
         ));
   }
 
-  static Dio _dio;
+  static Dio? _dio;
 
   static get dioInstance {
     if (_dio == null) {
@@ -65,7 +65,7 @@ class HttpManager {
         handler.next(e);
       });
       _dio = Dio(baseOptions);
-      _dio.interceptors.add(interceptorsWrapper);
+      _dio!.interceptors.add(interceptorsWrapper);
     }
     return _dio;
   }
@@ -74,20 +74,20 @@ class HttpManager {
     //TODO GET和POST添加静态
     String path, {
     String method = 'GET',
-    Map<String, dynamic> queryParameters,
-    Map<String, dynamic> headers,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
     dynamic data,
     dynamic formData,
-    String accept,
-    int sendTimeout,
-    int receiveTimeout,
-    RequestCancelToken cancelToken,
-    bool needToastMessage,
-    bool needAuthentication,
-    bool needCommonParameters,
-    bool needCommonHeaders,
+    String? accept,
+    int? sendTimeout,
+    int? receiveTimeout,
+    RequestCancelToken? cancelToken,
+    bool? needToastMessage,
+    bool? needAuthentication,
+    bool? needCommonParameters,
+    bool? needCommonHeaders,
     bool showProgress = false,
-    SignatureCondition signatureCondition, // 签名条件
+    SignatureCondition? signatureCondition, // 签名条件
   }) async {
     _print('showProgress = $showProgress');
     if (showProgress) {
@@ -130,28 +130,29 @@ class HttpManager {
     } catch (e) {
       _netError();
     } finally {
-      if (showProgress ?? true) {
+      if (showProgress) {
         BotToast.closeAllLoading();
       }
     }
+    return Future.value(ResponseData());
   }
 
   static Future<ResponseData> post(
     path, {
-    Map<String, dynamic> header,
-    Map<String, dynamic> params,
+    Map<String, dynamic>? header,
+    Map<String, dynamic>? params,
     dynamic data,
-    int sendTimeout, // 毫秒
-    int receiveTimeout, // 毫秒
-    RequestCancelToken cancelToken, // 取消网络请求的Token
-    bool needToastMessage,
-    bool needAuthentication,
-    bool needCommonParameters,
-    bool needCommonHeaders,
-    String accept,
+    int? sendTimeout, // 毫秒
+    int? receiveTimeout, // 毫秒
+    RequestCancelToken? cancelToken, // 取消网络请求的Token
+    bool? needToastMessage,
+    bool? needAuthentication,
+    bool? needCommonParameters,
+    bool? needCommonHeaders,
+    String? accept,
     dynamic formData,
     bool showProgress = false,
-    SignatureCondition signatureCondition, // 签名条件
+    SignatureCondition? signatureCondition, // 签名条件
   }) {
     return _request(
       path,
@@ -174,18 +175,18 @@ class HttpManager {
 
   static Future<ResponseData> get(
     path, {
-    Map<String, dynamic> header,
-    Map<String, dynamic> params,
-    int sendTimeout, // 毫秒
-    int receiveTimeout, // 毫秒
-    RequestCancelToken cancelToken, // 取消网络请求的Token
-    bool needToastMessage,
-    bool needAuthentication,
-    bool needCommonParameters,
-    bool needCommonHeaders,
-    String accept,
+    Map<String, dynamic>? header,
+    Map<String, dynamic>? params,
+    int? sendTimeout, // 毫秒
+    int? receiveTimeout, // 毫秒
+    RequestCancelToken? cancelToken, // 取消网络请求的Token
+    bool? needToastMessage,
+    bool? needAuthentication,
+    bool? needCommonParameters,
+    bool? needCommonHeaders,
+    String? accept,
     bool showProgress = false,
-    SignatureCondition signatureCondition, // 签名条件
+    SignatureCondition? signatureCondition, // 签名条件
   }) {
     return _request(
       path,
@@ -215,7 +216,7 @@ class HttpManager {
 
   static Future<Map<String, dynamic>> signatureHeader() async => {};
 
-  static _print(Object object) {
+  static _print(Object? object) {
     if (kDebugMode) {
       print(object ?? '');
     }
@@ -235,8 +236,8 @@ class RequestCancelToken {
 }
 
 class SignatureCondition {
-  bool needSign = false;
-  String originalSuffix = '';
+  bool? needSign = false;
+  String? originalSuffix = '';
 
   SignatureCondition({
     this.needSign,

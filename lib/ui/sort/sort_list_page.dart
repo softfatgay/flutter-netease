@@ -8,7 +8,7 @@ import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/ui/sort/sort_list_item_page.dart';
 
 class SortListPage extends StatefulWidget {
-  Map params;
+  Map? params;
 
   SortListPage({this.params});
 
@@ -22,14 +22,14 @@ class _SortChildState extends State<SortListPage>
   bool _firstLoading = true;
 
   int _activeIndex = 0;
-  TabController _mController;
-  List<Category> _catalogList = [];
-  int _id = 0;
+  TabController? _mController;
+  List<Category>? _catalogList = [];
+  int? _id = 0;
   @override
   Widget build(BuildContext context) {
-    List<String> tabItem = [];
-    for (int i = 0; i < (_catalogList.length); i++) {
-      tabItem.add(_catalogList[i].name);
+    List<String?> tabItem = [];
+    for (int i = 0; i < (_catalogList!.length); i++) {
+      tabItem.add(_catalogList![i].name);
     }
     return Scaffold(
       backgroundColor: backColor,
@@ -46,16 +46,16 @@ class _SortChildState extends State<SortListPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _id = widget.params["subCategoryId"];
+    _id = widget.params!["subCategoryId"];
     _getInitData();
   }
 
   _getInitData() async {
-    _mController = TabController(length: _catalogList.length, vsync: this);
+    _mController = TabController(length: _catalogList!.length, vsync: this);
     var responseData = await sortListData({
       "categoryType": "0",
       "subCategoryId": _id,
-      "categoryId": widget.params["categoryId"],
+      "categoryId": widget.params!["categoryId"],
     });
     var data = responseData.data;
     var sortListDataModel = SortListData.fromJson(data);
@@ -65,8 +65,8 @@ class _SortChildState extends State<SortListPage>
       _isLoading = false;
 
       if (_firstLoading) {
-        for (int i = 0; i < (_catalogList.length); i++) {
-          if (widget.params['subCategoryId'] == _catalogList[i].id) {
+        for (int i = 0; i < (_catalogList!.length); i++) {
+          if (widget.params!['subCategoryId'] == _catalogList![i].id) {
             _activeIndex = i;
           }
         }
@@ -74,12 +74,12 @@ class _SortChildState extends State<SortListPage>
       }
 
       _mController = TabController(
-          length: _catalogList.length, vsync: this, initialIndex: _activeIndex);
+          length: _catalogList!.length, vsync: this, initialIndex: _activeIndex);
     });
-    _mController.addListener(() {
+    _mController!.addListener(() {
       setState(() {
-        _activeIndex = _mController.index;
-        _id = _catalogList[_activeIndex].id;
+        _activeIndex = _mController!.index;
+        _id = _catalogList![_activeIndex].id as int?;
       });
     });
   }
@@ -88,7 +88,7 @@ class _SortChildState extends State<SortListPage>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _mController.dispose();
+    _mController!.dispose();
   }
 
   _buildBody(BuildContext context) {
@@ -97,7 +97,7 @@ class _SortChildState extends State<SortListPage>
       child: _isLoading
           ? Loading()
           : TabBarView(
-              children: _catalogList.map((item) {
+              children: _catalogList!.map((item) {
                 return SortListItemPage(arguments: item);
               }).toList(),
               controller: _mController,

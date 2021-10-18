@@ -20,8 +20,8 @@ class QRCodeMinePage extends StatefulWidget {
 }
 
 class _QRCodeMinePageState extends State<QRCodeMinePage> {
-  QrCodeModel _qrCodeDate;
-  QrUserInfoModel _userData;
+  late QrCodeModel _qrCodeDate;
+  late QrUserInfoModel _userData;
 
   bool _isLoading = true;
 
@@ -49,7 +49,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                     children: [
                       Container(
                         child: Text(
-                          _userData.nickname,
+                          _userData.nickname!,
                           style: TextStyle(
                               fontSize: 16,
                               color: textBlack,
@@ -85,7 +85,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                       Container(
                         margin: EdgeInsets.only(top: 10),
                         width: double.infinity,
-                        child: QrImage(data: _qrCodeDate.qrCode),
+                        child: QrImage(data: _qrCodeDate.qrCode!),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 10),
@@ -140,7 +140,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
     });
   }
 
-  Timer _timer;
+  late Timer _timer;
 
   _getQrCode() async {
     _timer = Timer.periodic(Duration(milliseconds: 5000), (timer) {

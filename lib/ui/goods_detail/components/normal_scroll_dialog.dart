@@ -6,7 +6,7 @@ class NormalScrollDialog {
   final Widget child;
   final String title;
 
-  NormalScrollDialog({@required this.child, this.title = ''});
+  NormalScrollDialog({required this.child, this.title = ''});
 
   build(BuildContext context) async {
     return _showDialog(context);

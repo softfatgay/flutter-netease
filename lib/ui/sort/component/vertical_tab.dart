@@ -8,13 +8,13 @@ const tabItemHeight = 45.0;
 const indexColor = textRed;
 
 class VerticalTab extends StatefulWidget {
-  VerticalTab({Key key, this.tabs, this.onTabChange, this.activeIndex});
+  VerticalTab({Key? key, this.tabs, this.onTabChange, this.activeIndex});
 
-  final List<String> tabs;
+  final List<String?>? tabs;
 
-  final ValueChanged<int> onTabChange;
+  final ValueChanged<int>? onTabChange;
 
-  final int activeIndex;
+  final int? activeIndex;
 
   @override
   State<StatefulWidget> createState() {
@@ -60,7 +60,7 @@ class _VerticalTab extends State<VerticalTab> {
           setState(() {
             _currentIndex = index;
             isTap = true;
-            widget.onTabChange(index);
+            widget.onTabChange!(index);
           });
         }
       },
@@ -82,9 +82,9 @@ class _VerticalTab extends State<VerticalTab> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> tabList = List.filled(widget.tabs.length, Container());
-    for (var i = 0; i < widget.tabs.length; i++) {
-      tabList[i] = buildTabItem(widget.tabs[i], i);
+    final List<Widget> tabList = List.filled(widget.tabs!.length, Container());
+    for (var i = 0; i < widget.tabs!.length; i++) {
+      tabList[i] = buildTabItem(widget.tabs![i], i);
     }
     return Container(
       decoration: BoxDecoration(

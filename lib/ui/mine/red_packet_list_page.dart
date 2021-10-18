@@ -10,24 +10,24 @@ import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class RedPacketListPage extends StatefulWidget {
-  final int searchType;
+  final int? searchType;
 
-  const RedPacketListPage({Key key, this.searchType}) : super(key: key);
+  const RedPacketListPage({Key? key, this.searchType}) : super(key: key);
 
   @override
   _RedEnvelopeListState createState() => _RedEnvelopeListState();
 }
 
 class _RedEnvelopeListState extends State<RedPacketListPage> {
-  int _page = 1;
+  int? _page = 1;
   int _size = 20;
 
   bool _hasMore = false;
-  List<PackageItem> _dataList = [];
+  List<PackageItem>? _dataList = [];
 
   final _scrollController = new ScrollController();
   bool _isLoading = true;
-  BannerData _banner;
+  BannerData? _banner;
   var _pagination;
 
   @override
@@ -52,8 +52,8 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
       sliver: SliverList(
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
-        return _buildItem(context, _dataList[index], index);
-      }, childCount: _dataList.length)),
+        return _buildItem(context, _dataList![index], index);
+      }, childCount: _dataList!.length)),
     );
   }
 
@@ -106,9 +106,9 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: [
-                              Text(item.name, style: t14white),
+                              Text(item.name!, style: t14white),
                               Text(
-                                '${Util.long2date(item.validStartTime * 1000)}-${Util.long2date(item.validEndTime * 1000)}',
+                                '${Util.long2date(item.validStartTime! * 1000 as int)}-${Util.long2date(item.validEndTime! * 1000 as int)}',
                                 style:
                                     TextStyle(color: textWhite, fontSize: 10),
                               ),
@@ -152,11 +152,11 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            item.rule,
+                            item.rule!,
                             style: t12white,
                             maxLines: item.isSelected == null
                                 ? 1
-                                : (item.isSelected ? 15 : 1),
+                                : (item.isSelected! ? 15 : 1),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -173,7 +173,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                       if (item.isSelected == null) {
                         item.isSelected = true;
                       } else {
-                        item.isSelected = !item.isSelected;
+                        item.isSelected = !item.isSelected!;
                       }
                     });
                   },
@@ -181,7 +181,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
               ],
             ),
           ),
-          if (item.tagList != null && item.tagList.isNotEmpty)
+          if (item.tagList != null && item.tagList!.isNotEmpty)
             Container(
               margin: EdgeInsets.only(top: 10, left: 5),
               padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
@@ -190,7 +190,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                   borderRadius:
                       BorderRadius.horizontal(right: Radius.circular(10))),
               child: Text(
-                '${item.tagList[0].tagName}',
+                '${item.tagList![0].tagName}',
                 style: t12red,
               ),
             ),
@@ -203,7 +203,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
     if (item.isSelected == null) {
       return Icons.keyboard_arrow_down_rounded;
     } else {
-      if (item.isSelected) {
+      if (item.isSelected!) {
         return Icons.keyboard_arrow_up_rounded;
       } else {
         return Icons.keyboard_arrow_down_rounded;
@@ -241,8 +241,8 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
       var redPackageMode = RedPackageMode.fromJson(data);
       setState(() {
         _banner = redPackageMode.banner;
-        _dataList = redPackageMode.searchResult.result;
-        _pagination = redPackageMode.searchResult.pagination;
+        _dataList = redPackageMode.searchResult!.result;
+        _pagination = redPackageMode.searchResult!.pagination;
         _hasMore = !_pagination.lastPage;
         _page = _pagination.page + 1;
         _isLoading = false;
@@ -271,7 +271,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                     BoxDecoration(borderRadius: BorderRadius.circular(6)),
                 height: 40,
                 child: CachedNetworkImage(
-                  imageUrl: _banner.backgroundPic,
+                  imageUrl: _banner!.backgroundPic!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -284,9 +284,9 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                     Container(
                       height: 25,
                       width: 25,
-                      child: CachedNetworkImage(imageUrl: _banner.icon),
+                      child: CachedNetworkImage(imageUrl: _banner!.icon!),
                     ),
-                    Text('${_banner.title}')
+                    Text('${_banner!.title}')
                   ],
                 ),
               ),

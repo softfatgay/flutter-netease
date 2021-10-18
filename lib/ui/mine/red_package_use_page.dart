@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/http_manager/api.dart';
 
 class RedPackageUsePage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const RedPackageUsePage({Key key, this.params}) : super(key: key);
+  const RedPackageUsePage({Key? key, this.params}) : super(key: key);
 
   @override
   _RedPackageUsePageState createState() => _RedPackageUsePageState();

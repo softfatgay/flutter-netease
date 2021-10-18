@@ -5,8 +5,8 @@ part 'topNavData.g.dart';
 
 @JsonSerializable()
 class TopData {
-  bool checkNavType;
-  List<NavItem> navList;
+  bool? checkNavType;
+  List<NavItem>? navList;
 
   TopData();
 

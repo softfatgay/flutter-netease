@@ -4,24 +4,24 @@ part 'qrUserInfoModel.g.dart';
 
 @JsonSerializable()
 class QrUserInfoModel {
-  num userId;
-  String userName;
-  String avatar;
-  String nickname;
-  num status;
-  bool upperLimit;
-  num effectiveStartTime;
-  num effectiveEndTime;
-  num remainDays;
-  bool whiteListUser;
-  bool hasGotPrize;
-  num virtualStatus;
-  num memberLevel;
-  num qinhuiyuanStatus;
-  num wechatQinghuiyuanStatus;
-  bool hadUseFreeTry;
-  CurrentPeriod currentPeriod;
-  SpmcOrderRightEnjoyRecordListTO spmcOrderRightEnjoyRecordListTO;
+  num? userId;
+  String? userName;
+  String? avatar;
+  String? nickname;
+  num? status;
+  bool? upperLimit;
+  num? effectiveStartTime;
+  num? effectiveEndTime;
+  num? remainDays;
+  bool? whiteListUser;
+  bool? hasGotPrize;
+  num? virtualStatus;
+  num? memberLevel;
+  num? qinhuiyuanStatus;
+  num? wechatQinghuiyuanStatus;
+  bool? hadUseFreeTry;
+  CurrentPeriod? currentPeriod;
+  SpmcOrderRightEnjoyRecordListTO? spmcOrderRightEnjoyRecordListTO;
 
   QrUserInfoModel();
 
@@ -31,10 +31,10 @@ class QrUserInfoModel {
 
 @JsonSerializable()
 class CurrentPeriod {
-  String cardBigType;
-  String memberStatus;
-  num leftDays;
-  String leftDaysCluster;
+  String? cardBigType;
+  String? memberStatus;
+  num? leftDays;
+  String? leftDaysCluster;
 
   CurrentPeriod();
 
@@ -44,8 +44,8 @@ class CurrentPeriod {
 
 @JsonSerializable()
 class SpmcOrderRightEnjoyRecordListTO {
-  num totalSaveMoney;
-  String saveMoneyCluster;
+  num? totalSaveMoney;
+  String? saveMoneyCluster;
 
   SpmcOrderRightEnjoyRecordListTO();
 

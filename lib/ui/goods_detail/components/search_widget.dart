@@ -9,23 +9,23 @@ typedef void OnBtnClick(String value);
 typedef void OnSubmitted(String value);
 
 class SearchWidget extends StatefulWidget {
-  final String textValue;
+  final String? textValue;
   final double paddingV;
 
   ///{@macro 输入框变化,回调时间,默认500毫秒}
   final int textChangeDuration;
-  final String hintText;
+  final String? hintText;
   final double searchHeight;
-  final TextEditingController controller;
-  final OnValueChanged onValueChangedCallBack;
-  final OnBtnClick onBtnClick;
-  final OnSubmitted onSubmitted;
+  final TextEditingController? controller;
+  final OnValueChanged? onValueChangedCallBack;
+  final OnBtnClick? onBtnClick;
+  final OnSubmitted? onSubmitted;
 
   SearchWidget(
       {this.textValue = '',
       this.searchHeight = 48.0,
       this.paddingV = 8,
-      @required this.controller,
+      required this.controller,
       this.hintText,
       this.textChangeDuration = 500,
       this.onBtnClick,
@@ -37,7 +37,7 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchGoodsState extends State<SearchWidget> {
-  TextEditingController _controller;
+  TextEditingController? _controller;
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                 Container(
                   decoration: new BoxDecoration(
                       color: Colors.grey[100],
-                      border: Border.all(color: Colors.grey[100], width: 0.1),
+                      border: Border.all(color: Colors.grey[100]!, width: 0.1),
                       borderRadius: new BorderRadius.circular(5.0)),
                   margin: EdgeInsets.symmetric(vertical: widget.paddingV),
                 ),
@@ -102,7 +102,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                               //回车按钮
                               setState(() {
                                 if (widget.onSubmitted != null) {
-                                  widget.onSubmitted(text);
+                                  widget.onSubmitted!(text);
                                 }
                               });
                             },
@@ -116,7 +116,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                     Container(
                       margin: EdgeInsets.only(right: 8),
                       child: GestureDetector(
-                        child: TextUtil.isEmpty(_controller.text)
+                        child: TextUtil.isEmpty(_controller!.text)
                             ? Container()
                             : Image.asset(
                                 'assets/images/clear_icon.png',
@@ -125,8 +125,8 @@ class _SearchGoodsState extends State<SearchWidget> {
                               ),
                         onTap: () {
                           setState(() {
-                            _controller.clear();
-                            widget.onValueChangedCallBack('');
+                            _controller!.clear();
+                            widget.onValueChangedCallBack!('');
                           });
                         },
                       ),
@@ -151,7 +151,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                 ),
                 onPressed: () {
                   if (widget.onBtnClick != null) {
-                    widget.onBtnClick(_controller.text);
+                    widget.onBtnClick!(_controller!.text);
                   }
                 },
                 child: Text(
@@ -166,17 +166,17 @@ class _SearchGoodsState extends State<SearchWidget> {
     );
   }
 
-  Timer timer;
+  Timer? timer;
 
   _startTimer(String value) {
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
     }
     timer = Timer(Duration(milliseconds: widget.textChangeDuration), () {
       setState(() {
         // _controller.text = value.trim();
         if (widget.onValueChangedCallBack != null) {
-          widget.onValueChangedCallBack(_controller.text);
+          widget.onValueChangedCallBack!(_controller!.text);
         }
       });
     });
@@ -187,7 +187,7 @@ class _SearchGoodsState extends State<SearchWidget> {
     // TODO: implement dispose
     super.dispose();
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
       timer = null;
     }
   }

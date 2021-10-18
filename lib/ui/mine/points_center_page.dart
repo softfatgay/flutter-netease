@@ -25,9 +25,9 @@ class PointCenterPage extends StatefulWidget {
 class _PointCenterPageState extends State<PointCenterPage> {
   bool _isLoading = true;
 
-  PointsModel _data;
+  late PointsModel _data;
   List _banner = [];
-  List<PonitBannersItem> _bannerData = [];
+  List<PonitBannersItem>? _bannerData = [];
   List<ItemListItem> _rcmdDataList = [];
 
   String _topback =
@@ -60,11 +60,11 @@ class _PointCenterPageState extends State<PointCenterPage> {
       _isLoading = false;
       _data = PointsModel.fromJson(responseData.data);
       _bannerData = _data.ponitBanners;
-      _banner = _bannerData
+      _banner = _bannerData!
           .map((item) => Container(
                 margin: EdgeInsets.all(15),
                 child: CachedNetworkImage(
-                  imageUrl: item.picUrl,
+                  imageUrl: item.picUrl!,
                   fit: BoxFit.fitWidth,
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
@@ -214,7 +214,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       child: BannerCacheImg(
         imageList: _banner,
         onTap: (index) {
-          _goWebview('${_bannerData[index].targetUrl}');
+          _goWebview('${_bannerData![index].targetUrl}');
         },
         height: 110,
       ),
@@ -284,8 +284,8 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   _buildactivity() {
-    var pointExVirtualAct = _data.pointExVirtualAct;
-    List<ActPackets> activitys = pointExVirtualAct.actPackets;
+    var pointExVirtualAct = _data.pointExVirtualAct!;
+    List<ActPackets> activitys = pointExVirtualAct.actPackets!;
     return SliverGrid.count(
       crossAxisCount: 3,
       children: activitys.map<Widget>((item) {
@@ -301,7 +301,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                       border: Border.all(color: textYellow, width: 0.5)),
                   child: ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: item.picUrl,
+                      imageUrl: item.picUrl!,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -333,8 +333,8 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   _buildactivity2() {
-    var pointExVirtualAct = _data.pointExExternalRights;
-    List<ActPackets> activitys = pointExVirtualAct.actPackets;
+    var pointExVirtualAct = _data.pointExExternalRights!;
+    List<ActPackets> activitys = pointExVirtualAct.actPackets!;
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       sliver: SliverGrid.count(
@@ -388,9 +388,9 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   _buildChangePoint() {
-    var exchangeModule = _data.exchangeModule;
+    var exchangeModule = _data.exchangeModule!;
     List<PointCommoditiesItem> pointCommodities =
-        exchangeModule.pointCommodities;
+        exchangeModule.pointCommodities!;
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       sliver: SliverGrid.count(
@@ -411,7 +411,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   child: Container(
                     width: double.infinity,
                     child: CachedNetworkImage(
-                      imageUrl: item.picUrl,
+                      imageUrl: item.picUrl!,
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -464,11 +464,11 @@ class _PointCenterPageState extends State<PointCenterPage> {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return _rcmdOneItem(index);
-    }, childCount: _data.memLayawayVO.layawayList.length));
+    }, childCount: _data.memLayawayVO!.layawayList!.length));
   }
 
   _rcmdOneItem(int index) {
-    var layawayList = _data.memLayawayVO.layawayList;
+    var layawayList = _data.memLayawayVO!.layawayList!;
     var item = layawayList[index];
     return GestureDetector(
       child: Container(
@@ -481,7 +481,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
             CachedNetworkImage(
               width: 120,
               height: 120,
-              imageUrl: item.primaryPicUrl,
+              imageUrl: item.primaryPicUrl!,
             ),
             SizedBox(width: 10),
             Expanded(

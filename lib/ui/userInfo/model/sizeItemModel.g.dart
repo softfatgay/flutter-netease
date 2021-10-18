@@ -6,22 +6,21 @@ part of 'sizeItemModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SizeItemModel _$SizeItemModelFromJson(Map<String, dynamic> json) {
-  return SizeItemModel()
-    ..hipCircumference = json['hipCircumference'] as num
-    ..footLength = json['footLength'] as num
-    ..gender = json['gender'] as num
-    ..footCircumference = json['footCircumference'] as num
-    ..waistCircumference = json['waistCircumference'] as num
-    ..shoulderBreadth = json['shoulderBreadth'] as num
-    ..dft = json['dft'] as bool
-    ..roleName = json['roleName'] as String
-    ..bust = json['bust'] as num
-    ..underBust = json['underBust'] as num
-    ..id = json['id'] as num
-    ..bodyWeight = json['bodyWeight'] as num
-    ..height = json['height'] as num;
-}
+SizeItemModel _$SizeItemModelFromJson(Map<String, dynamic> json) =>
+    SizeItemModel()
+      ..hipCircumference = json['hipCircumference'] as num?
+      ..footLength = json['footLength'] as num?
+      ..gender = json['gender'] as num?
+      ..footCircumference = json['footCircumference'] as num?
+      ..waistCircumference = json['waistCircumference'] as num?
+      ..shoulderBreadth = json['shoulderBreadth'] as num?
+      ..dft = json['dft'] as bool?
+      ..roleName = json['roleName'] as String?
+      ..bust = json['bust'] as num?
+      ..underBust = json['underBust'] as num?
+      ..id = json['id'] as num?
+      ..bodyWeight = json['bodyWeight'] as num?
+      ..height = json['height'] as num?;
 
 Map<String, dynamic> _$SizeItemModelToJson(SizeItemModel instance) =>
     <String, dynamic>{

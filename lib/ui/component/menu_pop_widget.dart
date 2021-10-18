@@ -7,16 +7,16 @@ import 'package:flutter_app/ui/component/type_pop_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
-typedef void MenuChange(SearchParamModel searchParamModel);
+typedef void MenuChange(SearchParamModel? searchParamModel);
 
 class MenuPopWidget extends StatefulWidget {
-  final MenuChange menuChange;
-  final SearchParamModel searchParamModel;
-  final List<CategoryL1Item> categorytList;
+  final MenuChange? menuChange;
+  final SearchParamModel? searchParamModel;
+  final List<CategoryL1Item?>? categorytList;
   final double menuHeight;
 
   const MenuPopWidget(
-      {Key key,
+      {Key? key,
       this.menuChange,
       this.categorytList,
       this.searchParamModel,
@@ -35,7 +35,7 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
 
   num _descSorted = -1;
 
-  var _searchModel = SearchParamModel();
+  SearchParamModel? _searchModel = SearchParamModel();
 
   num _categoryIndex = 0;
 
@@ -45,7 +45,7 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _searchModel.source = 3;
+      _searchModel!.source = 3;
       if (widget.searchParamModel != null) {
         _searchModel = widget.searchParamModel;
       }
@@ -66,7 +66,7 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
               height: widget.menuHeight,
               child: SearchNavBar(
                 height: widget.menuHeight,
-                index: _popType,
+                index: _popType as int?,
                 pressIndex: (pressIndex) {
                   setState(() {
                     if (_popType == pressIndex) {
@@ -83,7 +83,7 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
                     _popType = pressIndex;
                   });
                 },
-                descSorted: _searchModel.descSorted,
+                descSorted: _searchModel!.descSorted,
               ),
             ),
           ),
@@ -129,7 +129,7 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
         cancelClick: () {
           _resetPrice();
         },
-        descSorted: _descSorted,
+        descSorted: _descSorted as int,
         sortClick: (sortType) {
           setState(() {
             if (_descSorted == sortType) {
@@ -143,11 +143,11 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
     } else if (_popType == 2) {
       return TypePopWidget(
         categoryList: widget.categorytList,
-        selectIndex: _categoryIndex,
+        selectIndex: _categoryIndex as int?,
         seletedIndex: (index) {
           setState(() {
             _categoryIndex = index;
-            _searchModel.categoryId = widget.categorytList[index].id;
+            _searchModel!.categoryId = widget.categorytList![index]!.id;
           });
           _closeMenuPop();
           _resetPage();
@@ -161,24 +161,24 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
   void setPriceSort() {
     _closeMenuPop();
     if (_descSorted == -1) {
-      _searchModel.descSorted = null;
+      _searchModel!.descSorted = null;
     } else if (_descSorted == 0) {
-      _searchModel.descSorted = false;
+      _searchModel!.descSorted = false;
     } else if (_descSorted == 1) {
-      _searchModel.descSorted = true;
+      _searchModel!.descSorted = true;
     } else {
-      _searchModel.descSorted = null;
+      _searchModel!.descSorted = null;
     }
 
     if (_lowPriceController.text.isNotEmpty) {
-      _searchModel.floorPrice = num.parse(_lowPriceController.text);
+      _searchModel!.floorPrice = num.parse(_lowPriceController.text);
     } else {
-      _searchModel.floorPrice = -1;
+      _searchModel!.floorPrice = -1;
     }
     if (_upPriceController.text.isNotEmpty) {
-      _searchModel.upperPrice = num.parse(_upPriceController.text);
+      _searchModel!.upperPrice = num.parse(_upPriceController.text);
     } else {
-      _searchModel.upperPrice = -1;
+      _searchModel!.upperPrice = -1;
     }
 
     _resetPage();
@@ -196,17 +196,17 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
       _descSorted = -1;
       _lowPriceController.text = '';
       _upPriceController.text = '';
-      _searchModel.descSorted = null;
-      _searchModel.floorPrice = -1;
-      _searchModel.upperPrice = -1;
-      _searchModel.categoryId = 0;
+      _searchModel!.descSorted = null;
+      _searchModel!.floorPrice = -1;
+      _searchModel!.upperPrice = -1;
+      _searchModel!.categoryId = 0;
     });
     _closeMenuPop();
   }
 
   void _resetPage() {
     if (widget.menuChange != null) {
-      widget.menuChange(_searchModel);
+      widget.menuChange!(_searchModel);
     }
   }
 

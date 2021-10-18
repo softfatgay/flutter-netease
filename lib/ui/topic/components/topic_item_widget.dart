@@ -8,13 +8,13 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 
 class TopicItemWidget extends StatelessWidget {
-  final TopicItem item;
+  final TopicItem? item;
 
-  const TopicItemWidget({Key key, this.item}) : super(key: key);
+  const TopicItemWidget({Key? key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildItem(context, item);
+    return _buildItem(context, item!);
   }
 
   _buildItem(BuildContext context, TopicItem item) {
@@ -32,7 +32,7 @@ class TopicItemWidget extends StatelessWidget {
         ],
       ),
     );
-    String schemeUrl = item.schemeUrl;
+    String schemeUrl = item.schemeUrl!;
     if (!schemeUrl.startsWith('http')) {
       schemeUrl = 'https://m.you.163.com$schemeUrl';
     }
@@ -74,8 +74,8 @@ class TopicItemWidget extends StatelessWidget {
             child: Text(
               item.readCount == null
                   ? ''
-                  : (item.readCount > 1000
-                      ? '${int.parse((item.readCount / 1000).toStringAsFixed(0))}K'
+                  : (item.readCount! > 1000
+                      ? '${int.parse((item.readCount! / 1000).toStringAsFixed(0))}K'
                       : '${item.readCount}'),
               style: t12grey,
             ),
@@ -89,7 +89,7 @@ class TopicItemWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(5),
       child: Text(
-        item.title,
+        item.title!,
         textAlign: TextAlign.left,
         style: t14black,
         maxLines: 2,

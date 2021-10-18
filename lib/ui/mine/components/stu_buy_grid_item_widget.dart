@@ -8,9 +8,9 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 
 class StuBuyGridItemWidget extends StatelessWidget {
-  final Result item;
+  final Result? item;
 
-  const StuBuyGridItemWidget({Key key, this.item}) : super(key: key);
+  const StuBuyGridItemWidget({Key? key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,11 @@ class StuBuyGridItemWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(6)),
-        child: _detailDes(item),
+        child: _detailDes(item!),
       ),
       onTap: () {
         Routers.push(Routers.pinPage, context,
-            {'itemId': item.itemId, 'baseId': item.id});
+            {'itemId': item!.itemId, 'baseId': item!.id});
       },
     );
   }
@@ -45,7 +45,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
               style: t14black,
               children: [
                 TextSpan(
-                    text: '${item.isRefundPay ? '返¥${item.price}余额 ' : ''}',
+                    text: '${item.isRefundPay! ? '返¥${item.price}余额 ' : ''}',
                     style: t14red),
                 TextSpan(text: '${item.title}')
               ],
@@ -66,7 +66,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
                 children: [
                   ClipOval(
                       child: Image.network(
-                    item.recentUsers == null ? '' : item.recentUsers[0],
+                    item.recentUsers == null ? '' : item.recentUsers![0],
                     width: 16,
                     height: 16,
                     fit: BoxFit.cover,
@@ -74,7 +74,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
                   SizedBox(width: 2),
                   ClipOval(
                       child: Image.network(
-                    item.recentUsers == null ? '' : item.recentUsers[1],
+                    item.recentUsers == null ? '' : item.recentUsers![1],
                     width: 16,
                     height: 16,
                     fit: BoxFit.cover,
@@ -184,7 +184,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: item.isRefundPay
+            child: item!.isRefundPay!
                 ? Container(
                     child: Text(
                       '折合0元到手',
@@ -197,11 +197,11 @@ class StuBuyGridItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
                         Text(
-                          '¥${item.price}',
+                          '¥${item!.price}',
                           style: t16redBold,
                         ),
                         Text(
-                          '¥${item.originPrice}',
+                          '¥${item!.originPrice}',
                           style: TextStyle(
                             fontSize: 12,
                             color: textGrey,

@@ -4,14 +4,14 @@ part 'tagItem.g.dart';
 
 @JsonSerializable()
 class TagItem {
-  double floorPrice;
-  String picUrl;
-  bool newOnShelf;
-  String webIndexVerticalPicUrl;
-  String simpleDesc;
-  String name;
-  String appListPicUrl;
-  int id;
+  double? floorPrice;
+  String? picUrl;
+  bool? newOnShelf;
+  String? webIndexVerticalPicUrl;
+  String? simpleDesc;
+  String? name;
+  String? appListPicUrl;
+  int? id;
 
   TagItem();
 

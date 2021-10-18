@@ -6,25 +6,24 @@ part of 'searchParamModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SearchParamModel _$SearchParamModelFromJson(Map<String, dynamic> json) {
-  return SearchParamModel(
-    keyWord: json['keyWord'] as String,
-    sortType: json['sortType'] as num,
-    statSearch: json['statSearch'] as String,
-    descSorted: json['descSorted'] as bool,
-    categoryId: json['categoryId'] as num,
-    matchType: json['matchType'] as num,
-    floorPrice: json['floorPrice'] as num,
-    upperPrice: json['upperPrice'] as num,
-    size: json['size'] as num,
-    itemId: json['itemId'] as num,
-    stillSearch: json['stillSearch'] as bool,
-    searchWordSource: json['searchWordSource'] as num,
-    needPopWindow: json['needPopWindow'] as bool,
-  )
-    ..promotionId = json['promotionId'] as num
-    ..source = json['source'] as num;
-}
+SearchParamModel _$SearchParamModelFromJson(Map<String, dynamic> json) =>
+    SearchParamModel(
+      keyWord: json['keyWord'] as String? ?? '',
+      sortType: json['sortType'] as num? ?? 0,
+      statSearch: json['statSearch'] as String? ?? '',
+      descSorted: json['descSorted'] as bool?,
+      categoryId: json['categoryId'] as num? ?? 0,
+      matchType: json['matchType'] as num? ?? 0,
+      floorPrice: json['floorPrice'] as num? ?? -1,
+      upperPrice: json['upperPrice'] as num? ?? -1,
+      size: json['size'] as num? ?? 40,
+      itemId: json['itemId'] as num? ?? 0,
+      stillSearch: json['stillSearch'] as bool? ?? false,
+      searchWordSource: json['searchWordSource'] as num? ?? 5,
+      needPopWindow: json['needPopWindow'] as bool? ?? true,
+    )
+      ..promotionId = json['promotionId'] as num?
+      ..source = json['source'] as num?;
 
 Map<String, dynamic> _$SearchParamModelToJson(SearchParamModel instance) =>
     <String, dynamic>{

@@ -8,13 +8,13 @@ class Toast {
   static final int CENTER = 1;
   static final int TOP = 2;
 
-  static void show(String msg, BuildContext context,
+  static void show(String? msg, BuildContext context,
       {int duration = 1,
       int gravity = 0,
       Color backgroundColor = const Color(0xCC000000),
       Color textColor = Colors.white,
       double backgroundRadius = 20,
-      Border border}) {
+      Border? border}) {
     FocusScope.of(context).requestFocus(FocusNode());
     ToastView.dismiss();
     ToastView.createView(msg, context, duration, gravity, backgroundColor,
@@ -31,19 +31,19 @@ class ToastView {
 
   ToastView._internal();
 
-  static OverlayState overlayState;
-  static OverlayEntry _overlayEntry;
+  static OverlayState? overlayState;
+  static OverlayEntry? _overlayEntry;
   static bool _isVisible = false;
 
   static void createView(
-      String msg,
+      String? msg,
       BuildContext context,
       int duration,
       int gravity,
       Color background,
       Color textColor,
       double backgroundRadius,
-      Border border) async {
+      Border? border) async {
     overlayState = Overlay.of(context);
 
     Paint paint = Paint();
@@ -65,7 +65,7 @@ class ToastView {
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                  child: Text(msg,
+                  child: Text(msg!,
                       softWrap: true,
                       style: TextStyle(fontSize: 14, color: textColor)),
                 )),
@@ -73,7 +73,7 @@ class ToastView {
           gravity: gravity),
     );
     _isVisible = true;
-    overlayState.insert(_overlayEntry);
+    overlayState!.insert(_overlayEntry!);
     await new Future.delayed(
         Duration(seconds: duration == null ? Toast.LENGTH_SHORT : duration));
     dismiss();
@@ -90,9 +90,9 @@ class ToastView {
 
 class ToastWidget extends StatelessWidget {
   ToastWidget({
-    Key key,
-    @required this.widget,
-    @required this.gravity,
+    Key? key,
+    required this.widget,
+    required this.gravity,
   }) : super(key: key);
 
   final Widget widget;

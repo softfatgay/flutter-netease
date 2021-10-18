@@ -11,17 +11,17 @@ import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 
 class GetCouponPage extends StatefulWidget {
-  const GetCouponPage({Key key}) : super(key: key);
+  const GetCouponPage({Key? key}) : super(key: key);
 
   @override
   _GetCouponPageState createState() => _GetCouponPageState();
 }
 
 class _GetCouponPageState extends State<GetCouponPage> {
-  GetCouponModel _couponModel;
+  late GetCouponModel _couponModel;
 
-  List<CouponItem> _avalibleCouponList = [];
-  List<CouponItem> _receiveCouponList = [];
+  List<CouponItem>? _avalibleCouponList = [];
+  List<CouponItem>? _receiveCouponList = [];
 
   bool _isLoading = true;
 
@@ -71,7 +71,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
       );
     }
     List<Widget> childs = [];
-    childs.add(_avalibleCouponList == null || _avalibleCouponList.isEmpty
+    childs.add(_avalibleCouponList == null || _avalibleCouponList!.isEmpty
         ? Container()
         : _title("可领取的优惠券"));
     childs.add(_avalibleCoupon(_avalibleCouponList));
@@ -107,7 +107,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
     );
   }
 
-  _avalibleCoupon(List<CouponItem> avalibleCouponList) {
+  _avalibleCoupon(List<CouponItem>? avalibleCouponList) {
     if (avalibleCouponList == null || avalibleCouponList.isEmpty) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 40),
@@ -163,7 +163,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.name, style: t14black),
+                        Text(item.name!, style: t14black),
                         Text('${_valueDate(item)}', style: t12black),
                       ],
                     ),
@@ -174,15 +174,15 @@ class _GetCouponPageState extends State<GetCouponPage> {
                     decoration: BoxDecoration(
                         border: Border.all(color: backRed, width: 1),
                         borderRadius: BorderRadius.circular(2),
-                        color: item.receiveFlag ? Colors.transparent : backRed),
+                        color: item.receiveFlag! ? Colors.transparent : backRed),
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     child: Text(
-                      item.receiveFlag ? '去凑单' : '立即领取',
-                      style: item.receiveFlag ? t12Orange : t12white,
+                      item.receiveFlag! ? '去凑单' : '立即领取',
+                      style: item.receiveFlag! ? t12Orange : t12white,
                     ),
                   ),
                   onTap: () {
-                    if (item.receiveFlag) {
+                    if (item.receiveFlag!) {
                       Routers.push(
                           Routers.makeUpPage, context, {'id': item.id});
                     } else {
@@ -215,7 +215,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
                             style: t12black,
                             maxLines: item.isSelected == null
                                 ? 1
-                                : (item.isSelected ? 15 : 1),
+                                : (item.isSelected! ? 15 : 1),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -232,17 +232,17 @@ class _GetCouponPageState extends State<GetCouponPage> {
                       if (item.isSelected == null) {
                         item.isSelected = true;
                       } else {
-                        item.isSelected = !item.isSelected;
+                        item.isSelected = !item.isSelected!;
                       }
                     });
                   },
                 ),
-                if (item.isSelected != null && item.isSelected)
+                if (item.isSelected != null && item.isSelected!)
                   SingleChildScrollView(
                     padding: EdgeInsets.only(bottom: 15),
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: item.skuList
+                      children: item.skuList!
                           .map(
                             (skuItem) => GestureDetector(
                               child: Container(
@@ -277,13 +277,13 @@ class _GetCouponPageState extends State<GetCouponPage> {
     if (item.validEndTime == null) {
       end = '已过期';
     } else {
-      end = '${Util.long2dateD(item.validEndTime * 1000)}';
+      end = '${Util.long2dateD(item.validEndTime! * 1000 as int)}';
     }
 
     if (item.validStartTime == null) {
       start = '';
     } else {
-      start = '${Util.long2dateD(item.validStartTime * 1000)}';
+      start = '${Util.long2dateD(item.validStartTime! * 1000 as int)}';
     }
 
     return '$start-$end';
@@ -293,7 +293,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
     if (item.isSelected == null) {
       return Icons.keyboard_arrow_down_rounded;
     } else {
-      if (item.isSelected) {
+      if (item.isSelected!) {
         return Icons.keyboard_arrow_up_rounded;
       } else {
         return Icons.keyboard_arrow_down_rounded;
@@ -302,7 +302,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
   }
 
   ///立即领取
-  void _couponActivate(String value) async {
+  void _couponActivate(String? value) async {
     Map<String, dynamic> params = {'activationCode': value};
     var responseData = await couponActivate(params);
     if (responseData.code == '200') {

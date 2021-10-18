@@ -12,13 +12,13 @@ const marginS = 8.0;
 const mrr = 5.0;
 
 class GoodItemNormalWidget extends StatelessWidget {
-  final List<ItemListItem> dataList;
+  final List<ItemListItem>? dataList;
 
-  const GoodItemNormalWidget({Key key, this.dataList}) : super(key: key);
+  const GoodItemNormalWidget({Key? key, this.dataList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildItems(dataList);
+    return _buildItems(dataList!);
   }
 
   _buildItems(List<ItemListItem> data) {
@@ -65,9 +65,9 @@ class GoodItemNormalWidget extends StatelessWidget {
             child: Stack(
               children: [
                 _roundImg(
-                  item.listPicUrl,
+                  item.listPicUrl!,
                 ),
-                if (item.colorNum != null && item.colorNum > 0)
+                if (item.colorNum != null && item.colorNum! > 0)
                   Container(
                     padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
                     decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class GoodItemNormalWidget extends StatelessWidget {
                     top: 10,
                     right: 5,
                     child: CachedNetworkImage(
-                      imageUrl: '${item.topLogo.logoUrl}',
+                      imageUrl: '${item.topLogo!.logoUrl}',
                       width: 20,
                     ),
                   )
@@ -141,10 +141,10 @@ class GoodItemNormalWidget extends StatelessWidget {
 
   _isShowTips(ItemListItem item) {
     bool isShow = false;
-    if (item.finalPriceInfoVO.banner != null) {
-      var banner = item.finalPriceInfoVO.banner;
+    if (item.finalPriceInfoVO!.banner != null) {
+      var banner = item.finalPriceInfoVO!.banner!;
       if ((banner.content != null &&
-              banner.content.length > 7 &&
+              banner.content!.length > 7 &&
               banner.title != banner.content) &&
           !(banner.title == null && banner.content != null)) {
         isShow = true;
@@ -155,14 +155,14 @@ class GoodItemNormalWidget extends StatelessWidget {
 
   _getBannerContent(ItemListItem item) {
     var content = '';
-    if (item.finalPriceInfoVO.banner != null) {
-      content = item.finalPriceInfoVO.banner.content ?? '';
+    if (item.finalPriceInfoVO!.banner != null) {
+      content = item.finalPriceInfoVO!.banner!.content ?? '';
     }
     return content;
   }
 
   _priceDec(ItemListItem item) {
-    var finalPriceInfoVO = item.finalPriceInfoVO;
+    var finalPriceInfoVO = item.finalPriceInfoVO!;
     var banner = finalPriceInfoVO.banner;
     if (banner == null) {
       return Container();
@@ -216,11 +216,11 @@ class GoodItemNormalWidget extends StatelessWidget {
     List<String> priceToStr = ['', ''];
     String pricePrefix = '';
     String priceSuffix = '';
-    String counterPrice = '';
-    var finalPrice = item.finalPriceInfoVO.priceInfo.finalPrice;
-    counterPrice = item.finalPriceInfoVO.priceInfo.counterPrice;
+    String? counterPrice = '';
+    var finalPrice = item.finalPriceInfoVO!.priceInfo!.finalPrice;
+    counterPrice = item.finalPriceInfoVO!.priceInfo!.counterPrice;
     if (finalPrice != null) {
-      priceToStr = PriceUtil.priceToStr(finalPrice.price);
+      priceToStr = PriceUtil.priceToStr(finalPrice.price!);
       pricePrefix = finalPrice.prefix ?? '';
       priceSuffix = finalPrice.suffix ?? '';
     } else {
@@ -256,12 +256,12 @@ class GoodItemNormalWidget extends StatelessWidget {
   }
 
   _getCounterPrice(ItemListItem item) {
-    var finalCounterPrice = item.finalPriceInfoVO.priceInfo.counterPrice;
+    var finalCounterPrice = item.finalPriceInfoVO!.priceInfo!.counterPrice;
     var counterPrice = finalCounterPrice ?? (item.counterPrice ?? null);
     return counterPrice;
   }
 
-  _promDesc(String dec) {
+  _promDesc(String? dec) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(

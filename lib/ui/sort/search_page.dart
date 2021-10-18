@@ -12,7 +12,7 @@ import 'package:flutter_app/utils/util_mine.dart';
 
 @Deprecated('使用SearchIndexPage代替')
 class SearchGoodsPage extends StatefulWidget {
-  final Map arguments;
+  final Map? arguments;
 
   SearchGoodsPage({this.arguments});
 
@@ -24,10 +24,10 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
   TextEditingController _controller = TextEditingController();
   ScrollController _scrollController = new ScrollController();
   bool _isLoading = false;
-  String _textValue = '';
+  String? _textValue = '';
 
   ///搜索提示
-  var _searchTipsData = [];
+  List<dynamic>? _searchTipsData = [];
 
   var _serachResult = false;
 
@@ -42,14 +42,14 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
-  var _hasMore = false;
+  bool? _hasMore = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      _textValue = widget.arguments['id'];
+      _textValue = widget.arguments!['id'];
     });
 
     _getSearchTips();
@@ -57,7 +57,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (_hasMore) {
+        if (_hasMore!) {
           _isLoading = true;
           _getTipsResult();
         }
@@ -84,7 +84,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       'searchWordSource': '7',
       'needPopWindow': 'false'
     };
-    if (!_hasMore) {
+    if (!_hasMore!) {
       params.addAll({'_stat_search': 'userhand'});
     } else {
       params.remove('_stat_search');
@@ -101,7 +101,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       } else {
         _directlyList.addAll(directlyList);
         // _itemId = _directlyList[_directlyList.length - 1].itemTagList[0].itemId;
-        if (!_hasMore) {
+        if (!_hasMore!) {
           _bottomTipsText = '没有更多了';
         }
         _isLoading = false;
@@ -121,7 +121,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       _searchTipsData = responseData.data;
       _serachResult = false;
       _hasMore = false;
-      if (_searchTipsData.length == 0) {
+      if (_searchTipsData!.length == 0) {
         _bottomTipsText = '暂时没有您想要的内容';
       } else {
         _bottomTipsText = '搜索更大的世界';
@@ -200,7 +200,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
             height: 30,
             child: CachedNetworkImage(
               imageUrl:
-                  _directlyList[index].listPromBanner.bannerContentUrl ?? '',
+                  _directlyList[index].listPromBanner!.bannerContentUrl ?? '',
               fit: BoxFit.fill,
             ),
           ),
@@ -209,7 +209,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
             height: 35,
             child: CachedNetworkImage(
               imageUrl:
-                  _directlyList[index].listPromBanner.bannerTitleUrl ?? '',
+                  _directlyList[index].listPromBanner!.bannerTitleUrl ?? '',
               fit: BoxFit.fill,
             ),
           ),
@@ -225,7 +225,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          _directlyList[index].listPromBanner.promoTitle ?? '',
+                          _directlyList[index].listPromBanner!.promoTitle ?? '',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -235,7 +235,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
                               fontSize: 14),
                         ),
                         Text(
-                          _directlyList[index].listPromBanner.promoSubTitle ??
+                          _directlyList[index].listPromBanner!.promoSubTitle ??
                               '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -254,7 +254,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
             child: Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Center(
-                  child: Text(_directlyList[index].listPromBanner.content,
+                  child: Text(_directlyList[index].listPromBanner!.content!,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -272,7 +272,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       padding: EdgeInsets.symmetric(horizontal: 5),
       alignment: Alignment.centerLeft,
       child: Text(
-        _directlyList[index].simpleDesc,
+        _directlyList[index].simpleDesc!,
         style: TextStyle(color: Color(0XFF875D2A), fontSize: 14),
         overflow: TextOverflow.ellipsis,
       ),
@@ -294,14 +294,14 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
             margin: EdgeInsets.only(left: 15),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: 0.5, color: Colors.grey[200]),
+                bottom: BorderSide(width: 0.5, color: Colors.grey[200]!),
               ),
             ),
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    _searchTipsData[index],
+                    _searchTipsData![index],
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -321,13 +321,13 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
             setState(() {
               _directlyList = [];
               Util.hideKeyBord(context);
-              keyword = _searchTipsData[index];
+              keyword = _searchTipsData![index];
               _isLoading = true;
               _getTipsResult();
             });
           },
         );
-      }, childCount: _searchTipsData.length),
+      }, childCount: _searchTipsData!.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: 8,

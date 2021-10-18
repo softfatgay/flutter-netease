@@ -4,9 +4,9 @@ part 'policyDescItem.g.dart';
 
 @JsonSerializable()
 class PolicyDescItem {
-  String icon;
-  String schemeUrl;
-  String desc;
+  String? icon;
+  String? schemeUrl;
+  String? desc;
 
   PolicyDescItem();
 

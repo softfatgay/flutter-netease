@@ -5,13 +5,13 @@ import 'package:flutter_app/constant/fonts.dart';
 
 class NormalTextFiled extends TextField {
   NormalTextFiled(
-      {final TextEditingController controller,
+      {final TextEditingController? controller,
       final int maxlines = 1,
-      int maxLength,
+      int? maxLength,
       bool enabled = true,
       String counterText = '',
       String prefixText = '',
-      TextInputType keyboardType,
+      TextInputType? keyboardType,
       String hintText = ''})
       : super(
           keyboardType: TextInputType.name,

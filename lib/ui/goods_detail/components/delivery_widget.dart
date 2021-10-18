@@ -7,10 +7,10 @@ import 'package:flutter_app/component/global.dart';
 typedef void OnPress();
 
 class DeliveryWidget extends StatelessWidget {
-  final WapitemDeliveryModel wapitemDelivery;
-  final OnPress onPress;
+  final WapitemDeliveryModel? wapitemDelivery;
+  final OnPress? onPress;
 
-  const DeliveryWidget({Key key, this.wapitemDelivery, this.onPress})
+  const DeliveryWidget({Key? key, this.wapitemDelivery, this.onPress})
       : super(key: key);
 
   @override
@@ -41,15 +41,15 @@ class DeliveryWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${wapitemDelivery.addressName}',
+                          '${wapitemDelivery!.addressName}',
                           style: t14black,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (wapitemDelivery.deliveryTime != null &&
-                            wapitemDelivery.deliveryTime.isNotEmpty)
+                        if (wapitemDelivery!.deliveryTime != null &&
+                            wapitemDelivery!.deliveryTime!.isNotEmpty)
                           Text(
-                            '${wapitemDelivery.deliveryTime}',
+                            '${wapitemDelivery!.deliveryTime}',
                             style: t14grey,
                           ),
                       ],
@@ -64,7 +64,7 @@ class DeliveryWidget extends StatelessWidget {
       ),
       onTap: () {
         if (onPress != null) {
-          onPress();
+          onPress!();
         }
       },
     );

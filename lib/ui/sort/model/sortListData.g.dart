@@ -6,17 +6,14 @@ part of 'sortListData.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SortListData _$SortListDataFromJson(Map<String, dynamic> json) {
-  return SortListData()
-    ..categoryItems = json['categoryItems'] == null
-        ? null
-        : SortlistCategoryItem.fromJson(
-            json['categoryItems'] as Map<String, dynamic>)
-    ..categoryL2List = (json['categoryL2List'] as List)
-        ?.map((e) =>
-            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+SortListData _$SortListDataFromJson(Map<String, dynamic> json) => SortListData()
+  ..categoryItems = json['categoryItems'] == null
+      ? null
+      : SortlistCategoryItem.fromJson(
+          json['categoryItems'] as Map<String, dynamic>)
+  ..categoryL2List = (json['categoryL2List'] as List<dynamic>?)
+      ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+      .toList();
 
 Map<String, dynamic> _$SortListDataToJson(SortListData instance) =>
     <String, dynamic>{

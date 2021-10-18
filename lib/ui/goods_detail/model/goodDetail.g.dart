@@ -6,147 +6,157 @@ part of 'goodDetail.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) {
-  return GoodDetail()
-    ..id = json['id'] as num
-    ..listPicUrl = json['listPicUrl'] as String
-    ..name = json['name'] as String
-    ..seoTitle = json['seoTitle'] as String
-    ..simpleDesc = json['simpleDesc'] as String
-    ..primaryPicUrl = json['primaryPicUrl'] as String
-    ..primarySkuId = json['primarySkuId'] as num
-    ..retailPrice = json['retailPrice'] as num
-    ..counterPrice = json['counterPrice'] as num
-    ..status = json['status'] as num
-    ..rank = json['rank'] as num
-    ..soldOut = json['soldOut'] as bool
-    ..underShelf = json['underShelf'] as bool
-    ..updateTime = json['updateTime'] as num
-    ..price = json['price'] == null
-        ? null
-        : PriceModel.fromJson(json['price'] as Map<String, dynamic>)
-    ..itemDetail = json['itemDetail'] as Map<String, dynamic>
-    ..skuList = (json['skuList'] as List)
-        ?.map((e) =>
-            e == null ? null : SkuListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..attrList = (json['attrList'] as List)
-        ?.map((e) =>
-            e == null ? null : AttrListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..skuMap = (json['skuMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : SkuMapValue.fromJson(e as Map<String, dynamic>)),
-    )
-    ..skuSpecList = (json['skuSpecList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SkuSpecListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..sellVolume = json['sellVolume'] as num
-    ..issueList = (json['issueList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IssueListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..hdrkDetailVOList = (json['hdrkDetailVOList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HdrkDetailVOListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..comments = (json['comments'] as List)
-        ?.map((e) =>
-            e == null ? null : ResultItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..newItemFlag = json['newItemFlag'] as bool
-    ..primarySkuPreSellPrice = json['primarySkuPreSellPrice'] as num
-    ..primarySkuPreSellStatus = json['primarySkuPreSellStatus'] as num
-    ..pieceNum = json['pieceNum'] as num
-    ..pieceUnitDesc = json['pieceUnitDesc'] as String
-    ..colorNum = json['colorNum'] as num
-    ..limitedFlag = json['limitedFlag'] as num
-    ..promId = json['promId'] as num
-    ..preLimitFlag = json['preLimitFlag'] as num
-    ..productPlace = json['productPlace'] as String
-    ..promotionDesc = json['promotionDesc'] as String
-    ..specialPromTag = json['specialPromTag'] as String
-    ..extraPrice = json['extraPrice'] as String
-    ..appExclusiveFlag = json['appExclusiveFlag'] as bool
-    ..itemTagList = (json['itemTagList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ItemTagListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..isPreemption = json['isPreemption'] as num
-    ..preemptionStatus = json['preemptionStatus'] as num
-    ..buttonType = json['buttonType'] as num
-    ..showTime = json['showTime'] as num
-    ..onSaleTime = json['onSaleTime'] as num
-    ..itemPromValid = json['itemPromValid'] as bool
-    ..autoOnsaleTime = json['autoOnsaleTime'] as num
-    ..autoOnsaleTimeLeft = json['autoOnsaleTimeLeft'] as num
-    ..displaySkuId = json['displaySkuId'] as num
-    ..saleCenterSkuId = json['saleCenterSkuId'] as num
-    ..itemType = json['itemType'] as num
-    ..points = json['points'] as num
-    ..showPoints = json['showPoints'] as bool
-    ..pointsPrice = json['pointsPrice'] as num
-    ..forbidExclusiveCal = json['forbidExclusiveCal'] as bool
-    ..commentCount = json['commentCount'] as num
-    ..commentWithPicCount = json['commentWithPicCount'] as num
-    ..freightInfo = json['freightInfo'] as String
-    ..itemLimit = json['itemLimit'] as String
-    ..itemSizeTableFlag = json['itemSizeTableFlag'] as bool
-    ..itemSizeTableDetailFlag = json['itemSizeTableDetailFlag'] as bool
-    ..featuredSeries = json['featuredSeries'] == null
-        ? null
-        : FeaturedSeries.fromJson(
-            json['featuredSeries'] as Map<String, dynamic>)
-    ..categoryList = (json['categoryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CategoryL1ListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..goodCmtRate = json['goodCmtRate'] as String
-    ..promoTip = json['promoTip'] as String
-    ..shoppingReward = json['shoppingReward'] == null
-        ? null
-        : ShoppingReward.fromJson(
-            json['shoppingReward'] as Map<String, dynamic>)
-    ..shoppingRewardRule = json['shoppingRewardRule'] == null
-        ? null
-        : ShoppingRewardRule.fromJson(
-            json['shoppingRewardRule'] as Map<String, dynamic>)
-    ..recommendReason =
-        (json['recommendReason'] as List)?.map((e) => e as String)?.toList()
-    ..skuFreight = json['skuFreight'] == null
-        ? null
-        : SkuFreight.fromJson(json['skuFreight'] as Map<String, dynamic>)
-    ..fullRefundPolicy = json['fullRefundPolicy'] == null
-        ? null
-        : FullRefundPolicy.fromJson(
-            json['fullRefundPolicy'] as Map<String, dynamic>)
-    ..couponShortNameList =
-        (json['couponShortNameList'] as List)?.map((e) => e as String)?.toList()
-    ..detailPromBanner = json['detailPromBanner'] == null
-        ? null
-        : DetailPromBanner.fromJson(json['detailPromBanner'] as Map<String, dynamic>)
-    ..welfareCardVO = json['welfareCardVO'] == null ? null : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
-    ..simpleBrandInfo = json['simpleBrandInfo'] == null ? null : SimpleBrandInfo.fromJson(json['simpleBrandInfo'] as Map<String, dynamic>)
-    ..spmcBanner = json['spmcBanner'] == null ? null : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>)
-    ..listPromBanner = json['listPromBanner'] == null ? null : ListPromBanner.fromJson(json['listPromBanner'] as Map<String, dynamic>)
-    ..brandInfo = json['brandInfo'] == null ? null : BrandInfo.fromJson(json['brandInfo'] as Map<String, dynamic>)
-    ..promTag = json['promTag'] as String
-    ..specList = (json['specList'] as List)?.map((e) => e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))?.toList()
-    ..adBanners = (json['adBanners'] as List)?.map((e) => e == null ? null : AdBannersItem.fromJson(e as Map<String, dynamic>))?.toList()
-    ..tryOutEventReport = json['tryOutEventReport'] == null ? null : TryOutEventReport.fromJson(json['tryOutEventReport'] as Map<String, dynamic>)
-    ..banner = json['banner'] == null ? null : BannerModel.fromJson(json['banner'] as Map<String, dynamic>)
-    ..showPrice = json['showPrice'] as bool
-    ..countryInfo = json['countryInfo'] as String
-    ..promDesc = json['promDesc'] as String
-    ..topLogo = json['topLogo'] == null ? null : TopLogo.fromJson(json['topLogo'] as Map<String, dynamic>)
-    ..finalPriceInfoVO = json['finalPriceInfoVO'] == null ? null : FinalPriceInfoVO.fromJson(json['finalPriceInfoVO'] as Map<String, dynamic>);
-}
+GoodDetail _$GoodDetailFromJson(Map<String, dynamic> json) => GoodDetail()
+  ..id = json['id'] as num?
+  ..listPicUrl = json['listPicUrl'] as String?
+  ..name = json['name'] as String?
+  ..seoTitle = json['seoTitle'] as String?
+  ..simpleDesc = json['simpleDesc'] as String?
+  ..primaryPicUrl = json['primaryPicUrl'] as String?
+  ..primarySkuId = json['primarySkuId'] as num?
+  ..retailPrice = json['retailPrice'] as num?
+  ..counterPrice = json['counterPrice'] as num?
+  ..status = json['status'] as num?
+  ..rank = json['rank'] as num?
+  ..soldOut = json['soldOut'] as bool?
+  ..underShelf = json['underShelf'] as bool?
+  ..updateTime = json['updateTime'] as num?
+  ..price = json['price'] == null
+      ? null
+      : PriceModel.fromJson(json['price'] as Map<String, dynamic>)
+  ..itemDetail = json['itemDetail'] as Map<String, dynamic>?
+  ..skuList = (json['skuList'] as List<dynamic>?)
+      ?.map((e) => SkuListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..attrList = (json['attrList'] as List<dynamic>?)
+      ?.map((e) => AttrListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..skuMap = (json['skuMap'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, SkuMapValue.fromJson(e as Map<String, dynamic>)),
+  )
+  ..skuSpecList = (json['skuSpecList'] as List<dynamic>?)
+      ?.map((e) => SkuSpecListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..sellVolume = json['sellVolume'] as num?
+  ..issueList = (json['issueList'] as List<dynamic>?)
+      ?.map((e) => IssueListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..hdrkDetailVOList = (json['hdrkDetailVOList'] as List<dynamic>?)
+      ?.map((e) => HdrkDetailVOListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..comments = (json['comments'] as List<dynamic>?)
+      ?.map((e) => ResultItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..newItemFlag = json['newItemFlag'] as bool?
+  ..primarySkuPreSellPrice = json['primarySkuPreSellPrice'] as num?
+  ..primarySkuPreSellStatus = json['primarySkuPreSellStatus'] as num?
+  ..pieceNum = json['pieceNum'] as num?
+  ..pieceUnitDesc = json['pieceUnitDesc'] as String?
+  ..colorNum = json['colorNum'] as num?
+  ..limitedFlag = json['limitedFlag'] as num?
+  ..promId = json['promId'] as num?
+  ..preLimitFlag = json['preLimitFlag'] as num?
+  ..productPlace = json['productPlace'] as String?
+  ..promotionDesc = json['promotionDesc'] as String?
+  ..specialPromTag = json['specialPromTag'] as String?
+  ..extraPrice = json['extraPrice'] as String?
+  ..appExclusiveFlag = json['appExclusiveFlag'] as bool?
+  ..itemTagList = (json['itemTagList'] as List<dynamic>?)
+      ?.map((e) => ItemTagListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..isPreemption = json['isPreemption'] as num?
+  ..preemptionStatus = json['preemptionStatus'] as num?
+  ..buttonType = json['buttonType'] as num?
+  ..showTime = json['showTime'] as num?
+  ..onSaleTime = json['onSaleTime'] as num?
+  ..itemPromValid = json['itemPromValid'] as bool?
+  ..autoOnsaleTime = json['autoOnsaleTime'] as num?
+  ..autoOnsaleTimeLeft = json['autoOnsaleTimeLeft'] as num?
+  ..displaySkuId = json['displaySkuId'] as num?
+  ..saleCenterSkuId = json['saleCenterSkuId'] as num?
+  ..itemType = json['itemType'] as num?
+  ..points = json['points'] as num?
+  ..showPoints = json['showPoints'] as bool?
+  ..pointsPrice = json['pointsPrice'] as num?
+  ..forbidExclusiveCal = json['forbidExclusiveCal'] as bool?
+  ..commentCount = json['commentCount'] as num?
+  ..commentWithPicCount = json['commentWithPicCount'] as num?
+  ..freightInfo = json['freightInfo'] as String?
+  ..itemLimit = json['itemLimit'] as String?
+  ..itemSizeTableFlag = json['itemSizeTableFlag'] as bool?
+  ..itemSizeTableDetailFlag = json['itemSizeTableDetailFlag'] as bool?
+  ..featuredSeries = json['featuredSeries'] == null
+      ? null
+      : FeaturedSeries.fromJson(json['featuredSeries'] as Map<String, dynamic>)
+  ..categoryList = (json['categoryList'] as List<dynamic>?)
+      ?.map((e) => CategoryL1ListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..goodCmtRate = json['goodCmtRate'] as String?
+  ..promoTip = json['promoTip'] as String?
+  ..shoppingReward = json['shoppingReward'] == null
+      ? null
+      : ShoppingReward.fromJson(json['shoppingReward'] as Map<String, dynamic>)
+  ..shoppingRewardRule = json['shoppingRewardRule'] == null
+      ? null
+      : ShoppingRewardRule.fromJson(
+          json['shoppingRewardRule'] as Map<String, dynamic>)
+  ..recommendReason = (json['recommendReason'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList()
+  ..skuFreight = json['skuFreight'] == null
+      ? null
+      : SkuFreight.fromJson(json['skuFreight'] as Map<String, dynamic>)
+  ..fullRefundPolicy = json['fullRefundPolicy'] == null
+      ? null
+      : FullRefundPolicy.fromJson(
+          json['fullRefundPolicy'] as Map<String, dynamic>)
+  ..couponShortNameList = (json['couponShortNameList'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList()
+  ..detailPromBanner = json['detailPromBanner'] == null
+      ? null
+      : DetailPromBanner.fromJson(
+          json['detailPromBanner'] as Map<String, dynamic>)
+  ..welfareCardVO = json['welfareCardVO'] == null
+      ? null
+      : WelfareCardVO.fromJson(json['welfareCardVO'] as Map<String, dynamic>)
+  ..simpleBrandInfo = json['simpleBrandInfo'] == null
+      ? null
+      : SimpleBrandInfo.fromJson(
+          json['simpleBrandInfo'] as Map<String, dynamic>)
+  ..spmcBanner = json['spmcBanner'] == null
+      ? null
+      : SpmcBanner.fromJson(json['spmcBanner'] as Map<String, dynamic>)
+  ..listPromBanner = json['listPromBanner'] == null
+      ? null
+      : ListPromBanner.fromJson(json['listPromBanner'] as Map<String, dynamic>)
+  ..brandInfo = json['brandInfo'] == null
+      ? null
+      : BrandInfo.fromJson(json['brandInfo'] as Map<String, dynamic>)
+  ..promTag = json['promTag'] as String?
+  ..specList = (json['specList'] as List<dynamic>?)
+      ?.map((e) => SpecListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..adBanners = (json['adBanners'] as List<dynamic>?)
+      ?.map((e) => AdBannersItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..tryOutEventReport = json['tryOutEventReport'] == null
+      ? null
+      : TryOutEventReport.fromJson(
+          json['tryOutEventReport'] as Map<String, dynamic>)
+  ..banner = json['banner'] == null
+      ? null
+      : BannerModel.fromJson(json['banner'] as Map<String, dynamic>)
+  ..showPrice = json['showPrice'] as bool?
+  ..countryInfo = json['countryInfo'] as String?
+  ..promDesc = json['promDesc'] as String?
+  ..topLogo = json['topLogo'] == null
+      ? null
+      : TopLogo.fromJson(json['topLogo'] as Map<String, dynamic>)
+  ..finalPriceInfoVO = json['finalPriceInfoVO'] == null
+      ? null
+      : FinalPriceInfoVO.fromJson(
+          json['finalPriceInfoVO'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
     <String, dynamic>{
@@ -238,18 +248,16 @@ Map<String, dynamic> _$GoodDetailToJson(GoodDetail instance) =>
       'finalPriceInfoVO': instance.finalPriceInfoVO,
     };
 
-ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
-  return ItemDetail()
-    ..detailHtml = json['detailHtml'] as String
-    ..picUrl1 = json['picUrl1'] as String
-    ..picUrl2 = json['picUrl2'] as String
-    ..picUrl3 = json['picUrl3'] as String
-    ..picUrl4 = json['picUrl4'] as String
-    ..picUrl5 = json['picUrl5'] as String
-    ..videoInfo = json['videoInfo'] == null
-        ? null
-        : VideoInfo.fromJson(json['videoInfo'] as Map<String, dynamic>);
-}
+ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) => ItemDetail()
+  ..detailHtml = json['detailHtml'] as String?
+  ..picUrl1 = json['picUrl1'] as String?
+  ..picUrl2 = json['picUrl2'] as String?
+  ..picUrl3 = json['picUrl3'] as String?
+  ..picUrl4 = json['picUrl4'] as String?
+  ..picUrl5 = json['picUrl5'] as String?
+  ..videoInfo = json['videoInfo'] == null
+      ? null
+      : VideoInfo.fromJson(json['videoInfo'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ItemDetailToJson(ItemDetail instance) =>
     <String, dynamic>{
@@ -262,13 +270,11 @@ Map<String, dynamic> _$ItemDetailToJson(ItemDetail instance) =>
       'videoInfo': instance.videoInfo,
     };
 
-VideoInfo _$VideoInfoFromJson(Map<String, dynamic> json) {
-  return VideoInfo()
-    ..mp4VideoUrl = json['mp4VideoUrl'] as String
-    ..mp4VideoSize = json['mp4VideoSize'] as String
-    ..webmVideoUrl = json['webmVideoUrl'] as String
-    ..webmVideoSize = json['webmVideoSize'] as String;
-}
+VideoInfo _$VideoInfoFromJson(Map<String, dynamic> json) => VideoInfo()
+  ..mp4VideoUrl = json['mp4VideoUrl'] as String?
+  ..mp4VideoSize = json['mp4VideoSize'] as String?
+  ..webmVideoUrl = json['webmVideoUrl'] as String?
+  ..webmVideoSize = json['webmVideoSize'] as String?;
 
 Map<String, dynamic> _$VideoInfoToJson(VideoInfo instance) => <String, dynamic>{
       'mp4VideoUrl': instance.mp4VideoUrl,
@@ -277,11 +283,9 @@ Map<String, dynamic> _$VideoInfoToJson(VideoInfo instance) => <String, dynamic>{
       'webmVideoSize': instance.webmVideoSize,
     };
 
-AttrListItem _$AttrListItemFromJson(Map<String, dynamic> json) {
-  return AttrListItem()
-    ..attrName = json['attrName'] as String
-    ..attrValue = json['attrValue'] as String;
-}
+AttrListItem _$AttrListItemFromJson(Map<String, dynamic> json) => AttrListItem()
+  ..attrName = json['attrName'] as String?
+  ..attrValue = json['attrValue'] as String?;
 
 Map<String, dynamic> _$AttrListItemToJson(AttrListItem instance) =>
     <String, dynamic>{
@@ -289,11 +293,10 @@ Map<String, dynamic> _$AttrListItemToJson(AttrListItem instance) =>
       'attrValue': instance.attrValue,
     };
 
-FeaturedSeries _$FeaturedSeriesFromJson(Map<String, dynamic> json) {
-  return FeaturedSeries()
-    ..detailPicUrl = json['detailPicUrl'] as String
-    ..id = json['id'] as num;
-}
+FeaturedSeries _$FeaturedSeriesFromJson(Map<String, dynamic> json) =>
+    FeaturedSeries()
+      ..detailPicUrl = json['detailPicUrl'] as String?
+      ..id = json['id'] as num?;
 
 Map<String, dynamic> _$FeaturedSeriesToJson(FeaturedSeries instance) =>
     <String, dynamic>{
@@ -301,12 +304,13 @@ Map<String, dynamic> _$FeaturedSeriesToJson(FeaturedSeries instance) =>
       'id': instance.id,
     };
 
-FullRefundPolicy _$FullRefundPolicyFromJson(Map<String, dynamic> json) {
-  return FullRefundPolicy()
-    ..detailTitle = json['detailTitle'] as String
-    ..titles = (json['titles'] as List)?.map((e) => e as String)?.toList()
-    ..content = (json['content'] as List)?.map((e) => e as String)?.toList();
-}
+FullRefundPolicy _$FullRefundPolicyFromJson(Map<String, dynamic> json) =>
+    FullRefundPolicy()
+      ..detailTitle = json['detailTitle'] as String?
+      ..titles =
+          (json['titles'] as List<dynamic>?)?.map((e) => e as String).toList()
+      ..content =
+          (json['content'] as List<dynamic>?)?.map((e) => e as String).toList();
 
 Map<String, dynamic> _$FullRefundPolicyToJson(FullRefundPolicy instance) =>
     <String, dynamic>{
@@ -315,20 +319,19 @@ Map<String, dynamic> _$FullRefundPolicyToJson(FullRefundPolicy instance) =>
       'content': instance.content,
     };
 
-DetailPromBanner _$DetailPromBannerFromJson(Map<String, dynamic> json) {
-  return DetailPromBanner()
-    ..bannerType = json['bannerType'] as num
-    ..bannerTitleUrl = json['bannerTitleUrl'] as String
-    ..bannerContentUrl = json['bannerContentUrl'] as String
-    ..promoTitle = json['promoTitle'] as String
-    ..promoSubTitle = json['promoSubTitle'] as String
-    ..startTime = json['startTime'] as String
-    ..activityPrice = json['activityPrice'] as String
-    ..retailPrice = json['retailPrice'] as String
-    ..activityPriceExt = json['activityPriceExt'] as String
-    ..sellVolumeDesc = json['sellVolumeDesc'] as String
-    ..countdown = json['countdown'] as num;
-}
+DetailPromBanner _$DetailPromBannerFromJson(Map<String, dynamic> json) =>
+    DetailPromBanner()
+      ..bannerType = json['bannerType'] as num?
+      ..bannerTitleUrl = json['bannerTitleUrl'] as String?
+      ..bannerContentUrl = json['bannerContentUrl'] as String?
+      ..promoTitle = json['promoTitle'] as String?
+      ..promoSubTitle = json['promoSubTitle'] as String?
+      ..startTime = json['startTime'] as String?
+      ..activityPrice = json['activityPrice'] as String?
+      ..retailPrice = json['retailPrice'] as String?
+      ..activityPriceExt = json['activityPriceExt'] as String?
+      ..sellVolumeDesc = json['sellVolumeDesc'] as String?
+      ..countdown = json['countdown'] as num?;
 
 Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
     <String, dynamic>{
@@ -345,11 +348,10 @@ Map<String, dynamic> _$DetailPromBannerToJson(DetailPromBanner instance) =>
       'countdown': instance.countdown,
     };
 
-WelfareCardVO _$WelfareCardVOFromJson(Map<String, dynamic> json) {
-  return WelfareCardVO()
-    ..picUrl = json['picUrl'] as String
-    ..schemeUrl = json['schemeUrl'] as String;
-}
+WelfareCardVO _$WelfareCardVOFromJson(Map<String, dynamic> json) =>
+    WelfareCardVO()
+      ..picUrl = json['picUrl'] as String?
+      ..schemeUrl = json['schemeUrl'] as String?;
 
 Map<String, dynamic> _$WelfareCardVOToJson(WelfareCardVO instance) =>
     <String, dynamic>{
@@ -357,16 +359,14 @@ Map<String, dynamic> _$WelfareCardVOToJson(WelfareCardVO instance) =>
       'schemeUrl': instance.schemeUrl,
     };
 
-SpmcBanner _$SpmcBannerFromJson(Map<String, dynamic> json) {
-  return SpmcBanner()
-    ..spmcDesc = json['spmcDesc'] as String
-    ..spmcPrice = json['spmcPrice'] as String
-    ..spmcPrivilegeMess = json['spmcPrivilegeMess'] as String
-    ..spmcEconomizePrice = json['spmcEconomizePrice'] as String
-    ..spmcTagDesc = json['spmcTagDesc'] as String
-    ..spmcLinkUrl = json['spmcLinkUrl'] as String
-    ..btnValue = json['btnValue'] as String;
-}
+SpmcBanner _$SpmcBannerFromJson(Map<String, dynamic> json) => SpmcBanner()
+  ..spmcDesc = json['spmcDesc'] as String?
+  ..spmcPrice = json['spmcPrice'] as String?
+  ..spmcPrivilegeMess = json['spmcPrivilegeMess'] as String?
+  ..spmcEconomizePrice = json['spmcEconomizePrice'] as String?
+  ..spmcTagDesc = json['spmcTagDesc'] as String?
+  ..spmcLinkUrl = json['spmcLinkUrl'] as String?
+  ..btnValue = json['btnValue'] as String?;
 
 Map<String, dynamic> _$SpmcBannerToJson(SpmcBanner instance) =>
     <String, dynamic>{
@@ -379,13 +379,12 @@ Map<String, dynamic> _$SpmcBannerToJson(SpmcBanner instance) =>
       'btnValue': instance.btnValue,
     };
 
-SimpleBrandInfo _$SimpleBrandInfoFromJson(Map<String, dynamic> json) {
-  return SimpleBrandInfo()
-    ..title = json['title'] as String
-    ..ownType = json['ownType'] as num
-    ..logoUrl = json['logoUrl'] as String
-    ..aspectRatio = json['aspectRatio'] as num;
-}
+SimpleBrandInfo _$SimpleBrandInfoFromJson(Map<String, dynamic> json) =>
+    SimpleBrandInfo()
+      ..title = json['title'] as String?
+      ..ownType = json['ownType'] as num?
+      ..logoUrl = json['logoUrl'] as String?
+      ..aspectRatio = json['aspectRatio'] as num?;
 
 Map<String, dynamic> _$SimpleBrandInfoToJson(SimpleBrandInfo instance) =>
     <String, dynamic>{
@@ -395,18 +394,17 @@ Map<String, dynamic> _$SimpleBrandInfoToJson(SimpleBrandInfo instance) =>
       'aspectRatio': instance.aspectRatio,
     };
 
-ListPromBanner _$ListPromBannerFromJson(Map<String, dynamic> json) {
-  return ListPromBanner()
-    ..valid = json['valid'] as bool
-    ..promoTitle = json['promoTitle'] as String
-    ..promoSubTitle = json['promoSubTitle'] as String
-    ..content = json['content'] as String
-    ..bannerTitleUrl = json['bannerTitleUrl'] as String
-    ..bannerContentUrl = json['bannerContentUrl'] as String
-    ..styleType = json['styleType'] as num
-    ..timeType = json['timeType'] as num
-    ..iconUrl = json['iconUrl'] as String;
-}
+ListPromBanner _$ListPromBannerFromJson(Map<String, dynamic> json) =>
+    ListPromBanner()
+      ..valid = json['valid'] as bool?
+      ..promoTitle = json['promoTitle'] as String?
+      ..promoSubTitle = json['promoSubTitle'] as String?
+      ..content = json['content'] as String?
+      ..bannerTitleUrl = json['bannerTitleUrl'] as String?
+      ..bannerContentUrl = json['bannerContentUrl'] as String?
+      ..styleType = json['styleType'] as num?
+      ..timeType = json['timeType'] as num?
+      ..iconUrl = json['iconUrl'] as String?;
 
 Map<String, dynamic> _$ListPromBannerToJson(ListPromBanner instance) =>
     <String, dynamic>{
@@ -421,11 +419,9 @@ Map<String, dynamic> _$ListPromBannerToJson(ListPromBanner instance) =>
       'iconUrl': instance.iconUrl,
     };
 
-SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) {
-  return SpecListItem()
-    ..specName = json['specName'] as String
-    ..specValue = json['specValue'] as String;
-}
+SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) => SpecListItem()
+  ..specName = json['specName'] as String?
+  ..specValue = json['specValue'] as String?;
 
 Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
     <String, dynamic>{
@@ -433,18 +429,16 @@ Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
       'specValue': instance.specValue,
     };
 
-BrandInfo _$BrandInfoFromJson(Map<String, dynamic> json) {
-  return BrandInfo()
-    ..brandId = json['brandId'] as num
-    ..title = json['title'] as String
-    ..subTitle = json['subTitle'] as String
-    ..desc = json['desc'] as String
-    ..brandType = json['brandType'] as num
-    ..type = json['type'] as num
-    ..picUrl = json['picUrl'] as String
-    ..ownType = json['ownType'] as num
-    ..merchantId = json['merchantId'];
-}
+BrandInfo _$BrandInfoFromJson(Map<String, dynamic> json) => BrandInfo()
+  ..brandId = json['brandId'] as num?
+  ..title = json['title'] as String?
+  ..subTitle = json['subTitle'] as String?
+  ..desc = json['desc'] as String?
+  ..brandType = json['brandType'] as num?
+  ..type = json['type'] as num?
+  ..picUrl = json['picUrl'] as String?
+  ..ownType = json['ownType'] as num?
+  ..merchantId = json['merchantId'];
 
 Map<String, dynamic> _$BrandInfoToJson(BrandInfo instance) => <String, dynamic>{
       'brandId': instance.brandId,
@@ -458,14 +452,13 @@ Map<String, dynamic> _$BrandInfoToJson(BrandInfo instance) => <String, dynamic>{
       'merchantId': instance.merchantId,
     };
 
-AdBannersItem _$AdBannersItemFromJson(Map<String, dynamic> json) {
-  return AdBannersItem()
-    ..picUrl = json['picUrl'] as String
-    ..targetUrl = json['targetUrl'] as String
-    ..extra = json['extra'] == null
-        ? null
-        : AdBannersExtra.fromJson(json['extra'] as Map<String, dynamic>);
-}
+AdBannersItem _$AdBannersItemFromJson(Map<String, dynamic> json) =>
+    AdBannersItem()
+      ..picUrl = json['picUrl'] as String?
+      ..targetUrl = json['targetUrl'] as String?
+      ..extra = json['extra'] == null
+          ? null
+          : AdBannersExtra.fromJson(json['extra'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$AdBannersItemToJson(AdBannersItem instance) =>
     <String, dynamic>{
@@ -474,20 +467,19 @@ Map<String, dynamic> _$AdBannersItemToJson(AdBannersItem instance) =>
       'extra': instance.extra,
     };
 
-AdBannersExtra _$AdBannersExtraFromJson(Map<String, dynamic> json) {
-  return AdBannersExtra()
-    ..materialContentFrom = json['materialContentFrom'] as num
-    ..materialName = json['materialName'] as String
-    ..rcmdSort = json['rcmdSort'] as bool
-    ..taskType = json['taskType'] as num
-    ..itemFrom = json['itemFrom'] as num
-    ..crmUserGroupName = json['crmUserGroupName'] as String
-    ..resourcesId = json['resourcesId'] as num
-    ..materialType = json['materialType'] as String
-    ..crmUserGroupId = json['crmUserGroupId'] as String
-    ..materialId = json['materialId'] as String
-    ..taskId = json['taskId'] as String;
-}
+AdBannersExtra _$AdBannersExtraFromJson(Map<String, dynamic> json) =>
+    AdBannersExtra()
+      ..materialContentFrom = json['materialContentFrom'] as num?
+      ..materialName = json['materialName'] as String?
+      ..rcmdSort = json['rcmdSort'] as bool?
+      ..taskType = json['taskType'] as num?
+      ..itemFrom = json['itemFrom'] as num?
+      ..crmUserGroupName = json['crmUserGroupName'] as String?
+      ..resourcesId = json['resourcesId'] as num?
+      ..materialType = json['materialType'] as String?
+      ..crmUserGroupId = json['crmUserGroupId'] as String?
+      ..materialId = json['materialId'] as String?
+      ..taskId = json['taskId'] as String?;
 
 Map<String, dynamic> _$AdBannersExtraToJson(AdBannersExtra instance) =>
     <String, dynamic>{
@@ -504,16 +496,15 @@ Map<String, dynamic> _$AdBannersExtraToJson(AdBannersExtra instance) =>
       'taskId': instance.taskId,
     };
 
-TryOutEventReport _$TryOutEventReportFromJson(Map<String, dynamic> json) {
-  return TryOutEventReport()
-    ..nickName = json['nickName'] as String
-    ..job = json['job'] as String
-    ..title = json['title'] as String
-    ..score = json['score'] as num
-    ..detail = json['detail'] == null
-        ? null
-        : Detail.fromJson(json['detail'] as Map<String, dynamic>);
-}
+TryOutEventReport _$TryOutEventReportFromJson(Map<String, dynamic> json) =>
+    TryOutEventReport()
+      ..nickName = json['nickName'] as String?
+      ..job = json['job'] as String?
+      ..title = json['title'] as String?
+      ..score = json['score'] as num?
+      ..detail = json['detail'] == null
+          ? null
+          : Detail.fromJson(json['detail'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$TryOutEventReportToJson(TryOutEventReport instance) =>
     <String, dynamic>{
@@ -524,9 +515,8 @@ Map<String, dynamic> _$TryOutEventReportToJson(TryOutEventReport instance) =>
       'detail': instance.detail,
     };
 
-Detail _$DetailFromJson(Map<String, dynamic> json) {
-  return Detail()..reportDetail = json['reportDetail'] as String;
-}
+Detail _$DetailFromJson(Map<String, dynamic> json) =>
+    Detail()..reportDetail = json['reportDetail'] as String?;
 
 Map<String, dynamic> _$DetailToJson(Detail instance) => <String, dynamic>{
       'reportDetail': instance.reportDetail,

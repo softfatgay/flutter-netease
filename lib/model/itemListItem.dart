@@ -10,32 +10,32 @@ part 'itemListItem.g.dart';
 
 @JsonSerializable()
 class ItemListItem {
-  num id;
-  String listPicUrl;
-  String name;
-  String seoTitle;
-  String simpleDesc;
-  String primaryPicUrl;
-  String productPlace;
-  num counterPrice;
-  num primarySkuId;
-  num retailPrice;
-  num status;
-  num colorNum;
-  String promDesc;
-  bool soldOut;
-  bool underShelf;
-  String scenePicUrl;
-  String promTag;
-  String goodCmtRate;
-  HotSaleListBottomInfo hotSaleListBottomInfo;
+  num? id;
+  String? listPicUrl;
+  String? name;
+  String? seoTitle;
+  String? simpleDesc;
+  String? primaryPicUrl;
+  String? productPlace;
+  num? counterPrice;
+  num? primarySkuId;
+  num? retailPrice;
+  num? status;
+  num? colorNum;
+  String? promDesc;
+  bool? soldOut;
+  bool? underShelf;
+  String? scenePicUrl;
+  String? promTag;
+  String? goodCmtRate;
+  HotSaleListBottomInfo? hotSaleListBottomInfo;
 
-  List<ItemTagListItem> itemTagList;
-  ListPromBanner listPromBanner;
-  List<SkuSpecListItem> skuSpecList;
-  FinalPriceInfoVO finalPriceInfoVO;
+  List<ItemTagListItem>? itemTagList;
+  ListPromBanner? listPromBanner;
+  List<SkuSpecListItem>? skuSpecList;
+  FinalPriceInfoVO? finalPriceInfoVO;
 
-  TopLogo topLogo;
+  TopLogo? topLogo;
 
   ItemListItem();
 

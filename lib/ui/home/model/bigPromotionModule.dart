@@ -5,7 +5,7 @@ part 'bigPromotionModule.g.dart';
 
 @JsonSerializable()
 class BigPromotionModule {
-  List<FloorItem> floorList;
+  List<FloorItem>? floorList;
 
   BigPromotionModule();
 

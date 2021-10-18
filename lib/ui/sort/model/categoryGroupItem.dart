@@ -5,9 +5,9 @@ part 'categoryGroupItem.g.dart';
 
 @JsonSerializable()
 class CategoryGroupItem {
-  num id;
-  String name;
-  List<Category> categoryList;
+  num? id;
+  String? name;
+  List<Category>? categoryList;
 
   CategoryGroupItem();
 

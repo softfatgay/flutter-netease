@@ -7,9 +7,9 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
 class UserIndexPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const UserIndexPage({Key key, this.params}) : super(key: key);
+  const UserIndexPage({Key? key, this.params}) : super(key: key);
 
   @override
   _UserIndexPageState createState() => _UserIndexPageState();
@@ -19,12 +19,12 @@ class _UserIndexPageState extends State<UserIndexPage> {
   String _userIcon =
       'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
 
-  String avatar;
+  String? avatar;
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
-      avatar = widget.params['avatar'];
+      avatar = widget.params!['avatar'];
     });
     super.initState();
   }
@@ -55,10 +55,10 @@ class _UserIndexPageState extends State<UserIndexPage> {
 
   _tabWidget(String tab,
       {double borderRadius = 0,
-      String imageUrl,
-      String icon,
-      String subTitle,
-      num id}) {
+      String? imageUrl,
+      String? icon,
+      String? subTitle,
+      num? id}) {
     return GestureDetector(
       child: Container(
         height: 50,

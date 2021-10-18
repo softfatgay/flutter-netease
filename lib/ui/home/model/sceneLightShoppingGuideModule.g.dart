@@ -7,12 +7,11 @@ part of 'sceneLightShoppingGuideModule.dart';
 // **************************************************************************
 
 SceneLightShoppingGuideModule _$SceneLightShoppingGuideModuleFromJson(
-    Map<String, dynamic> json) {
-  return SceneLightShoppingGuideModule()
-    ..styleItem = json['styleItem'] == null
-        ? null
-        : StyleItem.fromJson(json['styleItem'] as Map<String, dynamic>);
-}
+        Map<String, dynamic> json) =>
+    SceneLightShoppingGuideModule()
+      ..styleItem = json['styleItem'] == null
+          ? null
+          : StyleItem.fromJson(json['styleItem'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$SceneLightShoppingGuideModuleToJson(
         SceneLightShoppingGuideModule instance) =>

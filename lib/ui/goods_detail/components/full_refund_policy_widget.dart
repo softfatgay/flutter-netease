@@ -9,11 +9,11 @@ typedef void ShowDialog();
 
 ///规则
 class FullRefundPolicyWidget extends StatelessWidget {
-  final ShowDialog showDialog;
-  final FullRefundPolicy fullRefundPolicy;
+  final ShowDialog? showDialog;
+  final FullRefundPolicy? fullRefundPolicy;
 
   const FullRefundPolicyWidget(
-      {Key key, this.showDialog, this.fullRefundPolicy})
+      {Key? key, this.showDialog, this.fullRefundPolicy})
       : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class FullRefundPolicyWidget extends StatelessWidget {
   _buildWidget() {
     String policyTitle = '';
     if (fullRefundPolicy != null) {
-      List fullRefundPolicyTitle = fullRefundPolicy.titles;
+      List? fullRefundPolicyTitle = fullRefundPolicy!.titles;
       if (fullRefundPolicyTitle != null && fullRefundPolicyTitle.isNotEmpty) {
         fullRefundPolicyTitle.forEach((element) {
           policyTitle += '▪$element ';
@@ -33,7 +33,7 @@ class FullRefundPolicyWidget extends StatelessWidget {
     }
     return fullRefundPolicy == null
         ? Container()
-        : fullRefundPolicy.titles == null || fullRefundPolicy.titles.isEmpty
+        : fullRefundPolicy!.titles == null || fullRefundPolicy!.titles!.isEmpty
             ? Container()
             : GestureDetector(
                 child: Container(
@@ -51,7 +51,7 @@ class FullRefundPolicyWidget extends StatelessWidget {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: fullRefundPolicy.titles
+                          children: fullRefundPolicy!.titles!
                               .map((item) => Container(
                                     child: Row(
                                       children: [
@@ -83,7 +83,7 @@ class FullRefundPolicyWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   if (showDialog != null) {
-                    showDialog();
+                    showDialog!();
                   }
                 },
               );
@@ -112,7 +112,7 @@ class FullRefundPolicyWidget extends StatelessWidget {
             ),
             onTap: () {
               if (showDialog != null) {
-                showDialog();
+                showDialog!();
               }
             },
           );

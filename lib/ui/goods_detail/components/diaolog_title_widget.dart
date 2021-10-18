@@ -3,9 +3,9 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
 class DialogTitleWidget extends StatelessWidget {
-  final String title;
+  final String? title;
 
-  const DialogTitleWidget({Key key, this.title}) : super(key: key);
+  const DialogTitleWidget({Key? key, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

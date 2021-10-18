@@ -6,8 +6,8 @@ part 'sortlistCategoryItem.g.dart';
 
 @JsonSerializable()
 class SortlistCategoryItem {
-  Category category;
-  List<ItemListItem> itemList;
+  Category? category;
+  List<ItemListItem>? itemList;
 
   SortlistCategoryItem();
 

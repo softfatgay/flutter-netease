@@ -15,7 +15,7 @@ class LocationManagePage extends StatefulWidget {
 
 class _LocationManagePageState extends State<LocationManagePage> {
   List<LocationItemModel> _locationList = [];
-  num addressId = 0;
+  num? addressId = 0;
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
                                 border: Border.all(color: redColor),
                                 borderRadius: BorderRadius.circular(2)),
                             child: Text(
-                              item.dft ? '默认' : '',
+                              item.dft! ? '默认' : '',
                               style: t12red,
                             ),
                           )

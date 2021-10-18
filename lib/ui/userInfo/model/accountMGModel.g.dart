@@ -6,15 +6,14 @@ part of 'accountMGModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AccountMGModel _$AccountMGModelFromJson(Map<String, dynamic> json) {
-  return AccountMGModel()
-    ..aliasEnableOps =
-        (json['aliasEnableOps'] as List)?.map((e) => e as num)?.toList()
-    ..alias = (json['alias'] as List)
-        ?.map((e) =>
-            e == null ? null : AliasItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+AccountMGModel _$AccountMGModelFromJson(Map<String, dynamic> json) =>
+    AccountMGModel()
+      ..aliasEnableOps = (json['aliasEnableOps'] as List<dynamic>?)
+          ?.map((e) => e as num)
+          .toList()
+      ..alias = (json['alias'] as List<dynamic>?)
+          ?.map((e) => AliasItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$AccountMGModelToJson(AccountMGModel instance) =>
     <String, dynamic>{
@@ -22,13 +21,11 @@ Map<String, dynamic> _$AccountMGModelToJson(AccountMGModel instance) =>
       'alias': instance.alias,
     };
 
-AliasItem _$AliasItemFromJson(Map<String, dynamic> json) {
-  return AliasItem()
-    ..aliasType = json['aliasType'] as num
-    ..frontGroupType = json['frontGroupType'] as num
-    ..mobile = json['mobile'] as String
-    ..alias = json['alias'] as String;
-}
+AliasItem _$AliasItemFromJson(Map<String, dynamic> json) => AliasItem()
+  ..aliasType = json['aliasType'] as num?
+  ..frontGroupType = json['frontGroupType'] as num?
+  ..mobile = json['mobile'] as String?
+  ..alias = json['alias'] as String?;
 
 Map<String, dynamic> _$AliasItemToJson(AliasItem instance) => <String, dynamic>{
       'aliasType': instance.aliasType,

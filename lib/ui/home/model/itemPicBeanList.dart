@@ -4,8 +4,8 @@ part 'itemPicBeanList.g.dart';
 
 @JsonSerializable()
 class ItemPicBeanList {
-  int itemId;
-  String picUrl;
+  int? itemId;
+  String? picUrl;
 
   ItemPicBeanList();
 

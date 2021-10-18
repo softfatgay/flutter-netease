@@ -5,8 +5,8 @@ part 'red_package_mode.g.dart';
 
 @JsonSerializable()
 class RedPackageMode {
-  SearchResult searchResult;
-  BannerData banner;
+  SearchResult? searchResult;
+  BannerData? banner;
 
   RedPackageMode();
   factory RedPackageMode.fromJson(Map<String, dynamic> json) =>
@@ -15,8 +15,8 @@ class RedPackageMode {
 
 @JsonSerializable()
 class SearchResult {
-  Pagination pagination;
-  List<PackageItem> result;
+  Pagination? pagination;
+  List<PackageItem>? result;
 
   SearchResult();
 
@@ -26,19 +26,19 @@ class SearchResult {
 
 @JsonSerializable()
 class PackageItem {
-  num id;
-  num validStartTime;
-  num validEndTime;
-  num condition;
-  String name;
-  num price;
-  String rule;
-  bool isSelected = false;
+  num? id;
+  num? validStartTime;
+  num? validEndTime;
+  num? condition;
+  String? name;
+  num? price;
+  String? rule;
+  bool? isSelected = false;
 
-  num redpackageId;
-  String schemeUrl;
+  num? redpackageId;
+  String? schemeUrl;
 
-  List<TagListItem> tagList;
+  List<TagListItem>? tagList;
 
 
   PackageItem();
@@ -48,9 +48,9 @@ class PackageItem {
 
 @JsonSerializable()
 class BannerData {
-  String backgroundPic;
-  String title;
-  String icon;
+  String? backgroundPic;
+  String? title;
+  String? icon;
 
   BannerData();
 
@@ -60,9 +60,9 @@ class BannerData {
 
 @JsonSerializable()
 class TagListItem{
- num tagType;
- String tagName;
- num tagStyle;
+ num? tagType;
+ String? tagName;
+ num? tagStyle;
 
  TagListItem();
 

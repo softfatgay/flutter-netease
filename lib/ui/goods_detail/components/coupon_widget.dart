@@ -6,11 +6,11 @@ import 'package:flutter_app/component/global.dart';
 typedef void OnPress();
 
 class CouponWidget extends StatelessWidget {
-  final List<String> couponShortNameList;
-  final num id;
-  final OnPress onPress;
+  final List<String>? couponShortNameList;
+  final num? id;
+  final OnPress? onPress;
 
-  const CouponWidget({Key key, this.couponShortNameList, this.id, this.onPress})
+  const CouponWidget({Key? key, this.couponShortNameList, this.id, this.onPress})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class CouponWidget extends StatelessWidget {
   }
 
   _buildWidget(BuildContext context) {
-    return (couponShortNameList == null || couponShortNameList.isEmpty)
+    return (couponShortNameList == null || couponShortNameList!.isEmpty)
         ? Container()
         : InkResponse(
             child: Container(
@@ -36,7 +36,7 @@ class CouponWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Row(
-                      children: couponShortNameList
+                      children: couponShortNameList!
                           .map((item) => Container(
                                 margin: EdgeInsets.only(right: 3),
                                 decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class CouponWidget extends StatelessWidget {
             ),
             onTap: () {
               if (onPress != null) {
-                onPress();
+                onPress!();
               }
             },
           );

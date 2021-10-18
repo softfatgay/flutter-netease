@@ -7,9 +7,9 @@ import 'package:flutter_app/utils/color_util.dart';
 
 ///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
-  final BannerModel banner;
+  final BannerModel? banner;
 
-  const DetailPromBannerWidget({Key key, this.banner}) : super(key: key);
+  const DetailPromBannerWidget({Key? key, this.banner}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class DetailPromBannerWidget extends StatelessWidget {
   }
 
   _detailPromBannerWidget() {
-    return banner == null || banner.processBanner == null
+    return banner == null || banner!.processBanner == null
         ? Container()
         : _activity();
   }
@@ -26,12 +26,12 @@ class DetailPromBannerWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       decoration: BoxDecoration(
-          color: HexColor.fromHex(banner.processBanner == null
+          color: HexColor.fromHex(banner!.processBanner == null
               ? '#E53B44'
-              : banner.processBanner.bgColor ?? '#E53B44')),
+              : banner!.processBanner!.bgColor ?? '#E53B44')),
       child: Column(
         children: [
-          if (banner.processBanner != null) _sellDes(),
+          if (banner!.processBanner != null) _sellDes(),
           Container(
             margin: EdgeInsets.only(top: 5),
             child: Row(
@@ -54,9 +54,9 @@ class DetailPromBannerWidget extends StatelessWidget {
                       style: t20whitebold,
                     ),
                     SizedBox(width: 5),
-                    if (banner.processBanner.priceInfo.counterPrice != null)
+                    if (banner!.processBanner!.priceInfo!.counterPrice != null)
                       Text(
-                        '¥${banner.processBanner.priceInfo.counterPrice}',
+                        '¥${banner!.processBanner!.priceInfo!.counterPrice}',
                         style: TextStyle(
                           fontSize: 14,
                           color: textWhite,
@@ -65,7 +65,7 @@ class DetailPromBannerWidget extends StatelessWidget {
                       ),
                   ],
                 ),
-                if (banner.processBanner.priceInfo.finalPrice != null)
+                if (banner!.processBanner!.priceInfo!.finalPrice != null)
                   _finalPrice()
               ],
             ),
@@ -78,7 +78,7 @@ class DetailPromBannerWidget extends StatelessWidget {
   _sellDes() {
     int hour = 0;
     int day = 0;
-    var countdown = banner.processBanner.endTimeGap;
+    var countdown = banner!.processBanner!.endTimeGap;
     if (countdown != null && countdown > 0) {
       var d = countdown;
       // print('----------------');
@@ -92,11 +92,11 @@ class DetailPromBannerWidget extends StatelessWidget {
     }
 
     var title = Text(
-      '${banner.processBanner.title ?? ''}',
+      '${banner!.processBanner!.title ?? ''}',
       style: t12white,
     );
 
-    var cntTimer = Expanded(child: _timer(banner.processBanner.endTimeGap));
+    var cntTimer = Expanded(child: _timer(banner!.processBanner!.endTimeGap!));
 
     var spline = Container(
       height: 10,
@@ -113,8 +113,8 @@ class DetailPromBannerWidget extends StatelessWidget {
 
     List<Widget> list = [];
     list.add(title);
-    if (banner.processBanner.endTimeGap != null &&
-        banner.processBanner.endTimeGap > 0) {
+    if (banner!.processBanner!.endTimeGap != null &&
+        banner!.processBanner!.endTimeGap! > 0) {
       if (day == 0) {
         list.add(spline);
         list.add(cntTimer);
@@ -130,7 +130,7 @@ class DetailPromBannerWidget extends StatelessWidget {
       return Row(
         children: [
           Text(
-            '${banner.processBanner.title ?? ''}',
+            '${banner!.processBanner!.title ?? ''}',
             style: t12white,
           ),
           if (day == 0)
@@ -140,7 +140,7 @@ class DetailPromBannerWidget extends StatelessWidget {
               color: backWhite,
               margin: EdgeInsets.symmetric(horizontal: 5),
             ),
-          _timer(banner.processBanner.endTimeGap),
+          _timer(banner!.processBanner!.endTimeGap!),
         ],
       );
     }
@@ -148,7 +148,7 @@ class DetailPromBannerWidget extends StatelessWidget {
   }
 
   _basicTextInt() {
-    var basicPrice = banner.processBanner.priceInfo.basicPrice;
+    var basicPrice = banner!.processBanner!.priceInfo!.basicPrice!;
     if (basicPrice.contains('.')) {
       var indexOf = basicPrice.indexOf('.');
       var subInt = basicPrice.substring(0, indexOf);
@@ -215,7 +215,7 @@ class DetailPromBannerWidget extends StatelessWidget {
   }
 
   _finalPrice() {
-    var finalPrice = banner.processBanner.priceInfo.finalPrice;
+    var finalPrice = banner!.processBanner!.priceInfo!.finalPrice!;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
       decoration: BoxDecoration(

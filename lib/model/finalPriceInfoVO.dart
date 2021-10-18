@@ -6,9 +6,9 @@ part 'finalPriceInfoVO.g.dart';
 
 @JsonSerializable()
 class FinalPriceInfoVO {
-  BannerVO banner;
-  PriceInfo priceInfo;
-  num type;
+  BannerVO? banner;
+  PriceInfo? priceInfo;
+  num? type;
 
   FinalPriceInfoVO();
   factory FinalPriceInfoVO.fromJson(Map<String, dynamic> json) =>
@@ -17,9 +17,9 @@ class FinalPriceInfoVO {
 
 @JsonSerializable()
 class BannerVO {
-  String logo;
-  String title;
-  String content;
+  String? logo;
+  String? title;
+  String? content;
 
   BannerVO();
 
@@ -29,9 +29,9 @@ class BannerVO {
 
 @JsonSerializable()
 class PriceInfo {
-  FinalPrice finalPrice;
-  String counterPrice;
-  String basicPrice;
+  FinalPrice? finalPrice;
+  String? counterPrice;
+  String? basicPrice;
 
   PriceInfo();
 
@@ -41,9 +41,9 @@ class PriceInfo {
 
 @JsonSerializable()
 class FinalPrice {
-  String prefix;
-  String price;
-  String suffix;
+  String? prefix;
+  String? price;
+  String? suffix;
 
   FinalPrice();
 

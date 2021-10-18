@@ -7,12 +7,12 @@ import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 typedef void SeletedIndex(int index);
 
 class TypePopWidget extends StatelessWidget {
-  final List<CategoryL1Item> categoryList;
-  final int selectIndex;
-  final SeletedIndex seletedIndex;
+  final List<CategoryL1Item?>? categoryList;
+  final int? selectIndex;
+  final SeletedIndex? seletedIndex;
 
   const TypePopWidget(
-      {Key key, this.categoryList, this.selectIndex, this.seletedIndex})
+      {Key? key, this.categoryList, this.selectIndex, this.seletedIndex})
       : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class TypePopWidget extends StatelessWidget {
       width: double.infinity,
       color: backWhite,
       child: Wrap(
-        children: categoryList
+        children: categoryList!
             .map(
               (item) => GestureDetector(
                 child: Container(
@@ -30,21 +30,21 @@ class TypePopWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          color: selectIndex == categoryList.indexOf(item)
+                          color: selectIndex == categoryList!.indexOf(item)
                               ? textRed
                               : textGrey,
                           width: 1),
                       borderRadius: BorderRadius.circular(3)),
                   child: Text(
-                    '${item.name}',
-                    style: selectIndex == categoryList.indexOf(item)
+                    '${item!.name}',
+                    style: selectIndex == categoryList!.indexOf(item)
                         ? t12red
                         : t12black,
                   ),
                 ),
                 onTap: () {
                   if (seletedIndex != null) {
-                    seletedIndex(categoryList.indexOf(item));
+                    seletedIndex!(categoryList!.indexOf(item));
                   }
                 },
               ),

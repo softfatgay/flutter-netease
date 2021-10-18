@@ -12,8 +12,8 @@ class FeedBack extends StatefulWidget {
 
 class _FeedBackState extends State<FeedBack> {
   final _tvController = TextEditingController();
-  String _phone = '';
-  List feedbackList = [];
+  String? _phone = '';
+  List? feedbackList = [];
 
   var selectType = Map();
 
@@ -34,7 +34,7 @@ class _FeedBackState extends State<FeedBack> {
     var feedback = await feedbackType();
     setState(() {
       feedbackList = feedback.data;
-      for (var value in feedbackList) {
+      for (var value in feedbackList!) {
         if (value['type'] == 6) {
           setState(() {
             selectType = value;
@@ -60,7 +60,7 @@ class _FeedBackState extends State<FeedBack> {
     var feedback = await feedbackSubmit(params);
     setState(() {
       feedbackList = feedback.data;
-      for (var value in feedbackList) {
+      for (var value in feedbackList!) {
         if (value['type'] == 6) {
           setState(() {
             selectType = value;
@@ -188,7 +188,7 @@ class _FeedBackState extends State<FeedBack> {
           child: Container(
               child: SingleChildScrollView(
             child: Column(
-              children: feedbackList.map<Widget>((item) {
+              children: feedbackList!.map<Widget>((item) {
                 return GestureDetector(
                   child: Container(
                     width: double.infinity,

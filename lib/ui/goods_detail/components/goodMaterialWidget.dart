@@ -5,16 +5,16 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 
 class GoodMaterialWidget extends StatelessWidget {
-  final List<AttrListItem> attrList;
+  final List<AttrListItem>? attrList;
 
-  const GoodMaterialWidget({Key key, this.attrList}) : super(key: key);
+  const GoodMaterialWidget({Key? key, this.attrList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return attrList == null
         ? Container()
         : Column(
-            children: attrList
+            children: attrList!
                 .map((item) => Container(
                       color: backWhite,
                       child: Container(

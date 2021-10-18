@@ -3,16 +3,16 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/component/model/normalSearchModel.dart';
 
-typedef void PressChange(NormalSearchModel searchModel);
+typedef void PressChange(NormalSearchModel? searchModel);
 
 class NormalConditionsBar extends StatefulWidget {
-  final PressChange pressChange;
-  final NormalSearchModel searchModel;
+  final PressChange? pressChange;
+  final NormalSearchModel? searchModel;
 
   final double height;
 
   const NormalConditionsBar(
-      {Key key, this.height = 40, this.pressChange, this.searchModel})
+      {Key? key, this.height = 40, this.pressChange, this.searchModel})
       : super(key: key);
 
   @override
@@ -21,8 +21,8 @@ class NormalConditionsBar extends StatefulWidget {
 
 class _NormalConditionsBarState extends State<NormalConditionsBar> {
   int _index = 0;
-  var _normalSearchModel = NormalSearchModel();
-  bool _descSorted;
+  NormalSearchModel? _normalSearchModel = NormalSearchModel();
+  bool? _descSorted;
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class _NormalConditionsBarState extends State<NormalConditionsBar> {
                     ),
                     _descSorted == null
                         ? _dftSort()
-                        : (_descSorted ? _dftSortDown() : _dftSortUp())
+                        : (_descSorted! ? _dftSortDown() : _dftSortUp())
                   ],
                 ),
               ),
@@ -129,7 +129,7 @@ class _NormalConditionsBarState extends State<NormalConditionsBar> {
 
     setState(() {
       _index = index;
-      _normalSearchModel.sortType = index;
+      _normalSearchModel!.sortType = index;
       if (index == 0 || index == 5) {
         _descSorted = null;
       }
@@ -137,14 +137,14 @@ class _NormalConditionsBarState extends State<NormalConditionsBar> {
         if (_descSorted == null) {
           _descSorted = true;
         } else {
-          _descSorted = !_descSorted;
+          _descSorted = !_descSorted!;
         }
       }
-      _normalSearchModel.descSorted = _descSorted;
+      _normalSearchModel!.descSorted = _descSorted;
     });
 
     if (widget.pressChange != null) {
-      widget.pressChange(_normalSearchModel);
+      widget.pressChange!(_normalSearchModel);
     }
   }
 }

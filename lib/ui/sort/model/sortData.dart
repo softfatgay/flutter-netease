@@ -7,9 +7,9 @@ part 'sortData.g.dart';
 
 @JsonSerializable()
 class SortData {
-  List<CategoryL1Item> categoryL1List;
-  CurrentCategory currentCategory;
-  List<CategoryGroupItem> categoryGroupList;
+  List<CategoryL1Item>? categoryL1List;
+  CurrentCategory? currentCategory;
+  List<CategoryGroupItem>? categoryGroupList;
   SortData();
 
   factory SortData.fromJson(Map<String, dynamic> json) =>

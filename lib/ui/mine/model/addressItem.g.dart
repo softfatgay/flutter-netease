@@ -6,18 +6,16 @@ part of 'addressItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AddressItem _$AddressItemFromJson(Map<String, dynamic> json) {
-  return AddressItem()
-    ..englishName = json['englishName'] as String
-    ..code = json['code'] as String
-    ..province = json['province'] as String
-    ..city = json['city'] as String
-    ..level = json['level'] as num
-    ..id = json['id'] as num
-    ..type = json['type'] as num
-    ..zonename = json['zonename'] as String
-    ..parentid = json['parentid'] as num;
-}
+AddressItem _$AddressItemFromJson(Map<String, dynamic> json) => AddressItem()
+  ..englishName = json['englishName'] as String?
+  ..code = json['code'] as String?
+  ..province = json['province'] as String?
+  ..city = json['city'] as String?
+  ..level = json['level'] as num?
+  ..id = json['id'] as num?
+  ..type = json['type'] as num?
+  ..zonename = json['zonename'] as String?
+  ..parentid = json['parentid'] as num?;
 
 Map<String, dynamic> _$AddressItemToJson(AddressItem instance) =>
     <String, dynamic>{

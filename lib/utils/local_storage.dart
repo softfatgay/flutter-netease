@@ -9,10 +9,10 @@ class LocalStorage {
   static String totalNum = 'total_num';
   static String dftAddress = 'dft_address';
 
-  static SharedPreferences _sp;
+  static SharedPreferences? _sp;
 
   // 如果_sp已存在，直接返回，为null时创建
-  static Future<SharedPreferences> get sp async {
+  static Future<SharedPreferences?> get sp async {
     if (_sp == null) {
       _sp = await SharedPreferences.getInstance();
     }
@@ -20,22 +20,22 @@ class LocalStorage {
   }
 
   static Future<bool> save(String key, String value) async {
-    return (await sp).setString(key, value);
+    return (await sp)!.setString(key, value);
   }
 
   static dynamic get(String key) async {
-    return (await sp).get(key);
+    return (await sp)!.get(key);
   }
 
   static Future<bool> saveInt(String key, int value) async {
-    return (await sp).setInt(key, value);
+    return (await sp)!.setInt(key, value);
   }
 
-  static Future<int> getInt(String key) async {
-    return (await sp).getInt(key);
+  static Future<int?> getInt(String key) async {
+    return (await sp)!.getInt(key);
   }
 
   static Future<bool> remove(String key) async {
-    return (await sp).remove(key);
+    return (await sp)!.remove(key);
   }
 }

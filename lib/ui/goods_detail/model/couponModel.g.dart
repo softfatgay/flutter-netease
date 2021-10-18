@@ -6,31 +6,29 @@ part of 'couponModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CouponModel _$CouponModelFromJson(Map<String, dynamic> json) {
-  return CouponModel()
-    ..code = json['code'] as String
-    ..validStartTime = json['validStartTime'] as num
-    ..couponItemPath = json['couponItemPath'] as String
-    ..appOnly = json['appOnly'] as bool
-    ..buttonFlag = json['buttonFlag'] as bool
-    ..type = json['type'] as num
-    ..baseActiveNewUserOnly = json['baseActiveNewUserOnly'] as num
-    ..path = json['path'] as String
-    ..usable = json['usable'] as bool
-    ..unit = json['unit'] as String
-    ..hasCoupon = json['hasCoupon'] as bool
-    ..newUserOnly = json['newUserOnly'] as num
-    ..validEndTime = json['validEndTime'] as num
-    ..briefDesc = json['briefDesc'] as String
-    ..useCondition = json['useCondition'] as String
-    ..name = json['name'] as String
-    ..timeDesc = json['timeDesc'] as String
-    ..useTime = json['useTime'] as num
-    ..activationCode = json['activationCode'] as String
-    ..id = json['id'] as num
-    ..albeToActivated = json['albeToActivated'] as bool
-    ..isSelected = json['isSelected'] as bool;
-}
+CouponModel _$CouponModelFromJson(Map<String, dynamic> json) => CouponModel()
+  ..code = json['code'] as String?
+  ..validStartTime = json['validStartTime'] as num?
+  ..couponItemPath = json['couponItemPath'] as String?
+  ..appOnly = json['appOnly'] as bool?
+  ..buttonFlag = json['buttonFlag'] as bool?
+  ..type = json['type'] as num?
+  ..baseActiveNewUserOnly = json['baseActiveNewUserOnly'] as num?
+  ..path = json['path'] as String?
+  ..usable = json['usable'] as bool?
+  ..unit = json['unit'] as String?
+  ..hasCoupon = json['hasCoupon'] as bool?
+  ..newUserOnly = json['newUserOnly'] as num?
+  ..validEndTime = json['validEndTime'] as num?
+  ..briefDesc = json['briefDesc'] as String?
+  ..useCondition = json['useCondition'] as String?
+  ..name = json['name'] as String?
+  ..timeDesc = json['timeDesc'] as String?
+  ..useTime = json['useTime'] as num?
+  ..activationCode = json['activationCode'] as String?
+  ..id = json['id'] as num?
+  ..albeToActivated = json['albeToActivated'] as bool?
+  ..isSelected = json['isSelected'] as bool?;
 
 Map<String, dynamic> _$CouponModelToJson(CouponModel instance) =>
     <String, dynamic>{

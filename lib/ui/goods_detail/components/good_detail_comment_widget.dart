@@ -15,14 +15,14 @@ typedef void OnPress();
 
 ///商品详情品论展示区
 class GoodDetailCommentWidget extends StatelessWidget {
-  final List<ResultItem> comments;
-  final num commentCount;
-  final String goodCmtRate;
-  final OnPress onPress;
-  final num goodId;
+  final List<ResultItem>? comments;
+  final num? commentCount;
+  final String? goodCmtRate;
+  final OnPress? onPress;
+  final num? goodId;
 
   const GoodDetailCommentWidget(
-      {Key key,
+      {Key? key,
       this.comments,
       this.commentCount = 0,
       this.goodCmtRate,
@@ -37,8 +37,8 @@ class GoodDetailCommentWidget extends StatelessWidget {
 
   _buildWidget(BuildContext context) {
     ResultItem item;
-    if (comments.length > 0) {
-      item = comments[0];
+    if (comments!.length > 0) {
+      item = comments![0];
     }
     return Container(
         color: Colors.white,
@@ -69,7 +69,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            goodCmtRate == null ? "" : goodCmtRate,
+                            goodCmtRate == null ? "" : goodCmtRate!,
                             style: t16red,
                           ),
                           Text(
@@ -92,9 +92,9 @@ class GoodDetailCommentWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 10),
               color: lineColor,
             ),
-            if (comments.length > 0)
+            if (comments!.length > 0)
               CommonItemWidget(
-                item: comments[0],
+                item: comments![0],
               ),
           ],
         ));

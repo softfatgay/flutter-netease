@@ -6,14 +6,13 @@ part of 'pinRecommonModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PinRecommonModel _$PinRecommonModelFromJson(Map<String, dynamic> json) {
-  return PinRecommonModel()
-    ..name = json['name'] as String
-    ..price = json['price'] as num
-    ..id = json['id'] as num
-    ..itemId = json['itemId'] as num
-    ..picUrl = json['picUrl'] as String;
-}
+PinRecommonModel _$PinRecommonModelFromJson(Map<String, dynamic> json) =>
+    PinRecommonModel()
+      ..name = json['name'] as String?
+      ..price = json['price'] as num?
+      ..id = json['id'] as num?
+      ..itemId = json['itemId'] as num?
+      ..picUrl = json['picUrl'] as String?;
 
 Map<String, dynamic> _$PinRecommonModelToJson(PinRecommonModel instance) =>
     <String, dynamic>{

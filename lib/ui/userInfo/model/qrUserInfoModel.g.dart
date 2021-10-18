@@ -6,34 +6,34 @@ part of 'qrUserInfoModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QrUserInfoModel _$QrUserInfoModelFromJson(Map<String, dynamic> json) {
-  return QrUserInfoModel()
-    ..userId = json['userId'] as num
-    ..userName = json['userName'] as String
-    ..avatar = json['avatar'] as String
-    ..nickname = json['nickname'] as String
-    ..status = json['status'] as num
-    ..upperLimit = json['upperLimit'] as bool
-    ..effectiveStartTime = json['effectiveStartTime'] as num
-    ..effectiveEndTime = json['effectiveEndTime'] as num
-    ..remainDays = json['remainDays'] as num
-    ..whiteListUser = json['whiteListUser'] as bool
-    ..hasGotPrize = json['hasGotPrize'] as bool
-    ..virtualStatus = json['virtualStatus'] as num
-    ..memberLevel = json['memberLevel'] as num
-    ..qinhuiyuanStatus = json['qinhuiyuanStatus'] as num
-    ..wechatQinghuiyuanStatus = json['wechatQinghuiyuanStatus'] as num
-    ..hadUseFreeTry = json['hadUseFreeTry'] as bool
-    ..currentPeriod = json['currentPeriod'] == null
-        ? null
-        : CurrentPeriod.fromJson(json['currentPeriod'] as Map<String, dynamic>)
-    ..spmcOrderRightEnjoyRecordListTO =
-        json['spmcOrderRightEnjoyRecordListTO'] == null
-            ? null
-            : SpmcOrderRightEnjoyRecordListTO.fromJson(
-                json['spmcOrderRightEnjoyRecordListTO']
-                    as Map<String, dynamic>);
-}
+QrUserInfoModel _$QrUserInfoModelFromJson(Map<String, dynamic> json) =>
+    QrUserInfoModel()
+      ..userId = json['userId'] as num?
+      ..userName = json['userName'] as String?
+      ..avatar = json['avatar'] as String?
+      ..nickname = json['nickname'] as String?
+      ..status = json['status'] as num?
+      ..upperLimit = json['upperLimit'] as bool?
+      ..effectiveStartTime = json['effectiveStartTime'] as num?
+      ..effectiveEndTime = json['effectiveEndTime'] as num?
+      ..remainDays = json['remainDays'] as num?
+      ..whiteListUser = json['whiteListUser'] as bool?
+      ..hasGotPrize = json['hasGotPrize'] as bool?
+      ..virtualStatus = json['virtualStatus'] as num?
+      ..memberLevel = json['memberLevel'] as num?
+      ..qinhuiyuanStatus = json['qinhuiyuanStatus'] as num?
+      ..wechatQinghuiyuanStatus = json['wechatQinghuiyuanStatus'] as num?
+      ..hadUseFreeTry = json['hadUseFreeTry'] as bool?
+      ..currentPeriod = json['currentPeriod'] == null
+          ? null
+          : CurrentPeriod.fromJson(
+              json['currentPeriod'] as Map<String, dynamic>)
+      ..spmcOrderRightEnjoyRecordListTO =
+          json['spmcOrderRightEnjoyRecordListTO'] == null
+              ? null
+              : SpmcOrderRightEnjoyRecordListTO.fromJson(
+                  json['spmcOrderRightEnjoyRecordListTO']
+                      as Map<String, dynamic>);
 
 Map<String, dynamic> _$QrUserInfoModelToJson(QrUserInfoModel instance) =>
     <String, dynamic>{
@@ -58,13 +58,12 @@ Map<String, dynamic> _$QrUserInfoModelToJson(QrUserInfoModel instance) =>
           instance.spmcOrderRightEnjoyRecordListTO,
     };
 
-CurrentPeriod _$CurrentPeriodFromJson(Map<String, dynamic> json) {
-  return CurrentPeriod()
-    ..cardBigType = json['cardBigType'] as String
-    ..memberStatus = json['memberStatus'] as String
-    ..leftDays = json['leftDays'] as num
-    ..leftDaysCluster = json['leftDaysCluster'] as String;
-}
+CurrentPeriod _$CurrentPeriodFromJson(Map<String, dynamic> json) =>
+    CurrentPeriod()
+      ..cardBigType = json['cardBigType'] as String?
+      ..memberStatus = json['memberStatus'] as String?
+      ..leftDays = json['leftDays'] as num?
+      ..leftDaysCluster = json['leftDaysCluster'] as String?;
 
 Map<String, dynamic> _$CurrentPeriodToJson(CurrentPeriod instance) =>
     <String, dynamic>{
@@ -75,11 +74,10 @@ Map<String, dynamic> _$CurrentPeriodToJson(CurrentPeriod instance) =>
     };
 
 SpmcOrderRightEnjoyRecordListTO _$SpmcOrderRightEnjoyRecordListTOFromJson(
-    Map<String, dynamic> json) {
-  return SpmcOrderRightEnjoyRecordListTO()
-    ..totalSaveMoney = json['totalSaveMoney'] as num
-    ..saveMoneyCluster = json['saveMoneyCluster'] as String;
-}
+        Map<String, dynamic> json) =>
+    SpmcOrderRightEnjoyRecordListTO()
+      ..totalSaveMoney = json['totalSaveMoney'] as num?
+      ..saveMoneyCluster = json['saveMoneyCluster'] as String?;
 
 Map<String, dynamic> _$SpmcOrderRightEnjoyRecordListTOToJson(
         SpmcOrderRightEnjoyRecordListTO instance) =>

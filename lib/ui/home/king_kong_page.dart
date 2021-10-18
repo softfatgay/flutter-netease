@@ -16,9 +16,9 @@ import 'package:flutter_app/ui/sort/good_item_normal.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 
 class KingKongPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const KingKongPage({Key key, this.params}) : super(key: key);
+  const KingKongPage({Key? key, this.params}) : super(key: key);
 
   @override
   _KingKongPageState createState() => _KingKongPageState();
@@ -27,13 +27,13 @@ class KingKongPage extends StatefulWidget {
 class _KingKongPageState extends State<KingKongPage> {
   var _banner = [];
   bool _initLoading = true;
-  Category _currentCategory;
+  Category? _currentCategory;
 
   ///数据
-  List<CategoryItemListItem> _categoryItemList;
+  List<CategoryItemListItem>? _categoryItemList;
 
   ///_banner
-  List<BannerItem> _bannerList;
+  List<BannerItem>? _bannerList;
 
   final _scrollController = new ScrollController();
   bool _isShowFloatBtn = false;
@@ -64,7 +64,7 @@ class _KingKongPageState extends State<KingKongPage> {
   void _getInitData() async {
     var categoryId;
 
-    String schemeUrl = widget.params["schemeUrl"];
+    String schemeUrl = widget.params!["schemeUrl"];
     if (schemeUrl.contains("categoryId")) {
       var split = schemeUrl.split("?");
       var params = split[1];
@@ -95,9 +95,9 @@ class _KingKongPageState extends State<KingKongPage> {
     setState(() {
       _currentCategory = kingkongModel.currentCategory;
 
-      _bannerList = kingkongModel.currentCategory.bannerList;
+      _bannerList = kingkongModel.currentCategory!.bannerList;
       _categoryItemList = kingkongModel.categoryItemList;
-      _banner = _bannerList.map((item) => item.picUrl).toList();
+      _banner = _bannerList!.map((item) => item.picUrl).toList();
       _initLoading = false;
     });
   }
@@ -106,7 +106,7 @@ class _KingKongPageState extends State<KingKongPage> {
   Widget build(BuildContext context) {
     List<Widget> slivers = [_buildTitle(context)];
     if (_categoryItemList != null) {
-      for (var value in _categoryItemList) {
+      for (var value in _categoryItemList!) {
         slivers.add(_bodyTitle(value));
         slivers.add(GoodItemNormalWidget(dataList: value.itemList));
       }
@@ -132,7 +132,7 @@ class _KingKongPageState extends State<KingKongPage> {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverCustomHeaderDelegate(
-        title: _initLoading ? 'loading...' : '${_currentCategory.name}',
+        title: _initLoading ? 'loading...' : '${_currentCategory!.name}',
         expandedHeight: 200,
         paddingTop: MediaQuery.of(context).padding.top,
         child: _buildSwiper(context),
@@ -146,13 +146,13 @@ class _KingKongPageState extends State<KingKongPage> {
       imageList: _banner,
       onTap: (index) {
         Routers.push(
-            Routers.webView, context, {'url': _bannerList[index].targetUrl});
+            Routers.webView, context, {'url': _bannerList![index].targetUrl});
       },
     );
   }
 
   _bodyTitle(CategoryItemListItem value) {
-    Category category = value.category;
+    Category category = value.category!;
     return singleSliverWidget(Container(
       child: Container(
         color: backWhite,
@@ -166,11 +166,11 @@ class _KingKongPageState extends State<KingKongPage> {
               height: 10,
             ),
             Text(
-              category.name,
+              category.name!,
               style: t16black,
             ),
             Text(
-              category.frontName,
+              category.frontName!,
               style: t12grey,
             ),
             SizedBox(

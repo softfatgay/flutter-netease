@@ -6,15 +6,12 @@ part of 'shoppingRewardRule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ShoppingRewardRule _$ShoppingRewardRuleFromJson(Map<String, dynamic> json) {
-  return ShoppingRewardRule()
-    ..title = json['title'] as String
-    ..ruleList = (json['ruleList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PolicyListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+ShoppingRewardRule _$ShoppingRewardRuleFromJson(Map<String, dynamic> json) =>
+    ShoppingRewardRule()
+      ..title = json['title'] as String?
+      ..ruleList = (json['ruleList'] as List<dynamic>?)
+          ?.map((e) => PolicyListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$ShoppingRewardRuleToJson(ShoppingRewardRule instance) =>
     <String, dynamic>{
@@ -22,11 +19,9 @@ Map<String, dynamic> _$ShoppingRewardRuleToJson(ShoppingRewardRule instance) =>
       'ruleList': instance.ruleList,
     };
 
-RuleListItem _$RuleListItemFromJson(Map<String, dynamic> json) {
-  return RuleListItem()
-    ..title = json['title'] as String
-    ..content = json['content'] as String;
-}
+RuleListItem _$RuleListItemFromJson(Map<String, dynamic> json) => RuleListItem()
+  ..title = json['title'] as String?
+  ..content = json['content'] as String?;
 
 Map<String, dynamic> _$RuleListItemToJson(RuleListItem instance) =>
     <String, dynamic>{

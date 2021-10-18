@@ -14,7 +14,7 @@ import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
   const WebViewPage(this.params);
 
@@ -27,24 +27,24 @@ class _WebViewPageState extends State<WebViewPage> {
   // final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
-  String _url = '';
+  String? _url = '';
   bool hide = true;
 
   var _isLoading = true;
 
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      _url = widget.params['url'];
+      _url = widget.params!['url'];
       print('url=$_url');
     });
   }
 
-  var _title = '';
+  String? _title = '';
 
   void setcookie() async {
     if (!CookieConfig.isLogin) return;
@@ -52,7 +52,7 @@ class _WebViewPageState extends State<WebViewPage> {
     List<Cookie> cookies = [];
 
     for (var key in CookieConfig.cookieMap.keys) {
-      var cookie = Cookie(key, CookieConfig.cookieMap[key]);
+      var cookie = Cookie(key, CookieConfig.cookieMap[key]!);
       cookies.add(cookie);
     }
     // await cookieManager.setCookies(cookies);
@@ -137,7 +137,7 @@ class _WebViewPageState extends State<WebViewPage> {
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (controller) async {
               controller.loadUrl(
-                _url,
+                _url!,
                 headers: {"Cookie": cookie},
               );
               _webController.complete(controller);
@@ -152,7 +152,7 @@ class _WebViewPageState extends State<WebViewPage> {
             onPageFinished: (url) async {
               setcookie();
               hideTop();
-              String aa =
+              String? aa =
                   await _webController.future.then((value) => value.getTitle());
               setState(() {
                 _title = aa;
@@ -274,31 +274,31 @@ class _WebViewPageState extends State<WebViewPage> {
       try {
         if (_webController != null) {
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs() ?? '');
+            await value.evaluateJavascript(hideHeaderJs());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs1() ?? '');
+            await value.evaluateJavascript(hideHeaderJs1());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs2() ?? '');
+            await value.evaluateJavascript(hideHeaderJs2());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs3() ?? '');
+            await value.evaluateJavascript(hideHeaderJs3());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs4() ?? '');
+            await value.evaluateJavascript(hideHeaderJs4());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideOpenAppJs() ?? '');
+            await value.evaluateJavascript(hideOpenAppJs());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs() ?? '');
+            await value.evaluateJavascript(hideHeaderJs());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideBottom1() ?? '');
+            await value.evaluateJavascript(hideBottom1());
           });
           _webController.future.then((value) async {
-            await value.evaluateJavascript(hideBottom2() ?? '');
+            await value.evaluateJavascript(hideBottom2());
           });
         }
       } catch (e) {
@@ -319,7 +319,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   _timerCancel() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
   }
 }

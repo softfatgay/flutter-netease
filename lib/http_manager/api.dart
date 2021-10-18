@@ -265,7 +265,7 @@ Future<ResponseData> searchTips(Map<String, dynamic> params) async {
 
 ///搜索关键字
 Future<ResponseData> searchSearch(Map<String, dynamic> params,
-    {bool showProgress}) async {
+    {bool showProgress = false}) async {
   // params.addAll(_timestampParams());
   return await HttpManager.post(SEARCH_SEARCH,
       params: params, showProgress: showProgress);
@@ -434,7 +434,7 @@ Future<ResponseData> itemPool(Map<String, dynamic> params) async {
 
 ///凑单头部信息
 Future<ResponseData> getMakeUpCartInfo(Map<String, dynamic> params,
-    {bool showProgress}) async {
+    {bool? showProgress}) async {
   params.addAll(_getParams());
   return await HttpManager.get(MAKE_UP_CART_INFO,
       params: params, showProgress: showProgress ?? false);

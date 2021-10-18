@@ -6,9 +6,9 @@ part 'lookListModel.g.dart';
 
 @JsonSerializable()
 class LookListModel {
-  bool hasMore;
-  Extra extra;
-  List<TopicListItem> topicList;
+  bool? hasMore;
+  Extra? extra;
+  List<TopicListItem>? topicList;
 
   LookListModel();
 
@@ -18,8 +18,8 @@ class LookListModel {
 
 @JsonSerializable()
 class Extra {
-  String rcmdVer;
-  String abtest_dis;
+  String? rcmdVer;
+  String? abtest_dis;
 
   Extra();
 
@@ -28,28 +28,28 @@ class Extra {
 
 @JsonSerializable()
 class TopicListItem {
-  num topicId;
-  num type;
-  num pubType;
-  num readCount;
-  num style;
-  String schemeUrl;
-  String nickName;
-  String bannerUrl;
-  String avatar;
-  String title;
-  String subTitle;
-  String content;
-  String picUrl;
-  bool hasVideo;
-  bool hasLookCollects;
-  num size;
-  num duration;
-  num supportNum;
-  bool supportFlag;
-  BannerInfo bannerInfo;
-  bool isCollection;
-  Collection collection;
+  num? topicId;
+  num? type;
+  num? pubType;
+  num? readCount;
+  num? style;
+  String? schemeUrl;
+  String? nickName;
+  String? bannerUrl;
+  String? avatar;
+  String? title;
+  String? subTitle;
+  String? content;
+  String? picUrl;
+  bool? hasVideo;
+  bool? hasLookCollects;
+  num? size;
+  num? duration;
+  num? supportNum;
+  bool? supportFlag;
+  BannerInfo? bannerInfo;
+  bool? isCollection;
+  Collection? collection;
 
   TopicListItem();
 
@@ -59,11 +59,11 @@ class TopicListItem {
 
 @JsonSerializable()
 class Collection {
-  num id;
-  String tag;
-  String title;
-  String subtitle;
-  String picUrl;
+  num? id;
+  String? tag;
+  String? title;
+  String? subtitle;
+  String? picUrl;
 
   Collection();
 

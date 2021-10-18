@@ -13,7 +13,7 @@ import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 
 ///去凑单，未达到包邮条件
 class AllCartItemPoolPage extends StatefulWidget {
-  const AllCartItemPoolPage({Key key}) : super(key: key);
+  const AllCartItemPoolPage({Key? key}) : super(key: key);
 
   @override
   _AllCartItemPoolPageState createState() => _AllCartItemPoolPageState();
@@ -27,12 +27,12 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   bool _isLoading = true;
 
   int _activeIndex = 0;
-  TabController _tabController;
-  List<CategorytListItem> _categorytList = [];
+  TabController? _tabController;
+  List<CategorytListItem>? _categorytList = [];
   List<GoodDetail> _result = [];
-  Pagination _pagination;
-  int _id = 3;
-  ItemPoolModel _itemPoolModel;
+  Pagination? _pagination;
+  int? _id = 3;
+  late ItemPoolModel _itemPoolModel;
 
   var _itemPoolBarModel = ItemPoolBarModel(0, '');
   final _scrollController = ScrollController();
@@ -42,13 +42,13 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: _categorytList.length, vsync: this);
+    _tabController = TabController(length: _categorytList!.length, vsync: this);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > 500) {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
           if (_pagination != null) {
-            if (_pagination.totalPage > _pagination.page) {
+            if (_pagination!.totalPage! > _pagination!.page!) {
               setState(() {
                 _page++;
               });
@@ -75,9 +75,9 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
 
   @override
   Widget build(BuildContext context) {
-    List<String> tabItem = [];
-    for (int i = 0; i < (_categorytList.length); i++) {
-      tabItem.add(_categorytList[i].categoryVO.name);
+    List<String?> tabItem = [];
+    for (int i = 0; i < (_categorytList!.length); i++) {
+      tabItem.add(_categorytList![i].categoryVO!.name);
     }
     return Scaffold(
       appBar: TabAppBar(
@@ -113,7 +113,7 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
                         },
                       ),
                       SliverFooter(
-                          hasMore: _pagination.totalPage > _pagination.page)
+                          hasMore: _pagination!.totalPage! > _pagination!.page!)
                     ],
                   ),
                 ),
@@ -146,17 +146,17 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
       setState(() {
         _isLoading = false;
         _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
-        if (_categorytList.isEmpty) {
+        if (_categorytList!.isEmpty) {
           _categorytList = _itemPoolModel.categorytList;
           _tabController = TabController(
-              length: _categorytList.length,
+              length: _categorytList!.length,
               vsync: this,
-              initialIndex: _categorytList.length - 1)
+              initialIndex: _categorytList!.length - 1)
             ..addListener(() {
-              if (_tabController.index == _tabController.animation.value) {
+              if (_tabController!.index == _tabController!.animation!.value) {
                 setState(() {
-                  _activeIndex = _tabController.index;
-                  _id = _categorytList[_activeIndex].categoryVO.id;
+                  _activeIndex = _tabController!.index;
+                  _id = _categorytList![_activeIndex].categoryVO!.id as int?;
                   _page = 1;
                   _itemPool();
                 });
@@ -164,11 +164,11 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
             });
         }
 
-        var searcherItemListResult = _itemPoolModel.searcherItemListResult;
+        var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
         if (_page == 1) {
           _result.clear();
         }
-        _result.addAll(searcherItemListResult.result);
+        _result.addAll(searcherItemListResult.result!);
         _pagination = searcherItemListResult.pagination;
       });
     }
@@ -187,7 +187,7 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController.dispose();
+    _tabController!.dispose();
     _scrollController.dispose();
     super.dispose();
   }

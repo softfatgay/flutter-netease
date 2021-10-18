@@ -4,14 +4,14 @@ part 'bannerInfo.g.dart';
 
 @JsonSerializable()
 class BannerInfo {
-  num duration;
-  bool hasVideo;
-  String picUrl;
-  String videoUrl;
-  num size;
-  num width;
-  bool isVideo;
-  num height;
+  num? duration;
+  bool? hasVideo;
+  String? picUrl;
+  String? videoUrl;
+  num? size;
+  num? width;
+  bool? isVideo;
+  num? height;
 
   BannerInfo();
 

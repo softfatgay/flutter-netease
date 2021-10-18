@@ -10,7 +10,7 @@ import 'package:flutter_app/utils/toast.dart';
 import 'package:package_info/package_info.dart';
 
 class SettingPage extends StatefulWidget {
-  Map arguments;
+  Map? arguments;
 
   SettingPage({this.arguments});
 
@@ -19,10 +19,10 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  String appName;
-  String packageName;
+  String? appName;
+  String? packageName;
   String version = '';
-  String buildNumber;
+  String? buildNumber;
 
   final List itemList = [
     _ItemList(Icon(Icons.android, color: Colors.blue), '版本', 0),

@@ -4,9 +4,9 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
 
 class TitleTagsWidget extends StatelessWidget {
-  final List<ItemTagListItem> itemTagListGood;
+  final List<ItemTagListItem>? itemTagListGood;
 
-  const TitleTagsWidget({Key key, this.itemTagListGood}) : super(key: key);
+  const TitleTagsWidget({Key? key, this.itemTagListGood}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +14,13 @@ class TitleTagsWidget extends StatelessWidget {
   }
 
   _buildTitleTags() {
-    return itemTagListGood == null || itemTagListGood.isEmpty
+    return itemTagListGood == null || itemTagListGood!.isEmpty
         ? Container()
         : Container(
             padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
             color: backWhite,
             child: Row(
-              children: itemTagListGood
+              children: itemTagListGood!
                   .map<Widget>((item) => Container(
                         margin: EdgeInsets.only(right: 5),
                         padding:
@@ -29,7 +29,7 @@ class TitleTagsWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: redColor, width: 0.5)),
                         child: Text(
-                          item.name,
+                          item.name!,
                           style: t10red,
                         ),
                       ))

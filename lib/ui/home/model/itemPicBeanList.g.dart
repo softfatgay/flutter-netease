@@ -6,11 +6,10 @@ part of 'itemPicBeanList.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemPicBeanList _$ItemPicBeanListFromJson(Map<String, dynamic> json) {
-  return ItemPicBeanList()
-    ..itemId = json['itemId'] as int
-    ..picUrl = json['picUrl'] as String;
-}
+ItemPicBeanList _$ItemPicBeanListFromJson(Map<String, dynamic> json) =>
+    ItemPicBeanList()
+      ..itemId = json['itemId'] as int?
+      ..picUrl = json['picUrl'] as String?;
 
 Map<String, dynamic> _$ItemPicBeanListToJson(ItemPicBeanList instance) =>
     <String, dynamic>{

@@ -6,19 +6,19 @@ part 'category.g.dart';
 
 @JsonSerializable()
 class Category {
-  num id;
-  num superCategoryId;
-  num showIndex;
-  String picUrl;
-  String categoryName;
-  String targetUrl;
-  String showPicUrl;
-  String wapBannerUrl;
-  String name;
-  String frontName;
-  List<ItemPicBeanList> itemPicBeanList;
-  List<BannerItem> bannerList;
-
+  num? id;
+  num? superCategoryId;
+  num? showIndex;
+  String? picUrl;
+  String? categoryName;
+  String? targetUrl;
+  String? showPicUrl;
+  String? wapBannerUrl;
+  String? name;
+  String? frontName;
+  List<ItemPicBeanList>? itemPicBeanList;
+  List<BannerItem>? bannerList;
+  String? test;
   Category();
 
   factory Category.fromJson(Map<String, dynamic> json) =>

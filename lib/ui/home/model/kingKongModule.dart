@@ -4,10 +4,10 @@ part 'kingKongModule.g.dart';
 
 @JsonSerializable()
 class KingKongModule {
-  String norColor;
-  String background;
-  String selectedColor;
-  List<KingKongItem> kingKongList;
+  String? norColor;
+  String? background;
+  String? selectedColor;
+  List<KingKongItem>? kingKongList;
 
   KingKongModule();
 
@@ -17,10 +17,10 @@ class KingKongModule {
 
 @JsonSerializable()
 class KingKongItem {
-  String picUrl;
-  String schemeUrl;
-  String text;
-  String textColor;
+  String? picUrl;
+  String? schemeUrl;
+  String? text;
+  String? textColor;
 
   KingKongItem();
 

@@ -4,9 +4,9 @@ part 'noticeListModel.g.dart';
 
 @JsonSerializable()
 class NoticeListModel {
-  num type;
-  String content;
-  String targetUrl;
+  num? type;
+  String? content;
+  String? targetUrl;
 
   NoticeListModel();
 

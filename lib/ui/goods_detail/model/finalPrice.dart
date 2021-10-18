@@ -4,9 +4,9 @@ part 'finalPrice.g.dart';
 
 @JsonSerializable()
 class FinalPrice {
-  String prefix;
-  String price;
-  String suffix;
+  String? prefix;
+  String? price;
+  String? suffix;
 
   FinalPrice();
   factory FinalPrice.fromJson(Map<String, dynamic> json) =>

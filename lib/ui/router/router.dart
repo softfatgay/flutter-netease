@@ -151,7 +151,7 @@ class Routers {
     addressSelector: (context, {params}) => AddressSelector(),
 
     ///kingKong
-    kingKong: (context, {params}) {
+    kingKong: (context, {required params}) {
       String schemeUrl = params['schemeUrl'];
       if (schemeUrl.contains("categoryId")) {
         return KingKongPage(params: params);
@@ -212,7 +212,7 @@ class Routers {
     makeUpPage: (context, {params}) => MakeUpPage(params: params),
 
     ///用户信息
-    userInfoPageIndex: (context, {params}) {
+    userInfoPageIndex: (context, {required params}) {
       var id = params['id'];
       switch (id) {
         case 0:
@@ -231,7 +231,7 @@ class Routers {
     },
 
     ///回馈金等
-    mineTopItems: (context, {params}) {
+    mineTopItems: (context, {required params}) {
       var id = params['id'];
       switch (id) {
         case 1: //  回馈金
@@ -260,7 +260,7 @@ class Routers {
     },
 
     ///orderList
-    mineItems: (context, {params}) {
+    mineItems: (context, {required params}) {
       var id = params['id'];
       switch (id) {
         case 0: //订单界面
@@ -302,7 +302,7 @@ class Routers {
       return ErrorPage();
     },
     //专题详情
-    setting: (context, {params}) {
+    setting: (context, {required params}) {
       var id = params['id'];
       switch (id) {
         case 0: //关于界面
@@ -331,7 +331,7 @@ class Routers {
   ///组件跳转
 
   static link(Widget widget, String routeName, BuildContext context,
-      [Map params, Function callBack]) {
+      [Map? params, Function? callBack]) {
     return GestureDetector(
       onTap: () {
         if (params != null) {
@@ -355,7 +355,7 @@ class Routers {
 
   ///组件跳转
   static push(String routeName, BuildContext context,
-      [Map params, Function callBack]) {
+      [Map? params, Function? callBack]) {
     if (params != null) {
       Navigator.pushNamed(context, routeName, arguments: params)
           .then((onValue) {
@@ -373,7 +373,7 @@ class Routers {
   }
 
   static run(RouteSettings routeSettings) {
-    final Function pageContentBuilder = Routers.routes[routeSettings.name];
+    final Function? pageContentBuilder = Routers.routes[routeSettings.name!];
     if (pageContentBuilder != null) {
       if (routeSettings.arguments != null) {
         return MaterialPageRoute(

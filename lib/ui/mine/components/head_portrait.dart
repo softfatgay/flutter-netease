@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HeadPortrait extends StatelessWidget {
-  final String url;
+  final String? url;
 
-  const HeadPortrait({Key key, this.url}) : super(key: key);
+  const HeadPortrait({Key? key, this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class HeadPortrait extends StatelessWidget {
         border: Border.all(color: Colors.white,width: 1),
         image: DecorationImage(
           image: NetworkImage(
-            url,
+            url!,
           ),
           fit: BoxFit.fill,
         ),

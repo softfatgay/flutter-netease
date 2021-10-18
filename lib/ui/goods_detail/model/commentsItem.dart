@@ -4,26 +4,26 @@ part 'commentsItem.g.dart';
 
 @JsonSerializable()
 class CommentsItem {
-  num id;
-  num itemId;
-  num skuId;
-  num packageId;
-  String itemName;
-  String itemIconUrl;
-  List<String> skuInfo;
-  String frontUserName;
-  String frontUserAvatar;
+  num? id;
+  num? itemId;
+  num? skuId;
+  num? packageId;
+  String? itemName;
+  String? itemIconUrl;
+  List<String>? skuInfo;
+  String? frontUserName;
+  String? frontUserAvatar;
 
-  String content;
+  String? content;
 
-  num createTime;
+  num? createTime;
 
-  List<String> picList;
-  num memberLevel;
-  StarVO starVO;
-  num star;
+  List<String>? picList;
+  num? memberLevel;
+  StarVO? starVO;
+  num? star;
 
-  CommentItemTagVO commentItemTagVO;
+  CommentItemTagVO? commentItemTagVO;
 
   CommentsItem();
 
@@ -33,7 +33,7 @@ class CommentsItem {
 
 @JsonSerializable()
 class StarVO {
-  num star;
+  num? star;
 
   StarVO();
   factory StarVO.fromJson(Map<String, dynamic> json) => _$StarVOFromJson(json);
@@ -41,8 +41,8 @@ class StarVO {
 
 @JsonSerializable()
 class CommentItemTagVO {
-  num type;
-  String schemeUrl;
+  num? type;
+  String? schemeUrl;
 
   CommentItemTagVO();
 

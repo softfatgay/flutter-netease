@@ -5,11 +5,11 @@ part 'lookCollectionModel.g.dart';
 
 @JsonSerializable()
 class LookCollectionModel {
-  num id;
-  String tag;
-  String title;
-  String subtitle;
-  List<LookListItem> lookList;
+  num? id;
+  String? tag;
+  String? title;
+  String? subtitle;
+  List<LookListItem>? lookList;
 
   LookCollectionModel();
 
@@ -19,14 +19,14 @@ class LookCollectionModel {
 
 @JsonSerializable()
 class LookListItem {
-  num topicId;
-  String schemeUrl;
-  String avatar;
-  String nickName;
-  String content;
-  bool supportFlag;
-  num supportNum;
-  BannerInfo banner;
+  num? topicId;
+  String? schemeUrl;
+  String? avatar;
+  String? nickName;
+  String? content;
+  bool? supportFlag;
+  num? supportNum;
+  BannerInfo? banner;
 
   LookListItem();
   factory LookListItem.fromJson(Map<String, dynamic> json) =>

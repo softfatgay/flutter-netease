@@ -5,9 +5,9 @@ part 'priceModel.g.dart';
 
 @JsonSerializable()
 class PriceModel {
-  FinalPrice finalPrice;
-  String counterPrice = '';
-  String basicPrice = '';
+  FinalPrice? finalPrice;
+  String? counterPrice = '';
+  String? basicPrice = '';
 
   PriceModel();
 

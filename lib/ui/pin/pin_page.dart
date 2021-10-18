@@ -22,9 +22,9 @@ import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/toast.dart';
 
 class PinPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const PinPage({Key key, this.params}) : super(key: key);
+  const PinPage({Key? key, this.params}) : super(key: key);
 
   @override
   _PinPageState createState() => _PinPageState();
@@ -33,22 +33,22 @@ class PinPage extends StatefulWidget {
 class _PinPageState extends State<PinPage> {
   bool _initLoading = true;
 
-  PinItemDetailModel _detailModel;
-  ItemInfo _itemInfo;
+  late PinItemDetailModel _detailModel;
+  ItemInfo? _itemInfo;
   final _scrollController = ScrollController();
   bool _isShowFloatBtn = false;
 
   int _bannerIndex = 0;
 
-  List<ResultItem> _commentList = [];
-  num _commentCount = 0;
+  List<ResultItem>? _commentList = [];
+  num? _commentCount = 0;
   List<PinRecommonModel> _commonList = [];
 
   ///详情图片
   List<String> _detailImages = [];
 
-  num _itemId = 3991032;
-  num _baseId = 2054404;
+  num? _itemId = 3991032;
+  num? _baseId = 2054404;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _PinPageState extends State<PinPage> {
     if (widget.params != null) {
       var params = widget.params;
       setState(() {
-        _itemId = params['itemId'];
+        _itemId = params!['itemId'];
         _baseId = params['baseId'];
       });
     }
@@ -92,12 +92,12 @@ class _PinPageState extends State<PinPage> {
         _initLoading = false;
       });
 
-      var html = _detailModel.itemDetail['detailHtml'];
+      var html = _detailModel.itemDetail!['detailHtml'];
       RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
       List<String> imageUrls = [];
       Iterable<Match> mobiles = exp.allMatches(html);
       for (Match m in mobiles) {
-        String match = m.group(0);
+        String? match = m.group(0);
         String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
         if (!imageUrls.contains(imageUrl)) {
           print(imageUrl);
@@ -123,7 +123,7 @@ class _PinPageState extends State<PinPage> {
     setState(() {
       var commondPageModel = CommondPageModel.fromJson(responseData.data);
       _commentList = commondPageModel.result;
-      _commentCount = commondPageModel.pagination.total;
+      _commentCount = commondPageModel.pagination!.total;
     });
   }
 
@@ -200,7 +200,7 @@ class _PinPageState extends State<PinPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      '¥${_itemInfo.originPrice}',
+                      '¥${_itemInfo!.originPrice}',
                       style: t14blackBold,
                     ),
                     Text(
@@ -228,7 +228,7 @@ class _PinPageState extends State<PinPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      '¥${_itemInfo.price}',
+                      '¥${_itemInfo!.price}',
                       style: t14whiteBold,
                     ),
                     Text(
@@ -240,9 +240,9 @@ class _PinPageState extends State<PinPage> {
               ),
               onTap: () {
                 var itemInfo = SkuListItem();
-                var skuList = _itemInfo.skuList;
+                var skuList = _itemInfo!.skuList!;
                 for (var item in skuList) {
-                  if (_itemInfo.id == item.baseId) {
+                  if (_itemInfo!.id == item.baseId) {
                     itemInfo = item;
                     break;
                   }
@@ -358,7 +358,7 @@ class _PinPageState extends State<PinPage> {
 
   _buildSwiper(BuildContext context) {
     List<String> banner = [];
-    var itemDetail = _detailModel.itemDetail;
+    var itemDetail = _detailModel.itemDetail!;
     List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
     bannerList.forEach((image) {
       if (image.toString().startsWith('https://')) {
@@ -416,7 +416,7 @@ class _PinPageState extends State<PinPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    '${_itemInfo.userNum}人团',
+                    '${_itemInfo!.userNum}人团',
                     style: TextStyle(
                       color: textWhite,
                       height: 1.1,
@@ -426,14 +426,14 @@ class _PinPageState extends State<PinPage> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  '${_itemInfo.joinUsers}人已拼',
+                  '${_itemInfo!.joinUsers}人已拼',
                   style: t14red,
                 )
               ],
             ),
           ),
           Text(
-            '${_itemInfo.name}',
+            '${_itemInfo!.name}',
             style: t16blackbold,
           )
         ],

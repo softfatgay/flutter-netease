@@ -6,18 +6,14 @@ part of 'newItemModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NewItemModel _$NewItemModelFromJson(Map<String, dynamic> json) {
-  return NewItemModel()
-    ..scenePicUrl = json['scenePicUrl'] as String
-    ..simpleDesc = json['simpleDesc'] as String
-    ..retailPrice = json['retailPrice'] as num
-    ..itemTagList = (json['itemTagList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NewItemTagModel.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..id = json['id'] as int;
-}
+NewItemModel _$NewItemModelFromJson(Map<String, dynamic> json) => NewItemModel()
+  ..scenePicUrl = json['scenePicUrl'] as String?
+  ..simpleDesc = json['simpleDesc'] as String?
+  ..retailPrice = json['retailPrice'] as num?
+  ..itemTagList = (json['itemTagList'] as List<dynamic>?)
+      ?.map((e) => NewItemTagModel.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..id = json['id'] as int?;
 
 Map<String, dynamic> _$NewItemModelToJson(NewItemModel instance) =>
     <String, dynamic>{

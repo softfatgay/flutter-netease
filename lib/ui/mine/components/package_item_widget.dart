@@ -5,10 +5,10 @@ import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
 class PackageItemWidget extends StatefulWidget {
-  final PackageItem packageItem;
-  final int searchType;
+  final PackageItem? packageItem;
+  final int? searchType;
 
-  const PackageItemWidget({Key key, this.packageItem, this.searchType})
+  const PackageItemWidget({Key? key, this.packageItem, this.searchType})
       : super(key: key);
 
   @override
@@ -16,9 +16,9 @@ class PackageItemWidget extends StatefulWidget {
 }
 
 class _PackageItemWidgetState extends State<PackageItemWidget> {
-  PackageItem _packageItem;
+  PackageItem? _packageItem;
   bool _isScroll = false;
-  int _searchType = 1;
+  int? _searchType = 1;
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _PackageItemWidgetState extends State<PackageItemWidget> {
             height: 50,
           ),
           Text(
-            _packageItem.name,
+            _packageItem!.name!,
             style: t14white,
           ),
           SizedBox(
@@ -55,7 +55,7 @@ class _PackageItemWidgetState extends State<PackageItemWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${_packageItem.price}',
+                '${_packageItem!.price}',
                 style: TextStyle(color: textWhite, fontSize: 28, height: 1.1),
               ),
               Text(
@@ -68,7 +68,7 @@ class _PackageItemWidgetState extends State<PackageItemWidget> {
             height: 10,
           ),
           Text(
-            '${Util.long2date(_packageItem.validStartTime * 1000)}-${Util.long2date(_packageItem.validEndTime * 1000)}',
+            '${Util.long2date(_packageItem!.validStartTime! * 1000 as int)}-${Util.long2date(_packageItem!.validEndTime! * 1000 as int)}',
             style: TextStyle(color: textWhite, fontSize: 10),
           ),
           SizedBox(
@@ -85,7 +85,7 @@ class _PackageItemWidgetState extends State<PackageItemWidget> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              '满${_packageItem.condition}元可用：${_packageItem.rule}',
+              '满${_packageItem!.condition}元可用：${_packageItem!.rule}',
               style: TextStyle(color: textWhite),
               maxLines: _isScroll ? 10 : 4,
               overflow: TextOverflow.ellipsis,

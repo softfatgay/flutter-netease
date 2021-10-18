@@ -8,9 +8,9 @@ typedef void AddressValue(
     AddressItem province, AddressItem city, AddressItem dis, AddressItem town);
 
 class AddressSelector extends StatefulWidget {
-  final AddressValue addressValue;
+  final AddressValue? addressValue;
 
-  const AddressSelector({Key key, this.addressValue}) : super(key: key);
+  const AddressSelector({Key? key, this.addressValue}) : super(key: key);
 
   @override
   _AddressSelectorState createState() => _AddressSelectorState();
@@ -18,7 +18,7 @@ class AddressSelector extends StatefulWidget {
 
 class _AddressSelectorState extends State<AddressSelector>
     with TickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   List<AddressItem> _province = [];
   List<AddressItem> _city = [];
@@ -43,8 +43,8 @@ class _AddressSelectorState extends State<AddressSelector>
     _tabTitle.clear();
     _tabTitle.add('省');
     _tabController = TabController(length: _tabTitle.length, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.index == _tabController.animation.value) {}
+    _tabController!.addListener(() {
+      if (_tabController!.index == _tabController!.animation!.value) {}
     });
     super.initState();
     _getProvince();
@@ -82,7 +82,7 @@ class _AddressSelectorState extends State<AddressSelector>
                                 top: BorderSide(color: backGrey, width: 1))),
                         margin: EdgeInsets.only(left: 15),
                         padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
-                        child: Text(item.zonename),
+                        child: Text(item.zonename!),
                       ),
                       onTap: () {
                         if (_selectType == 1) {
@@ -90,26 +90,26 @@ class _AddressSelectorState extends State<AddressSelector>
                             _provinceItem = item;
                           });
                           print(_selectType);
-                          _getCity(item.id);
+                          _getCity(item.id as int?);
                         } else if (_selectType == 2) {
                           setState(() {
                             _cityItem = item;
                           });
                           print(_selectType);
-                          _getDis(item.id, item.parentid);
+                          _getDis(item.id as int?, item.parentid as int?);
                         } else if (_selectType == 3) {
                           setState(() {
                             _disItem = item;
                           });
                           print(_selectType);
-                          _getTown(item.id);
+                          _getTown(item.id as int?);
                         } else {
                           setState(() {
                             _townItem = item;
                             _addressTips =
-                                '${_provinceItem.zonename + ' ' + _cityItem.zonename + ' ' + _disItem.zonename + ' ' + _townItem.zonename}';
+                                '${_provinceItem.zonename! + ' ' + _cityItem.zonename! + ' ' + _disItem.zonename! + ' ' + _townItem.zonename!}';
                             if (widget.addressValue != null) {
-                              widget.addressValue(_provinceItem, _cityItem,
+                              widget.addressValue!(_provinceItem, _cityItem,
                                   _disItem, _townItem);
                             }
                             Navigator.pop(context);
@@ -143,7 +143,7 @@ class _AddressSelectorState extends State<AddressSelector>
     }
   }
 
-  void _getCity(int parentId) async {
+  void _getCity(int? parentId) async {
     Map<String, dynamic> params = {"parentId": parentId};
     var responseData = await getCityList(params);
 
@@ -160,16 +160,16 @@ class _AddressSelectorState extends State<AddressSelector>
       _tabTitle.add('市');
       _tabController =
           TabController(length: _tabTitle.length, initialIndex: 1, vsync: this);
-      _tabController.addListener(() {
-        if (_tabController.index == _tabController.animation.value) {
-          _tabclick(_tabController.index);
+      _tabController!.addListener(() {
+        if (_tabController!.index == _tabController!.animation!.value) {
+          _tabclick(_tabController!.index);
         }
       });
       _city = dataList;
     });
   }
 
-  void _getDis(int parentId, int grandParentId) async {
+  void _getDis(int? parentId, int? grandParentId) async {
     Map<String, dynamic> params = {
       "parentId": parentId,
       "grandParentId": grandParentId
@@ -191,23 +191,23 @@ class _AddressSelectorState extends State<AddressSelector>
       _tabTitle.add('区县');
       _tabController =
           TabController(length: _tabTitle.length, initialIndex: 2, vsync: this);
-      _tabController.addListener(() {
-        if (_tabController.index == _tabController.animation.value) {
-          _tabclick(_tabController.index);
+      _tabController!.addListener(() {
+        if (_tabController!.index == _tabController!.animation!.value) {
+          _tabclick(_tabController!.index);
         }
       });
       _dis = dataList;
     });
   }
 
-  void _getTown(int parentId) async {
+  void _getTown(int? parentId) async {
     Map<String, dynamic> params = {"parentId": parentId};
 
     var responseData = await getTown(params);
     List data = responseData.data;
     if (data.isEmpty) {
       if (widget.addressValue != null) {
-        widget.addressValue(_provinceItem, _cityItem, _disItem, _townItem);
+        widget.addressValue!(_provinceItem, _cityItem, _disItem, _townItem);
       }
       Navigator.pop(context);
     }
@@ -226,9 +226,9 @@ class _AddressSelectorState extends State<AddressSelector>
       _tabTitle.add('街道');
       _tabController =
           TabController(length: _tabTitle.length, initialIndex: 3, vsync: this);
-      _tabController.addListener(() {
-        if (_tabController.index == _tabController.animation.value) {
-          _tabclick(_tabController.index);
+      _tabController!.addListener(() {
+        if (_tabController!.index == _tabController!.animation!.value) {
+          _tabclick(_tabController!.index);
         }
       });
       _town = dataList;
@@ -262,7 +262,7 @@ class _AddressSelectorState extends State<AddressSelector>
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 }

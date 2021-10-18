@@ -12,13 +12,13 @@ import 'package:flutter_app/component/top_round_net_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class GoodItemWidget extends StatelessWidget {
-  final List<ItemListItem> dataList;
+  final List<ItemListItem>? dataList;
 
-  const GoodItemWidget({Key key, this.dataList}) : super(key: key);
+  const GoodItemWidget({Key? key, this.dataList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildItems(dataList);
+    return _buildItems(dataList!);
   }
 
   _buildItems(List<ItemListItem> data) {
@@ -38,7 +38,7 @@ class GoodItemWidget extends StatelessWidget {
         crossAxisSpacing: 5,
         staggeredTileBuilder: (index) => new StaggeredTile.count(
             1,
-            (data[index].itemTagList == null || data[index].itemTagList.isEmpty)
+            (data[index].itemTagList == null || data[index].itemTagList!.isEmpty)
                 ? 1.5
                 : 1.7),
         itemBuilder: (context, index) {
@@ -88,8 +88,8 @@ class GoodItemWidget extends StatelessWidget {
                         ],
                       ),
                       (item.promTag == null || item.listPromBanner == null)
-                          ? _buildTextDesc(item.simpleDesc)
-                          : _buildPromBanner(item.listPromBanner),
+                          ? _buildTextDesc(item.simpleDesc!)
+                          : _buildPromBanner(item.listPromBanner!),
                     ],
                   ),
                   if (dataList[index].productPlace != null &&
@@ -117,7 +117,7 @@ class GoodItemWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(left: 5),
             child: Text(
-              dataList[index].name,
+              dataList[index].name!,
               style: t14blackBold,
             ),
           ),
@@ -157,7 +157,7 @@ class GoodItemWidget extends StatelessWidget {
     );
   }
 
-  _buildTags(List<ItemTagListItem> itemTagList) {
+  _buildTags(List<ItemTagListItem>? itemTagList) {
     if (itemTagList == null || itemTagList.isEmpty) {
       return Container();
     } else {
@@ -174,7 +174,7 @@ class GoodItemWidget extends StatelessWidget {
                     border: Border.all(color: textRed, width: 0.5),
                   ),
                   child: Text(
-                    item.name,
+                    item.name!,
                     style: TextStyle(
                       fontSize: 10,
                       color: textRed,
@@ -216,7 +216,7 @@ class GoodItemWidget extends StatelessWidget {
             width: double.infinity,
             height: 25,
             child: CachedNetworkImage(
-              imageUrl: item.bannerContentUrl,
+              imageUrl: item.bannerContentUrl!,
               fit: BoxFit.fill,
             ),
           ),
@@ -232,7 +232,7 @@ class GoodItemWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                          image: NetworkImage(item.bannerTitleUrl),
+                          image: NetworkImage(item.bannerTitleUrl!),
                           fit: BoxFit.fill,
                         )),
                         child: Column(

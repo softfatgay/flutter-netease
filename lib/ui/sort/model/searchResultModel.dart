@@ -6,9 +6,9 @@ part 'searchResultModel.g.dart';
 
 @JsonSerializable()
 class SearchResultModel {
-  bool hasMore;
-  List<ItemListItem> directlyList;
-  List<CategoryL1Item> categoryL1List;
+  bool? hasMore;
+  List<ItemListItem>? directlyList;
+  List<CategoryL1Item>? categoryL1List;
 
   SearchResultModel();
 
@@ -18,8 +18,8 @@ class SearchResultModel {
 
 @JsonSerializable()
 class CategoryL1ListItem {
-  num id;
-  String name;
+  num? id;
+  String? name;
 
   CategoryL1ListItem();
 

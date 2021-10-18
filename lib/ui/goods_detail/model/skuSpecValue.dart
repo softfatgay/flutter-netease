@@ -6,10 +6,10 @@ part 'skuSpecValue.g.dart';
 
 @JsonSerializable()
 class SkuSpecValue {
-  num id;
-  num skuSpecId;
-  String picUrl;
-  String value;
+  num? id;
+  num? skuSpecId;
+  String? picUrl;
+  String? value;
 
   SkuSpecValue();
 

@@ -3,7 +3,7 @@ description: A new Flutter application.
 version: 4.2.3+423
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -54,7 +54,8 @@ dependencies:
   #轮播
   carousel_slider: ^4.0.0
   #高性能json序列化
-  json_annotation: ^4.2.0
+  json_annotation: ^4.3.0
+
 
   #  对话框
   bot_toast: 4.0.1
@@ -69,9 +70,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  #  json序列化需要的库，只需要dev
   build_runner: ^2.1.4
-#  json_serializable: ^5.0.2
+  #  json序列化需要的库，只需要dev
+  json_serializable: ^6.0.0
 
 flutter:
 

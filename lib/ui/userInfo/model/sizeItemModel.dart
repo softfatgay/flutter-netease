@@ -4,19 +4,19 @@ part 'sizeItemModel.g.dart';
 
 @JsonSerializable()
 class SizeItemModel {
-  num hipCircumference;
-  num footLength;
-  num gender;
-  num footCircumference;
-  num waistCircumference;
-  num shoulderBreadth;
-  bool dft;
-  String roleName;
-  num bust;
-  num underBust;
-  num id;
-  num bodyWeight;
-  num height;
+  num? hipCircumference;
+  num? footLength;
+  num? gender;
+  num? footCircumference;
+  num? waistCircumference;
+  num? shoulderBreadth;
+  bool? dft;
+  String? roleName;
+  num? bust;
+  num? underBust;
+  num? id;
+  num? bodyWeight;
+  num? height;
 
   SizeItemModel();
 

@@ -4,9 +4,9 @@ part 'lookHomeDataModel.g.dart';
 
 @JsonSerializable()
 class LookHomeDataModel {
-  RecModule recModule;
-  NoticeInfo noticeInfo;
-  String hotTabName;
+  RecModule? recModule;
+  NoticeInfo? noticeInfo;
+  String? hotTabName;
 
   LookHomeDataModel();
 
@@ -16,15 +16,15 @@ class LookHomeDataModel {
 
 @JsonSerializable()
 class RecModule {
-  String recommendName;
-  String globalName;
-  String supDoc;
-  String shareImg;
+  String? recommendName;
+  String? globalName;
+  String? supDoc;
+  String? shareImg;
 
-  bool showTopicTab;
-  String topicTagName;
+  bool? showTopicTab;
+  String? topicTagName;
 
-  List<CollectionListItem> collectionList;
+  List<CollectionListItem>? collectionList;
 
   RecModule();
 
@@ -34,11 +34,11 @@ class RecModule {
 
 @JsonSerializable()
 class CollectionListItem {
-  num id;
-  String tag;
-  String title;
-  String subtitle;
-  String picUrl;
+  num? id;
+  String? tag;
+  String? title;
+  String? subtitle;
+  String? picUrl;
 
   CollectionListItem();
 
@@ -48,12 +48,12 @@ class CollectionListItem {
 
 @JsonSerializable()
 class NoticeInfo {
-  String noticeTitle;
-  String noticeWords;
-  bool evaluateEntry;
-  String buttonWords;
-  String buttonWordsForAPP;
-  String description;
+  String? noticeTitle;
+  String? noticeWords;
+  bool? evaluateEntry;
+  String? buttonWords;
+  String? buttonWordsForAPP;
+  String? description;
 
   NoticeInfo();
 

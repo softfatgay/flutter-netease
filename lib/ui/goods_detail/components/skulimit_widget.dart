@@ -3,9 +3,9 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/component/global.dart';
 
 class SkulimitWidget extends StatelessWidget {
-  final String skuLimit;
+  final String? skuLimit;
 
-  const SkulimitWidget({Key key, this.skuLimit}) : super(key: key);
+  const SkulimitWidget({Key? key, this.skuLimit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class SkulimitWidget extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
-                    skuLimit,
+                    skuLimit!,
                     style: t14black,
                   ),
                 ),

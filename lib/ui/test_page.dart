@@ -108,9 +108,9 @@ class _ButterFlyAssetVideoInList extends StatelessWidget {
 
 /// A filler card to show the video in a list of scrolling contents.
 class _ExampleCard extends StatelessWidget {
-  const _ExampleCard({Key key,  this.title}) : super(key: key);
+  const _ExampleCard({Key? key,  this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +120,7 @@ class _ExampleCard extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: const Icon(Icons.airline_seat_flat_angled),
-            title: Text(title),
+            title: Text(title!),
           ),
           ButtonBar(
             children: <Widget>[
@@ -150,24 +150,24 @@ class _ButterFlyAssetVideo extends StatefulWidget {
 }
 
 class _ButterFlyAssetVideoState extends State<_ButterFlyAssetVideo> {
-   VideoPlayerController _controller;
+   VideoPlayerController? _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network("https://yanxuan-item.nosdn.127.net/76795797a45ed04e3e51ce3cdfc40b36.mp4");
 
-    _controller.addListener(() {
+    _controller!.addListener(() {
       setState(() {});
     });
-    _controller.setLooping(true);
-    _controller.initialize().then((_) => setState(() {}));
-    _controller.play();
+    _controller!.setLooping(true);
+    _controller!.initialize().then((_) => setState(() {}));
+    _controller!.play();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -183,13 +183,13 @@ class _ButterFlyAssetVideoState extends State<_ButterFlyAssetVideo> {
           Container(
             padding: const EdgeInsets.all(20),
             child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
+              aspectRatio: _controller!.value.aspectRatio,
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  VideoPlayer(_controller),
+                  VideoPlayer(_controller!),
                   _ControlsOverlay(controller: _controller),
-                  VideoProgressIndicator(_controller, allowScrubbing: true),
+                  VideoProgressIndicator(_controller!, allowScrubbing: true),
                 ],
               ),
             ),
@@ -206,7 +206,7 @@ class _BumbleBeeRemoteVideo extends StatefulWidget {
 }
 
 class _BumbleBeeRemoteVideoState extends State<_BumbleBeeRemoteVideo> {
-   VideoPlayerController _controller;
+   VideoPlayerController? _controller;
 
   Future<ClosedCaptionFile> _loadCaptions() async {
     final String fileContents = await DefaultAssetBundle.of(context)
@@ -223,16 +223,16 @@ class _BumbleBeeRemoteVideoState extends State<_BumbleBeeRemoteVideo> {
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
 
-    _controller.addListener(() {
+    _controller!.addListener(() {
       setState(() {});
     });
-    _controller.setLooping(true);
-    _controller.initialize();
+    _controller!.setLooping(true);
+    _controller!.initialize();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -246,14 +246,14 @@ class _BumbleBeeRemoteVideoState extends State<_BumbleBeeRemoteVideo> {
           Container(
             padding: const EdgeInsets.all(20),
             child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
+              aspectRatio: _controller!.value.aspectRatio,
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  VideoPlayer(_controller),
-                  ClosedCaption(text: _controller.value.caption.text),
+                  VideoPlayer(_controller!),
+                  ClosedCaption(text: _controller!.value.caption.text),
                   _ControlsOverlay(controller: _controller),
-                  VideoProgressIndicator(_controller, allowScrubbing: true),
+                  VideoProgressIndicator(_controller!, allowScrubbing: true),
                 ],
               ),
             ),
@@ -265,7 +265,7 @@ class _BumbleBeeRemoteVideoState extends State<_BumbleBeeRemoteVideo> {
 }
 
 class _ControlsOverlay extends StatelessWidget {
-  const _ControlsOverlay({Key key,  this.controller})
+  const _ControlsOverlay({Key? key,  this.controller})
       : super(key: key);
 
   static const _examplePlaybackRates = [
@@ -279,7 +279,7 @@ class _ControlsOverlay extends StatelessWidget {
     10.0,
   ];
 
-  final VideoPlayerController controller;
+  final VideoPlayerController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +288,7 @@ class _ControlsOverlay extends StatelessWidget {
         AnimatedSwitcher(
           duration: Duration(milliseconds: 50),
           reverseDuration: Duration(milliseconds: 200),
-          child: controller.value.isPlaying
+          child: controller!.value.isPlaying
               ? SizedBox.shrink()
               : Container(
             color: Colors.black26,
@@ -303,16 +303,16 @@ class _ControlsOverlay extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            controller.value.isPlaying ? controller.pause() : controller.play();
+            controller!.value.isPlaying ? controller!.pause() : controller!.play();
           },
         ),
         Align(
           alignment: Alignment.topRight,
           child: PopupMenuButton<double>(
-            initialValue: controller.value.playbackSpeed,
+            initialValue: controller!.value.playbackSpeed,
             tooltip: 'Playback speed',
             onSelected: (speed) {
-              controller.setPlaybackSpeed(speed);
+              controller!.setPlaybackSpeed(speed);
             },
             itemBuilder: (context) {
               return [
@@ -331,7 +331,7 @@ class _ControlsOverlay extends StatelessWidget {
                 vertical: 12,
                 horizontal: 16,
               ),
-              child: Text('${controller.value.playbackSpeed}x'),
+              child: Text('${controller!.value.playbackSpeed}x'),
             ),
           ),
         ),
@@ -346,7 +346,7 @@ class _PlayerVideoAndPopPage extends StatefulWidget {
 }
 
 class _PlayerVideoAndPopPageState extends State<_PlayerVideoAndPopPage> {
-   VideoPlayerController _videoPlayerController;
+   late VideoPlayerController _videoPlayerController;
   bool startedPlaying = false;
 
   @override

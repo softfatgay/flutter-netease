@@ -14,7 +14,7 @@ import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
-  const UserInfoPage({Key key}) : super(key: key);
+  const UserInfoPage({Key? key}) : super(key: key);
 
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
@@ -27,9 +27,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   var _userInfoModel = UserInfoModel();
   final _nameController = TextEditingController();
 
-  int _sex = 0;
+  int? _sex = 0;
 
-  DateTime _birthDay;
+  DateTime? _birthDay;
 
   String _bYear = '';
   String _bMonth = '';
@@ -46,9 +46,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
     var responseData = await ucenterInfo();
     setState(() {
       _userInfoModel = UserInfoModel.fromJson(responseData.data);
-      var user = _userInfoModel.user;
-      _nameController.text = user.nickname;
-      _sex = user.gender;
+      var user = _userInfoModel.user!;
+      _nameController.text = user.nickname!;
+      _sex = user.gender as int?;
       if (user.birthYear != 0) {
         _bYear = user.birthYear.toString();
         _bMonth = user.birthMonth.toString();
@@ -121,7 +121,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             borderRadius: BorderRadius.circular(80),
             border: Border.all(color: lineColor, width: 1),
             image: DecorationImage(
-              image: NetworkImage('${_userInfoModel.user.avatar ?? _userIcon}'),
+              image: NetworkImage('${_userInfoModel.user!.avatar ?? _userIcon}'),
               fit: BoxFit.cover,
             ),
           ),
@@ -144,7 +144,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
           ),
           Expanded(
             flex: 2,
-            child: Text('${_userInfoModel.user.id}'),
+            child: Text('${_userInfoModel.user!.id}'),
           )
         ],
       ),
@@ -168,7 +168,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               flex: 2,
               child: Container(
                 child: Text(
-                  '${_userInfoModel.user.aliases.length}个',
+                  '${_userInfoModel.user!.aliases!.length}个',
                 ),
               ),
             ),
