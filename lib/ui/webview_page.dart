@@ -274,17 +274,30 @@ class _WebViewPageState extends State<WebViewPage> {
       try {
         if (_webController != null) {
           _webController.future.then((value) async {
-            print('----------------------------');
-            print(hideHeaderJs3());
-            print(await value.evaluateJavascript(hideHeaderJs() ?? ''));
-
             await value.evaluateJavascript(hideHeaderJs() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideHeaderJs1() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideHeaderJs2() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideHeaderJs3() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideHeaderJs4() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideOpenAppJs() ?? '');
+          });
+          _webController.future.then((value) async {
+            await value.evaluateJavascript(hideHeaderJs() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideBottom1() ?? '');
+          });
+          _webController.future.then((value) async {
             await value.evaluateJavascript(hideBottom2() ?? '');
           });
         }
