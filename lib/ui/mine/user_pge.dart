@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,15 +61,21 @@ class _MinePageState extends State<UserPage>
   _checkLogin() async {
     var responseData = await checkLogin();
     var isLogin = responseData.data;
-    setState(() {
-      if (isLogin != null) {
-        _isLogin = isLogin;
-      } else {
+
+    if (isLogin == null) {
+      setState(() {
         _isLogin = false;
+      });
+    } else {
+      setState(() {
+        _isLogin = isLogin;
+      });
+      if (isLogin) {
+        _getUserInfo();
+        Timer(Duration(seconds: 1), () {
+          HosEventBusUtils.fire(REFRESH_CART_NUM);
+        });
       }
-    });
-    if (isLogin) {
-      _getUserInfo();
     }
   }
 

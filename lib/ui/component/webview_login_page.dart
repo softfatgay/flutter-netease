@@ -106,7 +106,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
     var responseData = await checkLogin();
     var isLogin = responseData.data;
     setState(() {
-      if (isLogin) {
+      if (isLogin != null && isLogin) {
         widget.onValueChanged(isLogin);
       }
     });

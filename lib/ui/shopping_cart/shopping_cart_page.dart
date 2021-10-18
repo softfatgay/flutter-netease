@@ -88,19 +88,21 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   _checkLogin() async {
     var responseData = await checkLogin();
     var isLogin = responseData.data;
-    setState(() {
-      if (isLogin != null) {
-        _isLogin = isLogin;
-      } else {
+    if (isLogin == null) {
+      setState(() {
         _isLogin = false;
-      }
-    });
-    if (isLogin) {
-      _getData();
-      Timer(Duration(seconds: 1), () {
-        HosEventBusUtils.fire(REFRESH_MINE);
-        HosEventBusUtils.fire(REFRESH_CART_NUM);
       });
+    } else {
+      setState(() {
+        _isLogin = isLogin;
+      });
+      if (isLogin) {
+        _getData();
+        Timer(Duration(seconds: 1), () {
+          HosEventBusUtils.fire(REFRESH_MINE);
+          HosEventBusUtils.fire(REFRESH_CART_NUM);
+        });
+      }
     }
   }
 
