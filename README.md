@@ -10,6 +10,7 @@
 #### 注意项目中使用的kotlin,androidx版本
 #### cookie和csrf_token已实现动态更新
 #### flutter(2.2.1)/dart(2.13.1)升级到新版本，兼容Flutter2.0以上版本
+#### 增加null-safety分支（null-safety）
 
 
 
