@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/shopingcart/model/getCouponModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/getCouponModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/component/app_bar.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolBarModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolBarModel.dart';
 
 class BottomPoolWidget extends StatelessWidget {
   final ItemPoolBarModel itemPoolBarModel;

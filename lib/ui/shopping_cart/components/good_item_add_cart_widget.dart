@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemTagListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/shopingcart/components/add_good_size_widget.dart';
+import 'package:flutter_app/ui/shopping_cart/components/add_good_size_widget.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/my_vertical_text.dart';
 import 'package:flutter_app/component/slivers.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 typedef void SeletedIndex(int index);

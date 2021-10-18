@@ -6,10 +6,10 @@ import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/shopingcart/components/bottom_pool_widget.dart';
-import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolBarModel.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/shopping_cart/components/bottom_pool_widget.dart';
+import 'package:flutter_app/ui/shopping_cart/components/good_item_add_cart_widget.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolBarModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 
 ///去凑单，未达到包邮条件
 class AllCartItemPoolPage extends StatefulWidget {

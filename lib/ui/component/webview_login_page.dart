@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
@@ -128,11 +129,15 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
       try {
         if (_webController != null) {
           _webController.future.then((value) {
-            value.evaluateJavascript(hideHeaderJs()).then((result) {});
-            value.evaluateJavascript(hideOpenAppJs()).then((result) {});
+            if (Platform.isAndroid) {
+              value.evaluateJavascript(hideHeaderJs()).then((result) {});
+              value.evaluateJavascript(hideOpenAppJs()).then((result) {});
+            }
           });
         }
-      } catch (e) {}
+      } catch (e) {
+        print('[[[[[[[[[[[[[[[[[[[[[[');
+      }
     });
   }
 

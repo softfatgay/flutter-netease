@@ -1,4 +1,4 @@
-import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'redeemModel.g.dart';

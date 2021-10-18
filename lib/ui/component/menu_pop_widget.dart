@@ -4,7 +4,7 @@ import 'package:flutter_app/ui/component/price_pop_widget.dart';
 import 'package:flutter_app/ui/goods_detail/components/search_nav_bar.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/component/type_pop_widget.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 typedef void MenuChange(SearchParamModel searchParamModel);
@@ -16,7 +16,11 @@ class MenuPopWidget extends StatefulWidget {
   final double menuHeight;
 
   const MenuPopWidget(
-      {Key key, this.menuChange, this.categorytList, this.searchParamModel, this.menuHeight = 35})
+      {Key key,
+      this.menuChange,
+      this.categorytList,
+      this.searchParamModel,
+      this.menuHeight = 35})
       : super(key: key);
 
   @override
@@ -24,7 +28,6 @@ class MenuPopWidget extends StatefulWidget {
 }
 
 class _MenuPopWidgetState extends State<MenuPopWidget> {
-
   final _lowPriceController = TextEditingController();
   final _upPriceController = TextEditingController();
 

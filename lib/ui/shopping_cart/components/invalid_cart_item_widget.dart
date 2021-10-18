@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
-import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 

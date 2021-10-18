@@ -12,11 +12,11 @@ import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/shopingcart/components/bottom_pool_widget.dart';
-import 'package:flutter_app/ui/shopingcart/components/good_item_add_cart_widget.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolBarModel.dart';
-import 'package:flutter_app/ui/shopingcart/model/itemPoolModel.dart';
-import 'package:flutter_app/ui/shopingcart/model/makeUpCartInfoModel.dart';
+import 'package:flutter_app/ui/shopping_cart/components/bottom_pool_widget.dart';
+import 'package:flutter_app/ui/shopping_cart/components/good_item_add_cart_widget.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolBarModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/shopping_cart/model/makeUpCartInfoModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 ///凑单

@@ -6,12 +6,12 @@ import 'package:flutter_app/component/timer_text.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/shopingcart/components/cart_check_box.dart';
-import 'package:flutter_app/ui/shopingcart/components/cart_num_filed.dart';
-import 'package:flutter_app/ui/shopingcart/components/shopping_cart_count.dart';
-import 'package:flutter_app/ui/shopingcart/model/carItem.dart';
-import 'package:flutter_app/ui/shopingcart/model/cartItemListItem.dart';
-import 'package:flutter_app/ui/shopingcart/model/redeemModel.dart';
+import 'package:flutter_app/ui/shopping_cart/components/cart_check_box.dart';
+import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
+import 'package:flutter_app/ui/shopping_cart/components/shopping_cart_count.dart';
+import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 
 typedef void NumChange(num source, num type, num skuId, num cnt, String extId);
