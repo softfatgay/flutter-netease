@@ -14,7 +14,7 @@ import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({Key key}) : super(key: key);
+  const FavoritePage({Key? key}) : super(key: key);
 
   @override
   _FavoritePageState createState() => _FavoritePageState();
@@ -53,7 +53,7 @@ class _FavoritePageState extends State<FavoritePage> {
     });
 
     _dataList.forEach((element) {
-      if (element.selectFlag) {
+      if (element.selectFlag!) {
         _up.add(element.categoryCode);
       }
     });
@@ -139,7 +139,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      child: item.selectFlag
+                      child: item.selectFlag!
                           ? Container(
                               decoration: BoxDecoration(
                                   color: Color(0X33000000),
@@ -163,7 +163,7 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
       onTap: () {
         setState(() {
-          if (item.selectFlag) {
+          if (item.selectFlag!) {
             if (_up.indexOf(item.categoryCode) != -1) {
               _up.remove(item.categoryCode);
             }
@@ -172,7 +172,7 @@ class _FavoritePageState extends State<FavoritePage> {
               _up.add(item.categoryCode);
             }
           }
-          item.selectFlag = !item.selectFlag;
+          item.selectFlag = !item.selectFlag!;
         });
       },
     );

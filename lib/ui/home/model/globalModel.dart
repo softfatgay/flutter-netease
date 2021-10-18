@@ -4,11 +4,11 @@ part 'globalModel.g.dart';
 
 @JsonSerializable()
 class GlobalModel {
-  String environment;
-  String nickname;
-  String username;
-  String userid;
-  List<CateListItem> cateList;
+  String? environment;
+  String? nickname;
+  String? username;
+  String? userid;
+  List<CateListItem>? cateList;
 
   GlobalModel();
   factory GlobalModel.fromJson(Map<String, dynamic> json) =>
@@ -17,13 +17,13 @@ class GlobalModel {
 
 @JsonSerializable()
 class CateListItem {
-  num id;
-  num superCategoryId;
-  num showIndex;
-  String name;
-  String imgUrl;
-  num type;
-  num categoryType;
+  num? id;
+  num? superCategoryId;
+  num? showIndex;
+  String? name;
+  String? imgUrl;
+  num? type;
+  num? categoryType;
 
   CateListItem();
 

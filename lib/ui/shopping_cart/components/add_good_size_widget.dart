@@ -21,17 +21,17 @@ typedef void UpdateSkuSuccess();
 typedef void AddCarSuccess();
 
 class AddGoodSizeWidget extends StatefulWidget {
-  final GoodDetail goodDetail;
-  final ConfigClick configClick;
-  final CancelClick cancelClick;
-  final UpdateSkuSuccess updateSkuSuccess;
-  final AddCarSuccess addCarSuccess;
-  final num skuId;
-  final String extId;
-  final num type;
+  final GoodDetail? goodDetail;
+  final ConfigClick? configClick;
+  final CancelClick? cancelClick;
+  final UpdateSkuSuccess? updateSkuSuccess;
+  final AddCarSuccess? addCarSuccess;
+  final num? skuId;
+  final String? extId;
+  final num? type;
 
   const AddGoodSizeWidget({
-    Key key,
+    Key? key,
     this.goodDetail,
     this.configClick,
     this.cancelClick,
@@ -81,17 +81,17 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   ///商品数量
   int _goodCount = 1;
 
-  GoodDetail goodDetail;
+  GoodDetail? goodDetail;
 
-  List<SpecListItem> _specList;
-  num _skuId;
+  List<SpecListItem>? _specList;
+  num? _skuId;
 
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
       goodDetail = widget.goodDetail;
-      var skuSpecList = goodDetail.skuSpecList;
+      var skuSpecList = goodDetail!.skuSpecList!;
       _selectSkuMapKey = List.filled(skuSpecList.length, '');
       _selectSkuMapDec = List.filled(skuSpecList.length, '');
 
@@ -104,9 +104,9 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     super.initState();
   }
 
-  void _setSelectSkuMapKey(num skuId) {
-    var skuList = goodDetail.skuList;
-    SkuListItem skuListItem;
+  void _setSelectSkuMapKey(num? skuId) {
+    var skuList = goodDetail!.skuList!;
+    SkuListItem? skuListItem;
     for (var value in skuList) {
       if (value.id == skuId) {
         skuListItem = value;
@@ -117,9 +117,9 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       var itemSkuSpecValueList = skuListItem.itemSkuSpecValueList;
       setState(() {
         for (int i = 0; i < _selectSkuMapKey.length; i++) {
-          _selectSkuMapDec[i] = itemSkuSpecValueList[i].skuSpecValue.value;
+          _selectSkuMapDec[i] = itemSkuSpecValueList![i].skuSpecValue!.value;
           _selectSkuMapKey[i] =
-              itemSkuSpecValueList[i].skuSpecValue.id.toString();
+              itemSkuSpecValueList[i].skuSpecValue!.id.toString();
         }
       });
       setState(() {
@@ -193,7 +193,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                               ),
 
                               ///颜色，规格等参数
-                              _modelAndSize(context, goodDetail, setstate),
+                              _modelAndSize(context, goodDetail!, setstate),
                               //数量
                               Container(
                                 margin: EdgeInsets.only(top: 15, bottom: 10),
@@ -210,7 +210,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                                   min: 1,
                                   max: _skuMapItem == null
                                       ? 1
-                                      : _skuMapItem.sellVolume,
+                                      : _skuMapItem!.sellVolume as int?,
                                   onChange: (index) {
                                     setstate(() {
                                       _goodCount = index;
@@ -267,12 +267,12 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   }
 
   ///选择的规格
-  SkuMapValue _skuMapItem;
+  SkuMapValue? _skuMapItem;
 
-  _selectGoodDetail(BuildContext context, GoodDetail goodDetail) {
-    String img = (_skuMapItem == null || _skuMapItem.pic == null)
-        ? goodDetail.primaryPicUrl
-        : _skuMapItem.pic;
+  _selectGoodDetail(BuildContext context, GoodDetail? goodDetail) {
+    String img = (_skuMapItem == null || _skuMapItem!.pic == null)
+        ? goodDetail!.primaryPicUrl!
+        : _skuMapItem!.pic!;
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -301,15 +301,15 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 if (_skuMapItem != null &&
-                    _skuMapItem.promotionDesc != null &&
-                    _skuMapItem.promotionDesc != '')
+                    _skuMapItem!.promotionDesc != null &&
+                    _skuMapItem!.promotionDesc != '')
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         color: Color(0xFFEF7C15)),
                     child: Text(
-                      '${_skuMapItem.promotionDesc ?? ''}',
+                      '${_skuMapItem!.promotionDesc ?? ''}',
                       style: t12white,
                     ),
                   ),
@@ -363,8 +363,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         shrinkWrap: true,
         physics: new NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          SkuSpecListItem skuSpecItem = goodDetail.skuSpecList[index];
-          List<SkuSpecValue> skuSpecItemNameList = skuSpecItem.skuSpecValueList;
+          SkuSpecListItem skuSpecItem = goodDetail.skuSpecList![index];
+          List<SkuSpecValue> skuSpecItemNameList = skuSpecItem.skuSpecValueList!;
           return Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -373,7 +373,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  child: Text(skuSpecItem.name),
+                  child: Text(skuSpecItem.name!),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -389,7 +389,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
             ),
           );
         },
-        itemCount: goodDetail.skuSpecList.length,
+        itemCount: goodDetail.skuSpecList!.length,
       ),
     );
   }
@@ -439,7 +439,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     });
 
     skuMapKey = skuMapKey.replaceFirst(';', '');
-    SkuMapValue skuMapItem = goodDetail.skuMap['$skuMapKey'];
+    SkuMapValue? skuMapItem = goodDetail!.skuMap!['$skuMapKey'];
 
     ///描述信息
     String selectStrDec = '';
@@ -463,7 +463,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   void _getSkumapItem() {
     if (_skuMapItem == null) {
       ///顺序不同，导致选择失败
-      var keys = goodDetail.skuMap.keys;
+      var keys = goodDetail!.skuMap!.keys;
       for (var element in keys) {
         var split = element.split(';');
         bool isMatch = false;
@@ -476,15 +476,15 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
           }
         }
         if (isMatch) {
-          _skuMapItem = goodDetail.skuMap['$element'];
+          _skuMapItem = goodDetail!.skuMap!['$element'];
           break;
         }
       }
     }
 
     if (_skuMapItem != null) {
-      _price = _skuMapItem.retailPrice.toString();
-      _counterPrice = _skuMapItem.counterPrice.toString();
+      _price = _skuMapItem!.retailPrice.toString();
+      _counterPrice = _skuMapItem!.counterPrice.toString();
     }
   }
 
@@ -564,7 +564,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       selectSkuMapKey[i] = _selectSkuMapKey[i];
     }
     selectSkuMapKey[index] = item.id.toString();
-    var keys = goodDetail.skuMap.keys;
+    var keys = goodDetail!.skuMap!.keys;
     bool isMatch = false;
 
     var isValue = false;
@@ -584,7 +584,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         }
       }
       if (isMatch) {
-        SkuMapValue skuMapItem = goodDetail.skuMap['$element'];
+        SkuMapValue skuMapItem = goodDetail!.skuMap!['$element']!;
         if (skuMapItem.sellVolume != 0) {
           isValue = true;
           break;
@@ -603,12 +603,12 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     _selectSkuMapKey.forEach((element) {
       if (element == '') {
         var indexOf = _selectSkuMapKey.indexOf(element);
-        var name = goodDetail.skuSpecList[indexOf].name;
+        var name = goodDetail!.skuSpecList![indexOf].name;
         Toast.show('请选择$name', context);
         return;
       }
     });
-    if (_skuMapItem.sellVolume > 0) {
+    if (_skuMapItem!.sellVolume! > 0) {
       _addShoppingCart();
     }
   }
@@ -618,28 +618,28 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     if (_skuId != null) {
       Map<String, dynamic> params = {
         "count": _goodCount,
-        "newSkuId": _skuMapItem.id,
+        "newSkuId": _skuMapItem!.id,
         "oldSkuId": _skuId,
-        "promId": _skuMapItem.promId,
+        "promId": _skuMapItem!.promId,
         'extId': widget.extId,
         'type': widget.type
       };
       var responseData = await updateSkuSpec(params);
       if (responseData.code == '200') {
         if (widget.updateSkuSuccess != null) {
-          widget.updateSkuSuccess();
+          widget.updateSkuSuccess!();
         }
         Navigator.pop(context);
       }
     } else {
       Map<String, dynamic> params = {
         "cnt": _goodCount,
-        "skuId": _skuMapItem.id
+        "skuId": _skuMapItem!.id
       };
       await addCart(params).then((value) {
         Toast.show('添加成功', context);
         if (widget.addCarSuccess != null) {
-          widget.addCarSuccess();
+          widget.addCarSuccess!();
         }
       });
     }

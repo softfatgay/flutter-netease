@@ -11,9 +11,9 @@ class TabAppBar extends StatelessWidget {
     this.isScrollable = true,
   });
 
-  final List<String> tabs;
+  final List<String?>? tabs;
 
-  final TabController controller;
+  final TabController? controller;
 
   final String title;
   final bool isScrollable;
@@ -53,7 +53,7 @@ class TabAppBar extends StatelessWidget {
             ),
           ],
         ),
-        height: tabs != null && tabs.length > 0 ? 48 : 56,
+        height: tabs != null && tabs!.length > 0 ? 48 : 56,
       ),
     );
   }
@@ -76,13 +76,13 @@ class TabAppBar extends StatelessWidget {
           indicator: MyUnderlineTabIndicator(
             borderSide: BorderSide(width: 3.0, color: redColor),
           ),
-          tabs: tabs
+          tabs: tabs!
               .map((f) => Tab(
                     child: Container(
                       alignment: Alignment.center,
                       height: 34,
                       child: Text(
-                        f,
+                        f!,
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
@@ -95,13 +95,13 @@ class TabAppBar extends StatelessWidget {
   PreferredSize build(BuildContext context) {
     return new PreferredSize(
       child: Column(
-        children: tabs != null && tabs.length > 0
+        children: tabs != null && tabs!.length > 0
             ? [buildAppBar(context), buildTabBar()]
             : [buildAppBar(context)],
       ),
       preferredSize: Size(
         MediaQuery.of(context).size.width,
-        tabs != null && tabs.length > 0 ? 88 : 56,
+        tabs != null && tabs!.length > 0 ? 88 : 56,
       ),
     );
   }

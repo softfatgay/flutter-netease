@@ -11,49 +11,49 @@ part 'skuMapValue.g.dart';
 
 @JsonSerializable()
 class SkuMapValue {
-  num id;
-  num counterPrice;
-  num retailPrice;
-  bool primarySku;
-  num sellVolume;
-  num noActivitySellVolume;
-  bool valid;
-  List<ItemSkuSpecValueListItem> itemSkuSpecValueList;
-  num preSellStatus;
-  num preSellPrice;
-  num preSellVolume;
-  Object preSellDesc;
-  num purchaseAttribute;
-  bool giftCardFlag;
-  bool virtualFlag;
-  num limitedFlag;
-  num promId;
-  num preLimitFlag;
-  bool limitPurchaseFlag;
-  num limitPurchaseCount;
-  num limitPointCount;
-  num buttonType;
-  num limitPrice;
-  bool selected;
-  bool promValid;
-  List<HdrkDetailVOListItem> hdrkDetailVOList;
-  String promotionDesc;
-  PriceModel price;
-  BannerModel banner;
-  List<ItemTagListItem> itemTagList;
-  num points;
-  num pointsPrice;
-  String pic;
-  num preemptionStatus;
+  num? id;
+  num? counterPrice;
+  num? retailPrice;
+  bool? primarySku;
+  num? sellVolume;
+  num? noActivitySellVolume;
+  bool? valid;
+  List<ItemSkuSpecValueListItem>? itemSkuSpecValueList;
+  num? preSellStatus;
+  num? preSellPrice;
+  num? preSellVolume;
+  Object? preSellDesc;
+  num? purchaseAttribute;
+  bool? giftCardFlag;
+  bool? virtualFlag;
+  num? limitedFlag;
+  num? promId;
+  num? preLimitFlag;
+  bool? limitPurchaseFlag;
+  num? limitPurchaseCount;
+  num? limitPointCount;
+  num? buttonType;
+  num? limitPrice;
+  bool? selected;
+  bool? promValid;
+  List<HdrkDetailVOListItem>? hdrkDetailVOList;
+  String? promotionDesc;
+  PriceModel? price;
+  BannerModel? banner;
+  List<ItemTagListItem>? itemTagList;
+  num? points;
+  num? pointsPrice;
+  String? pic;
+  num? preemptionStatus;
 
-  ShoppingReward shoppingReward;
-  String skuTitle;
-  num calcPrice;
-  String desc;
-  String skuLimit;
-  num operationAttribute;
-  SkuFreight skuFreight;
-  BuyTitle buyTitle;
+  ShoppingReward? shoppingReward;
+  String? skuTitle;
+  num? calcPrice;
+  String? desc;
+  String? skuLimit;
+  num? operationAttribute;
+  SkuFreight? skuFreight;
+  BuyTitle? buyTitle;
 
   SkuMapValue();
 
@@ -63,13 +63,13 @@ class SkuMapValue {
 
 @JsonSerializable()
 class ItemSkuSpecValueListItem {
-  num id;
-  num skuId;
-  num skuSpecId;
-  num skuSpecValueId;
-  SkuSpec skuSpec;
+  num? id;
+  num? skuId;
+  num? skuSpecId;
+  num? skuSpecValueId;
+  SkuSpec? skuSpec;
 
-  SkuSpecValue skuSpecValue;
+  SkuSpecValue? skuSpecValue;
 
   ItemSkuSpecValueListItem();
 
@@ -79,11 +79,11 @@ class ItemSkuSpecValueListItem {
 
 @JsonSerializable()
 class SkuFreight {
-  String title;
-  String freightInfo;
-  String vipFreightInfo;
-  List<PolicyListItem> policyList;
-  num type;
+  String? title;
+  String? freightInfo;
+  String? vipFreightInfo;
+  List<PolicyListItem>? policyList;
+  num? type;
 
   SkuFreight();
 
@@ -93,10 +93,10 @@ class SkuFreight {
 
 @JsonSerializable()
 class PolicyListItem {
-  num id;
-  String title;
-  String content;
-  String distributionArea;
+  num? id;
+  String? title;
+  String? content;
+  String? distributionArea;
 
   PolicyListItem();
 
@@ -106,8 +106,8 @@ class PolicyListItem {
 
 @JsonSerializable()
 class BuyTitle {
-  String title;
-  String subTitle;
+  String? title;
+  String? subTitle;
 
   BuyTitle();
 

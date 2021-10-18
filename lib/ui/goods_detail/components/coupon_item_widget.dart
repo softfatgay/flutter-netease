@@ -3,13 +3,13 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 
-typedef void ReceiveClick(bool albeToActivated);
+typedef void ReceiveClick(bool? albeToActivated);
 
 class CouponItemWidget extends StatelessWidget {
-  final ReceiveClick receiveClick;
-  final CouponModel couponItem;
+  final ReceiveClick? receiveClick;
+  final CouponModel? couponItem;
 
-  const CouponItemWidget({Key key, this.receiveClick, this.couponItem})
+  const CouponItemWidget({Key? key, this.receiveClick, this.couponItem})
       : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class CouponItemWidget extends StatelessWidget {
     return _buildCouponItem(couponItem);
   }
 
-  _buildCouponItem(CouponModel item) {
+  _buildCouponItem(CouponModel? item) {
     return Container(
         margin: EdgeInsets.all(10),
         child: StatefulBuilder(builder: (context, setstate) {
@@ -48,7 +48,7 @@ class CouponItemWidget extends StatelessWidget {
                             textBaseline: TextBaseline.alphabetic,
                             children: [
                               Text(
-                                '${item.briefDesc}',
+                                '${item!.briefDesc}',
                                 style: TextStyle(
                                     fontSize: 40,
                                     fontWeight: FontWeight.w700,
@@ -67,7 +67,7 @@ class CouponItemWidget extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item.name, style: t14white),
+                                  Text(item.name!, style: t14white),
                                   Text('${item.timeDesc}', style: t12white),
                                 ],
                               ),
@@ -82,14 +82,14 @@ class CouponItemWidget extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 2),
                               child: Text(
-                                '${item.albeToActivated ? '立即领取' : '去凑单'}',
+                                '${item.albeToActivated! ? '立即领取' : '去凑单'}',
                                 style: TextStyle(
                                     color: Color(0XFFb69150), fontSize: 12),
                               ),
                             ),
                             onTap: () {
                               if (receiveClick != null) {
-                                receiveClick(item.albeToActivated);
+                                receiveClick!(item.albeToActivated);
                               }
                             },
                           )
@@ -110,11 +110,11 @@ class CouponItemWidget extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                item.useCondition,
+                                item.useCondition!,
                                 style: t12white,
                                 maxLines: item.isSelected == null
                                     ? 1
-                                    : (item.isSelected ? 15 : 1),
+                                    : (item.isSelected! ? 15 : 1),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -131,7 +131,7 @@ class CouponItemWidget extends StatelessWidget {
                           if (item.isSelected == null) {
                             item.isSelected = true;
                           } else {
-                            item.isSelected = !item.isSelected;
+                            item.isSelected = !item.isSelected!;
                           }
                         });
                       },
@@ -157,7 +157,7 @@ class CouponItemWidget extends StatelessWidget {
     if (item.isSelected == null) {
       return Icons.keyboard_arrow_down_rounded;
     } else {
-      if (item.isSelected) {
+      if (item.isSelected!) {
         return Icons.keyboard_arrow_up_rounded;
       } else {
         return Icons.keyboard_arrow_down_rounded;

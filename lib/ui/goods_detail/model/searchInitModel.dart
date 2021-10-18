@@ -4,8 +4,8 @@ part 'searchInitModel.g.dart';
 
 @JsonSerializable()
 class SearchInitModel {
-  List<HotKeywordVOListItem> hotKeywordVOList;
-  List<HotKeywordVOListItem> defaultKeywords;
+  List<HotKeywordVOListItem>? hotKeywordVOList;
+  List<HotKeywordVOListItem>? defaultKeywords;
   SearchInitModel();
 
   factory SearchInitModel.fromJson(Map<String, dynamic> json) =>
@@ -14,13 +14,13 @@ class SearchInitModel {
 
 @JsonSerializable()
 class HotKeywordVOListItem {
-  String keyword;
-  String schemeUrl;
-  num highlight;
-  num hidden;
-  num type;
-  bool algSort;
-  Extra extra;
+  String? keyword;
+  String? schemeUrl;
+  num? highlight;
+  num? hidden;
+  num? type;
+  bool? algSort;
+  Extra? extra;
 
   HotKeywordVOListItem();
 
@@ -30,17 +30,17 @@ class HotKeywordVOListItem {
 
 @JsonSerializable()
 class Extra {
-  num materialContentFrom;
-  String materialName;
-  bool rcmdSort;
-  num taskType;
-  num itemFrom;
-  String crmUserGroupName;
-  num resourcesId;
-  String materialType;
-  String crmUserGroupId;
-  String materialId;
-  String taskId;
+  num? materialContentFrom;
+  String? materialName;
+  bool? rcmdSort;
+  num? taskType;
+  num? itemFrom;
+  String? crmUserGroupName;
+  num? resourcesId;
+  String? materialType;
+  String? crmUserGroupId;
+  String? materialId;
+  String? taskId;
 
   Extra();
 

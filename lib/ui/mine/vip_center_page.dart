@@ -22,8 +22,8 @@ class VipCenterPage extends StatefulWidget {
 class _VipCenterPageState extends State<VipCenterPage> {
   bool _isLoading = true;
   var _data;
-  var _name = '';
-  var _pointsCnt = '';
+  String? _name = '';
+  String? _pointsCnt = '';
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _VipCenterPageState extends State<VipCenterPage> {
   void getUserInfo() async {
     var sp = await LocalStorage.sp;
     setState(() {
-      _name = sp.getString(LocalStorage.userName);
+      _name = sp!.getString(LocalStorage.userName);
       _pointsCnt = sp.getString(LocalStorage.pointsCnt);
     });
   }
@@ -91,7 +91,7 @@ class _VipCenterPageState extends State<VipCenterPage> {
                 width: 5,
               ),
               Text(
-                _name,
+                _name!,
                 style: TextStyle(fontSize: 18, color: Colors.white),
               )
             ],

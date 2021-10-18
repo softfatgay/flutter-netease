@@ -6,10 +6,10 @@ part 'topLogo.g.dart';
 
 @JsonSerializable()
 class TopLogo {
-  String logoUrl;
-  num width;
-  num height;
-  num type;
+  String? logoUrl;
+  num? width;
+  num? height;
+  num? type;
 
   TopLogo();
 

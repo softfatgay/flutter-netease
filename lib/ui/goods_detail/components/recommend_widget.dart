@@ -4,10 +4,10 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class RecommendWidget extends StatelessWidget {
-  final List<String> recommendReason;
-  final String simpleDesc;
+  final List<String>? recommendReason;
+  final String? simpleDesc;
 
-  const RecommendWidget({Key key, this.recommendReason, this.simpleDesc})
+  const RecommendWidget({Key? key, this.recommendReason, this.simpleDesc})
       : super(key: key);
 
   // border: Border.all(color:Color(0XFFE6E6E6,),width: 1 )
@@ -21,7 +21,7 @@ class RecommendWidget extends StatelessWidget {
 
   ///推荐理由
   _recommend() {
-    return recommendReason == null || recommendReason.isEmpty
+    return recommendReason == null || recommendReason!.isEmpty
         ? Container(
             padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
             decoration: BoxDecoration(
@@ -41,7 +41,7 @@ class RecommendWidget extends StatelessWidget {
                     width: 0.5),
                 borderRadius: BorderRadius.circular(2)),
             child:  Column(
-              children: recommendReason
+              children: recommendReason!
                   .map((item) => Container(
                 padding:
                 EdgeInsets.symmetric(horizontal: 10, vertical: 3),
@@ -58,7 +58,7 @@ class RecommendWidget extends StatelessWidget {
                           border:
                           Border.all(color: backRed, width: 1)),
                       child: Text(
-                        '${recommendReason.indexOf(item) + 1}',
+                        '${recommendReason!.indexOf(item) + 1}',
                         style: t12red,
                       ),
                     ),

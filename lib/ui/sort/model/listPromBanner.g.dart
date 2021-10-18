@@ -6,17 +6,16 @@ part of 'listPromBanner.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ListPromBanner _$ListPromBannerFromJson(Map<String, dynamic> json) {
-  return ListPromBanner()
-    ..valid = json['valid'] as bool
-    ..promoTitle = json['promoTitle'] as String
-    ..promoSubTitle = json['promoSubTitle'] as String
-    ..content = json['content'] as String
-    ..bannerTitleUrl = json['bannerTitleUrl'] as String
-    ..bannerContentUrl = json['bannerContentUrl'] as String
-    ..styleType = json['styleType'] as num
-    ..timeType = json['timeType'] as num;
-}
+ListPromBanner _$ListPromBannerFromJson(Map<String, dynamic> json) =>
+    ListPromBanner()
+      ..valid = json['valid'] as bool?
+      ..promoTitle = json['promoTitle'] as String?
+      ..promoSubTitle = json['promoSubTitle'] as String?
+      ..content = json['content'] as String?
+      ..bannerTitleUrl = json['bannerTitleUrl'] as String?
+      ..bannerContentUrl = json['bannerContentUrl'] as String?
+      ..styleType = json['styleType'] as num?
+      ..timeType = json['timeType'] as num?;
 
 Map<String, dynamic> _$ListPromBannerToJson(ListPromBanner instance) =>
     <String, dynamic>{

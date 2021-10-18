@@ -3,9 +3,9 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 
 class QRCodeResultPage extends StatefulWidget {
-  final Map param;
+  final Map? param;
 
-  const QRCodeResultPage({Key key, this.param}) : super(key: key);
+  const QRCodeResultPage({Key? key, this.param}) : super(key: key);
 
   @override
   _QRCodeResultPageState createState() => _QRCodeResultPageState();
@@ -18,7 +18,7 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      result = widget.param['result'];
+      result = widget.param!['result'];
     });
     super.initState();
   }

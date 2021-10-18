@@ -9,9 +9,9 @@ import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/timer_text.dart';
 
 class OrderListItemPage extends StatefulWidget {
-  final Map arguments;
+  final Map? arguments;
 
-  const OrderListItemPage({Key key, this.arguments}) : super(key: key);
+  const OrderListItemPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   _OrderListItemPageState createState() => _OrderListItemPageState();
@@ -23,8 +23,8 @@ class _OrderListItemPageState extends State<OrderListItemPage>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  OrderListModel _data;
-  List<OrderListItem> _orderList;
+  late OrderListModel _data;
+  List<OrderListItem>? _orderList;
   bool _isLoading = true;
 
   @override
@@ -47,7 +47,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
     });
     Map<String, dynamic> params = {
       "size": 20,
-      "status": widget.arguments['status']
+      "status": widget.arguments!['status']
     };
     var responseData = await getOrderList(params);
 
@@ -58,8 +58,8 @@ class _OrderListItemPageState extends State<OrderListItemPage>
     });
   }
 
-  _buildOrderList({Map<String, Object> arguments}) {
-    return _orderList == null || _orderList.isEmpty
+  _buildOrderList({Map<String, Object>? arguments}) {
+    return _orderList == null || _orderList!.isEmpty
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -80,12 +80,12 @@ class _OrderListItemPageState extends State<OrderListItemPage>
         : ListView.builder(
             padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
             itemBuilder: (context, index) => _buildItem(context, index),
-            itemCount: _orderList.length,
+            itemCount: _orderList!.length,
           );
   }
 
   _buildItem(BuildContext context, int index) {
-    OrderListItem item = _orderList[index];
+    OrderListItem item = _orderList![index];
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(top: 10),
@@ -108,13 +108,13 @@ class _OrderListItemPageState extends State<OrderListItemPage>
   }
 
   _buildPackageItems(BuildContext context, OrderListItem item, int index) {
-    List<PackageListItem> packageList = item.packageList;
+    List<PackageListItem> packageList = item.packageList!;
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: packageList.map<Widget>((package) {
-          List picUrlList = package.picUrlList;
+          List picUrlList = package.picUrlList!;
           if (picUrlList.length > 1) {
             ///包裹多个
             return Container(
@@ -230,7 +230,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
   }
 
   _buildPayOption(BuildContext context, OrderListItem item) {
-    return (item.payOption && item.remainTime > 0)
+    return (item.payOption! && item.remainTime! > 0)
         ? Container(
             child: Container(
               padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -251,7 +251,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                       child: GestureDetector(
                         onTap: () {},
                         child: TimerText(
-                          time: item.remainTime ~/ 1000,
+                          time: item.remainTime! ~/ 1000,
                           tips: '付款:',
                         ),
                       ),
@@ -275,7 +275,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
               style: t14black,
             ),
           ),
-          item.deleteOption
+          item.deleteOption!
               ? Container(
                   padding: EdgeInsets.only(right: 10),
                   child: GestureDetector(

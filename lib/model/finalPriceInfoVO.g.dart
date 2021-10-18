@@ -6,16 +6,15 @@ part of 'finalPriceInfoVO.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FinalPriceInfoVO _$FinalPriceInfoVOFromJson(Map<String, dynamic> json) {
-  return FinalPriceInfoVO()
-    ..banner = json['banner'] == null
-        ? null
-        : BannerVO.fromJson(json['banner'] as Map<String, dynamic>)
-    ..priceInfo = json['priceInfo'] == null
-        ? null
-        : PriceInfo.fromJson(json['priceInfo'] as Map<String, dynamic>)
-    ..type = json['type'] as num;
-}
+FinalPriceInfoVO _$FinalPriceInfoVOFromJson(Map<String, dynamic> json) =>
+    FinalPriceInfoVO()
+      ..banner = json['banner'] == null
+          ? null
+          : BannerVO.fromJson(json['banner'] as Map<String, dynamic>)
+      ..priceInfo = json['priceInfo'] == null
+          ? null
+          : PriceInfo.fromJson(json['priceInfo'] as Map<String, dynamic>)
+      ..type = json['type'] as num?;
 
 Map<String, dynamic> _$FinalPriceInfoVOToJson(FinalPriceInfoVO instance) =>
     <String, dynamic>{
@@ -24,12 +23,10 @@ Map<String, dynamic> _$FinalPriceInfoVOToJson(FinalPriceInfoVO instance) =>
       'type': instance.type,
     };
 
-BannerVO _$BannerVOFromJson(Map<String, dynamic> json) {
-  return BannerVO()
-    ..logo = json['logo'] as String
-    ..title = json['title'] as String
-    ..content = json['content'] as String;
-}
+BannerVO _$BannerVOFromJson(Map<String, dynamic> json) => BannerVO()
+  ..logo = json['logo'] as String?
+  ..title = json['title'] as String?
+  ..content = json['content'] as String?;
 
 Map<String, dynamic> _$BannerVOToJson(BannerVO instance) => <String, dynamic>{
       'logo': instance.logo,
@@ -37,14 +34,12 @@ Map<String, dynamic> _$BannerVOToJson(BannerVO instance) => <String, dynamic>{
       'content': instance.content,
     };
 
-PriceInfo _$PriceInfoFromJson(Map<String, dynamic> json) {
-  return PriceInfo()
-    ..finalPrice = json['finalPrice'] == null
-        ? null
-        : FinalPrice.fromJson(json['finalPrice'] as Map<String, dynamic>)
-    ..counterPrice = json['counterPrice'] as String
-    ..basicPrice = json['basicPrice'] as String;
-}
+PriceInfo _$PriceInfoFromJson(Map<String, dynamic> json) => PriceInfo()
+  ..finalPrice = json['finalPrice'] == null
+      ? null
+      : FinalPrice.fromJson(json['finalPrice'] as Map<String, dynamic>)
+  ..counterPrice = json['counterPrice'] as String?
+  ..basicPrice = json['basicPrice'] as String?;
 
 Map<String, dynamic> _$PriceInfoToJson(PriceInfo instance) => <String, dynamic>{
       'finalPrice': instance.finalPrice,
@@ -52,12 +47,10 @@ Map<String, dynamic> _$PriceInfoToJson(PriceInfo instance) => <String, dynamic>{
       'basicPrice': instance.basicPrice,
     };
 
-FinalPrice _$FinalPriceFromJson(Map<String, dynamic> json) {
-  return FinalPrice()
-    ..prefix = json['prefix'] as String
-    ..price = json['price'] as String
-    ..suffix = json['suffix'] as String;
-}
+FinalPrice _$FinalPriceFromJson(Map<String, dynamic> json) => FinalPrice()
+  ..prefix = json['prefix'] as String?
+  ..price = json['price'] as String?
+  ..suffix = json['suffix'] as String?;
 
 Map<String, dynamic> _$FinalPriceToJson(FinalPrice instance) =>
     <String, dynamic>{

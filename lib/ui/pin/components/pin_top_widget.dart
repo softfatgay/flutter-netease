@@ -9,9 +9,9 @@ import 'package:flutter_app/utils/util_mine.dart';
 
 ///banner底部活动
 class PinTopWidget extends StatelessWidget {
-  final ItemInfo itemInfo;
+  final ItemInfo? itemInfo;
 
-  const PinTopWidget({Key key, this.itemInfo}) : super(key: key);
+  const PinTopWidget({Key? key, this.itemInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class PinTopWidget extends StatelessWidget {
                 style: t12white,
               ),
               Text(
-                '${itemInfo.price}',
+                '${itemInfo!.price}',
                 style: t20whitebold,
               ),
             ],
@@ -54,7 +54,7 @@ class PinTopWidget extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          itemInfo.isRefundPay
+          itemInfo!.isRefundPay!
               ? Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                   decoration: BoxDecoration(
@@ -67,7 +67,7 @@ class PinTopWidget extends StatelessWidget {
                         style: t12red,
                       ),
                       Text(
-                        '${itemInfo.prePrice}',
+                        '${itemInfo!.prePrice}',
                         style: t18redBold,
                       ),
                     ],
@@ -91,7 +91,7 @@ class PinTopWidget extends StatelessWidget {
                 TimerText(
                   tips: '距结束',
                   textStyle: t14white,
-                  time: (itemInfo.endTime - Util.currentTimeMillis()) ~/ 1000,
+                  time: (itemInfo!.endTime! - Util.currentTimeMillis()) ~/ 1000,
                 ),
                 Text(
                   '包邮•邀新团',

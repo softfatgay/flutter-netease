@@ -4,5 +4,5 @@ part 'pointEcmdModel.g.dart';
 
 @JsonSerializable()
 class PointEcmdModel {
-  num id;
+  num? id;
 }

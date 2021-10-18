@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 typedef void Refresh();
 
 class SliverRefreshIndicator extends StatelessWidget {
-  final Refresh refresh;
+  final Refresh? refresh;
   final bool top;
 
-  const SliverRefreshIndicator({Key key, this.refresh, this.top = true})
+  const SliverRefreshIndicator({Key? key, this.refresh, this.top = true})
       : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class SliverRefreshIndicator extends StatelessWidget {
       },
       onRefresh: () async {
         if (refresh != null) {
-          refresh();
+          refresh!();
         }
       },
     );

@@ -18,14 +18,14 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class LookPage extends StatefulWidget {
-  const LookPage({Key key}) : super(key: key);
+  const LookPage({Key? key}) : super(key: key);
 
   @override
   _LookPageState createState() => _LookPageState();
 }
 
 class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
   var _tabItem = [
     {
       "name": "推荐",
@@ -48,19 +48,19 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   double narbarHeight = 70;
   final _scrollController = new ScrollController();
 
-  int _type = 4;
+  int? _type = 4;
   int _page = 1;
   int _size = 20;
-  int _id = 0;
+  int? _id = 0;
 
   bool _hasMore = true;
-  String _recommendName = '';
-  String _title = '';
+  String? _recommendName = '';
+  String? _title = '';
   int _activeIndex = 0;
 
-  LookHomeDataModel _lookHomeDataModel;
-  LookCollectionModel _lookCollectionModel;
-  LookListModel _lookListModel;
+  late LookHomeDataModel _lookHomeDataModel;
+  LookCollectionModel? _lookCollectionModel;
+  late LookListModel _lookListModel;
 
   List<TopicListItem> _dataList = [];
 
@@ -71,12 +71,12 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
       _tabController = TabController(
           length: _tabItem.length, vsync: this, initialIndex: _activeIndex)
         ..addListener(() {
-          if (_tabController.index == _tabController.animation.value) {
-            var index = _tabController.index;
+          if (_tabController!.index == _tabController!.animation!.value) {
+            var index = _tabController!.index;
             var tabItem = _tabItem[index];
 
             setState(() {
-              _type = tabItem['type'];
+              _type = tabItem['type'] as int?;
               _page = 1;
             });
             _lookGetList();
@@ -105,9 +105,9 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
     if (responseData.code == '200') {
       setState(() {
         _lookHomeDataModel = LookHomeDataModel.fromJson(data);
-        var recModule = _lookHomeDataModel.recModule;
-        _tabItem[2]['name'] = _lookHomeDataModel.hotTabName;
-        _tabItem[3]['name'] = recModule.topicTagName;
+        var recModule = _lookHomeDataModel.recModule!;
+        _tabItem[2]['name'] = _lookHomeDataModel.hotTabName as String;
+        _tabItem[3]['name'] = recModule.topicTagName as String;
         _recommendName = recModule.recommendName;
         var collectionList = recModule.collectionList;
         if (collectionList != null && collectionList.isNotEmpty) {
@@ -116,7 +116,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
         }
         if (collectionList != null && collectionList.isNotEmpty) {
           setState(() {
-            _id = collectionList[0].id;
+            _id = collectionList[0].id as int?;
           });
           _lookGetCollection(collectionList[0].id);
         }
@@ -137,12 +137,12 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
         if (_page == 1) {
           _dataList.clear();
         }
-        _dataList.addAll(_lookListModel.topicList);
+        _dataList.addAll(_lookListModel.topicList!);
       });
     }
   }
 
-  void _lookGetCollection(num id) async {
+  void _lookGetCollection(num? id) async {
     Map<String, dynamic> params = {
       'id': id,
     };
@@ -231,7 +231,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: _lookCollectionModel.lookList
+                    children: _lookCollectionModel!.lookList!
                         .map((item) => GestureDetector(
                               child: Container(
                                 margin: EdgeInsets.only(left: 10),
@@ -239,7 +239,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                                   height: 120,
                                   width: 120,
                                   corner: 6,
-                                  url: item.banner.picUrl,
+                                  url: item.banner!.picUrl,
                                 ),
                               ),
                               onTap: () {
@@ -298,7 +298,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                                   alignment: Alignment.center,
                                   height: 34,
                                   child: Text(
-                                    f['name'],
+                                    f['name'] as String,
                                     style: TextStyle(fontSize: 14),
                                   ),
                                 ),
@@ -314,7 +314,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController.dispose();
+    _tabController!.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -351,12 +351,12 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   }
 
   double _crosAxis(TopicListItem item) {
-    if (item.bannerInfo.height == null ||
-        item.bannerInfo.width == null ||
-        item.bannerInfo.width == 0) {
+    if (item.bannerInfo!.height == null ||
+        item.bannerInfo!.width == null ||
+        item.bannerInfo!.width == 0) {
       return 1;
     }
-    return (item.bannerInfo.height / item.bannerInfo.width) + 0.5;
+    return (item.bannerInfo!.height! / item.bannerInfo!.width!) + 0.5;
   }
 
   _buildItem(BuildContext context, int index) {
@@ -411,7 +411,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
         children: [
           Expanded(
             child: TopRoundNetImage(
-              url: item.bannerInfo.picUrl,
+              url: item.bannerInfo!.picUrl,
               corner: 6,
             ),
           ),
@@ -449,7 +449,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                         style: t12grey,
                       ),
                       SizedBox(width: 2),
-                      item.supportFlag
+                      item.supportFlag!
                           ? Image.asset(
                               'assets/images/zan_true.png',
                               width: 14,
@@ -463,7 +463,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                     ],
                   ),
                   onTap: () {
-                    if (!item.supportFlag) {
+                    if (!item.supportFlag!) {
                       _support(item, index);
                     }
                   },
@@ -482,7 +482,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
     if (responseData.code == '200') {
       setState(() {
         _dataList[index].supportFlag = true;
-        _dataList[index].supportNum += 1;
+        _dataList[index].supportNum = _dataList[index].supportNum! + 1;
       });
     }
   }

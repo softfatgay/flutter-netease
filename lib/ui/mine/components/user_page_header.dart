@@ -5,14 +5,14 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
 class UserHeader extends SliverPersistentHeaderDelegate {
-  final double collapsedHeight;
-  final double expandedHeight;
-  final double paddingTop;
-  final Widget child;
-  final String title;
-  final UserModel userInfo;
+  final double? collapsedHeight;
+  final double? expandedHeight;
+  final double? paddingTop;
+  final Widget? child;
+  final String? title;
+  final UserModel? userInfo;
   final bool showBack;
-  final String avatar;
+  final String? avatar;
 
   UserHeader({
     this.avatar,
@@ -27,11 +27,11 @@ class UserHeader extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => this.expandedHeight;
+  double get maxExtent => this.expandedHeight!;
 
   @override
   // TODO: implement minExtent
-  double get minExtent => this.collapsedHeight + this.paddingTop;
+  double get minExtent => this.collapsedHeight! + this.paddingTop!;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
@@ -40,7 +40,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
   }
 
   Color makeStickyHeaderBgColor(shrinkOffset) {
-    final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
+    final int? alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
         .clamp(0, 255)
         .toInt();
     return Color.fromARGB(0, 0, 0, 0);
@@ -149,11 +149,11 @@ class UserHeader extends SliverPersistentHeaderDelegate {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userInfo.userSimpleVO.nickname,
+                          userInfo!.userSimpleVO!.nickname!,
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                         Text(
-                          userInfo.userSimpleVO.memberLevel == 0
+                          userInfo!.userSimpleVO!.memberLevel == 0
                               ? "普通用户"
                               : "vip用户",
                           style: TextStyle(fontSize: 14, color: Colors.white),

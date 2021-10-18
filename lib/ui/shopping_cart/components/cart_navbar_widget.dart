@@ -5,11 +5,11 @@ import 'package:flutter_app/ui/router/router.dart';
 typedef void EditPress();
 
 class CartNavBarWidget extends StatelessWidget {
-  final bool isEdit;
-  final EditPress editPress;
-  final bool canBack;
+  final bool? isEdit;
+  final EditPress? editPress;
+  final bool? canBack;
 
-  const CartNavBarWidget({Key key, this.isEdit, this.editPress, this.canBack})
+  const CartNavBarWidget({Key? key, this.isEdit, this.editPress, this.canBack})
       : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class CartNavBarWidget extends StatelessWidget {
       padding: EdgeInsets.only(right: 15),
       child: Row(
         children: [
-          canBack
+          canBack!
               ? GestureDetector(
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -57,7 +57,7 @@ class CartNavBarWidget extends StatelessWidget {
               ],
             ),
           ),
-          if (!isEdit)
+          if (!isEdit!)
             GestureDetector(
               child: Container(
                 // decoration: BoxDecoration(
@@ -79,11 +79,11 @@ class CartNavBarWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (editPress != null) {
-                editPress();
+                editPress!();
               }
             },
             child: Text(
-              isEdit ? '完成' : '编辑',
+              isEdit! ? '完成' : '编辑',
               style: t16black,
             ),
           )

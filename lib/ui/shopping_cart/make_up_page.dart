@@ -21,7 +21,7 @@ import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
 ///凑单
 class MakeUpPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
   MakeUpPage({this.params});
 
@@ -33,11 +33,11 @@ class _MakeUpPageState extends State<MakeUpPage> {
   final _scrollController = new ScrollController();
   bool _isShowFloatBtn = false;
   var _searchModel = SearchParamModel();
-  ItemPoolModel _itemPoolModel;
+  late ItemPoolModel _itemPoolModel;
   bool _isLoading = true;
-  List<CategoryL1Item> _categorytList = [];
+  List<CategoryL1Item?> _categorytList = [];
   List<GoodDetail> _result = [];
-  Pagination _pagination;
+  Pagination? _pagination;
   int _page = 1;
   int _pageSize = 10;
 
@@ -49,9 +49,9 @@ class _MakeUpPageState extends State<MakeUpPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      _searchModel.promotionId = widget.params['id'];
-      if (widget.params['from'] != null) {
-        _from = widget.params['from'];
+      _searchModel.promotionId = widget.params!['id'];
+      if (widget.params!['from'] != null) {
+        _from = widget.params!['from'];
 
         if (_from == Routers.goodDetail) {
           ///商品详情过来
@@ -70,7 +70,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
       if (_scrollController.position.pixels > 500) {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
-          if (!_pagination.lastPage) {
+          if (!_pagination!.lastPage!) {
             _page += 1;
             _itemPool();
           }
@@ -142,18 +142,18 @@ class _MakeUpPageState extends State<MakeUpPage> {
         _isLoading = false;
         _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
         if (_categorytList == null || _categorytList.isEmpty) {
-          List<CategoryL1Item> categorytList = [];
-          var categorytListList = _itemPoolModel.categorytList;
+          List<CategoryL1Item?> categorytList = [];
+          var categorytListList = _itemPoolModel.categorytList!;
           categorytListList.forEach((element) {
             categorytList.add(element.categoryVO);
           });
           _categorytList = categorytList;
         }
-        var searcherItemListResult = _itemPoolModel.searcherItemListResult;
+        var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
         if (_page == 1) {
           _result.clear();
         }
-        _result.addAll(searcherItemListResult.result);
+        _result.addAll(searcherItemListResult.result!);
         _pagination = searcherItemListResult.pagination;
       });
     }
@@ -187,7 +187,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
                           _itemPoolBar();
                         },
                       ),
-                      SliverFooter(hasMore: !_pagination.lastPage)
+                      SliverFooter(hasMore: !_pagination!.lastPage!)
                     ],
                   ),
           ),
@@ -201,7 +201,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
               categorytList: _categorytList,
               menuChange: (searchModel) {
                 setState(() {
-                  _searchModel = searchModel;
+                  _searchModel = searchModel!;
                 });
                 _resetPage();
               },

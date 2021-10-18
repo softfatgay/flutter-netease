@@ -6,14 +6,13 @@ part of 'interstItemModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-InterstItemModel _$InterstItemModelFromJson(Map<String, dynamic> json) {
-  return InterstItemModel()
-    ..categoryCode = json['categoryCode'] as num
-    ..categoryName = json['categoryName'] as String
-    ..picUrl = json['picUrl'] as String
-    ..rank = json['rank'] as num
-    ..selectFlag = json['selectFlag'] as bool;
-}
+InterstItemModel _$InterstItemModelFromJson(Map<String, dynamic> json) =>
+    InterstItemModel()
+      ..categoryCode = json['categoryCode'] as num?
+      ..categoryName = json['categoryName'] as String?
+      ..picUrl = json['picUrl'] as String?
+      ..rank = json['rank'] as num?
+      ..selectFlag = json['selectFlag'] as bool?;
 
 Map<String, dynamic> _$InterstItemModelToJson(InterstItemModel instance) =>
     <String, dynamic>{

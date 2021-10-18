@@ -21,10 +21,10 @@ class StaticRatingBar extends StatelessWidget {
   final Color colorDark;
 
   StaticRatingBar({
-    double rate,
-    Color colorLight,
-    Color colorDark,
-    int count,
+    double? rate,
+    Color? colorLight,
+    Color? colorDark,
+    int? count,
     this.size: kSize,
   })  : rate = rate ?? kMaxRate,
         count = count ?? kNumberOfStarts,
@@ -68,7 +68,7 @@ class StaticRatingBar extends StatelessWidget {
 class _RatingBarClipper extends CustomClipper<Rect> {
   final double width;
 
-  _RatingBarClipper({this.width}) : assert(width != null);
+  _RatingBarClipper({required this.width}) : assert(width != null);
 
   @override
   Rect getClip(Size size) {
@@ -82,10 +82,10 @@ class _RatingBarClipper extends CustomClipper<Rect> {
 }
 
 class _PainterStars extends CustomPainter {
-  final double size;
-  final Color color;
-  final PaintingStyle style;
-  final double strokeWidth;
+  final double? size;
+  final Color? color;
+  final PaintingStyle? style;
+  final double? strokeWidth;
 
   _PainterStars({this.size, this.color, this.strokeWidth, this.style});
 
@@ -124,23 +124,23 @@ class _PainterStars extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = new Paint();
     //   paint.color = Colors.redAccent;
-    paint.strokeWidth = strokeWidth;
-    paint.color = color;
-    paint.style = style;
+    paint.strokeWidth = strokeWidth!;
+    paint.color = color!;
+    paint.style = style!;
 
     Path path = new Path();
 
-    double offset = strokeWidth > 0 ? strokeWidth + 2 : 0.0;
+    double offset = strokeWidth! > 0 ? strokeWidth! + 2 : 0.0;
 
-    path = createStarPath(this.size - offset, path);
-    path = path.shift(new Offset(this.size * 2, 0.0));
-    path = createStarPath(this.size - offset, path);
-    path = path.shift(new Offset(this.size * 2, 0.0));
-    path = createStarPath(this.size - offset, path);
-    path = path.shift(new Offset(this.size * 2, 0.0));
-    path = createStarPath(this.size - offset, path);
-    path = path.shift(new Offset(this.size * 2, 0.0));
-    path = createStarPath(this.size - offset, path);
+    path = createStarPath(this.size! - offset, path);
+    path = path.shift(new Offset(this.size! * 2, 0.0));
+    path = createStarPath(this.size! - offset, path);
+    path = path.shift(new Offset(this.size! * 2, 0.0));
+    path = createStarPath(this.size! - offset, path);
+    path = path.shift(new Offset(this.size! * 2, 0.0));
+    path = createStarPath(this.size! - offset, path);
+    path = path.shift(new Offset(this.size! * 2, 0.0));
+    path = createStarPath(this.size! - offset, path);
 
     if (offset > 0) {
       path = path.shift(new Offset(offset, offset));

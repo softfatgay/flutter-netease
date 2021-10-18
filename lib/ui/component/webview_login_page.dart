@@ -16,9 +16,9 @@ typedef void OnValueChanged(bool result);
 const _tips = '部分手机登录页面，邮箱登录密码弹出软键盘导致页面空白，没有找到解决办法，正常输入就可以，收回键盘页面会正常显示';
 
 class WebLoginWidget extends StatefulWidget {
-  final OnValueChanged onValueChanged;
+  final OnValueChanged? onValueChanged;
 
-  const WebLoginWidget({Key key, this.onValueChanged}) : super(key: key);
+  const WebLoginWidget({Key? key, this.onValueChanged}) : super(key: key);
 
   @override
   _WebLoginWidgetState createState() => _WebLoginWidgetState();
@@ -107,7 +107,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
     var isLogin = responseData.data;
     setState(() {
       if (isLogin != null && isLogin) {
-        widget.onValueChanged(isLogin);
+        widget.onValueChanged!(isLogin);
       }
     });
   }

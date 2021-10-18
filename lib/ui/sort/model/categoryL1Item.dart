@@ -4,10 +4,10 @@ part 'categoryL1Item.g.dart';
 
 @JsonSerializable()
 class CategoryL1Item {
-  num id;
-  num superCategoryId;
-  num showIndex;
-  String name;
+  num? id;
+  num? superCategoryId;
+  num? showIndex;
+  String? name;
 
   CategoryL1Item();
 

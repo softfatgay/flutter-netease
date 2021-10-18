@@ -32,11 +32,11 @@ class UserPage extends StatefulWidget {
 class _MinePageState extends State<UserPage>
     with AutomaticKeepAliveClientMixin {
   bool _isLogin = true;
-  var _phoneStatusModel;
+  late var _phoneStatusModel;
 
   bool _firstLoading = true;
   List<MinePageItems> _mineItems = [];
-  UserModel _userInfo;
+  UserModel? _userInfo;
 
   //动画控制器
   double _expandedHeight = 180;
@@ -48,7 +48,7 @@ class _MinePageState extends State<UserPage>
   void initState() {
     super.initState();
     // TODO: implement initState
-    HosEventBusUtils.on((event) async {
+    HosEventBusUtils.on((dynamic event) async {
       if (event == REFRESH_MINE) {
         _checkLogin();
         _getUserInfo();
@@ -100,7 +100,7 @@ class _MinePageState extends State<UserPage>
         SliverPersistentHeader(
           pinned: true,
           delegate: UserHeader(
-            avatar: _userInfo.userSimpleVO.avatar,
+            avatar: _userInfo!.userSimpleVO!.avatar,
             showBack: false,
             title: '',
             collapsedHeight: 50,
@@ -116,8 +116,8 @@ class _MinePageState extends State<UserPage>
         // _buildTop(context),
         _buildTitle(context),
         _buildMineItems(context),
-        _buildMonthCard(context, _userInfo.monthCardEntrance),
-        _buildMonthCard(context, _userInfo.welfareCardEntrance),
+        _buildMonthCard(context, _userInfo!.monthCardEntrance),
+        _buildMonthCard(context, _userInfo!.welfareCardEntrance),
         _line(10.0),
         _buildActivity(context),
         _buildAdapter(context),
@@ -266,7 +266,7 @@ class _MinePageState extends State<UserPage>
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
-                  item.fundName,
+                  item.fundName!,
                   style: t12black,
                 ),
               )
@@ -285,10 +285,10 @@ class _MinePageState extends State<UserPage>
     return _mineItems.isEmpty ||
         _mineItems[1] == null ||
         _mineItems[1].toast == null ||
-        _mineItems[1].toast.isEmpty;
+        _mineItems[1].toast!.isEmpty;
   }
 
-  _buildMonthCard(BuildContext context, WelfareCardEntrance monthCardEntrance) {
+  _buildMonthCard(BuildContext context, WelfareCardEntrance? monthCardEntrance) {
     return singleSliverWidget(
       monthCardEntrance == null
           ? Container()
@@ -328,7 +328,7 @@ class _MinePageState extends State<UserPage>
                     ),
                     Expanded(
                       child: Text(
-                        monthCardEntrance.content,
+                        monthCardEntrance.content!,
                         style: t14black,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
@@ -373,7 +373,7 @@ class _MinePageState extends State<UserPage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  item["image"],
+                  item["image"] as String,
                   width: 30,
                   height: 30,
                 ),
@@ -381,7 +381,7 @@ class _MinePageState extends State<UserPage>
                   height: 5,
                 ),
                 Text(
-                  item["name"],
+                  item["name"] as String,
                   style: t12black,
                 ),
               ],
@@ -395,12 +395,12 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildActivity(BuildContext context) {
-    WelfareFissionInfo welfareFissionInfo = _userInfo.welfareFissionInfo;
+    WelfareFissionInfo? welfareFissionInfo = _userInfo!.welfareFissionInfo;
     return singleSliverWidget(welfareFissionInfo == null
         ? Container()
         : Container(
             margin: EdgeInsets.all(10),
-            child: CachedNetworkImage(imageUrl: welfareFissionInfo.picUrl),
+            child: CachedNetworkImage(imageUrl: welfareFissionInfo.picUrl!),
           ));
   }
 
@@ -438,11 +438,11 @@ class _MinePageState extends State<UserPage>
   }
 
   void _setUserInfo() async {
-    var sp = await LocalStorage.sp;
-    sp.setString(LocalStorage.userName, _userInfo.userSimpleVO.nickname);
-    sp.setString(LocalStorage.userIcon, _userInfo.userSimpleVO.avatar);
+    var sp = await (LocalStorage.sp as FutureOr<SharedPreferences>);
+    sp.setString(LocalStorage.userName, _userInfo!.userSimpleVO!.nickname!);
+    sp.setString(LocalStorage.userIcon, _userInfo!.userSimpleVO!.avatar!);
     sp.setString(
-        LocalStorage.pointsCnt, _userInfo.userSimpleVO.pointsCnt.toString());
+        LocalStorage.pointsCnt, _userInfo!.userSimpleVO!.pointsCnt.toString());
   }
 
   var mineSettingItems = [

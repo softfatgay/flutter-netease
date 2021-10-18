@@ -34,24 +34,24 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   int _activityTab = 0;
 
   ///左侧tab
-  List<CategoryL1Item> _categoryL1List;
+  List<CategoryL1Item>? _categoryL1List;
 
   ///右侧头部banner
-  List<BannerItem> _bannerList;
+  List<BannerItem>? _bannerList;
 
   ///body数据
-  List<CategoryGroupItem> _categoryGroupList;
+  List<CategoryGroupItem>? _categoryGroupList;
 
   @override
   bool get wantKeepAlive => true;
 
-  num _totalNum = 0;
+  num? _totalNum = 0;
 
   @override
   Widget build(BuildContext context) {
-    List<String> newTabs = [];
+    List<String?> newTabs = [];
     if (_categoryL1List != null) {
-      _categoryL1List.forEach((item) => newTabs.add(item.name));
+      _categoryL1List!.forEach((item) => newTabs.add(item.name));
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -68,7 +68,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                     if (index == 0) {
                       _categoryId = "";
                     } else {
-                      _categoryId = "${_categoryL1List[index].id}";
+                      _categoryId = "${_categoryL1List![index].id}";
                     }
                     _getInitData(_categoryId);
                   },
@@ -111,7 +111,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   _getInitData(String id) async {
     var sp = await LocalStorage.sp;
     setState(() {
-      _totalNum = sp.get(LocalStorage.totalNum);
+      _totalNum = sp!.get(LocalStorage.totalNum) as num?;
     });
 
     _isLoading = true;
@@ -122,7 +122,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       setState(() {
         _isLoading = false;
         _categoryL1List = sortDataModel.categoryL1List;
-        _bannerList = sortDataModel.currentCategory.bannerList;
+        _bannerList = sortDataModel.currentCategory!.bannerList;
         _categoryGroupList = sortDataModel.categoryGroupList;
       });
     }
@@ -159,13 +159,13 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                 color: backColor,
                                 borderRadius: BorderRadius.circular(4)),
                             child: RoundNetImage(
-                              url: _bannerList[0].picUrl ?? '',
+                              url: _bannerList![0].picUrl ?? '',
                               fit: BoxFit.cover,
                             )),
                         onTap: () {
                           Routers.push(Routers.webView, context, {
                             'url':
-                                '${NetContants.baseUrl}${_bannerList[0].targetUrl}'
+                                '${NetContants.baseUrl}${_bannerList![0].targetUrl}'
                           });
                         },
                       ),
@@ -178,13 +178,13 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                         List<Category> itemItem =
-                            _categoryGroupList[index].categoryList;
+                            _categoryGroupList![index].categoryList!;
                         return Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (_categoryGroupList[index].name != null &&
-                                  _categoryGroupList[index].name.isNotEmpty)
+                              if (_categoryGroupList![index].name != null &&
+                                  _categoryGroupList![index].name!.isNotEmpty)
                                 Container(
                                   width: double.infinity,
                                   padding: EdgeInsets.only(bottom: 5),
@@ -195,7 +195,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                   )),
                                   margin: EdgeInsets.only(top: 10),
                                   child: Text(
-                                    "${_categoryGroupList[index].name ?? ''}",
+                                    "${_categoryGroupList![index].name ?? ''}",
                                     style: t16blackbold,
                                   ),
                                 ),
@@ -214,13 +214,13 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                       children: [
                                         Expanded(
                                           child: CachedNetworkImage(
-                                            imageUrl: item.wapBannerUrl,
+                                            imageUrl: item.wapBannerUrl!,
                                           ),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(top: 6),
                                           child: Text(
-                                            item.name,
+                                            item.name!,
                                             style: t12black,
                                             maxLines: 1,
                                           ),
@@ -239,7 +239,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                           ),
                         );
                       },
-                      childCount: _categoryGroupList.length,
+                      childCount: _categoryGroupList!.length,
                     ),
                   ),
                 )

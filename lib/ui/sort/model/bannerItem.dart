@@ -4,9 +4,9 @@ part 'bannerItem.g.dart';
 
 @JsonSerializable()
 class BannerItem {
-  num id;
-  String picUrl;
-  String targetUrl;
+  num? id;
+  String? picUrl;
+  String? targetUrl;
 
   BannerItem();
 

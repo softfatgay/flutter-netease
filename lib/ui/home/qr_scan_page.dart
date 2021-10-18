@@ -14,8 +14,8 @@ class QRScanPage extends StatefulWidget {
 }
 
 class _QRScanPageState extends State<QRScanPage> {
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -24,9 +24,9 @@ class _QRScanPageState extends State<QRScanPage> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.pauseCamera();
+      controller!.pauseCamera();
     }
-    controller.resumeCamera();
+    controller!.resumeCamera();
   }
 
   @override

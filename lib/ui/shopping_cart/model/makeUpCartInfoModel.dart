@@ -5,11 +5,11 @@ part 'makeUpCartInfoModel.g.dart';
 
 @JsonSerializable()
 class MakeUpCartInfoModel {
-  ItemPoolBarVO itemPoolBarVO;
-  num validStartTime;
-  num validEndTime;
-  String validTimeDesc;
-  List<AddBuyStepListItem> addBuyStepList;
+  ItemPoolBarVO? itemPoolBarVO;
+  num? validStartTime;
+  num? validEndTime;
+  String? validTimeDesc;
+  List<AddBuyStepListItem>? addBuyStepList;
 
   MakeUpCartInfoModel({this.validTimeDesc = ''});
 
@@ -19,8 +19,8 @@ class MakeUpCartInfoModel {
 
 @JsonSerializable()
 class ItemPoolBarVO {
-  num subtotalPrice;
-  String promTip;
+  num? subtotalPrice;
+  String? promTip;
 
   ItemPoolBarVO();
 

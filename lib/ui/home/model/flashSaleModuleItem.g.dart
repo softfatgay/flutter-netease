@@ -6,14 +6,13 @@ part of 'flashSaleModuleItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FlashSaleModuleItem _$FlashSaleModuleItemFromJson(Map<String, dynamic> json) {
-  return FlashSaleModuleItem()
-    ..itemId = json['itemId'] as num
-    ..originPrice = json['originPrice'] as num
-    ..activityPrice = json['activityPrice'] as num
-    ..picUrl = json['picUrl'] as String
-    ..showPicUrl = json['showPicUrl'] as String;
-}
+FlashSaleModuleItem _$FlashSaleModuleItemFromJson(Map<String, dynamic> json) =>
+    FlashSaleModuleItem()
+      ..itemId = json['itemId'] as num?
+      ..originPrice = json['originPrice'] as num?
+      ..activityPrice = json['activityPrice'] as num?
+      ..picUrl = json['picUrl'] as String?
+      ..showPicUrl = json['showPicUrl'] as String?;
 
 Map<String, dynamic> _$FlashSaleModuleItemToJson(
         FlashSaleModuleItem instance) =>

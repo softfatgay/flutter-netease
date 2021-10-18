@@ -5,13 +5,13 @@ import 'package:flutter_app/constant/fonts.dart';
 typedef void PressIndex(int index);
 
 class SearchNavBar extends StatelessWidget {
-  final double height;
-  final int index;
-  final PressIndex pressIndex;
-  final bool descSorted;
+  final double? height;
+  final int? index;
+  final PressIndex? pressIndex;
+  final bool? descSorted;
 
   const SearchNavBar(
-      {Key key,
+      {Key? key,
       this.height,
       this.index,
       this.pressIndex,
@@ -47,7 +47,7 @@ class SearchNavBar extends StatelessWidget {
               ),
               onTap: () {
                 if (pressIndex != null) {
-                  pressIndex(0);
+                  pressIndex!(0);
                 }
               },
             ),
@@ -68,13 +68,13 @@ class SearchNavBar extends StatelessWidget {
                     ),
                     descSorted == null
                         ? _dftSort()
-                        : (descSorted ? _dftSortDown() : _dftSortUp())
+                        : (descSorted! ? _dftSortDown() : _dftSortUp())
                   ],
                 ),
               ),
               onTap: () {
                 if (pressIndex != null) {
-                  pressIndex(1);
+                  pressIndex!(1);
                 }
               },
             ),
@@ -93,7 +93,7 @@ class SearchNavBar extends StatelessWidget {
               ),
               onTap: () {
                 if (pressIndex != null) {
-                  pressIndex(2);
+                  pressIndex!(2);
                 }
               },
             ),

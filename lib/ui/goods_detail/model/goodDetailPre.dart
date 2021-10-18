@@ -6,12 +6,12 @@ part 'goodDetailPre.g.dart';
 
 @JsonSerializable()
 class GoodDetailPre {
-  GoodDetail item;
+  GoodDetail? item;
 
-  List<PolicyListItem> policyList;
-  num commentCount;
-  num commentWithPicCount;
-  num source;
+  List<PolicyListItem>? policyList;
+  num? commentCount;
+  num? commentWithPicCount;
+  num? source;
 
   GoodDetailPre();
 

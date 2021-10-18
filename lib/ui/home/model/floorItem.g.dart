@@ -6,20 +6,17 @@ part of 'floorItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FloorItem _$FloorItemFromJson(Map<String, dynamic> json) {
-  return FloorItem(
-    json['layout'] as int,
-    json['columnNum'] as int,
-    json['floorType'] as int,
-    (json['cells'] as List)
-        ?.map(
-            (e) => e == null ? null : Cells.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['style'] as int,
-    json['taskId'] as int,
-    json['height'] as int,
-  );
-}
+FloorItem _$FloorItemFromJson(Map<String, dynamic> json) => FloorItem(
+      json['layout'] as int?,
+      json['columnNum'] as int?,
+      json['floorType'] as int?,
+      (json['cells'] as List<dynamic>?)
+          ?.map((e) => Cells.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['style'] as int?,
+      json['taskId'] as int?,
+      json['height'] as int?,
+    );
 
 Map<String, dynamic> _$FloorItemToJson(FloorItem instance) => <String, dynamic>{
       'layout': instance.layout,

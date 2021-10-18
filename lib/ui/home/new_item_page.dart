@@ -11,9 +11,9 @@ import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class NewItemPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const NewItemPage({Key key, this.params}) : super(key: key);
+  const NewItemPage({Key? key, this.params}) : super(key: key);
 
   @override
   _KingKongPageState createState() => _KingKongPageState();
@@ -22,7 +22,7 @@ class NewItemPage extends StatefulWidget {
 class _KingKongPageState extends State<NewItemPage> {
   var _banner = [];
   bool _initLoading = true;
-  List<ItemListItem> _dataList;
+  List<ItemListItem>? _dataList;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _KingKongPageState extends State<NewItemPage> {
   }
 
   void _getInitData() async {
-    String schemeUrl = widget.params["schemeUrl"];
+    String schemeUrl = widget.params!["schemeUrl"];
     if (schemeUrl.contains("categoryId")) {
     } else {
       _getNewData();

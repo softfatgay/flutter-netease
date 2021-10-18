@@ -4,10 +4,10 @@ part 'styleItem.g.dart';
 
 @JsonSerializable()
 class StyleItem {
-  String targetUrl;
-  String title;
-  String desc;
-  List<String> picUrlList;
+  String? targetUrl;
+  String? title;
+  String? desc;
+  List<String?>? picUrlList;
 
   StyleItem();
 

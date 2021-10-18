@@ -4,11 +4,11 @@ part 'minePageItems.g.dart';
 
 @JsonSerializable()
 class MinePageItems {
-  num fundType;
-  String fundValue;
-  String fundName;
-  String targetUrl;
-  String toast;
+  num? fundType;
+  String? fundValue;
+  String? fundName;
+  String? targetUrl;
+  String? toast;
 
   MinePageItems();
 

@@ -8,10 +8,10 @@ import 'package:flutter_app/component/global.dart';
 typedef void OnPress();
 
 class PromotionWidget extends StatelessWidget {
-  final List<HdrkDetailVOListItem> hdrkDetailVOList;
-  final OnPress onPress;
+  final List<HdrkDetailVOListItem>? hdrkDetailVOList;
+  final OnPress? onPress;
 
-  const PromotionWidget({Key key, this.hdrkDetailVOList, this.onPress})
+  const PromotionWidget({Key? key, this.hdrkDetailVOList, this.onPress})
       : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class PromotionWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    return (hdrkDetailVOList == null || hdrkDetailVOList.isEmpty)
+    return (hdrkDetailVOList == null || hdrkDetailVOList!.isEmpty)
         ? Container()
         : GestureDetector(
             child: Container(
@@ -45,7 +45,7 @@ class PromotionWidget extends StatelessWidget {
             ),
             onTap: () {
               if (onPress != null) {
-                onPress();
+                onPress!();
               }
             },
           );
@@ -53,16 +53,16 @@ class PromotionWidget extends StatelessWidget {
 }
 
 class CuxiaoItems extends StatelessWidget {
-  final List<HdrkDetailVOListItem> hdrkDetailVOList;
+  final List<HdrkDetailVOListItem>? hdrkDetailVOList;
 
-  const CuxiaoItems({Key key, this.hdrkDetailVOList}) : super(key: key);
+  const CuxiaoItems({Key? key, this.hdrkDetailVOList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6),
       child: Column(
-        children: hdrkDetailVOList
+        children: hdrkDetailVOList!
             .map((item) => Container(
                   padding: EdgeInsets.symmetric(vertical: 3),
                   child: Row(
@@ -83,7 +83,7 @@ class CuxiaoItems extends StatelessWidget {
                             border: Border.all(color: Colors.red, width: 1),
                             borderRadius: BorderRadius.circular(14)),
                         child: Text(
-                          item.activityType,
+                          item.activityType!,
                           style: t11red,
                         ),
                       ),
@@ -115,17 +115,17 @@ class CuxiaoItems extends StatelessWidget {
 typedef void ItemClick(HdrkDetailVOListItem item);
 
 class DetailCuxiaoItems extends StatelessWidget {
-  final List<HdrkDetailVOListItem> hdrkDetailVOList;
-  final ItemClick itemClick;
+  final List<HdrkDetailVOListItem>? hdrkDetailVOList;
+  final ItemClick? itemClick;
 
-  const DetailCuxiaoItems({Key key, this.hdrkDetailVOList, this.itemClick})
+  const DetailCuxiaoItems({Key? key, this.hdrkDetailVOList, this.itemClick})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: hdrkDetailVOList
+        children: hdrkDetailVOList!
             .map((item) => GestureDetector(
                   child: Container(
                     decoration: BoxDecoration(
@@ -152,7 +152,7 @@ class DetailCuxiaoItems extends StatelessWidget {
                               border: Border.all(color: Colors.red),
                               borderRadius: BorderRadius.circular(14)),
                           child: Text(
-                            item.activityType,
+                            item.activityType!,
                             style: t12white,
                           ),
                         ),
@@ -179,7 +179,7 @@ class DetailCuxiaoItems extends StatelessWidget {
                   ),
                   onTap: () {
                     if (itemClick != null) {
-                      itemClick(item);
+                      itemClick!(item);
                     }
                   },
                 ))

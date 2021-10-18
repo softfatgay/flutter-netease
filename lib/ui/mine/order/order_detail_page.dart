@@ -16,17 +16,17 @@ import 'package:flutter_app/component/slivers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const OrderDetailPage({Key key, this.params}) : super(key: key);
+  const OrderDetailPage({Key? key, this.params}) : super(key: key);
 
   @override
   _OrderDetailPageState createState() => _OrderDetailPageState();
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
-  String _NO = '';
-  OrderDetailModel _detailModel;
+  String? _NO = '';
+  late OrderDetailModel _detailModel;
 
   bool _firstLoading = true;
 
@@ -34,7 +34,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      var no = widget.params['no'];
+      var no = widget.params!['no'];
       _NO = no;
     });
     super.initState();
@@ -153,7 +153,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   _address() {
-    var address = _detailModel.address;
+    var address = _detailModel.address!;
     return Container(
       color: Color(0XFFFFFCED),
       child: Column(
@@ -187,7 +187,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   _goods() {
-    var packageList = _detailModel.packageList;
+    var packageList = _detailModel.packageList!;
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
       return _buildPackageItem(packageList, index);
@@ -240,7 +240,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   List<Widget> _buildGoods(PackageListItem packageListItem) {
-    List<SkuListItem> skuList = packageListItem.skuList;
+    List<SkuListItem> skuList = packageListItem.skuList!;
     var list = skuList.map<Widget>((element) {
       return GestureDetector(
         child: _goodItem(element),
@@ -289,7 +289,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             style: t14black,
                             children: [
                               TextSpan(
-                                  text: '${item.isAddBuy ? '换购' : ''}',
+                                  text: '${item.isAddBuy! ? '换购' : ''}',
                                   style: t14Yellow),
                               TextSpan(text: '${item.name ?? ''}'),
                             ],
@@ -304,7 +304,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     ],
                   ),
                   Row(
-                    children: item.specValueList
+                    children: item.specValueList!
                         .map((element) => Container(
                               padding: EdgeInsets.only(top: 4),
                               child: Text(
@@ -391,7 +391,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               SizedBox(width: 5),
               Expanded(
                 child: Text(
-                  '${Util.temFormat(_detailModel.createTime * 1000)}',
+                  '${Util.temFormat(_detailModel.createTime! * 1000 as int)}',
                   style: t14black,
                 ),
               ),

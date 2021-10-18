@@ -9,9 +9,9 @@ import 'package:flutter_app/component/app_bar.dart';
 
 ///账户中没有礼品
 class GiftCardPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const GiftCardPage({Key key, this.params}) : super(key: key);
+  const GiftCardPage({Key? key, this.params}) : super(key: key);
 
   @override
   _GiftCardPageState createState() => _GiftCardPageState();
@@ -100,7 +100,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '¥${double.parse(widget.params['value'].toString())}',
+                  '¥${double.parse(widget.params!['value'].toString())}',
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w300,

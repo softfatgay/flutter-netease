@@ -10,16 +10,16 @@ import 'package:flutter_app/utils/user_config.dart';
 typedef void PressIndex(int index);
 
 class SearchSliverBar extends SliverPersistentHeaderDelegate {
-  final PressIndex pressIndex;
+  final PressIndex? pressIndex;
   final int index;
-  final double collapsedHeight;
-  final double expandedHeight;
-  final double paddingTop;
-  final Widget child;
-  final String title;
-  final UserModel userInfo;
+  final double? collapsedHeight;
+  final double? expandedHeight;
+  final double? paddingTop;
+  final Widget? child;
+  final String? title;
+  final UserModel? userInfo;
   final bool showBack;
-  final bool descSorted;
+  final bool? descSorted;
 
   SearchSliverBar({
     this.index = 0,
@@ -36,11 +36,11 @@ class SearchSliverBar extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => this.expandedHeight;
+  double get maxExtent => this.expandedHeight!;
 
   @override
   // TODO: implement minExtent
-  double get minExtent => this.collapsedHeight + this.paddingTop;
+  double get minExtent => this.collapsedHeight! + this.paddingTop!;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

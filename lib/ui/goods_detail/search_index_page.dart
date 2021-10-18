@@ -21,7 +21,7 @@ import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 
 class SearchIndexPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
   SearchIndexPage({this.params});
 
@@ -30,18 +30,18 @@ class SearchIndexPage extends StatefulWidget {
 }
 
 class _SearchIndexPageState extends State<SearchIndexPage> {
-  TextEditingController _controller;
+  TextEditingController? _controller;
   final _scrollController = new ScrollController();
-  String _textValue = '';
+  String? _textValue = '';
 
   var _keywordList = [];
-  var _hotKeyWordList = [];
+  List<dynamic>? _hotKeyWordList = [];
 
   ///分类
-  List<CategoryL1Item> _categoryL1List = [];
+  List<CategoryL1Item>? _categoryL1List = [];
 
   ///搜索提示
-  var _searchTipsData = [];
+  List<dynamic>? _searchTipsData = [];
 
   var _serachResult = false;
 
@@ -60,7 +60,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
-  var _hasMore = false;
+  bool? _hasMore = false;
 
   bool _noData = false;
 
@@ -73,14 +73,14 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
     _controller = TextEditingController.fromValue(TextEditingValue(
         // 设置内容
-        text: _textValue,
+        text: _textValue!,
         // 保持光标在最后
         selection: TextSelection.fromPosition(TextPosition(
-            affinity: TextAffinity.downstream, offset: _textValue.length))));
+            affinity: TextAffinity.downstream, offset: _textValue!.length))));
 
     setState(() {
       if (widget.params != null) {
-        _textValue = widget.params['id'];
+        _textValue = widget.params!['id'];
       }
     });
     _scrollController.addListener(_scrollerListener);
@@ -97,7 +97,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     }
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      if (_hasMore) {
+      if (_hasMore!) {
         _getTipsResult(false);
       }
     }
@@ -173,7 +173,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           }
         } else {
           _directlyList.addAll(directlyList);
-          if (!_hasMore) {
+          if (!_hasMore!) {
             _bottomTipsText = '没有更多了';
           }
           _serachResult = true;
@@ -189,7 +189,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       _searchTipsData = responseData.data;
       _serachResult = false;
       _hasMore = false;
-      if (_searchTipsData.length == 0) {
+      if (_searchTipsData!.length == 0) {
         _bottomTipsText = '暂时没有您想要的内容';
       } else {
         _bottomTipsText = '';
@@ -200,65 +200,64 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-          children: [
-            if (_noData && _controller.text.isNotEmpty)
-              Center(
-                child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
-              ),
-            _searchInitWidget(context),
-            _controller.text == '' ? Container() : _showResult(),
-            Container(
-              decoration: BoxDecoration(color: Colors.white),
-              child: SearchWidget(
-                searchHeight: _searchHeight,
-                hintText: '请输入商品名称',
-                controller: _controller,
-                onValueChangedCallBack: (value) {
+      body: Stack(
+        children: [
+          if (_noData && _controller!.text.isNotEmpty)
+            Center(
+              child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
+            ),
+          _searchInitWidget(context),
+          _controller!.text == '' ? Container() : _showResult(),
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            child: SearchWidget(
+              searchHeight: _searchHeight,
+              hintText: '请输入商品名称',
+              controller: _controller,
+              onValueChangedCallBack: (value) {
+                setState(() {
+                  _textValue = value;
+                });
+                if (value == '') {
+                  _controller!.text = '';
+                } else {
+                  _getSearchTips();
+                }
+              },
+              onBtnClick: (value) {
+                Navigator.pop(context);
+              },
+              onSubmitted: (value) {
+                _getTipsResult(true);
+              },
+            ),
+          ),
+          if (_controller!.text.isNotEmpty)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + _searchHeight,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: MenuPopWidget(
+                searchParamModel: _searchModel,
+                categorytList: _categoryL1List,
+                menuChange: (searchModel) {
                   setState(() {
-                    _textValue = value;
+                    _searchModel = searchModel!;
                   });
-                  if (value == '') {
-                    _controller.text = '';
-                  } else {
-                    _getSearchTips();
-                  }
-                },
-                onBtnClick: (value) {
-                  Navigator.pop(context);
-                },
-                onSubmitted: (value) {
-                  _getTipsResult(true);
+                  _resetPage();
                 },
               ),
             ),
-            if (_controller.text.isNotEmpty)
-              Positioned(
-                top: MediaQuery.of(context).padding.top + _searchHeight,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: MenuPopWidget(
-                  searchParamModel: _searchModel,
-                  categorytList: _categoryL1List,
-                  menuChange: (searchModel) {
-                    setState(() {
-                      _searchModel = searchModel;
-                    });
-                    _resetPage();
-                  },
-                ),
-              ),
-          ],
-        ),
-        floatingActionButton: StreamBuilder(
-            stream: _streamController.stream,
-            initialData: false,
-            builder: (context, snapshot) {
-              return snapshot.data
-                  ? floatingAB(_scrollController)
-                  : Container();
-            }));
+        ],
+      ),
+      floatingActionButton: StreamBuilder(
+          stream: _streamController.stream,
+          initialData: false,
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            return snapshot.data! ? floatingAB(_scrollController) : Container();
+          }),
+    );
   }
 
   _searchInitWidget(BuildContext context) {
@@ -353,14 +352,14 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
             margin: EdgeInsets.only(left: 15),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: 0.5, color: Colors.grey[200]),
+                bottom: BorderSide(width: 0.5, color: Colors.grey[200]!),
               ),
             ),
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    _searchTipsData[index],
+                    _searchTipsData![index],
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -374,7 +373,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           child: widget,
           onTap: () {
             setState(() {
-              _searchModel.keyWord = _searchTipsData[index];
+              _searchModel.keyWord = _searchTipsData![index];
               _searchModel.searchWordSource = 7;
               _searchModel.statSearch = 'autoComplete';
               _searchResult();
@@ -382,7 +381,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
             });
           },
         );
-      }, childCount: _searchTipsData.length),
+      }, childCount: _searchTipsData!.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: 8,
@@ -395,33 +394,33 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     _directlyList = [];
     Util.hideKeyBord(context);
     _saveKey(_searchModel.keyWord);
-    _controller.text = _searchModel.keyWord;
+    _controller!.text = _searchModel.keyWord!;
     _getTipsResult(true);
   }
 
   ///本地存储keyword
-  void _saveKey(String key) async {
+  void _saveKey(String? key) async {
     var sp = await LocalStorage.sp;
-    var keywordStr = sp.getString(LocalStorage.keyWord);
+    var keywordStr = sp?.getString(LocalStorage.keyWord);
     if (keywordStr != null) {
-      var split = keywordStr.split(';');
+      List<String?> split = keywordStr.split(';');
       if (split.indexOf(key) == -1) {
-        sp.setString(LocalStorage.keyWord, keywordStr + ';$key');
+        sp!.setString(LocalStorage.keyWord, keywordStr + ';$key');
       }
     } else {
-      sp.setString(LocalStorage.keyWord, '$key');
+      sp!.setString(LocalStorage.keyWord, '$key');
     }
   }
 
   _clearKeyword() async {
     var sp = await LocalStorage.sp;
-    sp.remove(LocalStorage.keyWord);
+    sp!.remove(LocalStorage.keyWord);
     _getKeyword();
   }
 
   void _getKeyword() async {
     var sp = await LocalStorage.sp;
-    var keyword = sp.getString(LocalStorage.keyWord);
+    var keyword = sp!.getString(LocalStorage.keyWord);
     if (keyword != null && keyword != '') {
       var split = keyword.split(';');
       // split.removeAt(0);
@@ -463,7 +462,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   }
 
   _hotItem(BuildContext context) {
-    return _hotKeyWordList
+    return _hotKeyWordList!
         .map(
           (value) => GestureDetector(
             child: Container(
@@ -499,7 +498,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _controller.dispose();
+    _controller!.dispose();
     _scrollController.dispose();
     _streamController.close();
   }

@@ -6,16 +6,15 @@ part of 'newItemTagModul.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NewItemTagModel _$NewItemTagModelFromJson(Map<String, dynamic> json) {
-  return NewItemTagModel()
-    ..itemId = json['itemId'] as num
-    ..tagId = json['tagId'] as num
-    ..freshmanExclusive = json['freshmanExclusive'] as bool
-    ..forbidJump = json['forbidJump'] as bool
-    ..name = json['name'] as String
-    ..subType = json['subType'] as num
-    ..type = json['type'] as num;
-}
+NewItemTagModel _$NewItemTagModelFromJson(Map<String, dynamic> json) =>
+    NewItemTagModel()
+      ..itemId = json['itemId'] as num?
+      ..tagId = json['tagId'] as num?
+      ..freshmanExclusive = json['freshmanExclusive'] as bool?
+      ..forbidJump = json['forbidJump'] as bool?
+      ..name = json['name'] as String?
+      ..subType = json['subType'] as num?
+      ..type = json['type'] as num?;
 
 Map<String, dynamic> _$NewItemTagModelToJson(NewItemTagModel instance) =>
     <String, dynamic>{

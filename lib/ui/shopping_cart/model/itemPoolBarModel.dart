@@ -4,8 +4,8 @@ part 'itemPoolBarModel.g.dart';
 
 @JsonSerializable()
 class ItemPoolBarModel {
-  num subtotalPrice;
-  String promTip;
+  num? subtotalPrice;
+  String? promTip;
 
   ItemPoolBarModel(this.subtotalPrice, this.promTip);
 

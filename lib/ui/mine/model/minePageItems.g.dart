@@ -6,14 +6,13 @@ part of 'minePageItems.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MinePageItems _$MinePageItemsFromJson(Map<String, dynamic> json) {
-  return MinePageItems()
-    ..fundType = json['fundType'] as num
-    ..fundValue = json['fundValue'] as String
-    ..fundName = json['fundName'] as String
-    ..targetUrl = json['targetUrl'] as String
-    ..toast = json['toast'] as String;
-}
+MinePageItems _$MinePageItemsFromJson(Map<String, dynamic> json) =>
+    MinePageItems()
+      ..fundType = json['fundType'] as num?
+      ..fundValue = json['fundValue'] as String?
+      ..fundName = json['fundName'] as String?
+      ..targetUrl = json['targetUrl'] as String?
+      ..toast = json['toast'] as String?;
 
 Map<String, dynamic> _$MinePageItemsToJson(MinePageItems instance) =>
     <String, dynamic>{

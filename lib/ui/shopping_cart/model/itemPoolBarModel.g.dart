@@ -6,12 +6,11 @@ part of 'itemPoolBarModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemPoolBarModel _$ItemPoolBarModelFromJson(Map<String, dynamic> json) {
-  return ItemPoolBarModel(
-    json['subtotalPrice'] as num,
-    json['promTip'] as String,
-  );
-}
+ItemPoolBarModel _$ItemPoolBarModelFromJson(Map<String, dynamic> json) =>
+    ItemPoolBarModel(
+      json['subtotalPrice'] as num?,
+      json['promTip'] as String?,
+    );
 
 Map<String, dynamic> _$ItemPoolBarModelToJson(ItemPoolBarModel instance) =>
     <String, dynamic>{

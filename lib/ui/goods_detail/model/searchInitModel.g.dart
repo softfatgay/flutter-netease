@@ -6,19 +6,14 @@ part of 'searchInitModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SearchInitModel _$SearchInitModelFromJson(Map<String, dynamic> json) {
-  return SearchInitModel()
-    ..hotKeywordVOList = (json['hotKeywordVOList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HotKeywordVOListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..defaultKeywords = (json['defaultKeywords'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HotKeywordVOListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+SearchInitModel _$SearchInitModelFromJson(Map<String, dynamic> json) =>
+    SearchInitModel()
+      ..hotKeywordVOList = (json['hotKeywordVOList'] as List<dynamic>?)
+          ?.map((e) => HotKeywordVOListItem.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..defaultKeywords = (json['defaultKeywords'] as List<dynamic>?)
+          ?.map((e) => HotKeywordVOListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$SearchInitModelToJson(SearchInitModel instance) =>
     <String, dynamic>{
@@ -26,18 +21,18 @@ Map<String, dynamic> _$SearchInitModelToJson(SearchInitModel instance) =>
       'defaultKeywords': instance.defaultKeywords,
     };
 
-HotKeywordVOListItem _$HotKeywordVOListItemFromJson(Map<String, dynamic> json) {
-  return HotKeywordVOListItem()
-    ..keyword = json['keyword'] as String
-    ..schemeUrl = json['schemeUrl'] as String
-    ..highlight = json['highlight'] as num
-    ..hidden = json['hidden'] as num
-    ..type = json['type'] as num
-    ..algSort = json['algSort'] as bool
-    ..extra = json['extra'] == null
-        ? null
-        : Extra.fromJson(json['extra'] as Map<String, dynamic>);
-}
+HotKeywordVOListItem _$HotKeywordVOListItemFromJson(
+        Map<String, dynamic> json) =>
+    HotKeywordVOListItem()
+      ..keyword = json['keyword'] as String?
+      ..schemeUrl = json['schemeUrl'] as String?
+      ..highlight = json['highlight'] as num?
+      ..hidden = json['hidden'] as num?
+      ..type = json['type'] as num?
+      ..algSort = json['algSort'] as bool?
+      ..extra = json['extra'] == null
+          ? null
+          : Extra.fromJson(json['extra'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$HotKeywordVOListItemToJson(
         HotKeywordVOListItem instance) =>
@@ -51,20 +46,18 @@ Map<String, dynamic> _$HotKeywordVOListItemToJson(
       'extra': instance.extra,
     };
 
-Extra _$ExtraFromJson(Map<String, dynamic> json) {
-  return Extra()
-    ..materialContentFrom = json['materialContentFrom'] as num
-    ..materialName = json['materialName'] as String
-    ..rcmdSort = json['rcmdSort'] as bool
-    ..taskType = json['taskType'] as num
-    ..itemFrom = json['itemFrom'] as num
-    ..crmUserGroupName = json['crmUserGroupName'] as String
-    ..resourcesId = json['resourcesId'] as num
-    ..materialType = json['materialType'] as String
-    ..crmUserGroupId = json['crmUserGroupId'] as String
-    ..materialId = json['materialId'] as String
-    ..taskId = json['taskId'] as String;
-}
+Extra _$ExtraFromJson(Map<String, dynamic> json) => Extra()
+  ..materialContentFrom = json['materialContentFrom'] as num?
+  ..materialName = json['materialName'] as String?
+  ..rcmdSort = json['rcmdSort'] as bool?
+  ..taskType = json['taskType'] as num?
+  ..itemFrom = json['itemFrom'] as num?
+  ..crmUserGroupName = json['crmUserGroupName'] as String?
+  ..resourcesId = json['resourcesId'] as num?
+  ..materialType = json['materialType'] as String?
+  ..crmUserGroupId = json['crmUserGroupId'] as String?
+  ..materialId = json['materialId'] as String?
+  ..taskId = json['taskId'] as String?;
 
 Map<String, dynamic> _$ExtraToJson(Extra instance) => <String, dynamic>{
       'materialContentFrom': instance.materialContentFrom,

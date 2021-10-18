@@ -6,26 +6,26 @@ part 'skuListItem.g.dart';
 
 @JsonSerializable()
 class SkuListItem {
-  num id;
-  num counterPrice;
-  num retailPrice;
-  bool primarySku;
-  num sellVolume;
-  num noActivitySellVolume;
-  bool valid;
+  num? id;
+  num? counterPrice;
+  num? retailPrice;
+  bool? primarySku;
+  num? sellVolume;
+  num? noActivitySellVolume;
+  bool? valid;
 
-  num baseId;
-  num startTime;
-  num endTime;
-  String name;
-  num pinPrice;
-  num skuNum;
-  num userNum;
-  num skuId;
+  num? baseId;
+  num? startTime;
+  num? endTime;
+  String? name;
+  num? pinPrice;
+  num? skuNum;
+  num? userNum;
+  num? skuId;
 
 
 
-  List<ItemSkuSpecValueListItem> itemSkuSpecValueList;
+  List<ItemSkuSpecValueListItem>? itemSkuSpecValueList;
 
   SkuListItem();
 
@@ -35,12 +35,12 @@ class SkuListItem {
 
 @JsonSerializable()
 class ItemSkuSpecValueListItem {
-  num id;
-  num skuId;
-  num skuSpecId;
-  num skuSpecValueId;
-  SkuSpec skuSpec;
-  SkuSpecValue skuSpecValue;
+  num? id;
+  num? skuId;
+  num? skuSpecId;
+  num? skuSpecValueId;
+  SkuSpec? skuSpec;
+  SkuSpecValue? skuSpecValue;
 
   ItemSkuSpecValueListItem();
 

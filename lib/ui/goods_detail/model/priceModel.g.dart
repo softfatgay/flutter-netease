@@ -6,14 +6,12 @@ part of 'priceModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PriceModel _$PriceModelFromJson(Map<String, dynamic> json) {
-  return PriceModel()
-    ..finalPrice = json['finalPrice'] == null
-        ? null
-        : FinalPrice.fromJson(json['finalPrice'] as Map<String, dynamic>)
-    ..counterPrice = json['counterPrice'] as String
-    ..basicPrice = json['basicPrice'] as String;
-}
+PriceModel _$PriceModelFromJson(Map<String, dynamic> json) => PriceModel()
+  ..finalPrice = json['finalPrice'] == null
+      ? null
+      : FinalPrice.fromJson(json['finalPrice'] as Map<String, dynamic>)
+  ..counterPrice = json['counterPrice'] as String?
+  ..basicPrice = json['basicPrice'] as String?;
 
 Map<String, dynamic> _$PriceModelToJson(PriceModel instance) =>
     <String, dynamic>{

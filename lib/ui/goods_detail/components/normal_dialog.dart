@@ -8,7 +8,7 @@ class NormalDialog {
   final double maxHeight;
 
   NormalDialog({
-    @required this.child,
+    required this.child,
     this.title = '',
     this.maxHeight = 400.0,
   });

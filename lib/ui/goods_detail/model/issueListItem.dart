@@ -5,8 +5,8 @@ part 'issueListItem.g.dart';
 
 @JsonSerializable()
 class IssueListItem {
-  String question;
-  String answer;
+  String? question;
+  String? answer;
 
   IssueListItem();
 

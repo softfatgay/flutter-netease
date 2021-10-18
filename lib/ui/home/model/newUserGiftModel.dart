@@ -4,12 +4,12 @@ part 'newUserGiftModel.g.dart';
 
 @JsonSerializable()
 class NewUserGift {
-  bool showEntrance;
-  bool showGiftWin;
-  bool showItemDetailGiftWin;
-  num winType;
-  bool newUser;
-  NewUserGiftData newUserGift;
+  bool? showEntrance;
+  bool? showGiftWin;
+  bool? showItemDetailGiftWin;
+  num? winType;
+  bool? newUser;
+  NewUserGiftData? newUserGift;
 
   NewUserGift();
 
@@ -19,12 +19,12 @@ class NewUserGift {
 
 @JsonSerializable()
 class NewUserGiftData {
-  String showPic;
-  num price;
-  num expireTime;
-  num useExpireTime;
-  num status;
-  num currentTime;
+  String? showPic;
+  num? price;
+  num? expireTime;
+  num? useExpireTime;
+  num? status;
+  num? currentTime;
 
   NewUserGiftData();
 

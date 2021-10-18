@@ -4,8 +4,8 @@ part 'hotSaleListBottomInfo.g.dart';
 
 @JsonSerializable()
 class HotSaleListBottomInfo {
-  String iconUrl;
-  String content;
+  String? iconUrl;
+  String? content;
 
   HotSaleListBottomInfo();
 

@@ -4,11 +4,11 @@ part 'interstItemModel.g.dart';
 
 @JsonSerializable()
 class InterstItemModel {
-  num categoryCode;
-  String categoryName;
-  String picUrl;
-  num rank;
-  bool selectFlag;
+  num? categoryCode;
+  String? categoryName;
+  String? picUrl;
+  num? rank;
+  bool? selectFlag;
 
   InterstItemModel();
 

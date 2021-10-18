@@ -15,7 +15,7 @@ class LoginForCode extends StatefulWidget {
 
 class _LoginState extends State<LoginForCode> {
   final String imageAsset = 'assets/images/boduoxiaojie.png';
-  Timer timer;
+  Timer? _timer;
   var btnStr = '获取验证码';
   final _phoneController = TextEditingController();
   final _codeController = TextEditingController();
@@ -233,15 +233,15 @@ class _LoginState extends State<LoginForCode> {
   }
 
   void _getVerification() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         if (_time > 0) {
           btnStr = '${_time--}s后重新获取';
         } else {
           btnStr = '获取验证码';
           _time = 5;
-          timer.cancel();
-          timer = null;
+          _timer!.cancel();
+          _timer = null;
         }
       });
     });
@@ -251,10 +251,8 @@ class _LoginState extends State<LoginForCode> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    timer?.cancel();
+    _timer!.cancel();
     _phoneController.dispose();
     _codeController.dispose();
   }
-
-  Widget buildbottom() {}
 }

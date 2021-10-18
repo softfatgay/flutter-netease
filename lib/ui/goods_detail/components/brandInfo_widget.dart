@@ -8,10 +8,10 @@ import 'package:flutter_app/component/global.dart';
 typedef void OnPress();
 
 class BrandInfoWidget extends StatelessWidget {
-  final BrandInfo brandInfo;
-  final OnPress onPress;
+  final BrandInfo? brandInfo;
+  final OnPress? onPress;
 
-  const BrandInfoWidget({Key key, this.brandInfo, this.onPress})
+  const BrandInfoWidget({Key? key, this.brandInfo, this.onPress})
       : super(key: key);
 
   @override
@@ -34,8 +34,8 @@ class BrandInfoWidget extends StatelessWidget {
                         height: 16,
                       ),
                       CachedNetworkImage(
-                          height: 35, imageUrl: '${brandInfo.picUrl}'),
-                    brandInfo.ownType == 2? CachedNetworkImage(
+                          height: 35, imageUrl: '${brandInfo!.picUrl}'),
+                    brandInfo!.ownType == 2? CachedNetworkImage(
                           height: 12,
                           imageUrl:
                               'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png'):Container(height: 16,),
@@ -51,7 +51,7 @@ class BrandInfoWidget extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: Text(
-                              '${brandInfo.title}',
+                              '${brandInfo!.title}',
                               style: t16blackbold,
                             )),
                             arrowRightIcon
@@ -61,7 +61,7 @@ class BrandInfoWidget extends StatelessWidget {
                           height: 12,
                         ),
                         Text(
-                          '${brandInfo.desc}',
+                          '${brandInfo!.desc}',
                           style: t12black,
                         ),
                       ],
@@ -72,7 +72,7 @@ class BrandInfoWidget extends StatelessWidget {
             ),
             onTap: () {
               if (onPress != null) {
-                onPress();
+                onPress!();
               }
             },
           );

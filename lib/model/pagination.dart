@@ -5,11 +5,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'pagination.g.dart';
 @JsonSerializable()
 class Pagination {
-  num page;
-  num size;
-  num totalPage;
-  num total;
-  bool lastPage;
+  num? page;
+  num? size;
+  num? totalPage;
+  num? total;
+  bool? lastPage;
 
   Pagination();
 

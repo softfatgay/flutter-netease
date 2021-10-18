@@ -6,10 +6,10 @@ import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 
 ///价格
 class GoodPriceWidget extends StatelessWidget {
-  final DetailPromBanner detailPromBanner;
-  final PriceModel priceModel;
+  final DetailPromBanner? detailPromBanner;
+  final PriceModel? priceModel;
 
-  const GoodPriceWidget({Key key, this.detailPromBanner, this.priceModel})
+  const GoodPriceWidget({Key? key, this.detailPromBanner, this.priceModel})
       : super(key: key);
 
   @override
@@ -32,15 +32,15 @@ class GoodPriceWidget extends StatelessWidget {
                   style: t16redBold,
                 ),
                 Text(
-                  '${priceModel.basicPrice}',
+                  '${priceModel!.basicPrice}',
                   overflow: TextOverflow.ellipsis,
                   style: t27redBold,
                 ),
-                if (priceModel.counterPrice != priceModel.basicPrice)
+                if (priceModel!.counterPrice != priceModel!.basicPrice)
                   Container(
                     margin: EdgeInsets.only(left: 5),
                     child: Text(
-                      '${priceModel.counterPrice ?? ''}',
+                      '${priceModel!.counterPrice ?? ''}',
                       style: TextStyle(
                         fontSize: 12,
                         color: textGrey,

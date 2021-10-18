@@ -5,10 +5,10 @@ part 'categoryHotSellModule.g.dart';
 
 @JsonSerializable()
 class CategoryHotSellModule {
-  String titleTargetUrl;
-  String title;
+  String? titleTargetUrl;
+  String? title;
 
-  List<Category> categoryList;
+  List<Category>? categoryList;
 
   CategoryHotSellModule();
 

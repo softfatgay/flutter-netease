@@ -6,47 +6,48 @@ part of 'cartItemListItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) {
-  return CartItemListItem()
-    ..uniqueKey = json['uniqueKey'] as String
-    ..id = json['id'] as num
-    ..itemId = json['itemId'] as num
-    ..status = json['status'] as num
-    ..skuId = json['skuId'] as num
-    ..sellVolume = json['sellVolume'] as num
-    ..cnt = json['cnt'] as num
-    ..totalPrice = json['totalPrice'] as num
-    ..retailPrice = json['retailPrice'] as num
-    ..actualPrice = json['actualPrice'] as num
-    ..subtotalPrice = json['subtotalPrice'] as num
-    ..preSellStatus = json['preSellStatus'] as num
-    ..preSellPrice = json['preSellPrice'] as num
-    ..preSellVolume = json['preSellVolume'] as num
-    ..type = json['type'] as num
-    ..source = json['source'] as num
-    ..sources = (json['sources'] as List)?.map((e) => e as num)?.toList()
-    ..itemName = json['itemName'] as String
-    ..pic = json['pic'] as String
-    ..extId = json['extId'] as String
-    ..promTag = json['promTag'] as String
-    ..priceReductDesc = json['priceReductDesc'] as String
-    ..valid = json['valid'] as bool
-    ..checked = json['checked'] as bool
-    ..stepNo = json['stepNo'] as int
-    ..checkExt = json['checkExt']
-    ..specList = (json['specList'] as List)
-        ?.map((e) =>
-            e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..cartItemTips =
-        (json['cartItemTips'] as List)?.map((e) => e as String)?.toList()
-    ..timingPromotion = json['timingPromotion'] as String
-    ..finishTip = json['finishTip'] as String
-    ..remainTime = json['remainTime'] as num
-    ..warehouseInfo = json['warehouseInfo'] == null
-        ? null
-        : WarehouseInfo.fromJson(json['warehouseInfo'] as Map<String, dynamic>);
-}
+CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) =>
+    CartItemListItem()
+      ..uniqueKey = json['uniqueKey'] as String?
+      ..id = json['id'] as num?
+      ..itemId = json['itemId'] as num?
+      ..status = json['status'] as num?
+      ..skuId = json['skuId'] as num?
+      ..sellVolume = json['sellVolume'] as num?
+      ..cnt = json['cnt'] as num?
+      ..totalPrice = json['totalPrice'] as num?
+      ..retailPrice = json['retailPrice'] as num?
+      ..actualPrice = json['actualPrice'] as num?
+      ..subtotalPrice = json['subtotalPrice'] as num?
+      ..preSellStatus = json['preSellStatus'] as num?
+      ..preSellPrice = json['preSellPrice'] as num?
+      ..preSellVolume = json['preSellVolume'] as num?
+      ..type = json['type'] as num?
+      ..source = json['source'] as num?
+      ..sources =
+          (json['sources'] as List<dynamic>?)?.map((e) => e as num).toList()
+      ..itemName = json['itemName'] as String?
+      ..pic = json['pic'] as String?
+      ..extId = json['extId'] as String?
+      ..promTag = json['promTag'] as String?
+      ..priceReductDesc = json['priceReductDesc'] as String?
+      ..valid = json['valid'] as bool?
+      ..checked = json['checked'] as bool?
+      ..stepNo = json['stepNo'] as int?
+      ..checkExt = json['checkExt']
+      ..specList = (json['specList'] as List<dynamic>?)
+          ?.map((e) => SpecListItem.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..cartItemTips = (json['cartItemTips'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
+      ..timingPromotion = json['timingPromotion'] as String?
+      ..finishTip = json['finishTip'] as String?
+      ..remainTime = json['remainTime'] as num?
+      ..warehouseInfo = json['warehouseInfo'] == null
+          ? null
+          : WarehouseInfo.fromJson(
+              json['warehouseInfo'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
     <String, dynamic>{
@@ -84,11 +85,9 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'warehouseInfo': instance.warehouseInfo,
     };
 
-SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) {
-  return SpecListItem()
-    ..specName = json['specName'] as String
-    ..specValue = json['specValue'] as String;
-}
+SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) => SpecListItem()
+  ..specName = json['specName'] as String?
+  ..specValue = json['specValue'] as String?;
 
 Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
     <String, dynamic>{
@@ -96,11 +95,10 @@ Map<String, dynamic> _$SpecListItemToJson(SpecListItem instance) =>
       'specValue': instance.specValue,
     };
 
-WarehouseInfo _$WarehouseInfoFromJson(Map<String, dynamic> json) {
-  return WarehouseInfo()
-    ..desc = json['desc'] as String
-    ..type = json['type'] as num;
-}
+WarehouseInfo _$WarehouseInfoFromJson(Map<String, dynamic> json) =>
+    WarehouseInfo()
+      ..desc = json['desc'] as String?
+      ..type = json['type'] as num?;
 
 Map<String, dynamic> _$WarehouseInfoToJson(WarehouseInfo instance) =>
     <String, dynamic>{

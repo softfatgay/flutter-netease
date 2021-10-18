@@ -7,10 +7,10 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
 class HotListItem extends StatelessWidget {
-  final ItemListItem item;
-  final int index;
+  final ItemListItem? item;
+  final int? index;
 
-  const HotListItem({Key key, this.item, this.index}) : super(key: key);
+  const HotListItem({Key? key, this.item, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class HotListItem extends StatelessWidget {
                       height: 120,
                       width: 120,
                       child: RoundNetImage(
-                        url: item.listPicUrl,
+                        url: item!.listPicUrl,
                       ),
                     ),
                     _buildItemInfo(),
@@ -49,7 +49,7 @@ class HotListItem extends StatelessWidget {
         ],
       ),
     );
-    return Routers.link(widget, Routers.goodDetail, context, {'id': item.id});
+    return Routers.link(widget, Routers.goodDetail, context, {'id': item!.id});
   }
 
   _sortIcon() {
@@ -80,7 +80,7 @@ class HotListItem extends StatelessWidget {
         decoration:
             BoxDecoration(shape: BoxShape.circle, color: Color(0xFFD2D3D2)),
         child: Text(
-          '${index + 1}',
+          '${index! + 1}',
           style: t14white,
         ),
       );
@@ -88,7 +88,7 @@ class HotListItem extends StatelessWidget {
   }
 
   _bottomLink() {
-    return item.hotSaleListBottomInfo == null
+    return item!.hotSaleListBottomInfo == null
         ? Container()
         : Container(
             height: 20,
@@ -101,7 +101,7 @@ class HotListItem extends StatelessWidget {
               children: [
                 ClipOval(
                   child: CachedNetworkImage(
-                    imageUrl: '${item.hotSaleListBottomInfo.iconUrl ?? ''}',
+                    imageUrl: '${item!.hotSaleListBottomInfo!.iconUrl ?? ''}',
                     height: 20,
                     width: 20,
                     fit: BoxFit.cover,
@@ -110,7 +110,7 @@ class HotListItem extends StatelessWidget {
                 SizedBox(width: 5),
                 Expanded(
                   child: Text(
-                    '${item.hotSaleListBottomInfo.content ?? ''}',
+                    '${item!.hotSaleListBottomInfo!.content ?? ''}',
                     style: t12grey,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -128,7 +128,7 @@ class HotListItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (item.promTag == null || item.promTag == '')
+            (item!.promTag == null || item!.promTag == '')
                 ? Container()
                 : Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
@@ -137,7 +137,7 @@ class HotListItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(
-                      '${item.promTag}',
+                      '${item!.promTag}',
                       style: t12red,
                     ),
                   ),
@@ -145,7 +145,7 @@ class HotListItem extends StatelessWidget {
               margin: EdgeInsets.only(top: 6),
               decoration: BoxDecoration(),
               child: Text(
-                '${item.name}',
+                '${item!.name}',
                 style: TextStyle(
                     color: textBlack,
                     fontSize: 16,
@@ -179,14 +179,14 @@ class HotListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '¥${item.retailPrice}',
+                  '¥${item!.retailPrice}',
                   style: t18redBold,
                 ),
-                (item.counterPrice == item.retailPrice ||
-                        item.counterPrice == 0)
+                (item!.counterPrice == item!.retailPrice ||
+                        item!.counterPrice == 0)
                     ? Container()
                     : Text(
-                        '¥${item.counterPrice}',
+                        '¥${item!.counterPrice}',
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             color: textGrey,
@@ -229,7 +229,7 @@ class HotListItem extends StatelessWidget {
   }
 
   _commondRate() {
-    return item.goodCmtRate == null
+    return item!.goodCmtRate == null
         ? Container()
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 2),
@@ -258,7 +258,7 @@ class HotListItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${item.goodCmtRate}好评率',
+                  '${item!.goodCmtRate}好评率',
                   style: t12white,
                 ),
               ],
@@ -267,7 +267,7 @@ class HotListItem extends StatelessWidget {
   }
 
   _tags() {
-    var itemTagList = item.itemTagList;
+    var itemTagList = item!.itemTagList;
     return itemTagList == null
         ? Container()
         : Row(

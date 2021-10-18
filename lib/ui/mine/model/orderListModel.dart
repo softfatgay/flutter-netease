@@ -4,9 +4,9 @@ part 'orderListModel.g.dart';
 
 @JsonSerializable()
 class OrderListModel {
-  bool nextHasMore;
-  num lastOrderId;
-  List<OrderListItem> list;
+  bool? nextHasMore;
+  num? lastOrderId;
+  List<OrderListItem>? list;
 
   OrderListModel();
 
@@ -16,37 +16,37 @@ class OrderListModel {
 
 @JsonSerializable()
 class OrderListItem {
-  String no;
-  String typeDesc;
-  num actualPrice;
-  num freightPrice;
-  String freshBargainOrderCancelDialogTip;
-  num orderType;
-  num cancelStatus;
-  num invoiceFinishStep;
-  num source;
-  num subOrderId;
-  num id;
-  num orderStepId;
-  num remainTime;
-  num createTime;
-  num depositType;
-  num invoiceCreateTime;
-  bool hasFreshBargain;
-  bool moneySavingCardOrder;
-  bool cancelOption;
-  bool bargainFlag;
-  bool pointsOrderFlag;
-  bool exchangeFlag;
-  bool deleteOption;
-  bool hasSpmc;
-  bool crowdfundingFlag;
-  bool returnRecordOption;
-  bool orderCancelStepOption;
-  bool payOption;
-  bool addrUpdateFlag;
-  bool cancelPayedOption;
-  List<PackageListItem> packageList;
+  String? no;
+  String? typeDesc;
+  num? actualPrice;
+  num? freightPrice;
+  String? freshBargainOrderCancelDialogTip;
+  num? orderType;
+  num? cancelStatus;
+  num? invoiceFinishStep;
+  num? source;
+  num? subOrderId;
+  num? id;
+  num? orderStepId;
+  num? remainTime;
+  num? createTime;
+  num? depositType;
+  num? invoiceCreateTime;
+  bool? hasFreshBargain;
+  bool? moneySavingCardOrder;
+  bool? cancelOption;
+  bool? bargainFlag;
+  bool? pointsOrderFlag;
+  bool? exchangeFlag;
+  bool? deleteOption;
+  bool? hasSpmc;
+  bool? crowdfundingFlag;
+  bool? returnRecordOption;
+  bool? orderCancelStepOption;
+  bool? payOption;
+  bool? addrUpdateFlag;
+  bool? cancelPayedOption;
+  List<PackageListItem>? packageList;
 
   OrderListItem();
 
@@ -56,49 +56,49 @@ class OrderListItem {
 
 @JsonSerializable()
 class PackageListItem {
-  bool isPreSell;
+  bool? isPreSell;
 
-  bool returnOption;
+  bool? returnOption;
 
-  String specDesc;
+  String? specDesc;
 
-  num count;
+  num? count;
 
-  bool saleGiftCardFlag;
+  bool? saleGiftCardFlag;
 
-  bool virtualFlag;
+  bool? virtualFlag;
 
-  num preSellPrice;
+  num? preSellPrice;
 
-  bool commentOption;
+  bool? commentOption;
 
-  num itemId;
+  num? itemId;
 
-  num sequence;
+  num? sequence;
 
-  bool serviceProcessOption;
+  bool? serviceProcessOption;
 
-  bool rebateOption;
+  bool? rebateOption;
 
-  String name;
+  String? name;
 
-  bool addrUpdateFlag;
+  bool? addrUpdateFlag;
 
-  num orderCartItemId;
+  num? orderCartItemId;
 
-  num id;
+  num? id;
 
-  num commentBtnStatus;
+  num? commentBtnStatus;
 
-  bool confirmOption;
+  bool? confirmOption;
 
-  bool deliveryOption;
+  bool? deliveryOption;
 
-  num skuId;
+  num? skuId;
 
-  num status;
+  num? status;
 
-  List<String> picUrlList;
+  List<String>? picUrlList;
 
   PackageListItem();
 

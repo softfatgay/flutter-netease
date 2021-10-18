@@ -9,7 +9,7 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/button_widget.dart';
 
 class MineSizePage extends StatefulWidget {
-  const MineSizePage({Key key}) : super(key: key);
+  const MineSizePage({Key? key}) : super(key: key);
 
   @override
   _MineSizePageState createState() => _MineSizePageState();
@@ -82,10 +82,10 @@ class _MineSizePageState extends State<MineSizePage> {
     var item = _dataList[index];
     return Container(
       decoration: BoxDecoration(
-        border: item.dft
+        border: item.dft!
             ? Border(left: BorderSide(color: backRed, width: 3))
             : null,
-        color: item.dft ? Color(0xFFFFFCED) : backWhite,
+        color: item.dft! ? Color(0xFFFFFCED) : backWhite,
       ),
       padding: EdgeInsets.only(left: 10),
       child: Container(
@@ -142,7 +142,7 @@ class _MineSizePageState extends State<MineSizePage> {
     );
   }
 
-  _sex(num type) {
+  _sex(num? type) {
     if (type == 2) {
       return '女';
     } else if (type == 1) {
@@ -152,7 +152,7 @@ class _MineSizePageState extends State<MineSizePage> {
     }
   }
 
-  _reSize(num size) {
+  _reSize(num? size) {
     if (size == -1 || size == null) {
       return '--';
     }

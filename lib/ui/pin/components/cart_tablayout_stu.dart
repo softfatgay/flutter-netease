@@ -9,14 +9,14 @@ typedef void IndexChange(int index);
 typedef void ScrollPress(bool isScroll);
 
 class StuBuyTabLayout extends StatelessWidget {
-  final bool isTabScroll;
-  final List<TabModel> subCateList;
-  final IndexChange indexChange;
-  final ScrollPress scrollPress;
-  final TabController tabController;
+  final bool? isTabScroll;
+  final List<TabModel>? subCateList;
+  final IndexChange? indexChange;
+  final ScrollPress? scrollPress;
+  final TabController? tabController;
 
   const StuBuyTabLayout(
-      {Key key,
+      {Key? key,
       this.isTabScroll,
       this.subCateList,
       this.indexChange,
@@ -38,7 +38,7 @@ class StuBuyTabLayout extends StatelessWidget {
         color: backWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
       ),
-      child: isTabScroll
+      child: isTabScroll!
           ? Container(
               decoration: BoxDecoration(
                 color: backWhite,
@@ -78,7 +78,7 @@ class StuBuyTabLayout extends StatelessWidget {
                           ),
                           onTap: () {
                             if (scrollPress != null) {
-                              scrollPress(!isTabScroll);
+                              scrollPress!(!isTabScroll!);
                             }
                           },
                         )
@@ -122,12 +122,12 @@ class StuBuyTabLayout extends StatelessWidget {
                     bottom: 0,
                     width: 60,
                     child: GestureDetector(
-                      child: isTabScroll
+                      child: isTabScroll!
                           ? Icon(Icons.keyboard_arrow_up)
                           : Icon(Icons.keyboard_arrow_down),
                       onTap: () {
                         if (scrollPress != null) {
-                          scrollPress(!isTabScroll);
+                          scrollPress!(!isTabScroll!);
                         }
                       },
                     ),
@@ -143,7 +143,7 @@ class StuBuyTabLayout extends StatelessWidget {
       margin: EdgeInsets.only(right: 70),
       child: TabBar(
         controller: tabController,
-        tabs: subCateList
+        tabs: subCateList!
             .map(
               (f) => Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -151,13 +151,13 @@ class StuBuyTabLayout extends StatelessWidget {
                 alignment: Alignment.center,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                    color: subCateList[tabController.index].name == f.name
+                    color: subCateList![tabController!.index].name == f.name
                         ? backRed
                         : backWhite,
                     borderRadius: BorderRadius.circular(20)),
                 child: Text(
                   '${f.name}',
-                  style: subCateList[tabController.index].name == f.name
+                  style: subCateList![tabController!.index].name == f.name
                       ? t14white
                       : t14black,
                 ),
@@ -221,13 +221,13 @@ class StuBuyTabLayout extends StatelessWidget {
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
       childAspectRatio: 3.3,
-      children: subCateList
+      children: subCateList!
           .map(
             (e) => GestureDetector(
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: subCateList[tabController.index].id == e.id
+                  color: subCateList![tabController!.index].id == e.id
                       ? backRed
                       : backWhite,
                   borderRadius: BorderRadius.circular(30),
@@ -237,15 +237,15 @@ class StuBuyTabLayout extends StatelessWidget {
                   '${e.name}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: subCateList[tabController.index].id == e.id
+                  style: subCateList![tabController!.index].id == e.id
                       ? t14white
                       : t14black,
                 ),
               ),
               onTap: () {
                 if (indexChange != null) {
-                  scrollPress(!isTabScroll);
-                  indexChange(subCateList.indexOf(e));
+                  scrollPress!(!isTabScroll!);
+                  indexChange!(subCateList!.indexOf(e));
                 }
               },
             ),

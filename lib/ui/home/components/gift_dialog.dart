@@ -38,7 +38,7 @@ void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage('${newUserGift2.showPic}'),
+                      image: NetworkImage('${newUserGift2!.showPic}'),
                     ),
                   ),
                   child: Stack(
@@ -66,7 +66,7 @@ void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 250),
                         child: Text(
-                          '${Util.temFormat(newUserGift2.useExpireTime * 1000)}结束',
+                          '${Util.temFormat(newUserGift2.useExpireTime! * 1000 as int)}结束',
                           style: t16whiteblod,
                         ),
                       ),

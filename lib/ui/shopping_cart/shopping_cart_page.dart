@@ -27,9 +27,9 @@ import 'package:flutter_app/ui/component/webview_login_page.dart';
 import 'model/postageVO.dart';
 
 class ShoppingCartPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const ShoppingCartPage({Key key, this.params}) : super(key: key);
+  const ShoppingCartPage({Key? key, this.params}) : super(key: key);
 
   @override
   _ShoppingCartPageState createState() => _ShoppingCartPageState();
@@ -38,14 +38,14 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage>
     with AutomaticKeepAliveClientMixin {
   var _data; // 完整数据
-  ShoppingCartModel _shoppingCartModel;
+  late ShoppingCartModel _shoppingCartModel;
 
-  List<CarItem> _cartGroupList = []; // 有效的购物车组列表
+  List<CarItem>? _cartGroupList = []; // 有效的购物车组列表
   ///包邮条件
-  PostageVO _postageVO;
-  CarItem _topItem; // 顶部商品数据
-  List<CarItem> _itemList = []; // 显示的商品数据
-  List<CarItem> _invalidCartGroupList = []; // 无效的购物车组列表
+  PostageVO? _postageVO;
+  CarItem? _topItem; // 顶部商品数据
+  List<CarItem>? _itemList = []; // 显示的商品数据
+  List<CarItem>? _invalidCartGroupList = []; // 无效的购物车组列表
   double _price = 0; // 价格
   double _promotionPrice = 0; // 促销价
   double _actualPrice = 0; // 实际价格
@@ -75,7 +75,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    HosEventBusUtils.on((event) {
+    HosEventBusUtils.on((dynamic event) {
       if (event == REFRESH_CART) {
         _checkLogin();
       }
@@ -140,29 +140,29 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           double.parse(shoppingCartModel.promotionPrice.toString());
       _actualPrice = double.parse(shoppingCartModel.actualPrice.toString());
 
-      if (_cartGroupList.length > 0) {
-        _topItem = _cartGroupList[0];
-        if (_cartGroupList.length > 1) {
+      if (_cartGroupList!.length > 0) {
+        _topItem = _cartGroupList![0];
+        if (_cartGroupList!.length > 1) {
           _itemList = _cartGroupList;
           // _itemList.removeAt(0);
           _selectedNum = 0;
 
           ///获取选择的数量
-          _itemList.forEach((element) {
-            var cartItemList = element.cartItemList;
+          _itemList!.forEach((element) {
+            var cartItemList = element.cartItemList!;
             cartItemList.forEach((item) {
-              if (item.checked) {
-                _selectedNum += item.cnt;
+              if (item.checked!) {
+                _selectedNum += item.cnt as int;
               }
             });
           });
 
           ///判断是否全选
-          _itemList.forEach((element) {
-            var cartItemList = element.cartItemList;
+          _itemList!.forEach((element) {
+            var cartItemList = element.cartItemList!;
             cartItemList.forEach((item) {
               _isCheckedAll = true;
-              if (!item.checked) {
+              if (!item.checked!) {
                 _isCheckedAll = false;
                 return;
               }
@@ -187,7 +187,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 购物车  某个勾选框 选/不选 请求
-  _checkOne(int source, int type, int skuId, bool isChecked, var extId) async {
+  _checkOne(num source, num type, num skuId, bool isChecked, var extId) async {
     setState(() {
       _loading = true;
     });
@@ -206,7 +206,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 购物车  商品 选购数量变化 请求
-  _checkOneNum(int source, int type, int skuId, int cnt, var extId) async {
+  _checkOneNum(num source, num type, num skuId, num cnt, var extId) async {
     setState(() {
       _loading = true;
     });
@@ -276,8 +276,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   ///清除无效商品
   _clearInvalid() async {
     List invalidSku = [];
-    _invalidCartGroupList.forEach((item) {
-      var cartItemList = item.cartItemList;
+    _invalidCartGroupList!.forEach((item) {
+      var cartItemList = item.cartItemList!;
       cartItemList.forEach((element) {
         var map = {
           "type": element.type,
@@ -312,7 +312,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     return _isLogin ? _buildBody(argument, context) : _loginPage(context);
   }
 
-  _buildBody(Map<dynamic, dynamic> argument, BuildContext context) {
+  _buildBody(Map<dynamic, dynamic>? argument, BuildContext context) {
     return Scaffold(
       backgroundColor: backColor,
       appBar: AppBar(
@@ -375,8 +375,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   _buildData(BuildContext context) {
     return Positioned(
       child: (_data == null ||
-              _cartGroupList.isEmpty ||
-              _cartGroupList.length == 0)
+              _cartGroupList!.isEmpty ||
+              _cartGroupList!.length == 0)
           ? EmptyCartWidget()
           : MediaQuery.removePadding(
               removeTop: true,
@@ -406,7 +406,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _shoppingCartModel.postageVO.postageTip == null
+          _shoppingCartModel.postageVO!.postageTip == null
               ? ServerTagWidget()
               : GestureDetector(
                   child: Container(
@@ -418,18 +418,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                       children: [
                         Expanded(
                           child: Text(
-                            '${_postageVO == null ? '' : _postageVO.postageTip ?? ''}',
+                            '${_postageVO == null ? '' : _postageVO!.postageTip ?? ''}',
                             style: t14Orange,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        if (!_postageVO.postFree) arrowRightIcon
+                        if (!_postageVO!.postFree!) arrowRightIcon
                       ],
                     ),
                   ),
                   onTap: () {
-                    if (!_postageVO.postFree) {
+                    if (!_postageVO!.postFree!) {
                       Routers.push(Routers.cartItemPoolPage, context, {},
                           (value) {
                         _getData();
@@ -446,15 +446,15 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   _dataList() {
     return CartItemWidget(
       controller: _controller,
-      checkOne: (CarItem itemData, num source, num type, num skuId, bool check,
-          String extId) {
-        _checkOne(source, type, skuId, check, extId);
+      checkOne: (CarItem? itemData, num? source, num? type, num? skuId,
+          bool? check, String? extId) {
+        _checkOne(source!, type!, skuId!, check!, extId!);
       },
       deleteCheckItem: (bool check, CarItem itemData, CartItemListItem item) {
         _deleteCheckItem(check, itemData, item);
       },
-      numChange: (num source, num type, num skuId, num cnt, String extId) {
-        _checkOneNum(source, type, skuId, cnt, extId);
+      numChange: (num? source, num? type, num? skuId, num? cnt, String? extId) {
+        _checkOneNum(source!, type!, skuId!, cnt!, extId);
       },
       goRedeem: (CarItem itemData) {
         Routers.push(Routers.getCarsPage, context, {'data': itemData}, (value) {
@@ -488,7 +488,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   ///属性选择底部弹窗
-  _buildSizeModel(BuildContext context, num skuId, String extId, num type,
+  _buildSizeModel(BuildContext context, num? skuId, String? extId, num? type,
       GoodDetail item) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     return showModalBottomSheet(
@@ -688,7 +688,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     ///组装数据
     List cartGroupList = [];
 
-    _cartGroupList.forEach((cartGroupItem) {
+    _cartGroupList!.forEach((cartGroupItem) {
       List cartItemListData = [];
       List addBuyItemListData = [];
 
@@ -703,7 +703,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       var cartItemList = cartGroupItem.cartItemList;
       if (cartItemList != null && cartItemList.isNotEmpty) {
         cartItemList.forEach((cartItemListItem) {
-          if (cartItemListItem.checked) {
+          if (cartItemListItem.checked!) {
             var map = {
               'id':
                   '${cartItemListItem.source}_${cartItemListItem.skuId}_${cartItemListItem.preSellStatus}_${cartItemListItem.status}',
@@ -729,7 +729,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           var addBuyItemList = addBuyStepListItem.addBuyItemList;
           if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
             addBuyItemList.forEach((addBuyItemListItem) {
-              if (addBuyItemListItem.checked) {
+              if (addBuyItemListItem.checked!) {
                 var map = {
                   'id':
                       '${addBuyItemListItem.source}_${addBuyItemListItem.skuId}_${addBuyItemListItem.preSellStatus}_${addBuyItemListItem.status}',

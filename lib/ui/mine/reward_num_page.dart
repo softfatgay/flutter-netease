@@ -15,9 +15,9 @@ import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 
 class RewardNumPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const RewardNumPage({Key key, this.params}) : super(key: key);
+  const RewardNumPage({Key? key, this.params}) : super(key: key);
 
   @override
   _RewardNumPageState createState() => _RewardNumPageState();
@@ -26,7 +26,7 @@ class RewardNumPage extends StatefulWidget {
 class _RewardNumPageState extends State<RewardNumPage> {
   final _scrollController = new ScrollController();
 
-  int _page = 1;
+  int? _page = 1;
   int _size = 20;
 
   var _hasMore = false;
@@ -93,12 +93,12 @@ class _RewardNumPageState extends State<RewardNumPage> {
     return Scaffold(
         backgroundColor: backWhite,
         appBar: TopAppBar(
-          title: widget.params['id'] == 4 ? '津贴' : '余额',
+          title: widget.params!['id'] == 4 ? '津贴' : '余额',
         ).build(context),
         body: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            singleSliverWidget(widget.params['id'] == 4
+            singleSliverWidget(widget.params!['id'] == 4
                 ? _buildjintieTop(context)
                 : _buildBalanceTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
@@ -164,7 +164,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                   SizedBox(height: 10),
                   Center(
                     child: Text(
-                      '¥${widget.params['value']}',
+                      '¥${widget.params!['value']}',
                       style: t20whitebold,
                     ),
                   ),
@@ -184,7 +184,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     ),
                     onTap: () {
                       String url = '';
-                      if (widget.params['id'] == 4) {
+                      if (widget.params!['id'] == 4) {
                         url = '${NetContants.baseUrl}bonus/detail';
                       } else {
                         url = '${NetContants.baseUrl}reward/detail';
@@ -214,7 +214,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '¥${widget.params['value']}',
+                                  '¥${widget.params!['value']}',
                                   style: TextStyle(
                                       color: textWhite,
                                       fontWeight: FontWeight.bold,
@@ -245,7 +245,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '¥${widget.params['value']}',
+                                  '¥${widget.params!['value']}',
                                   style: TextStyle(
                                       color: textWhite,
                                       fontWeight: FontWeight.bold,
@@ -276,7 +276,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '¥${widget.params['value']}',
+                                  '¥${widget.params!['value']}',
                                   style: TextStyle(
                                       color: textWhite,
                                       fontWeight: FontWeight.bold,
@@ -389,7 +389,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                 ),
                               ),
                               Text(
-                                '${widget.params['value']}',
+                                '${widget.params!['value']}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 30,
@@ -419,7 +419,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                           ),
                           onTap: () {
                             String url = '';
-                            if (widget.params['id'] == 4) {
+                            if (widget.params!['id'] == 4) {
                               url = '${NetContants.baseUrl}bonus/detail';
                             } else {
                               url = '${NetContants.baseUrl}reward/detail';

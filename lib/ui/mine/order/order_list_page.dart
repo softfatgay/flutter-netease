@@ -10,9 +10,9 @@ import 'package:flutter_app/utils/local_storage.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 
 class OrderListPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const OrderListPage({Key key, this.params}) : super(key: key);
+  const OrderListPage({Key? key, this.params}) : super(key: key);
 
   @override
   _OrderListPageState createState() => _OrderListPageState();
@@ -20,9 +20,9 @@ class OrderListPage extends StatefulWidget {
 
 class _OrderListPageState extends State<OrderListPage>
     with TickerProviderStateMixin {
-  TabController _mController;
+  TabController? _mController;
 
-  NoticeListModel _noticeListModel;
+  NoticeListModel? _noticeListModel;
 
   var _tabItem = [
     {
@@ -47,26 +47,26 @@ class _OrderListPageState extends State<OrderListPage>
     }
   ];
 
-  int _activeIndex = 0;
+  int? _activeIndex = 0;
 
   @override
   void initState() {
     // TODO: implement initState
-    if (widget.params['tab'] != null) {
+    if (widget.params!['tab'] != null) {
       setState(() {
-        _activeIndex = widget.params['tab'];
+        _activeIndex = widget.params!['tab'];
       });
     }
     super.initState();
     _mController = TabController(
-        length: _tabItem.length, vsync: this, initialIndex: _activeIndex);
+        length: _tabItem.length, vsync: this, initialIndex: _activeIndex!);
 
     _getNotice();
   }
 
   @override
   Widget build(BuildContext context) {
-    var title = _tabItem.map<String>((e) => e["name"]).toList();
+    var title = _tabItem.map<String?>((e) => e["name"] as String?).toList();
     return Scaffold(
       backgroundColor: backColor,
       appBar: TabAppBar(
@@ -83,7 +83,7 @@ class _OrderListPageState extends State<OrderListPage>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _mController.dispose();
+    _mController!.dispose();
   }
 
   _buildBody(BuildContext context) {
@@ -124,7 +124,7 @@ class _OrderListPageState extends State<OrderListPage>
             ),
             Expanded(
               child: Text(
-                '${_noticeListModel.content}',
+                '${_noticeListModel!.content}',
                 style: t14Orange,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -134,17 +134,17 @@ class _OrderListPageState extends State<OrderListPage>
         ),
       ),
       onTap: () {
-        Routers.push(
-            Routers.webView, context, {'url': '${_noticeListModel.targetUrl}'});
+        Routers.push(Routers.webView, context,
+            {'url': '${_noticeListModel!.targetUrl}'});
       },
     );
   }
 
   void _getNotice() async {
     var sp = await LocalStorage.sp;
-    var object = sp.get(LocalStorage.noticeList);
+    var object = sp!.get(LocalStorage.noticeList);
     if (object != null) {
-      List decode = json.decode(object);
+      List? decode = json.decode(object as String);
       if (decode != null && decode.isNotEmpty) {
         for (var element in decode) {
           if (element['type'] == 2) {

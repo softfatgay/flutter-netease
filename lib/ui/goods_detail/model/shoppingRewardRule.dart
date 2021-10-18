@@ -5,8 +5,8 @@ part 'shoppingRewardRule.g.dart';
 
 @JsonSerializable()
 class ShoppingRewardRule {
-  String title;
-  List<PolicyListItem> ruleList;
+  String? title;
+  List<PolicyListItem>? ruleList;
 
   ShoppingRewardRule();
 
@@ -16,8 +16,8 @@ class ShoppingRewardRule {
 
 @JsonSerializable()
 class RuleListItem {
-  String title;
-  String content;
+  String? title;
+  String? content;
 
   RuleListItem();
 

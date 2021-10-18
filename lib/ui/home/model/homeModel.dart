@@ -14,18 +14,18 @@ part 'homeModel.g.dart';
 
 @JsonSerializable()
 class HomeModel {
-  BigPromotionModule bigPromotionModule;
-  List<TagItem> tagList;
-  List<PolicyDescItem> policyDescList;
-  CategoryHotSellModule categoryHotSellModule;
-  bool freshmanFlag;
-  List<FocusItem> focusList;
-  List<SceneLightShoppingGuideModule> sceneLightShoppingGuideModule;
+  BigPromotionModule? bigPromotionModule;
+  List<TagItem>? tagList;
+  List<PolicyDescItem>? policyDescList;
+  CategoryHotSellModule? categoryHotSellModule;
+  bool? freshmanFlag;
+  List<FocusItem>? focusList;
+  List<SceneLightShoppingGuideModule>? sceneLightShoppingGuideModule;
 
-  KingKongModule kingKongModule;
-  List<IndexActivityModule> indexActivityModule;
-  List<NewItemModel> newItemList;
-  FlashSaleModule flashSaleModule;
+  KingKongModule? kingKongModule;
+  List<IndexActivityModule>? indexActivityModule;
+  List<NewItemModel>? newItemList;
+  FlashSaleModule? flashSaleModule;
 
   HomeModel();
 

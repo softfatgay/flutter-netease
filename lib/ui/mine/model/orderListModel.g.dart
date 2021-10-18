@@ -6,16 +6,13 @@ part of 'orderListModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrderListModel _$OrderListModelFromJson(Map<String, dynamic> json) {
-  return OrderListModel()
-    ..nextHasMore = json['nextHasMore'] as bool
-    ..lastOrderId = json['lastOrderId'] as num
-    ..list = (json['list'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrderListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+OrderListModel _$OrderListModelFromJson(Map<String, dynamic> json) =>
+    OrderListModel()
+      ..nextHasMore = json['nextHasMore'] as bool?
+      ..lastOrderId = json['lastOrderId'] as num?
+      ..list = (json['list'] as List<dynamic>?)
+          ?.map((e) => OrderListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$OrderListModelToJson(OrderListModel instance) =>
     <String, dynamic>{
@@ -24,45 +21,42 @@ Map<String, dynamic> _$OrderListModelToJson(OrderListModel instance) =>
       'list': instance.list,
     };
 
-OrderListItem _$OrderListItemFromJson(Map<String, dynamic> json) {
-  return OrderListItem()
-    ..no = json['no'] as String
-    ..typeDesc = json['typeDesc'] as String
-    ..actualPrice = json['actualPrice'] as num
-    ..freightPrice = json['freightPrice'] as num
-    ..freshBargainOrderCancelDialogTip =
-        json['freshBargainOrderCancelDialogTip'] as String
-    ..orderType = json['orderType'] as num
-    ..cancelStatus = json['cancelStatus'] as num
-    ..invoiceFinishStep = json['invoiceFinishStep'] as num
-    ..source = json['source'] as num
-    ..subOrderId = json['subOrderId'] as num
-    ..id = json['id'] as num
-    ..orderStepId = json['orderStepId'] as num
-    ..remainTime = json['remainTime'] as num
-    ..createTime = json['createTime'] as num
-    ..depositType = json['depositType'] as num
-    ..invoiceCreateTime = json['invoiceCreateTime'] as num
-    ..hasFreshBargain = json['hasFreshBargain'] as bool
-    ..moneySavingCardOrder = json['moneySavingCardOrder'] as bool
-    ..cancelOption = json['cancelOption'] as bool
-    ..bargainFlag = json['bargainFlag'] as bool
-    ..pointsOrderFlag = json['pointsOrderFlag'] as bool
-    ..exchangeFlag = json['exchangeFlag'] as bool
-    ..deleteOption = json['deleteOption'] as bool
-    ..hasSpmc = json['hasSpmc'] as bool
-    ..crowdfundingFlag = json['crowdfundingFlag'] as bool
-    ..returnRecordOption = json['returnRecordOption'] as bool
-    ..orderCancelStepOption = json['orderCancelStepOption'] as bool
-    ..payOption = json['payOption'] as bool
-    ..addrUpdateFlag = json['addrUpdateFlag'] as bool
-    ..cancelPayedOption = json['cancelPayedOption'] as bool
-    ..packageList = (json['packageList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PackageListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+OrderListItem _$OrderListItemFromJson(Map<String, dynamic> json) =>
+    OrderListItem()
+      ..no = json['no'] as String?
+      ..typeDesc = json['typeDesc'] as String?
+      ..actualPrice = json['actualPrice'] as num?
+      ..freightPrice = json['freightPrice'] as num?
+      ..freshBargainOrderCancelDialogTip =
+          json['freshBargainOrderCancelDialogTip'] as String?
+      ..orderType = json['orderType'] as num?
+      ..cancelStatus = json['cancelStatus'] as num?
+      ..invoiceFinishStep = json['invoiceFinishStep'] as num?
+      ..source = json['source'] as num?
+      ..subOrderId = json['subOrderId'] as num?
+      ..id = json['id'] as num?
+      ..orderStepId = json['orderStepId'] as num?
+      ..remainTime = json['remainTime'] as num?
+      ..createTime = json['createTime'] as num?
+      ..depositType = json['depositType'] as num?
+      ..invoiceCreateTime = json['invoiceCreateTime'] as num?
+      ..hasFreshBargain = json['hasFreshBargain'] as bool?
+      ..moneySavingCardOrder = json['moneySavingCardOrder'] as bool?
+      ..cancelOption = json['cancelOption'] as bool?
+      ..bargainFlag = json['bargainFlag'] as bool?
+      ..pointsOrderFlag = json['pointsOrderFlag'] as bool?
+      ..exchangeFlag = json['exchangeFlag'] as bool?
+      ..deleteOption = json['deleteOption'] as bool?
+      ..hasSpmc = json['hasSpmc'] as bool?
+      ..crowdfundingFlag = json['crowdfundingFlag'] as bool?
+      ..returnRecordOption = json['returnRecordOption'] as bool?
+      ..orderCancelStepOption = json['orderCancelStepOption'] as bool?
+      ..payOption = json['payOption'] as bool?
+      ..addrUpdateFlag = json['addrUpdateFlag'] as bool?
+      ..cancelPayedOption = json['cancelPayedOption'] as bool?
+      ..packageList = (json['packageList'] as List<dynamic>?)
+          ?.map((e) => PackageListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$OrderListItemToJson(OrderListItem instance) =>
     <String, dynamic>{
@@ -100,32 +94,32 @@ Map<String, dynamic> _$OrderListItemToJson(OrderListItem instance) =>
       'packageList': instance.packageList,
     };
 
-PackageListItem _$PackageListItemFromJson(Map<String, dynamic> json) {
-  return PackageListItem()
-    ..isPreSell = json['isPreSell'] as bool
-    ..returnOption = json['returnOption'] as bool
-    ..specDesc = json['specDesc'] as String
-    ..count = json['count'] as num
-    ..saleGiftCardFlag = json['saleGiftCardFlag'] as bool
-    ..virtualFlag = json['virtualFlag'] as bool
-    ..preSellPrice = json['preSellPrice'] as num
-    ..commentOption = json['commentOption'] as bool
-    ..itemId = json['itemId'] as num
-    ..sequence = json['sequence'] as num
-    ..serviceProcessOption = json['serviceProcessOption'] as bool
-    ..rebateOption = json['rebateOption'] as bool
-    ..name = json['name'] as String
-    ..addrUpdateFlag = json['addrUpdateFlag'] as bool
-    ..orderCartItemId = json['orderCartItemId'] as num
-    ..id = json['id'] as num
-    ..commentBtnStatus = json['commentBtnStatus'] as num
-    ..confirmOption = json['confirmOption'] as bool
-    ..deliveryOption = json['deliveryOption'] as bool
-    ..skuId = json['skuId'] as num
-    ..status = json['status'] as num
-    ..picUrlList =
-        (json['picUrlList'] as List)?.map((e) => e as String)?.toList();
-}
+PackageListItem _$PackageListItemFromJson(Map<String, dynamic> json) =>
+    PackageListItem()
+      ..isPreSell = json['isPreSell'] as bool?
+      ..returnOption = json['returnOption'] as bool?
+      ..specDesc = json['specDesc'] as String?
+      ..count = json['count'] as num?
+      ..saleGiftCardFlag = json['saleGiftCardFlag'] as bool?
+      ..virtualFlag = json['virtualFlag'] as bool?
+      ..preSellPrice = json['preSellPrice'] as num?
+      ..commentOption = json['commentOption'] as bool?
+      ..itemId = json['itemId'] as num?
+      ..sequence = json['sequence'] as num?
+      ..serviceProcessOption = json['serviceProcessOption'] as bool?
+      ..rebateOption = json['rebateOption'] as bool?
+      ..name = json['name'] as String?
+      ..addrUpdateFlag = json['addrUpdateFlag'] as bool?
+      ..orderCartItemId = json['orderCartItemId'] as num?
+      ..id = json['id'] as num?
+      ..commentBtnStatus = json['commentBtnStatus'] as num?
+      ..confirmOption = json['confirmOption'] as bool?
+      ..deliveryOption = json['deliveryOption'] as bool?
+      ..skuId = json['skuId'] as num?
+      ..status = json['status'] as num?
+      ..picUrlList = (json['picUrlList'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList();
 
 Map<String, dynamic> _$PackageListItemToJson(PackageListItem instance) =>
     <String, dynamic>{

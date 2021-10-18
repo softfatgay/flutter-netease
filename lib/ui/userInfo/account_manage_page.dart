@@ -52,7 +52,7 @@ class _AccountManagePageState extends State<AccountManagePage> {
   }
 
   _buildItems() {
-    return _accountMGModel.alias
+    return _accountMGModel.alias!
         .map<Widget>((item) => GestureDetector(
               child: Container(
                 color: Colors.white,
@@ -88,7 +88,7 @@ class _AccountManagePageState extends State<AccountManagePage> {
                           margin: EdgeInsets.only(right: 15),
                           alignment: Alignment.centerRight,
                           child: Text(
-                            '${item.mobile == null || item.mobile.isEmpty ? item.alias : item.mobile}',
+                            '${item.mobile == null || item.mobile!.isEmpty ? item.alias : item.mobile}',
                             style: t14black,
                           ),
                         ),
@@ -102,7 +102,7 @@ class _AccountManagePageState extends State<AccountManagePage> {
                 ),
               ),
               onTap: () {
-                if (item.mobile != null && item.mobile.isNotEmpty) {
+                if (item.mobile != null && item.mobile!.isNotEmpty) {
                   Routers.push(Routers.webView, context, {
                     'url':
                         '${NetContants.baseUrl}user/securityCenter/updateMobile'
@@ -153,7 +153,7 @@ class _AccountManagePageState extends State<AccountManagePage> {
   }
 
   _changeAccount(AliasItem item) {
-    if (item.mobile != null && item.mobile.isNotEmpty) {
+    if (item.mobile != null && item.mobile!.isNotEmpty) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

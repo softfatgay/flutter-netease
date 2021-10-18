@@ -13,9 +13,9 @@ import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/check_box.dart';
 
 class AddNewSize extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const AddNewSize({Key key, this.params}) : super(key: key);
+  const AddNewSize({Key? key, this.params}) : super(key: key);
 
   @override
   _AddNewSizeState createState() => _AddNewSizeState();
@@ -33,8 +33,8 @@ class _AddNewSizeState extends State<AddNewSize> {
   final _tController9 = TextEditingController();
   final _tController10 = TextEditingController();
 
-  int _sex = 1;
-  bool _setDft = false;
+  int? _sex = 1;
+  bool? _setDft = false;
 
   String _womenImg =
       'https://yanxuan.nosdn.127.net/fd85e883e204e0debc8722e14a8f824f.png';
@@ -43,7 +43,7 @@ class _AddNewSizeState extends State<AddNewSize> {
 
   String _sizeImg = '';
 
-  num _id;
+  num? _id;
 
   SizeItemModel _sizeItemModel = SizeItemModel();
 
@@ -53,7 +53,7 @@ class _AddNewSizeState extends State<AddNewSize> {
     setState(() {
       _sizeImg = _manImg;
       if (widget.params != null) {
-        _id = widget.params['id'];
+        _id = widget.params!['id'];
         print(_id);
         _querySizeId(_id);
       }
@@ -61,14 +61,14 @@ class _AddNewSizeState extends State<AddNewSize> {
     super.initState();
   }
 
-  _querySizeId(num id) async {
+  _querySizeId(num? id) async {
     Map<String, dynamic> params = {'id': id};
     var responseData = await querySizeId(params);
     if (responseData.code == '200') {
       setState(() {
         _sizeItemModel = SizeItemModel.fromJson(responseData.data);
         setState(() {
-          _tController1.text = _sizeItemModel.roleName;
+          _tController1.text = _sizeItemModel.roleName!;
           _tController2.text = _setSize(_sizeItemModel.height);
           _tController3.text = _setSize(_sizeItemModel.bodyWeight);
           _tController4.text = _setSize(_sizeItemModel.shoulderBreadth);
@@ -79,7 +79,7 @@ class _AddNewSizeState extends State<AddNewSize> {
           _tController9.text = _setSize(_sizeItemModel.footCircumference);
           _tController10.text = _setSize(_sizeItemModel.underBust);
           _setDft = _sizeItemModel.dft;
-          _sex = _sizeItemModel.gender;
+          _sex = _sizeItemModel.gender as int?;
           if (_sex == 2) {
             _sizeImg = _womenImg;
           }
@@ -289,7 +289,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   }
 
   _buildContent(String lTitle, TextEditingController lController, String rTitle,
-      TextEditingController rController) {
+      TextEditingController? rController) {
     return Container(
       child: Row(
         children: [
@@ -320,7 +320,7 @@ class _AddNewSizeState extends State<AddNewSize> {
             check: _setDft,
             onPress: () {
               setState(() {
-                _setDft = !_setDft;
+                _setDft = !_setDft!;
               });
             },
           ),
@@ -338,7 +338,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   void _saveSize() async {
     var params = {
       'csrf_token': csrf_token,
-      'dft': _setDft ? 1 : _setDft,
+      'dft': _setDft! ? 1 : _setDft,
       'roleName': _submitSize(_tController1),
       'gender': _sex,
       'underBust': _submitSize(_tController10),
@@ -375,7 +375,7 @@ class _AddNewSizeState extends State<AddNewSize> {
     }
   }
 
-  _setSize(num value) {
+  _setSize(num? value) {
     if (value == -1) {
       return '';
     } else {

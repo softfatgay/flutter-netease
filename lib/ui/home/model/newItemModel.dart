@@ -5,11 +5,11 @@ part 'newItemModel.g.dart';
 
 @JsonSerializable()
 class NewItemModel {
-  String scenePicUrl;
-  String simpleDesc;
-  num retailPrice;
-  List<NewItemTagModel> itemTagList;
-  int id;
+  String? scenePicUrl;
+  String? simpleDesc;
+  num? retailPrice;
+  List<NewItemTagModel>? itemTagList;
+  int? id;
 
   NewItemModel();
 

@@ -50,39 +50,39 @@ class _HomeState extends State<HomePage>
   bool _isLoading = true;
 
   ///banner数据
-  List<FocusItem> _focusList;
+  List<FocusItem>? _focusList;
 
   ///banner下面tag
-  List<PolicyDescItem> _policyDescList;
+  List<PolicyDescItem>? _policyDescList;
 
   ///kingkong
-  List<KingKongItem> _kingKongList;
+  List<KingKongItem>? _kingKongList;
 
   ///活动大图
-  List<FloorItem> _floorList;
+  List<FloorItem>? _floorList;
 
   ///新人礼包
-  List<IndexActivityModule> _indexActivityModule;
+  List<IndexActivityModule>? _indexActivityModule;
 
   ///类目热销榜
-  CategoryHotSellModule _categoryHotSellModule;
+  CategoryHotSellModule? _categoryHotSellModule;
 
-  List<Category> _categoryList;
+  List<Category>? _categoryList;
 
   ///限时购
-  FlashSaleModule _flashSaleModule;
-  List<FlashSaleModuleItem> _flashSaleModuleItemList;
+  FlashSaleModule? _flashSaleModule;
+  List<FlashSaleModuleItem>? _flashSaleModuleItemList;
 
   ///新品首发
-  List<NewItemModel> _newItemList;
+  List<NewItemModel>? _newItemList;
 
   ///底部数据
-  List<SceneLightShoppingGuideModule> _sceneLightShoppingGuideModule;
+  List<SceneLightShoppingGuideModule>? _sceneLightShoppingGuideModule;
 
   //动画控制器
-  AnimationController _animalController;
+  late AnimationController _animalController;
 
-  num _totalNum = 0;
+  num? _totalNum = 0;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _HomeState extends State<HomePage>
         _totalNum = responseData.data;
       });
       var sp = await LocalStorage.sp;
-      sp.setInt(LocalStorage.totalNum, responseData.data);
+      sp!.setInt(LocalStorage.totalNum, responseData.data);
     }
   }
 
@@ -131,9 +131,9 @@ class _HomeState extends State<HomePage>
         var sp = await LocalStorage.sp;
         var noticeList = data['noticeList'];
         if (noticeList != null && noticeList.isNotEmpty) {
-          sp.setString(LocalStorage.noticeList, json.encode(noticeList));
+          sp!.setString(LocalStorage.noticeList, json.encode(noticeList));
         } else {
-          sp.remove(LocalStorage.noticeList);
+          sp!.remove(LocalStorage.noticeList);
         }
       } catch (e) {}
     }
@@ -143,20 +143,20 @@ class _HomeState extends State<HomePage>
     setState(() {
       _focusList = homeModel.focusList;
       _policyDescList = homeModel.policyDescList;
-      _kingKongList = homeModel.kingKongModule.kingKongList;
+      _kingKongList = homeModel.kingKongModule!.kingKongList;
       if (homeModel.bigPromotionModule != null) {
-        _floorList = homeModel.bigPromotionModule.floorList;
+        _floorList = homeModel.bigPromotionModule!.floorList;
       } else {
         _floorList = [];
       }
       _indexActivityModule = homeModel.indexActivityModule;
       _categoryHotSellModule = homeModel.categoryHotSellModule;
       if (_categoryHotSellModule != null) {
-        _categoryList = _categoryHotSellModule.categoryList;
+        _categoryList = _categoryHotSellModule!.categoryList;
       }
       _flashSaleModule = homeModel.flashSaleModule;
       if (_flashSaleModule != null) {
-        _flashSaleModuleItemList = _flashSaleModule.itemList;
+        _flashSaleModuleItemList = _flashSaleModule!.itemList;
       }
       _newItemList = homeModel.newItemList;
       _sceneLightShoppingGuideModule = homeModel.sceneLightShoppingGuideModule;
@@ -233,7 +233,7 @@ class _HomeState extends State<HomePage>
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5), color: backWhite),
         child: CarouselSlider(
-          items: _focusList.map<Widget>((e) {
+          items: _focusList!.map<Widget>((e) {
             return GestureDetector(
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
@@ -271,7 +271,7 @@ class _HomeState extends State<HomePage>
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _policyDescList
+          children: _policyDescList!
               .map((item) => Container(
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
@@ -280,10 +280,10 @@ class _HomeState extends State<HomePage>
                         CachedNetworkImage(
                           width: 20,
                           height: 20,
-                          imageUrl: item.icon,
+                          imageUrl: item.icon!,
                         ),
                         Text(
-                          item.desc,
+                          item.desc!,
                           style: t12black,
                         )
                       ],
@@ -311,7 +311,7 @@ class _HomeState extends State<HomePage>
                   child: Container(
                     padding: EdgeInsets.all(5),
                     child: CachedNetworkImage(
-                      imageUrl: _kingKongList[index].picUrl ?? "",
+                      imageUrl: _kingKongList![index].picUrl ?? "",
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -326,7 +326,7 @@ class _HomeState extends State<HomePage>
                       color: Colors.white,
                       child: Center(
                         child: Text(
-                          _kingKongList[index].text ?? "",
+                          _kingKongList![index].text ?? "",
                           style: t12black,
                         ),
                       ),
@@ -335,16 +335,16 @@ class _HomeState extends State<HomePage>
             ),
           );
           return Routers.link(widget, Routers.kingKong, context,
-              {"schemeUrl": _kingKongList[index].schemeUrl});
+              {"schemeUrl": _kingKongList![index].schemeUrl});
         },
-        childCount: _kingKongList == null ? 0 : _kingKongList.length,
+        childCount: _kingKongList == null ? 0 : _kingKongList!.length,
       ),
     );
   }
 
   _bigPromotion(BuildContext context) {
     return singleSliverWidget(Column(
-      children: _floorList
+      children: _floorList!
           .map(
             (item) => Container(
               width: double.infinity,
@@ -358,13 +358,13 @@ class _HomeState extends State<HomePage>
   }
 
   _huoDong(FloorItem item) {
-    if (item.cells != null && item.cells.length > 1) {
+    if (item.cells != null && item.cells!.length > 1) {
       return Container(
         width: double.infinity,
         constraints: BoxConstraints(maxHeight: 170),
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
-          children: item.cells.map((e) {
+          children: item.cells!.map((e) {
             return Expanded(
               flex: 1,
               child: Container(
@@ -372,7 +372,7 @@ class _HomeState extends State<HomePage>
                 padding: EdgeInsets.symmetric(horizontal: 2),
                 child: GestureDetector(
                   child: CachedNetworkImage(
-                    imageUrl: item.cells.length > 1 ? e.picUrl : e.picUrl,
+                    imageUrl: item.cells!.length > 1 ? e.picUrl! : e.picUrl!,
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
@@ -385,17 +385,17 @@ class _HomeState extends State<HomePage>
           }).toList(),
         ),
       );
-    } else if (item.cells != null && item.cells.isNotEmpty) {
+    } else if (item.cells != null && item.cells!.isNotEmpty) {
       return Container(
         width: double.infinity,
         child: GestureDetector(
           child: CachedNetworkImage(
-            imageUrl: item.cells[0].picUrl,
+            imageUrl: item.cells![0].picUrl!,
             fit: BoxFit.cover,
           ),
           onTap: () {
             Routers.push(
-                Routers.webView, context, {'url': item.cells[0].schemeUrl});
+                Routers.webView, context, {'url': item.cells![0].schemeUrl});
           },
         ),
       );
@@ -462,7 +462,7 @@ class _HomeState extends State<HomePage>
               child: Container(
                   height: 200,
                   child: Column(
-                      children: _indexActivityModule.map((item) {
+                      children: _indexActivityModule!.map((item) {
                     return GestureDetector(
                       child: Stack(
                         children: [
@@ -474,7 +474,7 @@ class _HomeState extends State<HomePage>
                             child: CachedNetworkImage(
                               alignment: Alignment.bottomRight,
                               fit: BoxFit.fitHeight,
-                              imageUrl: item.showPicUrl,
+                              imageUrl: item.showPicUrl!,
                             ),
                           ),
                           Container(
@@ -483,7 +483,7 @@ class _HomeState extends State<HomePage>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item.title,
+                                  item.title!,
                                   style: t14blackBold,
                                 ),
                                 SizedBox(
@@ -492,8 +492,8 @@ class _HomeState extends State<HomePage>
                                 Container(
                                   child: Text(
                                     item.subTitle == ""
-                                        ? item.tag
-                                        : item.subTitle,
+                                        ? item.tag!
+                                        : item.subTitle!,
                                     style: t12grey,
                                   ),
                                 )
@@ -503,7 +503,7 @@ class _HomeState extends State<HomePage>
                         ],
                       ),
                       onTap: () {
-                        if (item.targetUrl.contains('pin/item/list')) {
+                        if (item.targetUrl!.contains('pin/item/list')) {
                           Routers.push(Routers.mineItems, context, {'id': 2});
                         } else {
                           _goWebview(item.targetUrl);
@@ -535,7 +535,7 @@ class _HomeState extends State<HomePage>
             Container(
               padding: EdgeInsets.fromLTRB(0, 5, 12, 12),
               child: Text(
-                _categoryHotSellModule.title,
+                _categoryHotSellModule!.title!,
                 style: t14black,
               ),
             ),
@@ -574,7 +574,7 @@ class _HomeState extends State<HomePage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _categoryList[index].categoryName,
+                      _categoryList![index].categoryName!,
                       style: t12blackBold,
                     ),
                     Container(
@@ -589,7 +589,7 @@ class _HomeState extends State<HomePage>
               ),
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: _categoryList[index].picUrl,
+                  imageUrl: _categoryList![index].picUrl!,
                 ),
                 flex: 3,
               ),
@@ -603,10 +603,10 @@ class _HomeState extends State<HomePage>
   _categoryHotSellItem(BuildContext context) {
     if (_categoryHotSellModule == null ||
         _categoryList == null ||
-        _categoryList.length < 2) {
+        _categoryList!.length < 2) {
       return singleSliverWidget(Container());
     }
-    var sublist = _categoryList.sublist(2, _categoryList.length);
+    var sublist = _categoryList!.sublist(2, _categoryList!.length);
     return SliverPadding(
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
       sliver: SliverGrid(
@@ -629,7 +629,7 @@ class _HomeState extends State<HomePage>
                         color: Color(0xFFF2F2F2),
                         child: Center(
                           child: Text(
-                            sublist[index].categoryName,
+                            sublist[index].categoryName!,
                             style: TextStyle(
                                 color: textBlack,
                                 fontSize: 12,
@@ -643,7 +643,7 @@ class _HomeState extends State<HomePage>
                         color: Color(0xFFF2F2F2),
                         child: Center(
                           child: CachedNetworkImage(
-                            imageUrl: sublist[index].picUrl,
+                            imageUrl: sublist[index].picUrl!,
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -660,11 +660,11 @@ class _HomeState extends State<HomePage>
 
   void _goHotList(int index, BuildContext context) {
     String categoryId = '0';
-    var categoryList = _categoryList[index];
+    var categoryList = _categoryList![index];
     var targetUrl = categoryList.targetUrl;
     if (categoryList.targetUrl != null &&
-        categoryList.targetUrl.contains('categoryId=')) {
-      var split = targetUrl.split("categoryId=");
+        categoryList.targetUrl!.contains('categoryId=')) {
+      var split = targetUrl!.split("categoryId=");
       if (split != null && split.isNotEmpty && split.length > 1) {
         categoryId = split[1];
       }
@@ -676,7 +676,7 @@ class _HomeState extends State<HomePage>
   _normalTitle(BuildContext context, String title) {
     if (_flashSaleModule == null && title == '限时购') {
       return singleSliverWidget(Container());
-    } else if ((_newItemList == null || _newItemList.isEmpty) &&
+    } else if ((_newItemList == null || _newItemList!.isEmpty) &&
         title == '新品首发') {
       return singleSliverWidget(Container());
     }
@@ -701,7 +701,7 @@ class _HomeState extends State<HomePage>
   }
 
   _flashSaleItem(BuildContext context) {
-    if (_flashSaleModuleItemList == null || _flashSaleModuleItemList.isEmpty) {
+    if (_flashSaleModuleItemList == null || _flashSaleModuleItemList!.isEmpty) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
@@ -720,7 +720,7 @@ class _HomeState extends State<HomePage>
                   color: Colors.white,
                   child: Center(
                     child: CachedNetworkImage(
-                      imageUrl: _flashSaleModuleItemList[index].picUrl,
+                      imageUrl: _flashSaleModuleItemList![index].picUrl!,
                     ),
                   ),
                 ),
@@ -731,14 +731,14 @@ class _HomeState extends State<HomePage>
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "¥${_flashSaleModuleItemList[index].activityPrice}",
+                        "¥${_flashSaleModuleItemList![index].activityPrice}",
                         style: t14red,
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
-                        "¥${_flashSaleModuleItemList[index].originPrice}",
+                        "¥${_flashSaleModuleItemList![index].originPrice}",
                         style: TextStyle(
                           fontSize: 12,
                           color: textGrey,
@@ -751,16 +751,16 @@ class _HomeState extends State<HomePage>
               ],
             );
             return Routers.link(widget, Routers.goodDetail, context,
-                {'id': _flashSaleModuleItemList[index].itemId});
+                {'id': _flashSaleModuleItemList![index].itemId});
           },
-          childCount: _flashSaleModuleItemList.length,
+          childCount: _flashSaleModuleItemList!.length,
         ),
       ),
     );
   }
 
   _newModulItem(BuildContext context) {
-    if (_newItemList == null || _newItemList.isEmpty) {
+    if (_newItemList == null || _newItemList!.isEmpty) {
       return singleSliverWidget(Container());
     }
     return SliverPadding(
@@ -773,7 +773,7 @@ class _HomeState extends State<HomePage>
               childAspectRatio: 0.58),
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              var item = _newItemList[index];
+              var item = _newItemList![index];
               Widget widget = Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -783,7 +783,7 @@ class _HomeState extends State<HomePage>
                       child: Container(
                         child: CachedNetworkImage(
                           height: 210,
-                          imageUrl: item.scenePicUrl,
+                          imageUrl: item.scenePicUrl!,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -812,7 +812,7 @@ class _HomeState extends State<HomePage>
               return Routers.link(
                   widget, Routers.goodDetail, context, {'id': item.id});
             },
-            childCount: _newItemList.length > 6 ? 6 : _newItemList.length,
+            childCount: _newItemList!.length > 6 ? 6 : _newItemList!.length,
           ),
         ));
   }
@@ -827,7 +827,7 @@ class _HomeState extends State<HomePage>
             borderRadius: BorderRadius.all(Radius.circular(15)),
             border: Border.all(width: 0.5, color: redColor)),
         child: Text(
-          itemD.name,
+          itemD.name!,
           style: t12red,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -839,7 +839,7 @@ class _HomeState extends State<HomePage>
   }
 
   _bottomView(BuildContext context) {
-    List<SceneLightShoppingGuideModule> _sceneModule =
+    List<SceneLightShoppingGuideModule>? _sceneModule =
         _sceneLightShoppingGuideModule;
     if (_sceneModule == null || _sceneModule.isEmpty) {
       return singleSliverWidget(Container());
@@ -852,7 +852,7 @@ class _HomeState extends State<HomePage>
             flex: 1,
             child: GestureDetector(
               onTap: () {
-                _goWebview(item.styleItem.targetUrl);
+                _goWebview(item.styleItem!.targetUrl);
               },
               child: Container(
                 color: Color(0xFFF2F2F2),
@@ -867,14 +867,14 @@ class _HomeState extends State<HomePage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item.styleItem.title,
+                            item.styleItem!.title!,
                             style: t14blackBold,
                           ),
                           SizedBox(
                             height: 2,
                           ),
                           Text(
-                            item.styleItem.desc,
+                            item.styleItem!.desc!,
                             style: _sceneModule.indexOf(item) % 2 == 1
                                 ? t12warmingRed
                                 : t12violet,
@@ -889,11 +889,11 @@ class _HomeState extends State<HomePage>
                         children: [
                           Expanded(
                               child: CachedNetworkImage(
-                            imageUrl: item.styleItem.picUrlList[0] ?? '',
+                            imageUrl: item.styleItem!.picUrlList![0] ?? '',
                           )),
                           Expanded(
                               child: CachedNetworkImage(
-                            imageUrl: item.styleItem.picUrlList[1] ?? '',
+                            imageUrl: item.styleItem!.picUrlList![1] ?? '',
                           )),
                         ],
                       ),
@@ -909,7 +909,7 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _goWebview(String url) {
+  _goWebview(String? url) {
     Routers.push(Routers.webView, context, {'url': url});
   }
 
@@ -929,7 +929,7 @@ class _HomeState extends State<HomePage>
   List<ItemListItem> _rcmDataList = [];
   var _pagination;
   bool _hasMore = true;
-  int _page = 1;
+  int? _page = 1;
   int _size = 10;
 
   void _getRcmd() async {

@@ -8,15 +8,15 @@ typedef void ConfirmClick();
 typedef void CancelClick();
 
 class PricePopWidget extends StatelessWidget {
-  final TextEditingController lowPriceController;
-  final SortClick sortClick;
-  final ConfirmClick confirmClick;
-  final CancelClick cancelClick;
-  final TextEditingController upPriceController;
+  final TextEditingController? lowPriceController;
+  final SortClick? sortClick;
+  final ConfirmClick? confirmClick;
+  final CancelClick? cancelClick;
+  final TextEditingController? upPriceController;
   final int descSorted;
 
   const PricePopWidget(
-      {Key key,
+      {Key? key,
       this.lowPriceController,
       this.upPriceController,
       this.sortClick,
@@ -110,7 +110,7 @@ class PricePopWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   if (sortClick != null) {
-                    sortClick(0);
+                    sortClick!(0);
                   }
                 },
               ),
@@ -136,7 +136,7 @@ class PricePopWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   if (sortClick != null) {
-                    sortClick(1);
+                    sortClick!(1);
                   }
                 },
               ),
@@ -162,7 +162,7 @@ class PricePopWidget extends StatelessWidget {
                   ),
                   onTap: () {
                     if (cancelClick != null) {
-                      cancelClick();
+                      cancelClick!();
                     }
                   },
                 ),
@@ -185,7 +185,7 @@ class PricePopWidget extends StatelessWidget {
                   ),
                   onTap: () {
                     if (confirmClick != null) {
-                      confirmClick();
+                      confirmClick!();
                     }
                   },
                 ),

@@ -5,11 +5,11 @@ import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
 class GoodDetailBanner extends StatefulWidget {
-  final VideoInfo videoInfo;
-  final List<String> imgList;
-  final double height;
+  final VideoInfo? videoInfo;
+  final List<String>? imgList;
+  final double? height;
 
-  const GoodDetailBanner({Key key, this.videoInfo, this.imgList, this.height})
+  const GoodDetailBanner({Key? key, this.videoInfo, this.imgList, this.height})
       : super(key: key);
 
   @override
@@ -25,8 +25,8 @@ class _GoodDetailState extends State<GoodDetailBanner> {
   }
 
   _buildSwiper() {
-    List<String> imgList = widget.imgList;
-    final VideoInfo videoInfo = widget.videoInfo;
+    List<String> imgList = widget.imgList!;
+    final VideoInfo? videoInfo = widget.videoInfo;
     return Stack(
       children: [
         BannerCacheImg(

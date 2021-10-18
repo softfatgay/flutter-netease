@@ -10,17 +10,17 @@ part 'pinItemDetailModel.g.dart';
 
 @JsonSerializable()
 class PinItemDetailModel {
-  List<AttrListItem> attrList;
-  Map<String, dynamic> itemDetail;
-  ItemInfo itemInfo;
-  List<SkuListItem> skuList;
-  Map<String, SkuMapValue> skuMap;
-  List<SkuSpecListItem> skuSpecList;
-  List<LocationItemModel> shipAddressList;
-  List<PinOrderCartItem> pinOrderCartItemList;
+  List<AttrListItem>? attrList;
+  Map<String, dynamic>? itemDetail;
+  ItemInfo? itemInfo;
+  List<SkuListItem>? skuList;
+  Map<String, SkuMapValue>? skuMap;
+  List<SkuSpecListItem>? skuSpecList;
+  List<LocationItemModel>? shipAddressList;
+  List<PinOrderCartItem>? pinOrderCartItemList;
 
-  SkuInfo skuInfo;
-  num huoDongId;
+  SkuInfo? skuInfo;
+  num? huoDongId;
 
   PinItemDetailModel();
 
@@ -30,55 +30,55 @@ class PinItemDetailModel {
 
 @JsonSerializable()
 class ItemInfo {
-  String commentGoodRates;
-  num customType;
-  String deliverTime;
-  String desc;
-  num endTime;
-  num feeExpLimit;
-  num flag;
-  bool huoDongTimeOut;
-  num id;
-  bool isRefundPay;
-  num itemId;
-  num joinUserType;
-  num joinUsers;
-  bool limitApp;
-  bool limitNew;
-  num limitPlatform;
-  num limitTime;
-  num modeType;
-  String name;
+  String? commentGoodRates;
+  num? customType;
+  String? deliverTime;
+  String? desc;
+  num? endTime;
+  num? feeExpLimit;
+  num? flag;
+  bool? huoDongTimeOut;
+  num? id;
+  bool? isRefundPay;
+  num? itemId;
+  num? joinUserType;
+  num? joinUsers;
+  bool? limitApp;
+  bool? limitNew;
+  num? limitPlatform;
+  num? limitTime;
+  num? modeType;
+  String? name;
   @JsonKey(name: 'num')
-  num numC;
-  num originPrice;
-  num originTotalPrice;
-  String picUrl;
+  num? numC;
+  num? originPrice;
+  num? originTotalPrice;
+  String? picUrl;
 
-  bool postageFree;
-  num prePrice;
-  num price;
-  String primaryPicUrl;
-  bool privateVolume;
-  num productNo;
-  String productType;
-  String secondPicUrl;
+  bool? postageFree;
+  num? prePrice;
+  num? price;
+  String? primaryPicUrl;
+  bool? privateVolume;
+  num? productNo;
+  String? productType;
+  String? secondPicUrl;
 
-  List<SkuListItem> skuList;
-  String skuPicUrl;
-  bool soldOut;
-  num startTime;
-  num startUserType;
-  String status;
-  num tabId;
-  List<TagListItem> tagList;
-  List<dynamic> tags;
-  String title;
-  num totalPrice;
-  String tuanActivityUrl;
-  bool tuanSoldOut;
-  bool useSkuPinPrice;
-  num userNum;
+  List<SkuListItem>? skuList;
+  String? skuPicUrl;
+  bool? soldOut;
+  num? startTime;
+  num? startUserType;
+  String? status;
+  num? tabId;
+  List<TagListItem>? tagList;
+  List<dynamic>? tags;
+  String? title;
+  num? totalPrice;
+  String? tuanActivityUrl;
+  bool? tuanSoldOut;
+  bool? useSkuPinPrice;
+  num? userNum;
 
   ItemInfo();
 
@@ -88,8 +88,8 @@ class ItemInfo {
 
 @JsonSerializable()
 class TagListItem {
-  String name;
-  num type;
+  String? name;
+  num? type;
 
   TagListItem();
 
@@ -99,15 +99,15 @@ class TagListItem {
 
 @JsonSerializable()
 class PinOrderCartItem {
-  num count;
-  num itemId;
-  String name;
-  num originPrice;
-  String picUrl;
-  num retailPrice;
-  num skuId;
-  List<String> specValueList;
-  num subtotalPrice;
+  num? count;
+  num? itemId;
+  String? name;
+  num? originPrice;
+  String? picUrl;
+  num? retailPrice;
+  num? skuId;
+  List<String>? specValueList;
+  num? subtotalPrice;
 
   PinOrderCartItem();
 
@@ -117,14 +117,14 @@ class PinOrderCartItem {
 
 @JsonSerializable()
 class SkuInfo {
-  num counterPrice;
-  num id;
-  num maxBuyCount;
-  num pinPrice;
-  bool primarySku;
-  num retailPrice;
-  num sellVolume;
-  bool valid;
+  num? counterPrice;
+  num? id;
+  num? maxBuyCount;
+  num? pinPrice;
+  bool? primarySku;
+  num? retailPrice;
+  num? sellVolume;
+  bool? valid;
 
   SkuInfo();
 

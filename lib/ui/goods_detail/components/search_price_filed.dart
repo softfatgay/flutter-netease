@@ -13,13 +13,13 @@ _disabledBorder() => OutlineInputBorder(
 
 class SearchPriceTextFiled extends TextField {
   SearchPriceTextFiled(
-      {final TextEditingController controller,
+      {final TextEditingController? controller,
       final int maxlines = 1,
-      int maxLength,
+      int? maxLength,
       bool enabled = true,
       String counterText = '',
       String prefixText = '',
-      TextInputType keyboardType,
+      TextInputType? keyboardType,
       String hintText = ''})
       : super(
           keyboardType: TextInputType.number,

@@ -5,10 +5,10 @@ import 'package:flutter_app/constant/colors.dart';
 typedef void OnCheckChanged(bool check);
 
 class CartCheckBox extends StatefulWidget {
-  final OnCheckChanged onCheckChanged;
-  final bool canCheck;
+  final OnCheckChanged? onCheckChanged;
+  final bool? canCheck;
 
-  const CartCheckBox({Key key, this.onCheckChanged, this.canCheck})
+  const CartCheckBox({Key? key, this.onCheckChanged, this.canCheck})
       : super(key: key);
 
   @override
@@ -26,13 +26,13 @@ class _CartCheckBoxState extends State<CartCheckBox> {
           setState(() {
             check = !check;
           });
-          widget.onCheckChanged(check);
+          widget.onCheckChanged!(check);
         }
       },
       child: Container(
         child: Padding(
           padding: EdgeInsets.all(2),
-          child: widget.canCheck
+          child: widget.canCheck!
               ? check
                   ? Icon(
                       Icons.check_circle,

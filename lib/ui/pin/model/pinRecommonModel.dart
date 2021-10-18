@@ -4,11 +4,11 @@ part 'pinRecommonModel.g.dart';
 
 @JsonSerializable()
 class PinRecommonModel {
-  String name;
-  num price;
-  num id;
-  num itemId;
-  String picUrl;
+  String? name;
+  num? price;
+  num? id;
+  num? itemId;
+  String? picUrl;
 
   PinRecommonModel();
 

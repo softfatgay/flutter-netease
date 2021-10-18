@@ -7,11 +7,10 @@ part of 'hotSaleListBottomInfo.dart';
 // **************************************************************************
 
 HotSaleListBottomInfo _$HotSaleListBottomInfoFromJson(
-    Map<String, dynamic> json) {
-  return HotSaleListBottomInfo()
-    ..iconUrl = json['iconUrl'] as String
-    ..content = json['content'] as String;
-}
+        Map<String, dynamic> json) =>
+    HotSaleListBottomInfo()
+      ..iconUrl = json['iconUrl'] as String?
+      ..content = json['content'] as String?;
 
 Map<String, dynamic> _$HotSaleListBottomInfoToJson(
         HotSaleListBottomInfo instance) =>

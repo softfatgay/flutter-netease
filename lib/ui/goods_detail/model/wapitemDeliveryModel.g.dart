@@ -6,14 +6,14 @@ part of 'wapitemDeliveryModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WapitemDeliveryModel _$WapitemDeliveryModelFromJson(Map<String, dynamic> json) {
-  return WapitemDeliveryModel()
-    ..status = json['status'] as num
-    ..addressId = json['addressId'] as num
-    ..addressName = json['addressName'] as String
-    ..deliveryTime = json['deliveryTime'] as String
-    ..deliveryStatus = json['deliveryStatus'] as num;
-}
+WapitemDeliveryModel _$WapitemDeliveryModelFromJson(
+        Map<String, dynamic> json) =>
+    WapitemDeliveryModel()
+      ..status = json['status'] as num?
+      ..addressId = json['addressId'] as num?
+      ..addressName = json['addressName'] as String?
+      ..deliveryTime = json['deliveryTime'] as String?
+      ..deliveryStatus = json['deliveryStatus'] as num?;
 
 Map<String, dynamic> _$WapitemDeliveryModelToJson(
         WapitemDeliveryModel instance) =>

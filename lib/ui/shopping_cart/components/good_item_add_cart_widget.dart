@@ -17,15 +17,15 @@ const mrr = 5.0;
 typedef void AddCarSuccess();
 
 class GoodItemAddCartWidget extends StatelessWidget {
-  final List<GoodDetail> dataList;
-  final AddCarSuccess addCarSuccess;
+  final List<GoodDetail>? dataList;
+  final AddCarSuccess? addCarSuccess;
 
-  const GoodItemAddCartWidget({Key key, this.dataList, this.addCarSuccess})
+  const GoodItemAddCartWidget({Key? key, this.dataList, this.addCarSuccess})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildItems(dataList);
+    return _buildItems(dataList!);
   }
 
   _buildItems(List<GoodDetail> data) {
@@ -72,9 +72,9 @@ class GoodItemAddCartWidget extends StatelessWidget {
             child: Stack(
               children: [
                 _roundImg(
-                  item.listPicUrl,
+                  item.listPicUrl!,
                 ),
-                if (item.colorNum != null && item.colorNum > 0)
+                if (item.colorNum != null && item.colorNum! > 0)
                   Container(
                     padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
                     decoration: BoxDecoration(
@@ -99,7 +99,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
                     top: 10,
                     right: 5,
                     child: CachedNetworkImage(
-                      imageUrl: '${item.topLogo.logoUrl}',
+                      imageUrl: '${item.topLogo!.logoUrl}',
                       width: 20,
                     ),
                   )
@@ -186,10 +186,10 @@ class GoodItemAddCartWidget extends StatelessWidget {
 
   _isShowTips(GoodDetail item) {
     bool isShow = false;
-    if (item.finalPriceInfoVO.banner != null) {
-      var banner = item.finalPriceInfoVO.banner;
+    if (item.finalPriceInfoVO!.banner != null) {
+      var banner = item.finalPriceInfoVO!.banner!;
       if ((banner.content != null &&
-              banner.content.length > 7 &&
+              banner.content!.length > 7 &&
               banner.title != banner.content) &&
           !(banner.title == null && banner.content != null)) {
         isShow = true;
@@ -200,14 +200,14 @@ class GoodItemAddCartWidget extends StatelessWidget {
 
   _getBannerContent(GoodDetail item) {
     var content = '';
-    if (item.finalPriceInfoVO.banner != null) {
-      content = item.finalPriceInfoVO.banner.content ?? '';
+    if (item.finalPriceInfoVO!.banner != null) {
+      content = item.finalPriceInfoVO!.banner!.content ?? '';
     }
     return content;
   }
 
   _priceDec(GoodDetail item) {
-    var finalPriceInfoVO = item.finalPriceInfoVO;
+    var finalPriceInfoVO = item.finalPriceInfoVO!;
     var banner = finalPriceInfoVO.banner;
     if (banner == null) {
       return Container();
@@ -261,11 +261,11 @@ class GoodItemAddCartWidget extends StatelessWidget {
     List<String> priceToStr = ['', ''];
     String pricePrefix = '';
     String priceSuffix = '';
-    String counterPrice = '';
-    var finalPrice = item.finalPriceInfoVO.priceInfo.finalPrice;
-    counterPrice = item.finalPriceInfoVO.priceInfo.counterPrice;
+    String? counterPrice = '';
+    var finalPrice = item.finalPriceInfoVO!.priceInfo!.finalPrice;
+    counterPrice = item.finalPriceInfoVO!.priceInfo!.counterPrice;
     if (finalPrice != null) {
-      priceToStr = PriceUtil.priceToStr(finalPrice.price);
+      priceToStr = PriceUtil.priceToStr(finalPrice.price!);
       pricePrefix = finalPrice.prefix ?? '';
       priceSuffix = finalPrice.suffix ?? '';
     } else {
@@ -301,12 +301,12 @@ class GoodItemAddCartWidget extends StatelessWidget {
   }
 
   _getCounterPrice(GoodDetail item) {
-    var finalCounterPrice = item.finalPriceInfoVO.priceInfo.counterPrice;
+    var finalCounterPrice = item.finalPriceInfoVO!.priceInfo!.counterPrice;
     var counterPrice = finalCounterPrice ?? (item.counterPrice ?? null);
     return counterPrice;
   }
 
-  _promDesc(String dec) {
+  _promDesc(String? dec) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
@@ -361,7 +361,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
           goodDetail: item,
           addCarSuccess: () {
             if (addCarSuccess != null) {
-              addCarSuccess();
+              addCarSuccess!();
             }
           },
         );

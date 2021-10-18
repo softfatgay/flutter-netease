@@ -4,21 +4,21 @@ part 'searchParamModel.g.dart';
 
 @JsonSerializable()
 class SearchParamModel {
-  String keyWord;
-  String statSearch;
-  num sortType;
-  bool descSorted;
-  num categoryId;
-  num matchType;
-  num floorPrice;
-  num upperPrice;
-  num size;
-  num itemId;
-  num promotionId;
-  bool stillSearch;
-  num searchWordSource;
-  bool needPopWindow;
-  num source;
+  String? keyWord;
+  String? statSearch;
+  num? sortType;
+  bool? descSorted;
+  num? categoryId;
+  num? matchType;
+  num? floorPrice;
+  num? upperPrice;
+  num? size;
+  num? itemId;
+  num? promotionId;
+  bool? stillSearch;
+  num? searchWordSource;
+  bool? needPopWindow;
+  num? source;
 
   SearchParamModel(
       {this.keyWord = '',

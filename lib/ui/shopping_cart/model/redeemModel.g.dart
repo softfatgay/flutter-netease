@@ -6,17 +6,13 @@ part of 'redeemModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RedeemModel _$RedeemModelFromJson(Map<String, dynamic> json) {
-  return RedeemModel()
-    ..cartGroupList = (json['cartGroupList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CartGroupListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..totalPrice = json['totalPrice'] as num
-    ..promotionPrice = json['promotionPrice'] as num
-    ..actualPrice = json['actualPrice'] as num;
-}
+RedeemModel _$RedeemModelFromJson(Map<String, dynamic> json) => RedeemModel()
+  ..cartGroupList = (json['cartGroupList'] as List<dynamic>?)
+      ?.map((e) => CartGroupListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..totalPrice = json['totalPrice'] as num?
+  ..promotionPrice = json['promotionPrice'] as num?
+  ..actualPrice = json['actualPrice'] as num?;
 
 Map<String, dynamic> _$RedeemModelToJson(RedeemModel instance) =>
     <String, dynamic>{
@@ -26,18 +22,15 @@ Map<String, dynamic> _$RedeemModelToJson(RedeemModel instance) =>
       'actualPrice': instance.actualPrice,
     };
 
-CartGroupListItem _$CartGroupListItemFromJson(Map<String, dynamic> json) {
-  return CartGroupListItem()
-    ..promId = json['promId'] as num
-    ..promType = json['promType'] as num
-    ..promTip = json['promTip'] as String
-    ..allowCount = json['allowCount'] as num
-    ..addBuyStepList = (json['addBuyStepList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+CartGroupListItem _$CartGroupListItemFromJson(Map<String, dynamic> json) =>
+    CartGroupListItem()
+      ..promId = json['promId'] as num?
+      ..promType = json['promType'] as num?
+      ..promTip = json['promTip'] as String?
+      ..allowCount = json['allowCount'] as num?
+      ..addBuyStepList = (json['addBuyStepList'] as List<dynamic>?)
+          ?.map((e) => AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$CartGroupListItemToJson(CartGroupListItem instance) =>
     <String, dynamic>{
@@ -48,17 +41,14 @@ Map<String, dynamic> _$CartGroupListItemToJson(CartGroupListItem instance) =>
       'addBuyStepList': instance.addBuyStepList,
     };
 
-AddBuyStepListItem _$AddBuyStepListItemFromJson(Map<String, dynamic> json) {
-  return AddBuyStepListItem()
-    ..stepNo = json['stepNo'] as num
-    ..title = json['title'] as String
-    ..isSatisfy = json['isSatisfy'] as bool
-    ..addBuyItemList = (json['addBuyItemList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CartItemListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+AddBuyStepListItem _$AddBuyStepListItemFromJson(Map<String, dynamic> json) =>
+    AddBuyStepListItem()
+      ..stepNo = json['stepNo'] as num?
+      ..title = json['title'] as String?
+      ..isSatisfy = json['isSatisfy'] as bool?
+      ..addBuyItemList = (json['addBuyItemList'] as List<dynamic>?)
+          ?.map((e) => CartItemListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$AddBuyStepListItemToJson(AddBuyStepListItem instance) =>
     <String, dynamic>{
@@ -68,30 +58,28 @@ Map<String, dynamic> _$AddBuyStepListItemToJson(AddBuyStepListItem instance) =>
       'addBuyItemList': instance.addBuyItemList,
     };
 
-AddBuyItemListItem _$AddBuyItemListItemFromJson(Map<String, dynamic> json) {
-  return AddBuyItemListItem()
-    ..uniqueKey = json['uniqueKey'] as String
-    ..id = json['id'] as num
-    ..itemId = json['itemId'] as num
-    ..itemName = json['itemName'] as String
-    ..status = json['status'] as num
-    ..pic = json['pic'] as String
-    ..skuId = json['skuId'] as num
-    ..valid = json['valid'] as bool
-    ..sellVolume = json['sellVolume'] as num
-    ..specList = (json['specList'] as List)
-        ?.map((e) =>
-            e == null ? null : SpecListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..cnt = json['cnt'] as num
-    ..totalPrice = json['totalPrice'] as num
-    ..retailPrice = json['retailPrice'] as num
-    ..actualPrice = json['actualPrice'] as num
-    ..subtotalPrice = json['subtotalPrice'] as num
-    ..extId = json['extId'] as String
-    ..checked = json['checked'] as bool
-    ..promId = json['promId'] as num;
-}
+AddBuyItemListItem _$AddBuyItemListItemFromJson(Map<String, dynamic> json) =>
+    AddBuyItemListItem()
+      ..uniqueKey = json['uniqueKey'] as String?
+      ..id = json['id'] as num?
+      ..itemId = json['itemId'] as num?
+      ..itemName = json['itemName'] as String?
+      ..status = json['status'] as num?
+      ..pic = json['pic'] as String?
+      ..skuId = json['skuId'] as num?
+      ..valid = json['valid'] as bool?
+      ..sellVolume = json['sellVolume'] as num?
+      ..specList = (json['specList'] as List<dynamic>?)
+          ?.map((e) => SpecListItem.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..cnt = json['cnt'] as num?
+      ..totalPrice = json['totalPrice'] as num?
+      ..retailPrice = json['retailPrice'] as num?
+      ..actualPrice = json['actualPrice'] as num?
+      ..subtotalPrice = json['subtotalPrice'] as num?
+      ..extId = json['extId'] as String?
+      ..checked = json['checked'] as bool?
+      ..promId = json['promId'] as num?;
 
 Map<String, dynamic> _$AddBuyItemListItemToJson(AddBuyItemListItem instance) =>
     <String, dynamic>{

@@ -4,9 +4,9 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class PaymentPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const PaymentPage({Key key, this.params}) : super(key: key);
+  const PaymentPage({Key? key, this.params}) : super(key: key);
 
   @override
   _PaymentPageState createState() => _PaymentPageState();

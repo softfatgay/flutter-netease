@@ -6,17 +6,17 @@ part 'currentCategory.g.dart';
 
 @JsonSerializable()
 class CurrentCategory {
-  num id;
-  num superCategoryId;
-  num showIndex;
-  String name;
-  String frontName;
-  String frontDesc;
-  String bannerUrl;
-  ShowItem showItem;
+  num? id;
+  num? superCategoryId;
+  num? showIndex;
+  String? name;
+  String? frontName;
+  String? frontDesc;
+  String? bannerUrl;
+  ShowItem? showItem;
 
-  List<BannerItem> bannerList;
-  List<CurrentCategory> subCateList;
+  List<BannerItem>? bannerList;
+  List<CurrentCategory>? subCateList;
 
   CurrentCategory();
 
@@ -26,8 +26,8 @@ class CurrentCategory {
 
 @JsonSerializable()
 class ShowItem {
-  num id;
-  String picUrl;
+  num? id;
+  String? picUrl;
   ShowItem();
 
   factory ShowItem.fromJson(Map<String, dynamic> json) =>

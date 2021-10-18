@@ -6,21 +6,19 @@ part of 'makeUpCartInfoModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MakeUpCartInfoModel _$MakeUpCartInfoModelFromJson(Map<String, dynamic> json) {
-  return MakeUpCartInfoModel(
-    validTimeDesc: json['validTimeDesc'] as String,
-  )
-    ..itemPoolBarVO = json['itemPoolBarVO'] == null
-        ? null
-        : ItemPoolBarVO.fromJson(json['itemPoolBarVO'] as Map<String, dynamic>)
-    ..validStartTime = json['validStartTime'] as num
-    ..validEndTime = json['validEndTime'] as num
-    ..addBuyStepList = (json['addBuyStepList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+MakeUpCartInfoModel _$MakeUpCartInfoModelFromJson(Map<String, dynamic> json) =>
+    MakeUpCartInfoModel(
+      validTimeDesc: json['validTimeDesc'] as String? ?? '',
+    )
+      ..itemPoolBarVO = json['itemPoolBarVO'] == null
+          ? null
+          : ItemPoolBarVO.fromJson(
+              json['itemPoolBarVO'] as Map<String, dynamic>)
+      ..validStartTime = json['validStartTime'] as num?
+      ..validEndTime = json['validEndTime'] as num?
+      ..addBuyStepList = (json['addBuyStepList'] as List<dynamic>?)
+          ?.map((e) => AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$MakeUpCartInfoModelToJson(
         MakeUpCartInfoModel instance) =>
@@ -32,11 +30,10 @@ Map<String, dynamic> _$MakeUpCartInfoModelToJson(
       'addBuyStepList': instance.addBuyStepList,
     };
 
-ItemPoolBarVO _$ItemPoolBarVOFromJson(Map<String, dynamic> json) {
-  return ItemPoolBarVO()
-    ..subtotalPrice = json['subtotalPrice'] as num
-    ..promTip = json['promTip'] as String;
-}
+ItemPoolBarVO _$ItemPoolBarVOFromJson(Map<String, dynamic> json) =>
+    ItemPoolBarVO()
+      ..subtotalPrice = json['subtotalPrice'] as num?
+      ..promTip = json['promTip'] as String?;
 
 Map<String, dynamic> _$ItemPoolBarVOToJson(ItemPoolBarVO instance) =>
     <String, dynamic>{

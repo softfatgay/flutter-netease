@@ -12,15 +12,14 @@ import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/model/brandIndexModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class BrandInfoPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const BrandInfoPage({Key key, this.params}) : super(key: key);
+  const BrandInfoPage({Key? key, this.params}) : super(key: key);
 
   @override
   _BrandInfoPageState createState() => _BrandInfoPageState();
@@ -28,17 +27,17 @@ class BrandInfoPage extends StatefulWidget {
 
 class _BrandInfoPageState extends State<BrandInfoPage> {
   // num _brandId;
-  num _goodId;
+  num? _goodId;
 
-  BrandInfo _brandInfo;
+  BrandInfo? _brandInfo;
 
-  BrandIndexModel _brandIndexModel;
+  late BrandIndexModel _brandIndexModel;
 
   List<ItemListItem> _itemList = [];
 
-  bool _hasMore = true;
+  bool? _hasMore = true;
   bool _isLoading = true;
-  String _extInfo = '';
+  String? _extInfo = '';
 
   double narbarHeight = 40;
 
@@ -54,8 +53,8 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
     // TODO: implement initState
 
     setState(() {
-      _brandInfo = widget.params['brandInfo'];
-      _goodId = widget.params['id'];
+      _brandInfo = widget.params!['brandInfo'];
+      _goodId = widget.params!['id'];
     });
     super.initState();
 
@@ -64,7 +63,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       if (_scrollController.position.pixels > 500) {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
-          if (_hasMore) {
+          if (_hasMore!) {
             _getBrandIndex();
           }
         }
@@ -90,35 +89,35 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   void _getBrandInfo() async {
     Map<String, dynamic> params = {
       'itemId': _goodId,
-      'brandId': _brandInfo.brandId,
-      'type': _brandInfo.type,
-      'merchantId': _brandInfo.merchantId ?? 'undefined'
+      'brandId': _brandInfo!.brandId,
+      'type': _brandInfo!.type,
+      'merchantId': _brandInfo!.merchantId ?? 'undefined'
     };
     var responseData = await brandInfo(params);
 
     var brandInfodata = BrandInfo.fromJson(responseData.data);
     setState(() {
-      _brandInfo.subTitle = brandInfodata.subTitle;
-      _brandInfo.desc = brandInfodata.desc;
+      _brandInfo!.subTitle = brandInfodata.subTitle;
+      _brandInfo!.desc = brandInfodata.desc;
     });
   }
 
   void _getBrandIndex() async {
     Map<String, dynamic> params = {
-      'brandId': _brandInfo.brandId,
+      'brandId': _brandInfo!.brandId,
       'descSorted': _searchModel.descSorted ?? true,
       'extInfo': _extInfo,
       'itemId': _goodId,
-      'merchantId': _brandInfo.merchantId ?? 'undefined',
+      'merchantId': _brandInfo!.merchantId ?? 'undefined',
       'sortType': _searchModel.sortType,
-      'type': _brandInfo.type,
+      'type': _brandInfo!.type,
     };
     var responseData = await brandIndex(params);
     if (responseData.code == '200') {
       setState(() {
         _isLoading = false;
         _brandIndexModel = BrandIndexModel.fromJson(responseData.data);
-        var itemList = _brandIndexModel.itemList;
+        var itemList = _brandIndexModel.itemList!;
         if (resetPage) {
           _itemList.clear();
         }
@@ -133,7 +132,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backWhite,
-      appBar: TopAppBar(title: '${_brandInfo.title ?? ''}').build(context),
+      appBar: TopAppBar(title: '${_brandInfo!.title ?? ''}').build(context),
       body: _body(),
       floatingActionButton:
           _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
@@ -169,7 +168,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
             child: NormalConditionsBar(
               height: narbarHeight,
               pressChange: (searchModel) {
-                _resetPage(searchModel);
+                _resetPage(searchModel!);
               },
             ),
           )),
@@ -194,7 +193,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
         children: [
           Row(
             children: [
-              CachedNetworkImage(height: 35, imageUrl: '${_brandInfo.picUrl}'),
+              CachedNetworkImage(height: 35, imageUrl: '${_brandInfo!.picUrl}'),
               SizedBox(
                 width: 12,
               ),
@@ -204,14 +203,14 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${_brandInfo.title ?? ''}',
+                      '${_brandInfo!.title ?? ''}',
                       style: t16blackbold,
                     ),
                     SizedBox(
                       height: 6,
                     ),
                     Text(
-                      '${_brandInfo.subTitle ?? ''}',
+                      '${_brandInfo!.subTitle ?? ''}',
                       style: t12black,
                     ),
                   ],
@@ -223,7 +222,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
             height: 20,
           ),
           Text(
-            '${_brandInfo.desc}',
+            '${_brandInfo!.desc}',
             style: t12black,
           ),
         ],

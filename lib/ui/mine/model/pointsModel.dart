@@ -4,30 +4,30 @@ part 'pointsModel.g.dart';
 
 @JsonSerializable()
 class PointsModel {
-  String availablePoint;
-  List<num> pointList;
-  num position;
-  num memLevel;
-  bool signed;
-  bool signReminder;
-  String signBackgroundUrl;
-  String goShoppingUrl;
-  MemLayawayVO memLayawayVO;
-  List<num> lotteryDays;
-  bool hasDrawLottery;
-  num lotteryCount;
-  UserSimpleInfo userSimpleInfo;
-  String titleOfSignTop;
-  String headImg;
-  String calendarBackColor;
-  String actRule;
-  Map<String, String> positionLotteryIconMap;
-  Map<String, String> positionHasLotteryIconMap;
-  bool pointsSignPushSwitch;
-  PointExVirtualAct pointExVirtualAct;
-  PointExVirtualAct pointExExternalRights;
-  List<PonitBannersItem> ponitBanners;
-  ExchangeModule exchangeModule;
+  String? availablePoint;
+  List<num>? pointList;
+  num? position;
+  num? memLevel;
+  bool? signed;
+  bool? signReminder;
+  String? signBackgroundUrl;
+  String? goShoppingUrl;
+  MemLayawayVO? memLayawayVO;
+  List<num>? lotteryDays;
+  bool? hasDrawLottery;
+  num? lotteryCount;
+  UserSimpleInfo? userSimpleInfo;
+  String? titleOfSignTop;
+  String? headImg;
+  String? calendarBackColor;
+  String? actRule;
+  Map<String, String>? positionLotteryIconMap;
+  Map<String, String>? positionHasLotteryIconMap;
+  bool? pointsSignPushSwitch;
+  PointExVirtualAct? pointExVirtualAct;
+  PointExVirtualAct? pointExExternalRights;
+  List<PonitBannersItem>? ponitBanners;
+  ExchangeModule? exchangeModule;
 
   PointsModel();
   factory PointsModel.fromJson(Map<String, dynamic> json) =>
@@ -36,11 +36,11 @@ class PointsModel {
 
 @JsonSerializable()
 class ExchangeModule {
-  String title;
-  String excluTitle;
-  List<PointCommoditiesItem> pointCommodities;
-  List<PointCommoditiesItem> exclusiveCommodities;
-  WeekPoint weekPoint;
+  String? title;
+  String? excluTitle;
+  List<PointCommoditiesItem>? pointCommodities;
+  List<PointCommoditiesItem>? exclusiveCommodities;
+  WeekPoint? weekPoint;
 
   ExchangeModule();
   factory ExchangeModule.fromJson(Map<String, dynamic> json) =>
@@ -49,9 +49,9 @@ class ExchangeModule {
 
 @JsonSerializable()
 class WeekPoint {
-  String title;
-  CurrentWeekPointItemVO currentWeekPointItemVO;
-  CurrentWeekPointItemVO nextWeekPointItemVO;
+  String? title;
+  CurrentWeekPointItemVO? currentWeekPointItemVO;
+  CurrentWeekPointItemVO? nextWeekPointItemVO;
 
   WeekPoint();
 
@@ -61,10 +61,10 @@ class WeekPoint {
 
 @JsonSerializable()
 class CurrentWeekPointItemVO {
-  num leftTime;
-  num status;
-  List<PointCommoditiesItem> pointCommodityVOList;
-  String desp;
+  num? leftTime;
+  num? status;
+  List<PointCommoditiesItem>? pointCommodityVOList;
+  String? desp;
 
   CurrentWeekPointItemVO();
 
@@ -74,17 +74,17 @@ class CurrentWeekPointItemVO {
 
 @JsonSerializable()
 class PointCommoditiesItem {
-  String picUrl;
-  String name;
-  String label;
-  String needPoint;
-  String originPrice;
-  String itemId;
-  bool sellOut;
-  num sellVolume;
-  num maxAvailable;
-  num source;
-  num exchangeTimesType;
+  String? picUrl;
+  String? name;
+  String? label;
+  String? needPoint;
+  String? originPrice;
+  String? itemId;
+  bool? sellOut;
+  num? sellVolume;
+  num? maxAvailable;
+  num? source;
+  num? exchangeTimesType;
 
   PointCommoditiesItem();
   factory PointCommoditiesItem.fromJson(Map<String, dynamic> json) =>
@@ -93,7 +93,7 @@ class PointCommoditiesItem {
 
 @JsonSerializable()
 class MemLayawayVO {
-  List<LayawayListItem> layawayList;
+  List<LayawayListItem>? layawayList;
 
   MemLayawayVO();
   factory MemLayawayVO.fromJson(Map<String, dynamic> json) =>
@@ -102,15 +102,15 @@ class MemLayawayVO {
 
 @JsonSerializable()
 class LayawayListItem {
-  num id;
-  String name;
-  String title;
-  num phaseNum;
-  num retailPrice;
-  num favorPrice;
-  String primaryPicUrl;
-  String listPicUrl;
-  num point;
+  num? id;
+  String? name;
+  String? title;
+  num? phaseNum;
+  num? retailPrice;
+  num? favorPrice;
+  String? primaryPicUrl;
+  String? listPicUrl;
+  num? point;
 
   LayawayListItem();
   factory LayawayListItem.fromJson(Map<String, dynamic> json) =>
@@ -119,10 +119,10 @@ class LayawayListItem {
 
 @JsonSerializable()
 class UserSimpleInfo {
-  String userName;
-  String userAvatar;
-  num memberLevel;
-  num userId;
+  String? userName;
+  String? userAvatar;
+  num? memberLevel;
+  num? userId;
 
   UserSimpleInfo();
   factory UserSimpleInfo.fromJson(Map<String, dynamic> json) =>
@@ -131,12 +131,12 @@ class UserSimpleInfo {
 
 @JsonSerializable()
 class PonitBannersItem {
-  String title;
-  String subtitle;
-  String picUrl;
-  String targetUrl;
-  num startTime;
-  num endTime;
+  String? title;
+  String? subtitle;
+  String? picUrl;
+  String? targetUrl;
+  num? startTime;
+  num? endTime;
 
   PonitBannersItem();
   factory PonitBannersItem.fromJson(Map<String, dynamic> json) =>
@@ -145,18 +145,18 @@ class PonitBannersItem {
 
 @JsonSerializable()
 class PointExVirtualAct {
-  num actId;
-  num actType;
-  String actName;
-  String actDesc;
-  num actLimitCount;
-  num actDayLimitCount;
-  num beginTime;
-  num endTime;
-  List<ActPackets> actPackets;
-  String userGroup;
-  String actRuleTip;
-  num createTime;
+  num? actId;
+  num? actType;
+  String? actName;
+  String? actDesc;
+  num? actLimitCount;
+  num? actDayLimitCount;
+  num? beginTime;
+  num? endTime;
+  List<ActPackets>? actPackets;
+  String? userGroup;
+  String? actRuleTip;
+  num? createTime;
 
   PointExVirtualAct();
 
@@ -166,18 +166,18 @@ class PointExVirtualAct {
 
 @JsonSerializable()
 class ActPackets {
-  num actPacketId;
-  num actPacketType;
-  String title;
-  String picUrl;
-  String tag;
-  num needPoint;
-  String actPacketGiftId;
-  bool soldOut;
-  num condContinueSignDays;
-  num condTimesOfDayUserIdForAct;
-  num condTimesOfUserIdForAct;
-  num sortNum;
+  num? actPacketId;
+  num? actPacketType;
+  String? title;
+  String? picUrl;
+  String? tag;
+  num? needPoint;
+  String? actPacketGiftId;
+  bool? soldOut;
+  num? condContinueSignDays;
+  num? condTimesOfDayUserIdForAct;
+  num? condTimesOfUserIdForAct;
+  num? sortNum;
 
   ActPackets();
   factory ActPackets.fromJson(Map<String, dynamic> json) =>

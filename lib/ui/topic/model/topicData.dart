@@ -6,8 +6,8 @@ part 'topicData.g.dart';
 
 @JsonSerializable()
 class TopicData {
-  bool hasMore;
-  List<Result> result;
+  bool? hasMore;
+  List<Result>? result;
 
   TopicData();
 

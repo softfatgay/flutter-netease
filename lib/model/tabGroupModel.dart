@@ -5,8 +5,8 @@ part 'tabGroupModel.g.dart';
 
 @JsonSerializable()
 class TabGroupModel {
-  List<TabModel> categoryList;
-  List<TabModel> tabList;
+  List<TabModel>? categoryList;
+  List<TabModel>? tabList;
 
   TabGroupModel();
 

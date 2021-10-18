@@ -7,15 +7,13 @@ part of 'categoryHotSellModule.dart';
 // **************************************************************************
 
 CategoryHotSellModule _$CategoryHotSellModuleFromJson(
-    Map<String, dynamic> json) {
-  return CategoryHotSellModule()
-    ..titleTargetUrl = json['titleTargetUrl'] as String
-    ..title = json['title'] as String
-    ..categoryList = (json['categoryList'] as List)
-        ?.map((e) =>
-            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+        Map<String, dynamic> json) =>
+    CategoryHotSellModule()
+      ..titleTargetUrl = json['titleTargetUrl'] as String?
+      ..title = json['title'] as String?
+      ..categoryList = (json['categoryList'] as List<dynamic>?)
+          ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$CategoryHotSellModuleToJson(
         CategoryHotSellModule instance) =>

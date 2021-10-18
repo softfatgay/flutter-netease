@@ -5,14 +5,14 @@ import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
 class HomeHeader extends SliverPersistentHeaderDelegate {
-  final double collapsedHeight;
-  final double expandedHeight;
-  final double paddingTop;
-  final Widget child;
-  final String title;
-  final UserModel userInfo;
+  final double? collapsedHeight;
+  final double? expandedHeight;
+  final double? paddingTop;
+  final Widget? child;
+  final String? title;
+  final UserModel? userInfo;
   final bool showBack;
-  final num totalNum;
+  final num? totalNum;
 
   HomeHeader({
     this.collapsedHeight,
@@ -27,11 +27,11 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => this.expandedHeight;
+  double get maxExtent => this.expandedHeight!;
 
   @override
   // TODO: implement minExtent
-  double get minExtent => this.collapsedHeight + this.paddingTop;
+  double get minExtent => this.collapsedHeight! + this.paddingTop!;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

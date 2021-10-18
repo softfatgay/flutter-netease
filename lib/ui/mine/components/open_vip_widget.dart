@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
 class OpenVipWidget extends StatelessWidget {
-  const OpenVipWidget({Key key}) : super(key: key);
+  const OpenVipWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

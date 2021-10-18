@@ -9,9 +9,9 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 
 class StuBuyListItemWidget extends StatelessWidget {
-  final Result item;
+  final Result? item;
 
-  const StuBuyListItemWidget({Key key, this.item}) : super(key: key);
+  const StuBuyListItemWidget({Key? key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +26,14 @@ class StuBuyListItemWidget extends StatelessWidget {
             color: Colors.white, borderRadius: BorderRadius.circular(4)),
         child: Row(
           children: [
-            _image(item),
-            _detailDes(item),
+            _image(item!),
+            _detailDes(item!),
           ],
         ),
       ),
       onTap: () {
         Routers.push(Routers.pinPage, context,
-            {'itemId': item.itemId, 'baseId': item.id});
+            {'itemId': item!.itemId, 'baseId': item!.id});
       },
     );
   }
@@ -84,7 +84,7 @@ class StuBuyListItemWidget extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 6),
               child: Text(
-                item.title,
+                item.title!,
                 maxLines: 2,
                 style: t14blackBold,
                 overflow: TextOverflow.ellipsis,
@@ -104,7 +104,7 @@ class StuBuyListItemWidget extends StatelessWidget {
                     children: [
                       ClipOval(
                           child: Image.network(
-                        item.recentUsers == null ? '' : item.recentUsers[0],
+                        item.recentUsers == null ? '' : item.recentUsers![0],
                         width: 16,
                         height: 16,
                         fit: BoxFit.cover,
@@ -112,7 +112,7 @@ class StuBuyListItemWidget extends StatelessWidget {
                       SizedBox(width: 2),
                       ClipOval(
                           child: Image.network(
-                        item.recentUsers == null ? '' : item.recentUsers[1],
+                        item.recentUsers == null ? '' : item.recentUsers![1],
                         width: 16,
                         height: 16,
                         fit: BoxFit.cover,
@@ -149,7 +149,7 @@ class StuBuyListItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          '成团立返${item.price}元余额',
+          '成团立返${item!.price}元余额',
           style: t12white,
         ),
       ),
@@ -177,7 +177,7 @@ class StuBuyListItemWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '¥${item.isRefundPay ? '0' : '${item.price}'}',
+                    '¥${item!.isRefundPay! ? '0' : '${item!.price}'}',
                     style: t20whitebold,
                   ),
                 ),

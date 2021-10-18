@@ -6,10 +6,10 @@ import 'package:flutter_app/component/global.dart';
 typedef void ShowDialog();
 
 class FreightWidget extends StatelessWidget {
-  final SkuFreight skuFreight;
-  final ShowDialog showDialog;
+  final SkuFreight? skuFreight;
+  final ShowDialog? showDialog;
 
-  const FreightWidget({Key key, this.skuFreight, this.showDialog})
+  const FreightWidget({Key? key, this.skuFreight, this.showDialog})
       : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class FreightWidget extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text(
-                      '${skuFreight.title}：',
+                      '${skuFreight!.title}：',
                       style: t14black,
                     ),
                   ),
@@ -37,7 +37,7 @@ class FreightWidget extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 5),
                       child: Text(
-                        skuFreight.freightInfo,
+                        skuFreight!.freightInfo!,
                         style: t14black,
                       ),
                     ),
@@ -48,7 +48,7 @@ class FreightWidget extends StatelessWidget {
             ),
             onTap: () {
               if (showDialog != null) {
-                showDialog();
+                showDialog!();
               }
             },
           );

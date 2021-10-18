@@ -3,7 +3,7 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/ui/component/webview_login_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();

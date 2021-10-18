@@ -4,12 +4,12 @@ part 'qrCodeModel.g.dart';
 
 @JsonSerializable()
 class QrCodeModel {
-  num userId;
-  String userName;
-  String avatarUrl;
-  String authIconUrl;
-  num memberLevel;
-  String qrCode;
+  num? userId;
+  String? userName;
+  String? avatarUrl;
+  String? authIconUrl;
+  num? memberLevel;
+  String? qrCode;
 
   QrCodeModel();
 

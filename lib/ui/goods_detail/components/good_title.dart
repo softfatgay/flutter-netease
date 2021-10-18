@@ -5,11 +5,11 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/global.dart';
 
 class GoodTitleWidget extends StatelessWidget {
-  final String name;
-  final String goodCmtRate;
-  final num goodId;
+  final String? name;
+  final String? goodCmtRate;
+  final num? goodId;
 
-  const GoodTitleWidget({Key key, this.name, this.goodCmtRate, this.goodId})
+  const GoodTitleWidget({Key? key, this.name, this.goodCmtRate, this.goodId})
       : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class GoodTitleWidget extends StatelessWidget {
                 : Column(
                     children: [
                       Text(
-                        goodCmtRate,
+                        goodCmtRate!,
                         style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,

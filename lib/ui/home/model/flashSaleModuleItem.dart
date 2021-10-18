@@ -4,11 +4,11 @@ part 'flashSaleModuleItem.g.dart';
 
 @JsonSerializable()
 class FlashSaleModuleItem {
-  num itemId;
-  num originPrice;
-  num activityPrice;
-  String picUrl;
-  String showPicUrl;
+  num? itemId;
+  num? originPrice;
+  num? activityPrice;
+  String? picUrl;
+  String? showPicUrl;
 
   FlashSaleModuleItem();
 

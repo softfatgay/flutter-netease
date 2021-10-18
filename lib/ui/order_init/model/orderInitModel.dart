@@ -6,20 +6,20 @@ part 'orderInitModel.g.dart';
 
 @JsonSerializable()
 class OrderInitModel {
-  List<ShipAddressListItem> shipAddressList;
-  ShipAddressListItem shipAddress;
-  List<OrderCartItem> orderCartItemList;
-  num shipAddressId;
-  num itemPrice;
-  num activityCouponPrice;
-  String activityPriceDesc;
-  num couponPrice;
-  num freightPrice;
-  num actualPrice;
-  List<CouponItem> couponList;
-  bool useGiftCard;
-  num giftCardBalance;
-  num giftCardCash;
+  List<ShipAddressListItem>? shipAddressList;
+  ShipAddressListItem? shipAddress;
+  List<OrderCartItem>? orderCartItemList;
+  num? shipAddressId;
+  num? itemPrice;
+  num? activityCouponPrice;
+  String? activityPriceDesc;
+  num? couponPrice;
+  num? freightPrice;
+  num? actualPrice;
+  List<CouponItem>? couponList;
+  bool? useGiftCard;
+  num? giftCardBalance;
+  num? giftCardCash;
 
   OrderInitModel();
 
@@ -29,24 +29,24 @@ class OrderInitModel {
 
 @JsonSerializable()
 class ShipAddressListItem {
-  num id;
-  num provinceId;
-  String provinceName;
-  num cityId;
-  String cityName;
-  num districtId;
-  String districtName;
-  String address;
-  String fullAddress;
-  String name;
-  String mobile;
-  String dft;
-  String email;
-  String zipCode;
-  num townId;
-  String townName;
-  bool completed;
-  String incompleteDesc;
+  num? id;
+  num? provinceId;
+  String? provinceName;
+  num? cityId;
+  String? cityName;
+  num? districtId;
+  String? districtName;
+  String? address;
+  String? fullAddress;
+  String? name;
+  String? mobile;
+  String? dft;
+  String? email;
+  String? zipCode;
+  num? townId;
+  String? townName;
+  bool? completed;
+  String? incompleteDesc;
 
   ShipAddressListItem();
 

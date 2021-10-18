@@ -7,9 +7,9 @@ part 'brandIndexModel.g.dart';
 
 @JsonSerializable()
 class BrandIndexModel{
-  String extInfo;
-  bool hasMore;
-  List<ItemListItem> itemList;
+  String? extInfo;
+  bool? hasMore;
+  List<ItemListItem>? itemList;
 
   BrandIndexModel();
 

@@ -4,7 +4,7 @@ import 'package:flutter_app/constant/fonts.dart';
 
 ///普通按钮
 Widget NormalBtn(String text, Color color, Function onPressed,
-    {TextStyle textStyle}) {
+    {TextStyle? textStyle}) {
   return Container(
     height: 45,
     width: double.infinity,
@@ -26,7 +26,7 @@ Widget NormalBtn(String text, Color color, Function onPressed,
   );
 }
 
-Widget btnChild(String text, {TextStyle textStyle}) {
+Widget btnChild(String? text, {TextStyle? textStyle}) {
   return Text(
     text ?? '确定',
     style: textStyle ?? t14white,
@@ -35,7 +35,7 @@ Widget btnChild(String text, {TextStyle textStyle}) {
 
 ///普通按钮
 Widget ActiveBtn(Color backColor, Function onPressed,
-    {String text, double height, TextStyle textStyle}) {
+    {String? text, double? height, TextStyle? textStyle}) {
   return Container(
     height: 45,
     width: double.infinity,
@@ -60,18 +60,18 @@ class PageButton extends StatefulWidget {
   final String text;
   final Color textColor;
   final double fontSize;
-  final String fontFamily;
+  final String? fontFamily;
   final FontWeight fontWeight;
   final double height;
-  final double width;
+  final double? width;
   final double radius;
   final Color backgroundColor;
   final Color backgroundHighlightColor;
-  final VoidCallback onPressed;
-  final bool enable;
+  final VoidCallback? onPressed;
+  final bool? enable;
 
   const PageButton({
-    Key key,
+    Key? key,
     this.text = 'Button',
     this.textColor = Colors.white,
     this.fontSize = 16,
@@ -94,7 +94,7 @@ class _PageButtonState extends State<PageButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: (widget.width != null && widget.width > 0) ? widget.width : 100,
+      width: (widget.width != null && widget.width! > 0) ? widget.width : 100,
       height: widget.height,
       child: MaterialButton(
         color: widget.backgroundColor,
@@ -121,7 +121,7 @@ class _PageButtonState extends State<PageButton> {
             ? null
             : () {
                 if (widget.onPressed != null) {
-                  widget.onPressed();
+                  widget.onPressed!();
                 }
               },
       ),

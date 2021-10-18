@@ -4,12 +4,12 @@ import 'package:flutter_app/constant/fonts.dart';
 
 class MTextFiled extends TextField {
   MTextFiled(
-      {final TextEditingController controller,
+      {final TextEditingController? controller,
       final int maxlines = 1,
-      int maxLength,
+      int? maxLength,
       String counterText = '',
-      TextInputType keyboardType,
-      String hintText})
+      TextInputType? keyboardType,
+      String? hintText})
       : super(
           style: t16black,
           controller: controller,

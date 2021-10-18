@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 
 class RoundNetImage extends StatelessWidget {
-  final String url;
-  final double height;
+  final String? url;
+  final double? height;
   final double width;
   final double corner;
   final BoxFit fit;
   final Color backColor;
 
   const RoundNetImage(
-      {Key key,
-      @required this.url,
+      {Key? key,
+      required this.url,
       this.height = 100,
       this.width = 100,
       this.corner = 5,
@@ -37,7 +37,7 @@ class RoundNetImage extends StatelessWidget {
             ),
           ),
         ),
-        imageUrl: url,
+        imageUrl: url!,
         errorWidget: (context, url, error) {
           return Container(
             height: height,

@@ -14,7 +14,7 @@ import 'package:flutter_app/ui/goods_detail/model/commentItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 
 class CommentList extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
   CommentList({this.params});
 
@@ -36,8 +36,8 @@ class _CommentListState extends State<CommentList> {
   final _scrollController = ScrollController();
 
   ///总数据
-  CommondPageModel _commondPageModel;
-  Pagination _pagination;
+  late CommondPageModel _commondPageModel;
+  Pagination? _pagination;
 
   ///数据列表
   List<ResultItem> _commentList = [];
@@ -57,7 +57,7 @@ class _CommentListState extends State<CommentList> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (_pagination != null) {
-          if (_pagination.totalPage > _pagination.page) {
+          if (_pagination!.totalPage! > _pagination!.page!) {
             setState(() {
               _page++;
             });
@@ -80,7 +80,7 @@ class _CommentListState extends State<CommentList> {
   ///评价列表
   void _getCommentList() async {
     Map<String, dynamic> params = {
-      'itemId': widget.params['id'],
+      'itemId': widget.params!['id'],
       'page': _page,
       'tag': _tag,
     };
@@ -89,14 +89,14 @@ class _CommentListState extends State<CommentList> {
       _isFirstLoading = false;
       _commondPageModel = CommondPageModel.fromJson(responseData.data);
       _pagination = _commondPageModel.pagination;
-      List<ResultItem> commentList = _commondPageModel.result;
+      List<ResultItem> commentList = _commondPageModel.result!;
       _commentList.addAll(commentList);
     });
   }
 
   ///好评率
   void _getCommentPraise() async {
-    var params = {'itemId': widget.params['id']};
+    var params = {'itemId': widget.params!['id']};
     var responseData = await commentPraiseApi(params);
     setState(() {
       _praise = Praise.fromJson(responseData.data);
@@ -105,7 +105,7 @@ class _CommentListState extends State<CommentList> {
 
   ///评价Tag
   void _getCommentTags() async {
-    var params = {'itemId': widget.params['id']};
+    var params = {'itemId': widget.params!['id']};
     var responseData = await commentTagsApi(params);
     List data = responseData.data;
     List<CommentItem> list = [];
@@ -148,7 +148,7 @@ class _CommentListState extends State<CommentList> {
                       ))
                     : _buildCommentList(),
                 SliverFooter(
-                    hasMore: _pagination.totalPage > _pagination.page ||
+                    hasMore: _pagination!.totalPage! > _pagination!.page! ||
                         (_commentList.length == 0))
               ],
             ),
@@ -218,14 +218,14 @@ class _CommentListState extends State<CommentList> {
             Container(
               child: StaticRatingBar(
                 size: 15,
-                rate: (_praise.star / 100) * 100,
+                rate: (_praise.star! / 100) * 100,
               ),
             ),
           if (_praise.goodCmtRate != null)
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                _praise.goodCmtRate,
+                _praise.goodCmtRate!,
                 style: TextStyle(color: Colors.grey),
               ),
             ),

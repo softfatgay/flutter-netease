@@ -5,18 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/installPlugin.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:package_info/package_info.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AppVersionChecker extends StatefulWidget {
-  final VersionFirModel versionFirModel;
+  final VersionFirModel? versionFirModel;
 
-  const AppVersionChecker({Key key, this.versionFirModel}) : super(key: key);
+  const AppVersionChecker({Key? key, this.versionFirModel}) : super(key: key);
 
   @override
   _AppVersionCheckerState createState() => _AppVersionCheckerState();
@@ -34,7 +32,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
 
   ValueNotifier<double> progress = ValueNotifier<double>(0);
 
-  VersionFirModel versionModel;
+  VersionFirModel? versionModel;
 
   @override
   void initState() {
@@ -53,13 +51,13 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('${versionModel.name}'),
+      title: Text('${versionModel!.name}'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('有新版本(${versionModel.versionShort})更新，是否更新?'),
+          Text('有新版本(${versionModel!.versionShort})更新，是否更新?'),
           SizedBox(
             height: 20,
           ),
@@ -82,7 +80,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
                   "https://apps.apple.com/cn/app/%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89-%E6%96%B0%E4%BA%BA%E9%A6%96%E5%8D%95%E5%85%A8%E9%A2%9D%E8%BF%94/id1065178761";
               InstallPlugin.gotoAppStore(appStoreUrl);
             } else {
-              checkPermission(versionModel.installUrl);
+              checkPermission(versionModel!.installUrl);
             }
           },
           child: Text('确定', style: t14red),
@@ -91,7 +89,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     );
   }
 
-  checkPermission(String url) async {
+  checkPermission(String? url) async {
     Map<Permission, PermissionStatus> permissions = await [
       Permission.storage,
     ].request();
@@ -102,10 +100,10 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     }
   }
 
-  _doDownload(String url) async {
-    Directory dir = await getExternalStorageDirectory();
+  _doDownload(String? url) async {
+    Directory? dir = await getExternalStorageDirectory();
     String dstPath =
-        path.join(dir.path, 'FlutterWant-${versionModel.version}.apk');
+        path.join(dir!.path, 'FlutterWant-${versionModel!.version}.apk');
 
     if (File(dstPath).existsSync()) {
       _installApk(dstPath);
@@ -113,7 +111,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     }
     versionState.value = VersionState.downloading;
 
-    await Dio().download(url, dstPath,
+    await Dio().download(url!, dstPath,
         onReceiveProgress: _onReceiveProgress,
         options: Options(receiveTimeout: 24 * 60 * 60 * 1000));
     // versionState.value = VersionState.none;
@@ -125,7 +123,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
   }
 
   Widget _buildTrailByState(
-      BuildContext context, VersionState value, Widget child) {
+      BuildContext context, VersionState value, Widget? child) {
     switch (value) {
       case VersionState.none:
         return const SizedBox();
@@ -155,7 +153,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
     return const SizedBox();
   }
 
-  Widget _buildProgress(BuildContext context, double value, Widget child) {
+  Widget _buildProgress(BuildContext context, double value, Widget? child) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,

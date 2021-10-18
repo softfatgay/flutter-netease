@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Color borderColor = Color.fromARGB(255, 0, 191, 255);
-Color borderColor = Colors.grey[200];
+Color? borderColor = Colors.grey[200];
 
 class Count extends StatelessWidget {
   Count({
@@ -11,18 +11,18 @@ class Count extends StatelessWidget {
     this.onChange,
   });
 
-  final ValueChanged<int> onChange;
-  final int number;
-  final int min;
-  final int max;
+  final ValueChanged<int>? onChange;
+  final int? number;
+  final int? min;
+  final int? max;
 
   final int a = 1;
 
   onClickBtn(String type) {
-    if (type == 'remove' && number > min) {
-      onChange(number - 1);
-    } else if (type == 'add' && number < max) {
-      onChange(number + 1);
+    if (type == 'remove' && number! > min!) {
+      onChange!(number! - 1);
+    } else if (type == 'add' && number! < max!) {
+      onChange!(number! + 1);
     }
   }
 
@@ -33,7 +33,7 @@ class Count extends StatelessWidget {
       width: 150,
       decoration: BoxDecoration(
         border: Border.all(
-          color: borderColor,
+          color: borderColor!,
         ),
         borderRadius: BorderRadius.circular(2)
       ),
@@ -41,13 +41,13 @@ class Count extends StatelessWidget {
         children: <Widget>[
           Container(
             width: 35,
-            color: this.min >= this.number ? Colors.grey[200] : Colors.white,
+            color: this.min! >= this.number! ? Colors.grey[200] : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
                   Icons.remove,
                   color:
-                      this.min >= this.number ? Colors.grey[500] : Colors.black,
+                      this.min! >= this.number! ? Colors.grey[500] : Colors.black,
                 ),
               ),
               onTap: () {
@@ -59,8 +59,8 @@ class Count extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 border: Border(
-                  left: BorderSide(color: borderColor),
-                  right: BorderSide(color: borderColor),
+                  left: BorderSide(color: borderColor!),
+                  right: BorderSide(color: borderColor!),
                 ),
               ),
               child: Center(
@@ -73,13 +73,13 @@ class Count extends StatelessWidget {
           ),
           Container(
             width: 35,
-            color: this.max <= this.number ? Colors.grey[200] : Colors.white,
+            color: this.max! <= this.number! ? Colors.grey[200] : Colors.white,
             child: InkResponse(
               child: Center(
                 child: Icon(
                   Icons.add,
                   color:
-                      this.max <= this.number ? Colors.grey[500] : Colors.black,
+                      this.max! <= this.number! ? Colors.grey[500] : Colors.black,
                 ),
               ),
               onTap: () {

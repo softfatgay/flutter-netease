@@ -4,9 +4,9 @@ part 'commentItem.g.dart';
 
 @JsonSerializable()
 class CommentItem {
-  String name;
-  String strCount;
-  String type;
+  String? name;
+  String? strCount;
+  String? type;
 
   CommentItem();
 

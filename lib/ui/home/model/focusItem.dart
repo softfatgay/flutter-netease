@@ -4,13 +4,13 @@ part 'focusItem.g.dart';
 
 @JsonSerializable()
 class FocusItem {
-  String picUrl;
-  num expireTime;
-  String name;
-  num onlineTime;
-  num id;
-  String originSchemeUrl;
-  String targetUrl;
+  String? picUrl;
+  num? expireTime;
+  String? name;
+  num? onlineTime;
+  num? id;
+  String? originSchemeUrl;
+  String? targetUrl;
 
   FocusItem();
 

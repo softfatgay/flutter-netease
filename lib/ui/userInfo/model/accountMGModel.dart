@@ -4,8 +4,8 @@ part 'accountMGModel.g.dart';
 
 @JsonSerializable()
 class AccountMGModel {
-  List<num> aliasEnableOps = [];
-  List<AliasItem> alias = [];
+  List<num>? aliasEnableOps = [];
+  List<AliasItem>? alias = [];
 
   AccountMGModel();
 
@@ -15,10 +15,10 @@ class AccountMGModel {
 
 @JsonSerializable()
 class AliasItem {
-  num aliasType;
-  num frontGroupType;
-  String mobile;
-  String alias;
+  num? aliasType;
+  num? frontGroupType;
+  String? mobile;
+  String? alias;
 
   AliasItem();
 

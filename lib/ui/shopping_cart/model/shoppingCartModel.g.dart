@@ -6,25 +6,22 @@ part of 'shoppingCartModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ShoppingCartModel _$ShoppingCartModelFromJson(Map<String, dynamic> json) {
-  return ShoppingCartModel()
-    ..totalPrice = json['totalPrice'] as num
-    ..promotionPrice = json['promotionPrice'] as num
-    ..actualPrice = json['actualPrice'] as num
-    ..totalPoint = json['totalPoint'] as num
-    ..actualPoint = json['actualPoint'] as num
-    ..postageVO = json['postageVO'] == null
-        ? null
-        : PostageVO.fromJson(json['postageVO'] as Map<String, dynamic>)
-    ..cartGroupList = (json['cartGroupList'] as List)
-        ?.map((e) =>
-            e == null ? null : CarItem.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..invalidCartGroupList = (json['invalidCartGroupList'] as List)
-        ?.map((e) =>
-            e == null ? null : CarItem.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
+ShoppingCartModel _$ShoppingCartModelFromJson(Map<String, dynamic> json) =>
+    ShoppingCartModel()
+      ..totalPrice = json['totalPrice'] as num?
+      ..promotionPrice = json['promotionPrice'] as num?
+      ..actualPrice = json['actualPrice'] as num?
+      ..totalPoint = json['totalPoint'] as num?
+      ..actualPoint = json['actualPoint'] as num?
+      ..postageVO = json['postageVO'] == null
+          ? null
+          : PostageVO.fromJson(json['postageVO'] as Map<String, dynamic>)
+      ..cartGroupList = (json['cartGroupList'] as List<dynamic>?)
+          ?.map((e) => CarItem.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..invalidCartGroupList = (json['invalidCartGroupList'] as List<dynamic>?)
+          ?.map((e) => CarItem.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$ShoppingCartModelToJson(ShoppingCartModel instance) =>
     <String, dynamic>{

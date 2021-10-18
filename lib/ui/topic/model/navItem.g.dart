@@ -6,18 +6,16 @@ part of 'navItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NavItem _$NavItemFromJson(Map<String, dynamic> json) {
-  return NavItem()
-    ..id = json['id'] as num
-    ..picUrl = json['picUrl'] as String
-    ..mainTitle = json['mainTitle'] as String
-    ..viceTitle = json['viceTitle'] as String
-    ..columnUrl = json['columnUrl'] as String
-    ..onlineType = json['onlineType'] as bool
-    ..vaildStartTime = json['vaildStartTime'] as num
-    ..vaildEndTime = json['vaildEndTime'] as num
-    ..rank = json['rank'] as num;
-}
+NavItem _$NavItemFromJson(Map<String, dynamic> json) => NavItem()
+  ..id = json['id'] as num?
+  ..picUrl = json['picUrl'] as String?
+  ..mainTitle = json['mainTitle'] as String?
+  ..viceTitle = json['viceTitle'] as String?
+  ..columnUrl = json['columnUrl'] as String?
+  ..onlineType = json['onlineType'] as bool?
+  ..vaildStartTime = json['vaildStartTime'] as num?
+  ..vaildEndTime = json['vaildEndTime'] as num?
+  ..rank = json['rank'] as num?;
 
 Map<String, dynamic> _$NavItemToJson(NavItem instance) => <String, dynamic>{
       'id': instance.id,

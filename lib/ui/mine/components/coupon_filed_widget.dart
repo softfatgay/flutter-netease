@@ -15,12 +15,12 @@ class NormalFiledClearWidget extends StatefulWidget {
   final String hintText;
   final double textFiledHeight;
   final TextEditingController controller;
-  final OnBtnClick onBtnClick;
+  final OnBtnClick? onBtnClick;
 
   NormalFiledClearWidget({
     this.textValue = '',
     this.textFiledHeight = 48.0,
-    @required this.controller,
+    required this.controller,
     this.hintText = '',
     this.textChangeDuration = 500,
     this.onBtnClick,
@@ -31,7 +31,7 @@ class NormalFiledClearWidget extends StatefulWidget {
 }
 
 class _SearchGoodsState extends State<NormalFiledClearWidget> {
-  TextEditingController _controller;
+  TextEditingController? _controller;
   bool showIcon = false;
 
   @override
@@ -44,8 +44,8 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
       _controller = widget.controller;
     });
     super.initState();
-    _controller.addListener(() {
-      if (_controller.text.toString().isNotEmpty) {
+    _controller!.addListener(() {
+      if (_controller!.text.toString().isNotEmpty) {
         setState(() {
           showIcon = true;
         });
@@ -72,7 +72,7 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
             child: Container(
               decoration: new BoxDecoration(
                 color: Colors.grey[100],
-                border: Border.all(color: Colors.grey[100], width: 0.1),
+                border: Border.all(color: Colors.grey[100]!, width: 0.1),
                 borderRadius: new BorderRadius.circular(5.0),
               ),
               margin: EdgeInsets.symmetric(vertical: 7),
@@ -93,7 +93,7 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
                           onSubmitted: (text) {
                             //回车按钮
                             if (widget.onBtnClick != null) {
-                              widget.onBtnClick(text);
+                              widget.onBtnClick!(text);
                             }
                           },
                           maxLines: 1,
@@ -113,7 +113,7 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
                             ),
                       onTap: () {
                         setState(() {
-                          _controller.clear();
+                          _controller!.clear();
                         });
                       },
                     ),
@@ -143,7 +143,7 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
               ),
               onPressed: () {
                 if (widget.onBtnClick != null && showIcon) {
-                  widget.onBtnClick(_controller.text.toString());
+                  widget.onBtnClick!(_controller!.text.toString());
                 }
               },
             ),
@@ -156,7 +156,7 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 }

@@ -9,9 +9,9 @@ import 'package:flutter_app/ui/router/router.dart';
 
 class TopSearch extends StatelessWidget {
   final bool abool;
-  final num totalNum;
+  final num? totalNum;
 
-  const TopSearch({Key key, this.abool = true, this.totalNum = 0})
+  const TopSearch({Key? key, this.abool = true, this.totalNum = 0})
       : super(key: key);
 
   @override

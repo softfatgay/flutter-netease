@@ -16,9 +16,9 @@ import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/ui/home/components/verical_text_scoller.dart';
 
 class HotListPage extends StatefulWidget {
-  final Map param;
+  final Map? param;
 
-  const HotListPage({Key key, this.param}) : super(key: key);
+  const HotListPage({Key? key, this.param}) : super(key: key);
 
   @override
   _HotListPageState createState() => _HotListPageState();
@@ -31,26 +31,26 @@ class _HotListPageState extends State<HotListPage>
   var _scrollController = ScrollController();
 
   String _currentCategoryId = '0';
-  int _currentSubCategoryId = 0;
+  int? _currentSubCategoryId = 0;
 
-  TabController _tabController;
+  TabController? _tabController;
   bool _isFirstLoading = true;
   bool _bodyLoading = true;
   int pageSize = 10;
   int _page = 1;
 
-  String _bannerUrl =
+  String? _bannerUrl =
       "https://yanxuan.nosdn.127.net/294b914321c27e2490b257b5b6be6fa5.png";
 
-  Timer _timer;
+  late Timer _timer;
   int _rondomIndex = 0;
 
-  String _categoryId = '0';
-  String _categoryName = '';
+  String? _categoryId = '0';
+  String? _categoryName = '';
 
   ///头部
   List<CurrentCategory> _subCateList = [];
-  List<CurrentCategory> _moreCategories = [];
+  List<CurrentCategory>? _moreCategories = [];
 
   ///数据
   List<ItemListItem> _dataList = [];
@@ -61,8 +61,8 @@ class _HotListPageState extends State<HotListPage>
   void initState() {
     // TODO: implement initState
     setState(() {
-      _categoryId = widget.param['categoryId'];
-      _categoryName = widget.param['name'];
+      _categoryId = widget.param!['categoryId'];
+      _categoryName = widget.param!['name'];
     });
     super.initState();
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
@@ -111,9 +111,9 @@ class _HotListPageState extends State<HotListPage>
 
     ///tab列表
     List<CurrentCategory> cateList = [];
-    var currentCategory = hotListModel.currentCategory;
+    var currentCategory = hotListModel.currentCategory!;
     currentCategory.name = '全部';
-    var subCateList = currentCategory.subCateList;
+    var subCateList = currentCategory.subCateList!;
     cateList.add(currentCategory);
     cateList.addAll(subCateList);
     setState(() {
@@ -123,14 +123,14 @@ class _HotListPageState extends State<HotListPage>
       _isFirstLoading = false;
       _bannerUrl = currentCategory.bannerUrl;
     });
-    _tabController.addListener(() {
+    _tabController!.addListener(() {
       setState(() {
-        if (_tabController.index == _tabController.animation.value) {
+        if (_tabController!.index == _tabController!.animation!.value) {
           _bodyLoading = true;
           _page = 1;
-          _currentCategoryId = _subCateList[_tabController.index].id.toString();
+          _currentCategoryId = _subCateList[_tabController!.index].id.toString();
           _currentSubCategoryId =
-              _subCateList[_tabController.index].superCategoryId;
+              _subCateList[_tabController!.index].superCategoryId as int?;
           _getItemList(true);
         }
       });
@@ -191,7 +191,7 @@ class _HotListPageState extends State<HotListPage>
                         tabController: _tabController,
                         indexChange: (index) {
                           setState(() {
-                            _tabController.index = index;
+                            _tabController!.index = index;
                           });
                         },
                         isTabScroll: isScroll,
@@ -214,7 +214,7 @@ class _HotListPageState extends State<HotListPage>
             stream: _streamController.stream,
             initialData: false,
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              return snapshot.data
+              return snapshot.data!
                   ? Container(
                       decoration: BoxDecoration(
                         color: backWhite,
@@ -228,7 +228,7 @@ class _HotListPageState extends State<HotListPage>
                         tabController: _tabController,
                         indexChange: (index) {
                           setState(() {
-                            _tabController.index = index;
+                            _tabController!.index = index;
                           });
                         },
                         isTabScroll: isScroll,
@@ -252,7 +252,7 @@ class _HotListPageState extends State<HotListPage>
       height: 270,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(_bannerUrl),
+          image: NetworkImage(_bannerUrl!),
           fit: BoxFit.fill,
         ),
       ),
@@ -314,7 +314,7 @@ class _HotListPageState extends State<HotListPage>
             crossAxisSpacing: 5,
             mainAxisSpacing: 5,
             childAspectRatio: 2.2,
-            children: _moreCategories
+            children: _moreCategories!
                 .map<Widget>((e) => _buildMoreCatItem(e))
                 .toList(),
           )
@@ -351,7 +351,7 @@ class _HotListPageState extends State<HotListPage>
               child: Container(
                 alignment: Alignment.centerRight,
                 child: CachedNetworkImage(
-                  imageUrl: '${item.showItem.picUrl}',
+                  imageUrl: '${item.showItem!.picUrl}',
                 ),
               ),
             ),
@@ -368,14 +368,14 @@ class _HotListPageState extends State<HotListPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController.dispose();
+    _tabController!.dispose();
     _scrollController.dispose();
     _streamController.close();
     _timer.cancel();
     super.dispose();
   }
 
-  List<String> _seller = [
+  List<String>? _seller = [
     "6***撵刚刚下单啦！",
     "馁**1刚刚下单啦！",
     "凯***z刚刚下单啦！",

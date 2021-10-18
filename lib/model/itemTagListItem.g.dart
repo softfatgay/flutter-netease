@@ -6,16 +6,15 @@ part of 'itemTagListItem.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemTagListItem _$ItemTagListItemFromJson(Map<String, dynamic> json) {
-  return ItemTagListItem()
-    ..type = json['type'] as num
-    ..subType = json['subType'] as num
-    ..tagId = json['tagId'] as num
-    ..itemId = json['itemId'] as num
-    ..name = json['name'] as String
-    ..forbidJump = json['forbidJump'] as bool
-    ..freshmanExclusive = json['freshmanExclusive'] as bool;
-}
+ItemTagListItem _$ItemTagListItemFromJson(Map<String, dynamic> json) =>
+    ItemTagListItem()
+      ..type = json['type'] as num?
+      ..subType = json['subType'] as num?
+      ..tagId = json['tagId'] as num?
+      ..itemId = json['itemId'] as num?
+      ..name = json['name'] as String?
+      ..forbidJump = json['forbidJump'] as bool?
+      ..freshmanExclusive = json['freshmanExclusive'] as bool?;
 
 Map<String, dynamic> _$ItemTagListItemToJson(ItemTagListItem instance) =>
     <String, dynamic>{

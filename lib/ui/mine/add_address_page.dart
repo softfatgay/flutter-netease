@@ -11,9 +11,9 @@ import 'package:flutter_app/component/m_textfiled.dart';
 import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 
 class AddAddressPage extends StatefulWidget {
-  final Map params;
+  final Map? params;
 
-  const AddAddressPage({Key key, this.params}) : super(key: key);
+  const AddAddressPage({Key? key, this.params}) : super(key: key);
 
   @override
   _AddAddressPageState createState() => _AddAddressPageState();
@@ -25,16 +25,16 @@ class _AddAddressPageState extends State<AddAddressPage>
   final _phoneC = TextEditingController();
   final _addressC = TextEditingController();
   String _addressTips = '省份 城市 区县';
-  bool _check = false;
+  bool? _check = false;
 
   var _provinceItem = AddressItem();
   var _cityItem = AddressItem();
   var _disItem = AddressItem();
   var _townItem = AddressItem();
 
-  LocationItemModel _addressItem;
+  late LocationItemModel _addressItem;
 
-  num _id = 0;
+  num? _id = 0;
   String _title = '新增地址';
 
   @override
@@ -42,12 +42,12 @@ class _AddAddressPageState extends State<AddAddressPage>
     // TODO: implement initState
     if (widget.params != null) {
       setState(() {
-        var argument = widget.params['address'];
+        var argument = widget.params!['address'];
         if (argument != null) {
           _title = '修改地址';
           _addressItem = argument;
-          _nameController.text = _addressItem.name;
-          _phoneC.text = _addressItem.mobile;
+          _nameController.text = _addressItem.name!;
+          _phoneC.text = _addressItem.mobile!;
           _provinceItem.id = _addressItem.provinceId;
           _provinceItem.zonename = _addressItem.provinceName;
           _cityItem.id = _addressItem.cityId;
@@ -56,11 +56,11 @@ class _AddAddressPageState extends State<AddAddressPage>
           _disItem.zonename = _addressItem.districtName;
           _townItem.id = _addressItem.townId;
           _townItem.zonename = _addressItem.townName;
-          _addressC.text = _addressItem.address;
+          _addressC.text = _addressItem.address!;
           _check = _addressItem.dft;
           _id = _addressItem.id;
           _addressTips =
-              '${_provinceItem.zonename + ' ' + _cityItem.zonename + ' ' + _disItem.zonename + ' ' + _townItem.zonename}';
+              '${_provinceItem.zonename! + ' ' + _cityItem.zonename! + ' ' + _disItem.zonename! + ' ' + _townItem.zonename!}';
         }
       });
     }
@@ -164,7 +164,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                               activeColor: Colors.red,
                               onChanged: (value) {
                                 setState(() {
-                                  _check = !_check;
+                                  _check = !_check!;
                                 });
                               },
                             ),
@@ -177,7 +177,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                       ),
                       onTap: () {
                         setState(() {
-                          _check = !_check;
+                          _check = !_check!;
                         });
                       },
                     ),
@@ -246,7 +246,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                       _disItem = dis;
                       _townItem = town;
                       _addressTips =
-                          '${_provinceItem.zonename + ' ' + _cityItem.zonename + ' ' + _disItem.zonename + ' ' + _townItem.zonename}';
+                          '${_provinceItem.zonename! + ' ' + _cityItem.zonename! + ' ' + _disItem.zonename! + ' ' + _townItem.zonename!}';
                     });
                     // Navigator.pop(context);
                   },

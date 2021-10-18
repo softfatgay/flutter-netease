@@ -7,10 +7,10 @@ typedef void ShowDialog();
 
 ///购物返
 class ShoppingRewardWidget extends StatelessWidget {
-  final ShoppingReward shoppingReward;
-  final ShowDialog showDialog;
+  final ShoppingReward? shoppingReward;
+  final ShowDialog? showDialog;
 
-  const ShoppingRewardWidget({Key key, this.shoppingReward, this.showDialog})
+  const ShoppingRewardWidget({Key? key, this.shoppingReward, this.showDialog})
       : super(key: key);
 
   @override
@@ -29,21 +29,21 @@ class ShoppingRewardWidget extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text(
-                      '${shoppingReward.name ?? ''}：',
+                      '${shoppingReward!.name ?? ''}：',
                       style: t14black,
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 6),
                     child: Text(
-                      '${shoppingReward.rewardDesc ?? ''}',
+                      '${shoppingReward!.rewardDesc ?? ''}',
                       style: t14black,
                     ),
                   ),
                   Expanded(
                     child: Container(
                       child: Text(
-                        '${shoppingReward.rewardValue ?? ''}',
+                        '${shoppingReward!.rewardValue ?? ''}',
                         style: t14red,
                       ),
                     ),
@@ -54,7 +54,7 @@ class ShoppingRewardWidget extends StatelessWidget {
             ),
             onTap: () {
               if (showDialog != null) {
-                showDialog();
+                showDialog!();
               }
             },
           );

@@ -20,106 +20,106 @@ part 'goodDetail.g.dart';
 
 @JsonSerializable()
 class GoodDetail {
-  num id;
-  String listPicUrl;
-  String name;
-  String seoTitle;
-  String simpleDesc;
-  String primaryPicUrl;
-  num primarySkuId;
-  num retailPrice;
-  num counterPrice;
-  num status;
-  num rank;
-  bool soldOut;
-  bool underShelf;
-  num updateTime;
-  PriceModel price;
+  num? id;
+  String? listPicUrl;
+  String? name;
+  String? seoTitle;
+  String? simpleDesc;
+  String? primaryPicUrl;
+  num? primarySkuId;
+  num? retailPrice;
+  num? counterPrice;
+  num? status;
+  num? rank;
+  bool? soldOut;
+  bool? underShelf;
+  num? updateTime;
+  PriceModel? price;
 
-  Map<String, dynamic> itemDetail;
+  Map<String, dynamic>? itemDetail;
 
-  List<SkuListItem> skuList;
+  List<SkuListItem>? skuList;
 
-  List<AttrListItem> attrList;
-  Map<String, SkuMapValue> skuMap;
-  List<SkuSpecListItem> skuSpecList;
+  List<AttrListItem>? attrList;
+  Map<String, SkuMapValue>? skuMap;
+  List<SkuSpecListItem>? skuSpecList;
 
-  num sellVolume;
-  List<IssueListItem> issueList;
-  List<HdrkDetailVOListItem> hdrkDetailVOList;
+  num? sellVolume;
+  List<IssueListItem>? issueList;
+  List<HdrkDetailVOListItem>? hdrkDetailVOList;
 
-  List<ResultItem> comments;
+  List<ResultItem>? comments;
 
-  bool newItemFlag;
-  num primarySkuPreSellPrice;
-  num primarySkuPreSellStatus;
-  num pieceNum;
-  String pieceUnitDesc;
-  num colorNum;
-  num limitedFlag;
-  num promId;
-  num preLimitFlag;
-  String productPlace;
-  String promotionDesc;
-  String specialPromTag;
-  String extraPrice;
-  bool appExclusiveFlag;
-  List<ItemTagListItem> itemTagList;
-  num isPreemption;
-  num preemptionStatus;
-  num buttonType;
-  num showTime;
-  num onSaleTime;
-  bool itemPromValid;
-  num autoOnsaleTime;
-  num autoOnsaleTimeLeft;
-  num displaySkuId;
-  num saleCenterSkuId;
-  num itemType;
-  num points;
-  bool showPoints;
-  num pointsPrice;
-  bool forbidExclusiveCal;
-  num commentCount;
-  num commentWithPicCount;
-  String freightInfo;
-  String itemLimit;
-  bool itemSizeTableFlag;
-  bool itemSizeTableDetailFlag;
-  FeaturedSeries featuredSeries;
-  List<CategoryL1ListItem> categoryList;
+  bool? newItemFlag;
+  num? primarySkuPreSellPrice;
+  num? primarySkuPreSellStatus;
+  num? pieceNum;
+  String? pieceUnitDesc;
+  num? colorNum;
+  num? limitedFlag;
+  num? promId;
+  num? preLimitFlag;
+  String? productPlace;
+  String? promotionDesc;
+  String? specialPromTag;
+  String? extraPrice;
+  bool? appExclusiveFlag;
+  List<ItemTagListItem>? itemTagList;
+  num? isPreemption;
+  num? preemptionStatus;
+  num? buttonType;
+  num? showTime;
+  num? onSaleTime;
+  bool? itemPromValid;
+  num? autoOnsaleTime;
+  num? autoOnsaleTimeLeft;
+  num? displaySkuId;
+  num? saleCenterSkuId;
+  num? itemType;
+  num? points;
+  bool? showPoints;
+  num? pointsPrice;
+  bool? forbidExclusiveCal;
+  num? commentCount;
+  num? commentWithPicCount;
+  String? freightInfo;
+  String? itemLimit;
+  bool? itemSizeTableFlag;
+  bool? itemSizeTableDetailFlag;
+  FeaturedSeries? featuredSeries;
+  List<CategoryL1ListItem>? categoryList;
 
   ///是否有评价率
-  String goodCmtRate;
-  String promoTip;
-  ShoppingReward shoppingReward;
-  ShoppingRewardRule shoppingRewardRule;
-  List<String> recommendReason;
+  String? goodCmtRate;
+  String? promoTip;
+  ShoppingReward? shoppingReward;
+  ShoppingRewardRule? shoppingRewardRule;
+  List<String>? recommendReason;
 
-  SkuFreight skuFreight;
+  SkuFreight? skuFreight;
 
-  FullRefundPolicy fullRefundPolicy;
-  List<String> couponShortNameList;
-  DetailPromBanner detailPromBanner;
-  WelfareCardVO welfareCardVO;
+  FullRefundPolicy? fullRefundPolicy;
+  List<String>? couponShortNameList;
+  DetailPromBanner? detailPromBanner;
+  WelfareCardVO? welfareCardVO;
 
-  SimpleBrandInfo simpleBrandInfo;
+  SimpleBrandInfo? simpleBrandInfo;
 
-  SpmcBanner spmcBanner;
-  ListPromBanner listPromBanner;
-  BrandInfo brandInfo;
-  String promTag;
-  List<SpecListItem> specList;
-  List<AdBannersItem> adBanners;
+  SpmcBanner? spmcBanner;
+  ListPromBanner? listPromBanner;
+  BrandInfo? brandInfo;
+  String? promTag;
+  List<SpecListItem>? specList;
+  List<AdBannersItem>? adBanners;
 
-  TryOutEventReport tryOutEventReport;
-  BannerModel banner;
-  bool showPrice;
-  String countryInfo;
+  TryOutEventReport? tryOutEventReport;
+  BannerModel? banner;
+  bool? showPrice;
+  String? countryInfo;
 
-  String promDesc;
-  TopLogo topLogo;
-  FinalPriceInfoVO finalPriceInfoVO;
+  String? promDesc;
+  TopLogo? topLogo;
+  FinalPriceInfoVO? finalPriceInfoVO;
 
   GoodDetail();
 
@@ -129,14 +129,14 @@ class GoodDetail {
 
 @JsonSerializable()
 class ItemDetail {
-  String detailHtml;
-  String picUrl1;
-  String picUrl2;
-  String picUrl3;
-  String picUrl4;
-  String picUrl5;
+  String? detailHtml;
+  String? picUrl1;
+  String? picUrl2;
+  String? picUrl3;
+  String? picUrl4;
+  String? picUrl5;
 
-  VideoInfo videoInfo;
+  VideoInfo? videoInfo;
 
   ItemDetail();
 
@@ -146,10 +146,10 @@ class ItemDetail {
 
 @JsonSerializable()
 class VideoInfo {
-  String mp4VideoUrl;
-  String mp4VideoSize;
-  String webmVideoUrl;
-  String webmVideoSize;
+  String? mp4VideoUrl;
+  String? mp4VideoSize;
+  String? webmVideoUrl;
+  String? webmVideoSize;
 
   VideoInfo();
 
@@ -159,8 +159,8 @@ class VideoInfo {
 
 @JsonSerializable()
 class AttrListItem {
-  String attrName;
-  String attrValue;
+  String? attrName;
+  String? attrValue;
 
   AttrListItem();
 
@@ -170,8 +170,8 @@ class AttrListItem {
 
 @JsonSerializable()
 class FeaturedSeries {
-  String detailPicUrl;
-  num id;
+  String? detailPicUrl;
+  num? id;
 
   FeaturedSeries();
 
@@ -181,9 +181,9 @@ class FeaturedSeries {
 
 @JsonSerializable()
 class FullRefundPolicy {
-  String detailTitle;
-  List<String> titles;
-  List<String> content;
+  String? detailTitle;
+  List<String>? titles;
+  List<String>? content;
 
   FullRefundPolicy();
 
@@ -193,17 +193,17 @@ class FullRefundPolicy {
 
 @JsonSerializable()
 class DetailPromBanner {
-  num bannerType;
-  String bannerTitleUrl;
-  String bannerContentUrl;
-  String promoTitle;
-  String promoSubTitle;
-  String startTime;
-  String activityPrice;
-  String retailPrice;
-  String activityPriceExt;
-  String sellVolumeDesc;
-  num countdown;
+  num? bannerType;
+  String? bannerTitleUrl;
+  String? bannerContentUrl;
+  String? promoTitle;
+  String? promoSubTitle;
+  String? startTime;
+  String? activityPrice;
+  String? retailPrice;
+  String? activityPriceExt;
+  String? sellVolumeDesc;
+  num? countdown;
 
   DetailPromBanner();
 
@@ -213,8 +213,8 @@ class DetailPromBanner {
 
 @JsonSerializable()
 class WelfareCardVO {
-  String picUrl;
-  String schemeUrl;
+  String? picUrl;
+  String? schemeUrl;
 
   WelfareCardVO();
 
@@ -224,13 +224,13 @@ class WelfareCardVO {
 
 @JsonSerializable()
 class SpmcBanner {
-  String spmcDesc;
-  String spmcPrice;
-  String spmcPrivilegeMess;
-  String spmcEconomizePrice;
-  String spmcTagDesc;
-  String spmcLinkUrl;
-  String btnValue;
+  String? spmcDesc;
+  String? spmcPrice;
+  String? spmcPrivilegeMess;
+  String? spmcEconomizePrice;
+  String? spmcTagDesc;
+  String? spmcLinkUrl;
+  String? btnValue;
 
   SpmcBanner();
 
@@ -240,10 +240,10 @@ class SpmcBanner {
 
 @JsonSerializable()
 class SimpleBrandInfo {
-  String title;
-  num ownType;
-  String logoUrl;
-  num aspectRatio;
+  String? title;
+  num? ownType;
+  String? logoUrl;
+  num? aspectRatio;
 
   //
   SimpleBrandInfo();
@@ -254,15 +254,15 @@ class SimpleBrandInfo {
 
 @JsonSerializable()
 class ListPromBanner {
-  bool valid;
-  String promoTitle;
-  String promoSubTitle;
-  String content;
-  String bannerTitleUrl;
-  String bannerContentUrl;
-  num styleType;
-  num timeType;
-  String iconUrl;
+  bool? valid;
+  String? promoTitle;
+  String? promoSubTitle;
+  String? content;
+  String? bannerTitleUrl;
+  String? bannerContentUrl;
+  num? styleType;
+  num? timeType;
+  String? iconUrl;
 
   ListPromBanner();
 
@@ -272,8 +272,8 @@ class ListPromBanner {
 
 @JsonSerializable()
 class SpecListItem {
-  String specName;
-  String specValue;
+  String? specName;
+  String? specValue;
 
   SpecListItem();
 
@@ -283,14 +283,14 @@ class SpecListItem {
 
 @JsonSerializable()
 class BrandInfo {
-  num brandId;
-  String title;
-  String subTitle;
-  String desc;
-  num brandType;
-  num type;
-  String picUrl;
-  num ownType;
+  num? brandId;
+  String? title;
+  String? subTitle;
+  String? desc;
+  num? brandType;
+  num? type;
+  String? picUrl;
+  num? ownType;
   dynamic merchantId;
 
   BrandInfo();
@@ -301,9 +301,9 @@ class BrandInfo {
 
 @JsonSerializable()
 class AdBannersItem {
-  String picUrl;
-  String targetUrl;
-  AdBannersExtra extra;
+  String? picUrl;
+  String? targetUrl;
+  AdBannersExtra? extra;
 
   AdBannersItem();
   factory AdBannersItem.fromJson(Map<String, dynamic> json) =>
@@ -312,17 +312,17 @@ class AdBannersItem {
 
 @JsonSerializable()
 class AdBannersExtra {
-  num materialContentFrom;
-  String materialName;
-  bool rcmdSort;
-  num taskType;
-  num itemFrom;
-  String crmUserGroupName;
-  num resourcesId;
-  String materialType;
-  String crmUserGroupId;
-  String materialId;
-  String taskId;
+  num? materialContentFrom;
+  String? materialName;
+  bool? rcmdSort;
+  num? taskType;
+  num? itemFrom;
+  String? crmUserGroupName;
+  num? resourcesId;
+  String? materialType;
+  String? crmUserGroupId;
+  String? materialId;
+  String? taskId;
 
   AdBannersExtra();
 
@@ -332,11 +332,11 @@ class AdBannersExtra {
 
 @JsonSerializable()
 class TryOutEventReport {
-  String nickName;
-  String job;
-  String title;
-  num score;
-  Detail detail;
+  String? nickName;
+  String? job;
+  String? title;
+  num? score;
+  Detail? detail;
 
   TryOutEventReport();
   factory TryOutEventReport.fromJson(Map<String, dynamic> json) =>
@@ -345,7 +345,7 @@ class TryOutEventReport {
 
 @JsonSerializable()
 class Detail {
-  String reportDetail;
+  String? reportDetail;
 
   Detail();
   factory Detail.fromJson(Map<String, dynamic> json) => _$DetailFromJson(json);

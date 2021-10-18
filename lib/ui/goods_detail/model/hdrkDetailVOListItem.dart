@@ -4,15 +4,15 @@ part 'hdrkDetailVOListItem.g.dart';
 
 @JsonSerializable()
 class HdrkDetailVOListItem {
-  num id;
-  String name;
-  String promLimitDesc;
-  String activityType;
-  String huodongUrlWap;
-  num startTime;
-  num endTime;
-  num promotionType;
-  bool canUseCoupon;
+  num? id;
+  String? name;
+  String? promLimitDesc;
+  String? activityType;
+  String? huodongUrlWap;
+  num? startTime;
+  num? endTime;
+  num? promotionType;
+  bool? canUseCoupon;
 
   HdrkDetailVOListItem();
 

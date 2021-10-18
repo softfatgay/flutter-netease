@@ -4,11 +4,11 @@ part 'postageVO.g.dart';
 
 @JsonSerializable()
 class PostageVO {
-  bool showTip;
-  bool postFree;
-  num priceRangeId;
-  num leftPostFreePrice;
-  String postageTip;
+  bool? showTip;
+  bool? postFree;
+  num? priceRangeId;
+  num? leftPostFreePrice;
+  String? postageTip;
 
   PostageVO();
 

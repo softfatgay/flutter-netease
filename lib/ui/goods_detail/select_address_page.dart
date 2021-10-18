@@ -7,7 +7,7 @@ import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/component/app_bar.dart';
 
 class SelectAddressPage extends StatefulWidget {
-  const SelectAddressPage({Key key}) : super(key: key);
+  const SelectAddressPage({Key? key}) : super(key: key);
 
   @override
   _SelectAddressPageState createState() => _SelectAddressPageState();
@@ -85,7 +85,7 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                                   border: Border.all(color: redColor),
                                   borderRadius: BorderRadius.circular(2)),
                               child: Text(
-                                item.dft ? '默认' : '',
+                                item.dft! ? '默认' : '',
                                 style: t12red,
                               ),
                             )

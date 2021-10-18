@@ -37,35 +37,35 @@ class MyUnderlineTabIndicator extends Decoration {
   final EdgeInsetsGeometry insets;
 
   @override
-  Decoration lerpFrom(Decoration a, double t) {
+  Decoration? lerpFrom(Decoration? a, double t) {
     if (a is UnderlineTabIndicator) {
       return UnderlineTabIndicator(
         borderSide: BorderSide.lerp(a.borderSide, borderSide, t),
-        insets: EdgeInsetsGeometry.lerp(a.insets, insets, t),
+        insets: EdgeInsetsGeometry.lerp(a.insets, insets, t)!,
       );
     }
     return super.lerpFrom(a, t);
   }
 
   @override
-  Decoration lerpTo(Decoration b, double t) {
+  Decoration? lerpTo(Decoration? b, double t) {
     if (b is MyUnderlineTabIndicator) {
       return MyUnderlineTabIndicator(
         borderSide: BorderSide.lerp(borderSide, b.borderSide, t),
-        insets: EdgeInsetsGeometry.lerp(insets, b.insets, t),
+        insets: EdgeInsetsGeometry.lerp(insets, b.insets, t)!,
       );
     }
     return super.lerpTo(b, t);
   }
 
   @override
-  _MyUnderlinePainter createBoxPainter([VoidCallback onChanged]) {
+  _MyUnderlinePainter createBoxPainter([VoidCallback? onChanged]) {
     return _MyUnderlinePainter(this, onChanged);
   }
 }
 
 class _MyUnderlinePainter extends BoxPainter {
-  _MyUnderlinePainter(this.decoration, VoidCallback onChanged)
+  _MyUnderlinePainter(this.decoration, VoidCallback? onChanged)
       : assert(decoration != null),
         super(onChanged);
 
@@ -92,8 +92,8 @@ class _MyUnderlinePainter extends BoxPainter {
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
     assert(configuration != null);
     assert(configuration.size != null);
-    final Rect rect = offset & configuration.size;
-    final TextDirection textDirection = configuration.textDirection;
+    final Rect rect = offset & configuration.size!;
+    final TextDirection textDirection = configuration.textDirection!;
     final Rect indicator =
         _indicatorRectFor(rect, textDirection).deflate(borderSide.width / 2.0);
     final Paint paint = borderSide.toPaint()..strokeCap = StrokeCap.square;

@@ -4,11 +4,11 @@ part 'userModel.g.dart';
 
 @JsonSerializable()
 class UserModel {
-  UserSimpleVO userSimpleVO;
-  SpmcEntrance spmcEntrance;
-  WelfareCardEntrance monthCardEntrance;
-  WelfareFissionInfo welfareFissionInfo;
-  WelfareCardEntrance welfareCardEntrance;
+  UserSimpleVO? userSimpleVO;
+  SpmcEntrance? spmcEntrance;
+  WelfareCardEntrance? monthCardEntrance;
+  WelfareFissionInfo? welfareFissionInfo;
+  WelfareCardEntrance? welfareCardEntrance;
 
   UserModel();
 
@@ -18,18 +18,18 @@ class UserModel {
 
 @JsonSerializable()
 class UserSimpleVO {
-  String avatar;
-  String nickname;
-  num memberLevel;
-  num isNewUser;
-  bool hasInterestCategory;
-  bool hasMemGift;
-  num pointsCnt;
-  String mosaicUid;
-  num uniqueId;
-  num frontendAccountType;
-  bool hideQrCode;
-  String mobile;
+  String? avatar;
+  String? nickname;
+  num? memberLevel;
+  num? isNewUser;
+  bool? hasInterestCategory;
+  bool? hasMemGift;
+  num? pointsCnt;
+  String? mosaicUid;
+  num? uniqueId;
+  num? frontendAccountType;
+  bool? hideQrCode;
+  String? mobile;
 
   UserSimpleVO();
 
@@ -39,10 +39,10 @@ class UserSimpleVO {
 
 @JsonSerializable()
 class SpmcEntrance {
-  bool open;
-  num status;
-  String statusDesc;
-  bool showGiftIcon;
+  bool? open;
+  num? status;
+  String? statusDesc;
+  bool? showGiftIcon;
 
   SpmcEntrance();
 
@@ -52,8 +52,8 @@ class SpmcEntrance {
 
 @JsonSerializable()
 class MonthCardEntrance {
-  String title;
-  String content;
+  String? title;
+  String? content;
 
   MonthCardEntrance();
 
@@ -63,7 +63,7 @@ class MonthCardEntrance {
 
 @JsonSerializable()
 class WelfareFissionInfo {
-  String picUrl;
+  String? picUrl;
 
   WelfareFissionInfo();
 
@@ -73,15 +73,15 @@ class WelfareFissionInfo {
 
 @JsonSerializable()
 class WelfareCardEntrance {
-  String title;
-  String content;
-  String url;
-  num userType;
-  bool hasBuy;
-  num type;
-  String buttonName;
-  String iconPicUrl;
-  String titleUrl;
+  String? title;
+  String? content;
+  String? url;
+  num? userType;
+  bool? hasBuy;
+  num? type;
+  String? buttonName;
+  String? iconPicUrl;
+  String? titleUrl;
 
   WelfareCardEntrance();
 
