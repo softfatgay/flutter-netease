@@ -47,6 +47,27 @@ NSString *COOKIESAVEKEY = @"FlutterUseCookie";
 - (void)clearGlobalCookieValue:(FlutterResult)result {
     NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
     [standard setValue:nil forKey:COOKIESAVEKEY];
+    
+    if (@available(iOS 9.0, *)) {
+      NSSet<NSString *> *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
+      WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
+
+      void (^deleteAndNotify)(NSArray<WKWebsiteDataRecord *> *) =
+          ^(NSArray<WKWebsiteDataRecord *> *cookies) {
+            BOOL hasCookies = cookies.count > 0;
+            [dataStore removeDataOfTypes:websiteDataTypes
+                          forDataRecords:cookies
+                       completionHandler:^{
+                         result(@(hasCookies));
+                       }];
+          };
+
+      [dataStore fetchDataRecordsOfTypes:websiteDataTypes completionHandler:deleteAndNotify];
+    } else {
+      // support for iOS8 tracked in https://github.com/flutter/flutter/issues/27624.
+      NSLog(@"Clearing cookies is not supported for Flutter WebViews prior to iOS 9.");
+    }
+    
     result(@(YES));
 }
 
