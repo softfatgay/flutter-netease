@@ -25,8 +25,6 @@ class WebLoginWidget extends StatefulWidget {
 
 class _WebLoginWidgetState extends State<WebLoginWidget> {
   final _webController = Completer<WebViewController>();
-
-  String _url = '';
   bool hide = true;
 
   @override
@@ -141,7 +139,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _webController.future.then((value) => value.clearCache());
+    // _webController.future.then((value) => value.clearCache());
     super.dispose();
   }
 }

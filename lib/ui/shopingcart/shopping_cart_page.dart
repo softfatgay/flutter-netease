@@ -99,6 +99,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       _getData();
       Timer(Duration(seconds: 1), () {
         HosEventBusUtils.fire(REFRESH_MINE);
+        HosEventBusUtils.fire(REFRESH_CART_NUM);
       });
     }
   }

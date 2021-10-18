@@ -20,7 +20,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<BottomNavigationBarItem> _itemList;
   final _pageController = PageController();
 
   int _tabIndex = 0;
@@ -202,7 +201,8 @@ class _MainPageState extends State<MainPage> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Text(
                           '$_cartNum',
-                          style: t10white,
+                          style: TextStyle(
+                              fontSize: 10, color: textWhite, height: 1.1),
                         ),
                       ),
                     ),
