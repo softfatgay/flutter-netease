@@ -242,29 +242,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       if (_tabState.value != 0) {
         _tabState.value = 0;
       }
-      print('滑动到头部区域');
+      // print('滑动到头部区域');
     } else if (scrollY >= _commentH && scrollY < _detailH) {
       if (_tabState.value != 1) {
         _tabState.value = 1;
       }
-      print('滑动到评论区');
+      // print('滑动到评论区');
     } else if (scrollY >= _detailH && scrollY < _RCMKeyH) {
       if (_tabState.value != 2) {
         _tabState.value = 2;
       }
 
-      print('滑动到详情区');
+      // print('滑动到详情区');
     } else if (scrollY >= _RCMKeyH) {
       if (_tabState.value != 3) {
         _tabState.value = 3;
       }
-      print('滑动到推荐区');
+      // print('滑动到推荐区');
     } else {}
   }
 
   _getDftAddress() async {
     var sp = await LocalStorage.sp;
-    var dftAddress = sp?.getString(LocalStorage.dftAddress);
+    var dftAddress = sp!.getString(LocalStorage.dftAddress);
     if (dftAddress == null || dftAddress.isEmpty) {
       _checkLogin(1);
     } else {

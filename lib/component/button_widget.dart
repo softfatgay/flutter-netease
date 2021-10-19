@@ -4,22 +4,20 @@ import 'package:flutter_app/constant/fonts.dart';
 
 ///普通按钮
 Widget NormalBtn(String text, Color color, Function onPressed,
-    {TextStyle? textStyle}) {
+    {TextStyle? textStyle, double corner = 0}) {
   return Container(
     height: 45,
     width: double.infinity,
     child: TextButton(
-      // elevation: 0,
-      // color: color,
       style: ButtonStyle(
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(corner))),
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           return color;
         }),
       ),
       onPressed: () {
-        if (onPressed != null) {
-          onPressed();
-        }
+        onPressed();
       },
       child: btnChild(text, textStyle: textStyle),
     ),
@@ -46,9 +44,7 @@ Widget ActiveBtn(Color backColor, Function onPressed,
         }),
       ),
       onPressed: () {
-        if (onPressed != null) {
-          onPressed();
-        }
+        onPressed();
       },
       child: btnChild(text, textStyle: textStyle),
     ),

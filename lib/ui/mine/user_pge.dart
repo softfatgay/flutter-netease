@@ -288,7 +288,8 @@ class _MinePageState extends State<UserPage>
         _mineItems[1].toast!.isEmpty;
   }
 
-  _buildMonthCard(BuildContext context, WelfareCardEntrance? monthCardEntrance) {
+  _buildMonthCard(
+      BuildContext context, WelfareCardEntrance? monthCardEntrance) {
     return singleSliverWidget(
       monthCardEntrance == null
           ? Container()
@@ -438,8 +439,8 @@ class _MinePageState extends State<UserPage>
   }
 
   void _setUserInfo() async {
-    var sp = await (LocalStorage.sp as FutureOr<SharedPreferences>);
-    sp.setString(LocalStorage.userName, _userInfo!.userSimpleVO!.nickname!);
+    var sp = await LocalStorage.sp;
+    sp!.setString(LocalStorage.userName, _userInfo!.userSimpleVO!.nickname!);
     sp.setString(LocalStorage.userIcon, _userInfo!.userSimpleVO!.avatar!);
     sp.setString(
         LocalStorage.pointsCnt, _userInfo!.userSimpleVO!.pointsCnt.toString());

@@ -18,7 +18,7 @@ class MTextFiled extends TextField {
           keyboardType: keyboardType,
           decoration: InputDecoration(
               fillColor: Colors.white,
-              hintStyle: TextStyle(color: textHint),
+              hintStyle: t14lightGrey,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: lineColor,

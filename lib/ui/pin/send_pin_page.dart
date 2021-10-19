@@ -85,7 +85,7 @@ class _SendPinPageState extends State<SendPinPage> {
                   ),
                 ),
                 Positioned(
-                    height: 48,
+                    height: 52,
                     bottom: 0,
                     left: 0,
                     right: 0,
@@ -105,7 +105,8 @@ class _SendPinPageState extends State<SendPinPage> {
                           )),
                           GestureDetector(
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 1),
                               decoration: BoxDecoration(
                                   color: backRed,
                                   borderRadius: BorderRadius.circular(25)),

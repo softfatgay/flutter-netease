@@ -79,7 +79,7 @@ class _FeedBackState extends State<FeedBack> {
     return Scaffold(
       backgroundColor: backColor,
       appBar: TopAppBar(
-        title: '帮助与反馈',
+        title: '意见反馈',
       ).build(context),
       body: Column(
         children: [
@@ -101,7 +101,7 @@ class _FeedBackState extends State<FeedBack> {
                             child: GestureDetector(
                               child: Container(
                                 child: Text(
-                                  '${_selectType['desc']}',
+                                  '${_selectType['desc'] ?? ''}',
                                   style: t16black,
                                 ),
                               ),
@@ -162,13 +162,15 @@ class _FeedBackState extends State<FeedBack> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: NormalBtn('提交', backRed, () {
-              _submit();
-              Navigator.pop(context);
-            }),
-          )
+          SafeArea(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              child: NormalBtn('提交', backRed, () {
+                _submit();
+                Navigator.pop(context);
+              }),
+            ),
+          ),
         ],
       ),
     );

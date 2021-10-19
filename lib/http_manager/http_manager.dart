@@ -89,7 +89,6 @@ class HttpManager {
     bool showProgress = false,
     SignatureCondition? signatureCondition, // 签名条件
   }) async {
-    _print('showProgress = $showProgress');
     if (showProgress) {
       BotToast.showLoading(
           clickClose: true, backgroundColor: Colors.transparent);

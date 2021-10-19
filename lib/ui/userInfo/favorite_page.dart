@@ -93,19 +93,21 @@ class _FavoritePageState extends State<FavoritePage> {
           bottom: 0,
           left: 0,
           right: 0,
-          child: Container(
-            width: double.infinity,
-            child: Row(
-              children: [
-                Expanded(
-                    child: NormalBtn('取消', backWhite, () {
-                  Navigator.pop(context);
-                }, textStyle: t14grey)),
-                Expanded(
-                    child: NormalBtn('保存', backRed, () {
-                  _submit();
-                })),
-              ],
+          child: SafeArea(
+            child: Container(
+              width: double.infinity,
+              child: Row(
+                children: [
+                  Expanded(
+                      child: NormalBtn('取消', backWhite, () {
+                    Navigator.pop(context);
+                  }, textStyle: t14grey)),
+                  Expanded(
+                      child: NormalBtn('保存', backRed, () {
+                    _submit();
+                  })),
+                ],
+              ),
             ),
           ),
         )

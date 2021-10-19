@@ -98,7 +98,7 @@ class _AddNewSizeState extends State<AddNewSize> {
             top: 0,
             left: 0,
             right: 0,
-            bottom: 65,
+            bottom: 65 + MediaQuery.of(context).padding.bottom,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -131,14 +131,15 @@ class _AddNewSizeState extends State<AddNewSize> {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: 0 + MediaQuery.of(context).padding.bottom,
             left: 0,
             right: 0,
             child: Container(
+              color: backWhite,
               padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
               child: NormalBtn('保存', backRed, () {
                 _saveSize();
-              }),
+              }, corner: 4),
             ),
           ),
         ],

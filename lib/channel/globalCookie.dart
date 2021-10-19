@@ -16,7 +16,7 @@ class GlobalCookie {
   Future<String> globalCookieValue(String url) {
     return channel.invokeMethod<String>(
         'globalCookieValue', {'url': url}).then<String>((String? result) {
-      return result!;
+      return result ?? '';
     });
   }
 
@@ -24,7 +24,7 @@ class GlobalCookie {
   Future<bool> clearCookie() {
     return channel.invokeMethod<bool>(
         'clearCookie', {'url': NetContants.baseUrl}).then<bool>((bool? result) {
-      return result!;
+      return result ?? false;
     });
   }
 
@@ -33,7 +33,7 @@ class GlobalCookie {
     return channel.invokeMethod<bool>(
         Platform.isIOS ? 'gotoAppStore' : 'installApk',
         {'url': NetContants.baseUrl}).then<bool>((bool? result) {
-      return result!;
+      return result ?? false;
     });
   }
 }

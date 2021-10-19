@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/round_net_image.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/userInfo/model/qrCodeModel.dart';
 import 'package:flutter_app/ui/userInfo/model/qrUserInfoModel.dart';
+import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -22,6 +24,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
   late QrUserInfoModel _userData;
 
   bool _isLoading = true;
+  late Timer _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +51,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                       Container(
                         child: Text(
                           _userData.nickname!,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: textBlack,
-                              fontWeight: FontWeight.w400),
+                          style: t16blackbold,
                         ),
                       ),
                       Container(
@@ -62,20 +62,32 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                           children: [
                             Text(
                               '用户ID:${_userData.userId}',
-                              style: TextStyle(color: textGrey),
+                              style: t14black,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 2),
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: redColor, width: 0.5),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Text(
-                                '复制',
-                                style: t12red,
+                            GestureDetector(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: redColor, width: 0.5),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Text(
+                                  '复制',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: textRed,
+                                      height: 1.1),
+                                ),
                               ),
+                              onTap: () {
+                                Clipboard.setData(ClipboardData(
+                                        text: '${_userData.userId}'))
+                                    .then((value) {
+                                  Toast.show('已复制到剪切板', context);
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -89,7 +101,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                         margin: EdgeInsets.only(top: 10),
                         child: Text(
                           '线下店结账时出示二维码\n享受更多权益',
-                          style: TextStyle(height: 1.2),
+                          style: t14grey,
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -138,10 +150,8 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
     });
   }
 
-  late Timer _timer;
-
   _getQrCode() async {
-    _timer = Timer.periodic(Duration(milliseconds: 5000), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: 50000), (timer) {
       qrCode().then((responseData) {
         setState(() {
           _qrCodeDate = QrCodeModel.fromJson(responseData.data);

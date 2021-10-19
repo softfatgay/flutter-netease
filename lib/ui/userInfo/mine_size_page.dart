@@ -30,7 +30,7 @@ class _MineSizePageState extends State<MineSizePage> {
     return Scaffold(
       backgroundColor: backWhite,
       appBar: TopAppBar(
-        title: '我的尺寸',
+        title: '我的尺码',
       ).build(context),
       body: Stack(
         children: [
@@ -38,18 +38,19 @@ class _MineSizePageState extends State<MineSizePage> {
             top: 0,
             left: 0,
             right: 0,
-            bottom: 65,
+            bottom: 65 + MediaQuery.of(context).padding.bottom,
             child: _buildList(),
           ),
           Positioned(
-            bottom: 0,
+            bottom: MediaQuery.of(context).padding.bottom,
             left: 0,
             right: 0,
             child: Container(
+              color: backWhite,
               padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
               child: NormalBtn('新增', backRed, () {
                 Routers.push(Routers.addNewSize, context);
-              }),
+              }, corner: 4),
             ),
           ),
         ],

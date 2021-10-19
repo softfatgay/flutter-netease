@@ -23,7 +23,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   final _nameController = TextEditingController();
   final _phoneC = TextEditingController();
   final _addressC = TextEditingController();
-  String _addressTips = '省份 城市 区县';
+  String _addressTips = '省份、城市、区县';
   bool _check = false;
 
   var _provinceItem = AddressItem();
@@ -33,6 +33,7 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   late LocationItemModel _addressItem;
 
+  String _dftAddressTips = '省份、城市、区县';
   num? _id = 0;
   String _title = '新增地址';
 
@@ -125,13 +126,16 @@ class _AddAddressPageState extends State<AddAddressPage>
                             children: [
                               Text(
                                 '$_addressTips',
-                                style: TextStyle(
-                                    color: _addressTips == '省份 城市 区县'
-                                        ? textHint
-                                        : textBlack,
-                                    fontSize: 16),
+                                style: _addressTips == _dftAddressTips
+                                    ? t14lightGrey
+                                    : t16black,
                               ),
-                              arrowRightIcon
+                              _addressTips == _dftAddressTips
+                                  ? Text(
+                                      '(请选择乡镇/街道)',
+                                      style: t14Orange,
+                                    )
+                                  : Container()
                             ],
                           ),
                         ),
@@ -153,6 +157,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                     ),
                     GestureDetector(
                       child: Container(
+                        padding: EdgeInsets.only(bottom: 5),
                         decoration: BoxDecoration(color: Color(0xFFFEFEFE)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +173,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                               },
                             ),
                             Text(
-                              '设为默认',
+                              '设为默认地址',
                               style: t16black,
                             )
                           ],
