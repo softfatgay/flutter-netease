@@ -35,7 +35,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
   var _searchModel = SearchParamModel();
   late ItemPoolModel _itemPoolModel;
   bool _isLoading = true;
-  List<CategoryL1Item?> _categorytList = [];
+  List<CategoryL1Item?> _categoryList = [];
   List<GoodDetail> _result = [];
   Pagination? _pagination;
   int _page = 1;
@@ -141,13 +141,13 @@ class _MakeUpPageState extends State<MakeUpPage> {
       setState(() {
         _isLoading = false;
         _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
-        if (_categorytList == null || _categorytList.isEmpty) {
-          List<CategoryL1Item?> categorytList = [];
-          var categorytListList = _itemPoolModel.categorytList!;
-          categorytListList.forEach((element) {
-            categorytList.add(element.categoryVO);
+        if (_categoryList.isEmpty) {
+          List<CategoryL1Item?> categoryList = [];
+          var categoryListList = _itemPoolModel.categorytList!;
+          categoryListList.forEach((element) {
+            categoryList.add(element.categoryVO);
           });
-          _categorytList = categorytList;
+          _categoryList = categoryList;
         }
         var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
         if (_page == 1) {
@@ -198,7 +198,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
             bottom: 0,
             child: MenuPopWidget(
               searchParamModel: _searchModel,
-              categorytList: _categorytList,
+              categorytList: _categoryList,
               menuChange: (searchModel) {
                 setState(() {
                   _searchModel = searchModel!;

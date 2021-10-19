@@ -29,8 +29,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   int? _sex = 0;
 
-  DateTime? _birthDay;
-
   String _bYear = '';
   String _bMonth = '';
   String _bDay = '';
@@ -121,7 +119,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
             borderRadius: BorderRadius.circular(80),
             border: Border.all(color: lineColor, width: 1),
             image: DecorationImage(
-              image: NetworkImage('${_userInfoModel.user!.avatar ?? _userIcon}'),
+              image:
+                  NetworkImage('${_userInfoModel.user!.avatar ?? _userIcon}'),
               fit: BoxFit.cover,
             ),
           ),
@@ -295,7 +294,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
             _bYear = date.year.toString();
             _bMonth = date.month.toString();
             _bDay = date.day.toString();
-            _birthDay = date;
           });
         }, currentTime: DateTime.now(), locale: LocaleType.zh);
       },
@@ -336,5 +334,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
     if (responseData.code == '200') {
       Toast.show('保存成功', context);
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _nameController.dispose();
+    super.dispose();
   }
 }

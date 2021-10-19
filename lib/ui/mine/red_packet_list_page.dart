@@ -10,9 +10,9 @@ import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
 
 class RedPacketListPage extends StatefulWidget {
-  final int? searchType;
+  final int searchType;
 
-  const RedPacketListPage({Key? key, this.searchType}) : super(key: key);
+  const RedPacketListPage({Key? key, this.searchType = 1}) : super(key: key);
 
   @override
   _RedEnvelopeListState createState() => _RedEnvelopeListState();
@@ -60,7 +60,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   _buildItem(BuildContext context, PackageItem item, int index) {
     var backColor =
         widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFAFB4BC);
-    var botomColor =
+    var bottomColor =
         widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFA3A5AE);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
@@ -144,7 +144,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     decoration: BoxDecoration(
-                        color: botomColor,
+                        color: bottomColor,
                         borderRadius:
                             BorderRadius.vertical(bottom: Radius.circular(4))),
                     child: Row(

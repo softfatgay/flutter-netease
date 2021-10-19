@@ -20,8 +20,8 @@ class GetCouponPage extends StatefulWidget {
 class _GetCouponPageState extends State<GetCouponPage> {
   late GetCouponModel _couponModel;
 
-  List<CouponItem>? _avalibleCouponList = [];
-  List<CouponItem>? _receiveCouponList = [];
+  List<CouponItem> _availableCouponList = [];
+  List<CouponItem> _receiveCouponList = [];
 
   bool _isLoading = true;
 
@@ -34,12 +34,14 @@ class _GetCouponPageState extends State<GetCouponPage> {
 
   void _couponListInCart() async {
     var responseData = await couponListInCart();
-    setState(() {
-      _couponModel = GetCouponModel.fromJson(responseData.data);
-      _avalibleCouponList = _couponModel.avalibleCouponList;
-      _receiveCouponList = _couponModel.receiveCouponList;
-      _isLoading = false;
-    });
+    if (responseData.data != null) {
+      setState(() {
+        _couponModel = GetCouponModel.fromJson(responseData.data);
+        _availableCouponList = _couponModel.avalibleCouponList ?? [];
+        _receiveCouponList = _couponModel.receiveCouponList ?? [];
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -53,7 +55,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
   }
 
   _buildBody() {
-    if (_avalibleCouponList == null || _receiveCouponList == null) {
+    if (_availableCouponList.isEmpty || _receiveCouponList.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,12 +73,10 @@ class _GetCouponPageState extends State<GetCouponPage> {
       );
     }
     List<Widget> childs = [];
-    childs.add(_avalibleCouponList == null || _avalibleCouponList!.isEmpty
-        ? Container()
-        : _title("可领取的优惠券"));
-    childs.add(_avalibleCoupon(_avalibleCouponList));
+    childs.add(_availableCouponList.isEmpty ? Container() : _title("可领取的优惠券"));
+    childs.add(_availableCoupon(_availableCouponList));
     childs.add(_title("已领取的优惠券"));
-    childs.add(_avalibleCoupon(_receiveCouponList));
+    childs.add(_availableCoupon(_receiveCouponList));
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: 15),
@@ -107,8 +107,8 @@ class _GetCouponPageState extends State<GetCouponPage> {
     );
   }
 
-  _avalibleCoupon(List<CouponItem>? avalibleCouponList) {
-    if (avalibleCouponList == null || avalibleCouponList.isEmpty) {
+  _availableCoupon(List<CouponItem> availableCouponList) {
+    if (availableCouponList.isEmpty) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 40),
         child: Text(
@@ -119,13 +119,13 @@ class _GetCouponPageState extends State<GetCouponPage> {
     }
     return Column(
       children:
-          avalibleCouponList.map<Widget>((item) => _buildItem(item)).toList(),
+          availableCouponList.map<Widget>((item) => _buildItem(item)).toList(),
     );
   }
 
   _buildItem(CouponItem item) {
     var backColor = Color(0xFFFFF4F4);
-    var botomColor = backWhite;
+    var bottomColor = backWhite;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -163,7 +163,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.name!, style: t14black),
+                        Text('${item.name ?? ''}', style: t14black),
                         Text('${_valueDate(item)}', style: t12black),
                       ],
                     ),
@@ -174,10 +174,11 @@ class _GetCouponPageState extends State<GetCouponPage> {
                     decoration: BoxDecoration(
                         border: Border.all(color: backRed, width: 1),
                         borderRadius: BorderRadius.circular(2),
-                        color: item.receiveFlag! ? Colors.transparent : backRed),
+                        color:
+                            item.receiveFlag! ? Colors.transparent : backRed),
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     child: Text(
-                      item.receiveFlag! ? '去凑单' : '立即领取',
+                      '${item.receiveFlag! ? '去凑单' : '立即领取'}',
                       style: item.receiveFlag! ? t12Orange : t12white,
                     ),
                   ),
@@ -197,7 +198,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
             margin: EdgeInsets.only(top: 20),
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: botomColor,
+                color: bottomColor,
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(4))),
             child: Column(

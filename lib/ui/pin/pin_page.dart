@@ -19,7 +19,6 @@ import 'package:flutter_app/ui/pin/model/pinItemDetailModel.dart';
 import 'package:flutter_app/ui/pin/model/pinRecommonModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
-import 'package:flutter_app/utils/toast.dart';
 
 class PinPage extends StatefulWidget {
   final Map? params;
@@ -121,9 +120,9 @@ class _PinPageState extends State<PinPage> {
     };
     var responseData = await commentListData(params);
     setState(() {
-      var commondPageModel = CommondPageModel.fromJson(responseData.data);
-      _commentList = commondPageModel.result;
-      _commentCount = commondPageModel.pagination!.total;
+      var recommendPageModel = CommondPageModel.fromJson(responseData.data);
+      _commentList = recommendPageModel.result;
+      _commentCount = recommendPageModel.pagination!.total;
     });
   }
 

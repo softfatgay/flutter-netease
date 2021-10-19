@@ -40,7 +40,6 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(statusBarDark);
     return MaterialApp(
       builder: BotToastInit(),
-      // flutter build appbundle --target-platform android-arm
       theme: ThemeData(
         platform: TargetPlatform.iOS,
         backgroundColor: backColor,

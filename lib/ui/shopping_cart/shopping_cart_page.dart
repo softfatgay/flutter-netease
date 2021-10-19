@@ -40,15 +40,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   var _data; // 完整数据
   late ShoppingCartModel _shoppingCartModel;
 
-  List<CarItem>? _cartGroupList = []; // 有效的购物车组列表
+  List<CarItem> _cartGroupList = []; // 有效的购物车组列表
   ///包邮条件
   PostageVO? _postageVO;
   CarItem? _topItem; // 顶部商品数据
   List<CarItem>? _itemList = []; // 显示的商品数据
-  List<CarItem>? _invalidCartGroupList = []; // 无效的购物车组列表
+  List<CarItem> _invalidCartGroupList = []; // 无效的购物车组列表
   double _price = 0; // 价格
   double _promotionPrice = 0; // 促销价
-  double _actualPrice = 0; // 实际价格
 
   bool isChecked = false; // 是否全部勾选选中
   bool _isCheckedAll = false; // 是否全部勾选选中
@@ -59,7 +58,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   bool isEdit = false; // 是否正在编辑
 
   bool _isLogin = true;
-  int _allCount = 0;
   List _checkList = [];
 
   final _controller = TextEditingController();
@@ -131,18 +129,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     setState(() {
       _loading = false;
       _shoppingCartModel = shoppingCartModel;
-      _cartGroupList = shoppingCartModel.cartGroupList;
+      _cartGroupList = shoppingCartModel.cartGroupList ?? [];
       _postageVO = shoppingCartModel.postageVO;
 
-      _invalidCartGroupList = shoppingCartModel.invalidCartGroupList;
+      _invalidCartGroupList = shoppingCartModel.invalidCartGroupList ?? [];
       _price = double.parse(shoppingCartModel.actualPrice.toString());
       _promotionPrice =
           double.parse(shoppingCartModel.promotionPrice.toString());
-      _actualPrice = double.parse(shoppingCartModel.actualPrice.toString());
 
-      if (_cartGroupList!.length > 0) {
-        _topItem = _cartGroupList![0];
-        if (_cartGroupList!.length > 1) {
+      if (_cartGroupList.length > 0) {
+        _topItem = _cartGroupList[0];
+        if (_cartGroupList.length > 1) {
           _itemList = _cartGroupList;
           // _itemList.removeAt(0);
           _selectedNum = 0;
@@ -276,7 +273,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   ///清除无效商品
   _clearInvalid() async {
     List invalidSku = [];
-    _invalidCartGroupList!.forEach((item) {
+    _invalidCartGroupList.forEach((item) {
       var cartItemList = item.cartItemList!;
       cartItemList.forEach((element) {
         var map = {
@@ -374,9 +371,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   _buildData(BuildContext context) {
     return Positioned(
-      child: (_data == null ||
-              _cartGroupList!.isEmpty ||
-              _cartGroupList!.length == 0)
+      child: (_data == null || _cartGroupList.isEmpty)
           ? EmptyCartWidget()
           : MediaQuery.removePadding(
               removeTop: true,
@@ -688,7 +683,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     ///组装数据
     List cartGroupList = [];
 
-    _cartGroupList!.forEach((cartGroupItem) {
+    _cartGroupList.forEach((cartGroupItem) {
       List cartItemListData = [];
       List addBuyItemListData = [];
 

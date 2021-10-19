@@ -10,7 +10,6 @@ import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/local_storage.dart';
@@ -30,20 +29,20 @@ class SearchIndexPage extends StatefulWidget {
 }
 
 class _SearchIndexPageState extends State<SearchIndexPage> {
-  TextEditingController? _controller;
+  late TextEditingController _controller;
   final _scrollController = new ScrollController();
   String? _textValue = '';
 
   var _keywordList = [];
-  List<dynamic>? _hotKeyWordList = [];
+  List<dynamic> _hotKeyWordList = [];
 
   ///分类
   List<CategoryL1Item>? _categoryL1List = [];
 
   ///搜索提示
-  List<dynamic>? _searchTipsData = [];
+  List<dynamic> _searchTipsData = [];
 
-  var _serachResult = false;
+  var _isSearchResult = false;
 
   //初始化,状态
   var _isFirstLoading = true;
@@ -107,9 +106,11 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     var responseData = await searchInit();
     if (responseData.code == '200') {
       var searchInitModel = SearchInitModel.fromJson(responseData.data);
-      setState(() {
-        _hotKeyWordList = searchInitModel.hotKeywordVOList;
-      });
+      if (searchInitModel.hotKeywordVOList != null) {
+        setState(() {
+          _hotKeyWordList = searchInitModel.hotKeywordVOList!;
+        });
+      }
     }
   }
 
@@ -176,7 +177,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           if (!_hasMore!) {
             _bottomTipsText = '没有更多了';
           }
-          _serachResult = true;
+          _isSearchResult = true;
         }
       });
     }
@@ -185,16 +186,18 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   void _getSearchTips() async {
     Map<String, dynamic> params = {'keywordPrefix': _textValue};
     var responseData = await searchTips(params);
-    setState(() {
-      _searchTipsData = responseData.data;
-      _serachResult = false;
-      _hasMore = false;
-      if (_searchTipsData!.length == 0) {
-        _bottomTipsText = '暂时没有您想要的内容';
-      } else {
-        _bottomTipsText = '';
-      }
-    });
+    if (responseData.data != null) {
+      setState(() {
+        _searchTipsData = responseData.data;
+        _isSearchResult = false;
+        _hasMore = false;
+        if (_searchTipsData.length == 0) {
+          _bottomTipsText = '暂时没有您想要的内容';
+        } else {
+          _bottomTipsText = '';
+        }
+      });
+    }
   }
 
   @override
@@ -202,12 +205,12 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     return Scaffold(
       body: Stack(
         children: [
-          if (_noData && _controller!.text.isNotEmpty)
+          if (_noData && _controller.text.isNotEmpty)
             Center(
               child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
             ),
           _searchInitWidget(context),
-          _controller!.text == '' ? Container() : _showResult(),
+          _controller.text == '' ? Container() : _showResult(),
           Container(
             decoration: BoxDecoration(color: Colors.white),
             child: SearchWidget(
@@ -219,7 +222,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                   _textValue = value;
                 });
                 if (value == '') {
-                  _controller!.text = '';
+                  _controller.text = '';
                 } else {
                   _getSearchTips();
                 }
@@ -232,7 +235,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               },
             ),
           ),
-          if (_controller!.text.isNotEmpty)
+          if (_controller.text.isNotEmpty)
             Positioned(
               top: MediaQuery.of(context).padding.top + _searchHeight,
               left: 0,
@@ -336,7 +339,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
-          _serachResult
+          _isSearchResult
               ? GoodItemNormalWidget(dataList: _directlyList)
               : _buildSearchTips(),
           SliverFooter(hasMore: _hasMore, tipsText: _bottomTipsText),
@@ -359,7 +362,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    _searchTipsData![index],
+                    _searchTipsData[index],
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -373,7 +376,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           child: widget,
           onTap: () {
             setState(() {
-              _searchModel.keyWord = _searchTipsData![index];
+              _searchModel.keyWord = _searchTipsData[index];
               _searchModel.searchWordSource = 7;
               _searchModel.statSearch = 'autoComplete';
               _searchResult();
@@ -381,7 +384,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
             });
           },
         );
-      }, childCount: _searchTipsData!.length),
+      }, childCount: _searchTipsData.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: 8,
@@ -394,7 +397,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     _directlyList = [];
     Util.hideKeyBord(context);
     _saveKey(_searchModel.keyWord);
-    _controller!.text = _searchModel.keyWord!;
+    _controller.text = _searchModel.keyWord!;
     _getTipsResult(true);
   }
 
@@ -462,7 +465,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   }
 
   _hotItem(BuildContext context) {
-    return _hotKeyWordList!
+    return _hotKeyWordList
         .map(
           (value) => GestureDetector(
             child: Container(
@@ -498,7 +501,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _controller!.dispose();
+    _controller.dispose();
     _scrollController.dispose();
     _streamController.close();
   }

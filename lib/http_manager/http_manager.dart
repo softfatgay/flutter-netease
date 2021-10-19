@@ -210,7 +210,7 @@ class HttpManager {
         "__timestamp": "${DateTime.now().millisecondsSinceEpoch}",
       };
 
-  static Map<String, dynamic> commonHeaders() => {"Cookie": cookie};
+  static Map<String, dynamic> commonHeaders() => {"cookie": cookie};
 
   static Map<String, dynamic> authenticationHeader() => {'auth': 'auth'};
 

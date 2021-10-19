@@ -15,7 +15,7 @@ class LocationManagePage extends StatefulWidget {
 
 class _LocationManagePageState extends State<LocationManagePage> {
   List<LocationItemModel> _locationList = [];
-  num? addressId = 0;
+  num? _addressId = 0;
 
   @override
   void initState() {
@@ -126,7 +126,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    addressId = item.id;
+                    _addressId = item.id;
                   });
                   _confirmDialog(context);
                 })
@@ -155,7 +155,7 @@ class _LocationManagePageState extends State<LocationManagePage> {
   }
 
   void _deleteAddress() async {
-    Map<String, dynamic> params = {'id': addressId};
+    Map<String, dynamic> params = {'id': _addressId};
     await deleteAddress(params).then((value) {
       _getLocations();
     });

@@ -217,16 +217,12 @@ class Routers {
       switch (id) {
         case 0:
           return UserInfoPage();
-          break;
         case 1:
           return QRCodeMinePage();
-          break;
         case 2:
           return MineSizePage();
-          break;
         case 4:
           return PointCenterPage();
-          break;
       }
     },
 
@@ -238,23 +234,18 @@ class Routers {
           return RewardNumPage(
             params: params,
           );
-          break;
         case 2: //
           return RedPacketPage();
-          break;
         case 3:
           return CouponPage();
-          break;
         case 4: //津贴
           return RewardNumPage(
             params: params,
           );
-          break;
         case 5: //礼品卡
           return GiftCardPage(
             params: params,
           );
-          break;
       }
       return ErrorPage();
     },
@@ -265,38 +256,28 @@ class Routers {
       switch (id) {
         case 0: //订单界面
           return OrderListPage(params: params);
-          break;
         case 1: //  账号管理
           return AccountManagePage();
-          break;
         case 2: // 拼团
           return PinMainPage();
-          break;
         case 3:
           return ForServicesPage();
-          break;
         case 4: //邀请返利
           return QRCodeMinePage();
-          break;
         case 6: //积分中心
           return PointCenterPage();
-          break;
         case 8: //地址管理
           return LocationManagePage();
-          break;
         case 9: //支付安全
           return PaySafeCenterPage();
-          break;
         case 11: //反馈
           return FeedBack();
-          break;
         case 5: //优先购
         case 7: //会员俱乐部
         case 10: //帮助客服
         case 12: //关于
         case 13: //关于
           return WebViewPage({'url': params['item']['url']});
-          break;
       }
 
       return ErrorPage();
@@ -307,22 +288,16 @@ class Routers {
       switch (id) {
         case 0: //关于界面
           return AboutPage();
-          break;
         case 1: //登录
           return Login();
-          break;
         case 2: //设置界面
           return SettingPage();
-          break;
         case 3: //组件
           return ErrorPage();
-          break;
         case 4: //组件
           return ScrollViewDemo();
-          break;
         case 5: //收藏界面
           return ErrorPage();
-          break;
       }
       return ErrorPage();
     },

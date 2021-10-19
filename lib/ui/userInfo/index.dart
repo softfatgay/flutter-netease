@@ -16,9 +16,6 @@ class UserIndexPage extends StatefulWidget {
 }
 
 class _UserIndexPageState extends State<UserIndexPage> {
-  String _userIcon =
-      'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
-
   String? avatar;
   @override
   void initState() {

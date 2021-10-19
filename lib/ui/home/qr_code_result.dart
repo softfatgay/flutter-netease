@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/tab_app_bar.dart';
 
 class QRCodeResultPage extends StatefulWidget {
   final Map? param;

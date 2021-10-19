@@ -27,7 +27,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
   int? _allowCount = 0;
   String? _listTitle = "";
 
-  CarItem? _carItem;
+  late CarItem _carItem;
   String? _from = '';
   num? _promotionId = -1;
 
@@ -36,8 +36,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
     // TODO: implement initState
     super.initState();
     List<CartItemListItem> dataList = [];
-    _carItem = widget.params!['data'];
-    var addBuyStepList = _carItem!.addBuyStepList;
+    _carItem = widget.params!['data'] ?? CarItem();
+    var addBuyStepList = _carItem.addBuyStepList;
     int totalCnt = 0;
     if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
       addBuyStepList.forEach((element_1) {
@@ -59,7 +59,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
     setState(() {
       _from = widget.params!['from'];
       _promotionId = widget.params!['promotionId'];
-      _allowCount = _carItem!.allowCount;
+      _allowCount = _carItem.allowCount;
       _totalCnt = totalCnt;
       _dataList = dataList;
     });
@@ -274,7 +274,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
     _dataList.forEach((element) {
       if (element.checked!) {
         var item = {
-          'promotionId': _carItem!.promId,
+          'promotionId': _carItem.promId,
           'stepNo': element.stepNo,
           'skuId': element.skuId,
         };
@@ -283,7 +283,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
     });
 
     var param = {
-      'promotionId': _carItem!.promId,
+      'promotionId': _carItem.promId,
       'selectList': dataList,
     };
 

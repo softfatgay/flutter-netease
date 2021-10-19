@@ -11,7 +11,6 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/mine/components/open_vip_widget.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
 
 class RewardNumPage extends StatefulWidget {

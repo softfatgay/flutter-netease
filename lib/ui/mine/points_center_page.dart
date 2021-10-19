@@ -30,7 +30,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
   List<PonitBannersItem>? _bannerData = [];
   List<ItemListItem> _rcmdDataList = [];
 
-  String _topback =
+  String _topBack =
       'https://yanxuan.nosdn.127.net/6b49731e1ed23979a89f119048785bba.png';
 
   @override
@@ -120,7 +120,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-            _topback,
+            _topBack,
           ),
           fit: BoxFit.fill,
         ),

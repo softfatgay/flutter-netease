@@ -90,30 +90,47 @@ class _SendPinPageState extends State<SendPinPage> {
                     left: 0,
                     right: 0,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 6),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                       decoration: BoxDecoration(
                           color: backWhite,
                           border: Border(
                               top: BorderSide(color: lineColor, width: 1))),
                       child: Row(
                         children: [
-                          Expanded(child: Text('实付：¥${_itemInfo!.totalPrice}',style: t14red,)),
-                          GestureDetector(child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            decoration: BoxDecoration(color: backRed,borderRadius: BorderRadius.circular(25)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text('${_itemInfo!.totalPrice}',style: t14whiteBold,),
-                                Text('发起拼团',style: t12white,),
-                              ],
-                            ),),onTap: (){
+                          Expanded(
+                              child: Text(
+                            '实付：¥${_itemInfo!.totalPrice}',
+                            style: t14red,
+                          )),
+                          GestureDetector(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              decoration: BoxDecoration(
+                                  color: backRed,
+                                  borderRadius: BorderRadius.circular(25)),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    '${_itemInfo!.totalPrice}',
+                                    style: t14whiteBold,
+                                  ),
+                                  Text(
+                                    '发起拼团',
+                                    style: t12white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
                               _pinSubmit();
-                          },)
+                            },
+                          )
                         ],
                       ),
                     )),
-
               ],
             ),
     );
@@ -198,87 +215,87 @@ class _SendPinPageState extends State<SendPinPage> {
       child: Column(
           mainAxisSize: MainAxisSize.min,
           children: _detailModel.pinOrderCartItemList!
-              .map((item) => Container(
-                    child: Row(
-                      children: [
-                        RoundNetImage(
-                          backColor: backColor,
-                          url: '${item.picUrl}',
-                          height: 60,
-                          width: 60,
-                          corner: 4,
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  if (item.subtotalPrice == item.retailPrice)
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 2),
-                                      decoration: BoxDecoration(
-                                          color: backRed,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Text(
-                                        '全额返',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            height: 1,
-                                            color: textWhite),
-                                      ),
-                                    ),
-                                  Expanded(
-                                    child: Text(
-                                      '${item.name}',
-                                      style: t14black,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (item.specValueList != null)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: item.specValueList!
-                                      .map((e) => Container(
-                                            child: Text('$e'),
-                                          ))
-                                      .toList(),
-                                ),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    Text(
-                                      '¥${item.retailPrice}',
-                                      style: t14black,
-                                    ),
-                                    Text(
-                                      '¥${item.originPrice}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: textGrey,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ))
+              .map((item) => _goodItem(item))
               .toList()),
+    );
+  }
+
+  Container _goodItem(PinOrderCartItem item) {
+    return Container(
+      child: Row(
+        children: [
+          RoundNetImage(
+            backColor: backColor,
+            url: '${item.picUrl}',
+            height: 60,
+            width: 60,
+            corner: 4,
+          ),
+          SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    if (item.subtotalPrice == item.retailPrice)
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                        decoration: BoxDecoration(
+                            color: backRed,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text(
+                          '全额返',
+                          style: TextStyle(
+                              fontSize: 12, height: 1, color: textWhite),
+                        ),
+                      ),
+                    Expanded(
+                      child: Text(
+                        '${item.name}',
+                        style: t14black,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                if (item.specValueList != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: item.specValueList!
+                        .map((e) => Container(
+                              child: Text('$e'),
+                            ))
+                        .toList(),
+                  ),
+                Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        '¥${item.retailPrice}',
+                        style: t14black,
+                      ),
+                      Text(
+                        '¥${item.originPrice}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: textGrey,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -306,8 +323,7 @@ class _SendPinPageState extends State<SendPinPage> {
     );
   }
 
-  void _pinSubmit() async{
-
+  void _pinSubmit() async {
     var addressItem = LocationItemModel();
     var address = _detailModel.shipAddressList!;
     for (var item in address) {
@@ -317,10 +333,10 @@ class _SendPinPageState extends State<SendPinPage> {
     }
 
     Map<String, dynamic> params = {
-      'pinItemId':_itemInfo!.id,
-      'skuId':_detailModel.skuInfo!.id,
-      'huoDongId':_detailModel.huoDongId,
-      'shipAddressId':addressItem.id
+      'pinItemId': _itemInfo!.id,
+      'skuId': _detailModel.skuInfo!.id,
+      'huoDongId': _detailModel.huoDongId,
+      'shipAddressId': addressItem.id
     };
     var responseData = await pinSubmit(params);
     if (responseData.code == '200') {

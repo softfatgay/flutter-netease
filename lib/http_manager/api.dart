@@ -245,7 +245,7 @@ Future<ResponseData> checkLogin() async {
 
 ///获取用户手机号
 Future<ResponseData> userMobile() async {
-  return await HttpManager.post(USER_MOBILE, params: _getParams());
+  return await HttpManager.get(USER_MOBILE);
 }
 
 ///反馈类型

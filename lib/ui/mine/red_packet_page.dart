@@ -9,6 +9,8 @@ class RedPacketPage extends StatefulWidget {
 
 class _RedEnvelopeState extends State<RedPacketPage>
     with TickerProviderStateMixin {
+  late TabController _controller;
+
   List _tabs = [
     {
       'name': '未使用',
@@ -23,7 +25,6 @@ class _RedEnvelopeState extends State<RedPacketPage>
       'searchType': 3,
     },
   ];
-  TabController? _controller;
 
   @override
   void initState() {
@@ -53,5 +54,12 @@ class _RedEnvelopeState extends State<RedPacketPage>
       ).build(context),
       body: _buildBody(context),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
   }
 }

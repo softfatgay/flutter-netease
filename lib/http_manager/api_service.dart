@@ -134,8 +134,7 @@ final String ORDER_INIT =
     "${suffixUrl}xhr/order/init.json?csrf_token=$csrf_token";
 
 ///获取用户手机号
-final String USER_MOBILE =
-    "${suffixUrl}xhr/feedback/getUserMobile.json?csrf_token=$csrf_token";
+final String USER_MOBILE = "${suffixUrl}xhr/feedback/getUserMobile.json";
 
 ///反馈类型
 final String FEEDBACK_TYPE = "${suffixUrl}xhr/feedback/typeList.json";

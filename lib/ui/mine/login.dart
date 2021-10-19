@@ -14,7 +14,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final String imageAsset = 'assets/images/boduoxiaojie.png';
-  GlobalKey _fromKey = GlobalKey<FormState>();
 
   final _phoneController = TextEditingController();
   final _codeController = TextEditingController();

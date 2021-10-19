@@ -39,9 +39,9 @@ class _TopicPageState extends State<TopicPage>
   final int _pageSize = 5;
   int _page = 1;
 
-  bool? _hasMore = true;
+  bool _hasMore = true;
   List _roundWords = [];
-  int _rondomIndex = 0;
+  int _randomIndex = 0;
   var _timer;
 
   ///头部nav
@@ -98,9 +98,9 @@ class _TopicPageState extends State<TopicPage>
     _timer = Timer.periodic(Duration(milliseconds: 4000), (_timer) {
       setState(() {
         if (_roundWords.length > 0) {
-          _rondomIndex++;
-          if (_rondomIndex >= _roundWords.length) {
-            _rondomIndex = 0;
+          _randomIndex++;
+          if (_randomIndex >= _roundWords.length) {
+            _randomIndex = 0;
           }
         }
       });
@@ -137,7 +137,7 @@ class _TopicPageState extends State<TopicPage>
       var topicData = TopicData.fromJson(data);
       setState(() {
         _page++;
-        _hasMore = topicData.hasMore;
+        _hasMore = topicData.hasMore ?? false;
         _result = topicData.result;
         _result!.forEach((element) {
           _dataList.addAll(element.topics!);

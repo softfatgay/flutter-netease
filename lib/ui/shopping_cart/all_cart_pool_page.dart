@@ -27,8 +27,8 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   bool _isLoading = true;
 
   int _activeIndex = 0;
-  TabController? _tabController;
-  List<CategorytListItem>? _categorytList = [];
+  late TabController _tabController;
+  List<CategorytListItem> _categoryList = [];
   List<GoodDetail> _result = [];
   Pagination? _pagination;
   int? _id = 3;
@@ -42,7 +42,7 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: _categorytList!.length, vsync: this);
+    _tabController = TabController(length: _categoryList.length, vsync: this);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > 500) {
         if (_scrollController.position.pixels ==
@@ -76,8 +76,8 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   @override
   Widget build(BuildContext context) {
     List<String?> tabItem = [];
-    for (int i = 0; i < (_categorytList!.length); i++) {
-      tabItem.add(_categorytList![i].categoryVO!.name);
+    for (int i = 0; i < (_categoryList.length); i++) {
+      tabItem.add(_categoryList[i].categoryVO!.name);
     }
     return Scaffold(
       appBar: TabAppBar(
@@ -146,17 +146,18 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
       setState(() {
         _isLoading = false;
         _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
-        if (_categorytList!.isEmpty) {
-          _categorytList = _itemPoolModel.categorytList;
+        if (_categoryList.isEmpty) {
+          _categoryList = _itemPoolModel.categorytList ?? [];
           _tabController = TabController(
-              length: _categorytList!.length,
+              length: _categoryList.length,
               vsync: this,
-              initialIndex: _categorytList!.length - 1)
+              initialIndex:
+                  _categoryList.isEmpty ? 0 : _categoryList.length - 1)
             ..addListener(() {
-              if (_tabController!.index == _tabController!.animation!.value) {
+              if (_tabController.index == _tabController.animation!.value) {
                 setState(() {
-                  _activeIndex = _tabController!.index;
-                  _id = _categorytList![_activeIndex].categoryVO!.id as int?;
+                  _activeIndex = _tabController.index;
+                  _id = _categoryList[_activeIndex].categoryVO!.id as int?;
                   _page = 1;
                   _itemPool();
                 });
@@ -187,7 +188,7 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController!.dispose();
+    _tabController.dispose();
     _scrollController.dispose();
     super.dispose();
   }

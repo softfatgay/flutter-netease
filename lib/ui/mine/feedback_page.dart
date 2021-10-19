@@ -12,10 +12,10 @@ class FeedBack extends StatefulWidget {
 
 class _FeedBackState extends State<FeedBack> {
   final _tvController = TextEditingController();
-  String? _phone = '';
-  List? feedbackList = [];
+  String _phone = '';
+  List _feedbackList = [];
 
-  var selectType = Map();
+  var _selectType = Map();
 
   @override
   void initState() {
@@ -32,42 +32,46 @@ class _FeedBackState extends State<FeedBack> {
     });
 
     var feedback = await feedbackType();
-    setState(() {
-      feedbackList = feedback.data;
-      for (var value in feedbackList!) {
-        if (value['type'] == 6) {
-          setState(() {
-            selectType = value;
-          });
+    if (feedback.data != null) {
+      setState(() {
+        _feedbackList = feedback.data;
+        for (var value in _feedbackList) {
+          if (value['type'] == 6) {
+            setState(() {
+              _selectType = value;
+            });
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   void _getPhone() async {
     var responseData = await userMobile();
     setState(() {
-      _phone = responseData.data['mobile'];
+      _phone = responseData.data;
     });
   }
 
   void _submit() async {
     Map<String, dynamic> params = {
-      "type": selectType['type'],
+      "type": _selectType['type'],
       "content": _tvController.text,
       "mobile": _phone,
     };
     var feedback = await feedbackSubmit(params);
-    setState(() {
-      feedbackList = feedback.data;
-      for (var value in feedbackList!) {
-        if (value['type'] == 6) {
-          setState(() {
-            selectType = value;
-          });
+    if (feedback.data != null) {
+      setState(() {
+        _feedbackList = feedback.data;
+        for (var value in _feedbackList) {
+          if (value['type'] == 6) {
+            setState(() {
+              _selectType = value;
+            });
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -97,7 +101,7 @@ class _FeedBackState extends State<FeedBack> {
                             child: GestureDetector(
                               child: Container(
                                 child: Text(
-                                  '${selectType['desc']}',
+                                  '${_selectType['desc']}',
                                   style: t16black,
                                 ),
                               ),
@@ -188,7 +192,7 @@ class _FeedBackState extends State<FeedBack> {
           child: Container(
               child: SingleChildScrollView(
             child: Column(
-              children: feedbackList!.map<Widget>((item) {
+              children: _feedbackList.map<Widget>((item) {
                 return GestureDetector(
                   child: Container(
                     width: double.infinity,
@@ -199,7 +203,7 @@ class _FeedBackState extends State<FeedBack> {
                     child: Center(
                       child: Text(
                         item['desc'],
-                        style: selectType['desc'] == item['desc']
+                        style: _selectType['desc'] == item['desc']
                             ? t14red
                             : t14black,
                       ),
@@ -208,7 +212,7 @@ class _FeedBackState extends State<FeedBack> {
                   onTap: () {
                     Navigator.pop(context);
                     setState(() {
-                      selectType = item;
+                      _selectType = item;
                     });
                   },
                 );

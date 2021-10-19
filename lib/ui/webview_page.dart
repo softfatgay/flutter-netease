@@ -8,9 +8,6 @@ import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/tab_app_bar.dart';
-
-// import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -24,7 +21,6 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   final _webController = Completer<WebViewController>();
-  // final cookieManager = WebviewCookieManager();
   final globalCookie = GlobalCookie();
 
   String? _url = '';

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/banner.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
-import 'package:flutter_app/component/banner.dart';
-import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
-import 'package:flutter_app/component/slivers.dart';
 
 class NewItemPage extends StatefulWidget {
   final Map? params;
@@ -22,7 +21,7 @@ class NewItemPage extends StatefulWidget {
 class _KingKongPageState extends State<NewItemPage> {
   var _banner = [];
   bool _initLoading = true;
-  List<ItemListItem>? _dataList;
+  List<ItemListItem> _dataList = [];
 
   @override
   void initState() {

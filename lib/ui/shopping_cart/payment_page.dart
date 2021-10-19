@@ -13,7 +13,6 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  bool _isLoading = true;
   var _data;
 
   @override
@@ -40,7 +39,6 @@ class _PaymentPageState extends State<PaymentPage> {
     };
     var responseData = await orderInit(params);
     setState(() {
-      _isLoading = false;
       _data = responseData.data;
     });
   }

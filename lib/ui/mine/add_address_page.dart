@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/m_textfiled.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/address_selector.dart';
 import 'package:flutter_app/ui/mine/model/addressItem.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
-import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/component/m_textfiled.dart';
-import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 
 class AddAddressPage extends StatefulWidget {
   final Map? params;
@@ -25,7 +24,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   final _phoneC = TextEditingController();
   final _addressC = TextEditingController();
   String _addressTips = '省份 城市 区县';
-  bool? _check = false;
+  bool _check = false;
 
   var _provinceItem = AddressItem();
   var _cityItem = AddressItem();
@@ -57,7 +56,7 @@ class _AddAddressPageState extends State<AddAddressPage>
           _townItem.id = _addressItem.townId;
           _townItem.zonename = _addressItem.townName;
           _addressC.text = _addressItem.address!;
-          _check = _addressItem.dft;
+          _check = _addressItem.dft ?? false;
           _id = _addressItem.id;
           _addressTips =
               '${_provinceItem.zonename! + ' ' + _cityItem.zonename! + ' ' + _disItem.zonename! + ' ' + _townItem.zonename!}';
@@ -164,7 +163,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                               activeColor: Colors.red,
                               onChanged: (value) {
                                 setState(() {
-                                  _check = !_check!;
+                                  _check = !_check;
                                 });
                               },
                             ),
@@ -177,7 +176,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                       ),
                       onTap: () {
                         setState(() {
-                          _check = !_check!;
+                          _check = !_check;
                         });
                       },
                     ),

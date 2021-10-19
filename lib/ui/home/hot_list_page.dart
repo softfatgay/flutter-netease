@@ -31,13 +31,10 @@ class _HotListPageState extends State<HotListPage>
   var _scrollController = ScrollController();
 
   String _currentCategoryId = '0';
-  int? _currentSubCategoryId = 0;
 
-  TabController? _tabController;
+  late TabController _tabController;
   bool _isFirstLoading = true;
-  bool _bodyLoading = true;
   int pageSize = 10;
-  int _page = 1;
 
   String? _bannerUrl =
       "https://yanxuan.nosdn.127.net/294b914321c27e2490b257b5b6be6fa5.png";
@@ -61,6 +58,7 @@ class _HotListPageState extends State<HotListPage>
   void initState() {
     // TODO: implement initState
     setState(() {
+      _tabController = TabController(length: _subCateList.length, vsync: this);
       _categoryId = widget.param!['categoryId'];
       _categoryName = widget.param!['name'];
     });
@@ -123,14 +121,10 @@ class _HotListPageState extends State<HotListPage>
       _isFirstLoading = false;
       _bannerUrl = currentCategory.bannerUrl;
     });
-    _tabController!.addListener(() {
+    _tabController.addListener(() {
       setState(() {
-        if (_tabController!.index == _tabController!.animation!.value) {
-          _bodyLoading = true;
-          _page = 1;
-          _currentCategoryId = _subCateList[_tabController!.index].id.toString();
-          _currentSubCategoryId =
-              _subCateList[_tabController!.index].superCategoryId as int?;
+        if (_tabController.index == _tabController.animation!.value) {
+          _currentCategoryId = _subCateList[_tabController.index].id.toString();
           _getItemList(true);
         }
       });
@@ -139,9 +133,6 @@ class _HotListPageState extends State<HotListPage>
 
   ///列表数据
   _getItemList(bool showLoading) async {
-    setState(() {
-      _bodyLoading = true;
-    });
     Map<String, dynamic> params = {
       "categoryId": _categoryId,
       "subCategoryId": _currentCategoryId,
@@ -156,7 +147,6 @@ class _HotListPageState extends State<HotListPage>
 
     setState(() {
       _dataList = dataList;
-      _bodyLoading = false;
     });
   }
 
@@ -191,7 +181,7 @@ class _HotListPageState extends State<HotListPage>
                         tabController: _tabController,
                         indexChange: (index) {
                           setState(() {
-                            _tabController!.index = index;
+                            _tabController.index = index;
                           });
                         },
                         isTabScroll: isScroll,
@@ -228,7 +218,7 @@ class _HotListPageState extends State<HotListPage>
                         tabController: _tabController,
                         indexChange: (index) {
                           setState(() {
-                            _tabController!.index = index;
+                            _tabController.index = index;
                           });
                         },
                         isTabScroll: isScroll,
@@ -368,7 +358,7 @@ class _HotListPageState extends State<HotListPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController!.dispose();
+    _tabController.dispose();
     _scrollController.dispose();
     _streamController.close();
     _timer.cancel();

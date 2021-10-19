@@ -24,7 +24,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   String _topBackImg =
       'http://yanxuan.nosdn.127.net/18522f8bd4b81e454eee3317f0b77bdc.png';
 
-  TabController? _tabController;
+  late TabController _tabController;
 
   List<TabModel> _tabTitle = [];
   bool _isLoading = true;
@@ -119,7 +119,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
                     tabController: _tabController,
                     indexChange: (index) {
                       setState(() {
-                        _tabController!.index = index;
+                        _tabController.index = index;
                       });
                     },
                     isTabScroll: isScroll,
@@ -158,7 +158,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
                     tabController: _tabController,
                     indexChange: (index) {
                       setState(() {
-                        _tabController!.index = index;
+                        _tabController.index = index;
                       });
                     },
                     isTabScroll: isScroll,
@@ -247,7 +247,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController!.dispose();
+    _tabController.dispose();
     _streamController.close();
     _upStreamController.close();
     _scrollController.dispose();
@@ -274,15 +274,15 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
         _tabController = TabController(length: _tabTitle.length, vsync: this)
           ..addListener(() {
             setState(() {
-              if (_tabController!.index == _tabController!.animation!.value) {
+              if (_tabController.index == _tabController.animation!.value) {
                 _hasMore = true;
                 _page = 1;
-                if (_tabTitle[_tabController!.index].type != null) {
+                if (_tabTitle[_tabController.index].type != null) {
                   _tabIdType = 'tabId';
                 } else {
                   _tabIdType = 'categoryId';
                 }
-                tabId = _tabTitle[_tabController!.index].id as int?;
+                tabId = _tabTitle[_tabController.index].id as int?;
                 _getPinDataList(true);
               }
             });
