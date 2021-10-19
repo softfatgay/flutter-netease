@@ -2,7 +2,8 @@
 
 
 
-#### 已实现登录功能，动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持
+#### 已实现登录功能，动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持，以及优化
+#### 新增支持null-safety
 
 
 
@@ -10,7 +11,6 @@
 #### 注意项目中使用的kotlin,androidx版本
 #### cookie和csrf_token已实现动态更新
 #### flutter(2.2.1)/dart(2.13.1)升级到新版本，兼容Flutter2.0以上版本
-#### 增加null-safety分支（null-safety）
 
 
 
