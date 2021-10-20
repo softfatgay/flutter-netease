@@ -87,9 +87,9 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
               onPageFinished: (url) async {
                 hideTop();
                 final updateCookie = await globalCookie.globalCookieValue(url);
-                print('更新Cookie-------------->');
+                print('更新Cookie-------------->${updateCookie.toString()}');
                 print(updateCookie.toString());
-                if (updateCookie != null && updateCookie.length > 0) {
+                if (updateCookie.isNotEmpty) {
                   CookieConfig.cookie = updateCookie;
                   _checkLogin();
                 }
@@ -103,7 +103,11 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
 
   ///检查是否登录
   _checkLogin() async {
-    var responseData = await checkLogin();
+    Map<String, dynamic> postParams = {
+      'csrf_token': CookieConfig.token,
+      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
+    };
+    var responseData = await checkLoginP(postParams);
     var isLogin = responseData.data;
     setState(() {
       if (isLogin != null && isLogin) {
@@ -140,9 +144,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
             }
           });
         }
-      } catch (e) {
-        print('[[[[[[[[[[[[[[[[[[[[[[');
-      }
+      } catch (e) {}
     });
   }
 

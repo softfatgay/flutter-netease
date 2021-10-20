@@ -63,7 +63,7 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
       throw Exception('TextEditingController 没有初始化');
     }
     return Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      padding: EdgeInsets.symmetric(vertical: 6),
       height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
       child: Row(
         children: <Widget>[
@@ -75,31 +75,44 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
                 border: Border.all(color: Colors.grey[100]!, width: 0.1),
                 borderRadius: new BorderRadius.circular(5.0),
               ),
-              margin: EdgeInsets.symmetric(vertical: 7),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        height: widget.textFiledHeight,
-                        child: TextField(
-                          style: t14black,
-                          decoration: InputDecoration(
-                              hintStyle: t14grey,
-                              hintText: widget.hintText,
-                              border: InputBorder.none),
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (text) {
-                            //回车按钮
-                            if (widget.onBtnClick != null) {
-                              widget.onBtnClick!(text);
-                            }
-                          },
-                          maxLines: 1,
-                          onChanged: (textValue) {},
-                          controller: _controller,
-                        )),
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      height: widget.textFiledHeight,
+                      child: TextField(
+                        style: t14black,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 0, color: Colors.transparent)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 0, color: Colors.transparent)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 0, color: Colors.transparent)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 0, color: Colors.transparent)),
+                          contentPadding: EdgeInsets.symmetric(vertical: 0),
+                          hintStyle: t14grey,
+                          hintText: widget.hintText,
+                        ),
+                        textInputAction: TextInputAction.search,
+                        onSubmitted: (text) {
+                          //回车按钮
+                          if (widget.onBtnClick != null) {
+                            widget.onBtnClick!(text);
+                          }
+                        },
+                        maxLines: 1,
+                        onChanged: (textValue) {},
+                        controller: _controller,
+                      ),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(right: 8),

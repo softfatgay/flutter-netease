@@ -47,7 +47,7 @@ class CouponWidget extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 5, vertical: 0),
                                 child: Text(
-                                  '${item ?? ''}',
+                                  '$item',
                                   style: t12Yellow,
                                 ),
                               ))

@@ -32,7 +32,8 @@ class _GiftCardPageState extends State<GiftCardPage> {
           Expanded(
             child: _noCard(),
           ),
-          GestureDetector(
+          SafeArea(
+              child: GestureDetector(
             child: Container(
               padding: EdgeInsets.fromLTRB(
                   10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
@@ -40,7 +41,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
               color: Colors.white,
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(4),
                     border: Border.all(color: redColor, width: 1)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +62,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
             onTap: () {
               _checkIfSetPsw();
             },
-          )
+          ))
         ],
       ),
     );

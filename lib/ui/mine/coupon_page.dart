@@ -247,8 +247,8 @@ class _CouponPageState extends State<CouponPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-              color: backWhite,
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              color: Color(0xFFF3F3F3),
               child: Text(
                 '已失效',
                 style: t12grey,
@@ -358,8 +358,6 @@ class _CouponPageState extends State<CouponPage> {
       child: GestureDetector(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          // textBaseline: TextBaseline.alphabetic,
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
@@ -375,9 +373,10 @@ class _CouponPageState extends State<CouponPage> {
                 style: t12grey,
               ),
             ),
+            SizedBox(width: 3),
             Text(
               '使用说明',
-              style: t12grey,
+              style: TextStyle(fontSize: 12, color: textGrey, height: 1.1),
             ),
           ],
         ),

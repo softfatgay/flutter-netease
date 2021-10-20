@@ -243,6 +243,11 @@ Future<ResponseData> checkLogin() async {
   return await HttpManager.get(CHECK_LOGIN, params: _timestampParams());
 }
 
+///检查登录
+Future<ResponseData> checkLoginP(Map<String, dynamic> postParams) async {
+  return await HttpManager.get(CHECK_LOGIN, showProgress: true);
+}
+
 ///获取用户手机号
 Future<ResponseData> userMobile() async {
   return await HttpManager.get(USER_MOBILE);
