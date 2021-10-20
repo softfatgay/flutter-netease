@@ -311,9 +311,15 @@ Future<ResponseData> goodDetailDownApi(Map<String, dynamic> params) async {
   return await HttpManager.post(GOOD_DETAIL_DOWN, params: params);
 }
 
-//////商品详情推荐
+///商品详情推荐
 Future<ResponseData> wapitemRcmdApi(Map<String, dynamic> params) async {
   return await HttpManager.post(WAPITEM_RCMD, params: params);
+}
+
+///到货提醒
+Future<ResponseData> remindAdd(Map<String, dynamic> params) async {
+  return await HttpManager.post(REMIND_ADD,
+      params: _getParams(), formData: params);
 }
 
 ///配送信息

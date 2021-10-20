@@ -5,8 +5,10 @@ import 'package:flutter_app/ui/goods_detail/components/diaolog_title_widget.dart
 class NormalScrollDialog {
   final Widget child;
   final String title;
+  final double maxHeight;
 
-  NormalScrollDialog({required this.child, this.title = ''});
+  NormalScrollDialog(
+      {required this.child, this.title = '', this.maxHeight = 400});
 
   build(BuildContext context) async {
     return _showDialog(context);
@@ -21,7 +23,7 @@ class NormalScrollDialog {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-          constraints: BoxConstraints(maxHeight: 400),
+          constraints: BoxConstraints(maxHeight: maxHeight),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
@@ -38,6 +40,19 @@ class NormalScrollDialog {
               )
             ],
           ),
+        );
+      },
+    );
+  }
+
+  buildBottomSheet(BuildContext context) async {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // !important
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [DialogTitleWidget(title: '$title'), child],
         );
       },
     );

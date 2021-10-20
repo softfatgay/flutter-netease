@@ -18,7 +18,7 @@ class GoodPriceWidget extends StatelessWidget {
   }
 
   _buildPrice() {
-    return detailPromBanner == null
+    return detailPromBanner == null && priceModel != null
         ? Container(
             color: backWhite,
             padding: EdgeInsets.fromLTRB(10, 10, 10, 0),

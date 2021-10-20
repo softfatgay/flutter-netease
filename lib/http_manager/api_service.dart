@@ -170,6 +170,9 @@ final String GOOD_DETAIL_DOWN = '${suffixUrl}xhr/item/detail.json';
 ///商品详情推荐
 final String WAPITEM_RCMD = '${suffixUrl}xhr/wapitem/rcmd.json';
 
+///到货提醒
+final String REMIND_ADD = '${suffixUrl}xhr/remind/add.json';
+
 ///配送信息
 final String WAPITEM_DELIVERY = '${suffixUrl}xhr/wapitem/delivery.json';
 

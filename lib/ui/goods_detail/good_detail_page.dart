@@ -6,10 +6,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -99,6 +101,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   final _scrollController = ScrollController();
   final _textEditingController = TextEditingController();
+  final _remindPhoneController = TextEditingController();
 
   ///--------------------------------------------------------------------------------------
   bool _initLoading = true;
@@ -1547,59 +1550,58 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _skuMapItem == null ||
-                        _skuMapItem!.promotionDesc == null ||
-                        _skuMapItem!.promotionDesc == ''
-                    ? Container()
-                    : Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: Color(0xFFEF7C15)),
-                        child: Text(
-                          '${_skuMapItem!.promotionDesc ?? ''}',
-                          style: TextStyle(
-                              fontSize: 12, color: textWhite, height: 1.1),
+                if (_skuMapItem != null &&
+                    _skuMapItem!.promotionDesc != null &&
+                    _skuMapItem!.promotionDesc!.isNotEmpty)
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Color(0xFFEF7C15)),
+                    child: Text(
+                      '${_skuMapItem!.promotionDesc ?? ''}',
+                      style: TextStyle(
+                          fontSize: 12, color: textWhite, height: 1.1),
+                    ),
+                  ),
+                if (_priceModel != null)
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          "价格：",
+                          style: t14red,
                         ),
-                      ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        "价格：",
-                        style: t14red,
-                      ),
-                      Text(
-                        '￥${_priceModel!.basicPrice} ',
-                        overflow: TextOverflow.ellipsis,
-                        style: t14red,
-                      ),
-                      if (_priceModel!.basicPrice !=
-                              _priceModel!.counterPrice &&
-                          _priceModel!.counterPrice != null)
-                        Container(
-                          child: Text(
-                            '¥${_priceModel!.counterPrice ?? ''}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: textGrey,
-                              decoration: TextDecoration.lineThrough,
+                        Text(
+                          '￥${_priceModel!.basicPrice} ',
+                          overflow: TextOverflow.ellipsis,
+                          style: t14red,
+                        ),
+                        if (_priceModel!.basicPrice !=
+                                _priceModel!.counterPrice &&
+                            _priceModel!.counterPrice != null)
+                          Container(
+                            child: Text(
+                              '¥${_priceModel!.counterPrice ?? ''}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: textGrey,
+                                decoration: TextDecoration.lineThrough,
+                              ),
                             ),
                           ),
-                        ),
-                      if (_priceModel!.finalPrice != null)
-                        Container(
-                          child: Text(
-                            '${_priceModel!.finalPrice!.prefix ?? ''}${_priceModel!.finalPrice!.price == null ? '' : '¥${_priceModel!.finalPrice!.price}'}${_priceModel!.finalPrice!.suffix ?? ''}',
-                            style: t14red,
-                          ),
-                        )
-                    ],
+                        if (_priceModel!.finalPrice != null)
+                          Container(
+                            child: Text(
+                              '${_priceModel!.finalPrice!.prefix ?? ''}${_priceModel!.finalPrice!.price == null ? '' : '¥${_priceModel!.finalPrice!.price}'}${_priceModel!.finalPrice!.suffix ?? ''}',
+                              style: t14red,
+                            ),
+                          )
+                      ],
+                    ),
                   ),
-                ),
                 // 商品描述
                 Container(
                   child: Text(
@@ -1879,15 +1881,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     return GestureDetector(
       child: Container(
         width: 80,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-                child: Image.asset(
-              'assets/images/mine/kefu.png',
-              width: 30,
-              height: 30,
-            )),
-          ],
+        child: Image.asset(
+          'assets/images/mine/kefu.png',
+          width: 30,
+          height: 30,
         ),
       ),
       onTap: () {
@@ -1911,8 +1908,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         height: 45,
         decoration: BoxDecoration(
             border: Border(left: BorderSide(color: lineColor, width: 1))),
-        child: TextButton(
-          onPressed: () {
+        child: NormalBtn(
+          '$text',
+          purchaseAttribute == 0 ? backWhite : backRed,
+          () {
             if (_skuMapItem == null) {
               if (type == 1) {
                 _buildSizeModel(context);
@@ -1924,10 +1923,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               _buyGoods();
             }
           },
-          child: Text(
-            '$text',
-            style: purchaseAttribute == 0 ? t16blackbold : t16white,
-          ),
+          textStyle: purchaseAttribute == 0 ? t16blackbold : t16whiteblod,
         ),
       ),
     );
@@ -1981,39 +1977,29 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///不可售
   _noGoodsSell() {
     return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: lineColor, width: 0.6)),
       child: Row(
         children: [
+          _kefuWidget(),
           Expanded(
             flex: 1,
             child: Container(
-              decoration:
-                  BoxDecoration(border: Border.all(color: lineColor, width: 1)),
+              decoration: BoxDecoration(
+                  border:
+                      Border(left: BorderSide(color: lineColor, width: 0.6))),
               height: 45,
-              child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  '到货提醒',
-                  style: t16black,
-                ),
-                color: Colors.white,
-              ),
+              child: NormalBtn('到货提醒', backWhite, () {
+                _hasValueTipsDialog(context);
+              }, textStyle: t16red),
             ),
           ),
           Expanded(
             flex: 1,
             child: Container(
               height: 45,
-              child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  '售罄',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                color: lineColor,
-              ),
+              child: NormalBtn('已售罄', Color(0xFFCCCCCC), () {},
+                  textStyle: t16white),
             ),
           ),
         ],
@@ -2043,6 +2029,68 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         Toast.show('登录成功', context);
       }
     });
+  }
+
+  ///到货提醒
+  _hasValueTipsDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // !important
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DialogTitleWidget(title: ''),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(8),
+              color: Color(0xFFFFFBDB),
+              child: Text(
+                '输入手机号，第一时间获得短信提醒',
+                style: t12red,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            AnimatedPadding(
+              padding:
+                  MediaQuery.of(context).viewInsets, // 我们可以根据这个获取需要的padding
+              duration: const Duration(milliseconds: 100),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: NormalTextFiled(
+                  controller: _remindPhoneController,
+                  borderColor: textBlack,
+                  hintText: '请输入手机号',
+                ),
+              ),
+            ),
+            Container(
+              height: 200,
+            ),
+            NormalBtn('确定', backRed, () {
+              if (_remindPhoneController.text.isNotEmpty)
+                _remindAdd(_remindPhoneController.text);
+            })
+          ],
+        );
+      },
+    );
+  }
+
+  ///设置提醒
+
+  _remindAdd(String mobil) async {
+    Map<String, dynamic> params = {
+      'itemId': _goodId,
+      'mobile': mobil,
+      'type': 1,
+      'skuId': 0
+    };
+    var responseData = await remindAdd(params);
+    if (responseData.code == '200') {
+      Toast.show('设置成功', context);
+      Navigator.pop(context);
+    }
   }
 
   ///购买
