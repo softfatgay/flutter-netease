@@ -10,7 +10,7 @@ class OpenVipWidget extends StatelessWidget {
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
         decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.fill,

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -147,30 +149,38 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
             context: context,
             child: CustomScrollView(
               slivers: <Widget>[
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    return Container(
-                      padding: EdgeInsets.all(10),
-                      height: 120,
-                      child: GestureDetector(
+                SliverPadding(
+                  padding: EdgeInsets.all(10),
+                  sliver: singleSliverWidget(CarouselSlider(
+                    items: _bannerList!.map<Widget>((e) {
+                      return GestureDetector(
                         child: Container(
-                            decoration: BoxDecoration(
-                                color: backColor,
-                                borderRadius: BorderRadius.circular(4)),
-                            child: RoundNetImage(
-                              url: _bannerList![0].picUrl ?? '',
-                              fit: BoxFit.cover,
-                            )),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4)),
+                          child: CachedNetworkImage(
+                            imageUrl: '${e.picUrl}',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                         onTap: () {
-                          Routers.push(Routers.webView, context, {
-                            'url':
-                                '${NetContants.baseUrl}${_bannerList![0].targetUrl}'
-                          });
+                          if (e.targetUrl != null && e.targetUrl!.isNotEmpty) {
+                            Routers.push(
+                                Routers.webView, context, {'url': e.targetUrl});
+                          }
                         },
-                      ),
-                    );
-                  }, childCount: 1),
+                      );
+                    }).toList(),
+                    options: CarouselOptions(
+                        height: 100,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 5),
+                        viewportFraction: 1.0,
+                        // enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          // setState(() {});
+                        }),
+                  )),
                 ),
                 SliverPadding(
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 5),

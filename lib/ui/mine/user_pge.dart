@@ -298,7 +298,7 @@ class _MinePageState extends State<UserPage>
               child: GestureDetector(
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Color(0xFFFFF6F4),
@@ -308,7 +308,7 @@ class _MinePageState extends State<UserPage>
                     children: [
                       CachedNetworkImage(
                         imageUrl: monthCardEntrance.iconPicUrl ?? '',
-                        height: 30,
+                        height: 25,
                       ),
                       CachedNetworkImage(
                         imageUrl: monthCardEntrance.titleUrl ?? '',
@@ -324,7 +324,7 @@ class _MinePageState extends State<UserPage>
                       ),
                       Container(
                         color: textBlack,
-                        height: 15,
+                        height: 12,
                         width: 1,
                       ),
                       SizedBox(
