@@ -114,13 +114,15 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
 
   //隐藏头部
   String hideHeaderJs() {
-    var js = "document.querySelector('.hdWraper').style.display = 'none';";
+    var js =
+        "var wrap = document.querySelector('.hdWraper'); if(wrap != null){wrap.style.display = 'none';}";
     return js;
   }
 
   //隐藏打开appicon
   String hideOpenAppJs() {
-    var js = "document.querySelector('.X_icon_5982').style.display = 'none';";
+    var js =
+        "var head = document.querySelector('.X_icon_5982'); if(head != null){head.style.display = 'none';}";
     return js;
   }
 
@@ -130,6 +132,9 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
         if (_webController != null) {
           _webController.future.then((value) {
             if (Platform.isAndroid) {
+              value.evaluateJavascript(hideHeaderJs()).then((result) {});
+              value.evaluateJavascript(hideOpenAppJs()).then((result) {});
+            } else {
               value.evaluateJavascript(hideHeaderJs()).then((result) {});
               value.evaluateJavascript(hideOpenAppJs()).then((result) {});
             }
