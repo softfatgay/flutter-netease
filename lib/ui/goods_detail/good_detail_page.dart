@@ -671,7 +671,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
             child: Text(
-              _promoTip ?? '',
+              '${_promoTip ?? ' '}',
               textAlign: TextAlign.start,
               style: TextStyle(color: Color(0xFFF48F57), fontSize: 12),
             ),
@@ -1080,7 +1080,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         children: [
           _titleLine(),
           Text(
-            title,
+            '$title',
             style: TextStyle(
               color: textBlack,
               fontSize: 16,

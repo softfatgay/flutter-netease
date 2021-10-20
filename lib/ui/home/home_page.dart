@@ -280,10 +280,10 @@ class _HomeState extends State<HomePage>
                         CachedNetworkImage(
                           width: 20,
                           height: 20,
-                          imageUrl: item.icon!,
+                          imageUrl: item.icon ?? '',
                         ),
                         Text(
-                          item.desc!,
+                          '${item.desc}',
                           style: t12black,
                         )
                       ],
@@ -483,7 +483,7 @@ class _HomeState extends State<HomePage>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item.title!,
+                                  '${item.title ?? ''}',
                                   style: t14blackBold,
                                 ),
                                 SizedBox(

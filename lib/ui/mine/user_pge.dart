@@ -194,7 +194,7 @@ class _MinePageState extends State<UserPage>
               border: Border(bottom: BorderSide(color: lineColor, width: 1))),
           child: Text(
             "我的资产",
-            style: t16black,
+            style: t15black,
           ),
         ),
       ),
@@ -293,60 +293,79 @@ class _MinePageState extends State<UserPage>
     return singleSliverWidget(
       monthCardEntrance == null
           ? Container()
-          : GestureDetector(
-              child: Container(
-                margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Color(0xFFF8E4DF)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: monthCardEntrance.iconPicUrl ?? '',
-                      height: 30,
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: monthCardEntrance.titleUrl ?? '',
-                      height: 20,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    Text(
-                      monthCardEntrance.title ?? '',
-                      style: t14black,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      color: textBlack,
-                      height: 15,
-                      width: 1,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        monthCardEntrance.content!,
-                        style: t14black,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+          : Container(
+              color: backWhite,
+              child: GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Color(0xFFFFF6F4),
+                      border: Border.all(color: Color(0xFFFCE1DF), width: 1)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: monthCardEntrance.iconPicUrl ?? '',
+                        height: 30,
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: redColor,
-                      size: 16,
-                    )
-                  ],
+                      CachedNetworkImage(
+                        imageUrl: monthCardEntrance.titleUrl ?? '',
+                        height: 20,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      Text(
+                        '${monthCardEntrance.title ?? ' '}',
+                        style: t14black,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        color: textBlack,
+                        height: 15,
+                        width: 1,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${monthCardEntrance.content ?? ''}',
+                          style: t14black,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      if (monthCardEntrance.buttonName != null &&
+                          monthCardEntrance.buttonName!.isNotEmpty)
+                        GestureDetector(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 3),
+                            decoration: BoxDecoration(
+                                color: backRed,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Text(
+                              '${monthCardEntrance.buttonName}',
+                              style: TextStyle(
+                                  fontSize: 12, height: 1.1, color: textWhite),
+                            ),
+                          ),
+                          onTap: () {
+                            Routers.push(Routers.webView, context,
+                                {'url': monthCardEntrance.url});
+                          },
+                        )
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  Routers.push(
+                      Routers.webView, context, {'url': monthCardEntrance.url});
+                },
               ),
-              onTap: () {
-                Routers.push(
-                    Routers.webView, context, {'url': monthCardEntrance.url});
-              },
             ),
     );
   }

@@ -55,7 +55,8 @@ class _VideoPageState extends State<VideoPage> {
                     children: <Widget>[
                       VideoPlayer(_controller!),
                       _ControlsOverlay(controller: _controller),
-                      VideoProgressIndicator(_controller!, allowScrubbing: true),
+                      VideoProgressIndicator(_controller!,
+                          allowScrubbing: true),
                     ],
                   ),
                 ),
@@ -122,7 +123,9 @@ class _ControlsOverlay extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            controller!.value.isPlaying ? controller!.pause() : controller!.play();
+            controller!.value.isPlaying
+                ? controller!.pause()
+                : controller!.play();
           },
         ),
         Align(
@@ -139,7 +142,7 @@ class _ControlsOverlay extends StatelessWidget {
                   PopupMenuItem(
                     height: 30,
                     value: speed,
-                    child: Text('${speed} x'),
+                    child: Text('$speed x'),
                   )
               ];
             },

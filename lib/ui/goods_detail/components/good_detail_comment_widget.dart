@@ -69,7 +69,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            goodCmtRate == null ? "" : goodCmtRate!,
+                            '${goodCmtRate ?? ''}',
                             style: t16red,
                           ),
                           Text(

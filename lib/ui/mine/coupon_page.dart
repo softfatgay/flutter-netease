@@ -200,7 +200,7 @@ class _CouponPageState extends State<CouponPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      item.useCondition!,
+                      '${item.useCondition ?? ''}',
                       style: t12white,
                       maxLines: item.isSelected == null
                           ? 1

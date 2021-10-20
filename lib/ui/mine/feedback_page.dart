@@ -204,7 +204,7 @@ class _FeedBackState extends State<FeedBack> {
                     padding: EdgeInsets.symmetric(vertical: 15),
                     child: Center(
                       child: Text(
-                        item['desc'],
+                        '${item['desc']}',
                         style: _selectType['desc'] == item['desc']
                             ? t14red
                             : t14black,

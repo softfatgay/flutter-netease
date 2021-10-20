@@ -142,6 +142,13 @@ const TextStyle t14blackBold = TextStyle(
   decoration: TextDecoration.none,
 );
 
+const TextStyle t15black = TextStyle(
+  color: textBlack,
+  fontSize: 15,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 const TextStyle t15blackBold = TextStyle(
   color: textBlack,
   fontSize: 15,

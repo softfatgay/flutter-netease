@@ -37,7 +37,7 @@ class FreightWidget extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 5),
                       child: Text(
-                        skuFreight!.freightInfo!,
+                        '${skuFreight!.freightInfo ?? ''}',
                         style: t14black,
                       ),
                     ),

@@ -106,7 +106,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: [
-                              Text(item.name!, style: t14white),
+                              Text('${item.name ?? ''}', style: t14white),
                               Text(
                                 '${Util.long2date(item.validStartTime! * 1000 as int)}-${Util.long2date(item.validEndTime! * 1000 as int)}',
                                 style:
@@ -152,7 +152,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            item.rule!,
+                            '${item.rule ?? ''}',
                             style: t12white,
                             maxLines: item.isSelected == null
                                 ? 1

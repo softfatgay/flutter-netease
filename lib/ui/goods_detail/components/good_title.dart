@@ -53,7 +53,7 @@ class GoodTitleWidget extends StatelessWidget {
                 : Column(
                     children: [
                       Text(
-                        goodCmtRate!,
+                        '${goodCmtRate ?? ''}',
                         style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,

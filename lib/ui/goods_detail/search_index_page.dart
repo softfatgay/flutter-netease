@@ -362,7 +362,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    _searchTipsData[index],
+                    '${_searchTipsData[index]}',
                     textAlign: TextAlign.start,
                   ),
                 ),

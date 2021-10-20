@@ -10,7 +10,8 @@ class CouponWidget extends StatelessWidget {
   final num? id;
   final OnPress? onPress;
 
-  const CouponWidget({Key? key, this.couponShortNameList, this.id, this.onPress})
+  const CouponWidget(
+      {Key? key, this.couponShortNameList, this.id, this.onPress})
       : super(key: key);
 
   @override
@@ -46,7 +47,7 @@ class CouponWidget extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 5, vertical: 0),
                                 child: Text(
-                                  item,
+                                  '${item ?? ''}',
                                   style: t12Yellow,
                                 ),
                               ))
