@@ -370,7 +370,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
 
     var responseData = await wapitemDelivery(params);
-    if (responseData.code == '200') {
+    if (responseData.code == '200' && responseData.data != null) {
       setState(() {
         _wapitemDeliveryModel =
             WapitemDeliveryModel.fromJson(responseData.data);

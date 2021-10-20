@@ -27,7 +27,7 @@ class DetailPromBannerWidget extends StatelessWidget {
 
   _activity() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
           color: HexColor.fromHex(banner!.processBanner == null
               ? '#E53B44'
@@ -43,15 +43,17 @@ class DetailPromBannerWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(
-                      '¥',
-                      style: t18whiteBold,
-                    ),
-                    SizedBox(width: 3),
-                    Text(
-                      '${_basicTextInt()[0]}',
-                      style: t32whiteBold,
-                    ),
+                    if (_basicTextInt()[0] != null)
+                      Text(
+                        '¥',
+                        style: t18whiteBold,
+                      ),
+                    if (_basicTextInt()[0] != null) SizedBox(width: 3),
+                    if (_basicTextInt()[0] != null)
+                      Text(
+                        '${_basicTextInt()[0]}',
+                        style: t32whiteBold,
+                      ),
                     Text(
                       '${_basicTextInt()[1]}',
                       style: t20whitebold,
@@ -152,10 +154,10 @@ class DetailPromBannerWidget extends StatelessWidget {
 
   _basicTextInt() {
     var basicPrice = banner!.processBanner!.priceInfo!.basicPrice;
-    if (basicPrice == null) {
-      basicPrice = priceModel!.basicPrice ?? '';
-    }
-    if (basicPrice.contains('.')) {
+    // if (basicPrice == null) {
+    //   basicPrice = priceModel!.basicPrice ?? '';
+    // }
+    if (basicPrice != null && basicPrice.contains('.')) {
       var indexOf = basicPrice.indexOf('.');
       var subInt = basicPrice.substring(0, indexOf);
       var subsDouble = basicPrice.substring(indexOf, basicPrice.length);
@@ -222,7 +224,7 @@ class DetailPromBannerWidget extends StatelessWidget {
   _finalPrice() {
     var finalPrice = banner!.processBanner!.priceInfo!.finalPrice!;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       decoration: BoxDecoration(
           color: backWhite, borderRadius: BorderRadius.circular(20)),
       child: Text(

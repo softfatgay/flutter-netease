@@ -6,6 +6,8 @@ import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/eventbus_constans.dart';
+import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -189,6 +191,10 @@ class _WebViewPageState extends State<WebViewPage> {
     } else if (url.startsWith('${NetContants.baseUrl}cart')) {
       Routers.push(Routers.shoppingCart, context, {'from': Routers.goodDetail});
       return NavigationDecision.prevent;
+    } else if (url == NetContants.baseUrl) {
+      Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
+      HosEventBusUtils.fire(GO_HOME);
+      return NavigationDecision.prevent;
     } else {
       return NavigationDecision.navigate;
     }
@@ -200,7 +206,10 @@ class _WebViewPageState extends State<WebViewPage> {
         "var tabBar = document.querySelector('.tabBar-wrap'); if(tabBar) { tabBar.style.display = 'none' };"
         "var component = document.querySelector('.lazy-component-wrapper'); if(component) { component.style.display = 'none' };"
         "var mTopBar = document.querySelector('.m-topBar'); if(mTopBar) { mTopBar.style.display = 'none' };"
-        "var mHd = document.querySelector('.m-topBar'); if(mHd) { mHd.style.display = 'none' };"
+        "var hdWrap = document.querySelector('.m-hdWrap'); if(hdWrap) { hdWrap.style.display = 'none' };"
+        "var mHd = document.querySelector('.m-hd'); if(mHd) { mHd.style.display = 'none' };"
+        "var navbarU = document.querySelector('.index-module__navbar___2tl9U'); if(navbarU) { navbarU.style.display = 'none' };"
+        "var bd = document.querySelector('.bd'); if(bd) { bd.style.display = 'none' };"
         "var YXM = document.querySelector('.YX_M_507221'); if(YXM) { YXM.style.display = 'none' };"
         "var pscTopbar = document.querySelector('.psc-m-topbar'); if(pscTopbar) { pscTopbar.style.display = 'none' };"
         "var hdWraper = document.querySelector('.hdWraper'); if(hdWraper) { hdWraper.style.display = 'none' };"
