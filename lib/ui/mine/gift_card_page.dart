@@ -21,7 +21,6 @@ class _GiftCardPageState extends State<GiftCardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       backgroundColor: backColor,
       appBar: TopAppBar(
         title: '礼品卡',
@@ -32,8 +31,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
           Expanded(
             child: _noCard(),
           ),
-          SafeArea(
-              child: GestureDetector(
+          GestureDetector(
             child: Container(
               padding: EdgeInsets.fromLTRB(
                   10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
@@ -62,7 +60,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
             onTap: () {
               _checkIfSetPsw();
             },
-          ))
+          )
         ],
       ),
     );

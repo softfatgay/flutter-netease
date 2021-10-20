@@ -42,7 +42,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   String? _title = '';
 
-  void setcookie() async {
+  void setCookie() async {
     if (!CookieConfig.isLogin) return;
 
     List<Cookie> cookies = [];
@@ -139,14 +139,14 @@ class _WebViewPageState extends State<WebViewPage> {
               _webController.complete(controller);
             },
             onPageStarted: (url) async {
-              setcookie();
+              setCookie();
               hideTop();
               setState(() {
                 _isLoading = true;
               });
             },
             onPageFinished: (url) async {
-              setcookie();
+              setCookie();
               hideTop();
               String? aa =
                   await _webController.future.then((value) => value.getTitle());
@@ -166,13 +166,12 @@ class _WebViewPageState extends State<WebViewPage> {
               return _interceptUrl(url);
             },
           ),
-          _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                )
-              : Container(),
+          if (_isLoading)
+            Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+            )
         ],
       ),
     );
@@ -195,63 +194,7 @@ class _WebViewPageState extends State<WebViewPage> {
     }
   }
 
-  // //隐藏头部
-  // String hideBottom1() {
-  //   var js =
-  //       "var tabBar = document.querySelector('.tabBar-wrap'); if(tabBar) { tabBar.style.display = 'none' };";
-  //   return js;
-  // }
-
-  // //隐藏头部
-  // String hideBottom2() {
-  //   var js =
-  //       "var component = document.querySelector('.lazy-component-wrapper'); if(component) { component.style.display = 'none' };";
-  //   return js;
-  // }
-
-  // //隐藏头部
-  // String hideHeaderJs1() {
-  //   var js =
-  //       "var mTopBar = document.querySelector('.m-topBar'); if(mTopBar) { mTopBar.style.display = 'none' };";
-  //   return js;
-  // }
-
-  // //隐藏头部
-  // String hideHeaderJs2() {
-  //   var js =
-  //       "var mHd = document.querySelector('.m-topBar'); if(mHd) { mHd.style.display = 'none' };";
-  //   return js;
-  // }
-
-  // //隐藏头部
-  // String hideHeaderJs3() {
-  //   var js =
-  //       "var YXM = document.querySelector('.YX_M_507221'); if(YXM) { YXM.style.display = 'none' };";
-  //   return js;
-  // }
-  //
-  // //隐藏头部
-  // String hideHeaderJs4() {
-  //   var js =
-  //       "var pscTopbar = document.querySelector('.psc-m-topbar'); if(pscTopbar) { pscTopbar.style.display = 'none' };";
-  //   return js;
-  // }
-
-  // //隐藏头部
-  // String hideHeaderJs() {
-  //   var js =
-  //       "var hdWraper = document.querySelector('.hdWraper'); if(hdWraper) { hdWraper.style.display = 'none' };";
-  //   return js;
-  // }
-
-  //隐藏打开appicon
-  String hideOpenAppJs() {
-    var js =
-        "var XIcon = document.querySelector('.X_icon_5982'); if(XIcon) { XIcon.style.display = 'none' };";
-    return js;
-  }
-
-  //隐藏打开appicon
+  //隐藏一些头部信息，底部信息，隐藏打开appicon
   String hideGoCart() {
     var js =
         "var tabBar = document.querySelector('.tabBar-wrap'); if(tabBar) { tabBar.style.display = 'none' };"
@@ -269,16 +212,6 @@ class _WebViewPageState extends State<WebViewPage> {
     _timer = Timer(Duration(milliseconds: 10), () {
       try {
         _webController.future.then((value) async {
-          // await value.evaluateJavascript(hideHeaderJs());
-          // await value.evaluateJavascript(hideHeaderJs1());
-          // await value.evaluateJavascript(hideHeaderJs2());
-          // await value.evaluateJavascript(hideHeaderJs3());
-          // await value.evaluateJavascript(hideHeaderJs4());
-          // await value.evaluateJavascript(hideOpenAppJs());
-          // await value.evaluateJavascript(hideHeaderJs());
-          // await value.evaluateJavascript(hideBottom1());
-          // await value.evaluateJavascript(hideBottom2());
-          // await value.evaluateJavascript(hideOpenAppJs());
           await value.evaluateJavascript(hideGoCart());
         });
       } catch (e) {
@@ -290,9 +223,6 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    // _webController.future.then((value) {
-    //   value.clearCache();
-    // });
     _timerCancel();
     super.dispose();
   }

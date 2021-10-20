@@ -133,17 +133,10 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
   void hideTop() {
     Timer(Duration(milliseconds: 10), () {
       try {
-        if (_webController != null) {
-          _webController.future.then((value) {
-            if (Platform.isAndroid) {
-              value.evaluateJavascript(hideHeaderJs()).then((result) {});
-              value.evaluateJavascript(hideOpenAppJs()).then((result) {});
-            } else {
-              value.evaluateJavascript(hideHeaderJs()).then((result) {});
-              value.evaluateJavascript(hideOpenAppJs()).then((result) {});
-            }
-          });
-        }
+        _webController.future.then((value) {
+          value.evaluateJavascript(hideHeaderJs()).then((result) {});
+          value.evaluateJavascript(hideOpenAppJs()).then((result) {});
+        });
       } catch (e) {}
     });
   }

@@ -233,7 +233,10 @@ class _OrderListItemPageState extends State<OrderListItemPage>
     return (item.payOption! && item.remainTime! > 0)
         ? Container(
             child: Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+              decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: lineColor, width: 1))),
+              padding: EdgeInsets.only(top: 10, bottom: 10, right: 15),
+              margin: EdgeInsets.only(top: 10, left: 15),
               child: Row(
                 children: [
                   Text("应付:  "),
@@ -243,7 +246,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                     style: t14black,
                   )),
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                         color: redColor,
                         borderRadius: BorderRadius.circular(4)),
