@@ -501,6 +501,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             // banner底部活动
             singleSliverWidget(DetailPromBannerWidget(
               banner: _bannerModel,
+              priceModel: _priceModel,
             )),
             singleSliverWidget(_buildActivity()),
 

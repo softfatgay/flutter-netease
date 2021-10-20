@@ -195,108 +195,92 @@ class _WebViewPageState extends State<WebViewPage> {
     }
   }
 
-  //隐藏头部
-  String hideBottom1() {
-    var js = "document.querySelector('.tabBar-wrap').style.display = 'none';";
-    return js;
-  }
+  // //隐藏头部
+  // String hideBottom1() {
+  //   var js =
+  //       "var tabBar = document.querySelector('.tabBar-wrap'); if(tabBar) { tabBar.style.display = 'none' };";
+  //   return js;
+  // }
 
-  //隐藏头部
-  String hideBottom2() {
+  // //隐藏头部
+  // String hideBottom2() {
+  //   var js =
+  //       "var component = document.querySelector('.lazy-component-wrapper'); if(component) { component.style.display = 'none' };";
+  //   return js;
+  // }
+
+  // //隐藏头部
+  // String hideHeaderJs1() {
+  //   var js =
+  //       "var mTopBar = document.querySelector('.m-topBar'); if(mTopBar) { mTopBar.style.display = 'none' };";
+  //   return js;
+  // }
+
+  // //隐藏头部
+  // String hideHeaderJs2() {
+  //   var js =
+  //       "var mHd = document.querySelector('.m-topBar'); if(mHd) { mHd.style.display = 'none' };";
+  //   return js;
+  // }
+
+  // //隐藏头部
+  // String hideHeaderJs3() {
+  //   var js =
+  //       "var YXM = document.querySelector('.YX_M_507221'); if(YXM) { YXM.style.display = 'none' };";
+  //   return js;
+  // }
+  //
+  // //隐藏头部
+  // String hideHeaderJs4() {
+  //   var js =
+  //       "var pscTopbar = document.querySelector('.psc-m-topbar'); if(pscTopbar) { pscTopbar.style.display = 'none' };";
+  //   return js;
+  // }
+
+  // //隐藏头部
+  // String hideHeaderJs() {
+  //   var js =
+  //       "var hdWraper = document.querySelector('.hdWraper'); if(hdWraper) { hdWraper.style.display = 'none' };";
+  //   return js;
+  // }
+
+  //隐藏打开appicon
+  String hideOpenAppJs() {
     var js =
-        "document.querySelector('.lazy-component-wrapper').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
-    return js;
-  }
-
-  //隐藏头部
-  String hideHeaderJs1() {
-    var js = "document.querySelector('.m-topBar').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
-    return js;
-  }
-
-  //隐藏头部
-  String hideHeaderJs2() {
-    var js = "document.querySelector('.m-hd').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
-    return js;
-  }
-
-  //隐藏头部
-  String hideHeaderJs3() {
-    var js = "document.querySelector('.YX_M_507221').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
-    return js;
-  }
-
-  //隐藏头部
-  String hideHeaderJs4() {
-    var js = "document.querySelector('.psc-m-topbar').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
-    return js;
-  }
-
-  //隐藏头部
-  String hideHeaderJs() {
-    var js = "document.querySelector('.hdWraper').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
+        "var XIcon = document.querySelector('.X_icon_5982'); if(XIcon) { XIcon.style.display = 'none' };";
     return js;
   }
 
   //隐藏打开appicon
-  String hideOpenAppJs() {
-    var js = "document.querySelector('.X_icon_5982').style.display = 'none';";
-    if (js == 'null') {
-      return '';
-    }
+  String hideGoCart() {
+    var js =
+        "var tabBar = document.querySelector('.tabBar-wrap'); if(tabBar) { tabBar.style.display = 'none' };"
+        "var component = document.querySelector('.lazy-component-wrapper'); if(component) { component.style.display = 'none' };"
+        "var mTopBar = document.querySelector('.m-topBar'); if(mTopBar) { mTopBar.style.display = 'none' };"
+        "var mHd = document.querySelector('.m-topBar'); if(mHd) { mHd.style.display = 'none' };"
+        "var YXM = document.querySelector('.YX_M_507221'); if(YXM) { YXM.style.display = 'none' };"
+        "var pscTopbar = document.querySelector('.psc-m-topbar'); if(pscTopbar) { pscTopbar.style.display = 'none' };"
+        "var hdWraper = document.querySelector('.hdWraper'); if(hdWraper) { hdWraper.style.display = 'none' };"
+        "var XIcon = document.querySelector('.X_icon_5982'); if(XIcon) { XIcon.style.display = 'none' };";
     return js;
   }
 
   void hideTop() {
     _timer = Timer(Duration(milliseconds: 10), () {
       try {
-        if (_webController != null) {
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs1());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs2());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs3());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs4());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideOpenAppJs());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideHeaderJs());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideBottom1());
-          });
-          _webController.future.then((value) async {
-            await value.evaluateJavascript(hideBottom2());
-          });
-        }
+        _webController.future.then((value) async {
+          // await value.evaluateJavascript(hideHeaderJs());
+          // await value.evaluateJavascript(hideHeaderJs1());
+          // await value.evaluateJavascript(hideHeaderJs2());
+          // await value.evaluateJavascript(hideHeaderJs3());
+          // await value.evaluateJavascript(hideHeaderJs4());
+          // await value.evaluateJavascript(hideOpenAppJs());
+          // await value.evaluateJavascript(hideHeaderJs());
+          // await value.evaluateJavascript(hideBottom1());
+          // await value.evaluateJavascript(hideBottom2());
+          // await value.evaluateJavascript(hideOpenAppJs());
+          await value.evaluateJavascript(hideGoCart());
+        });
       } catch (e) {
         _timerCancel();
       }

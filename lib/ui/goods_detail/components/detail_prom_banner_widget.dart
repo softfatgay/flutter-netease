@@ -3,13 +3,16 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/component/timer_text.dart';
+import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 import 'package:flutter_app/utils/color_util.dart';
 
 ///banner底部活动
 class DetailPromBannerWidget extends StatelessWidget {
   final BannerModel? banner;
+  final PriceModel? priceModel;
 
-  const DetailPromBannerWidget({Key? key, this.banner}) : super(key: key);
+  const DetailPromBannerWidget({Key? key, this.banner, this.priceModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -148,14 +151,16 @@ class DetailPromBannerWidget extends StatelessWidget {
   }
 
   _basicTextInt() {
-    var basicPrice = banner!.processBanner!.priceInfo!.basicPrice!;
+    var basicPrice = banner!.processBanner!.priceInfo!.basicPrice;
+    if (basicPrice == null) {
+      basicPrice = priceModel!.basicPrice ?? '';
+    }
     if (basicPrice.contains('.')) {
       var indexOf = basicPrice.indexOf('.');
       var subInt = basicPrice.substring(0, indexOf);
       var subsDouble = basicPrice.substring(indexOf, basicPrice.length);
       return [subInt, '$subsDouble'];
     }
-
     return [basicPrice, ''];
   }
 
