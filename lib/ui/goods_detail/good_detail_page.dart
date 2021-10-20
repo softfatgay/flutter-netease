@@ -1977,8 +1977,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///不可售
   _noGoodsSell() {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(color: lineColor, width: 0.6)),
+      decoration: BoxDecoration(
+          color: backWhite, border: Border.all(color: lineColor, width: 0.6)),
       child: Row(
         children: [
           _kefuWidget(),
