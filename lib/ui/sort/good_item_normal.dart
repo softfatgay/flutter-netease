@@ -64,7 +64,7 @@ class GoodItemNormalWidget extends StatelessWidget {
             height: imgHeight,
             child: Stack(
               children: [
-                _roundImg(
+                _netImg(
                   item.listPicUrl!,
                 ),
                 if (item.colorNum != null && item.colorNum! > 0)
@@ -285,20 +285,54 @@ class GoodItemNormalWidget extends StatelessWidget {
     );
   }
 
-  _roundImg(String url) {
+  _netImg(String url) {
     return Container(
+      decoration: BoxDecoration(
+          color: backColor, borderRadius: BorderRadius.circular(8)),
       child: CachedNetworkImage(
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Color(0xFFF4F4F4),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
           ),
         ),
-        imageUrl: url,
+        imageUrl: '$url',
+        errorWidget: (context, url, error) {
+          return Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFFF5F5F5), width: 0.6),
+                borderRadius: BorderRadius.circular(8)),
+            child: Transform.rotate(
+              angle: 0.8,
+              child: Text(
+                'ERROR',
+                style: TextStyle(
+                    color: lineColor,
+                    fontSize: 23,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
+          );
+        },
+        placeholder: (context, url) {
+          return Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFFF5F5F5), width: 0.6),
+                borderRadius: BorderRadius.circular(8)),
+            child: Transform.rotate(
+              angle: 0.8,
+              child: Text(
+                '网易严选',
+                style: TextStyle(
+                    color: textWhite,
+                    fontSize: 23,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

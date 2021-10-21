@@ -41,7 +41,7 @@ class TabAppBar extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  title == null ? '' : title,
+                  '${title ?? ''}',
                   style: t16black,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -69,12 +69,12 @@ class TabAppBar extends StatelessWidget {
         child: TabBar(
           isScrollable: isScrollable,
           controller: this.controller,
-          labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(fontSize: 15),
           labelColor: redColor,
           indicatorColor: Colors.red,
           unselectedLabelColor: Colors.black,
           indicator: MyUnderlineTabIndicator(
-            borderSide: BorderSide(width: 3.0, color: redColor),
+            borderSide: BorderSide(width: 2.0, color: redColor),
           ),
           tabs: tabs!
               .map((f) => Tab(

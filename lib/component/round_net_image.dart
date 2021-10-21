@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
 
 class RoundNetImage extends StatelessWidget {
   final String? url;
@@ -37,14 +38,41 @@ class RoundNetImage extends StatelessWidget {
             ),
           ),
         ),
-        imageUrl: url!,
+        imageUrl: '$url',
         errorWidget: (context, url, error) {
           return Container(
-            height: height,
-            width: width,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
-                border: Border.all(color: lineColor, width: 1),
-                borderRadius: BorderRadius.circular(corner)),
+                border: Border.all(color: Color(0xFFF5F5F5), width: 0.6),
+                borderRadius: BorderRadius.circular(8)),
+            child: Transform.rotate(
+              angle: 0.8,
+              child: Text(
+                'ERROR',
+                style: TextStyle(
+                    color: lineColor,
+                    fontSize: 23,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
+          );
+        },
+        placeholder: (context, url) {
+          return Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFFF5F5F5), width: 0.6),
+                borderRadius: BorderRadius.circular(8)),
+            child: Transform.rotate(
+              angle: 0.8,
+              child: Text(
+                '网易严选',
+                style: TextStyle(
+                    color: Color(0xFFF6F6F6),
+                    fontSize: 23,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
           );
         },
       ),
