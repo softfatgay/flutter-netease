@@ -21,18 +21,12 @@ class SliverRefreshIndicator extends StatelessWidget {
       refreshTriggerPullDistance: 120,
       builder: (context, refreshState, pulledExtent, refreshTriggerPullDistance,
           refreshIndicatorExtent) {
-        print(refreshState);
-        // print(pulledExtent);
-        // print(refreshTriggerPullDistance);
-        // print(refreshIndicatorExtent);
         return Container(
           padding: EdgeInsets.only(
               top: (top ? MediaQuery.of(context).padding.top : 0) +
                   pulledExtent / 3),
           child: pulledExtent > MediaQuery.of(context).padding.top
-              ? CupertinoActivityIndicator(
-                  radius: 15,
-                )
+              ? CupertinoActivityIndicator(radius: 15)
               : Container(),
         );
       },

@@ -162,21 +162,11 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
               child: Stack(
                 children: [
                   Positioned(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/ic_tab_home_normal.png',
-                          height: 22,
-                          width: 22,
-                        ),
-                        SizedBox(width: 5),
-                        Image.asset(
-                          'assets/images/logo_text.png',
-                          height: 20,
-                          // color: Colors.white,
-                        ),
-                      ],
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 11),
+                      child: Image.asset(
+                        'assets/images/logo_and_text.png',
+                      ),
                     ),
                     top: 0,
                     bottom: 0,

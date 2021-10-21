@@ -152,7 +152,7 @@ class _HomeState extends State<HomePage>
       _indexActivityModule = homeModel.indexActivityModule;
       _categoryHotSellModule = homeModel.categoryHotSellModule;
       if (_categoryHotSellModule != null) {
-        _categoryList = _categoryHotSellModule!.categoryList;
+        _categoryList = _categoryHotSellModule?.categoryList;
       }
       _flashSaleModule = homeModel.flashSaleModule;
       if (_flashSaleModule != null) {
@@ -925,7 +925,6 @@ class _HomeState extends State<HomePage>
   }
 
   ///好物推荐
-  _buildRCM(BuildContext context) {}
   List<ItemListItem> _rcmDataList = [];
   var _pagination;
   bool _hasMore = true;
@@ -956,22 +955,6 @@ class _HomeState extends State<HomePage>
   }
 
   void _checkVersion() async {
-    // var packageInfo = await PackageInfo.fromPlatform();
-    // var param = {
-    //   '_api_key': pgy_api_key,
-    //   'buildVersion': packageInfo.version,
-    //   'appKey': pgy_appKey,
-    // };
-    //
-    //
-    //
-    // var responseData = await checkVersion(param);
-    // if (responseData.code == 0) {
-    //   var data = responseData.data;
-    //   var versionModel = VersionModel.fromJson(data);
-    //   if (packageInfo.version != versionModel.buildVersion) {
-    //   }
-    // }
     var packageInfo = await PackageInfo.fromPlatform();
     var paramFir = {
       'api_token': '68c6b9bc36bc9cfd3572dd1c903cb176',
@@ -1006,9 +989,9 @@ class _HomeState extends State<HomePage>
 
   _newUserGift() async {
     var responseData = await newUserGift();
-    if (responseData.code == '200') {
+    if (responseData.code == '200' && responseData.data != null) {
       var newUserGift = NewUserGift.fromJson(responseData.data);
-      if (newUserGift != null && newUserGift.newUserGift != null) {
+      if (newUserGift.newUserGift != null) {
         showGiftDialog(context, newUserGift);
       }
     }
