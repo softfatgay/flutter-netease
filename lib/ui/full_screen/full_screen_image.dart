@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/component/app_bar.dart';
 
@@ -14,7 +15,7 @@ class FullScreenImage extends StatefulWidget {
 }
 
 class _FullScreenImageState extends State<FullScreenImage> {
-  List<String>? _images = [];
+  List<String?>? _images = [];
   int initPage = 0;
 
   @override
@@ -44,7 +45,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                 items: _images!.map<Widget>((e) {
                   return GestureDetector(
                     child: Container(
-                      child: CachedNetworkImage(
+                      child: NetImage(
                         imageUrl: e,
                       ),
                     ),

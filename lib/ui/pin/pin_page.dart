@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/banner.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
@@ -312,11 +313,8 @@ class _PinPageState extends State<PinPage> {
 
   _buildGoodDetail() {
     final imgWidget = _detailImages
-        .map<Widget>((e) => GestureDetector(
-              child: CachedNetworkImage(
-                imageUrl: e,
-                fit: BoxFit.cover,
-              ),
+        .map<Widget>((imgUrl) => GestureDetector(
+              child: NetImage(imageUrl: imgUrl),
               onTap: () {
                 // Routers.push(Util.image, context, {'images': _detailImages});
               },

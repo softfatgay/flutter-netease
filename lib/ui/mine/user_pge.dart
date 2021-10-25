@@ -4,25 +4,24 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/sliver_refresh_indicator.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
+import 'package:flutter_app/ui/component/webview_login_page.dart';
+import 'package:flutter_app/ui/mine/components/user_page_header.dart';
 import 'package:flutter_app/ui/mine/model/minePageItems.dart';
 import 'package:flutter_app/ui/mine/model/phoneStatusModel.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
-import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/component/back_loading.dart';
-import 'package:flutter_app/component/button_widget.dart';
-import 'package:flutter_app/component/sliver_refresh_indicator.dart';
-import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/ui/mine/components/user_page_header.dart';
-import 'package:flutter_app/ui/component/webview_login_page.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
   @override

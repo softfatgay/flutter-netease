@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/timer_text.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -31,27 +31,27 @@ typedef void CallBack();
 
 ///购物车条目
 class CartItemWidget extends StatelessWidget {
-  final CallBack? callBack;
-  final SkuClick? skuClick;
-  final NumChange? numChange;
-  final CheckOne? checkOne;
-  final GoRedeem? goRedeem;
-  final DeleteCheckItem? deleteCheckItem;
-  final List<CarItem>? itemList;
-  final bool? isEdit;
-  final TextEditingController? controller;
+  final CallBack callBack;
+  final SkuClick skuClick;
+  final NumChange numChange;
+  final CheckOne checkOne;
+  final GoRedeem goRedeem;
+  final DeleteCheckItem deleteCheckItem;
+  final List<CarItem> itemList;
+  final bool isEdit;
+  final TextEditingController controller;
 
   const CartItemWidget(
       {Key? key,
-      this.callBack,
-      this.numChange,
-      this.checkOne,
-      this.goRedeem,
-      this.deleteCheckItem,
-      this.itemList,
-      this.isEdit,
-      this.controller,
-      this.skuClick})
+      required this.callBack,
+      required this.numChange,
+      required this.checkOne,
+      required this.goRedeem,
+      required this.deleteCheckItem,
+      required this.itemList,
+      required this.isEdit,
+      required this.controller,
+      required this.skuClick})
       : super(key: key);
 
   @override
@@ -60,7 +60,7 @@ class CartItemWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        CarItem itemData = itemList![index];
+        CarItem itemData = itemList[index];
         List<CartItemListItem> _itemList = [];
 
         ///换购
@@ -95,7 +95,7 @@ class CartItemWidget extends StatelessWidget {
           children: itemItems,
         );
       },
-      itemCount: itemList!.length,
+      itemCount: itemList.length,
     );
   }
 
@@ -230,12 +230,12 @@ class CartItemWidget extends StatelessWidget {
 
           ///图片
           GestureDetector(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: backGrey, borderRadius: BorderRadius.circular(4)),
+            child: RoundNetImage(
+              url: item.pic,
+              backColor: backGrey,
+              corner: 4,
               height: _imageWith,
               width: _imageWith,
-              child: CachedNetworkImage(imageUrl: item.pic ?? ''),
             ),
             onTap: () {
               _goDetail(context, item);
@@ -257,25 +257,24 @@ class CartItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              isEdit!
-                  ? Container()
-                  : Container(
-                      padding: EdgeInsets.only(left: 10),
-                      child: RichText(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          style: t14black,
-                          children: [
-                            TextSpan(
-                                text:
-                                    '${item.promTag ?? (item.id == 0 ? '换购' : '')}',
-                                style: t14Yellow),
-                            TextSpan(text: '${item.itemName ?? ''}'),
-                          ],
-                        ),
-                      ),
+              if (!isEdit)
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  child: RichText(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      style: t14black,
+                      children: [
+                        TextSpan(
+                            text:
+                                '${item.promTag ?? (item.id == 0 ? '换购' : '')}',
+                            style: t14Yellow),
+                        TextSpan(text: '${item.itemName ?? ''}'),
+                      ],
                     ),
+                  ),
+                ),
               GestureDetector(
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
@@ -311,9 +310,7 @@ class CartItemWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   if (item.id != 0) {
-                    if (skuClick != null) {
-                      skuClick!(item);
-                    }
+                    skuClick(item);
                   }
                 },
               ),
@@ -350,7 +347,7 @@ class CartItemWidget extends StatelessWidget {
                         min: 1,
                         max: item.id == 0 ? 1 : item.sellVolume as int?,
                         onChange: (numValue) {
-                          numChange!(item.source, item.type, item.skuId,
+                          numChange(item.source, item.type, item.skuId,
                               numValue!, item.extId);
                         },
                         numClick: () {
@@ -374,7 +371,7 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _showNumClickDialog(BuildContext context, CartItemListItem item) {
-    controller!.text = item.cnt.toString();
+    controller.text = item.cnt.toString();
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -407,15 +404,15 @@ class CartItemWidget extends StatelessWidget {
                 style: t16red,
               ),
               onPressed: () {
-                if (!controller!.text.isEmpty) {
-                  if (num.parse(controller!.text.toString()) >
+                if (controller.text.isNotEmpty) {
+                  if (num.parse(controller.text.toString()) >
                       item.sellVolume!) {
                     Toast.show('不能超过最大库存量(${item.sellVolume})', context,
                         duration: 3);
                     return;
                   }
-                  numChange!(item.source, item.type, item.skuId,
-                      num.parse(controller!.text.toString()), item.extId);
+                  numChange(item.source, item.type, item.skuId,
+                      num.parse(controller.text.toString()), item.extId);
                   Navigator.of(context).pop();
                   // item.cnt = int.parse(controller.text.toString());
                 }
@@ -446,15 +443,13 @@ class CartItemWidget extends StatelessWidget {
 
   ///左侧选择框，编辑框
   _buildCheckBox(CarItem itemData, CartItemListItem item, int index) {
-    if (isEdit!) {
+    if (isEdit) {
       return Container(
         width: _checkBoxWith,
         child: CartCheckBox(
           canCheck: true,
           onCheckChanged: (check) {
-            if (deleteCheckItem != null) {
-              deleteCheckItem!(check, itemData, item);
-            }
+            deleteCheckItem(check, itemData, item);
           },
         ),
       );
@@ -466,11 +461,9 @@ class CartItemWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             if (itemData.canCheck! || item.checked!) {
-              if (checkOne != null) {
-                if (item.id != 0 && item.id != null) {
-                  checkOne!(itemData, item.source, item.type, item.skuId,
-                      !item.checked!, item.extId);
-                }
+              if (item.id != 0 && item.id != null) {
+                checkOne(itemData, item.source, item.type, item.skuId,
+                    !item.checked!, item.extId);
               }
             }
           },
@@ -497,7 +490,6 @@ class CartItemWidget extends StatelessWidget {
         }
       }
     }
-    return Container();
   }
 
   ///不能点击
@@ -554,7 +546,7 @@ class CartItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(2),
                     ),
                     child: Text(
-                      cartItemEmpty ? '全场换购' : '换购',
+                      '${cartItemEmpty ? '全场换购' : '换购'}',
                       style: TextStyle(
                           fontSize: 12, color: textWhite, height: 1.1),
                     ),
@@ -586,9 +578,7 @@ class CartItemWidget extends StatelessWidget {
                         'id': cartItemEmpty ? -1 : itemData.promId,
                         'from': 'cart-item'
                       }, (value) {
-                        if (callBack != null) {
-                          callBack!();
-                        }
+                        callBack();
                       });
                     },
                   )
@@ -616,9 +606,7 @@ class CartItemWidget extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                if (goRedeem != null) {
-                  goRedeem!(itemData);
-                }
+                goRedeem(itemData);
               },
             ),
           ],
@@ -672,9 +660,7 @@ class CartItemWidget extends StatelessWidget {
                   'id': cartItemEmpty ? -1 : itemData.promId,
                   'from': 'cart-item'
                 }, (value) {
-                  if (callBack != null) {
-                    callBack!();
-                  }
+                  callBack();
                 });
               },
             )

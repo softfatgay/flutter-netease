@@ -8,7 +8,6 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 
 class SortListItemPage extends StatefulWidget {

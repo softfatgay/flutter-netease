@@ -1,14 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/img_error.dart';
+import 'package:flutter_app/component/img_palceholder.dart';
 
 class TopRoundNetImage extends StatelessWidget {
   final String? url;
   final double height;
-  final double witht;
+  final double width;
   final double corner;
 
   const TopRoundNetImage(
-      {Key? key, this.url, this.height = 100, this.witht = 100, this.corner = 2})
+      {Key? key,
+      this.url,
+      this.height = 100,
+      this.width = 100,
+      this.corner = 2})
       : super(key: key);
 
   @override
@@ -24,7 +30,13 @@ class TopRoundNetImage extends StatelessWidget {
             ),
           ),
         ),
-        imageUrl: url!,
+        imageUrl: '${url ?? ''}',
+        placeholder: (context, url) {
+          return ImgPlaceHolder();
+        },
+        errorWidget: (context, url, error) {
+          return ImgError();
+        },
       ),
     );
   }

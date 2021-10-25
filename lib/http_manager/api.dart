@@ -407,7 +407,8 @@ Future<ResponseData> saveUserInfo(Map<String, dynamic> params) async {
 
 ///我的尺寸
 Future<ResponseData> mineSize() async {
-  return await HttpManager.post(MINE_SIZE, params: _getParams());
+  return await HttpManager.post(MINE_SIZE,
+      params: _getParams(), showProgress: true);
 }
 
 ///添加尺寸

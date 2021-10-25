@@ -137,6 +137,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                               height: 80,
                               child: RoundNetImage(
                                 url: item,
+                                fontSize: 14,
                               ),
                             ),
                           )
@@ -176,6 +177,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
                     height: 80,
                     child: RoundNetImage(
                       url: picUrlList[0],
+                      fontSize: 14,
                     ),
                   ),
                   Expanded(

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/banner.dart';
+import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -63,10 +64,9 @@ class _PointCenterPageState extends State<PointCenterPage> {
       _banner = _bannerData!
           .map((item) => Container(
                 margin: EdgeInsets.all(15),
-                child: CachedNetworkImage(
-                  imageUrl: item.picUrl!,
+                child: NetImage(
+                  imageUrl: item.picUrl,
                   fit: BoxFit.fitWidth,
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ))
           .toList();
@@ -126,81 +126,93 @@ class _PointCenterPageState extends State<PointCenterPage> {
         ),
       ),
       height: 150,
-      child: Stack(
+      width: double.infinity,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(width: 20),
-              HeadPortrait(url: '$user_icon_url'),
-              SizedBox(width: 5),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '你的可用积分：${_data.availablePoint}',
-                    style: t16whiteblod,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+          SizedBox(width: 15),
+          HeadPortrait(url: '${_data.userSimpleInfo!.userAvatar}'),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '你的可用积分：${_data.availablePoint}',
+                  style: t16whiteblod,
+                ),
+                GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 3),
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: 1),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Text('普通会员', style: t12white),
+                    child: Text(
+                        '${_data.userSimpleInfo!.memberLevel == 0 ? '普通会员 >' : 'Pro会员 >'}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: textWhite,
+                          height: 1.1,
+                        )),
                   ),
-                ],
-              )
-            ],
-          ),
-          Positioned(
-            right: 10,
-            top: 20,
-            child: GestureDetector(
-              child: Container(
-                child: Text(
-                  '积分规则',
-                  style: t14white,
+                  onTap: () {
+                    Routers.push(Routers.webView, context,
+                        {'url': 'https://m.you.163.com/membership/index'});
+                  },
                 ),
-              ),
-              onTap: () {
-                Routers.push(Routers.webView, context,
-                    {'url': '${NetContants.baseUrl}help/new#/36/81'});
-              },
+              ],
             ),
           ),
-          Positioned(
-            right: 0,
-            top: 50,
-            child: GestureDetector(
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                height: 30,
-                decoration: BoxDecoration(
-                  color: backWhite,
-                  borderRadius:
-                      BorderRadius.horizontal(left: Radius.circular(15)),
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/menu_icon.png',
-                      width: 20,
-                      height: 20,
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    height: 60,
+                    child: Text(
+                      '积分规则',
+                      style: t14white,
                     ),
-                    Text(
-                      '账单',
-                      style: t14Yellow,
-                    ),
-                  ],
+                  ),
+                  onTap: () {
+                    Routers.push(Routers.webView, context,
+                        {'url': '${NetContants.baseUrl}help/new#/36/81'});
+                  },
                 ),
-              ),
-              onTap: () {
-                Routers.push(Routers.webView, context,
-                    {'url': '${NetContants.baseUrl}points/detail'});
-              },
+                GestureDetector(
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: backWhite,
+                      borderRadius:
+                          BorderRadius.horizontal(left: Radius.circular(15)),
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/menu_icon.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                        Text(
+                          '账单',
+                          style: t14Yellow,
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Routers.push(Routers.webView, context,
+                        {'url': '${NetContants.baseUrl}points/detail'});
+                  },
+                ),
+              ],
             ),
           ),
         ],
@@ -297,13 +309,12 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 child: Container(
                   margin: EdgeInsets.only(top: 15),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(40),
                       border: Border.all(color: textYellow, width: 0.5)),
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: item.picUrl!,
-                      fit: BoxFit.fill,
-                    ),
+                  child: NetImage(
+                    imageUrl: item.picUrl,
+                    width: 80,
+                    height: 80,
                   ),
                 ),
               ),
@@ -410,8 +421,8 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   flex: 2,
                   child: Container(
                     width: double.infinity,
-                    child: CachedNetworkImage(
-                      imageUrl: item.picUrl!,
+                    child: NetImage(
+                      imageUrl: item.picUrl,
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -478,10 +489,10 @@ class _PointCenterPageState extends State<PointCenterPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
+            NetImage(
               width: 120,
               height: 120,
-              imageUrl: item.primaryPicUrl!,
+              imageUrl: item.primaryPicUrl,
             ),
             SizedBox(width: 10),
             Expanded(

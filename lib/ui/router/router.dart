@@ -36,7 +36,6 @@ import 'package:flutter_app/ui/pin/pin_main_page.dart';
 import 'package:flutter_app/ui/pin/pin_page.dart';
 import 'package:flutter_app/ui/pin/send_pin_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
-import 'package:flutter_app/ui/setting/scrollView.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
 import 'package:flutter_app/ui/shopping_cart/all_cart_pool_page.dart';
 import 'package:flutter_app/ui/shopping_cart/get_cars_page.dart';
@@ -295,7 +294,7 @@ class Routers {
         case 3: //组件
           return ErrorPage();
         case 4: //组件
-          return ScrollViewDemo();
+          return ErrorPage();
         case 5: //收藏界面
           return ErrorPage();
       }

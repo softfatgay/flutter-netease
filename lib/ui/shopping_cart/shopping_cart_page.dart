@@ -44,7 +44,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   ///包邮条件
   PostageVO? _postageVO;
   CarItem? _topItem; // 顶部商品数据
-  List<CarItem>? _itemList = []; // 显示的商品数据
+  List<CarItem> _itemList = []; // 显示的商品数据
   List<CarItem> _invalidCartGroupList = []; // 无效的购物车组列表
   double _price = 0; // 价格
   double _promotionPrice = 0; // 促销价
@@ -145,7 +145,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           _selectedNum = 0;
 
           ///获取选择的数量
-          _itemList!.forEach((element) {
+          _itemList.forEach((element) {
             var cartItemList = element.cartItemList!;
             cartItemList.forEach((item) {
               if (item.checked!) {
@@ -155,7 +155,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           });
 
           ///判断是否全选
-          _itemList!.forEach((element) {
+          _itemList.forEach((element) {
             var cartItemList = element.cartItemList!;
             cartItemList.forEach((item) {
               _isCheckedAll = true;
@@ -315,7 +315,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       appBar: AppBar(
         elevation: 0.3,
         backgroundColor: Colors.white,
-        brightness: Brightness.light,
         centerTitle: false,
         toolbarHeight: 45,
         leadingWidth: 0,
@@ -476,7 +475,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'skuId': item.skuId,
     };
     var responseData = await detailForCart(params);
-    if (responseData.code == '200') {
+    if (responseData.code == '200' && responseData.data != null) {
       var goodDetail = GoodDetail.fromJson(responseData.data);
       _buildSizeModel(context, item.skuId, item.extId, item.type, goodDetail);
     }
@@ -509,7 +508,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   _invalidList() {
     return InvalidCartItemWidget(
       invalidCartGroupList: _invalidCartGroupList,
-      clearInvalida: () {
+      clearInvalid: () {
         _clearInvalid();
       },
     );

@@ -9,6 +9,12 @@ Color? borderColor = Colors.grey[200];
 typedef void NumClick();
 
 class CartCount extends StatefulWidget {
+  final ValueChanged? onChange;
+  int? number;
+  final int? min;
+  final int? max;
+  final NumClick? numClick;
+
   CartCount({
     this.number,
     this.min,
@@ -16,13 +22,6 @@ class CartCount extends StatefulWidget {
     this.onChange,
     this.numClick,
   });
-
-  final ValueChanged? onChange;
-  int? number;
-  final int? min;
-  final int? max;
-  final NumClick? numClick;
-
   @override
   _CartCountState createState() => _CartCountState();
 }

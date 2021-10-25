@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/model/itemTagListItem.dart';
-import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/shopping_cart/components/add_good_size_widget.dart';
-import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/my_vertical_text.dart';
 import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/component/top_round_net_image.dart';
+import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
+import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/shopping_cart/components/add_good_size_widget.dart';
 import 'package:flutter_app/utils/price_util.dart';
 
 const marginS = 8.0;
@@ -17,15 +15,18 @@ const mrr = 5.0;
 typedef void AddCarSuccess();
 
 class GoodItemAddCartWidget extends StatelessWidget {
-  final List<GoodDetail>? dataList;
-  final AddCarSuccess? addCarSuccess;
+  final List<GoodDetail> dataList;
+  final AddCarSuccess addCarSuccess;
 
-  const GoodItemAddCartWidget({Key? key, this.dataList, this.addCarSuccess})
-      : super(key: key);
+  const GoodItemAddCartWidget({
+    Key? key,
+    required this.dataList,
+    required this.addCarSuccess,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildItems(dataList!);
+    return _buildItems(dataList);
   }
 
   _buildItems(List<GoodDetail> data) {
@@ -71,9 +72,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
             height: imgHeight,
             child: Stack(
               children: [
-                _roundImg(
-                  item.listPicUrl!,
-                ),
+                _roundImg(item.listPicUrl),
                 if (item.colorNum != null && item.colorNum! > 0)
                   Container(
                     padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
@@ -261,9 +260,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
     List<String> priceToStr = ['', ''];
     String pricePrefix = '';
     String priceSuffix = '';
-    String? counterPrice = '';
     var finalPrice = item.finalPriceInfoVO!.priceInfo!.finalPrice;
-    counterPrice = item.finalPriceInfoVO!.priceInfo!.counterPrice;
     if (finalPrice != null) {
       priceToStr = PriceUtil.priceToStr(finalPrice.price!);
       pricePrefix = finalPrice.prefix ?? '';
@@ -330,7 +327,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
     );
   }
 
-  _roundImg(String url) {
+  _roundImg(String? url) {
     return Container(
       child: CachedNetworkImage(
         imageBuilder: (context, imageProvider) => Container(
@@ -343,7 +340,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
             ),
           ),
         ),
-        imageUrl: url,
+        imageUrl: url ?? '',
       ),
     );
   }
@@ -360,9 +357,7 @@ class GoodItemAddCartWidget extends StatelessWidget {
         return AddGoodSizeWidget(
           goodDetail: item,
           addCarSuccess: () {
-            if (addCarSuccess != null) {
-              addCarSuccess!();
-            }
+            addCarSuccess();
           },
         );
       },

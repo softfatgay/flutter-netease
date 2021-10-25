@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/ui/mine/model/userModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
@@ -133,12 +134,10 @@ class UserHeader extends SliverPersistentHeaderDelegate {
                   Container(
                     width: 50 - 10 * d,
                     height: 50 - 10 * d,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(50)),
-                      image: DecorationImage(
-                        image: NetworkImage('${avatar ?? user_icon_url}'),
-                        fit: BoxFit.cover,
-                      ),
+                    child: RoundNetImage(
+                      url: '${avatar ?? user_icon_url}',
+                      corner: 25,
+                      fontSize: 10,
                     ), // 通过 container 实现圆角
                   ),
                   Container(

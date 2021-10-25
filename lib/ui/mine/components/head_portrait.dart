@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 
 class HeadPortrait extends StatelessWidget {
   final String? url;
@@ -9,18 +10,14 @@ class HeadPortrait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(50)),
-        border: Border.all(color: Colors.white,width: 1),
-        image: DecorationImage(
-          image: NetworkImage(
-            url!,
-          ),
-          fit: BoxFit.fill,
-        ),
-      ), // 通过 container 实现圆角
+      alignment: Alignment.centerLeft,
+      child: RoundNetImage(
+        url: url,
+        height: 50,
+        width: 50,
+        corner: 25,
+        fontSize: 10,
+      ),
     );
   }
 }

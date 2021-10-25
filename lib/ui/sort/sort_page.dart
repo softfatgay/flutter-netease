@@ -3,22 +3,21 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/loading.dart';
+import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/home/components/top_search.dart';
+import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/sort/component/vertical_tab.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryGroupItem.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/sortData.dart';
-import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/component/loading.dart';
-import 'package:flutter_app/component/round_net_image.dart';
-import 'package:flutter_app/ui/sort/component/vertical_tab.dart';
 
 ///分类
 class SortPage extends StatefulWidget {
@@ -158,7 +157,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4)),
-                          child: CachedNetworkImage(
+                          child: NetImage(
                             imageUrl: '${e.picUrl}',
                             fit: BoxFit.cover,
                           ),
@@ -223,8 +222,9 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                                     child: Column(
                                       children: [
                                         Expanded(
-                                          child: CachedNetworkImage(
-                                            imageUrl: item.wapBannerUrl!,
+                                          child: NetImage(
+                                            imageUrl: item.wapBannerUrl,
+                                            fontSize: 12,
                                           ),
                                         ),
                                         Container(

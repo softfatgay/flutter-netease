@@ -22,10 +22,14 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
 
 
 从本地json文件中加载数据
-    rootBundle.loadString('assets/json/home_data_json.json').then((value) {
+ rootBundle
+        .loadString('assets/json/home_data_json.json')
+        .then((value) async {
       var _dataList = json.decode(value);
+      if (_dataList != null) {
+        var homeModel = HomeModel.fromJson(_dataList['data']['data']);
+      }
     });
-
 
 print('11111111111111111');
 print('22222222222222222');

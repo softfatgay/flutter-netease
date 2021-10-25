@@ -1,6 +1,7 @@
-import 'package:bot_toast/bot_toast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/count.dart';
+import 'package:flutter_app/component/dashed_decoration.dart';
+import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -11,9 +12,6 @@ import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/component/button_widget.dart';
-import 'package:flutter_app/component/count.dart';
-import 'package:flutter_app/component/dashed_decoration.dart';
 
 typedef void ConfigClick(SkuMapValue value);
 typedef void CancelClick();
@@ -21,7 +19,7 @@ typedef void UpdateSkuSuccess();
 typedef void AddCarSuccess();
 
 class AddGoodSizeWidget extends StatefulWidget {
-  final GoodDetail? goodDetail;
+  final GoodDetail goodDetail;
   final ConfigClick? configClick;
   final CancelClick? cancelClick;
   final UpdateSkuSuccess? updateSkuSuccess;
@@ -32,7 +30,7 @@ class AddGoodSizeWidget extends StatefulWidget {
 
   const AddGoodSizeWidget({
     Key? key,
-    this.goodDetail,
+    required this.goodDetail,
     this.configClick,
     this.cancelClick,
     this.skuId,
@@ -81,9 +79,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   ///商品数量
   int _goodCount = 1;
 
-  GoodDetail? goodDetail;
+  var goodDetail = GoodDetail();
 
-  List<SpecListItem>? _specList;
   num? _skuId;
 
   @override
@@ -91,7 +88,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     // TODO: implement initState
     setState(() {
       goodDetail = widget.goodDetail;
-      var skuSpecList = goodDetail!.skuSpecList!;
+      var skuSpecList = goodDetail.skuSpecList!;
       _selectSkuMapKey = List.filled(skuSpecList.length, '');
       _selectSkuMapDec = List.filled(skuSpecList.length, '');
 
@@ -105,7 +102,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   }
 
   void _setSelectSkuMapKey(num? skuId) {
-    var skuList = goodDetail!.skuList!;
+    var skuList = goodDetail.skuList!;
     SkuListItem? skuListItem;
     for (var value in skuList) {
       if (value.id == skuId) {
@@ -193,7 +190,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                               ),
 
                               ///颜色，规格等参数
-                              _modelAndSize(context, goodDetail!, setstate),
+                              _modelAndSize(context, goodDetail, setstate),
                               //数量
                               Container(
                                 margin: EdgeInsets.only(top: 15, bottom: 10),
@@ -269,22 +266,21 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   ///选择的规格
   SkuMapValue? _skuMapItem;
 
-  _selectGoodDetail(BuildContext context, GoodDetail? goodDetail) {
-    String img = (_skuMapItem == null || _skuMapItem!.pic == null)
-        ? goodDetail!.primaryPicUrl!
-        : _skuMapItem!.pic!;
+  _selectGoodDetail(BuildContext context, GoodDetail goodDetail) {
+    String? img = (_skuMapItem == null || _skuMapItem!.pic == null)
+        ? goodDetail.primaryPicUrl
+        : _skuMapItem!.pic;
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           GestureDetector(
-            child: Container(
-              child: CachedNetworkImage(
-                imageUrl: img,
-                fit: BoxFit.cover,
-              ),
+            child: NetImage(
+              imageUrl: img,
+              fit: BoxFit.cover,
               height: 100,
               width: 100,
+              fontSize: 14,
             ),
             onTap: () {
               Routers.push(Routers.image, context, {
@@ -364,7 +360,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         physics: new NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           SkuSpecListItem skuSpecItem = goodDetail.skuSpecList![index];
-          List<SkuSpecValue> skuSpecItemNameList = skuSpecItem.skuSpecValueList!;
+          List<SkuSpecValue> skuSpecItemNameList =
+              skuSpecItem.skuSpecValueList!;
           return Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -439,7 +436,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     });
 
     skuMapKey = skuMapKey.replaceFirst(';', '');
-    SkuMapValue? skuMapItem = goodDetail!.skuMap!['$skuMapKey'];
+    SkuMapValue? skuMapItem = goodDetail.skuMap!['$skuMapKey'];
 
     ///描述信息
     String selectStrDec = '';
@@ -463,7 +460,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   void _getSkumapItem() {
     if (_skuMapItem == null) {
       ///顺序不同，导致选择失败
-      var keys = goodDetail!.skuMap!.keys;
+      var keys = goodDetail.skuMap!.keys;
       for (var element in keys) {
         var split = element.split(';');
         bool isMatch = false;
@@ -476,7 +473,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
           }
         }
         if (isMatch) {
-          _skuMapItem = goodDetail!.skuMap!['$element'];
+          _skuMapItem = goodDetail.skuMap!['$element'];
           break;
         }
       }
@@ -564,7 +561,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       selectSkuMapKey[i] = _selectSkuMapKey[i];
     }
     selectSkuMapKey[index] = item.id.toString();
-    var keys = goodDetail!.skuMap!.keys;
+    var keys = goodDetail.skuMap!.keys;
     bool isMatch = false;
 
     var isValue = false;
@@ -584,7 +581,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         }
       }
       if (isMatch) {
-        SkuMapValue skuMapItem = goodDetail!.skuMap!['$element']!;
+        SkuMapValue skuMapItem = goodDetail.skuMap!['$element']!;
         if (skuMapItem.sellVolume != 0) {
           isValue = true;
           break;
@@ -603,7 +600,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     _selectSkuMapKey.forEach((element) {
       if (element == '') {
         var indexOf = _selectSkuMapKey.indexOf(element);
-        var name = goodDetail!.skuSpecList![indexOf].name;
+        var name = goodDetail.skuSpecList![indexOf].name;
         Toast.show('请选择$name', context);
         return;
       }

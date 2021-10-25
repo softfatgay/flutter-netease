@@ -4,8 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
 import 'package:flutter_app/component/slivers.dart';
@@ -188,7 +190,6 @@ class _HomeState extends State<HomePage>
         _topTags(context), //标签
         _kingkong(context), //
         _bigPromotion(context), //活动
-        _splitLine(),
         _newcomerPack(context), //新人礼包
         _splitLine(),
         _categoryHotSell(context), //类目热销榜
@@ -198,7 +199,7 @@ class _HomeState extends State<HomePage>
         _flashSaleItem(context), //类目热销榜条目
 
         _normalTitle(context, '新品首发'), //新品首发
-        _newModulItem(context), //新品首发条目
+        _newModelItem(context), //新品首发条目
 
         _splitLine(),
         _bottomView(context),
@@ -310,9 +311,9 @@ class _HomeState extends State<HomePage>
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(5),
-                    child: CachedNetworkImage(
-                      imageUrl: _kingKongList![index].picUrl ?? "",
-                      fit: BoxFit.fitWidth,
+                    child: NetImage(
+                      imageUrl: '${_kingKongList![index].picUrl ?? ""}',
+                      fontSize: 12,
                     ),
                   ),
                   flex: 2,
@@ -343,26 +344,29 @@ class _HomeState extends State<HomePage>
   }
 
   _bigPromotion(BuildContext context) {
-    return singleSliverWidget(Column(
-      children: _floorList!
-          .map(
-            (item) => Container(
-              width: double.infinity,
-              constraints: BoxConstraints(maxHeight: 180),
-              margin: EdgeInsets.symmetric(vertical: 2),
-              child: _huoDong(item),
-            ),
-          )
-          .toList(),
+    return singleSliverWidget(Container(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      color: backColor,
+      child: Column(
+        children: _floorList!
+            .map(
+              (item) => Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(vertical: 2),
+                child: _huoDong(item),
+              ),
+            )
+            .toList(),
+      ),
     ));
   }
 
   _huoDong(FloorItem item) {
-    if (item.cells != null && item.cells!.length > 1) {
+    if (item.cells != null && item.cells!.isNotEmpty) {
       return Container(
         width: double.infinity,
-        constraints: BoxConstraints(maxHeight: 170),
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin:
+            EdgeInsets.symmetric(horizontal: item.cells!.length > 1 ? 10 : 0),
         child: Row(
           children: item.cells!.map((e) {
             return Expanded(
@@ -372,8 +376,7 @@ class _HomeState extends State<HomePage>
                 padding: EdgeInsets.symmetric(horizontal: 2),
                 child: GestureDetector(
                   child: CachedNetworkImage(
-                    imageUrl: item.cells!.length > 1 ? e.picUrl! : e.picUrl!,
-                    fit: BoxFit.cover,
+                    imageUrl: '${e.picUrl ?? ''}',
                   ),
                   onTap: () {
                     Routers.push(
@@ -389,8 +392,8 @@ class _HomeState extends State<HomePage>
       return Container(
         width: double.infinity,
         child: GestureDetector(
-          child: CachedNetworkImage(
-            imageUrl: item.cells![0].picUrl!,
+          child: NetImage(
+            imageUrl: '${item.cells![0].picUrl ?? ''}',
             fit: BoxFit.cover,
           ),
           onTap: () {
@@ -436,8 +439,8 @@ class _HomeState extends State<HomePage>
                       children: [
                         Container(
                           padding: EdgeInsets.fromLTRB(40, 60, 40, 20),
-                          child: CachedNetworkImage(
-                              fit: BoxFit.cover, imageUrl: '$redPackageUrl'),
+                          child: NetImage(
+                              imageUrl: '$redPackageUrl', fit: BoxFit.cover),
                         ),
                         Container(
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
@@ -454,7 +457,7 @@ class _HomeState extends State<HomePage>
                   },
                 )),
             Container(
-              width: 3,
+              width: 4,
               color: Colors.white,
             ),
             Expanded(
@@ -468,13 +471,13 @@ class _HomeState extends State<HomePage>
                         children: [
                           Container(
                             width: double.infinity / 2,
-                            height: 97,
+                            height: 96,
                             color: Color(0xFFF9DCC9),
-                            margin: EdgeInsets.only(bottom: 3),
-                            child: CachedNetworkImage(
+                            margin: EdgeInsets.only(bottom: 4),
+                            child: NetImage(
                               alignment: Alignment.bottomRight,
                               fit: BoxFit.fitHeight,
-                              imageUrl: item.showPicUrl!,
+                              imageUrl: '${item.showPicUrl ?? ''}',
                             ),
                           ),
                           Container(
@@ -544,7 +547,7 @@ class _HomeState extends State<HomePage>
                 children: [
                   _hotTopCell(0),
                   SizedBox(
-                    width: 5,
+                    width: 4,
                   ),
                   _hotTopCell(1),
                 ],
@@ -588,8 +591,10 @@ class _HomeState extends State<HomePage>
                 flex: 2,
               ),
               Expanded(
-                child: CachedNetworkImage(
-                  imageUrl: _categoryList![index].picUrl!,
+                child: Container(
+                  child: CachedNetworkImage(
+                    imageUrl: '${_categoryList![index].picUrl}',
+                  ),
                 ),
                 flex: 3,
               ),
@@ -642,9 +647,10 @@ class _HomeState extends State<HomePage>
                       child: Container(
                         color: Color(0xFFF2F2F2),
                         child: Center(
-                          child: CachedNetworkImage(
-                            imageUrl: sublist[index].picUrl!,
+                          child: NetImage(
+                            imageUrl: sublist[index].picUrl,
                             fit: BoxFit.fitWidth,
+                            fontSize: 14,
                           ),
                         ),
                       )),
@@ -719,8 +725,8 @@ class _HomeState extends State<HomePage>
                 Container(
                   color: Colors.white,
                   child: Center(
-                    child: CachedNetworkImage(
-                      imageUrl: _flashSaleModuleItemList![index].picUrl!,
+                    child: NetImage(
+                      imageUrl: _flashSaleModuleItemList![index].picUrl,
                     ),
                   ),
                 ),
@@ -759,7 +765,7 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _newModulItem(BuildContext context) {
+  _newModelItem(BuildContext context) {
     if (_newItemList == null || _newItemList!.isEmpty) {
       return singleSliverWidget(Container());
     }
@@ -781,9 +787,9 @@ class _HomeState extends State<HomePage>
                   children: <Widget>[
                     Expanded(
                       child: Container(
-                        child: CachedNetworkImage(
+                        child: NetImage(
                           height: 210,
-                          imageUrl: item.scenePicUrl!,
+                          imageUrl: item.scenePicUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -884,17 +890,19 @@ class _HomeState extends State<HomePage>
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: Row(
                         children: [
                           Expanded(
-                              child: CachedNetworkImage(
-                            imageUrl: item.styleItem!.picUrlList![0] ?? '',
-                          )),
+                            child: CachedNetworkImage(
+                              imageUrl: '${item.styleItem!.picUrlList![0]}',
+                            ),
+                          ),
                           Expanded(
-                              child: CachedNetworkImage(
-                            imageUrl: item.styleItem!.picUrlList![1] ?? '',
-                          )),
+                            child: CachedNetworkImage(
+                              imageUrl: '${item.styleItem!.picUrlList![1]}',
+                            ),
+                          ),
                         ],
                       ),
                     )

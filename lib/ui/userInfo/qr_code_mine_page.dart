@@ -117,6 +117,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                     corner: 40,
                     height: 80,
                     width: 80,
+                    fontSize: 12,
                   ),
                 )
               ],
