@@ -25,7 +25,7 @@ final String URL_SORT_LIST_NEW = "${suffixUrl}item/list.json";
 final String URL_KING_KONG = "${suffixUrl}item/list.json";
 
 ///kingkong
-final String URL_KING_KONG_NO_ID = "${suffixUrl}xhr/item/getPreNewItem.json";
+final String PRE_NEW_ITEM = "${suffixUrl}xhr/item/getPreNewItem.json";
 
 ///我的信息
 final String USER_INFO_ITEMS = "${suffixUrl}xhr/user/myFund.json";

@@ -24,12 +24,15 @@ class TopAppBar extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            TextButton(
-              child: Image.asset(
-                'assets/images/back.png',
-                height: 25,
+            GestureDetector(
+              child: Container(
+                width: 50,
+                child: Image.asset(
+                  'assets/images/back.png',
+                  height: 25,
+                ),
               ),
-              onPressed: () {
+              onTap: () {
                 if (backPress != null) {
                   backPress!();
                 } else {

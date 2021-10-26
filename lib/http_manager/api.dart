@@ -36,12 +36,14 @@ Future<ResponseData> kingKongData(Map<String, dynamic> params) async {
 }
 
 ///新品
-Future<ResponseData> kingKongNewItemData() async {
-  return await HttpManager.get(ORDER_NEW_ITEM, params: _timestampParams());
+Future<ResponseData> kingKongNewItemData(Map<String, dynamic> params) async {
+  return await HttpManager.post(ORDER_NEW_ITEM,
+      params: _timestampParams(), formData: params);
 }
 
-Future<ResponseData> kingKongDataNoId(Map<String, dynamic> params) async {
-  return await HttpManager.get(URL_KING_KONG_NO_ID, params: _getParams());
+///新品预告
+Future<ResponseData> preNewItem() async {
+  return await HttpManager.get(PRE_NEW_ITEM, params: _timestampParams());
 }
 
 Future<ResponseData> getUserInfoItems() async {

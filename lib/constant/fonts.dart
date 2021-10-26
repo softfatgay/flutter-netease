@@ -551,6 +551,13 @@ const TextStyle t14Orange = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
+const TextStyle t20Orange = TextStyle(
+  color: textOrange,
+  fontSize: 20,
+  decoration: TextDecoration.none,
+  fontWeight: fontWeightRegular,
+);
+
 ///-------------------------数字字体----------------------------
 
 ///-------------------------白色----------------------------

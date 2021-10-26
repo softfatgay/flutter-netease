@@ -37,6 +37,9 @@ class ItemListItem {
 
   TopLogo? topLogo;
 
+  ///新品首发中使用
+  num? sortOriginPrice;
+
   ItemListItem();
 
   factory ItemListItem.fromJson(Map<String, dynamic> json) =>

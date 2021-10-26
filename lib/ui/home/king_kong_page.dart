@@ -183,7 +183,7 @@ class _KingKongPageState extends State<KingKongPage> {
   }
 
   void _getNewData() async {
-    var responseData = await kingKongNewItemData();
+    // var responseData = await kingKongNewItemData();
   }
 
   @override
