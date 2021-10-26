@@ -163,7 +163,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                 children: [
                   Positioned(
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 11),
+                      padding: EdgeInsets.symmetric(vertical: 12),
                       child: Image.asset(
                         'assets/images/logo_and_text.png',
                       ),

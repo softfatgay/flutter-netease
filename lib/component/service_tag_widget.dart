@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/constant/fonts.dart';
 
 class ServerTagWidget extends StatelessWidget {
   final tags = ['30天无忧退货', '48小时快速退货', '满99免邮费'];
@@ -27,7 +26,7 @@ class ServerTagWidget extends StatelessWidget {
                 SizedBox(width: 3),
                 Text(
                   '$e',
-                  style: t12black,
+                  style: TextStyle(fontSize: 12, color: textBlack, height: 1.1),
                 )
               ],
             ),

@@ -73,7 +73,7 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
       'id': 1,
       'type': 2,
       'url':
-          '${NetContants.baseUrl}user/securityCenter/setPayPwd?fromSource=securityCenterV2',
+          '${NetConstants.baseUrl}user/securityCenter/setPayPwd?fromSource=securityCenterV2',
       'name': '应用支付密码',
       'icon': Icons.loop
     },

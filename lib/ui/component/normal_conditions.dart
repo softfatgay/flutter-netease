@@ -21,7 +21,7 @@ class NormalConditionsBar extends StatefulWidget {
 
 class _NormalConditionsBarState extends State<NormalConditionsBar> {
   int _index = 0;
-  NormalSearchModel? _normalSearchModel = NormalSearchModel();
+  var _normalSearchModel = NormalSearchModel();
   bool? _descSorted;
 
   @override
@@ -29,7 +29,7 @@ class _NormalConditionsBarState extends State<NormalConditionsBar> {
     // TODO: implement initState
     if (widget.searchModel != null) {
       setState(() {
-        _normalSearchModel = widget.searchModel;
+        _normalSearchModel = widget.searchModel ?? NormalSearchModel();
       });
     }
     super.initState();
@@ -129,7 +129,7 @@ class _NormalConditionsBarState extends State<NormalConditionsBar> {
 
     setState(() {
       _index = index;
-      _normalSearchModel!.sortType = index;
+      _normalSearchModel.sortType = index;
       if (index == 0 || index == 5) {
         _descSorted = null;
       }
@@ -140,7 +140,7 @@ class _NormalConditionsBarState extends State<NormalConditionsBar> {
           _descSorted = !_descSorted!;
         }
       }
-      _normalSearchModel!.descSorted = _descSorted;
+      _normalSearchModel.descSorted = _descSorted;
     });
 
     if (widget.pressChange != null) {

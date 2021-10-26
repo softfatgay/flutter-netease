@@ -180,7 +180,7 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   NavigationDecision _interceptUrl(String url) {
-    if (url.startsWith('${NetContants.baseUrl}item/detail')) {
+    if (url.startsWith('${NetConstants.baseUrl}item/detail')) {
       var split = url.split('id=');
       var split2 = split[1];
       var split3 = split2.split('&')[0];
@@ -188,10 +188,10 @@ class _WebViewPageState extends State<WebViewPage> {
         Routers.push(Routers.goodDetail, context, {'id': '$split3'});
       }
       return NavigationDecision.prevent;
-    } else if (url.startsWith('${NetContants.baseUrl}cart')) {
+    } else if (url.startsWith('${NetConstants.baseUrl}cart')) {
       Routers.push(Routers.shoppingCart, context, {'from': Routers.goodDetail});
       return NavigationDecision.prevent;
-    } else if (url == NetContants.baseUrl) {
+    } else if (url == NetConstants.baseUrl) {
       Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
       HosEventBusUtils.fire(GO_HOME);
       return NavigationDecision.prevent;

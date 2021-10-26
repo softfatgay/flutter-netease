@@ -37,7 +37,7 @@ class _FavoritePageState extends State<FavoritePage> {
       headers: headers,
     );
     Response response = await Dio().get(
-        '${NetContants.baseUrl}interestCategory/list.json',
+        '${NetConstants.baseUrl}interestCategory/list.json',
         queryParameters: {'csrf_token': csrf_token},
         options: options);
     Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);

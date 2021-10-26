@@ -217,7 +217,7 @@ class _VipCenterPageState extends State<VipCenterPage> {
             );
             return Routers.link(widget, Routers.webView, context, {
               "id":
-                  '${NetContants.baseUrl}membership/privilege?type=${privilegeList[index]['type']}'
+                  '${NetConstants.baseUrl}membership/privilege?type=${privilegeList[index]['type']}'
             });
           },
         ),

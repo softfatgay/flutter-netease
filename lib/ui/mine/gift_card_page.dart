@@ -120,7 +120,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                     ),
                   ),
                   onTap: () {
-                    _goWebView('${NetContants.baseUrl}user/securityCenter');
+                    _goWebView('${NetConstants.baseUrl}user/securityCenter');
                   },
                 )
               ],
@@ -146,7 +146,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
               ),
               onTap: () {
                 _goWebView(
-                    '${NetContants.baseUrl}giftCard/records?giftCardGroup=0');
+                    '${NetConstants.baseUrl}giftCard/records?giftCardGroup=0');
               },
             ),
           )
@@ -194,7 +194,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                 ),
                 onTap: () {
                   Routers.push(Routers.webView, context,
-                      {'url': '${NetContants.baseUrl}help/new#/29'});
+                      {'url': '${NetConstants.baseUrl}help/new#/29'});
                 },
               )
             ],

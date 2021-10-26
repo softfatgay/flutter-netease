@@ -105,7 +105,7 @@ class _AccountManagePageState extends State<AccountManagePage> {
                 if (item.mobile != null && item.mobile!.isNotEmpty) {
                   Routers.push(Routers.webView, context, {
                     'url':
-                        '${NetContants.baseUrl}user/securityCenter/updateMobile'
+                        '${NetConstants.baseUrl}user/securityCenter/updateMobile'
                   });
                 }
               },

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class MyVerticalText extends StatelessWidget {
-  final String? text;
+  final String text;
   final TextStyle textStyle;
 
   const MyVerticalText(this.text, this.textStyle);
@@ -11,7 +11,7 @@ class MyVerticalText extends StatelessWidget {
     return Wrap(
       direction: Axis.vertical,
       alignment: WrapAlignment.center,
-      children: text!
+      children: text
           .split("")
           .map((string) => Text(
                 string,

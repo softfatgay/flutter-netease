@@ -336,12 +336,12 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
               onTap: () {
                 var dataItem = _dataList[index];
                 String tagUrl =
-                    '${NetContants.baseUrl}act/pub/7F3DBEV0Rn.html?id=';
+                    '${NetConstants.baseUrl}act/pub/7F3DBEV0Rn.html?id=';
                 String url = '';
                 if (dataItem.bannerUrl == null) {
                   url = '$tagUrl${dataItem.topicId}';
                 } else {
-                  url = '${NetContants.baseUrl_}${_dataList[index].bannerUrl}';
+                  url = '${NetConstants.baseUrl_}${_dataList[index].bannerUrl}';
                 }
                 Routers.push(Routers.webView, context, {'url': url});
               },

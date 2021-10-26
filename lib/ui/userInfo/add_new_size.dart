@@ -34,7 +34,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   final _tController10 = TextEditingController();
 
   int? _sex = 1;
-  bool? _setDft = false;
+  bool _setDft = false;
 
   String _womenImg =
       'https://yanxuan.nosdn.127.net/fd85e883e204e0debc8722e14a8f824f.png';
@@ -78,7 +78,7 @@ class _AddNewSizeState extends State<AddNewSize> {
           _tController8.text = _setSize(_sizeItemModel.footLength);
           _tController9.text = _setSize(_sizeItemModel.footCircumference);
           _tController10.text = _setSize(_sizeItemModel.underBust);
-          _setDft = _sizeItemModel.dft;
+          _setDft = _sizeItemModel.dft ?? false;
           _sex = _sizeItemModel.gender as int?;
           if (_sex == 2) {
             _sizeImg = _womenImg;
@@ -321,7 +321,7 @@ class _AddNewSizeState extends State<AddNewSize> {
             check: _setDft,
             onPress: () {
               setState(() {
-                _setDft = !_setDft!;
+                _setDft = !_setDft;
               });
             },
           ),
@@ -339,7 +339,7 @@ class _AddNewSizeState extends State<AddNewSize> {
   void _saveSize() async {
     var params = {
       'csrf_token': csrf_token,
-      'dft': _setDft! ? 1 : _setDft,
+      'dft': _setDft ? 1 : _setDft,
       'roleName': _submitSize(_tController1),
       'gender': _sex,
       'underBust': _submitSize(_tController10),

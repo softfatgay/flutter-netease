@@ -5,13 +5,13 @@ import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 
 class TabAppBar extends StatelessWidget {
   const TabAppBar({
-    this.tabs,
+    this.tabs = const [],
     this.controller,
     this.title = '',
     this.isScrollable = true,
   });
 
-  final List<String?>? tabs;
+  final List<String?> tabs;
 
   final TabController? controller;
 
@@ -26,26 +26,22 @@ class TabAppBar extends StatelessWidget {
       child: Container(
         child: Row(
           children: <Widget>[
-            InkResponse(
-              child: Container(
-                width: 50,
-                child: Image.asset(
-                  'assets/images/back.png',
-                  height: 25,
-                ),
+            TextButton(
+              child: Image.asset(
+                'assets/images/back.png',
+                height: 25,
               ),
-              onTap: () {
+              onPressed: () {
                 Navigator.pop(context);
               },
             ),
             Expanded(
-              child: Center(
-                child: Text(
-                  '$title',
-                  style: t16black,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              child: Text(
+                '$title',
+                style: t16black,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             Container(
@@ -53,7 +49,7 @@ class TabAppBar extends StatelessWidget {
             ),
           ],
         ),
-        height: tabs != null && tabs!.length > 0 ? 48 : 56,
+        height: tabs.isNotEmpty ? 40 : 56,
       ),
     );
   }
@@ -76,13 +72,13 @@ class TabAppBar extends StatelessWidget {
           indicator: MyUnderlineTabIndicator(
             borderSide: BorderSide(width: 2.0, color: redColor),
           ),
-          tabs: tabs!
-              .map((f) => Tab(
+          tabs: tabs
+              .map((tv) => Tab(
                     child: Container(
                       alignment: Alignment.center,
                       height: 34,
                       child: Text(
-                        f!,
+                        '${tv ?? ''}',
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
@@ -95,13 +91,13 @@ class TabAppBar extends StatelessWidget {
   PreferredSize build(BuildContext context) {
     return new PreferredSize(
       child: Column(
-        children: tabs != null && tabs!.length > 0
+        children: tabs.isNotEmpty
             ? [buildAppBar(context), buildTabBar()]
             : [buildAppBar(context)],
       ),
       preferredSize: Size(
         MediaQuery.of(context).size.width,
-        tabs != null && tabs!.length > 0 ? 88 : 56,
+        tabs.isNotEmpty ? 80 : 56,
       ),
     );
   }

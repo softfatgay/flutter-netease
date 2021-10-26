@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 
 typedef void BackPress();
 
@@ -10,7 +9,8 @@ class TopAppBar extends StatelessWidget {
   final bool closeIcon;
   final BackPress? backPress;
 
-  const TopAppBar({Key? key, this.title, this.closeIcon = false, this.backPress})
+  const TopAppBar(
+      {Key? key, this.title, this.closeIcon = false, this.backPress})
       : super(key: key);
 
   Widget buildAppBar(BuildContext context) {
@@ -22,16 +22,14 @@ class TopAppBar extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            InkResponse(
-              child: Container(
-                width: 50,
-                child: Image.asset(
-                  'assets/images/back.png',
-                  height: 25,
-                ),
+            TextButton(
+              child: Image.asset(
+                'assets/images/back.png',
+                height: 25,
               ),
-              onTap: () {
+              onPressed: () {
                 if (backPress != null) {
                   backPress!();
                 } else {
@@ -39,25 +37,19 @@ class TopAppBar extends StatelessWidget {
                 }
               },
             ),
-            closeIcon
-                ? InkResponse(
-                    child: Container(
-                      child: Center(
-                        child:
-                            Image.asset('assets/images/close.png', width: 20),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  )
-                : Container(),
+            if (closeIcon)
+              GestureDetector(
+                child: Image.asset('assets/images/close.png', width: 20),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Center(
                   child: Text(
-                    title == null ? '' : title!,
+                    title ?? '',
                     style: t16black,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -65,9 +57,7 @@ class TopAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              width: 50,
-            )
+            Container(width: 50)
           ],
         ),
       ),

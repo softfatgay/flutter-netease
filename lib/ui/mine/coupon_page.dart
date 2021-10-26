@@ -181,7 +181,7 @@ class _CouponPageState extends State<CouponPage> {
                     ),
                     onTap: () {
                       Routers.push(Routers.webView, context,
-                          {'url': '${NetContants.baseUrl}${item.path}'});
+                          {'url': '${NetConstants.baseUrl}${item.path}'});
                     },
                   )
               ],
@@ -382,7 +382,7 @@ class _CouponPageState extends State<CouponPage> {
         ),
         onTap: () {
           Routers.push(Routers.webView, context,
-              {'url': '${NetContants.baseUrl}help/new#/24'});
+              {'url': '${NetConstants.baseUrl}help/new#/24'});
         },
       ),
     );

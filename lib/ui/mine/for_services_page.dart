@@ -17,7 +17,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 0,
       'type': 2,
-      'url': '${NetContants.baseUrl}aftersale/packageList?type=2',
+      'url': '${NetConstants.baseUrl}aftersale/packageList?type=2',
       'name': '申请退货',
       'icon': 'assets/images/service/tuihuo.png',
       'color': textBlack
@@ -25,7 +25,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 1,
       'type': 2,
-      'url': '${NetContants.baseUrl}aftersale/packageList?type=',
+      'url': '${NetConstants.baseUrl}aftersale/packageList?type=',
       'name': '申请换货',
       'icon': 'assets/images/service/huanhuo.png',
       'color': textBlack
@@ -33,7 +33,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 2,
       'type': 5,
-      'url': '${NetContants.baseUrl}aftersale/packageList?type=5',
+      'url': '${NetConstants.baseUrl}aftersale/packageList?type=5',
       'name': '仅退款',
       'icon': 'assets/images/service/tuikuan.png',
       'color': textBlack
@@ -41,7 +41,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 3,
       'type': 4,
-      'url': '${NetContants.baseUrl}aftersale/packageList?type=4',
+      'url': '${NetConstants.baseUrl}aftersale/packageList?type=4',
       'name': '申请维修',
       'icon': 'assets/images/service/weixiu.png',
       'color': textBlack
@@ -49,7 +49,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 4,
       'type': 2,
-      'url': '${NetContants.baseUrl}aftersale/list',
+      'url': '${NetConstants.baseUrl}aftersale/list',
       'name': '售后记录',
       'icon': 'assets/images/service/shouhoujilu.png',
       'color': textBlack
@@ -57,7 +57,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 5,
       'type': 2,
-      'url': '${NetContants.baseUrl}priceProtect/list',
+      'url': '${NetConstants.baseUrl}priceProtect/list',
       'name': '价格保护',
       'icon': 'assets/images/service/jiagebaohu.png',
       'color': textBlack
@@ -65,7 +65,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 6,
       'type': 2,
-      'url': '${NetContants.baseUrl}invoice/list',
+      'url': '${NetConstants.baseUrl}invoice/list',
       'name': '发票服务',
       'icon': 'assets/images/service/fapiaofuwu.png',
       'color': textBlack
@@ -73,7 +73,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 7,
       'type': 2,
-      'url': '${NetContants.baseUrl}client?k=$kefuKey',
+      'url': '${NetConstants.baseUrl}client?k=$kefuKey',
       'name': '在线客服',
       'icon': 'assets/images/service/zaixiankefu.png',
       'color': textBlack

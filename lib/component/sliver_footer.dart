@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/component/loading.dart';
 
 class SliverFooter extends StatelessWidget {
-  final bool? hasMore;
+  final bool hasMore;
   final String tipsText;
 
   const SliverFooter({Key? key, this.hasMore = false, this.tipsText = '没有更多了'})
@@ -21,7 +21,7 @@ class SliverFooter extends StatelessWidget {
   }
 
   Widget _buildFooter() {
-    if (!hasMore!) {
+    if (!hasMore) {
       return Container(
         height: 40,
         child: Center(

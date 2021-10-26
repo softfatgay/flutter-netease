@@ -25,7 +25,7 @@ class PricePopWidget extends StatelessWidget {
       this.cancelClick})
       : super(key: key);
 
-  final childHeiht = 25.0;
+  final _childHeight = 25.0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class PricePopWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  height: childHeiht,
+                  height: _childHeight,
                   child: SearchPriceTextFiled(
                     hintText: '最低价',
                     controller: lowPriceController,
@@ -66,7 +66,7 @@ class PricePopWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  height: childHeiht,
+                  height: _childHeight,
                   child: SearchPriceTextFiled(
                     hintText: '最高价',
                     // textStyle: t12black,
@@ -93,7 +93,7 @@ class PricePopWidget extends StatelessWidget {
               SizedBox(width: 20),
               GestureDetector(
                 child: Container(
-                  height: childHeiht,
+                  height: _childHeight,
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
@@ -120,7 +120,7 @@ class PricePopWidget extends StatelessWidget {
               GestureDetector(
                 child: Container(
                   alignment: Alignment.center,
-                  height: childHeiht,
+                  height: _childHeight,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       border: Border.all(

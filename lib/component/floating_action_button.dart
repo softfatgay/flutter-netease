@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
-import 'package:flutter_app/utils/util_mine.dart';
 
 FloatingActionButton floatingActionButton(ScrollController _scrollController) {
   return FloatingActionButton(

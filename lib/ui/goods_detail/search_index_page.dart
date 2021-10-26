@@ -59,7 +59,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
-  bool? _hasMore = false;
+  bool _hasMore = false;
 
   bool _noData = false;
 
@@ -96,7 +96,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     }
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      if (_hasMore!) {
+      if (_hasMore) {
         _getTipsResult(false);
       }
     }
@@ -166,7 +166,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
         var directlyList = searchResultModel.directlyList;
         var categoryL1List = searchResultModel.categoryL1List;
         _categoryL1List = categoryL1List;
-        _hasMore = searchResultModel.hasMore;
+        _hasMore = searchResultModel.hasMore ?? false;
         if (directlyList == null || directlyList.isEmpty) {
           _bottomTipsText = '没有找到您想要的内容';
           if (_isFirstLoading) {
@@ -174,7 +174,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
           }
         } else {
           _directlyList.addAll(directlyList);
-          if (!_hasMore!) {
+          if (!_hasMore) {
             _bottomTipsText = '没有更多了';
           }
           _isSearchResult = true;

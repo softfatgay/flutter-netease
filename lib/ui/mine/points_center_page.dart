@@ -180,7 +180,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   ),
                   onTap: () {
                     Routers.push(Routers.webView, context,
-                        {'url': '${NetContants.baseUrl}help/new#/36/81'});
+                        {'url': '${NetConstants.baseUrl}help/new#/36/81'});
                   },
                 ),
                 GestureDetector(
@@ -209,7 +209,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   ),
                   onTap: () {
                     Routers.push(Routers.webView, context,
-                        {'url': '${NetContants.baseUrl}points/detail'});
+                        {'url': '${NetConstants.baseUrl}points/detail'});
                   },
                 ),
               ],
@@ -337,7 +337,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
         );
         return Routers.link(widget, Routers.webView, context, {
           "url":
-              '${NetContants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
+              '${NetConstants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
         });
       }).toList(),
     );
@@ -391,7 +391,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
           );
           return Routers.link(widget, Routers.webView, context, {
             "url":
-                '${NetContants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
+                '${NetConstants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
           });
         }).toList(),
       ),
@@ -526,7 +526,8 @@ class _PointCenterPageState extends State<PointCenterPage> {
       ),
       onTap: () {
         Routers.push(Routers.webView, context, {
-          'url': '${NetContants.baseUrl}layaway/detail?id=${item.id.toString()}'
+          'url':
+              '${NetConstants.baseUrl}layaway/detail?id=${item.id.toString()}'
         });
       },
     );

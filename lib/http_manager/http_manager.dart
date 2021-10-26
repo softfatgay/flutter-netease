@@ -29,7 +29,7 @@ class HttpManager {
   static get dioInstance {
     if (_dio == null) {
       var baseOptions = BaseOptions(
-        baseUrl: NetContants.baseUrl,
+        baseUrl: NetConstants.baseUrl,
         sendTimeout: 30000,
         receiveTimeout: 30000,
         connectTimeout: 30000,

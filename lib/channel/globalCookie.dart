@@ -22,8 +22,8 @@ class GlobalCookie {
 
   /// Get globalCookieValue
   Future<bool> clearCookie() {
-    return channel.invokeMethod<bool>(
-        'clearCookie', {'url': NetContants.baseUrl}).then<bool>((bool? result) {
+    return channel.invokeMethod<bool>('clearCookie',
+        {'url': NetConstants.baseUrl}).then<bool>((bool? result) {
       return result ?? false;
     });
   }
@@ -32,7 +32,7 @@ class GlobalCookie {
   Future<bool> install() {
     return channel.invokeMethod<bool>(
         Platform.isIOS ? 'gotoAppStore' : 'installApk',
-        {'url': NetContants.baseUrl}).then<bool>((bool? result) {
+        {'url': NetConstants.baseUrl}).then<bool>((bool? result) {
       return result ?? false;
     });
   }

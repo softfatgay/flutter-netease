@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 
-typedef void SeletedIndex(int index);
+typedef void SelectedIndex(int index);
 
 class TypePopWidget extends StatelessWidget {
-  final List<CategoryL1Item?>? categoryList;
-  final int? selectIndex;
-  final SeletedIndex? seletedIndex;
+  final List<CategoryL1Item?> categoryList;
+  final int selectIndex;
+  final SelectedIndex selectedIndex;
 
   const TypePopWidget(
-      {Key? key, this.categoryList, this.selectIndex, this.seletedIndex})
+      {Key? key,
+      this.categoryList = const [],
+      this.selectIndex = 0,
+      required this.selectedIndex})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class TypePopWidget extends StatelessWidget {
       width: double.infinity,
       color: backWhite,
       child: Wrap(
-        children: categoryList!
+        children: categoryList
             .map(
               (item) => GestureDetector(
                 child: Container(
@@ -30,22 +32,20 @@ class TypePopWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          color: selectIndex == categoryList!.indexOf(item)
+                          color: selectIndex == categoryList.indexOf(item)
                               ? textRed
                               : textGrey,
                           width: 1),
                       borderRadius: BorderRadius.circular(3)),
                   child: Text(
                     '${item!.name}',
-                    style: selectIndex == categoryList!.indexOf(item)
+                    style: selectIndex == categoryList.indexOf(item)
                         ? t12red
                         : t12black,
                   ),
                 ),
                 onTap: () {
-                  if (seletedIndex != null) {
-                    seletedIndex!(categoryList!.indexOf(item));
-                  }
+                  selectedIndex(categoryList.indexOf(item));
                 },
               ),
             )

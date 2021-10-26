@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
@@ -9,34 +8,34 @@ typedef void OnPress(int index);
 
 class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;
-  final double? expandedHeight;
-  final double? paddingTop;
-  final Widget? child;
+  final double expandedHeight;
+  final double paddingTop;
+  final Widget child;
   final String? title;
   final bool showBack;
-  final List<String>? tabs;
+  final List<String> tabs;
   final int? index;
   final OnPress? onPress;
 
   SliverCustomHeaderDelegate({
     this.onPress,
     this.index,
-    this.tabs,
+    this.tabs = const [],
     this.collapsedHeight = 46,
-    this.expandedHeight,
-    this.paddingTop,
-    this.child,
+    this.expandedHeight = 0,
+    this.paddingTop = 0,
+    required this.child,
     this.title,
     this.showBack = true,
   });
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => this.expandedHeight!;
+  double get maxExtent => this.expandedHeight;
 
   @override
   // TODO: implement minExtent
-  double get minExtent => this.collapsedHeight + this.paddingTop!;
+  double get minExtent => this.collapsedHeight + this.paddingTop;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
@@ -113,7 +112,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       //堆叠布局,和frame差不多,一层一层堆叠
       child: Stack(
         children: <Widget>[
-          this.child!,
+          this.child,
           //定位,相当于绝对布局
           Positioned(
             left: 0,
@@ -128,8 +127,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   child: Stack(
                     children: [
                       _title(shrinkOffset, context),
-                      if (tabs != null && showTab(shrinkOffset))
-                        _tab(shrinkOffset),
+                      if (showTab(shrinkOffset)) _tab(shrinkOffset),
                     ],
                   ),
                 ),
@@ -146,7 +144,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       left: 0,
       right: 0,
       top: 0,
-      bottom: tabs != null ? 25 : 0,
+      bottom: tabs.isNotEmpty ? 25 : 0,
       child: Container(
         height: double.infinity,
         alignment: Alignment.center,
@@ -172,7 +170,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
               child: title == null
                   ? _searchTitle(context, shrinkOffset)
                   : Text(
-                      this.title!,
+                      '${this.title ?? ''}',
                       style: TextStyle(
                         fontSize: 16,
                         color:
@@ -197,7 +195,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: tabs!
+          children: tabs
               .map(
                 (item) => GestureDetector(
                   child: Container(
@@ -205,7 +203,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                      border: index == tabs!.indexOf(item)
+                      border: index == tabs.indexOf(item)
                           ? Border(
                               bottom: BorderSide(
                                   color: tabSelectlColor(shrinkOffset),
@@ -218,14 +216,14 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14,
-                          color: index == tabs!.indexOf(item)
+                          color: index == tabs.indexOf(item)
                               ? tabSelectlColor(shrinkOffset)
                               : tabNormalColor(shrinkOffset)),
                     ),
                   ),
                   onTap: () {
                     if (onPress != null) {
-                      onPress!(tabs!.indexOf(item));
+                      onPress!(tabs.indexOf(item));
                     }
                   },
                 ),

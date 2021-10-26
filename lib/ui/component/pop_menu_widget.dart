@@ -3,12 +3,12 @@ import 'package:flutter_app/constant/colors.dart';
 
 typedef void ClosePop();
 
-class PopMenuWidet extends StatelessWidget {
+class PopMenuWidget extends StatelessWidget {
   final Widget? child;
   final bool showPopMenu;
   final ClosePop? closePop;
 
-  const PopMenuWidet(
+  const PopMenuWidget(
       {Key? key, this.child, this.showPopMenu = false, this.closePop})
       : super(key: key);
 

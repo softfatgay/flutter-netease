@@ -692,7 +692,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             onTap: () {
               Routers.push(Routers.webView, context, {
                 'url':
-                    '${NetContants.baseUrl}featuredSeries/detail?id=${_featuredSeries!.id}'
+                    '${NetConstants.baseUrl}featuredSeries/detail?id=${_featuredSeries!.id}'
               });
             },
           ));
@@ -1751,7 +1751,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                 if (item.huodongUrlWap!.startsWith('http')) {
                   url = item.huodongUrlWap;
                 } else {
-                  url = '${NetContants.baseUrl_}${item.huodongUrlWap}';
+                  url = '${NetConstants.baseUrl_}${item.huodongUrlWap}';
                 }
                 Routers.push(Routers.webView, context, {'url': url});
               }

@@ -40,7 +40,7 @@ class _HotListPageState extends State<HotListPage>
       "https://yanxuan.nosdn.127.net/294b914321c27e2490b257b5b6be6fa5.png";
 
   late Timer _timer;
-  int _rondomIndex = 0;
+  int _randomIndex = 0;
 
   String? _categoryId = '0';
   String? _categoryName = '';
@@ -51,8 +51,6 @@ class _HotListPageState extends State<HotListPage>
 
   ///数据
   List<ItemListItem> _dataList = [];
-
-  bool _isShowTop = false;
 
   @override
   void initState() {
@@ -65,9 +63,9 @@ class _HotListPageState extends State<HotListPage>
     super.initState();
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
       setState(() {
-        _rondomIndex++;
-        if (_rondomIndex >= 18) {
-          _rondomIndex = 0;
+        _randomIndex++;
+        if (_randomIndex >= 18) {
+          _randomIndex = 0;
         }
       });
     });

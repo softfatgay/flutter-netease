@@ -98,7 +98,7 @@ class _UserIndexPageState extends State<UserIndexPage> {
       onTap: () {
         if (id == 3) {
           Routers.push(Routers.webView, context,
-              {'url': '${NetContants.baseUrl}membership/index'});
+              {'url': '${NetConstants.baseUrl}membership/index'});
         } else {
           Routers.push(Routers.userInfoPageIndex, context, {'id': id});
         }

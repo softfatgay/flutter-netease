@@ -56,32 +56,31 @@ class _GoodDetailState extends State<GoodDetailBanner> {
           right: 15,
           bottom: 10,
         ),
-        videoInfo == null ||
-                videoInfo.mp4VideoUrl == null ||
-                videoInfo.mp4VideoUrl == ''
-            ? Container()
-            : Positioned(
-                left: 15,
-                bottom: 10,
-                child: GestureDetector(
-                  child: Container(
-                    height: 31,
-                    width: 31,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.white),
-                    child: Image.asset(
-                      'assets/images/video_play.png',
-                      height: 28,
-                      width: 28,
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(Routers.videoPage, context,
-                        {'url': videoInfo.mp4VideoUrl});
-                  },
+        if (videoInfo != null &&
+            videoInfo.mp4VideoUrl != null &&
+            videoInfo.mp4VideoUrl!.isNotEmpty)
+          Positioned(
+            left: 15,
+            bottom: 10,
+            child: GestureDetector(
+              child: Container(
+                height: 31,
+                width: 31,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.white),
+                child: Image.asset(
+                  'assets/images/video_play.png',
+                  height: 28,
+                  width: 28,
                 ),
               ),
+              onTap: () {
+                Routers.push(
+                    Routers.videoPage, context, {'url': videoInfo.mp4VideoUrl});
+              },
+            ),
+          ),
       ],
     );
   }

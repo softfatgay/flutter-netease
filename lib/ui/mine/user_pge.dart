@@ -174,7 +174,7 @@ class _MinePageState extends State<UserPage>
             "status": "${_phoneStatusModel.status}",
             "image": "assets/images/mine/phone.png",
             "url":
-                "${NetContants.baseUrl}ucenter/mymobile?mobile=${_phoneStatusModel.mobile}&status=${_phoneStatusModel.status}&callback=${NetContants.baseUrl}ucenter",
+                "${NetConstants.baseUrl}ucenter/mymobile?mobile=${_phoneStatusModel.mobile}&status=${_phoneStatusModel.status}&callback=${NetConstants.baseUrl}ucenter",
             "id": 12
           });
         });
@@ -499,7 +499,7 @@ class _MinePageState extends State<UserPage>
       "name": "优先购",
       "status": "0",
       "image": "assets/images/mine/youxiangou.png",
-      "url": "${NetContants.baseUrl}preemption/index.html",
+      "url": "${NetConstants.baseUrl}preemption/index.html",
       "id": 5
     },
     {
@@ -512,7 +512,7 @@ class _MinePageState extends State<UserPage>
       "name": "会员俱乐部",
       "status": "0",
       "image": "assets/images/mine/huiyuanzhongxin.png",
-      "url": "${NetContants.baseUrl}membership/index",
+      "url": "${NetConstants.baseUrl}membership/index",
       "id": 7
     },
     {
@@ -531,7 +531,7 @@ class _MinePageState extends State<UserPage>
       "name": "帮助与客服",
       "status": "0",
       "image": "assets/images/mine/kefu.png",
-      "url": "${NetContants.baseUrl}help/new#/",
+      "url": "${NetConstants.baseUrl}help/new#/",
       "id": 10
     },
     {
@@ -544,7 +544,7 @@ class _MinePageState extends State<UserPage>
       "name": "我的拍卖",
       "status": "0",
       "image": "assets/images/mine/paimai.png",
-      "url": "${NetContants.baseUrl}auction/wap/profile/list",
+      "url": "${NetConstants.baseUrl}auction/wap/profile/list",
       "id": 13
     }
   ];

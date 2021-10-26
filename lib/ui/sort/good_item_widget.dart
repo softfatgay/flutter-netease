@@ -38,7 +38,8 @@ class GoodItemWidget extends StatelessWidget {
         crossAxisSpacing: 5,
         staggeredTileBuilder: (index) => new StaggeredTile.count(
             1,
-            (data[index].itemTagList == null || data[index].itemTagList!.isEmpty)
+            (data[index].itemTagList == null ||
+                    data[index].itemTagList!.isEmpty)
                 ? 1.5
                 : 1.7),
         itemBuilder: (context, index) {
@@ -103,7 +104,7 @@ class GoodItemWidget extends StatelessWidget {
                       ),
                       margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
                       child: MyVerticalText(
-                        dataList[index].productPlace,
+                        '${dataList[index].productPlace}',
                         TextStyle(color: Color(0xFFA28C63), fontSize: 12),
                       ),
                     ),

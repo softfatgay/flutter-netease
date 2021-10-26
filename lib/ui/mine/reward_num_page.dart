@@ -154,7 +154,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                         ),
                         onTap: () {
                           Routers.push(Routers.webView, context, {
-                            'url': '${NetContants.baseUrl}help/new#/36/137'
+                            'url': '${NetConstants.baseUrl}help/new#/36/137'
                           });
                         },
                       )
@@ -184,9 +184,9 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     onTap: () {
                       String url = '';
                       if (widget.params!['id'] == 4) {
-                        url = '${NetContants.baseUrl}bonus/detail';
+                        url = '${NetConstants.baseUrl}bonus/detail';
                       } else {
-                        url = '${NetContants.baseUrl}reward/detail';
+                        url = '${NetConstants.baseUrl}reward/detail';
                       }
                       Routers.push(Routers.webView, context, {'url': url});
                     },
@@ -336,7 +336,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     ),
                     onTap: () {
                       Routers.push(Routers.webView, context,
-                          {'url': '${NetContants.baseUrl}help/new#/36/119'});
+                          {'url': '${NetConstants.baseUrl}help/new#/36/119'});
                     },
                   ),
                 ),
@@ -419,9 +419,9 @@ class _RewardNumPageState extends State<RewardNumPage> {
                           onTap: () {
                             String url = '';
                             if (widget.params!['id'] == 4) {
-                              url = '${NetContants.baseUrl}bonus/detail';
+                              url = '${NetConstants.baseUrl}bonus/detail';
                             } else {
-                              url = '${NetContants.baseUrl}reward/detail';
+                              url = '${NetConstants.baseUrl}reward/detail';
                             }
                             Routers.push(
                                 Routers.webView, context, {'url': url});

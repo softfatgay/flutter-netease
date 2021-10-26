@@ -5,7 +5,7 @@ import 'package:flutter_app/constant/fonts.dart';
 class MTextFiled extends TextField {
   MTextFiled(
       {final TextEditingController? controller,
-      final int maxlines = 1,
+      final int maxLines = 1,
       int? maxLength,
       String counterText = '',
       TextInputType? keyboardType,
@@ -13,7 +13,7 @@ class MTextFiled extends TextField {
       : super(
           style: t16black,
           controller: controller,
-          maxLines: maxlines,
+          maxLines: maxLines,
           maxLength: maxLength,
           keyboardType: keyboardType,
           decoration: InputDecoration(

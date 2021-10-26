@@ -42,7 +42,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
 
   ///搜索结果
   List<ItemListItem> _directlyList = [];
-  bool? _hasMore = false;
+  bool _hasMore = false;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       // 如果下拉的当前位置到scroll的最下面
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (_hasMore!) {
+        if (_hasMore) {
           _isLoading = true;
           _getTipsResult();
         }
@@ -84,7 +84,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
       'searchWordSource': '7',
       'needPopWindow': 'false'
     };
-    if (!_hasMore!) {
+    if (!_hasMore) {
       params.addAll({'_stat_search': 'userhand'});
     } else {
       params.remove('_stat_search');
@@ -94,14 +94,14 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
     var searchResultModel = SearchResultModel.fromJson(data);
     setState(() {
       var directlyList = searchResultModel.directlyList;
-      _hasMore = searchResultModel.hasMore;
+      _hasMore = searchResultModel.hasMore ?? false;
       if (directlyList == null || directlyList.isEmpty) {
         isFirstLoading = true;
         _bottomTipsText = '没有找到您想要的内容';
       } else {
         _directlyList.addAll(directlyList);
         // _itemId = _directlyList[_directlyList.length - 1].itemTagList[0].itemId;
-        if (!_hasMore!) {
+        if (!_hasMore) {
           _bottomTipsText = '没有更多了';
         }
         _isLoading = false;
