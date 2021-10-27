@@ -43,6 +43,7 @@ const Color textLightGrey = Color(0xFF999999);
 const Color textOrange = Color(0xFFF48F18);
 
 ///背景色
+const Color backGroundColor = Color(0xFFF2F4F9);
 const Color backColor = Color(0xFFF2F4F9);
 const Color backWhite = Color(0xFFFFFFFF);
 const Color backBlue = Color(0xFF0058E9);

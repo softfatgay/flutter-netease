@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/ui/router/router.dart';
@@ -148,12 +149,12 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Container(
         height: double.infinity,
         alignment: Alignment.center,
-        padding: EdgeInsets.only(right: 20),
+        padding: EdgeInsets.only(right: 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             if (showBack)
-              InkResponse(
+              GestureDetector(
                 child: Container(
                   width: 50,
                   child: Image.asset(
@@ -178,6 +179,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                     ),
             ),
           ],

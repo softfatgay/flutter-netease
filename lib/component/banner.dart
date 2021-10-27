@@ -9,6 +9,7 @@ typedef void OnIndexChanged(int index);
 class BannerCacheImg extends StatelessWidget {
   final List imageList;
   final double? height;
+  final Color backColor;
   final double corner;
   final int autoplayDelay;
   final bool autoplay;
@@ -25,6 +26,7 @@ class BannerCacheImg extends StatelessWidget {
       this.autoplay = true,
       this.scrollDirection = Axis.horizontal,
       this.onTap,
+      this.backColor = backGroundColor,
       this.boxFit = BoxFit.cover,
       this.localImagePath = 'assets/images/no_banner.png',
       this.onIndexChanged,
@@ -48,12 +50,12 @@ class BannerCacheImg extends StatelessWidget {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(corner), color: backWhite),
+                borderRadius: BorderRadius.circular(corner), color: backColor),
             child: RoundNetImage(
               url: e,
               corner: corner,
               height: height,
-              fit: BoxFit.cover,
+              fit: boxFit,
             ),
           ),
           onTap: () {

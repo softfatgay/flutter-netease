@@ -583,3 +583,14 @@ Future<ResponseData> pinTuanCheck(Map<String, dynamic> params) async {
   return await HttpManager.post(PIN_TUAN_CHECK,
       params: _getParams(), data: params);
 }
+
+///发起拼团
+Future<ResponseData> layaway() async {
+  return await HttpManager.get(LAYAWAY, params: _getParams());
+}
+
+///发起拼团
+Future<ResponseData> layawayDetail(Map<String, dynamic> params) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(LAYAWAY_DETAIL, params: params);
+}

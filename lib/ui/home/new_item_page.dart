@@ -17,6 +17,7 @@ import 'package:flutter_app/ui/home/model/newItemsDataModel.dart';
 import 'package:flutter_app/ui/home/model/preNewItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/utils/renderBoxUtil.dart';
 
 class NewItemPage extends StatefulWidget {
   final Map? params;
@@ -29,7 +30,6 @@ class NewItemPage extends StatefulWidget {
 
 class _KingKongPageState extends State<NewItemPage> {
   bool _initLoading = true;
-  List<ItemListItem> _dataList = [];
   List<ItemListItem> _editorRecommendItems = [];
 
   ///全部新品
@@ -42,15 +42,30 @@ class _KingKongPageState extends State<NewItemPage> {
   List<ZcItems> _zcItems = [];
   late NewItems _newItems;
 
+  final _scrollController = new ScrollController();
+
   var _searchModel = NormalSearchModel(index: 0, descSorted: true);
+
+  final _key1 = GlobalKey();
+  var _key1Height = 0.0;
+
+  bool _isPinned = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _getInitData();
-    _preNewItem();
+    _scrollController.addListener(() {
+      var position = _scrollController.position;
+      if (position.pixels > _key1Height) {
+        if (_isPinned) {
+          setState(() {
+            _isPinned = false;
+          });
+        }
+      }
+    });
+    _getInitData(0);
   }
 
   void _preNewItem() async {
@@ -64,14 +79,7 @@ class _KingKongPageState extends State<NewItemPage> {
       setState(() {
         _preItemList = preItemList;
       });
-    }
-  }
-
-  void _getInitData() async {
-    String schemeUrl = widget.params!["schemeUrl"];
-    if (schemeUrl.contains("categoryId")) {
-    } else {
-      _getNewData();
+      _key1Height = RenderBoxUtil.offsetY(context, _key1);
     }
   }
 
@@ -88,6 +96,7 @@ class _KingKongPageState extends State<NewItemPage> {
 
   _buildBody() {
     return CustomScrollView(
+      controller: _scrollController,
       slivers: [
         if (_editorRecommendItems.isNotEmpty) _buildRCMD(),
         if (_editorRecommendItems.isNotEmpty) _RECDGrid(),
@@ -96,8 +105,8 @@ class _KingKongPageState extends State<NewItemPage> {
         _buildStickyBar(),
         GoodItemNormalWidget(dataList: _itemList),
         _zcItemsWidget(),
-        // singleSliverWidget(_tipsTitle('新品预告')),
-        _buildPreStickyBar(),
+        singleSliverWidget(_tipsTitle('新品预告')),
+        singleSliverWidget(Container(key: _key1)),
         _priItems(),
       ],
     );
@@ -124,20 +133,7 @@ class _KingKongPageState extends State<NewItemPage> {
 
   void _resetPage(NormalSearchModel searchModel) {
     _searchModel = searchModel;
-    _getInitData();
-  }
-
-  Widget _buildPreStickyBar() {
-    return SliverPersistentHeader(
-      pinned: true, //是否固定在顶部
-      floating: true,
-      delegate: SliverAppBarDelegate(
-          minHeight: 50, //收起的高度
-          maxHeight: 50, //展开的最大高度
-          child: Container(
-            child: _tipsTitle('新品预告'),
-          )),
-    );
+    _getInitData(1);
   }
 
   _line() {
@@ -158,7 +154,7 @@ class _KingKongPageState extends State<NewItemPage> {
     );
   }
 
-  void _getNewData() async {
+  void _getInitData(int type) async {
     Map<String, dynamic> params = {
       'sortType': _searchModel.sortType,
       'descSorted': _searchModel.descSorted ?? false,
@@ -167,14 +163,27 @@ class _KingKongPageState extends State<NewItemPage> {
     };
     var responseData = await kingKongNewItemData(params);
     if (responseData.OData != null) {
-      setState(() {
+      if (type == 0) {
+        setState(() {
+          var newItemsDataModel =
+              NewItemsDataModel.fromJson(responseData.OData);
+          _editorRecommendItems = newItemsDataModel.editorRecommendItems ?? [];
+          _newItems = newItemsDataModel.newItems ?? NewItems();
+          _itemList = _newItems.itemList ?? [];
+          _zcItems = newItemsDataModel.zcItems ?? [];
+          _initLoading = false;
+        });
+        _preNewItem();
+      } else {
         var newItemsDataModel = NewItemsDataModel.fromJson(responseData.OData);
-        _editorRecommendItems = newItemsDataModel.editorRecommendItems ?? [];
-        _newItems = newItemsDataModel.newItems ?? NewItems();
-        _itemList = _newItems.itemList ?? [];
-        _zcItems = newItemsDataModel.zcItems ?? [];
-        _initLoading = false;
-      });
+        var newItems = newItemsDataModel.newItems ?? NewItems();
+        var list = newItems.itemList ?? [];
+        if (list.isNotEmpty) {
+          setState(() {
+            _itemList = newItems.itemList ?? [];
+          });
+        }
+      }
     }
   }
 
@@ -427,5 +436,12 @@ class _KingKongPageState extends State<NewItemPage> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
   }
 }

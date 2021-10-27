@@ -40,14 +40,3 @@ Map<String, dynamic> _$GoodDetailDownDataToJson(GoodDetailDownData instance) =>
       'itemSizeTableDetailFlag': instance.itemSizeTableDetailFlag,
       'updateTime': instance.updateTime,
     };
-
-IssueListItem _$IssueListItemFromJson(Map<String, dynamic> json) =>
-    IssueListItem()
-      ..question = json['question'] as String?
-      ..answer = json['answer'] as String?;
-
-Map<String, dynamic> _$IssueListItemToJson(IssueListItem instance) =>
-    <String, dynamic>{
-      'question': instance.question,
-      'answer': instance.answer,
-    };

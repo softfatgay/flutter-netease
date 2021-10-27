@@ -211,7 +211,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _goodId = num.parse(widget.params!['id'].toString());
     });
     super.initState();
-    print(widget.params!['id']);
     _getDetail();
     _getDetailPageUp();
     _getRMD();
@@ -1112,6 +1111,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     _scrollController.dispose();
     _tabController.dispose();
     _textEditingController.dispose();
+    _remindPhoneController.dispose();
     super.dispose();
   }
 

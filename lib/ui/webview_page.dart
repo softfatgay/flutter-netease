@@ -191,7 +191,9 @@ class _WebViewPageState extends State<WebViewPage> {
     } else if (url.startsWith('${NetConstants.baseUrl}cart')) {
       Routers.push(Routers.shoppingCart, context, {'from': Routers.goodDetail});
       return NavigationDecision.prevent;
-    } else if (url == NetConstants.baseUrl) {
+    } else if (url == NetConstants.baseUrl ||
+        url.startsWith('https://m.you.163.com/?') ||
+        url.startsWith('https://m.you.163.com/downloadapp?')) {
       Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
       HosEventBusUtils.fire(GO_HOME);
       return NavigationDecision.prevent;
@@ -203,6 +205,7 @@ class _WebViewPageState extends State<WebViewPage> {
   //隐藏一些头部信息，底部信息，隐藏打开appicon
   String hideGoCart() {
     var js =
+        "var hdWraper = document.querySelector('.hdWraper'); if(hdWraper) { hdWraper.style.display = 'none' };"
         "var tabBar = document.querySelector('.tabBar-wrap'); if(tabBar) { tabBar.style.display = 'none' };"
         "var component = document.querySelector('.lazy-component-wrapper'); if(component) { component.style.display = 'none' };"
         "var mTopBar = document.querySelector('.m-topBar'); if(mTopBar) { mTopBar.style.display = 'none' };"
@@ -212,7 +215,6 @@ class _WebViewPageState extends State<WebViewPage> {
         "var bd = document.querySelector('.bd'); if(bd) { bd.style.display = 'none' };"
         "var YXM = document.querySelector('.YX_M_507221'); if(YXM) { YXM.style.display = 'none' };"
         "var pscTopbar = document.querySelector('.psc-m-topbar'); if(pscTopbar) { pscTopbar.style.display = 'none' };"
-        "var hdWraper = document.querySelector('.hdWraper'); if(hdWraper) { hdWraper.style.display = 'none' };"
         "var XIcon = document.querySelector('.X_icon_5982'); if(XIcon) { XIcon.style.display = 'none' };";
     return js;
   }

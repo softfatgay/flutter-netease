@@ -297,6 +297,12 @@ final String PIN_SUBMIT = '${suffixUrl}pin/xhr/order/submit.json';
 ///发起拼团确认
 final String PIN_TUAN_CHECK = '${suffixUrl}pin/xhr/tuan/check.json';
 
+///年购
+final String LAYAWAY = '${suffixUrl}layaway/index.json';
+
+///年购详情
+final String LAYAWAY_DETAIL = '${suffixUrl}layaway/detail.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';

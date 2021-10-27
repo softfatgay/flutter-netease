@@ -22,6 +22,8 @@ import 'package:flutter_app/ui/mine/coupon_page.dart';
 import 'package:flutter_app/ui/mine/feedback_page.dart';
 import 'package:flutter_app/ui/mine/for_services_page.dart';
 import 'package:flutter_app/ui/mine/gift_card_page.dart';
+import 'package:flutter_app/ui/mine/layway/LayawayListPage.dart';
+import 'package:flutter_app/ui/mine/layway/LaywayDetailPage.dart';
 import 'package:flutter_app/ui/mine/location_manage_page.dart';
 import 'package:flutter_app/ui/mine/login.dart';
 import 'package:flutter_app/ui/mine/order/order_detail_page.dart';
@@ -99,6 +101,8 @@ class Routers {
   static const String sendPinPage = '/SendPinPage';
   static const String loginPage = '/loginPage';
   static const String addressSelector = '/addressSelector';
+  static const String layaway = '/layaway';
+  static const String layawayDetail = '/layawayDetail';
 
   static Map<String, Function> routes = {
     ///登录
@@ -149,13 +153,20 @@ class Routers {
     ///选择地址
     addressSelector: (context, {params}) => AddressSelector(),
 
+    ///年购
+    layaway: (context, {params}) => LayawayPage(),
+
+    layawayDetail: (context, {params}) => LaywayDetailPage(params: params),
+
     ///kingKong
     kingKong: (context, {required params}) {
       String schemeUrl = params['schemeUrl'];
-      if (schemeUrl.contains("categoryId")) {
+      if (schemeUrl.contains("item/list")) {
         return KingKongPage(params: params);
-      } else {
+      } else if (schemeUrl.contains('item/newItem')) {
         return NewItemPage(params: params);
+      } else {
+        return WebViewPage({'url': schemeUrl});
       }
     },
 

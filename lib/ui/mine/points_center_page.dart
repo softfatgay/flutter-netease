@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/banner.dart';
+import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -34,6 +35,27 @@ class _PointCenterPageState extends State<PointCenterPage> {
   String _topBack =
       'https://yanxuan.nosdn.127.net/6b49731e1ed23979a89f119048785bba.png';
 
+  List _topItems = [
+    {
+      'name': 'Pro会员',
+      'dec': '购物享双倍积分',
+      'pic': 'assets/images/ji_pro.png',
+      'target': 'https://m.you.163.com/supermc/index'
+    },
+    {
+      'name': '口红机挑战',
+      'dec': '凭实力赢奖品',
+      'pic': 'assets/images/ji_kouh.png',
+      'target': 'https://act.you.163.com/act/pub/guJMK5DxL1.html',
+    },
+    {
+      'name': '积分抽奖',
+      'dec': '100%中奖',
+      'pic': 'assets/images/ji_chouj.png',
+      'target': 'https://m.you.163.com/act/pub/PI1Bnd7PfS.html',
+    }
+  ];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -61,15 +83,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       _isLoading = false;
       _data = PointsModel.fromJson(responseData.data);
       _bannerData = _data.ponitBanners;
-      _banner = _bannerData!
-          .map((item) => Container(
-                margin: EdgeInsets.all(15),
-                child: NetImage(
-                  imageUrl: item.picUrl,
-                  fit: BoxFit.fitWidth,
-                ),
-              ))
-          .toList();
+      _banner = _bannerData!.map((item) => item.picUrl).toList();
     });
   }
 
@@ -88,17 +102,22 @@ class _PointCenterPageState extends State<PointCenterPage> {
     return CustomScrollView(
       slivers: [
         singleSliverWidget(_buildTop()),
+        singleSliverWidget(_proWidget()),
         _buildSwiper(),
         singleSliverWidget(_line(10.0)),
         singleSliverWidget(Image.asset('assets/images/point_banner.png')),
         singleSliverWidget(SizedBox(height: 15)),
-        singleSliverWidget(_buildTitle('积分惊喜兑', '每周四10点开抢', '每期兑换1件')),
+        singleSliverWidget(_buildTitle('${_data.pointExVirtualAct!.actName}',
+            '${_data.pointExVirtualAct!.actDesc}', '每期兑换1件')),
         singleSliverWidget(SizedBox(height: 15)),
-        _buildactivity(),
+        _buildActivity(),
         singleSliverWidget(SizedBox(height: 15)),
-        singleSliverWidget(_buildTitle('2积分兑换生活权益', '权益使用详见规则', '')),
+        singleSliverWidget(_buildTitle(
+            '${_data.pointExExternalRights!.actName}',
+            '${_data.pointExExternalRights!.actDesc}',
+            '')),
         singleSliverWidget(SizedBox(height: 15)),
-        _buildactivity2(),
+        _buildActivity2(),
         singleSliverWidget(SizedBox(height: 15)),
         singleSliverWidget(_line(10.0)),
         singleSliverWidget(Image.asset('assets/images/point_banner2.png')),
@@ -107,6 +126,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
         singleSliverWidget(_rcmTitle()),
         singleSliverWidget(_buildTitle('精选超值年购', '', '')),
         _rcmdOne(),
+        singleSliverWidget(_rcmAll()),
         singleSliverWidget(SizedBox(height: 25)),
         singleSliverWidget(_buildTitle('精选返积分商品', '', '')),
         GoodItemNormalWidget(dataList: _rcmdDataList)
@@ -220,15 +240,67 @@ class _PointCenterPageState extends State<PointCenterPage> {
     );
   }
 
+  _proWidget() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _topItems
+            .map((item) => GestureDetector(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            right: BorderSide(
+                                color: Color(0xFFD9D9D9), width: 1))),
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          item['pic'],
+                          fit: BoxFit.contain,
+                          width: 50,
+                          height: 50,
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          item['name'],
+                          style: t16blackbold,
+                        ),
+                        Text(
+                          item['dec'],
+                          style: t14grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Routers.push(
+                        Routers.webView, context, {'url': item['target']});
+                  },
+                ))
+            .toList(),
+      ),
+    );
+  }
+
   //轮播图
   _buildSwiper() {
     return SliverToBoxAdapter(
-      child: BannerCacheImg(
-        imageList: _banner,
-        onTap: (index) {
-          _goWebview('${_bannerData![index].targetUrl}');
-        },
-        height: 110,
+      child: Container(
+        color: backWhite,
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: BannerCacheImg(
+          backColor: backColor,
+          imageList: _banner,
+          boxFit: BoxFit.contain,
+          onTap: (index) {
+            _goWebview('${_bannerData![index].targetUrl}');
+          },
+          height: 90,
+        ),
       ),
     );
   }
@@ -258,19 +330,18 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 '$title',
                 style: t14blackBold,
               ),
-              act == ''
-                  ? Container()
-                  : Container(
-                      margin: EdgeInsets.only(left: 5),
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: textYellow, width: 1)),
-                      child: Text(
-                        '$act',
-                        style: t10Yellow,
-                      ),
-                    ),
+              if (act.isNotEmpty)
+                Container(
+                  margin: EdgeInsets.only(left: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: textYellow, width: 1)),
+                  child: Text(
+                    '$act',
+                    style: t10Yellow,
+                  ),
+                ),
               SizedBox(
                 width: 15,
               )
@@ -295,7 +366,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
     );
   }
 
-  _buildactivity() {
+  _buildActivity() {
     var pointExVirtualAct = _data.pointExVirtualAct!;
     List<ActPackets> activitys = pointExVirtualAct.actPackets!;
     return SliverGrid.count(
@@ -312,7 +383,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                       borderRadius: BorderRadius.circular(40),
                       border: Border.all(color: textYellow, width: 0.5)),
                   child: NetImage(
-                    imageUrl: item.picUrl,
+                    imageUrl: '${item.picUrl}',
                     width: 80,
                     height: 80,
                   ),
@@ -343,17 +414,17 @@ class _PointCenterPageState extends State<PointCenterPage> {
     );
   }
 
-  _buildactivity2() {
+  _buildActivity2() {
     var pointExVirtualAct = _data.pointExExternalRights!;
-    List<ActPackets> activitys = pointExVirtualAct.actPackets!;
+    List<ActPackets> activity = pointExVirtualAct.actPackets!;
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       sliver: SliverGrid.count(
         crossAxisCount: 2,
-        childAspectRatio: 1.3,
+        childAspectRatio: 1.25,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        children: activitys.map<Widget>((item) {
+        children: activity.map<Widget>((item) {
           Widget widget = Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -373,7 +444,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Text(
                     '${item.title}',
-                    style: t12blackBold,
+                    style: t16blackbold,
                   ),
                 ),
                 Container(
@@ -382,7 +453,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                     '${item.needPoint}积分兑',
                     style: TextStyle(
                         color: textYellow,
-                        fontSize: 12,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -465,7 +536,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       margin: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       child: Text(
-        '为您推荐',
+        '热销好物',
         style: t16blackbold,
       ),
     );
@@ -525,10 +596,36 @@ class _PointCenterPageState extends State<PointCenterPage> {
         ),
       ),
       onTap: () {
-        Routers.push(Routers.webView, context, {
-          'url':
-              '${NetConstants.baseUrl}layaway/detail?id=${item.id.toString()}'
-        });
+        Routers.push(Routers.layawayDetail, context, {'id': item.id});
+      },
+    );
+  }
+
+  Widget _rcmAll() {
+    return GestureDetector(
+      child: Container(
+        padding: EdgeInsets.only(bottom: 15, top: 5),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: lineColor, width: 1))),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '查看全部',
+              style: TextStyle(fontSize: 16, color: textBlack, height: 1.15),
+            ),
+            Image.asset(
+              'assets/images/arrow_right.png',
+              width: 14,
+              height: 14,
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Routers.layaway, context);
       },
     );
   }
