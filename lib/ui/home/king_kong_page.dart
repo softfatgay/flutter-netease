@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/component/banner.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/page_loading.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
@@ -25,7 +25,7 @@ class KingKongPage extends StatefulWidget {
 }
 
 class _KingKongPageState extends State<KingKongPage> {
-  var _banner = [];
+  List<String> _banner = [];
   bool _initLoading = true;
   Category? _currentCategory;
 
@@ -97,7 +97,7 @@ class _KingKongPageState extends State<KingKongPage> {
 
       _bannerList = kingkongModel.currentCategory!.bannerList;
       _categoryItemList = kingkongModel.categoryItemList;
-      _banner = _bannerList!.map((item) => item.picUrl).toList();
+      _banner = _bannerList!.map((item) => '${item.picUrl ?? ''}').toList();
       _initLoading = false;
     });
   }
@@ -142,13 +142,16 @@ class _KingKongPageState extends State<KingKongPage> {
 
   //轮播图
   _buildSwiper(BuildContext context) {
-    return BannerCacheImg(
-      imageList: _banner,
-      onTap: (index) {
-        Routers.push(
-            Routers.webView, context, {'url': _bannerList![index].targetUrl});
-      },
-    );
+    return IndicatorBanner(
+        dataList: _banner,
+        fit: BoxFit.cover,
+        height: 300,
+        corner: 0,
+        indicatorType: IndicatorType.line,
+        onPress: (index) {
+          Routers.push(
+              Routers.webView, context, {'url': _bannerList![index].targetUrl});
+        });
   }
 
   _bodyTitle(CategoryItemListItem value) {

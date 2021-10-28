@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/back_loading.dart';
-import 'package:flutter_app/component/banner.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
-import 'package:flutter_app/component/net_image.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/globle/scrollState.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/goods_detail/components/goodMaterialWidget.dart';
 import 'package:flutter_app/ui/goods_detail/components/good_detail_comment_widget.dart';
@@ -31,14 +31,13 @@ class PinPage extends StatefulWidget {
 }
 
 class _PinPageState extends State<PinPage> {
+  final _scrollState = ValueNotifier<ScrollState>(ScrollState.shoppingCart);
+
   bool _initLoading = true;
 
   late PinItemDetailModel _detailModel;
   ItemInfo? _itemInfo;
   final _scrollController = ScrollController();
-  bool _isShowFloatBtn = false;
-
-  int _bannerIndex = 0;
 
   List<ResultItem>? _commentList = [];
   num? _commentCount = 0;
@@ -62,9 +61,22 @@ class _PinPageState extends State<PinPage> {
       });
     }
     super.initState();
+    _scrollController.addListener(_scrollerListener);
     _pinItemDetail();
     _getCommentList();
     _pinRecommend();
+  }
+
+  void _scrollerListener() {
+    if (_scrollController.position.pixels > 500) {
+      if (_scrollState.value == ScrollState.shoppingCart) {
+        _scrollState.value = ScrollState.toTop;
+      }
+    } else {
+      if (_scrollState.value == ScrollState.toTop) {
+        _scrollState.value = ScrollState.shoppingCart;
+      }
+    }
   }
 
   _pinRecommend() async {
@@ -144,8 +156,13 @@ class _PinPageState extends State<PinPage> {
                 )
               ],
             ),
-      floatingActionButton:
-          _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
+      floatingActionButton: ValueListenableBuilder(
+          valueListenable: _scrollState,
+          builder: (BuildContext context, ScrollState value, Widget? child) {
+            return _scrollState.value == ScrollState.toTop
+                ? floatingAB(_scrollController)
+                : floatingABCart(context);
+          }),
     );
   }
 
@@ -273,11 +290,12 @@ class _PinPageState extends State<PinPage> {
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           SliverPersistentHeader(
             pinned: true,
             delegate: SliverCustomHeaderDelegate(
-              title: '拼团',
+              title: '严选邀新团',
               collapsedHeight: 50,
               expandedHeight: MediaQuery.of(context).size.width,
               paddingTop: MediaQuery.of(context).padding.top,
@@ -313,12 +331,7 @@ class _PinPageState extends State<PinPage> {
 
   _buildGoodDetail() {
     final imgWidget = _detailImages
-        .map<Widget>((imgUrl) => GestureDetector(
-              child: NetImage(imageUrl: imgUrl),
-              onTap: () {
-                // Routers.push(Util.image, context, {'images': _detailImages});
-              },
-            ))
+        .map<Widget>((imgUrl) => CachedNetworkImage(imageUrl: imgUrl))
         .toList();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -362,37 +375,17 @@ class _PinPageState extends State<PinPage> {
         banner.add(image);
       }
     });
-    return Stack(
-      children: [
-        BannerCacheImg(
-          height: MediaQuery.of(context).size.width,
-          imageList: banner,
-          onIndexChanged: (index) {
-            setState(() {
-              _bannerIndex = index;
-            });
-          },
-          onTap: (index) {
-            Routers.push(
-                Routers.image, context, {'images': banner, 'page': index});
-          },
-        ),
-        Positioned(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-                color: Color(0x80FFFFFF),
-                borderRadius: BorderRadius.circular(2)),
-            child: Text(
-              '$_bannerIndex/${banner.length}',
-              style: t12black,
-            ),
-          ),
-          right: 15,
-          bottom: 10,
-        ),
-      ],
-    );
+    return IndicatorBanner(
+        dataList: banner,
+        fit: BoxFit.cover,
+        height: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.all(0),
+        corner: 0,
+        indicatorType: IndicatorType.num,
+        onPress: (index) {
+          Routers.push(
+              Routers.image, context, {'images': banner, 'page': index});
+        });
   }
 
   _titleWidget() {
@@ -448,47 +441,48 @@ class _PinPageState extends State<PinPage> {
       crossAxisCount: 3,
       mainAxisSpacing: 5,
       crossAxisSpacing: 5,
-      children: _commonList
-          .map((item) => GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: backWhite, borderRadius: BorderRadius.circular(4)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: RoundNetImage(
-                          width: double.infinity / 3 - 10,
-                          height: double.infinity / 3 - 10,
-                          url: item.picUrl,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          '${item.name}',
-                          style: t14black,
-                          maxLines: 2,
-                        ),
-                      ),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                        child: Text(
-                          '¥${item.price}',
-                          style: t14red,
-                          maxLines: 2,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  Routers.push(Routers.pinPage, context,
-                      {'itemId': item.itemId, 'baseId': item.id});
-                },
-              ))
-          .toList(),
+      children: _commonList.map((item) => pinRcmdItem(item)).toList(),
+    );
+  }
+
+  GestureDetector pinRcmdItem(PinRecommonModel item) {
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+            color: backWhite, borderRadius: BorderRadius.circular(4)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: RoundNetImage(
+                width: double.infinity / 3 - 10,
+                height: double.infinity / 3 - 10,
+                url: item.picUrl,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                '${item.name}',
+                style: t14black,
+                maxLines: 2,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              child: Text(
+                '¥${item.price}',
+                style: t14red,
+                maxLines: 2,
+              ),
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Routers.pinPage, context,
+            {'itemId': item.itemId, 'baseId': item.id});
+      },
     );
   }
 
@@ -496,6 +490,7 @@ class _PinPageState extends State<PinPage> {
   void dispose() {
     // TODO: implement dispose
     _scrollController.dispose();
+    _scrollState.dispose();
     super.dispose();
   }
 }

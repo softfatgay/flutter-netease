@@ -9,9 +9,9 @@ typedef void OnPress();
 
 class BrandInfoWidget extends StatelessWidget {
   final BrandInfo? brandInfo;
-  final OnPress? onPress;
+  final OnPress onPress;
 
-  const BrandInfoWidget({Key? key, this.brandInfo, this.onPress})
+  const BrandInfoWidget({Key? key, this.brandInfo, required this.onPress})
       : super(key: key);
 
   @override
@@ -35,10 +35,14 @@ class BrandInfoWidget extends StatelessWidget {
                       ),
                       CachedNetworkImage(
                           height: 35, imageUrl: '${brandInfo!.picUrl}'),
-                    brandInfo!.ownType == 2? CachedNetworkImage(
-                          height: 12,
-                          imageUrl:
-                              'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png'):Container(height: 16,),
+                      brandInfo!.ownType == 2
+                          ? CachedNetworkImage(
+                              height: 12,
+                              imageUrl:
+                                  'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png')
+                          : Container(
+                              height: 16,
+                            ),
                     ],
                   ),
                   SizedBox(
@@ -71,9 +75,7 @@ class BrandInfoWidget extends StatelessWidget {
               ),
             ),
             onTap: () {
-              if (onPress != null) {
-                onPress!();
-              }
+              onPress();
             },
           );
   }

@@ -640,9 +640,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   double narbarHeight = 40;
   final tabs = ['商品详情', '甄选家评测'];
 
-  _buildSwiper(BuildContext context, List imgList) {
+  _buildSwiper(BuildContext context, List<String> imgList) {
     return GoodDetailBanner(
-      imgList: imgList as List<String>?,
+      imgList: imgList,
       videoInfo: _videoInfo,
       height: MediaQuery.of(context).size.width,
     );
@@ -922,40 +922,40 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _addBanners() {
     var adBanners = _goodDetail.adBanners;
-    return adBanners == null || adBanners.isEmpty
-        ? Container()
-        : Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), color: backWhite),
-            child: CarouselSlider(
-              items: adBanners.map<Widget>((e) {
-                return GestureDetector(
-                  child: Container(
-                    width: double.infinity,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                    child: CachedNetworkImage(
-                      imageUrl: '${e.picUrl}',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  onTap: () {
-                    Routers.push(
-                        Routers.webView, context, {'url': e.targetUrl});
-                  },
-                );
-              }).toList(),
-              options: CarouselOptions(
-                  height: 100,
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 5),
-                  viewportFraction: 1.0,
-                  // enlargeCenterPage: true,
-                  onPageChanged: (index, reason) {
-                    // setState(() {});
-                  }),
-            ),
-          );
+    if (adBanners != null && adBanners.isNotEmpty) {
+      return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5), color: backWhite),
+        child: CarouselSlider(
+          items: adBanners.map<Widget>((e) {
+            return GestureDetector(
+              child: Container(
+                width: double.infinity,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                child: CachedNetworkImage(
+                  imageUrl: '${e.picUrl}',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              onTap: () {
+                Routers.push(Routers.webView, context, {'url': e.targetUrl});
+              },
+            );
+          }).toList(),
+          options: CarouselOptions(
+              height: 100,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 5),
+              viewportFraction: 1.0,
+              // enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                // setState(() {});
+              }),
+        ),
+      );
+    }
+    return Container();
   }
 
   _buildComment() {
@@ -982,19 +982,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildGoodDetail() {
     final List<Widget> imgWidget = [];
-    final imgList = _detailImages.isEmpty
-        ? List.filled(0, Container())
-        : _detailImages
-            .map<Widget>((e) => GestureDetector(
-                  child: CachedNetworkImage(
-                    imageUrl: e,
-                    fit: BoxFit.cover,
-                  ),
-                  onTap: () {
-                    // Routers.push(Util.image, context, {'images': _detailImages});
-                  },
-                ))
-            .toList();
+    final imgList = _detailImages
+        .map<Widget>((item) => CachedNetworkImage(
+              imageUrl: '$item',
+              fit: BoxFit.cover,
+            ))
+        .toList();
     imgWidget.add(_buildDetailTitle());
     imgWidget.add(_buildIntro());
     imgWidget.add(Container(height: 20));
@@ -1003,9 +996,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       key: _detailKey,
       margin: EdgeInsets.only(top: 10),
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      child: Column(
-        children: imgWidget,
-      ),
+      child: Column(children: imgWidget),
       color: Colors.white,
       width: double.infinity,
       alignment: Alignment.center,
@@ -1432,7 +1423,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     for (var element in keys) {
       var split = element.split(';');
       for (var spitElement in selectSkuMapKey) {
-        if (spitElement == null || spitElement == '') {
+        if (spitElement == '') {
           isMatch = true;
         } else {
           if (split.indexOf(spitElement) == -1) {

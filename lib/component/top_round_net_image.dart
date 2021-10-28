@@ -8,12 +8,14 @@ class TopRoundNetImage extends StatelessWidget {
   final double height;
   final double width;
   final double corner;
+  final BoxFit fit;
 
   const TopRoundNetImage(
       {Key? key,
       this.url,
       this.height = 100,
       this.width = 100,
+      this.fit = BoxFit.cover,
       this.corner = 2})
       : super(key: key);
 
@@ -26,7 +28,7 @@ class TopRoundNetImage extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(corner)),
             image: DecorationImage(
               image: imageProvider,
-              fit: BoxFit.cover,
+              fit: fit,
             ),
           ),
         ),

@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/back_loading.dart';
-import 'package:flutter_app/component/banner.dart';
 import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
@@ -39,7 +37,7 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
   List<MoreLayawayListItemModel> _moreLayawayList = [];
   List<PolicyListItemModel> _policyList = [];
 
-  List _banner = [];
+  List<String> _banner = [];
 
   bool _isLoading = true;
 
@@ -79,8 +77,8 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
         _isLoading = false;
       });
       if (_layawayModel.primaryPicUrl != null) {
-        List banner = [];
-        banner.add(_layawayModel.primaryPicUrl);
+        List<String> banner = [];
+        banner.add(_layawayModel.primaryPicUrl ?? '');
         var detail = _layawayModel.detail;
 
         var encode = detail!.toJson();
@@ -543,7 +541,7 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverCustomHeaderDelegate(
-        title: '${_layawayModel!.name}',
+        title: '${_layawayModel.name}',
         expandedHeight: MediaQuery.of(context).size.width,
         paddingTop: MediaQuery.of(context).padding.top,
         child: _buildSwiper(context),
@@ -553,11 +551,17 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
 
   //轮播图
   _buildSwiper(BuildContext context) {
-    return BannerCacheImg(
-      height: MediaQuery.of(context).size.width,
-      imageList: _banner,
-      onTap: (index) {},
-    );
+    return IndicatorBanner(
+        dataList: _banner,
+        fit: BoxFit.cover,
+        height: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.all(0),
+        corner: 0,
+        indicatorType: IndicatorType.num,
+        onPress: (index) {
+          Routers.push(
+              Routers.image, context, {'images': _banner, 'page': index});
+        });
   }
 
   @override

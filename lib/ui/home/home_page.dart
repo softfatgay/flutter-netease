@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
@@ -228,40 +229,21 @@ class _HomeState extends State<HomePage>
   }
 
   _buildSwiper() {
+    List<String> banner = [];
+    for (var item in _focusList!) {
+      banner.add(item.picUrl ?? '');
+    }
     return singleSliverWidget(
-      Container(
-        height: 160,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5), color: backWhite),
-        child: CarouselSlider(
-          items: _focusList!.map<Widget>((e) {
-            return GestureDetector(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5), color: backWhite),
-                child: RoundNetImage(
-                  url: e.picUrl,
-                  width: double.infinity,
-                  height: 160,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              onTap: () {
-                Routers.push(Routers.webView, context, {'url': e.targetUrl});
-              },
-            );
-          }).toList(),
-          options: CarouselOptions(
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 5),
-              viewportFraction: 1.0,
-              // enlargeCenterPage: true,
-              onPageChanged: (index, reason) {
-                // setState(() {});
-              }),
-        ),
-      ),
+      IndicatorBanner(
+          dataList: banner,
+          fit: BoxFit.cover,
+          height: 200,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          indicatorType: IndicatorType.line,
+          onPress: (index) {
+            Routers.push(Routers.webView, context,
+                {'url': _focusList![index].targetUrl});
+          }),
     );
   }
 

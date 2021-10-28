@@ -1,23 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/component/banner.dart';
-import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
+import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/mine/model/pointsModel.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
-import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/ui/mine/components/head_portrait.dart';
-import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/component/top_round_net_image.dart';
+import 'package:flutter_app/ui/mine/model/pointsModel.dart';
+import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/sort/good_item_normal.dart';
 
 class PointCenterPage extends StatefulWidget {
   @override
@@ -28,7 +26,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
   bool _isLoading = true;
 
   late PointsModel _data;
-  List _banner = [];
+  List<String> _banner = [];
   List<PonitBannersItem>? _bannerData = [];
   List<ItemListItem> _rcmdDataList = [];
 
@@ -83,7 +81,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       _isLoading = false;
       _data = PointsModel.fromJson(responseData.data);
       _bannerData = _data.ponitBanners;
-      _banner = _bannerData!.map((item) => item.picUrl).toList();
+      _banner = _bannerData!.map((item) => '${item.picUrl ?? ''}').toList();
     });
   }
 
@@ -117,7 +115,9 @@ class _PointCenterPageState extends State<PointCenterPage> {
             '${_data.pointExExternalRights!.actDesc}',
             '')),
         singleSliverWidget(SizedBox(height: 15)),
-        _buildActivity2(),
+
+        ///积分兑换权益
+        singleSliverWidget(_buildActivity2C()),
         singleSliverWidget(SizedBox(height: 15)),
         singleSliverWidget(_line(10.0)),
         singleSliverWidget(Image.asset('assets/images/point_banner2.png')),
@@ -292,15 +292,15 @@ class _PointCenterPageState extends State<PointCenterPage> {
       child: Container(
         color: backWhite,
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: BannerCacheImg(
-          backColor: backColor,
-          imageList: _banner,
-          boxFit: BoxFit.contain,
-          onTap: (index) {
-            _goWebview('${_bannerData![index].targetUrl}');
-          },
-          height: 90,
-        ),
+        child: IndicatorBanner(
+            dataList: _banner,
+            fit: BoxFit.contain,
+            height: 90,
+            corner: 0,
+            indicatorType: IndicatorType.none,
+            onPress: (index) {
+              _goWebview('${_bannerData![index].targetUrl}');
+            }),
       ),
     );
   }
@@ -411,6 +411,117 @@ class _PointCenterPageState extends State<PointCenterPage> {
               '${NetConstants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
         });
       }).toList(),
+    );
+  }
+
+  int _currentIndex = 0;
+
+  _buildActivity2C() {
+    var pointExVirtualAct = _data.pointExExternalRights!;
+    List<ActPackets> activity = pointExVirtualAct.actPackets!;
+    var length = activity.length ~/ 4 + 1;
+    var list = List.filled(length, '');
+
+    return Container(
+      child: Column(
+        children: [
+          CarouselSlider.builder(
+            options: CarouselOptions(
+                height: 350,
+                aspectRatio: 2.0,
+                enlargeCenterPage: false,
+                viewportFraction: 1,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                }),
+            itemCount: (activity.length / 4).round(),
+            itemBuilder: (context, index, realIdx) {
+              var sublist = [];
+              if (index < activity.length / 4 - 1) {
+                sublist = activity.sublist(index * 4, index * 4 + 4);
+              } else {
+                sublist = activity.sublist(index * 4, activity.length);
+              }
+              return Wrap(
+                spacing: 5,
+                runSpacing: 5,
+                children: sublist
+                    .map((item) => activity2Item(context, item))
+                    .toList(),
+              );
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: list.asMap().entries.map((entry) {
+              return Container(
+                width: 12.0,
+                height: 3.0,
+                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: _currentIndex == entry.key ? textOrange : lineColor),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget activity2Item(BuildContext context, item) {
+    return GestureDetector(
+      child: Container(
+        width: MediaQuery.of(context).size.width / 2 - 10,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: backColor,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: 100,
+                child: TopRoundNetImage(
+                  url: item.picUrl,
+                  corner: 4,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Text(
+                  '${item.title}',
+                  style: t16blackbold,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10, bottom: 10),
+                child: Text(
+                  '${item.needPoint}积分兑',
+                  style: TextStyle(
+                      color: textYellow,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      onTap: () {
+        var pointExVirtualAct = _data.pointExExternalRights!;
+        Routers.push(Routers.webView, context, {
+          "url":
+              '${NetConstants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
+        });
+      },
     );
   }
 
