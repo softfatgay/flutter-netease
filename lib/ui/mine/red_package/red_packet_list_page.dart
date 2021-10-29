@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
+import 'package:flutter_app/ui/mine/red_package/model/red_package_mode.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
@@ -37,13 +37,41 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
         : CustomScrollView(
             controller: _scrollController,
             slivers: [
-              _banner == null
-                  ? singleSliverWidget(Container())
-                  : _topBanner(context),
+              singleSliverWidget(_useDec()),
+              if (_banner != null) _topBanner(context),
               _buildItems(context),
               SliverFooter(hasMore: _hasMore),
             ],
           );
+  }
+
+  _useDec() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      child: GestureDetector(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/images/dec_icon.png',
+              width: 18,
+              height: 18,
+            ),
+            SizedBox(width: 5),
+            Text(
+              '使用说明',
+              style: t14grey,
+            )
+          ],
+        ),
+        onTap: () {
+          Routers.push(Routers.webView, context,
+              {'url': 'https://m.you.163.com/help/new#/36/62'});
+        },
+      ),
+    );
   }
 
   _buildItems(BuildContext context) {

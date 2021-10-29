@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/mine/model/red_package_mode.dart';
+import 'package:flutter_app/ui/mine/red_package/model/red_package_mode.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
 class PackageItemWidget extends StatefulWidget {

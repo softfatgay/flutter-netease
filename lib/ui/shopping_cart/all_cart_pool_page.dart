@@ -83,7 +83,7 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
       appBar: TabAppBar(
         controller: _tabController,
         tabs: tabItem,
-        isScrollable: false,
+        scrollable: false,
         title: '${tabItem.length > 0 ? tabItem[_activeIndex] : ''}',
       ).build(context),
       body: _buildBody(),

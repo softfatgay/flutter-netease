@@ -70,7 +70,7 @@ class _OrderListPageState extends State<OrderListPage>
     return Scaffold(
       backgroundColor: backColor,
       appBar: TabAppBar(
-        isScrollable: false,
+        scrollable: false,
         controller: _mController,
         tabs: title,
         title: '订单',

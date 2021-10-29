@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/mine/red_packet_list_page.dart';
+import 'package:flutter_app/ui/mine/red_package/red_packet_list_page.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 
 class RedPacketPage extends StatefulWidget {
@@ -50,6 +50,7 @@ class _RedEnvelopeState extends State<RedPacketPage>
       appBar: TabAppBar(
         tabs: _tabs.map<String?>((e) => e['name']).toList(),
         title: '红包',
+        scrollable: false,
         controller: _controller,
       ).build(context),
       body: _buildBody(context),

@@ -129,36 +129,30 @@ class _RewardNumPageState extends State<RewardNumPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '余额(元)',
-                        style: t12white,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        child: Container(
-                          width: 13,
-                          height: 13,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: backWhite, width: 0.5),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            '?',
-                            textAlign: TextAlign.center,
-                            style: t10white,
-                          ),
+                  GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '余额(元)',
+                          style: t12white,
                         ),
-                        onTap: () {
-                          Routers.push(Routers.webView, context, {
-                            'url': '${NetConstants.baseUrl}help/new#/36/137'
-                          });
-                        },
-                      )
-                    ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Image.asset(
+                          'assets/images/dec_icon.png',
+                          width: 14,
+                          height: 14,
+                          color: backWhite,
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Routers.push(Routers.webView, context,
+                          {'url': '${NetConstants.baseUrl}help/new#/36/137'});
+                    },
                   ),
                   SizedBox(height: 10),
                   Center(
@@ -259,31 +253,32 @@ class _RewardNumPageState extends State<RewardNumPage> {
                         color: backWhite,
                       ),
                       Expanded(
-                          flex: 1,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '累计获得',
-                                  style:
-                                      TextStyle(color: textWhite, fontSize: 12),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  '¥${widget.params!['value']}',
-                                  style: TextStyle(
-                                      color: textWhite,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                )
-                              ],
-                            ),
-                          )),
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '累计获得',
+                                style:
+                                    TextStyle(color: textWhite, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '¥${widget.params!['value']}',
+                                style: TextStyle(
+                                    color: textWhite,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],

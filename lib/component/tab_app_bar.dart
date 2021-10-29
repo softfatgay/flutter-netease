@@ -8,7 +8,7 @@ class TabAppBar extends StatelessWidget {
     this.tabs = const [],
     this.controller,
     this.title = '',
-    this.isScrollable = true,
+    this.scrollable = true,
   });
 
   final List<String?> tabs;
@@ -16,7 +16,7 @@ class TabAppBar extends StatelessWidget {
   final TabController? controller;
 
   final String title;
-  final bool isScrollable;
+  final bool scrollable;
 
   Widget buildAppBar(BuildContext context) {
     return Container(
@@ -63,7 +63,7 @@ class TabAppBar extends StatelessWidget {
                 bottom: BorderSide(width: 0.5, color: Color(0xFFEAEAEA)))),
         width: double.infinity,
         child: TabBar(
-          isScrollable: isScrollable,
+          isScrollable: scrollable,
           controller: this.controller,
           labelStyle: TextStyle(fontSize: 15),
           labelColor: redColor,
