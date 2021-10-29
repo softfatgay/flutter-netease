@@ -273,6 +273,8 @@ class CartItemWidget extends StatelessWidget {
     } else if (item.sellVolume == 0) {
       ///库存为0
       return _cantBuyFlag(item, '暂无库存');
+    } else if (item.sellVolume! < 5) {
+      return _cantBuyFlag(item, '仅剩${item.sellVolume}件');
     }
     return Container();
   }
