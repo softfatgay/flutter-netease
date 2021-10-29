@@ -10,6 +10,7 @@ import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
@@ -922,36 +923,25 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _addBanners() {
     var adBanners = _goodDetail.adBanners;
+    List<String> banner = [];
+    if (adBanners != null && adBanners.isNotEmpty) {
+      for (var item in adBanners) {
+        banner.add(item.picUrl ?? '');
+      }
+    }
     if (adBanners != null && adBanners.isNotEmpty) {
       return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5), color: backWhite),
-        child: CarouselSlider(
-          items: adBanners.map<Widget>((e) {
-            return GestureDetector(
-              child: Container(
-                width: double.infinity,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                child: CachedNetworkImage(
-                  imageUrl: '${e.picUrl}',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              onTap: () {
-                Routers.push(Routers.webView, context, {'url': e.targetUrl});
-              },
-            );
-          }).toList(),
-          options: CarouselOptions(
-              height: 100,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 5),
-              viewportFraction: 1.0,
-              // enlargeCenterPage: true,
-              onPageChanged: (index, reason) {
-                // setState(() {});
-              }),
+        child: IndicatorBanner(
+          dataList: banner,
+          height: 100,
+          corner: 0,
+          fit: BoxFit.cover,
+          onPress: (index) {
+            Routers.push(
+                Routers.webView, context, {'url': adBanners[index].targetUrl});
+          },
         ),
       );
     }

@@ -87,6 +87,7 @@ class CartItemWidget extends StatelessWidget {
 
         ///换购，满减
         itemItems.add(_redeem(itemData, index, context));
+
         List<Widget> goodWidget = _itemList.map<Widget>((item) {
           return _buildItem(context, itemData, item, index);
         }).toList();
@@ -103,6 +104,7 @@ class CartItemWidget extends StatelessWidget {
   _buildItem(BuildContext context, CarItem itemData, CartItemListItem item,
       int index) {
     List<String>? cartItemTips = item.cartItemTips;
+    print('-----------------');
     return Container(
       color: Colors.white,
       child: Column(
@@ -229,20 +231,84 @@ class CartItemWidget extends StatelessWidget {
           _buildCheckBox(itemData, item, index),
 
           ///图片
-          GestureDetector(
-            child: RoundNetImage(
+          _buildImageInfo(context, item),
+
+          _buildDes(item, context)
+        ],
+      ),
+    );
+  }
+
+  _buildImageInfo(BuildContext context, CartItemListItem item) {
+    return GestureDetector(
+      child: Container(
+        height: _imageWith,
+        width: _imageWith,
+        child: Stack(
+          children: [
+            RoundNetImage(
               url: item.pic,
               backColor: backGrey,
               corner: 4,
               height: _imageWith,
               width: _imageWith,
             ),
-            onTap: () {
-              _goDetail(context, item);
-            },
-          ),
-          _buildDes(item, context)
-        ],
+            Positioned(bottom: 0, left: 0, right: 0, child: _imgFlag(item))
+          ],
+        ),
+      ),
+      onTap: () {
+        _goDetail(context, item);
+      },
+    );
+  }
+
+  _imgFlag(CartItemListItem item) {
+    if (item.limitPurchaseFlag!) {
+      ///限购标签
+      return _limitPurchaseFlag(item);
+    } else if (item.preemptionStatus! == 0) {
+      ///无法购买标签
+      return _cantBuyFlag(item, '无法购买');
+    } else if (item.sellVolume == 0) {
+      ///库存为0
+      return _cantBuyFlag(item, '暂无库存');
+    }
+    return Container();
+  }
+
+  ///无法购买标签
+  _cantBuyFlag(CartItemListItem item, String tips) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0x80333333),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 2),
+      alignment: Alignment.center,
+      child: Text(
+        '$tips',
+        style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  ///限购标签
+  _limitPurchaseFlag(CartItemListItem item) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFFF48F18),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 2),
+      alignment: Alignment.center,
+      child: Text(
+        '限购${item.limitPurchaseCount}件',
+        style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
@@ -298,18 +364,17 @@ class CartItemWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      item.id != 0
-                          ? Image.asset(
-                              'assets/images/arrow_down.png',
-                              width: 10,
-                              height: 10,
-                            )
-                          : Container()
+                      if (item.id != 0 && item.canSwitchSpec!)
+                        Image.asset(
+                          'assets/images/arrow_down.png',
+                          width: 10,
+                          height: 10,
+                        )
                     ],
                   ),
                 ),
                 onTap: () {
-                  if (item.id != 0) {
+                  if (item.id != 0 && item.canSwitchSpec!) {
                     skuClick(item);
                   }
                 },

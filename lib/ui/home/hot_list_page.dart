@@ -36,7 +36,7 @@ class _HotListPageState extends State<HotListPage>
   bool _isFirstLoading = true;
   int pageSize = 10;
 
-  String? _bannerUrl =
+  String _bannerUrl =
       "https://yanxuan.nosdn.127.net/294b914321c27e2490b257b5b6be6fa5.png";
 
   late Timer _timer;
@@ -117,7 +117,7 @@ class _HotListPageState extends State<HotListPage>
       _subCateList = cateList;
       _tabController = TabController(length: _subCateList.length, vsync: this);
       _isFirstLoading = false;
-      _bannerUrl = currentCategory.bannerUrl;
+      _bannerUrl = currentCategory.bannerUrl!;
     });
     _tabController.addListener(() {
       setState(() {
@@ -240,7 +240,7 @@ class _HotListPageState extends State<HotListPage>
       height: 270,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(_bannerUrl!),
+          image: NetworkImage(_bannerUrl),
           fit: BoxFit.fill,
         ),
       ),

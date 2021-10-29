@@ -139,33 +139,30 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
       if (_cartGroupList.length > 0) {
         _topItem = _cartGroupList[0];
-        if (_cartGroupList.length > 1) {
-          _itemList = _cartGroupList;
-          // _itemList.removeAt(0);
-          _selectedNum = 0;
+        _itemList = _cartGroupList;
+        _selectedNum = 0;
 
-          ///获取选择的数量
-          _itemList.forEach((element) {
-            var cartItemList = element.cartItemList!;
-            cartItemList.forEach((item) {
-              if (item.checked!) {
-                _selectedNum += item.cnt as int;
-              }
-            });
+        ///获取选择的数量
+        _itemList.forEach((element) {
+          var cartItemList = element.cartItemList!;
+          cartItemList.forEach((item) {
+            if (item.checked!) {
+              _selectedNum += item.cnt as int;
+            }
           });
+        });
 
-          ///判断是否全选
-          _itemList.forEach((element) {
-            var cartItemList = element.cartItemList!;
-            cartItemList.forEach((item) {
-              _isCheckedAll = true;
-              if (!item.checked!) {
-                _isCheckedAll = false;
-                return;
-              }
-            });
+        ///判断是否全选
+        _itemList.forEach((element) {
+          var cartItemList = element.cartItemList!;
+          cartItemList.forEach((item) {
+            _isCheckedAll = true;
+            if (!item.checked!) {
+              _isCheckedAll = false;
+              return;
+            }
           });
-        }
+        });
       }
     });
   }

@@ -33,6 +33,10 @@ CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) =>
       ..priceReductDesc = json['priceReductDesc'] as String?
       ..valid = json['valid'] as bool?
       ..checked = json['checked'] as bool?
+      ..limitPurchaseFlag = json['limitPurchaseFlag'] as bool?
+      ..limitPurchaseCount = json['limitPurchaseCount'] as num?
+      ..preemptionStatus = json['preemptionStatus'] as num?
+      ..canSwitchSpec = json['canSwitchSpec'] as bool?
       ..stepNo = json['stepNo'] as int?
       ..checkExt = json['checkExt']
       ..specList = (json['specList'] as List<dynamic>?)
@@ -75,6 +79,10 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'priceReductDesc': instance.priceReductDesc,
       'valid': instance.valid,
       'checked': instance.checked,
+      'limitPurchaseFlag': instance.limitPurchaseFlag,
+      'limitPurchaseCount': instance.limitPurchaseCount,
+      'preemptionStatus': instance.preemptionStatus,
+      'canSwitchSpec': instance.canSwitchSpec,
       'stepNo': instance.stepNo,
       'checkExt': instance.checkExt,
       'specList': instance.specList,

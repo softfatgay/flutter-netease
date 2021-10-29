@@ -22,36 +22,20 @@ class _SortChildState extends State<SortListPage>
   bool _firstLoading = true;
 
   int _activeIndex = 0;
-  TabController? _mController;
+  late TabController _mController;
   List<Category>? _catalogList = [];
   int? _id = 0;
-  @override
-  Widget build(BuildContext context) {
-    List<String?> tabItem = [];
-    for (int i = 0; i < (_catalogList!.length); i++) {
-      tabItem.add(_catalogList![i].name);
-    }
-    return Scaffold(
-      backgroundColor: backColor,
-      appBar: prefix0.TabAppBar(
-        controller: _mController,
-        tabs: tabItem,
-        title: '${tabItem.length > 0 ? tabItem[_activeIndex] : ''}',
-      ).build(context),
-      body: _buildBody(context),
-    );
-  }
 
   @override
   void initState() {
     // TODO: implement initState
+    _mController = TabController(length: _catalogList!.length, vsync: this);
     super.initState();
     _id = widget.params!["subCategoryId"];
     _getInitData();
   }
 
   _getInitData() async {
-    _mController = TabController(length: _catalogList!.length, vsync: this);
     var responseData = await sortListData({
       "categoryType": "0",
       "subCategoryId": _id,
@@ -74,21 +58,40 @@ class _SortChildState extends State<SortListPage>
       }
 
       _mController = TabController(
-          length: _catalogList!.length, vsync: this, initialIndex: _activeIndex);
+          length: _catalogList!.length,
+          vsync: this,
+          initialIndex: _activeIndex);
     });
-    _mController!.addListener(() {
+    _mController.addListener(() {
       setState(() {
-        _activeIndex = _mController!.index;
+        _activeIndex = _mController.index;
         _id = _catalogList![_activeIndex].id as int?;
       });
     });
   }
 
   @override
+  Widget build(BuildContext context) {
+    List<String?> tabItem = [];
+    for (int i = 0; i < (_catalogList!.length); i++) {
+      tabItem.add(_catalogList![i].name);
+    }
+    return Scaffold(
+      backgroundColor: backColor,
+      appBar: prefix0.TabAppBar(
+        controller: _mController,
+        tabs: tabItem,
+        title: '${tabItem.length > 0 ? tabItem[_activeIndex] : ''}',
+      ).build(context),
+      body: _buildBody(context),
+    );
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _mController!.dispose();
+    _mController.dispose();
   }
 
   _buildBody(BuildContext context) {

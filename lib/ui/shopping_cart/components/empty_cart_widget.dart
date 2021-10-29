@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/service_tag_widget.dart';
+import 'package:flutter_app/constant/fonts.dart';
 
+// ServerTagWidget
 class EmptyCartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/cart_none.png',
-            width: 96,
-            height: 96,
+    return Stack(
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/cart_none.png',
+                width: 124,
+                height: 124,
+              ),
+              Text(
+                "去添加点什么吧",
+                style: t14lightGrey,
+              )
+            ],
           ),
-          Padding(padding: EdgeInsets.all(8.0)),
-          Text("去添加点什么吧！")
-        ],
-      ),
+        ),
+        Container(
+          color: Color(0xFFEEEEEE),
+          child: ServerTagWidget(),
+        )
+      ],
     );
   }
 }

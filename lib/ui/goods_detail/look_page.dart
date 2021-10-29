@@ -25,7 +25,7 @@ class LookPage extends StatefulWidget {
 }
 
 class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
-  TabController? _tabController;
+  late TabController _tabController;
   var _tabItem = [
     {
       "name": "推荐",
@@ -71,8 +71,8 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
       _tabController = TabController(
           length: _tabItem.length, vsync: this, initialIndex: _activeIndex)
         ..addListener(() {
-          if (_tabController!.index == _tabController!.animation!.value) {
-            var index = _tabController!.index;
+          if (_tabController.index == _tabController.animation!.value) {
+            var index = _tabController.index;
             var tabItem = _tabItem[index];
 
             setState(() {
@@ -202,7 +202,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        singleSliverWidget(_topWidget()),
+        if (_lookCollectionModel != null) singleSliverWidget(_topWidget()),
         _buildStickyBar(),
         _listData(),
         SliverFooter(hasMore: _hasMore)
@@ -211,50 +211,48 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   }
 
   _topWidget() {
-    return _lookCollectionModel == null
-        ? Container()
-        : Container(
-            color: backWhite,
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              children: [
-                Text(
-                  '$_recommendName',
-                  style: t14grey,
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "$_title",
-                  style: t16black,
-                ),
-                SizedBox(height: 5),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: _lookCollectionModel!.lookList!
-                        .map((item) => GestureDetector(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: RoundNetImage(
-                                  height: 120,
-                                  width: 120,
-                                  corner: 6,
-                                  url: item.banner!.picUrl,
-                                ),
-                              ),
-                              onTap: () {
-                                Routers.push(Routers.webView, context, {
-                                  'url':
-                                      'https://you.163.com/act/pub/7F3DBEV0Rn.html?id=142&index=$_id'
-                                });
-                              },
-                            ))
-                        .toList(),
-                  ),
-                )
-              ],
+    return Container(
+      color: backWhite,
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          Text(
+            '$_recommendName',
+            style: t14grey,
+          ),
+          SizedBox(height: 5),
+          Text(
+            "$_title",
+            style: t16black,
+          ),
+          SizedBox(height: 5),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: _lookCollectionModel!.lookList!
+                  .map((item) => GestureDetector(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: RoundNetImage(
+                            height: 120,
+                            width: 120,
+                            corner: 6,
+                            url: item.banner!.picUrl,
+                          ),
+                        ),
+                        onTap: () {
+                          Routers.push(Routers.webView, context, {
+                            'url':
+                                'https://you.163.com/act/pub/7F3DBEV0Rn.html?id=142&index=$_id'
+                          });
+                        },
+                      ))
+                  .toList(),
             ),
-          );
+          )
+        ],
+      ),
+    );
   }
 
   _buildStickyBar() {
@@ -314,7 +312,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    _tabController!.dispose();
+    _tabController.dispose();
     _scrollController.dispose();
     super.dispose();
   }

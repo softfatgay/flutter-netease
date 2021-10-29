@@ -142,94 +142,76 @@ class _MainPageState extends State<MainPage> {
   }
 
   _bottomNaviBar() {
-    return itemNames.map((item) {
+    return itemNames.map<BottomNavigationBarItem>((item) {
       if (item.name == '购物车') {
-        return BottomNavigationBarItem(
-          icon: Stack(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 11),
-                child: Image.asset(
-                  item.normalIcon!,
-                  width: 22.0,
-                  height: 22.0,
-                ),
-              ),
-              _cartNum == '0'
-                  ? Container()
-                  : Positioned(
-                      right: 18,
-                      top: 0,
-                      child: Container(
-                        constraints:
-                            BoxConstraints(minHeight: 15, minWidth: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: backRed,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          '$_cartNum',
-                          style: t10white,
-                        ),
-                      ),
-                    ),
-            ],
-          ),
-          label: item.name,
-          activeIcon: Stack(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  item.activeIcon!,
-                  width: 22.0,
-                  height: 22.0,
-                ),
-              ),
-              _cartNum == '0'
-                  ? Container()
-                  : Positioned(
-                      right: 18,
-                      top: 0,
-                      child: Container(
-                        constraints:
-                            BoxConstraints(minHeight: 15, minWidth: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: backRed,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          '$_cartNum',
-                          style: TextStyle(
-                              fontSize: 10, color: textWhite, height: 1.1),
-                        ),
-                      ),
-                    ),
-            ],
-          ),
-        );
+        return _cartBarItem(item);
       } else {
-        return BottomNavigationBarItem(
-          icon: Image.asset(
-            item.normalIcon!,
-            width: 22.0,
-            height: 22.0,
-          ),
-          label: item.name,
-          activeIcon: Image.asset(
-            item.activeIcon!,
-            width: 22.0,
-            height: 22.0,
-          ),
-        );
+        return _normalItem(item);
       }
     }).toList();
+  }
+
+  _normalItem(_Item item) {
+    return BottomNavigationBarItem(
+        label: item.name,
+        icon: _icon(item.normalIcon),
+        activeIcon: _icon(item.activeIcon));
+  }
+
+  _icon(String? icon) {
+    return Image.asset(
+      icon!,
+      width: 22.0,
+      height: 22.0,
+    );
+  }
+
+  _cartBarItem(_Item item) {
+    return BottomNavigationBarItem(
+      icon: Stack(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 11),
+            child: _icon(item.normalIcon),
+          ),
+          if (_cartNum != '0') _cartNumWidget()
+        ],
+      ),
+      label: item.name,
+      activeIcon: Stack(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: _icon(item.activeIcon),
+          ),
+          if (_cartNum != '0') _cartNumWidget()
+        ],
+      ),
+    );
+  }
+
+  _cartNumWidget() {
+    return Positioned(
+      right: 18,
+      top: 0,
+      child: Container(
+        constraints: BoxConstraints(minHeight: 15, minWidth: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: backRed, borderRadius: BorderRadius.circular(10)),
+        child: Text(
+          '$_cartNum',
+          style: TextStyle(fontSize: 10, color: textWhite, height: 1.1),
+        ),
+      ),
+    );
   }
 }
 
 class _Item {
-  String? name, activeIcon, normalIcon, cartNum;
+  String name, activeIcon, normalIcon;
+  String? cartNum;
 
   _Item(this.name, this.activeIcon, this.normalIcon, {this.cartNum});
 }

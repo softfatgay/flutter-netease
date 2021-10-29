@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/slivers.dart';
@@ -38,15 +37,50 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   List<CategoryL1Item>? _categoryL1List;
 
   ///右侧头部banner
-  List<BannerItem>? _bannerList;
+  List<BannerItem> _bannerList = [];
 
   ///body数据
-  List<CategoryGroupItem>? _categoryGroupList;
+  List<CategoryGroupItem> _categoryGroupList = [];
 
   @override
   bool get wantKeepAlive => true;
 
   num? _totalNum = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getInitData("");
+    _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
+      setState(() {
+        _rondomIndex++;
+        if (_rondomIndex >= 7) {
+          _rondomIndex = 0;
+        }
+      });
+    });
+  }
+
+  _getInitData(String id) async {
+    var sp = await LocalStorage.sp;
+    setState(() {
+      _totalNum = sp!.get(LocalStorage.totalNum) as num?;
+    });
+
+    _isLoading = true;
+    var responseData = await sortData({"categoryId": "$id"});
+    if (responseData.data != null) {
+      var data = responseData.data;
+      var sortDataModel = SortData.fromJson(data);
+      setState(() {
+        _isLoading = false;
+        _categoryL1List = sortDataModel.categoryL1List;
+        _bannerList = sortDataModel.currentCategory!.bannerList ?? [];
+        _categoryGroupList = sortDataModel.categoryGroupList ?? [];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +117,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                         bottom: BorderSide(width: 0.5, color: lineColor),
                       ),
                     ),
-                    child: _buildContent(),
+                    child: _isLoading ? Loading() : _buildContent(),
                   ),
                 )
               ],
@@ -92,41 +126,6 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
         ],
       ),
     );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getInitData("");
-    _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
-      setState(() {
-        _rondomIndex++;
-        if (_rondomIndex >= 7) {
-          _rondomIndex = 0;
-        }
-      });
-    });
-  }
-
-  _getInitData(String id) async {
-    var sp = await LocalStorage.sp;
-    setState(() {
-      _totalNum = sp!.get(LocalStorage.totalNum) as num?;
-    });
-
-    _isLoading = true;
-    var responseData = await sortData({"categoryId": "$id"});
-    if (responseData.data != null) {
-      var data = responseData.data;
-      var sortDataModel = SortData.fromJson(data);
-      setState(() {
-        _isLoading = false;
-        _categoryL1List = sortDataModel.categoryL1List;
-        _bannerList = sortDataModel.currentCategory!.bannerList;
-        _categoryGroupList = sortDataModel.categoryGroupList;
-      });
-    }
   }
 
   _buildSearch(BuildContext context) {
@@ -141,120 +140,99 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   }
 
   _buildContent() {
-    return _isLoading
-        ? Loading()
-        : MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverPadding(
-                  padding: EdgeInsets.all(10),
-                  sliver: singleSliverWidget(CarouselSlider(
-                    items: _bannerList!.map<Widget>((e) {
-                      return GestureDetector(
-                        child: Container(
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverPadding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          sliver: singleSliverWidget(
+            IndicatorBanner(
+              dataList: _bannerList.map((e) => '${e.picUrl ?? ''}').toList(),
+              onPress: (index) {
+                var targetUrl = _bannerList[index].targetUrl;
+                if (targetUrl!.isNotEmpty) {
+                  Routers.push(Routers.webView, context, {'url': targetUrl});
+                }
+              },
+              corner: 4,
+              fit: BoxFit.cover,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              height: 110,
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                List<Category> itemItem =
+                    _categoryGroupList[index].categoryList!;
+                return Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (_categoryGroupList[index].name != null &&
+                          _categoryGroupList[index].name!.isNotEmpty)
+                        Container(
                           width: double.infinity,
+                          padding: EdgeInsets.only(bottom: 5),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4)),
-                          child: NetImage(
-                            imageUrl: '${e.picUrl}',
-                            fit: BoxFit.cover,
+                              border: Border(
+                            bottom: BorderSide(color: lineColor, width: 0.5),
+                          )),
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            "${_categoryGroupList[index].name ?? ''}",
+                            style: t16blackbold,
                           ),
                         ),
-                        onTap: () {
-                          if (e.targetUrl != null && e.targetUrl!.isNotEmpty) {
-                            Routers.push(
-                                Routers.webView, context, {'url': e.targetUrl});
-                          }
-                        },
-                      );
-                    }).toList(),
-                    options: CarouselOptions(
-                        height: 100,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 5),
-                        viewportFraction: 1.0,
-                        // enlargeCenterPage: true,
-                        onPageChanged: (index, reason) {
-                          // setState(() {});
-                        }),
-                  )),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        List<Category> itemItem =
-                            _categoryGroupList![index].categoryList!;
-                        return Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (_categoryGroupList![index].name != null &&
-                                  _categoryGroupList![index].name!.isNotEmpty)
-                                Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.only(bottom: 5),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                    bottom: BorderSide(
-                                        color: lineColor, width: 0.5),
-                                  )),
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    "${_categoryGroupList![index].name ?? ''}",
-                                    style: t16blackbold,
+                      GridView.count(
+                        ///这两个属性起关键性作用，列表嵌套列表一定要有Container
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.8,
+                        children: itemItem.map<Widget>((item) {
+                          Widget widget = Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: NetImage(
+                                    imageUrl: item.wapBannerUrl,
+                                    fontSize: 12,
                                   ),
                                 ),
-                              GridView.count(
-                                ///这两个属性起关键性作用，列表嵌套列表一定要有Container
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                childAspectRatio: 0.8,
-                                children: itemItem.map<Widget>((item) {
-                                  Widget widget = Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: NetImage(
-                                            imageUrl: item.wapBannerUrl,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 6),
-                                          child: Text(
-                                            item.name!,
-                                            style: t12black,
-                                            maxLines: 1,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                  return Routers.link(
-                                      widget, Routers.catalogTag, context, {
-                                    'subCategoryId': item.id,
-                                    'categoryId': item.superCategoryId,
-                                  });
-                                }).toList(),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      childCount: _categoryGroupList!.length,
-                    ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 6),
+                                  child: Text(
+                                    item.name!,
+                                    style: t12black,
+                                    maxLines: 1,
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                          return Routers.link(
+                              widget, Routers.catalogTag, context, {
+                            'subCategoryId': item.id,
+                            'categoryId': item.superCategoryId,
+                          });
+                        }).toList(),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ));
+                );
+              },
+              childCount: _categoryGroupList.length,
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   @override

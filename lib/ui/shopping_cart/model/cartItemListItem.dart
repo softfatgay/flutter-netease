@@ -28,6 +28,18 @@ class CartItemListItem {
   String? priceReductDesc;
   bool? valid;
   bool? checked;
+
+  ///限购
+  bool? limitPurchaseFlag;
+
+  ///限购数量
+  num? limitPurchaseCount;
+
+  ///是否可以购买（0不可以，1可以）
+  num? preemptionStatus;
+
+  ///是否可以切换属性
+  bool? canSwitchSpec;
   int? stepNo;
   dynamic checkExt;
   List<SpecListItem>? specList;

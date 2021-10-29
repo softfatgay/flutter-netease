@@ -3,11 +3,10 @@ import 'package:flutter_app/constant/colors.dart';
 
 class ServerTagWidget extends StatelessWidget {
   final tags = ['30天无忧退货', '48小时快速退货', '满99免邮费'];
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backColor,
+      color: Color(0XFFEEEEEE),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: tags.map((e) {

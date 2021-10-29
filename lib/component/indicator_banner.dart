@@ -58,7 +58,7 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
           CarouselSlider.builder(
             options: CarouselOptions(
                 height: widget.height,
-                autoPlay: true,
+                autoPlay: widget.dataList.length > 1 ? true : false,
                 enlargeCenterPage: false,
                 viewportFraction: 1,
                 onPageChanged: (index, reason) {
@@ -89,42 +89,43 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
               );
             },
           ),
-          if (widget.indicatorType != IndicatorType.none)
-            widget.indicatorType == IndicatorType.line
-                ? Positioned(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: _dataList.asMap().entries.map((entry) {
-                        return Container(
-                          width: widget.indicatorWidth,
-                          height: 2.0,
-                          margin: EdgeInsets.symmetric(horizontal: 4.0),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: _currentIndex == entry.key
-                                  ? textOrange
-                                  : lineColor),
-                        );
-                      }).toList(),
-                    ),
-                    bottom: 10,
-                    left: 0,
-                    right: 0,
-                  )
-                : Positioned(
-                    bottom: 10,
-                    right: 20,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                          color: Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(2)),
-                      child: Text(
-                        '$_currentIndex/${_dataList.length}',
-                        style: t12black,
+          if (widget.dataList.length > 1)
+            if (widget.indicatorType != IndicatorType.none)
+              widget.indicatorType == IndicatorType.line
+                  ? Positioned(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: _dataList.asMap().entries.map((entry) {
+                          return Container(
+                            width: widget.indicatorWidth,
+                            height: 2.0,
+                            margin: EdgeInsets.symmetric(horizontal: 4.0),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: _currentIndex == entry.key
+                                    ? textOrange
+                                    : lineColor),
+                          );
+                        }).toList(),
+                      ),
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                    )
+                  : Positioned(
+                      bottom: 10,
+                      right: 20,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                            color: Color(0xFFFFFFFF),
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Text(
+                          '$_currentIndex/${_dataList.length}',
+                          style: t12black,
+                        ),
                       ),
                     ),
-                  ),
         ],
       ),
     );

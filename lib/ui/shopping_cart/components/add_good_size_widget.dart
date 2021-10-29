@@ -605,9 +605,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         return;
       }
     });
-    if (_skuMapItem!.sellVolume! > 0) {
-      _addShoppingCart();
-    }
+    _addShoppingCart();
+    if (_skuMapItem!.sellVolume! > 0) {}
   }
 
   ///加入购物车
