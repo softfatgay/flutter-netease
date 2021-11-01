@@ -15,6 +15,8 @@ import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/normal_footer.dart';
 
+const double spacing = 8;
+
 class PinMainPage extends StatefulWidget {
   @override
   _TestPageState createState() => _TestPageState();
@@ -207,7 +209,7 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
 
   _buildList() {
     return Container(
-      margin: EdgeInsets.only(left: 10, right: 10, top: 45),
+      margin: EdgeInsets.only(left: spacing, right: spacing, top: 45),
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
           color: backWhite,
@@ -228,12 +230,13 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
     return _moreDataList.isEmpty
         ? Container()
         : Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 6),
+            margin:
+                EdgeInsets.only(left: spacing, right: spacing, top: spacing),
             child: GridView.count(
               padding: EdgeInsets.all(0),
               crossAxisCount: 2,
-              mainAxisSpacing: 6,
-              crossAxisSpacing: 6,
+              mainAxisSpacing: spacing,
+              crossAxisSpacing: spacing,
               childAspectRatio: 0.6,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

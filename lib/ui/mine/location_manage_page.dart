@@ -80,22 +80,20 @@ class _LocationManagePageState extends State<LocationManagePage> {
                         style: t16black,
                       ),
                     ),
-                    item.dft == true
-                        ? Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 0),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: redColor),
-                                borderRadius: BorderRadius.circular(2)),
-                            child: Text(
-                              item.dft! ? '默认' : '',
-                              style: t12red,
-                            ),
-                          )
-                        : Container(
-                            width: 45,
-                          )
+                    if (item.dft!)
+                      Container(
+                        margin: EdgeInsets.only(right: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: redColor),
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Text(
+                          item.dft! ? '默认' : '',
+                          style: TextStyle(
+                              fontSize: 12, color: textRed, height: 1.1),
+                        ),
+                      )
                   ],
                 )),
             Expanded(

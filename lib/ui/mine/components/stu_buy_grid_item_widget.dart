@@ -1,5 +1,6 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
@@ -39,15 +40,29 @@ class StuBuyGridItemWidget extends StatelessWidget {
       children: [
         _image(item),
         Container(
-          padding: EdgeInsets.only(left: 5),
+          padding: EdgeInsets.only(left: 5, top: 5),
           child: RichText(
             text: TextSpan(
               style: t14black,
               children: [
+                WidgetSpan(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                    child: Text(
+                      '${item.isRefundPay! ? '返¥${item.price}余额 ' : ''}',
+                      style: TextStyle(
+                          color: textWhite, fontSize: 12, height: 1.1),
+                      textAlign: TextAlign.center,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFFF5252),
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                ),
                 TextSpan(
-                    text: '${item.isRefundPay! ? '返¥${item.price}余额 ' : ''}',
-                    style: t14red),
-                TextSpan(text: '${item.title}')
+                    text: '${item.title}',
+                    style:
+                        TextStyle(fontSize: 14, color: textBlack, height: 1.1))
               ],
             ),
           ),
@@ -64,21 +79,32 @@ class StuBuyGridItemWidget extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  ClipOval(
-                      child: Image.network(
-                    item.recentUsers == null ? '' : item.recentUsers![0],
-                    width: 16,
-                    height: 16,
-                    fit: BoxFit.cover,
-                  )),
-                  SizedBox(width: 2),
-                  ClipOval(
-                      child: Image.network(
-                    item.recentUsers == null ? '' : item.recentUsers![1],
-                    width: 16,
-                    height: 16,
-                    fit: BoxFit.cover,
-                  )),
+                  Container(
+                    width: 28,
+                    child: Stack(
+                      children: [
+                        ClipOval(
+                            child: Image.network(
+                          item.recentUsers == null ? '' : item.recentUsers![0],
+                          width: 16,
+                          height: 16,
+                          fit: BoxFit.cover,
+                        )),
+                        Positioned(
+                          right: 0,
+                          child: ClipOval(
+                              child: Image.network(
+                            item.recentUsers == null
+                                ? ''
+                                : item.recentUsers![1],
+                            width: 16,
+                            height: 16,
+                            fit: BoxFit.cover,
+                          )),
+                        ),
+                      ],
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       '${item.joinUsers}人已拼',
@@ -94,52 +120,6 @@ class StuBuyGridItemWidget extends StatelessWidget {
         ),
         _price(),
         SizedBox(height: 5)
-      ],
-    );
-  }
-
-  Row noUse(Result item) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: 6,
-            ),
-            Text(
-              "¥${item.price}",
-              style: TextStyle(
-                  color: textRed, fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              width: 3,
-            ),
-            Expanded(
-                child: Text(
-              "¥${item.originPrice}",
-              style: TextStyle(
-                  color: Colors.grey,
-                  decoration: TextDecoration.lineThrough,
-                  fontSize: 12),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            )),
-          ],
-        )),
-        Container(
-          margin: EdgeInsets.only(right: 6),
-          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-          decoration: BoxDecoration(
-              color: redColor, borderRadius: BorderRadius.circular(15)),
-          child: Text(
-            '去开团',
-            style: t14white,
-          ),
-        )
       ],
     );
   }
@@ -214,12 +194,12 @@ class StuBuyGridItemWidget extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(right: 6),
-            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
             decoration: BoxDecoration(
                 color: redColor, borderRadius: BorderRadius.circular(15)),
             child: Text(
               '去开团',
-              style: t14white,
+              style: TextStyle(fontSize: 14, color: textWhite, height: 1.15),
             ),
           )
         ],

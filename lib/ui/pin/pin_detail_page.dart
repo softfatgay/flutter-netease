@@ -21,16 +21,16 @@ import 'package:flutter_app/ui/pin/model/pinRecommonModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
 
-class PinPage extends StatefulWidget {
+class PinDetailPage extends StatefulWidget {
   final Map? params;
 
-  const PinPage({Key? key, this.params}) : super(key: key);
+  const PinDetailPage({Key? key, this.params}) : super(key: key);
 
   @override
-  _PinPageState createState() => _PinPageState();
+  _PinDetailPageState createState() => _PinDetailPageState();
 }
 
-class _PinPageState extends State<PinPage> {
+class _PinDetailPageState extends State<PinDetailPage> {
   final _scrollState = ValueNotifier<ScrollState>(ScrollState.shoppingCart);
 
   bool _initLoading = true;

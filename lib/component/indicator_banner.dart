@@ -99,12 +99,12 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                           return Container(
                             width: widget.indicatorWidth,
                             height: 2.0,
-                            margin: EdgeInsets.symmetric(horizontal: 4.0),
+                            margin: EdgeInsets.symmetric(horizontal: 3.0),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 color: _currentIndex == entry.key
-                                    ? textOrange
-                                    : lineColor),
+                                    ? backWhite
+                                    : Color(0x80F2F4F9)),
                           );
                         }).toList(),
                       ),

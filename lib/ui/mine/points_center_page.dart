@@ -457,12 +457,13 @@ class _PointCenterPageState extends State<PointCenterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: list.asMap().entries.map((entry) {
               return Container(
-                width: 12.0,
-                height: 3.0,
+                width: 6.0,
+                height: 6.0,
                 margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    color: _currentIndex == entry.key ? textOrange : lineColor),
+                    color: _currentIndex == entry.key ? textOrange : lineColor,
+                    borderRadius: BorderRadius.circular(3)),
               );
             }).toList(),
           ),

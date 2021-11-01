@@ -34,8 +34,8 @@ import 'package:flutter_app/ui/mine/red_package/red_package_use_page.dart';
 import 'package:flutter_app/ui/mine/red_package/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
+import 'package:flutter_app/ui/pin/pin_detail_page.dart';
 import 'package:flutter_app/ui/pin/pin_main_page.dart';
-import 'package:flutter_app/ui/pin/pin_page.dart';
 import 'package:flutter_app/ui/pin/send_pin_page.dart';
 import 'package:flutter_app/ui/setting/about_page.dart';
 import 'package:flutter_app/ui/setting/setting_page.dart';
@@ -139,7 +139,7 @@ class Routers {
     goodDetail: (context, {params}) => GoodsDetailPage(params: params),
 
     ///拼团
-    pinPage: (context, {params}) => PinPage(params: params),
+    pinPage: (context, {params}) => PinDetailPage(params: params),
 
     ///发起拼团
     sendPinPage: (context, {params}) => SendPinPage(params: params),

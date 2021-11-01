@@ -14,6 +14,7 @@ class StuBuyTabLayout extends StatelessWidget {
   final IndexChange? indexChange;
   final ScrollPress? scrollPress;
   final TabController? tabController;
+  final double spacing;
 
   const StuBuyTabLayout(
       {Key? key,
@@ -21,6 +22,7 @@ class StuBuyTabLayout extends StatelessWidget {
       this.subCateList,
       this.indexChange,
       this.scrollPress,
+      this.spacing = 8,
       this.tabController})
       : super(key: key);
 
@@ -33,7 +35,7 @@ class StuBuyTabLayout extends StatelessWidget {
     return Container(
       // height: 45,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(horizontal: spacing),
       decoration: BoxDecoration(
         color: backWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
