@@ -22,15 +22,15 @@ class FullRefundPolicyWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    String policyTitle = '';
-    if (fullRefundPolicy != null) {
-      List? fullRefundPolicyTitle = fullRefundPolicy!.titles;
-      if (fullRefundPolicyTitle != null && fullRefundPolicyTitle.isNotEmpty) {
-        fullRefundPolicyTitle.forEach((element) {
-          policyTitle += '▪$element ';
-        });
-      }
-    }
+    // String policyTitle = '';
+    // if (fullRefundPolicy != null) {
+    //   List? fullRefundPolicyTitle = fullRefundPolicy!.titles;
+    //   if (fullRefundPolicyTitle != null && fullRefundPolicyTitle.isNotEmpty) {
+    //     fullRefundPolicyTitle.forEach((element) {
+    //       policyTitle += '▪$element ';
+    //     });
+    //   }
+    // }
     return fullRefundPolicy == null
         ? Container()
         : fullRefundPolicy!.titles == null || fullRefundPolicy!.titles!.isEmpty
@@ -60,17 +60,18 @@ class FullRefundPolicyWidget extends StatelessWidget {
                                           width: 4,
                                           height: 4,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(2),
-                                            color: backRed
-                                          ),
+                                              borderRadius:
+                                                  BorderRadius.circular(2),
+                                              color: backRed),
                                         ),
-                                        Expanded(child: Text(
-                                          '$item',
-                                          style: t14black,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),)
+                                        Expanded(
+                                          child: Text(
+                                            '$item',
+                                            style: t14black,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ))
@@ -87,34 +88,5 @@ class FullRefundPolicyWidget extends StatelessWidget {
                   }
                 },
               );
-
-    return fullRefundPolicy == null
-        ? Container()
-        : InkResponse(
-            child: Container(
-              decoration: bottomBorder,
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              child: Row(
-                children: [
-                  Text(
-                    '规则：',
-                    style: t14grey,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '$policyTitle',
-                      style: t14black,
-                    ),
-                  ),
-                  arrowRightIcon
-                ],
-              ),
-            ),
-            onTap: () {
-              if (showDialog != null) {
-                showDialog!();
-              }
-            },
-          );
   }
 }

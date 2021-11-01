@@ -15,7 +15,7 @@ class CookieConfig {
   }
 
   static Map<String, String> get cookieMap {
-    if (cookie != null && cookie.contains('; ')) {
+    if (cookie.contains('; ')) {
       Map<String, String> map = Map<String, String>();
       List<String> list = cookie.split('; ');
       for (var i = 0; i < list.length; i++) {

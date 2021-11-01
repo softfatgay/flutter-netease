@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
-import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -37,7 +34,6 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:package_info/package_info.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum VersionState { none, loading, shouldUpdate, downloading }
 
@@ -86,6 +82,9 @@ class _HomeState extends State<HomePage>
   late AnimationController _animalController;
 
   num? _totalNum = 0;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -170,6 +169,7 @@ class _HomeState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton:
@@ -650,11 +650,12 @@ class _HomeState extends State<HomePage>
     String categoryId = '0';
     var categoryList = _categoryList![index];
     var targetUrl = categoryList.targetUrl;
-    if (categoryList.targetUrl != null &&
-        categoryList.targetUrl!.contains('categoryId=')) {
-      var split = targetUrl!.split("categoryId=");
-      if (split != null && split.isNotEmpty && split.length > 1) {
-        categoryId = split[1];
+
+    if (targetUrl != null && targetUrl.contains('categoryId')) {
+      var parse = Uri.parse(targetUrl);
+      var id = parse.queryParameters['categoryId'];
+      if (id != null) {
+        categoryId = id;
       }
     }
     Routers.push(Routers.hotList, context,
@@ -904,9 +905,6 @@ class _HomeState extends State<HomePage>
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   void dispose() {
     // TODO: implement dispose
     _scrollController.dispose();
@@ -967,14 +965,6 @@ class _HomeState extends State<HomePage>
             versionFirModel: versionModel,
           );
         });
-  }
-
-  _launchURL(apkUrl) async {
-    if (await canLaunch(apkUrl)) {
-      await launch(apkUrl);
-    } else {
-      throw 'Could not launch $apkUrl';
-    }
   }
 
   _newUserGift() async {

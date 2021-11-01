@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/m_textfiled.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';

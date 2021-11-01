@@ -80,6 +80,7 @@ class _MinePageState extends State<UserPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return _buildBody();
   }
 

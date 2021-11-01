@@ -5,7 +5,6 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/home/model/newUserGiftModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
-import 'package:flutter_app/component/timer_text.dart';
 
 void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
   var newUserGift2 = newUserGift.newUserGift;
@@ -13,7 +12,6 @@ void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        String label = 'test';
         return StatefulBuilder(
           builder: (context, state) {
             return Column(

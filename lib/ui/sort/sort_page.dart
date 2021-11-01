@@ -84,6 +84,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     List<String?> newTabs = [];
     if (_categoryL1List != null) {
       _categoryL1List!.forEach((item) => newTabs.add(item.name));

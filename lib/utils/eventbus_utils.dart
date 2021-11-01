@@ -27,7 +27,7 @@ class HosEventBusUtils {
       void onDone()?,
       bool? cancelOnError,
       bool autoManaged = true}) {
-    StreamSubscription? subscription = shared()?.on<T>()?.listen(onData,
+    StreamSubscription? subscription = shared()?.on<T>().listen(onData,
         onError: onError, onDone: onDone, cancelOnError: cancelOnError);
     if (autoManaged == true) {
       if (subscriptions == null) subscriptions = {};
@@ -42,7 +42,7 @@ class HosEventBusUtils {
   /// [T] 事件泛型 必须要传
   /// [subscription] 指定
   static void off<T extends Object>({StreamSubscription? subscription}) {
-    if (subscriptions == null) subscriptions = {};
+    subscriptions = {};
     if (subscription != null) {
       // 移除传入的
       List<StreamSubscription?> subs = subscriptions[T.runtimeType] ?? [];
@@ -90,7 +90,7 @@ mixin HosEventBusMixin<T extends StatefulWidget> on State<T> {
   void dispose() {
     super.dispose();
     debugPrint('dispose:HosEventBusMixin');
-    if (mEventBusSubscriptions != null)
+    if (mEventBusSubscriptions.isNotEmpty)
       for (StreamSubscription? subscription in mEventBusSubscriptions) {
         subscription!.cancel();
       }

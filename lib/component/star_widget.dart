@@ -37,7 +37,10 @@ class StaticRatingBar extends StatelessWidget {
         height: size,
         child: new CustomPaint(
           painter: new _PainterStars(
-              size: this.size / 2, color: colorLight, style: PaintingStyle.fill, strokeWidth: 0.0),
+              size: this.size / 2,
+              color: colorLight,
+              style: PaintingStyle.fill,
+              strokeWidth: 0.0),
         ));
   }
 
@@ -47,7 +50,10 @@ class StaticRatingBar extends StatelessWidget {
         height: size,
         child: new CustomPaint(
           painter: new _PainterStars(
-              size: this.size / 2, color: colorDark, style: PaintingStyle.fill, strokeWidth: 0.0),
+              size: this.size / 2,
+              color: colorDark,
+              style: PaintingStyle.fill,
+              strokeWidth: 0.0),
         ));
   }
 
@@ -68,7 +74,7 @@ class StaticRatingBar extends StatelessWidget {
 class _RatingBarClipper extends CustomClipper<Rect> {
   final double width;
 
-  _RatingBarClipper({required this.width}) : assert(width != null);
+  _RatingBarClipper({required this.width});
 
   @override
   Rect getClip(Size size) {
@@ -96,21 +102,24 @@ class _PainterStars extends CustomPainter {
 
   Path createStarPath(double radius, Path path) {
     double radian = degree2Radian(36); // 36为五角星的角度
-    double radius_in =
-        (radius * Math.sin(radian / 2) / Math.cos(radian)) * 1.1; // 中间五边形的半径,太正不是很好看，扩大一点点
+    double radius_in = (radius * Math.sin(radian / 2) / Math.cos(radian)) *
+        1.1; // 中间五边形的半径,太正不是很好看，扩大一点点
 
     path.moveTo((radius * Math.cos(radian / 2)), 0.0); // 此点为多边形的起点
     path.lineTo((radius * Math.cos(radian / 2) + radius_in * Math.sin(radian)),
         (radius - radius * Math.sin(radian / 2)));
-    path.lineTo((radius * Math.cos(radian / 2) * 2), (radius - radius * Math.sin(radian / 2)));
-    path.lineTo((radius * Math.cos(radian / 2) + radius_in * Math.cos(radian / 2)),
+    path.lineTo((radius * Math.cos(radian / 2) * 2),
+        (radius - radius * Math.sin(radian / 2)));
+    path.lineTo(
+        (radius * Math.cos(radian / 2) + radius_in * Math.cos(radian / 2)),
         (radius + radius_in * Math.sin(radian / 2)));
     path.lineTo((radius * Math.cos(radian / 2) + radius * Math.sin(radian)),
         (radius + radius * Math.cos(radian)));
     path.lineTo((radius * Math.cos(radian / 2)), (radius + radius_in));
     path.lineTo((radius * Math.cos(radian / 2) - radius * Math.sin(radian)),
         (radius + radius * Math.cos(radian)));
-    path.lineTo((radius * Math.cos(radian / 2) - radius_in * Math.cos(radian / 2)),
+    path.lineTo(
+        (radius * Math.cos(radian / 2) - radius_in * Math.cos(radian / 2)),
         (radius + radius_in * Math.sin(radian / 2)));
     path.lineTo(0.0, (radius - radius * Math.sin(radian / 2)));
     path.lineTo((radius * Math.cos(radian / 2) - radius_in * Math.sin(radian)),

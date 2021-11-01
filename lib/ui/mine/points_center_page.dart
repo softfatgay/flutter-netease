@@ -448,7 +448,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 spacing: 5,
                 runSpacing: 5,
                 children: sublist
-                    .map((item) => activity2Item(context, item))
+                    .map((item) => _activity2Item(context, item))
                     .toList(),
               );
             },
@@ -472,7 +472,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
     );
   }
 
-  Widget activity2Item(BuildContext context, item) {
+  Widget _activity2Item(BuildContext context, item) {
     return GestureDetector(
       child: Container(
         width: MediaQuery.of(context).size.width / 2 - 10,
@@ -523,61 +523,6 @@ class _PointCenterPageState extends State<PointCenterPage> {
               '${NetConstants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
         });
       },
-    );
-  }
-
-  _buildActivity2() {
-    var pointExVirtualAct = _data.pointExExternalRights!;
-    List<ActPackets> activity = pointExVirtualAct.actPackets!;
-    return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      sliver: SliverGrid.count(
-        crossAxisCount: 2,
-        childAspectRatio: 1.25,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        children: activity.map<Widget>((item) {
-          Widget widget = Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: backColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: TopRoundNetImage(
-                    url: item.picUrl,
-                    corner: 4,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(
-                    '${item.title}',
-                    style: t16blackbold,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text(
-                    '${item.needPoint}积分兑',
-                    style: TextStyle(
-                        color: textYellow,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-          );
-          return Routers.link(widget, Routers.webView, context, {
-            "url":
-                '${NetConstants.baseUrl}points/exVirtual/actPacket?actId=${pointExVirtualAct.actId}&actPacketId=${item.actPacketId}&actPacketGiftId=${item.actPacketGiftId}'
-          });
-        }).toList(),
-      ),
     );
   }
 

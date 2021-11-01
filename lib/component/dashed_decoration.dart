@@ -295,7 +295,6 @@ class DashedDecoration extends Decoration {
 
   @override
   bool hitTest(Size size, Offset position, {TextDirection? textDirection}) {
-    assert(shape != null);
     assert((Offset.zero & size).contains(position));
     switch (shape) {
       case BoxShape.rectangle:
@@ -332,7 +331,6 @@ class _BoxDecorationPainter extends BoxPainter {
   Rect? _rectForCachedBackgroundPaint;
 
   Paint? _getBackgroundPaint(Rect rect, TextDirection? textDirection) {
-    assert(rect != null);
     assert(
         _decoration.gradient != null || _rectForCachedBackgroundPaint == null);
 
@@ -430,7 +428,7 @@ class _BoxDecorationPainter extends BoxPainter {
     _paintShadows(canvas, rect, textDirection);
     _paintBackgroundColor(canvas, rect, textDirection);
     _paintBackgroundImage(canvas, rect, configuration);
-    if (_decoration.dawDashed != null && !_decoration.dawDashed) {
+    if (!_decoration.dawDashed) {
       _decoration.border?.paint(
         canvas,
         rect,

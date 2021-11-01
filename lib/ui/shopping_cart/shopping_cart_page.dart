@@ -302,6 +302,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var argument = widget.params;
     return _isLogin ? _buildBody(argument, context) : _loginPage(context);
   }

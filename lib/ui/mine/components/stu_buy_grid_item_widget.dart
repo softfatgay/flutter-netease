@@ -1,12 +1,10 @@
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/component/top_round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/saturdayBuyModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/component/top_round_net_image.dart';
 
 class StuBuyGridItemWidget extends StatelessWidget {
   final Result? item;

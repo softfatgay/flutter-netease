@@ -180,24 +180,28 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   NavigationDecision _interceptUrl(String url) {
-    if (url.startsWith('${NetConstants.baseUrl}item/detail')) {
-      var split = url.split('id=');
-      var split2 = split[1];
-      var split3 = split2.split('&')[0];
-      if (split3 != null && split3.isNotEmpty) {
-        Routers.push(Routers.goodDetail, context, {'id': '$split3'});
+    try {
+      if (url.startsWith('${NetConstants.baseUrl}item/detail')) {
+        var parse = Uri.parse(url);
+        var id = parse.queryParameters['id'];
+        if (id != null && id.isNotEmpty) {
+          Routers.push(Routers.goodDetail, context, {'id': '$id'});
+        }
+        return NavigationDecision.prevent;
+      } else if (url.startsWith('${NetConstants.baseUrl}cart')) {
+        Routers.push(
+            Routers.shoppingCart, context, {'from': Routers.goodDetail});
+        return NavigationDecision.prevent;
+      } else if (url == NetConstants.baseUrl ||
+          url.startsWith('https://m.you.163.com/?') ||
+          url.startsWith('https://m.you.163.com/downloadapp?')) {
+        Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
+        HosEventBusUtils.fire(GO_HOME);
+        return NavigationDecision.prevent;
+      } else {
+        return NavigationDecision.navigate;
       }
-      return NavigationDecision.prevent;
-    } else if (url.startsWith('${NetConstants.baseUrl}cart')) {
-      Routers.push(Routers.shoppingCart, context, {'from': Routers.goodDetail});
-      return NavigationDecision.prevent;
-    } else if (url == NetConstants.baseUrl ||
-        url.startsWith('https://m.you.163.com/?') ||
-        url.startsWith('https://m.you.163.com/downloadapp?')) {
-      Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
-      HosEventBusUtils.fire(GO_HOME);
-      return NavigationDecision.prevent;
-    } else {
+    } catch (e) {
       return NavigationDecision.navigate;
     }
   }

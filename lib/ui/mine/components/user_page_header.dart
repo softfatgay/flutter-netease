@@ -41,9 +41,9 @@ class UserHeader extends SliverPersistentHeaderDelegate {
   }
 
   Color makeStickyHeaderBgColor(shrinkOffset) {
-    final int? alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
-        .clamp(0, 255)
-        .toInt();
+    // final int? alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
+    //     .clamp(0, 255)
+    //     .toInt();
     return Color.fromARGB(0, 0, 0, 0);
   }
 
@@ -108,7 +108,7 @@ class UserHeader extends SliverPersistentHeaderDelegate {
   _userInfo(BuildContext context, double shrinkOffset) {
     var offsetTop = MediaQuery.of(context).padding.top + 50;
     var d = shrinkOffset / offsetTop;
-    var e = d / offsetTop;
+    // var e = d / offsetTop;
     if (d < 1) {
       d = shrinkOffset / offsetTop;
     } else {

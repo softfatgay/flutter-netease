@@ -119,8 +119,6 @@ class _CouponPageState extends State<CouponPage> {
   _buildItem(BuildContext context, CouponItemModel item, int index) {
     var backColor =
         index < _nowCoupon.length ? Color(0xFFDFB875) : Color(0xFFAFB4BC);
-    var tipsColor =
-        index < _nowCoupon.length ? Color(0xFFCEAC6C) : Color(0xFFA3A5AD);
     var botomColor =
         index < _nowCoupon.length ? Color(0XFFCEAC6C) : Color(0xFFA3A5AE);
     return Container(
@@ -287,12 +285,6 @@ class _CouponPageState extends State<CouponPage> {
     }
 
     return '$start-$end';
-  }
-
-  _cashName(CouponItemModel item) {
-    var cash = item.cash! ~/ 1;
-
-    return cash == 0 ? item.name : cash;
   }
 
   _returnIcon(CouponItemModel item) {

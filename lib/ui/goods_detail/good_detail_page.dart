@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -61,7 +60,6 @@ import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
-import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
@@ -2004,7 +2002,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   void _addShoppingCart() async {
     ///判断是否登录
     var csrfToken = csrf_token;
-    if (csrfToken == null || csrfToken.isEmpty) {
+    if (csrfToken.isEmpty) {
       _goLogin();
       return;
     }

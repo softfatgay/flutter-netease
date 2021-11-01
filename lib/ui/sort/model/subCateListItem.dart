@@ -1,4 +1,3 @@
-import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'subCateListItem.g.dart';

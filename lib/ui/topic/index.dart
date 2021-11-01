@@ -164,6 +164,7 @@ class _TopicPageState extends State<TopicPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: backGrey,
       body: _buildBody(),

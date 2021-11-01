@@ -2,7 +2,6 @@ import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
-import 'package:flutter_app/ui/mine/model/addressItem.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 

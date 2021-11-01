@@ -123,7 +123,7 @@ class HttpManager {
       } else {
         return Future.value(ResponseData());
       }
-    } on DioError catch (e) {
+    } on DioError {
       // BotToast.showText(text: '请求失败，请稍后重试');
       return Future.value(ResponseData());
     } catch (e) {

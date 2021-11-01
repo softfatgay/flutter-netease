@@ -54,9 +54,9 @@ class _SearchGoodsState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.controller == null) {
-      throw Exception('TextEditingController 没有初始化');
-    }
+    // if (widget.controller == null) {
+    //   throw Exception('TextEditingController 没有初始化');
+    // }
     return Container(
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),

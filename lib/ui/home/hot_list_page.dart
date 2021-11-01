@@ -43,7 +43,6 @@ class _HotListPageState extends State<HotListPage>
   int _randomIndex = 0;
 
   String? _categoryId = '0';
-  String? _categoryName = '';
 
   ///头部
   List<CurrentCategory> _subCateList = [];
@@ -58,7 +57,6 @@ class _HotListPageState extends State<HotListPage>
     setState(() {
       _tabController = TabController(length: _subCateList.length, vsync: this);
       _categoryId = widget.param!['categoryId'];
-      _categoryName = widget.param!['name'];
     });
     super.initState();
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {

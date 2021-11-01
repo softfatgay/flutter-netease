@@ -6,7 +6,6 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
-import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
 import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/util_mine.dart';

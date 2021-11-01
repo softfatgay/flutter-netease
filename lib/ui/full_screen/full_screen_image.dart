@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/component/app_bar.dart';
 
 class FullScreenImage extends StatefulWidget {
   final Map? params;

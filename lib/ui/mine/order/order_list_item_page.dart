@@ -36,6 +36,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return _isLoading ? Loading() : _buildOrderList();
   }
 
@@ -58,7 +59,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
     });
   }
 
-  _buildOrderList({Map<String, Object>? arguments}) {
+  _buildOrderList() {
     return _orderList == null || _orderList!.isEmpty
         ? Center(
             child: Column(

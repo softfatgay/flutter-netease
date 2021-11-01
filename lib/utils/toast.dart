@@ -74,8 +74,7 @@ class ToastView {
     );
     _isVisible = true;
     overlayState!.insert(_overlayEntry!);
-    await new Future.delayed(
-        Duration(seconds: duration == null ? Toast.LENGTH_SHORT : duration));
+    await new Future.delayed(Duration(seconds: duration));
     dismiss();
   }
 

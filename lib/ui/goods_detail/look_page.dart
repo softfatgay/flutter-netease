@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/my_under_line_tabindicator.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_footer.dart';

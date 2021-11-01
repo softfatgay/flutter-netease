@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -37,9 +34,9 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    if (widget.controller == null) {
-      throw Exception('TextEditingController 没有初始化');
-    }
+    // if (widget.controller == null) {
+    //   throw Exception('TextEditingController 没有初始化');
+    // }
     setState(() {
       _controller = widget.controller;
     });
@@ -59,9 +56,9 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.controller == null) {
-      throw Exception('TextEditingController 没有初始化');
-    }
+    // if (widget.controller == null) {
+    //   throw Exception('TextEditingController 没有初始化');
+    // }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 6),
       height: MediaQuery.of(context).padding.top + widget.textFiledHeight,
@@ -142,11 +139,6 @@ class _SearchGoodsState extends State<NormalFiledClearWidget> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   return showIcon ? backRed : Color(0xFFCCCCCC);
-                  if (states.contains(MaterialState.pressed)) {
-                    return backRed;
-                  }
-                  //默认不使用背景颜色
-                  return backLightRed;
                 }),
                 padding: MaterialStateProperty.all(EdgeInsets.all(0)),
               ),

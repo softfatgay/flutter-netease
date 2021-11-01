@@ -4,7 +4,7 @@ import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/component/start_widget.dart';
+import 'package:flutter_app/component/star_widget.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/pagination.dart';
@@ -135,16 +135,7 @@ class _CommentListState extends State<CommentList> {
                 singleSliverWidget(_buildCommentTags()),
                 singleSliverWidget(_buildTagControl()),
                 singleSliverWidget(_buildLine()),
-                (_commentList == null || _commentList.isEmpty)
-                    ? singleSliverWidget(Container(
-                        child: Center(
-                          child: Text(
-                            "",
-                            style: t18blackbold,
-                          ),
-                        ),
-                      ))
-                    : _buildCommentList(),
+                if (_commentList.isNotEmpty) _buildCommentList(),
                 SliverFooter(
                     hasMore: _pagination!.totalPage! > _pagination!.page! ||
                         (_commentList.length == 0))

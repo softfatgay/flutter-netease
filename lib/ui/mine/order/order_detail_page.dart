@@ -25,7 +25,7 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
-  String? _NO = '';
+  String? _no = '';
   late OrderDetailModel _detailModel;
 
   bool _firstLoading = true;
@@ -35,7 +35,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     // TODO: implement initState
     setState(() {
       var no = widget.params!['no'];
-      _NO = no;
+      _no = no;
     });
     super.initState();
 
@@ -43,7 +43,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   void _orderDetail() async {
-    Map<String, dynamic> params = {'orderId': _NO};
+    Map<String, dynamic> params = {'orderId': _no};
     var responseData = await orderDetail(params);
     if (responseData.code == '200') {
       var orderDetailModel = OrderDetailModel.fromJson(responseData.data);
@@ -136,7 +136,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   void _deleteOrder(BuildContext context) async {
-    var params = {"orderId": _NO};
+    var params = {"orderId": _no};
     await deleteOrder(params).then((value) {
       if (value.code == '200') {
         Toast.show('删除完成', context);

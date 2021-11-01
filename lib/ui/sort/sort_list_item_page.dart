@@ -71,6 +71,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (_isLoading) {
       return Loading();
     } else {

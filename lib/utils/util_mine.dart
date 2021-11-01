@@ -38,7 +38,7 @@ class Util {
     int day = 0;
     int hour = 0;
 
-    if (countdown != null && countdown > 0) {
+    if (countdown > 0) {
       var d = countdown;
       print(d);
       var e = d ~/ 1000;

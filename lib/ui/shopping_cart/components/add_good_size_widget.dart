@@ -569,7 +569,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
       var split = element.split(';');
       print(split);
       for (var spitElement in selectSkuMapKey) {
-        if (spitElement == null || spitElement == '') {
+        if (spitElement == '') {
           isMatch = true;
         } else {
           if (split.indexOf(spitElement) == -1) {

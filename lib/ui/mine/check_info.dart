@@ -150,7 +150,6 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
         return ValueListenableBuilder(
             valueListenable: progress, builder: _buildProgress);
     }
-    return const SizedBox();
   }
 
   Widget _buildProgress(BuildContext context, double value, Widget? child) {
@@ -187,7 +186,6 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
   }
 
   static String convertFileSize(int size) {
-    if (size == null) return '0 kb';
     double result = size / 1024.0;
     if (result < 1024) {
       return "${result.toStringAsFixed(2)}Kb";

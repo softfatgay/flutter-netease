@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
-import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/ui/mine/components/head_portrait.dart';
-import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @Deprecated('no used')
 class VipCenterPage extends StatefulWidget {
