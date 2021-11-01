@@ -12,7 +12,7 @@ import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/ui/home/model/categoryItemListItem.dart';
 import 'package:flutter_app/ui/home/model/kingkongModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/bannerItem.dart';
 
 class KingKongPage extends StatefulWidget {
@@ -108,7 +108,7 @@ class _KingKongPageState extends State<KingKongPage> {
     if (_categoryItemList != null) {
       for (var value in _categoryItemList!) {
         slivers.add(_bodyTitle(value));
-        slivers.add(GoodItemNormalWidget(dataList: value.itemList));
+        slivers.add(GoodItems(dataList: value.itemList));
       }
     }
     slivers.add(SliverFooter(

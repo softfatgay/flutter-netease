@@ -9,7 +9,7 @@ import 'package:flutter_app/ui/component/menu_pop_widget.dart';
 import 'package:flutter_app/ui/goods_detail/model/searchInitModel.dart';
 import 'package:flutter_app/ui/component/model/searchParamModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/local_storage.dart';
@@ -343,7 +343,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
         controller: _scrollController,
         slivers: <Widget>[
           _isSearchResult
-              ? GoodItemNormalWidget(dataList: _directlyList)
+              ? GoodItems(dataList: _directlyList)
               : _buildSearchTips(),
           SliverFooter(hasMore: _hasMore, tipsText: _bottomTipsText),
         ],

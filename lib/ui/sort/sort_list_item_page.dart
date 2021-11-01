@@ -7,7 +7,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 
 class SortListItemPage extends StatefulWidget {
@@ -93,7 +93,7 @@ class _CatalogGoodsState extends State<SortListItemPage>
                   ),
                 ),
               )),
-            GoodItemNormalWidget(dataList: _itemList),
+            GoodItems(dataList: _itemList),
             SliverFooter(hasMore: _itemList!.length != _total),
           ],
         ),

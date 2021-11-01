@@ -11,7 +11,7 @@ import 'package:flutter_app/ui/component/normal_conditions.dart';
 import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/goods_detail/model/brandIndexModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
@@ -151,7 +151,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
                 color: backColor,
               )),
               _buildStickyBar(),
-              GoodItemNormalWidget(dataList: _itemList),
+              GoodItems(dataList: _itemList),
               SliverFooter(hasMore: _hasMore),
             ],
           );

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/img_error.dart';
 import 'package:flutter_app/component/img_palceholder.dart';
 import 'package:flutter_app/component/my_vertical_text.dart';
-import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemListItem.dart';
@@ -13,52 +12,29 @@ import 'package:flutter_app/utils/price_util.dart';
 const marginS = 8.0;
 const mrr = 5.0;
 
-class GoodItemNormalWidget extends StatelessWidget {
-  final List<ItemListItem>? dataList;
+class GoodItemWidget extends StatelessWidget {
+  final ItemListItem item;
 
-  const GoodItemNormalWidget({Key? key, this.dataList}) : super(key: key);
+  const GoodItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildItems(dataList!);
+    return _buildGoodItem(context, item);
   }
 
-  _buildItems(List<ItemListItem> data) {
-    return data.isEmpty
-        ? buildASingleSliverGrid(Container(), 2)
-        : SliverPadding(
-            padding:
-                EdgeInsets.symmetric(horizontal: marginS, vertical: marginS),
-            sliver: SliverGrid(
-              delegate:
-                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                Widget widget = Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(color: Colors.transparent),
-                  child: _buildGoodItem(context, index, data),
-                );
-                return GestureDetector(
-                  child: widget,
-                  onTap: () {
-                    print(data[index]);
-                    Routers.push(
-                        Routers.goodDetail, context, {'id': data[index].id});
-                  },
-                );
-              }, childCount: data.length),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.58,
-                  mainAxisSpacing: 0,
-                  crossAxisSpacing: marginS),
-            ),
-          );
-  }
-
-  _buildGoodItem(BuildContext context, int index, List<ItemListItem> dataList) {
-    var item = dataList[index];
+  _buildGoodItem(BuildContext context, ItemListItem item) {
     var imgHeight = MediaQuery.of(context).size.width / 2;
+    return GestureDetector(
+      child: _buildItem(imgHeight, item),
+      onTap: () {
+        Routers.push(Routers.goodDetail, context, {'id': item.id});
+      },
+    );
+  }
+
+  _buildItem(double imgHeight, ItemListItem item) {
     return Container(
+      color: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -66,9 +42,7 @@ class GoodItemNormalWidget extends StatelessWidget {
             height: imgHeight,
             child: Stack(
               children: [
-                _netImg(
-                  item.listPicUrl!,
-                ),
+                _netImg(item.listPicUrl!),
                 if (item.colorNum != null && item.colorNum! > 0)
                   Container(
                     padding: EdgeInsets.fromLTRB(1, 2, 1, 2),
@@ -108,7 +82,7 @@ class GoodItemNormalWidget extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(top: 3),
                   child: Text(
-                    '${dataList[index].name}',
+                    '${item.name}',
                     style: t15blackBold,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -119,20 +93,21 @@ class GoodItemNormalWidget extends StatelessWidget {
                 _priceDec(item),
                 if (_isShowTips(item))
                   Expanded(
-                      child: Container(
-                    margin: EdgeInsets.only(top: 3),
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                      '${_getBannerContent(item)}',
-                      style: TextStyle(
-                          color: textRed,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          height: 1),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 3),
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        '${_getBannerContent(item)}',
+                        style: TextStyle(
+                            color: textRed,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            height: 1),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ))
+                  )
               ],
             ),
           )

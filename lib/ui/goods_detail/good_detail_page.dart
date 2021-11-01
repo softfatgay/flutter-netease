@@ -60,7 +60,8 @@ import 'package:flutter_app/ui/mine/address_selector.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
@@ -468,7 +469,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backWhite,
+      backgroundColor: backColor,
       body: Stack(
         children: <Widget>[
           _buildContent(),
@@ -542,20 +543,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             ///活动卡
             singleSliverWidget(_buildWelfareCardVO()),
 
-            singleSliverWidget(Container(
-              color: backColor,
-              height: 10,
-            )),
-
             ///选择属性
             singleSliverWidget(_buildSelectProperty()),
 
             ///addbanners
             singleSliverWidget(_addBanners()),
-            singleSliverWidget(Container(
-              color: backColor,
-              height: 10,
-            )),
 
             ///用户评价
             singleSliverWidget(_buildComment()),
@@ -570,20 +562,40 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             singleSliverWidget(_buildGoodDetail()),
 
             ///常见问题
-            singleSliverWidget(_goodDetailDownData == null
-                ? Container()
-                : _buildIssueTitle(' 常见问题 ', null)),
-            singleSliverWidget(_buildIssueList()),
+            if (_goodDetailDownData != null)
+              singleSliverWidget(_buildIssueTitle(' 常见问题 ', null)),
+            if (_goodDetailDownData != null)
+              singleSliverWidget(_buildIssueList()),
 
             ///推荐
             singleSliverWidget(Container(key: _RCMKey)),
             singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
-            GoodItemNormalWidget(dataList: _rmdList),
+            _buildRCMD(),
+            // GoodItems(dataList: _rmdList),
             singleSliverWidget(Container(height: 45)),
           ],
         ),
       );
     }
+  }
+
+  _buildRCMD() {
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+        return Container(
+          color: backWhite,
+          child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              child: GoodItemWidget(item: _rmdList[index])),
+        );
+      }, childCount: _rmdList.length),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.58,
+        mainAxisSpacing: 0,
+        crossAxisSpacing: 0,
+      ),
+    );
   }
 
   ValueListenableBuilder<int> _sliverHeader() {
@@ -654,6 +666,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     return _welfareCardVO == null
         ? Container()
         : Container(
+            margin: EdgeInsets.only(top: 10),
             decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
             child: GestureDetector(
               child: CachedNetworkImage(
@@ -701,6 +714,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _buildSelectProperty() {
     ShoppingReward? shoppingReward = _goodDetail.shoppingReward;
     return Container(
+      margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
@@ -931,6 +945,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
     if (adBanners != null && adBanners.isNotEmpty) {
       return Container(
+        margin: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5), color: backWhite),
         child: IndicatorBanner(
@@ -1020,36 +1035,33 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _buildIssueList() {
     var issueList = _goodDetailDownData!.issueList;
-    if (_goodDetailDownData != null) {
-      return Column(
-          children: issueList!
-              .map((item) => Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '• ${item.question}',
-                            style: t14black,
-                          ),
+    return Column(
+        children: issueList!
+            .map((item) => Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          '• ${item.question}',
+                          style: t14black,
                         ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            '${item.answer}',
-                            style: t12grey,
-                          ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          '${item.answer}',
+                          style: t12grey,
                         ),
-                      ],
-                    ),
-                  ))
-              .toList());
-    }
-    return Container();
+                      ),
+                    ],
+                  ),
+                ))
+            .toList());
   }
 
   _buildIssueTitle(String title, GlobalKey? key) {

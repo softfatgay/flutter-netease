@@ -1,15 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/components/common_item_widget.dart';
-import 'package:flutter_app/ui/goods_detail/model/commentsItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/component/round_net_image.dart';
-import 'package:flutter_app/component/start_widget.dart';
 
 typedef void OnPress();
 
@@ -36,11 +31,8 @@ class GoodDetailCommentWidget extends StatelessWidget {
   }
 
   _buildWidget(BuildContext context) {
-    ResultItem item;
-    if (comments!.length > 0) {
-      item = comments![0];
-    }
     return Container(
+        margin: EdgeInsets.only(top: 10),
         color: Colors.white,
         child: Column(
           children: <Widget>[

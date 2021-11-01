@@ -6,7 +6,8 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/goods_detail/components/search_widget.dart';
-import 'package:flutter_app/ui/sort/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
@@ -174,7 +175,7 @@ class _SearchGoodsPageState extends State<SearchGoodsPage> {
           _serachResult ? buildNullSliver() : buildSearchTips(),
           !_serachResult
               ? buildNullSliver()
-              : GoodItemWidget(dataList: _directlyList),
+              : GoodItems(dataList: _directlyList),
           SliverFooter(hasMore: _hasMore, tipsText: _bottomTipsText),
         ],
       ),

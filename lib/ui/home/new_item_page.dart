@@ -16,7 +16,7 @@ import 'package:flutter_app/ui/component/sliverAppBarDelegate.dart';
 import 'package:flutter_app/ui/home/model/newItemsDataModel.dart';
 import 'package:flutter_app/ui/home/model/preNewItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/utils/renderBoxUtil.dart';
 
 class NewItemPage extends StatefulWidget {
@@ -103,7 +103,7 @@ class _KingKongPageState extends State<NewItemPage> {
         singleSliverWidget(_line()),
         singleSliverWidget(_tipsTitle('全部新品')),
         _buildStickyBar(),
-        GoodItemNormalWidget(dataList: _itemList),
+        GoodItems(dataList: _itemList),
         _zcItemsWidget(),
         singleSliverWidget(_tipsTitle('新品预告')),
         singleSliverWidget(Container(key: _key1)),
@@ -149,7 +149,7 @@ class _KingKongPageState extends State<NewItemPage> {
     if (gride.length > 0) {
       gride.removeAt(0);
     }
-    return GoodItemNormalWidget(
+    return GoodItems(
       dataList: gride,
     );
   }

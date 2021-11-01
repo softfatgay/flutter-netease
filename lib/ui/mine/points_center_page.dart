@@ -15,7 +15,7 @@ import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/mine/components/head_portrait.dart';
 import 'package:flutter_app/ui/mine/model/pointsModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/sort/good_item_normal.dart';
+import 'package:flutter_app/ui/sort/component/good_items.dart';
 
 class PointCenterPage extends StatefulWidget {
   @override
@@ -129,7 +129,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
         singleSliverWidget(_rcmAll()),
         singleSliverWidget(SizedBox(height: 25)),
         singleSliverWidget(_buildTitle('精选返积分商品', '', '')),
-        GoodItemNormalWidget(dataList: _rcmdDataList)
+        GoodItems(dataList: _rcmdDataList)
       ],
     );
   }
