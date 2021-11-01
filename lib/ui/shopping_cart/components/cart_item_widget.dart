@@ -104,7 +104,6 @@ class CartItemWidget extends StatelessWidget {
   _buildItem(BuildContext context, CarItem itemData, CartItemListItem item,
       int index) {
     List<String>? cartItemTips = item.cartItemTips;
-    print('-----------------');
     return Container(
       color: Colors.white,
       child: Column(

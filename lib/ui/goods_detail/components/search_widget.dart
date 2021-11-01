@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
 typedef void OnValueChanged(String value);
@@ -16,7 +17,7 @@ class SearchWidget extends StatefulWidget {
   final int textChangeDuration;
   final String? hintText;
   final double searchHeight;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final OnValueChanged? onValueChangedCallBack;
   final OnBtnClick? onBtnClick;
   final OnSubmitted? onSubmitted;
@@ -37,14 +38,14 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchGoodsState extends State<SearchWidget> {
-  TextEditingController? _controller;
+  late TextEditingController _controller;
 
   @override
   void initState() {
     // TODO: implement initState
-    if (widget.controller == null) {
-      throw Exception('TextEditingController 没有初始化');
-    }
+    // if (widget.controller == null) {
+    //   throw Exception('TextEditingController 没有初始化');
+    // }
     setState(() {
       _controller = widget.controller;
     });
@@ -57,11 +58,10 @@ class _SearchGoodsState extends State<SearchWidget> {
       throw Exception('TextEditingController 没有初始化');
     }
     return Container(
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: lineColor, width: 0.5))),
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       height: MediaQuery.of(context).padding.top + widget.searchHeight,
-      // decoration: BoxDecoration(
-      //     border:
-      //         Border(bottom: BorderSide(width: 0.5, color: Colors.grey[200]))),
       child: Row(
         children: <Widget>[
           SizedBox(width: 10),
@@ -72,7 +72,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                   decoration: new BoxDecoration(
                       color: Colors.grey[100],
                       border: Border.all(color: Colors.grey[100]!, width: 0.1),
-                      borderRadius: new BorderRadius.circular(5.0)),
+                      borderRadius: new BorderRadius.circular(20)),
                   margin: EdgeInsets.symmetric(vertical: widget.paddingV),
                 ),
                 Row(
@@ -113,24 +113,23 @@ class _SearchGoodsState extends State<SearchWidget> {
                             controller: _controller,
                           )),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 8),
-                      child: GestureDetector(
-                        child: TextUtil.isEmpty(_controller!.text)
-                            ? Container()
-                            : Image.asset(
-                                'assets/images/clear_icon.png',
-                                width: 14,
-                                height: 14,
-                              ),
-                        onTap: () {
-                          setState(() {
-                            _controller!.clear();
-                            widget.onValueChangedCallBack!('');
-                          });
-                        },
+                    if (!TextUtil.isEmpty(_controller!.text))
+                      Container(
+                        margin: EdgeInsets.only(right: 8),
+                        child: GestureDetector(
+                          child: Image.asset(
+                            'assets/images/clear_icon.png',
+                            width: 14,
+                            height: 14,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              _controller.clear();
+                              widget.onValueChangedCallBack!('');
+                            });
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],
@@ -151,12 +150,12 @@ class _SearchGoodsState extends State<SearchWidget> {
                 ),
                 onPressed: () {
                   if (widget.onBtnClick != null) {
-                    widget.onBtnClick!(_controller!.text);
+                    widget.onBtnClick!(_controller.text);
                   }
                 },
                 child: Text(
                   '取消',
-                  style: t16black,
+                  style: t14black,
                 ),
               ),
             ),
@@ -176,7 +175,7 @@ class _SearchGoodsState extends State<SearchWidget> {
       setState(() {
         // _controller.text = value.trim();
         if (widget.onValueChangedCallBack != null) {
-          widget.onValueChangedCallBack!(_controller!.text);
+          widget.onValueChangedCallBack!(_controller.text);
         }
       });
     });

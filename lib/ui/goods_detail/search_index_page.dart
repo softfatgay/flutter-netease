@@ -206,9 +206,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       body: Stack(
         children: [
           if (_noData && _controller.text.isNotEmpty)
-            Center(
-              child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找'),
-            ),
+            Center(child: Text('抱歉，没有找到符合条件的商品\n建议修改筛选条件重新查找')),
           _searchInitWidget(context),
           _controller.text == '' ? Container() : _showResult(),
           Container(
@@ -220,6 +218,9 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               onValueChangedCallBack: (value) {
                 setState(() {
                   _textValue = value;
+                  if (value == '') {
+                    _directlyList = [];
+                  }
                 });
                 if (value == '') {
                   _controller.text = '';
@@ -235,7 +236,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
               },
             ),
           ),
-          if (_controller.text.isNotEmpty)
+          if (_isSearchResult && _controller.text != '')
             Positioned(
               top: MediaQuery.of(context).padding.top + _searchHeight,
               left: 0,
@@ -335,7 +336,9 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     return Container(
       color: backWhite,
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top + _searchHeight + 35),
+          top: MediaQuery.of(context).padding.top +
+              _searchHeight +
+              (_isSearchResult ? 35 : 0)),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[

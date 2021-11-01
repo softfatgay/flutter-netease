@@ -64,6 +64,7 @@ class MonthCardEntrance {
 @JsonSerializable()
 class WelfareFissionInfo {
   String? picUrl;
+  String? schemeUrl;
 
   WelfareFissionInfo();
 

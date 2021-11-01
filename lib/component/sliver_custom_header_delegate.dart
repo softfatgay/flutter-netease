@@ -149,7 +149,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Container(
         height: double.infinity,
         alignment: Alignment.center,
-        padding: EdgeInsets.only(right: 50),
+        padding: EdgeInsets.only(right: title == null ? 15 : 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -159,7 +159,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   width: 50,
                   child: Image.asset(
                     'assets/images/back.png',
-                    height: 22,
+                    height: 26,
                     color: this.makeStickyHeaderTextColor(shrinkOffset, false),
                   ),
                 ),
@@ -197,42 +197,42 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: tabs
-              .map(
-                (item) => GestureDetector(
-                  child: Container(
-                    height: double.infinity,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: index == tabs.indexOf(item)
-                          ? Border(
-                              bottom: BorderSide(
-                                  color: tabSelectlColor(shrinkOffset),
-                                  width: 2),
-                            )
-                          : null,
-                    ),
-                    child: Text(
-                      '$item',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: index == tabs.indexOf(item)
-                              ? tabSelectlColor(shrinkOffset)
-                              : tabNormalColor(shrinkOffset)),
-                    ),
-                  ),
-                  onTap: () {
-                    if (onPress != null) {
-                      onPress!(tabs.indexOf(item));
-                    }
-                  },
-                ),
-              )
-              .toList(),
+          children:
+              tabs.map<Widget>((item) => _tabItem(item, shrinkOffset)).toList(),
         ),
       ),
+    );
+  }
+
+  _tabItem(String item, double shrinkOffset) {
+    return GestureDetector(
+      child: Container(
+        height: double.infinity,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          border: index == tabs.indexOf(item)
+              ? Border(
+                  bottom: BorderSide(
+                      color: tabSelectlColor(shrinkOffset), width: 2),
+                )
+              : null,
+        ),
+        child: Text(
+          '$item',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 14,
+              color: index == tabs.indexOf(item)
+                  ? tabSelectlColor(shrinkOffset)
+                  : tabNormalColor(shrinkOffset)),
+        ),
+      ),
+      onTap: () {
+        if (onPress != null) {
+          onPress!(tabs.indexOf(item));
+        }
+      },
     );
   }
 

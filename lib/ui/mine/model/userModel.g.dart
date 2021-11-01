@@ -90,11 +90,14 @@ Map<String, dynamic> _$MonthCardEntranceToJson(MonthCardEntrance instance) =>
     };
 
 WelfareFissionInfo _$WelfareFissionInfoFromJson(Map<String, dynamic> json) =>
-    WelfareFissionInfo()..picUrl = json['picUrl'] as String?;
+    WelfareFissionInfo()
+      ..picUrl = json['picUrl'] as String?
+      ..schemeUrl = json['schemeUrl'] as String?;
 
 Map<String, dynamic> _$WelfareFissionInfoToJson(WelfareFissionInfo instance) =>
     <String, dynamic>{
       'picUrl': instance.picUrl,
+      'schemeUrl': instance.schemeUrl,
     };
 
 WelfareCardEntrance _$WelfareCardEntranceFromJson(Map<String, dynamic> json) =>

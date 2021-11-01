@@ -35,7 +35,7 @@ class _MinePageState extends State<UserPage>
 
   bool _firstLoading = true;
   List<MinePageItems> _mineItems = [];
-  UserModel? _userInfo;
+  late UserModel _userInfo;
 
   //动画控制器
   double _expandedHeight = 180;
@@ -87,9 +87,7 @@ class _MinePageState extends State<UserPage>
     return _isLogin
         ? Scaffold(
             backgroundColor: backColor,
-            body: _firstLoading
-                ? Loading()
-                : (_userInfo == null ? Container() : _buildContent()))
+            body: _firstLoading ? Loading() : _buildContent())
         : _loginPage(context);
   }
 
@@ -99,7 +97,7 @@ class _MinePageState extends State<UserPage>
         SliverPersistentHeader(
           pinned: true,
           delegate: UserHeader(
-            avatar: _userInfo!.userSimpleVO!.avatar,
+            avatar: _userInfo.userSimpleVO!.avatar,
             showBack: false,
             title: '',
             collapsedHeight: 50,
@@ -108,20 +106,14 @@ class _MinePageState extends State<UserPage>
             paddingTop: MediaQuery.of(context).padding.top,
           ),
         ),
-        SliverRefreshIndicator(
-          refresh: _checkLogin,
-          top: false,
-        ),
+        SliverRefreshIndicator(refresh: _checkLogin, top: false),
         // _buildTop(context),
         _buildTitle(context),
         _buildMineItems(context),
-        _buildMonthCard(context, _userInfo!.monthCardEntrance),
-        _buildMonthCard(context, _userInfo!.welfareCardEntrance),
-        _line(10.0),
+        _buildMonthCard(context, _userInfo.monthCardEntrance),
+        _buildMonthCard(context, _userInfo.welfareCardEntrance),
         _buildActivity(context),
         _buildAdapter(context),
-        _line(1),
-        _line(10.0),
         _loginOut(context),
         _line(10.0),
       ],
@@ -155,7 +147,6 @@ class _MinePageState extends State<UserPage>
         _firstLoading = false;
       });
     }
-
     getPhoneStatus();
   }
 
@@ -211,7 +202,7 @@ class _MinePageState extends State<UserPage>
                   .map<Widget>((item) => _minItemItem(item, context))
                   .toList(),
             ),
-            if (!_showRedpNum())
+            if (!_showRedPackageNum())
               Positioned(
                 left: MediaQuery.of(context).size.width * 1.5 / 5 + 5,
                 top: 6,
@@ -257,11 +248,10 @@ class _MinePageState extends State<UserPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                item.fundType == 1 || item.fundType == 4
-                    ? "¥${item.fundValue}"
-                    : "${item.fundValue}",
-                style: t16blackbold,
-              ),
+                  item.fundType == 1 || item.fundType == 4
+                      ? "¥${item.fundValue}"
+                      : "${item.fundValue}",
+                  style: t16blackbold),
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
@@ -280,9 +270,9 @@ class _MinePageState extends State<UserPage>
     );
   }
 
-  bool _showRedpNum() {
+  bool _showRedPackageNum() {
     return _mineItems.isEmpty ||
-        _mineItems[1] == null ||
+        _mineItems.length < 2 ||
         _mineItems[1].toast == null ||
         _mineItems[1].toast!.isEmpty;
   }
@@ -378,15 +368,13 @@ class _MinePageState extends State<UserPage>
 
   _buildAdapter(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
       sliver: SliverGrid.count(
         childAspectRatio: 1.3,
         crossAxisCount: 3,
         children: mineSettingItems.map<Widget>((item) {
           Widget widget = Container(
-            decoration: BoxDecoration(
-              color: backWhite,
-            ),
+            decoration: BoxDecoration(color: backWhite),
             margin: EdgeInsets.all(0.7),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -414,21 +402,29 @@ class _MinePageState extends State<UserPage>
   }
 
   _buildActivity(BuildContext context) {
-    WelfareFissionInfo? welfareFissionInfo = _userInfo!.welfareFissionInfo;
-    return singleSliverWidget(welfareFissionInfo == null
-        ? Container()
-        : Container(
-            margin: EdgeInsets.all(10),
-            child: CachedNetworkImage(imageUrl: welfareFissionInfo.picUrl!),
-          ));
+    WelfareFissionInfo? welfareFissionInfo = _userInfo.welfareFissionInfo;
+    return singleSliverWidget(
+      welfareFissionInfo == null
+          ? Container()
+          : Container(
+              decoration: BoxDecoration(color: backWhite),
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              child: GestureDetector(
+                child: CachedNetworkImage(imageUrl: welfareFissionInfo.picUrl!),
+                onTap: () {
+                  Routers.push(Routers.webView, context,
+                      {'url': '${welfareFissionInfo.schemeUrl}'});
+                },
+              ),
+            ),
+    );
   }
 
   _loginOut(BuildContext context) {
-    // Color(0xFFFFD883)
     return singleSliverWidget(
       Container(
+        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
         color: backColor,
-        padding: EdgeInsets.symmetric(horizontal: 8),
         child: NormalBtn('退出登录', backWhite, () async {
           var globalCookie = GlobalCookie();
           var bool = await globalCookie.clearCookie();
@@ -442,8 +438,6 @@ class _MinePageState extends State<UserPage>
   }
 
   _loginPage(BuildContext context) {
-    // Routers.push(Util.webLogin, context,{},_callback);
-
     return WebLoginWidget(
       onValueChanged: (value) {
         if (value) {
@@ -458,10 +452,10 @@ class _MinePageState extends State<UserPage>
 
   void _setUserInfo() async {
     var sp = await LocalStorage.sp;
-    sp!.setString(LocalStorage.userName, _userInfo!.userSimpleVO!.nickname!);
-    sp.setString(LocalStorage.userIcon, _userInfo!.userSimpleVO!.avatar!);
+    sp!.setString(LocalStorage.userName, _userInfo.userSimpleVO!.nickname!);
+    sp.setString(LocalStorage.userIcon, _userInfo.userSimpleVO!.avatar!);
     sp.setString(
-        LocalStorage.pointsCnt, _userInfo!.userSimpleVO!.pointsCnt.toString());
+        LocalStorage.pointsCnt, _userInfo.userSimpleVO!.pointsCnt.toString());
   }
 
   var mineSettingItems = [
