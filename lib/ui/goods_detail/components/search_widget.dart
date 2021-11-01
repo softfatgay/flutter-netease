@@ -113,7 +113,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                             controller: _controller,
                           )),
                     ),
-                    if (!TextUtil.isEmpty(_controller!.text))
+                    if (!TextUtil.isEmpty(_controller.text))
                       Container(
                         margin: EdgeInsets.only(right: 8),
                         child: GestureDetector(
