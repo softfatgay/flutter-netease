@@ -14,12 +14,16 @@ ItemPoolModel _$ItemPoolModelFromJson(Map<String, dynamic> json) =>
       ..searcherItemListResult = json['searcherItemListResult'] == null
           ? null
           : SearcherItemListResult.fromJson(
-              json['searcherItemListResult'] as Map<String, dynamic>);
+              json['searcherItemListResult'] as Map<String, dynamic>)
+      ..searchParams = json['searchParams'] == null
+          ? null
+          : SearchParams.fromJson(json['searchParams'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ItemPoolModelToJson(ItemPoolModel instance) =>
     <String, dynamic>{
       'categorytList': instance.categorytList,
       'searcherItemListResult': instance.searcherItemListResult,
+      'searchParams': instance.searchParams,
     };
 
 CategorytListItem _$CategorytListItemFromJson(Map<String, dynamic> json) =>
@@ -50,4 +54,12 @@ Map<String, dynamic> _$SearcherItemListResultToJson(
     <String, dynamic>{
       'pagination': instance.pagination,
       'result': instance.result,
+    };
+
+SearchParams _$SearchParamsFromJson(Map<String, dynamic> json) =>
+    SearchParams()..resultKey = json['resultKey'] as String?;
+
+Map<String, dynamic> _$SearchParamsToJson(SearchParams instance) =>
+    <String, dynamic>{
+      'resultKey': instance.resultKey,
     };

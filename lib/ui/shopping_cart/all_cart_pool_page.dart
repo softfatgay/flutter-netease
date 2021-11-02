@@ -3,13 +3,17 @@ import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
+import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopping_cart/components/bottom_pool_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/good_item_add_cart_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/model/itemPoolBarModel.dart';
 import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
+import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
+import 'package:flutter_app/utils/user_config.dart';
 
 ///去凑单，未达到包邮条件
 class AllCartItemPoolPage extends StatefulWidget {
@@ -37,6 +41,10 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
   var _itemPoolBarModel = ItemPoolBarModel(0, '');
   final _scrollController = ScrollController();
   bool _isShowFloatBtn = false;
+
+  String _resultKey = '';
+
+  bool _isEmptyResult = false;
 
   @override
   void initState() {
@@ -94,11 +102,11 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
 
   _buildBody() {
     return Container(
-      child: _isLoading
-          ? Loading()
-          : Stack(
-              children: [
-                Positioned(
+      child: Stack(
+        children: [
+          _isLoading
+              ? Loading()
+              : Positioned(
                   bottom: 45,
                   top: 0,
                   left: 0,
@@ -117,20 +125,28 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: BottomPoolWidget(
-                    itemPoolBarModel: _itemPoolBarModel,
-                  ),
-                ),
-              ],
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BottomPoolWidget(
+              itemPoolBarModel: _itemPoolBarModel,
             ),
+          ),
+          if (_isEmptyResult)
+            Positioned(
+                child: Center(
+              child: Text(
+                '暂时没有结果',
+                style: t14grey,
+              ),
+            ))
+        ],
+      ),
     );
   }
 
-  void _itemPool() async {
+  void _itemPool({bool showProgress = false}) async {
     Map<String, dynamic> params = {
       'promotionId': 0,
       'page': _page,
@@ -140,14 +156,22 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
       'source': 0,
       'categoryId': 0,
       'priceRangeId': _id,
+      'resultKey': _resultKey,
     };
-    var responseData = await itemPool(params);
+
+    // var responseData = await itemPool(params, showProgress: showProgress);
+    var responseData = await getItemPool(params, showProgress: showProgress);
     if (responseData.code == '200') {
       setState(() {
         _isLoading = false;
         _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
+        var searchParams = _itemPoolModel.searchParams;
+        _resultKey = searchParams!.resultKey ?? '';
         if (_categoryList.isEmpty) {
           _categoryList = _itemPoolModel.categorytList ?? [];
+          if (_categoryList.length == 1) {
+            _categoryList.addAll(_addCategory());
+          }
           _tabController = TabController(
               length: _categoryList.length,
               vsync: this,
@@ -159,15 +183,17 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
                   _activeIndex = _tabController.index;
                   _id = _categoryList[_activeIndex].categoryVO!.id as int?;
                   _page = 1;
-                  _itemPool();
+                  _resultKey = '';
+                  _itemPool(showProgress: true);
                 });
               }
             });
         }
 
         var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
-        if (_page == 1) {
+        if (_page == 1 || showProgress) {
           _result.clear();
+          _isEmptyResult = searcherItemListResult.result!.isEmpty;
         }
         _result.addAll(searcherItemListResult.result!);
         _pagination = searcherItemListResult.pagination;
@@ -191,5 +217,25 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
     _tabController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  _addCategory() {
+    List<CategorytListItem> categoryList = [];
+
+    for (int i = 1; i < 4; i++) {
+      var item1 = CategorytListItem();
+      var categoryVO1 = item1.categoryVO = CategoryL1Item();
+      categoryVO1.id = i;
+      if (i == 1) {
+        categoryVO1.name = '¥0～15';
+      } else if (i == 2) {
+        categoryVO1.name = '¥15～25';
+      }
+      if (i == 3) {
+        categoryVO1.name = '¥25～40';
+      }
+      categoryList.add(item1);
+    }
+    return categoryList;
   }
 }

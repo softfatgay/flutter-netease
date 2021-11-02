@@ -81,6 +81,9 @@ class GoodsDetailPage extends StatefulWidget {
 
 class _GoodsDetailPageState extends State<GoodsDetailPage>
     with TickerProviderStateMixin {
+  ///为了获取更准确的测量高度
+  late ScrollPhysics _scrollPhysics;
+
   ///红色选中边框
   var redBorder = BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(3)),
@@ -210,6 +213,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     setState(() {
       _goodId = num.parse(widget.params!['id'].toString());
     });
+    _scrollPhysics = NeverScrollableScrollPhysics();
     super.initState();
     _getDetail();
     _getDetailPageUp();
@@ -311,10 +315,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     if (isLogin) {
       _getAddressList(type);
     } else {
-      _calculateAfterLayout();
-      Future.delayed(const Duration(milliseconds: 500), () {
-        _calculateAfterLayout();
-      });
+      _getOffset();
     }
   }
 
@@ -378,6 +379,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             WapitemDeliveryModel.fromJson(responseData.data);
       });
     }
+    _getOffset();
+  }
+
+  _getOffset() {
     _calculateAfterLayout();
     Future.delayed(const Duration(milliseconds: 500), () {
       _calculateAfterLayout();
@@ -392,6 +397,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       _detailH =
           RenderBoxUtil.offsetY(context, _detailKey) - _toolbarHeight - top;
       _RCMKeyH = RenderBoxUtil.offsetY(context, _RCMKey) - _toolbarHeight - top;
+      _scrollPhysics = AlwaysScrollableScrollPhysics();
     });
   }
 
@@ -497,6 +503,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       return Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
         child: CustomScrollView(
+          physics: _scrollPhysics,
           controller: _scrollController,
           slivers: <Widget>[
             _sliverHeader(),

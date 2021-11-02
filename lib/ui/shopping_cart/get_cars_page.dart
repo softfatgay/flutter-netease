@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/button_widget.dart';
@@ -30,6 +33,9 @@ class _GetCarsPageState extends State<GetCarsPage> {
   late CarItem _carItem;
   String? _from = '';
   num? _promotionId = -1;
+  List<AddBuyStepListItem> _listData = [];
+
+  String _pageTitle = '';
 
   @override
   void initState() {
@@ -37,16 +43,34 @@ class _GetCarsPageState extends State<GetCarsPage> {
     super.initState();
     List<CartItemListItem> dataList = [];
     _carItem = widget.params!['data'] ?? CarItem();
-    var addBuyStepList = _carItem.addBuyStepList;
+    List<AddBuyStepListItem> listData = [];
+    var promType = _carItem.promType;
+    if (promType == 102) {
+      ///满赠查看赠品
+      listData = _carItem.giftStepList ?? [];
+    } else {
+      ///换购
+      listData = _carItem.addBuyStepList ?? [];
+    }
+
     int totalCnt = 0;
-    if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
-      addBuyStepList.forEach((element_1) {
+    if (listData.isNotEmpty) {
+      List<CartItemListItem> cartItemList = [];
+      listData.forEach((element_1) {
         if (_listTitle!.isEmpty) {
           _listTitle = element_1.title;
         }
-        var addBuyItemList = element_1.addBuyItemList;
-        if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
-          addBuyItemList.forEach((element_2) {
+
+        cartItemList = [];
+        if (promType == 102) {
+          ///满赠查看赠品
+          cartItemList = element_1.giftItemList ?? [];
+        } else {
+          ///换购
+          cartItemList = element_1.addBuyItemList ?? [];
+        }
+        if (cartItemList.isNotEmpty) {
+          cartItemList.forEach((element_2) {
             element_2.stepNo = element_1.stepNo as int?;
             if (element_2.checked!) {
               totalCnt += 1;
@@ -57,6 +81,12 @@ class _GetCarsPageState extends State<GetCarsPage> {
       });
     }
     setState(() {
+      if (promType == 102) {
+        _pageTitle = '满赠';
+      } else {
+        _pageTitle = '换购';
+      }
+      _listData = listData;
       _from = widget.params!['from'];
       _promotionId = widget.params!['promotionId'];
       _allowCount = _carItem.allowCount;
@@ -70,49 +100,68 @@ class _GetCarsPageState extends State<GetCarsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(
-        title: '换购',
+        title: _pageTitle,
       ).build(context),
-      body: Container(
-        child: Stack(
-          children: [
-            _buildBody(),
-            _buildTips(),
-            Positioned(
-              bottom: MediaQuery.of(context).padding.bottom,
-              left: 0,
-              right: 0,
-              child: _buildSubmitBtn(),
-            )
-          ],
+      body: Stack(
+        children: [
+          _buildBodyC(),
+          _buildTips(),
+          Positioned(
+            bottom: MediaQuery.of(context).padding.bottom,
+            left: 0,
+            right: 0,
+            child: _buildSubmitBtn(),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildBodyC() {
+    List<Widget> widgets = [];
+
+    _listData.forEach((element) {
+      widgets.add(_buildTitle(element.title!));
+      widgets.add(_itemItems(element));
+    });
+
+    return Padding(
+      padding: EdgeInsets.only(top: 38, bottom: 45),
+      child: SingleChildScrollView(
+        child: Column(
+          children: widgets,
         ),
       ),
     );
   }
 
-  _buildBody() {
+  _itemItems(AddBuyStepListItem data) {
+    List<CartItemListItem> cartItemList = [];
+    if (_carItem.promType == 102) {
+      ///满赠查看赠品
+      cartItemList = data.giftItemList ?? [];
+    } else {
+      ///换购
+      cartItemList = data.addBuyItemList ?? [];
+    }
+
+    return Column(
+      children:
+          cartItemList.map<Widget>((e) => _buildItem(context, e)).toList(),
+    );
+  }
+
+  _buildTitle(String title) {
     return Container(
-      color: backWhite,
-      padding: EdgeInsets.only(
-          bottom: 45 + MediaQuery.of(context).padding.bottom, top: 38),
-      child: CustomScrollView(
-        slivers: [
-          singleSliverWidget(
-            Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(color: lineColor, width: 1))),
-              width: double.infinity,
-              height: 38,
-              padding: EdgeInsets.only(left: 12),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '$_listTitle',
-                style: t14black,
-              ),
-            ),
-          ),
-          _buildList()
-        ],
+      decoration: BoxDecoration(
+          color: Color(0xFFEEEEEE),
+          border: Border(bottom: BorderSide(color: lineColor, width: 1))),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      child: Text(
+        '$title',
+        style: t14black,
       ),
     );
   }
@@ -121,23 +170,21 @@ class _GetCarsPageState extends State<GetCarsPage> {
     return Container(
       width: double.infinity,
       height: 38,
-      color: backLightYellow,
+      color: Color(0xFFFFF8D8),
       padding: EdgeInsets.only(left: 12),
       alignment: Alignment.centerLeft,
       child: Text(
         '最多可以选择$_allowCount件，已选$_totalCnt件',
-        style: t14red,
+        style: t12Orange,
       ),
     );
   }
 
-  _buildItem(BuildContext context, int index) {
-    var item = _dataList[index];
+  _buildItem(BuildContext context, CartItemListItem item) {
     return GestureDetector(
       child: Container(
         color: backWhite,
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: EdgeInsets.only(right: 12),
+        padding: EdgeInsets.only(right: 12, top: 10, bottom: 10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -159,14 +206,14 @@ class _GetCarsPageState extends State<GetCarsPage> {
                 });
               },
             ),
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                  color: backGrey, borderRadius: BorderRadius.circular(4)),
+            RoundNetImage(
+              url: item.pic,
               height: 76,
               width: 76,
-              child: CachedNetworkImage(imageUrl: item.pic ?? ''),
+              corner: 4,
+              backColor: backColor,
             ),
+            SizedBox(width: 8),
             _buildDec(item),
           ],
         ),
@@ -175,13 +222,6 @@ class _GetCarsPageState extends State<GetCarsPage> {
         Routers.push(Routers.goodDetail, context, {'id': item.itemId});
       },
     );
-  }
-
-  _buildList() {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return _buildItem(context, index);
-    }, childCount: _dataList.length));
   }
 
   _buildCheckBox(CartItemListItem item) {
@@ -225,7 +265,7 @@ class _GetCarsPageState extends State<GetCarsPage> {
               Container(
                 margin: EdgeInsets.only(top: 2),
                 child: Text(
-                  'X${item.cnt}',
+                  'x${item.cnt}',
                   style: t16black,
                 ),
               )
@@ -287,7 +327,14 @@ class _GetCarsPageState extends State<GetCarsPage> {
       'selectList': dataList,
     };
 
-    var responseData = await getCartsSubmit(param);
+    var responseData = ResponseData();
+
+    if (_carItem.promType == 102) {
+      responseData = await selectGiftSubmit(param);
+    } else {
+      responseData = await getCartsSubmit(param);
+    }
+    // var responseData = await getCartsSubmit(param);
     if (responseData.code == '200') {
       if (_from != null) {
         Routers.push(Routers.makeUpPage, context,
@@ -299,8 +346,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
   }
 
   _buildSubmitBtn() {
-    return ActiveBtn(backRed, () {
+    return NormalBtn('确定', backRed, () {
       _submit();
-    });
+    }, corner: 0);
   }
 }

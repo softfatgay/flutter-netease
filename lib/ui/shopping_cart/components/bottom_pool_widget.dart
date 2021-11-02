@@ -13,53 +13,56 @@ class BottomPoolWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 25),
-      height: 45,
-      decoration: BoxDecoration(
-          color: backWhite,
-          border: Border(top: BorderSide(color: lineColor, width: 0.5))),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return itemPoolBarModel == null
+        ? Container()
+        : Container(
+            padding: EdgeInsets.only(left: 25),
+            height: 45,
+            decoration: BoxDecoration(
+                color: backWhite,
+                border: Border(top: BorderSide(color: lineColor, width: 0.5))),
+            child: Row(
               children: [
-                Text(
-                  '小计：¥${itemPoolBarModel!.subtotalPrice}',
-                  style: t14redBold,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '小计：¥${itemPoolBarModel!.subtotalPrice}',
+                        style: t14redBold,
+                      ),
+                      Text(
+                        '${itemPoolBarModel!.promTip!.replaceAll('#', '')}',
+                        style: t12black,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  '${itemPoolBarModel!.promTip!.replaceAll('#', '')}',
-                  style: t12black,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    height: double.infinity,
+                    color: backRed,
+                    alignment: Alignment.center,
+                    child: Text(
+                      '${from == Routers.goodDetail ? '重新换购' : '去购物车'}',
+                      style: t16white,
+                    ),
+                  ),
+                  onTap: () {
+                    if (from == Routers.shoppingCart ||
+                        from == Routers.goodDetail) {
+                      Navigator.pop(context);
+                    } else {
+                      Routers.push(Routers.shoppingCart, context);
+                    }
+                  },
+                )
               ],
             ),
-          ),
-          GestureDetector(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              height: double.infinity,
-              color: backRed,
-              alignment: Alignment.center,
-              child: Text(
-                '${from == Routers.goodDetail ? '重新换购' : '去购物车'}',
-                style: t16white,
-              ),
-            ),
-            onTap: () {
-              if (from == Routers.shoppingCart || from == Routers.goodDetail) {
-                Navigator.pop(context);
-              } else {
-                Routers.push(Routers.shoppingCart, context);
-              }
-            },
-          )
-        ],
-      ),
-    );
+          );
   }
 }

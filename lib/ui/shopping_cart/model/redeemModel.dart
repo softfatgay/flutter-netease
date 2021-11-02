@@ -36,6 +36,7 @@ class AddBuyStepListItem {
   String? title;
   bool? isSatisfy;
   List<CartItemListItem>? addBuyItemList;
+  List<CartItemListItem>? giftItemList;
 
   AddBuyStepListItem();
 

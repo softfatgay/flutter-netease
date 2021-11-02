@@ -342,10 +342,16 @@ Future<ResponseData> getCartsSubmit(Map<String, dynamic> postParams) async {
       data: postParams, showProgress: true);
 }
 
-///清除无效商品
+///购物车换购
+Future<ResponseData> selectGiftSubmit(Map<String, dynamic> postParams) async {
+  return await HttpManager.post(SELECT_GIFT_SUBMIT,
+      data: postParams, showProgress: true);
+}
+
+///购物车满赠提交
 Future<ResponseData> clearInvalidItem(Map<String, dynamic> params) async {
   return await HttpManager.post(CLEAR_INVALID_ITEMS,
-      params: _getParams(), data: params);
+      params: _getParams(), formData: params);
 }
 
 ///check-cart
@@ -441,9 +447,19 @@ Future<ResponseData> miniCartNum() async {
 }
 
 ///凑单
-Future<ResponseData> itemPool(Map<String, dynamic> params) async {
+Future<ResponseData> itemPool(Map<String, dynamic> params,
+    {bool showProgress = false}) async {
   params.addAll(_getParams());
-  return await HttpManager.get(ITEM_POOL, params: params);
+  return await HttpManager.post(ITEM_POOL,
+      params: params, showProgress: showProgress);
+}
+
+///凑单
+Future<ResponseData> getItemPool(Map<String, dynamic> params,
+    {bool showProgress = false}) async {
+  params.addAll(_getParams());
+  return await HttpManager.get(ITEM_POOL,
+      params: params, showProgress: showProgress);
 }
 
 ///凑单头部信息

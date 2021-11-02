@@ -1,4 +1,5 @@
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
+import 'package:flutter_app/ui/shopping_cart/model/giftStepListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -22,6 +23,7 @@ class CarItem {
   num? suitCount;
   num? source;
   List<AddBuyStepListItem>? addBuyStepList;
+  List<AddBuyStepListItem>? giftStepList;
 
   CarItem();
 

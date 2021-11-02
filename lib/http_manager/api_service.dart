@@ -182,6 +182,9 @@ final String GET_CARTS = '${suffixUrl}xhr/cart/getCarts.json';
 ///购物车换购提交
 final String GET_CARTS_SUBMIT = '${suffixUrl}xhr/cart/selectAddBuy.json';
 
+///购物车满赠提交
+final String SELECT_GIFT_SUBMIT = '${suffixUrl}xhr/cart/selectGift.json';
+
 ///购物清除失效商品https://m.you.163.com/xhr/cart/clearInvalidItem.json
 final String CLEAR_INVALID_ITEMS = '${suffixUrl}xhr/cart/clearInvalidItem.json';
 

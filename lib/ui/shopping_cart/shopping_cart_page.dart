@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:convert' as convert;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -212,11 +213,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'extId': extId,
     };
     var responseData = await shoppingCartCheckNum(params);
-    setState(() {
-      _data = responseData.data;
-      setData(_data);
-      refreshCartNum();
-    });
+    if (responseData.code == '200') {
+      setState(() {
+        _data = responseData.data;
+        setData(_data);
+        refreshCartNum();
+      });
+    } else {
+      setState(() {
+        _loading = false;
+      });
+      Toast.show('msg', context);
+    }
   }
 
   /// 获取价格
@@ -268,6 +276,51 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   ///清除无效商品
+  _showClearInvalidDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          content: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+                // border: Border.all(color: textGrey, width: 1),
+                // borderRadius: BorderRadius.circular(4),
+                ),
+            child: Text(
+              '确定清除无效商品？',
+              style: t16black,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(
+                '取消',
+                style: t16grey,
+              ),
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text(
+                '确认',
+                style: t16red,
+              ),
+              onPressed: () {
+                _clearInvalid();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  ///清除无效商品
   _clearInvalid() async {
     List invalidSku = [];
     _invalidCartGroupList.forEach((item) {
@@ -285,9 +338,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var map = {
       'skuList': invalidSku,
     };
-    Map<String, dynamic> param = {
-      'invalidSku': convert.jsonEncode(convert.jsonEncode(map))
-    };
+    Map<String, dynamic> param = {'invalidSku': convert.jsonEncode(map)};
+
+    print(param);
     var response = await clearInvalidItem(param);
     if (response.code == 200) {
       _getData();
@@ -449,7 +502,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         _checkOneNum(source!, type!, skuId!, cnt!, extId);
       },
       goRedeem: (CarItem itemData) {
-        Routers.push(Routers.getCarsPage, context, {'data': itemData}, (value) {
+        Routers.push(Routers.getCarsPage, context,
+            {'data': itemData, 'promType': itemData.promType}, (value) {
           _getData();
         });
       },
@@ -507,7 +561,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     return InvalidCartItemWidget(
       invalidCartGroupList: _invalidCartGroupList,
       clearInvalid: () {
-        _clearInvalid();
+        _showClearInvalidDialog();
       },
     );
   }

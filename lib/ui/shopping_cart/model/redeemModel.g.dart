@@ -48,6 +48,9 @@ AddBuyStepListItem _$AddBuyStepListItemFromJson(Map<String, dynamic> json) =>
       ..isSatisfy = json['isSatisfy'] as bool?
       ..addBuyItemList = (json['addBuyItemList'] as List<dynamic>?)
           ?.map((e) => CartItemListItem.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..giftItemList = (json['giftItemList'] as List<dynamic>?)
+          ?.map((e) => CartItemListItem.fromJson(e as Map<String, dynamic>))
           .toList();
 
 Map<String, dynamic> _$AddBuyStepListItemToJson(AddBuyStepListItem instance) =>
@@ -56,6 +59,7 @@ Map<String, dynamic> _$AddBuyStepListItemToJson(AddBuyStepListItem instance) =>
       'title': instance.title,
       'isSatisfy': instance.isSatisfy,
       'addBuyItemList': instance.addBuyItemList,
+      'giftItemList': instance.giftItemList,
     };
 
 AddBuyItemListItem _$AddBuyItemListItemFromJson(Map<String, dynamic> json) =>

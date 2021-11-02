@@ -8,15 +8,23 @@ class MyVerticalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      direction: Axis.vertical,
-      alignment: WrapAlignment.center,
-      children: text
-          .split("")
-          .map((string) => Text(
-                string,
-                style: textStyle,
-                textAlign: TextAlign.center,
+    return _verticalText(text);
+  }
+
+  _verticalText(String text) {
+    var length = text.length;
+    List<String> list = [];
+    for (int i = 0; i < length; i++) {
+      list.add(text[i]);
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: list
+          .map((e) => Container(
+                child: Text(
+                  e,
+                  style: textStyle,
+                ),
               ))
           .toList(),
     );

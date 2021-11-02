@@ -136,7 +136,7 @@ class _MakeUpPageState extends State<MakeUpPage> {
       params.remove('upperPrice');
     }
 
-    var responseData = await itemPool(params);
+    var responseData = await getItemPool(params);
     if (responseData.code == '200') {
       setState(() {
         _isLoading = false;

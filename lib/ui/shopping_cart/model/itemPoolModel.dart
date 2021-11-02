@@ -11,7 +11,7 @@ part 'itemPoolModel.g.dart';
 class ItemPoolModel {
   List<CategorytListItem>? categorytList;
   SearcherItemListResult? searcherItemListResult;
-
+  SearchParams? searchParams;
   ItemPoolModel();
 
   factory ItemPoolModel.fromJson(Map<String, dynamic> json) =>
@@ -38,4 +38,14 @@ class SearcherItemListResult {
 
   factory SearcherItemListResult.fromJson(Map<String, dynamic> json) =>
       _$SearcherItemListResultFromJson(json);
+}
+
+@JsonSerializable()
+class SearchParams {
+  String? resultKey;
+
+  SearchParams();
+
+  factory SearchParams.fromJson(Map<String, dynamic> json) =>
+      _$SearchParamsFromJson(json);
 }

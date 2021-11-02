@@ -63,20 +63,39 @@ class CartItemWidget extends StatelessWidget {
         CarItem itemData = itemList[index];
         List<CartItemListItem> _itemList = [];
 
-        ///换购
-        List<AddBuyStepListItem>? addBuyStepList = itemData.addBuyStepList;
-        if (addBuyStepList != null && addBuyStepList.isNotEmpty) {
-          addBuyStepList.forEach((element_1) {
-            var addBuyItemList = element_1.addBuyItemList;
-            if (addBuyItemList != null && addBuyItemList.isNotEmpty) {
-              addBuyItemList.forEach((element_2) {
+        ///TODO 换购,102满赠(待补充),
+        List<AddBuyStepListItem> activityList = [];
+        if (itemData.promType == 102) {
+          ///满赠
+          activityList = itemData.giftStepList ?? [];
+        } else {
+          ///换购
+          activityList = itemData.addBuyStepList ?? [];
+        }
+
+        ///是否有选择的换购/赠品
+        bool hasCheck = false;
+
+        if (activityList.isNotEmpty) {
+          activityList.forEach((element_1) {
+            ///TODO 换购,102满赠(待补充),
+            List<CartItemListItem> itemItemList = [];
+            if (itemData.promType == 102) {
+              itemItemList = element_1.giftItemList ?? [];
+            } else {
+              itemItemList = element_1.addBuyItemList ?? [];
+            }
+            if (itemItemList.isNotEmpty) {
+              itemItemList.forEach((element_2) {
                 if (element_2.checked!) {
+                  hasCheck = true;
                   _itemList.add(element_2);
                 }
               });
             }
           });
         }
+
         var cartItemList = itemData.cartItemList!;
         _itemList.addAll(cartItemList);
 
@@ -87,6 +106,9 @@ class CartItemWidget extends StatelessWidget {
 
         ///换购，满减
         itemItems.add(_redeem(itemData, index, context));
+
+        ///查看赠品
+        itemItems.add(_giftStep(context, itemData, hasCheck));
 
         List<Widget> goodWidget = _itemList.map<Widget>((item) {
           return _buildItem(context, itemData, item, index);
@@ -586,6 +608,56 @@ class CartItemWidget extends StatelessWidget {
       size: 22,
       color: redColor,
     );
+  }
+
+  _giftStep(BuildContext context, CarItem itemData, bool hasCheck) {
+    var giftStepList = itemData.giftStepList;
+    if (giftStepList != null && giftStepList.isNotEmpty) {
+      return GestureDetector(
+        child: Container(
+          color: backWhite,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFFFF7F5),
+              borderRadius: BorderRadius.circular(3),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            margin: EdgeInsets.fromLTRB(_checkBoxWith, 8, 15, 0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${_getPromTips(itemData, hasCheck)}',
+                    style: t12black,
+                  ),
+                ),
+                arrowRightIcon
+              ],
+            ),
+          ),
+        ),
+        onTap: () {
+          goRedeem(itemData);
+        },
+      );
+    }
+    return Container();
+  }
+
+  _getPromTips(CarItem itemData, bool hasCheck) {
+    String tv = '';
+    if (itemData.promType == 102) {
+      if (itemData.promSatisfy!) {
+        if (hasCheck) {
+          tv = '更换赠品';
+        } else {
+          tv = '获取赠品';
+        }
+      } else {
+        tv = '查看赠品';
+      }
+    }
+    return tv;
   }
 
   _redeem(CarItem itemData, int index, BuildContext context) {

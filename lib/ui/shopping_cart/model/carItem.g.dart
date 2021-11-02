@@ -26,6 +26,9 @@ CarItem _$CarItemFromJson(Map<String, dynamic> json) => CarItem()
   ..source = json['source'] as num?
   ..addBuyStepList = (json['addBuyStepList'] as List<dynamic>?)
       ?.map((e) => AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..giftStepList = (json['giftStepList'] as List<dynamic>?)
+      ?.map((e) => AddBuyStepListItem.fromJson(e as Map<String, dynamic>))
       .toList();
 
 Map<String, dynamic> _$CarItemToJson(CarItem instance) => <String, dynamic>{
@@ -45,4 +48,5 @@ Map<String, dynamic> _$CarItemToJson(CarItem instance) => <String, dynamic>{
       'suitCount': instance.suitCount,
       'source': instance.source,
       'addBuyStepList': instance.addBuyStepList,
+      'giftStepList': instance.giftStepList,
     };
