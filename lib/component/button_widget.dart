@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/btn_height.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 
@@ -6,7 +7,7 @@ import 'package:flutter_app/constant/fonts.dart';
 Widget NormalBtn(String text, Color color, Function onPressed,
     {TextStyle? textStyle, double corner = 0}) {
   return Container(
-    height: 45,
+    height: BtnHeight.NORMAL,
     width: double.infinity,
     child: TextButton(
       style: ButtonStyle(
@@ -27,7 +28,7 @@ Widget NormalBtn(String text, Color color, Function onPressed,
 Widget btnChild(String? text, {TextStyle? textStyle}) {
   return Text(
     text ?? '确定',
-    style: textStyle ?? t14white,
+    style: textStyle ?? t16white,
   );
 }
 

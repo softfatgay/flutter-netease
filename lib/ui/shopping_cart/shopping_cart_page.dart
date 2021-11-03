@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:convert' as convert;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app/component/back_loading.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/service_tag_widget.dart';
+import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/component/webview_login_page.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/components/add_good_size_widget.dart';
@@ -19,11 +26,6 @@ import 'package:flutter_app/ui/shopping_cart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/component/back_loading.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/component/service_tag_widget.dart';
-import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/ui/component/webview_login_page.dart';
 
 import 'model/postageVO.dart';
 
@@ -310,8 +312,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                 style: t16red,
               ),
               onPressed: () {
-                _clearInvalid();
                 Navigator.of(context).pop();
+                _clearInvalid();
               },
             ),
           ],
@@ -339,10 +341,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'skuList': invalidSku,
     };
     Map<String, dynamic> param = {'invalidSku': convert.jsonEncode(map)};
-
     print(param);
     var response = await clearInvalidItem(param);
-    if (response.code == 200) {
+    if (response.data != null) {
       _getData();
       refreshCartNum();
     }
@@ -356,6 +357,20 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    return WillPopScope(
+      onWillPop: () {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          SystemNavigator.pop();
+        }
+        return Future.value(false);
+      },
+      child: _buildShoppingCart(),
+    );
+  }
+
+  _buildShoppingCart() {
     var argument = widget.params;
     return _isLogin ? _buildBody(argument, context) : _loginPage(context);
   }

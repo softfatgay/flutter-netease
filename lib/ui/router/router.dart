@@ -5,6 +5,7 @@ import 'package:flutter_app/ui/full_screen/full_screen_image.dart';
 import 'package:flutter_app/ui/goods_detail/brand_info_page.dart';
 import 'package:flutter_app/ui/goods_detail/comment_page.dart';
 import 'package:flutter_app/ui/goods_detail/good_detail_page.dart';
+import 'package:flutter_app/ui/goods_detail/item_size_detail_page.dart';
 import 'package:flutter_app/ui/goods_detail/look_page.dart';
 import 'package:flutter_app/ui/goods_detail/search_index_page.dart';
 import 'package:flutter_app/ui/goods_detail/select_address_page.dart';
@@ -103,6 +104,7 @@ class Routers {
   static const String addressSelector = '/addressSelector';
   static const String layaway = '/layaway';
   static const String layawayDetail = '/layawayDetail';
+  static const String itemSizeDetailPage = '/itemSizeDetailPage';
 
   static Map<String, Function> routes = {
     ///登录
@@ -221,6 +223,10 @@ class Routers {
     ///凑单
     makeUpPage: (context, {params}) => MakeUpPage(params: params),
 
+    ///尺寸详情
+    itemSizeDetailPage: (context, {params}) =>
+        ItemSizeDetailPage(params: params),
+
     ///用户信息
     userInfoPageIndex: (context, {required params}) {
       var id = params['id'];
@@ -230,7 +236,7 @@ class Routers {
         case 1:
           return QRCodeMinePage();
         case 2:
-          return MineSizePage();
+          return MineSizePage(params: params);
         case 4:
           return PointCenterPage();
       }

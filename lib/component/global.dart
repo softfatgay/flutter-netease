@@ -21,7 +21,7 @@ Widget arrowRightIcon = Image.asset(
 ///右指向箭头
 Widget arrowRightRed10Icon = Image.asset(
   'assets/images/arrow_right.png',
-  width: 10,
-  height: 10,
+  width: 12,
+  height: 12,
   color: textRed,
 );

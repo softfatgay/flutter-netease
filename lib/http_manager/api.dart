@@ -610,3 +610,15 @@ Future<ResponseData> layawayDetail(Map<String, dynamic> params) async {
   params.addAll(_getParams());
   return await HttpManager.get(LAYAWAY_DETAIL, params: params);
 }
+
+///获取size列表
+Future<ResponseData> querySizeList(Map<String, dynamic> params) async {
+  return await HttpManager.post(QUERY_SIZE_LIST,
+      params: _getParams(), formData: params);
+}
+
+///获取size详情
+Future<ResponseData> getSizeDetail(Map<String, dynamic> params) async {
+  return await HttpManager.post(GET_SIZE_DETAIL,
+      params: _getParams(), formData: params);
+}

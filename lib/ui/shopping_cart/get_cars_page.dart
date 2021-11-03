@@ -14,6 +14,8 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/slivers.dart';
 
+const double _imageWith = 76;
+
 ///换购
 class GetCarsPage extends StatefulWidget {
   final Map? params;
@@ -102,26 +104,28 @@ class _GetCarsPageState extends State<GetCarsPage> {
       appBar: TopAppBar(
         title: _pageTitle,
       ).build(context),
-      body: Stack(
-        children: [
-          _buildBodyC(),
-          _buildTips(),
-          Positioned(
-            bottom: MediaQuery.of(context).padding.bottom,
-            left: 0,
-            right: 0,
-            child: _buildSubmitBtn(),
-          )
-        ],
+      body: Container(
+        height: double.infinity,
+        child: Stack(
+          children: [
+            _buildBodyC(),
+            _buildTips(),
+            Positioned(
+              bottom: MediaQuery.of(context).padding.bottom,
+              left: 0,
+              right: 0,
+              child: _buildSubmitBtn(),
+            )
+          ],
+        ),
       ),
     );
   }
 
   _buildBodyC() {
     List<Widget> widgets = [];
-
     _listData.forEach((element) {
-      widgets.add(_buildTitle(element.title!));
+      widgets.add(_buildTitle(element.title));
       widgets.add(_itemItems(element));
     });
 
@@ -151,19 +155,21 @@ class _GetCarsPageState extends State<GetCarsPage> {
     );
   }
 
-  _buildTitle(String title) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Color(0xFFEEEEEE),
-          border: Border(bottom: BorderSide(color: lineColor, width: 1))),
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      child: Text(
-        '$title',
-        style: t14black,
-      ),
-    );
+  _buildTitle(String? title) {
+    return title == null
+        ? Container()
+        : Container(
+            decoration: BoxDecoration(
+                color: Color(0xFFEEEEEE),
+                border: Border(bottom: BorderSide(color: lineColor, width: 1))),
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 15),
+            alignment: Alignment.center,
+            child: Text(
+              '$title',
+              style: t14black,
+            ),
+          );
   }
 
   _buildTips() {
@@ -188,31 +194,8 @@ class _GetCarsPageState extends State<GetCarsPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GestureDetector(
-              child: _buildCheckBox(item),
-              onTap: () {
-                setState(() {
-                  if (!item.checked!) {
-                    if (_allowCount! > _totalCnt) {
-                      _totalCnt++;
-                      item.checked = true;
-                    } else {
-                      Toast.show('最多可领取$_allowCount件', context);
-                    }
-                  } else {
-                    _totalCnt--;
-                    item.checked = false;
-                  }
-                });
-              },
-            ),
-            RoundNetImage(
-              url: item.pic,
-              height: 76,
-              width: 76,
-              corner: 4,
-              backColor: backColor,
-            ),
+            _buildCheckbox(context, item),
+            _buildImageInfo(context, item),
             SizedBox(width: 8),
             _buildDec(item),
           ],
@@ -224,24 +207,140 @@ class _GetCarsPageState extends State<GetCarsPage> {
     );
   }
 
+  _buildCheckbox(BuildContext context, CartItemListItem item) {
+    return GestureDetector(
+      child: _buildCheckBox(item),
+      onTap: () {
+        setState(() {
+          if (item.sellVolume! > 0) {
+            if (!item.checked!) {
+              if (_allowCount! > _totalCnt) {
+                _totalCnt++;
+                item.checked = true;
+              } else {
+                Toast.show('最多可领取$_allowCount件', context);
+              }
+            } else {
+              _totalCnt--;
+              item.checked = false;
+            }
+          }
+        });
+      },
+    );
+  }
+
+  _buildImageInfo(BuildContext context, CartItemListItem item) {
+    return Container(
+      height: _imageWith,
+      width: _imageWith,
+      child: Stack(
+        children: [
+          RoundNetImage(
+            url: item.pic,
+            backColor: backGrey,
+            corner: 4,
+            height: _imageWith,
+            width: _imageWith,
+          ),
+          Positioned(bottom: 0, left: 0, right: 0, child: _imgFlag(item))
+        ],
+      ),
+    );
+  }
+
+  _imgFlag(CartItemListItem item) {
+    if (item.limitPurchaseFlag!) {
+      ///限购标签
+      return _limitPurchaseFlag(item);
+    } else if (item.preemptionStatus! == 0) {
+      ///无法购买标签
+      return _cantBuyFlag(item, '无法领取');
+    } else if (item.sellVolume == 0) {
+      ///库存为0
+      return _cantBuyFlag(item, '已领完');
+    } else if (item.sellVolume! < 5) {
+      return _cantBuyFlag(item, '仅剩${item.sellVolume}件');
+    }
+    return Container();
+  }
+
+  ///无法购买标签
+  _cantBuyFlag(CartItemListItem item, String tips) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0x80333333),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 2),
+      alignment: Alignment.center,
+      child: Text(
+        '$tips',
+        style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  ///限购标签
+  _limitPurchaseFlag(CartItemListItem item) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFFF48F18),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 2),
+      alignment: Alignment.center,
+      child: Text(
+        '限购${item.limitPurchaseCount}件',
+        style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
   _buildCheckBox(CartItemListItem item) {
     return Container(
       color: backWhite,
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       alignment: Alignment.center,
       child: Center(
-        child: item.checked!
-            ? Icon(
-                Icons.check_circle,
-                size: 22,
-                color: Colors.red,
-              )
-            : Icon(
-                Icons.brightness_1_outlined,
-                size: 22,
-                color: lineColor,
-              ),
+        child: item.sellVolume == 0
+            ? _cantClickBox()
+            : (item.checked! ? _checkedBox() : _canClickBox()),
       ),
+    );
+  }
+
+  ///不能点击
+  _cantClickBox() {
+    return Container(
+      height: 20,
+      width: 20,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: backGrey,
+      ),
+    );
+  }
+
+  ///可以点击
+  _canClickBox() {
+    return Icon(
+      Icons.brightness_1_outlined,
+      size: 22,
+      color: Color(0xFFDBDBDB),
+    );
+  }
+
+  ///已选择
+  _checkedBox() {
+    return Icon(
+      Icons.check_circle,
+      size: 22,
+      color: redColor,
     );
   }
 

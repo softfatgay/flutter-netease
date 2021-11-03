@@ -9,11 +9,14 @@ import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
+import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/normal_textfiled.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/constant/btn_height.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/globle/scrollState.dart';
@@ -116,9 +119,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///商品详情
   late GoodDetail _goodDetail;
 
-  ///下半部分数据
-  GoodDetailDownData? _goodDetailDownData;
-
   ///详情图片
   List<String> _detailImages = [];
 
@@ -215,9 +215,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
     _scrollPhysics = NeverScrollableScrollPhysics();
     super.initState();
-    _getDetail();
     _getDetailPageUp();
-    _getRMD();
     _checkLogin(0);
 
     ///配送信息
@@ -283,39 +281,11 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
   }
 
-  void _getDetail() async {
-    Map<String, dynamic> param = {'id': _goodId};
-    var responseData = await goodDetailDownApi(param);
-    var data = responseData.data;
-
-    ///商品详情数据
-    var goodDetailDownData = GoodDetailDownData.fromJson(data);
-    var html = goodDetailDownData.html!;
-    RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
-    List<String> imageUrls = [];
-    Iterable<Match> mobiles = exp.allMatches(html);
-    for (Match m in mobiles) {
-      String? match = m.group(0);
-      String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
-      if (!imageUrls.contains(imageUrl)) {
-        print(imageUrl);
-        imageUrls.add(imageUrl);
-      }
-    }
-
-    setState(() {
-      _goodDetailDownData = goodDetailDownData;
-      _detailImages = imageUrls;
-    });
-  }
-
   _checkLogin(int type) async {
     var responseData = await checkLogin();
     var isLogin = responseData.data;
     if (isLogin) {
       _getAddressList(type);
-    } else {
-      _getOffset();
     }
   }
 
@@ -379,7 +349,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             WapitemDeliveryModel.fromJson(responseData.data);
       });
     }
-    _getOffset();
   }
 
   _getOffset() {
@@ -432,19 +401,38 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
       _fullRefundPolicy = _goodDetail.fullRefundPolicy;
 
+      ///banner数据
       var itemDetail = _goodDetail.itemDetail!;
       _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
-      List<dynamic> bannerList = List<dynamic>.from(itemDetail.values);
-      bannerList.forEach((image) {
-        if (image.toString().startsWith('https://')) {
-          _banner.add(image);
+      List<dynamic> bannerList = List<dynamic>.from(itemDetail.keys);
+      bannerList.forEach((key) {
+        if (key.startsWith('picUrl')) {
+          _banner.add(itemDetail[key]);
         }
+      });
+
+      ///x详情图片
+      var detailHtml = itemDetail['detailHtml'] as String;
+      RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
+      List<String> imageUrls = [];
+      Iterable<Match> mobiles = exp.allMatches(detailHtml);
+      for (Match m in mobiles) {
+        String? match = m.group(0);
+        String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
+        if (!imageUrls.contains(imageUrl)) {
+          print(imageUrl);
+          imageUrls.add(imageUrl);
+        }
+      }
+      setState(() {
+        _detailImages = imageUrls;
       });
       _initLoading = false;
       if (_couponShortNameList != null && _couponShortNameList!.isNotEmpty) {
         _getCoupon();
       }
     });
+    _getRMD();
     _getDftAddress();
   }
 
@@ -459,6 +447,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     setState(() {
       _rmdList = rmdList;
     });
+
+    _getOffset();
   }
 
   // 获取某规格的商品信息
@@ -567,10 +557,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             singleSliverWidget(_buildGoodDetail()),
 
             ///常见问题
-            if (_goodDetailDownData != null)
-              singleSliverWidget(_buildIssueTitle(' 常见问题 ', null)),
-            if (_goodDetailDownData != null)
-              singleSliverWidget(_buildIssueList()),
+            singleSliverWidget(_buildIssueTitle(' 常见问题 ', null)),
+            singleSliverWidget(_buildIssueList()),
 
             ///推荐
             singleSliverWidget(Container(key: _RCMKey)),
@@ -1015,10 +1003,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///成分
   _buildIntro() {
-    List<AttrListItem>? attrList = [];
-    if (_goodDetailDownData != null) {
-      attrList = _goodDetailDownData!.attrList;
-    }
+    List<AttrListItem>? attrList = _goodDetail.attrList;
     return GoodMaterialWidget(
       attrList: attrList,
     );
@@ -1039,9 +1024,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _buildIssueList() {
-    var issueList = _goodDetailDownData!.issueList;
+    var issueList = _goodDetail.issueList ?? [];
     return Column(
-        children: issueList!
+        children: issueList
             .map((item) => Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1206,29 +1191,30 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                         //最小包裹高度
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Stack(
+                          ///商品描述
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ///商品描述
-                              _selectGoodDetail(context),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: InkResponse(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(top: 10, right: 5),
-                                    child: Image.asset(
-                                      'assets/images/close.png',
-                                      width: 20,
-                                      height: 20,
-                                    ),
+                              Expanded(
+                                child: _selectGoodDetail(context),
+                              ),
+                              GestureDetector(
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 15, right: 5),
+                                  child: Image.asset(
+                                    'assets/images/close.png',
+                                    width: 20,
+                                    height: 20,
                                   ),
                                 ),
-                              ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              )
                             ],
                           ),
+
+                          if (_goodDetail.itemSizeTableFlag!) _mineSizeTag(),
 
                           ///颜色，规格等参数
                           _modelAndSize(context, setstate),
@@ -1279,6 +1265,37 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         );
       },
     );
+  }
+
+  _mineSizeTag() {
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        child: Row(
+          children: [
+            Text(
+              '尺码助手',
+              style: t14red,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 2),
+              child: arrowRightRed10Icon,
+            )
+          ],
+        ),
+      ),
+      onTap: () async {
+        var responseData = await checkLogin();
+        var isLogin = responseData.data;
+        if (isLogin && _goodDetail.itemSizeTableDetailFlag!) {
+          _goSizeDetailPage();
+        }
+      },
+    );
+  }
+
+  _goSizeDetailPage() {
+    Routers.push(Routers.itemSizeDetailPage, context, {'id': _goodId});
   }
 
   _modelAndSize(BuildContext context, setstate) {
@@ -1521,18 +1538,18 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         ? _goodDetail.primaryPicUrl!
         : _skuMapItem!.pic!;
     return Container(
+      margin: EdgeInsets.only(top: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           GestureDetector(
-            child: Container(
-              padding: EdgeInsets.only(top: 8),
-              child: CachedNetworkImage(
-                imageUrl: img,
-                fit: BoxFit.cover,
-              ),
+            child: RoundNetImage(
+              url: img,
+              fit: BoxFit.cover,
+              backColor: backColor,
               height: 100,
               width: 100,
+              corner: 4,
             ),
             onTap: () {
               Routers.push(Routers.image, context, {
@@ -1903,7 +1920,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     return Expanded(
       flex: 1,
       child: Container(
-        height: 45,
+        height: BtnHeight.NORMAL,
         decoration: BoxDecoration(
             border: Border(left: BorderSide(color: lineColor, width: 1))),
         child: NormalBtn(
@@ -1986,7 +2003,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               decoration: BoxDecoration(
                   border:
                       Border(left: BorderSide(color: lineColor, width: 0.6))),
-              height: 45,
+              height: BtnHeight.NORMAL,
               child: NormalBtn('到货提醒', backWhite, () {
                 _hasValueTipsDialog(context);
               }, textStyle: t16red),
@@ -1995,7 +2012,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           Expanded(
             flex: 1,
             child: Container(
-              height: 45,
+              height: BtnHeight.NORMAL,
               child: NormalBtn('已售罄', Color(0xFFCCCCCC), () {},
                   textStyle: t16white),
             ),

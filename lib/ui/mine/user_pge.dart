@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/button_widget.dart';
@@ -81,7 +82,17 @@ class _MinePageState extends State<UserPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return _buildBody();
+    return WillPopScope(
+      onWillPop: () {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          SystemNavigator.pop();
+        }
+        return Future.value(false);
+      },
+      child: _buildBody(),
+    );
   }
 
   _buildBody() {

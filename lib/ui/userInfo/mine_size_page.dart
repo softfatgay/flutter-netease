@@ -9,7 +9,8 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/button_widget.dart';
 
 class MineSizePage extends StatefulWidget {
-  const MineSizePage({Key? key}) : super(key: key);
+  final Map? params;
+  const MineSizePage({Key? key, this.params}) : super(key: key);
 
   @override
   _MineSizePageState createState() => _MineSizePageState();
@@ -18,9 +19,13 @@ class MineSizePage extends StatefulWidget {
 class _MineSizePageState extends State<MineSizePage> {
   List<SizeItemModel> _dataList = [];
 
+  String? _from;
   @override
   void initState() {
     // TODO: implement initState
+    if (widget.params != null) {
+      _from = widget.params!['from'];
+    }
     super.initState();
     _mineSizeList();
   }
@@ -81,65 +86,71 @@ class _MineSizePageState extends State<MineSizePage> {
 
   _buildSizeItem(int index) {
     var item = _dataList[index];
-    return Container(
-      decoration: BoxDecoration(
-        border: item.dft!
-            ? Border(left: BorderSide(color: backRed, width: 3))
-            : null,
-        color: item.dft! ? Color(0xFFFFFCED) : backWhite,
-      ),
-      padding: EdgeInsets.only(left: 10),
+    return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: lineColor, width: 1)),
+          border: item.dft!
+              ? Border(left: BorderSide(color: backRed, width: 3))
+              : null,
+          color: item.dft! ? Color(0xFFFFFCED) : backWhite,
         ),
-        padding: EdgeInsets.fromLTRB(0, 15, 10, 15),
-        child: Column(
-          children: [
-            Container(
-              child: Row(
+        padding: EdgeInsets.only(left: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: lineColor, width: 1)),
+          ),
+          padding: EdgeInsets.fromLTRB(0, 15, 10, 15),
+          child: Column(
+            children: [
+              Container(
+                child: Row(
+                  children: [
+                    Text('${item.roleName}', style: t16black),
+                    _isDrf(item),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      child: Image.asset(
+                        'assets/images/edit_icon.png',
+                        width: 20,
+                        height: 20,
+                      ),
+                      onTap: () {
+                        Routers.push(
+                            Routers.addNewSize, context, {'id': item.id},
+                            (valueBack) {
+                          _mineSizeList();
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 15),
+              Row(
                 children: [
-                  Text('${item.roleName}', style: t16black),
-                  _isDrf(item),
-                  Expanded(child: Container()),
-                  GestureDetector(
-                    child: Image.asset(
-                      'assets/images/edit_icon.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                    onTap: () {
-                      Routers.push(Routers.addNewSize, context, {'id': item.id},
-                          (valueBack) {
-                        _mineSizeList();
-                      });
-                    },
-                  )
+                  Text('性别', style: t12black),
+                  SizedBox(width: 40),
+                  Text('${_sex(item.gender)}', style: t12black),
                 ],
               ),
-            ),
-            SizedBox(height: 15),
-            Row(
-              children: [
-                Text('性别', style: t12black),
-                SizedBox(width: 40),
-                Text('${_sex(item.gender)}', style: t12black),
-              ],
-            ),
-            _rowItem('身高(cm)', '${_reSize(item.height)}', '体重(kg)',
-                '${_reSize(item.bodyWeight)}'),
-            _rowItem('腰围(cm)', '${_reSize(item.waistCircumference)}', '臀围(cm)',
-                '${_reSize(item.hipCircumference)}'),
-            _rowItem('脚长(cm)', '${_reSize(item.footLength)}', '脚围(cm)',
-                '${_reSize(item.footCircumference)}'),
-            _rowItem('肩宽(cm)', '${_reSize(item.shoulderBreadth)}', '胸围(cm)',
-                '${_reSize(item.bust)}'),
-            item.underBust == -1
-                ? Container()
-                : _rowItem('下胸围(cm)', '${_reSize(item.underBust)}', '', ''),
-          ],
+              _rowItem('身高(cm)', '${_reSize(item.height)}', '体重(kg)',
+                  '${_reSize(item.bodyWeight)}'),
+              _rowItem('腰围(cm)', '${_reSize(item.waistCircumference)}',
+                  '臀围(cm)', '${_reSize(item.hipCircumference)}'),
+              _rowItem('脚长(cm)', '${_reSize(item.footLength)}', '脚围(cm)',
+                  '${_reSize(item.footCircumference)}'),
+              _rowItem('肩宽(cm)', '${_reSize(item.shoulderBreadth)}', '胸围(cm)',
+                  '${_reSize(item.bust)}'),
+              item.underBust == -1
+                  ? Container()
+                  : _rowItem('下胸围(cm)', '${_reSize(item.underBust)}', '', ''),
+            ],
+          ),
         ),
       ),
+      onTap: () {
+        Navigator.pop(context, item);
+      },
     );
   }
 

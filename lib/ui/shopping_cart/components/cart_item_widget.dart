@@ -63,12 +63,12 @@ class CartItemWidget extends StatelessWidget {
         CarItem itemData = itemList[index];
         List<CartItemListItem> _itemList = [];
 
-        ///TODO 换购,102满赠(待补充),
+        ///TODO 102满赠,104换购,107满件减,108满额减,109满折(待补充),
         List<AddBuyStepListItem> activityList = [];
         if (itemData.promType == 102) {
           ///满赠
           activityList = itemData.giftStepList ?? [];
-        } else {
+        } else if (itemData.promType == 104) {
           ///换购
           activityList = itemData.addBuyStepList ?? [];
         }
@@ -78,11 +78,11 @@ class CartItemWidget extends StatelessWidget {
 
         if (activityList.isNotEmpty) {
           activityList.forEach((element_1) {
-            ///TODO 换购,102满赠(待补充),
+            ///TODO 102满赠,104换购,107满件减,108满额减,109满折(待补充),
             List<CartItemListItem> itemItemList = [];
             if (itemData.promType == 102) {
               itemItemList = element_1.giftItemList ?? [];
-            } else {
+            } else if (itemData.promType == 104) {
               itemItemList = element_1.addBuyItemList ?? [];
             }
             if (itemItemList.isNotEmpty) {
@@ -104,10 +104,11 @@ class CartItemWidget extends StatelessWidget {
           itemItems.add(_line());
         }
 
-        ///换购，满减
-        itemItems.add(_redeem(itemData, index, context));
+        ///102满赠,104换购,107满件减,108满额减,109满折 标题
+        // itemItems.add(_redeem(itemData, index, context));
+        itemItems.add(_itemActivityTitle(context, itemData));
 
-        ///查看赠品
+        ///满赠,换购
         itemItems.add(_giftStep(context, itemData, hasCheck));
 
         List<Widget> goodWidget = _itemList.map<Widget>((item) {
@@ -611,8 +612,7 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _giftStep(BuildContext context, CarItem itemData, bool hasCheck) {
-    var giftStepList = itemData.giftStepList;
-    if (giftStepList != null && giftStepList.isNotEmpty) {
+    if (itemData.promType == 102 || itemData.promType == 104) {
       return GestureDetector(
         child: Container(
           color: backWhite,
@@ -656,108 +656,33 @@ class CartItemWidget extends StatelessWidget {
       } else {
         tv = '查看赠品';
       }
+    } else if (itemData.promType == 104) {
+      if (itemData.promSatisfy!) {
+        if (hasCheck) {
+          tv = '重新换购商品';
+        } else {
+          tv = '去换购商品';
+        }
+      } else {
+        tv = '去换购商品';
+      }
     }
     return tv;
   }
 
-  _redeem(CarItem itemData, int index, BuildContext context) {
+  _itemActivityTitle(BuildContext context, CarItem itemData) {
+    ///102满赠,104换购,107满件减,108满额减,109满折 标题
+    var promType = itemData.promType;
     bool cartItemEmpty =
         itemData.cartItemList == null || itemData.cartItemList!.isEmpty;
-    if (itemData.addBuyStepList != null &&
-        itemData.addBuyStepList!.isNotEmpty) {
-      ///换购
+    if (promType == 102 ||
+        promType == 104 ||
+        promType == 107 ||
+        promType == 108 ||
+        promType == 109) {
       return Container(
         color: backWhite,
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                  left: cartItemEmpty ? 15 : _checkBoxWith, right: 15),
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                    decoration: BoxDecoration(
-                      color: redLightColor,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    child: Text(
-                      '${cartItemEmpty ? '全场换购' : '换购'}',
-                      style: TextStyle(
-                          fontSize: 12, color: textWhite, height: 1.1),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 4),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '${itemData.promTip}',
-                        style: t14black,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Row(
-                      children: [
-                        Text(
-                          '${itemData.promotionBtn == 3 ? '再逛逛' : '去凑单'}',
-                          style: t12red,
-                        ),
-                        arrowRightRed10Icon
-                      ],
-                    ),
-                    onTap: () {
-                      Routers.push(Routers.makeUpPage, context, {
-                        'id': cartItemEmpty ? -1 : itemData.promId,
-                        'from': 'cart-item'
-                      }, (value) {
-                        callBack();
-                      });
-                    },
-                  )
-                ],
-              ),
-            ),
-            GestureDetector(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFF7F5),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                margin: EdgeInsets.fromLTRB(_checkBoxWith, 0, 15, 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        itemData.promSatisfy! ? '去换购商品' : '查看换购商品',
-                        style: t12black,
-                      ),
-                    ),
-                    arrowRightIcon
-                  ],
-                ),
-              ),
-              onTap: () {
-                goRedeem(itemData);
-              },
-            ),
-          ],
-        ),
-      );
-    } else if (itemData.promType == 102 ||
-        itemData.promType == 107 ||
-        itemData.promType == 108 ||
-        itemData.promType == 109) {
-      ///108满额减,107满件减,109满折
-      return Container(
-        color: backWhite,
-        padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 10),
+        padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -769,7 +694,7 @@ class CartItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
               child: Text(
-                '${_getActivityTv(itemData)}',
+                '${_getItemActivityTitle(itemData)}',
                 style: TextStyle(fontSize: 12, color: textWhite, height: 1.1),
               ),
             ),
@@ -787,7 +712,7 @@ class CartItemWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '去凑单',
+                    '${itemData.promSatisfy! ? '再逛逛' : '去凑单'}',
                     style: t12red,
                   ),
                   arrowRightRed10Icon
@@ -809,23 +734,26 @@ class CartItemWidget extends StatelessWidget {
     return Container();
   }
 
-  _getActivityTv(CarItem itemData) {
-    String promType = '';
+  _getItemActivityTitle(CarItem itemData) {
+    String promTypeTitle = '';
     switch (itemData.promType) {
       case 102:
-        promType = '满赠';
+        promTypeTitle = '满赠';
+        break;
+      case 104:
+        promTypeTitle = '换购';
         break;
       case 107:
-        promType = '满件减';
+        promTypeTitle = '满件减';
         break;
       case 108:
-        promType = '满额减';
+        promTypeTitle = '满额减';
         break;
       case 109:
-        promType = '满折';
+        promTypeTitle = '满折';
         break;
     }
-    return promType;
+    return promTypeTitle;
   }
 
   _specValue(CartItemListItem item) {

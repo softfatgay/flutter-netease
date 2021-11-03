@@ -306,6 +306,12 @@ final String LAYAWAY = '${suffixUrl}layaway/index.json';
 ///年购详情
 final String LAYAWAY_DETAIL = '${suffixUrl}layaway/detail.json';
 
+///获取size列表
+final String QUERY_SIZE_LIST = '${suffixUrl}xhr/item/querySizeList.json';
+
+///获取size详情
+final String GET_SIZE_DETAIL = '${suffixUrl}xhr/item/getSizeDetail.json';
+
 ///去使用红包
 final String REDPACKAGE_ITEMS =
     'https://goods.you.163.com/new/prom/rcmdItems.do';
