@@ -8,8 +8,10 @@ class GoodTitleWidget extends StatelessWidget {
   final String? name;
   final String? goodCmtRate;
   final num? goodId;
+  final num? commentCount;
 
-  const GoodTitleWidget({Key? key, this.name, this.goodCmtRate, this.goodId})
+  const GoodTitleWidget(
+      {Key? key, this.name, this.goodCmtRate, this.goodId, this.commentCount})
       : super(key: key);
 
   @override
@@ -45,27 +47,24 @@ class GoodTitleWidget extends StatelessWidget {
       child: Container(
         child: Row(
           children: <Widget>[
-            (goodCmtRate == null || goodCmtRate == '')
-                ? Text(
-                    '查看评价',
-                    style: t12black,
-                  )
-                : Column(
-                    children: [
-                      Text(
-                        '${goodCmtRate ?? ''}',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      Text(
-                        '好评率',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      )
-                    ],
-                  ),
-            arrowRightIcon,
+            if (commentCount != 0)
+              goodCmtRate == null
+                  ? Text('查看评价', style: t12black)
+                  : Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text('${goodCmtRate ?? ''}', style: t16redBold),
+                            Text(
+                              '好评率',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
+                            )
+                          ],
+                        ),
+                        arrowRightIcon,
+                      ],
+                    ),
           ],
         ),
       ),

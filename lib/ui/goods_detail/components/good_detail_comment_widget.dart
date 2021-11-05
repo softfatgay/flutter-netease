@@ -40,40 +40,42 @@ class GoodDetailCommentWidget extends StatelessWidget {
               highlightColor: Colors.transparent,
               radius: 0,
               onTap: () {
-                Routers.push(Routers.comment, context, {'id': goodId});
+                if (commentCount != 0)
+                  Routers.push(Routers.comment, context, {'id': goodId});
               },
               child: Container(
                 height: 50,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         '用户评价($commentCount)',
                         style: t14black,
                       ),
                     ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '${goodCmtRate ?? ''}',
-                            style: t16red,
-                          ),
-                          Text(
-                            (goodCmtRate == null || goodCmtRate == '')
-                                ? '查看全部'
-                                : '好评率',
-                            style: t14black,
-                          ),
-                        ],
+                    if (commentCount != 0)
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              '${goodCmtRate ?? ''}',
+                              style: t16red,
+                            ),
+                            Text(
+                              (goodCmtRate == null || goodCmtRate == '')
+                                  ? '查看全部'
+                                  : '好评率',
+                              style: t14black,
+                            ),
+                            arrowRightIcon
+                          ],
+                        ),
                       ),
-                    ),
-                    arrowRightIcon
                   ],
                 ),
               ),

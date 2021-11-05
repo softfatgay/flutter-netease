@@ -49,7 +49,6 @@ import 'package:flutter_app/ui/goods_detail/model/bannerModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
-import 'package:flutter_app/ui/goods_detail/model/goodDetailDownData.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetailPre.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
@@ -517,8 +516,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             ///商品名称
             singleSliverWidget(GoodTitleWidget(
               name: _goodDetail.name,
-              goodCmtRate: _goodDetail.goodCmtRate,
               goodId: _goodId,
+              goodCmtRate: _goodDetail.goodCmtRate,
+              commentCount: _goodDetail.commentCount,
             )),
 
             ///网易严选
