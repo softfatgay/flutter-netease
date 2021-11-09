@@ -51,7 +51,11 @@ CartItemListItem _$CartItemListItemFromJson(Map<String, dynamic> json) =>
       ..warehouseInfo = json['warehouseInfo'] == null
           ? null
           : WarehouseInfo.fromJson(
-              json['warehouseInfo'] as Map<String, dynamic>);
+              json['warehouseInfo'] as Map<String, dynamic>)
+      ..appFreshmanBannerVO = json['appFreshmanBannerVO'] == null
+          ? null
+          : AppFreshmanBannerVO.fromJson(
+              json['appFreshmanBannerVO'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
     <String, dynamic>{
@@ -91,6 +95,7 @@ Map<String, dynamic> _$CartItemListItemToJson(CartItemListItem instance) =>
       'finishTip': instance.finishTip,
       'remainTime': instance.remainTime,
       'warehouseInfo': instance.warehouseInfo,
+      'appFreshmanBannerVO': instance.appFreshmanBannerVO,
     };
 
 SpecListItem _$SpecListItemFromJson(Map<String, dynamic> json) => SpecListItem()
@@ -112,4 +117,16 @@ Map<String, dynamic> _$WarehouseInfoToJson(WarehouseInfo instance) =>
     <String, dynamic>{
       'desc': instance.desc,
       'type': instance.type,
+    };
+
+AppFreshmanBannerVO _$AppFreshmanBannerVOFromJson(Map<String, dynamic> json) =>
+    AppFreshmanBannerVO()
+      ..freshmanDesc = json['freshmanDesc'] as String?
+      ..appFreshmanPrice = json['appFreshmanPrice'] as String?;
+
+Map<String, dynamic> _$AppFreshmanBannerVOToJson(
+        AppFreshmanBannerVO instance) =>
+    <String, dynamic>{
+      'freshmanDesc': instance.freshmanDesc,
+      'appFreshmanPrice': instance.appFreshmanPrice,
     };

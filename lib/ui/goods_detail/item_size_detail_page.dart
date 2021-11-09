@@ -23,6 +23,7 @@ class _ItemSizeDetailPageState extends State<ItemSizeDetailPage> {
   bool _isLoading = true;
 
   String _mineSizeTitle = '';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,8 +36,14 @@ class _ItemSizeDetailPageState extends State<ItemSizeDetailPage> {
   }
 
   _querySizeList(num? roleId) async {
-    var responseData =
-        await getSizeDetail({'itemId': _itemId, 'roleId': roleId});
+    Map<String, dynamic> params = {};
+    if (roleId != null) {
+      params = {'itemId': _itemId, 'roleId': roleId};
+    } else {
+      params = {'itemId': _itemId};
+    }
+    var responseData = await getSizeDetail(params);
+    print({'itemId': _itemId, 'roleId': roleId});
     if (responseData.code == '200') {
       setState(() {
         _detailModel = ItemSizeDetailModel.fromJson(responseData.data);

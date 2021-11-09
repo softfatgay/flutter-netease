@@ -189,17 +189,32 @@ class _TopicPageState extends State<TopicPage>
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       sliver: SliverStaggeredGrid.countBuilder(
-        itemCount: _dataList.length,
-        crossAxisCount: 2,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
-        staggeredTileBuilder: (index) => new StaggeredTile.count(
-            1, _dataList[index].buyNow == null ? 1.4 : 1.5),
-        itemBuilder: (context, index) {
-          return TopicItemWidget(item: _dataList[index]);
-        },
-      ),
+          itemCount: _dataList.length,
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          staggeredTileBuilder: (index) =>
+              StaggeredTile.count(1, _crosAxis(_dataList[index])),
+          itemBuilder: (context, index) {
+            return TopicItemWidget(item: _dataList[index]);
+          }),
     );
+  }
+
+  double _crosAxis(TopicItem item) {
+    double imgH = 0.9;
+    if (item.appBanHeight == null ||
+        item.appBanWidth == null ||
+        item.appBanWidth == 0) {
+      return 1;
+    }
+    if (item.newAppBanner != null && item.newAppBanner!.isNotEmpty) {
+      imgH += 0.5;
+    }
+    if (item.buyNow != null) {
+      imgH += 0.2;
+    }
+    return imgH;
   }
 
   _buildBodyData() {
@@ -214,7 +229,6 @@ class _TopicPageState extends State<TopicPage>
                 pinned: true,
                 expandedHeight: _expandedHeight,
                 backgroundColor: Colors.white,
-                brightness: Brightness.light,
                 toolbarHeight: double.parse(snapshot.data.toString()),
                 title: TopSearch(
                   totalNum: _totalNum,

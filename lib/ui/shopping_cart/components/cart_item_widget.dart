@@ -24,8 +24,8 @@ typedef void DeleteCheckItem(
 typedef void GoRedeem(CarItem itemData);
 typedef void SkuClick(CartItemListItem item);
 
-const double _checkBoxWith = 40.0;
-const double _imageWith = 90.0;
+const double _checkBoxWidth = 40.0;
+const double _imageWidth = 90.0;
 
 typedef void CallBack();
 
@@ -71,6 +71,9 @@ class CartItemWidget extends StatelessWidget {
         } else if (itemData.promType == 104) {
           ///换购
           activityList = itemData.addBuyStepList ?? [];
+        } else if (itemData.promType == 4) {
+          ///换购
+          activityList = itemData.addBuyStepList ?? [];
         }
 
         ///是否有选择的换购/赠品
@@ -82,7 +85,7 @@ class CartItemWidget extends StatelessWidget {
             List<CartItemListItem> itemItemList = [];
             if (itemData.promType == 102) {
               itemItemList = element_1.giftItemList ?? [];
-            } else if (itemData.promType == 104) {
+            } else if (itemData.promType == 4 || itemData.promType == 104) {
               itemItemList = element_1.addBuyItemList ?? [];
             }
             if (itemItemList.isNotEmpty) {
@@ -104,8 +107,7 @@ class CartItemWidget extends StatelessWidget {
           itemItems.add(_line());
         }
 
-        ///102满赠,104换购,107满件减,108满额减,109满折 标题
-        // itemItems.add(_redeem(itemData, index, context));
+        ///102满赠,104换购,106N元任选,107满件减,108满额减,109满折 4全场换购标题
         itemItems.add(_itemActivityTitle(context, itemData));
 
         ///满赠,换购
@@ -143,10 +145,13 @@ class CartItemWidget extends StatelessWidget {
 
           ///自营仓库免邮
           _freeShipping(item),
+
+          ///app推广
+          _appFreshmanBanner(context, item),
           _cartItemTips(cartItemTips),
           SizedBox(height: 10),
           Divider(
-            indent: _checkBoxWith,
+            indent: _checkBoxWidth,
             height: 1,
           )
         ],
@@ -159,7 +164,7 @@ class CartItemWidget extends StatelessWidget {
       return Container();
     }
     return Container(
-      margin: EdgeInsets.only(left: _checkBoxWith, top: 10),
+      margin: EdgeInsets.only(left: _checkBoxWidth, top: 10),
       child: Row(
         children: [
           Container(
@@ -191,6 +196,73 @@ class CartItemWidget extends StatelessWidget {
     );
   }
 
+  _appFreshmanBanner(BuildContext context, CartItemListItem item) {
+    if (item.appFreshmanBannerVO == null) return Container();
+    return Container(
+      decoration: BoxDecoration(
+          color: Color(0xFFFFF4EE), borderRadius: BorderRadius.circular(4)),
+      margin: EdgeInsets.only(left: _checkBoxWidth, right: 10, top: 8),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: _appFreshmanBannerText(item.appFreshmanBannerVO!),
+          ),
+          GestureDetector(
+            child: Row(
+              children: [
+                Container(
+                  child: Text(
+                    '去APP购买',
+                    style: t12red,
+                  ),
+                ),
+                Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 16,
+                  color: textRed,
+                )
+              ],
+            ),
+            onTap: () {
+              Routers.push(Routers.webView, context,
+                  {'url': 'https://m.you.163.com/downloadapp'});
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  _appFreshmanBannerText(AppFreshmanBannerVO appFreshmanBannerVO) {
+    try {
+      var freshmanDesc = appFreshmanBannerVO.freshmanDesc;
+      var appFreshmanPrice = appFreshmanBannerVO.appFreshmanPrice;
+
+      if (freshmanDesc != null &&
+          appFreshmanPrice != null &&
+          freshmanDesc.contains('##') &&
+          freshmanDesc.length > 2) {
+        var indexOf = freshmanDesc.indexOf('##');
+        var lastIndexOf = freshmanDesc.lastIndexOf('##');
+
+        var substring = freshmanDesc.substring(0, indexOf);
+        var substring2 =
+            freshmanDesc.substring(lastIndexOf + 2, freshmanDesc.length);
+        return RichText(
+          text: TextSpan(children: [
+            TextSpan(text: '$substring'),
+            TextSpan(text: '¥$appFreshmanPrice', style: t14red),
+            TextSpan(text: '$substring2'),
+          ], style: t12black),
+        );
+      }
+    } catch (e) {
+      return Text('${appFreshmanBannerVO.freshmanDesc ?? ''}');
+    }
+    return Text('${appFreshmanBannerVO.freshmanDesc ?? ''}');
+  }
+
   ///免邮
   _freeShipping(CartItemListItem item) {
     if (item.warehouseInfo == null) {
@@ -198,7 +270,7 @@ class CartItemWidget extends StatelessWidget {
     }
     var warehouseInfo = item.warehouseInfo!;
     return Container(
-      margin: EdgeInsets.only(left: _checkBoxWith, top: 8, right: 10),
+      margin: EdgeInsets.only(left: _checkBoxWidth, top: 8, right: 10),
       child: Row(
         children: [
           Image.asset(
@@ -222,7 +294,7 @@ class CartItemWidget extends StatelessWidget {
         : Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            margin: EdgeInsets.only(left: _checkBoxWith, right: 10, top: 8),
+            margin: EdgeInsets.only(left: _checkBoxWidth, right: 10, top: 8),
             decoration: BoxDecoration(
                 color: Color(0xFFF4F4F4),
                 borderRadius: BorderRadius.circular(4)),
@@ -264,16 +336,16 @@ class CartItemWidget extends StatelessWidget {
   _buildImageInfo(BuildContext context, CartItemListItem item) {
     return GestureDetector(
       child: Container(
-        height: _imageWith,
-        width: _imageWith,
+        height: _imageWidth,
+        width: _imageWidth,
         child: Stack(
           children: [
             RoundNetImage(
               url: item.pic,
               backColor: backGrey,
               corner: 4,
-              height: _imageWith,
-              width: _imageWith,
+              height: _imageWidth,
+              width: _imageWidth,
             ),
             Positioned(bottom: 0, left: 0, right: 0, child: _imgFlag(item))
           ],
@@ -289,13 +361,16 @@ class CartItemWidget extends StatelessWidget {
     if (item.limitPurchaseFlag!) {
       ///限购标签
       return _limitPurchaseFlag(item);
+    } else if (item.sellVolume! < item.cnt!) {
+      ///无法购买标签
+      return _cantBuyFlag(item, '库存不足');
     } else if (item.preemptionStatus! == 0) {
       ///无法购买标签
       return _cantBuyFlag(item, '无法购买');
     } else if (item.sellVolume == 0) {
       ///库存为0
       return _cantBuyFlag(item, '暂无库存');
-    } else if (item.sellVolume! < 5) {
+    } else if (item.sellVolume! <= 5) {
       return _cantBuyFlag(item, '仅剩${item.sellVolume}件');
     }
     return Container();
@@ -369,11 +444,13 @@ class CartItemWidget extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
                   padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: lineColor, width: 0.5),
-                    borderRadius: BorderRadius.circular(2),
-                    color: Color(0xFFFAFAFA),
-                  ),
+                  decoration: (item.id != 0 && item.canSwitchSpec!)
+                      ? BoxDecoration(
+                          border: Border.all(color: lineColor, width: 0.5),
+                          borderRadius: BorderRadius.circular(2),
+                          color: Color(0xFFFAFAFA),
+                        )
+                      : null,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -519,7 +596,7 @@ class CartItemWidget extends StatelessWidget {
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
             margin: EdgeInsets.only(
-                left: _checkBoxWith + _imageWith + 10, right: 10),
+                left: _checkBoxWidth + _imageWidth + 10, right: 10),
             decoration: BoxDecoration(
                 border: Border.all(color: backYellow, width: 0.5),
                 borderRadius: BorderRadius.circular(2)),
@@ -534,7 +611,7 @@ class CartItemWidget extends StatelessWidget {
   _buildCheckBox(CarItem itemData, CartItemListItem item, int index) {
     if (isEdit) {
       return Container(
-        width: _checkBoxWith,
+        width: _checkBoxWidth,
         child: CartCheckBox(
           canCheck: true,
           onCheckChanged: (check) {
@@ -546,7 +623,7 @@ class CartItemWidget extends StatelessWidget {
       return Container(
         alignment: Alignment.center,
         color: Colors.transparent,
-        width: _checkBoxWith,
+        width: _checkBoxWidth,
         child: GestureDetector(
           onTap: () {
             if (itemData.canCheck! || item.checked!) {
@@ -567,18 +644,32 @@ class CartItemWidget extends StatelessWidget {
 
   _checkBox(CarItem itemData, CartItemListItem item) {
     if (item.id == 0) {
-      return _cantClickBox();
+      return _checkGreyBox();
     } else {
       if (item.checked!) {
         return _checkedBox();
       } else {
         if (itemData.canCheck!) {
-          return _canClickBox();
+          if (_canCheck(item)) {
+            return _canClickBox();
+          } else {
+            return _cantClickBox();
+          }
         } else {
           return _cantClickBox();
         }
       }
     }
+  }
+
+  _canCheck(CartItemListItem item) {
+    if ((item.limitPurchaseFlag! && (item.limitPurchaseCount! < item.cnt!)) ||
+        item.preemptionStatus == 0 ||
+        item.sellVolume! < item.cnt! ||
+        item.sellVolume == 0) {
+      return false;
+    }
+    return true;
   }
 
   ///不能点击
@@ -611,8 +702,19 @@ class CartItemWidget extends StatelessWidget {
     );
   }
 
+  ///已选择
+  _checkGreyBox() {
+    return Icon(
+      Icons.check_circle,
+      size: 22,
+      color: lineColor,
+    );
+  }
+
   _giftStep(BuildContext context, CarItem itemData, bool hasCheck) {
-    if (itemData.promType == 102 || itemData.promType == 104) {
+    if (itemData.promType == 102 ||
+        itemData.promType == 104 ||
+        itemData.promType == 4) {
       return GestureDetector(
         child: Container(
           color: backWhite,
@@ -622,7 +724,7 @@ class CartItemWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(3),
             ),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            margin: EdgeInsets.fromLTRB(_checkBoxWith, 8, 15, 0),
+            margin: EdgeInsets.fromLTRB(_checkBoxWidth, 8, 15, 0),
             child: Row(
               children: [
                 Expanded(
@@ -656,7 +758,7 @@ class CartItemWidget extends StatelessWidget {
       } else {
         tv = '查看赠品';
       }
-    } else if (itemData.promType == 104) {
+    } else if (itemData.promType == 4 || itemData.promType == 104) {
       if (itemData.promSatisfy!) {
         if (hasCheck) {
           tv = '重新换购商品';
@@ -675,14 +777,16 @@ class CartItemWidget extends StatelessWidget {
     var promType = itemData.promType;
     bool cartItemEmpty =
         itemData.cartItemList == null || itemData.cartItemList!.isEmpty;
-    if (promType == 102 ||
+    if (promType == 4 ||
+        promType == 102 ||
         promType == 104 ||
+        promType == 106 ||
         promType == 107 ||
         promType == 108 ||
         promType == 109) {
       return Container(
         color: backWhite,
-        padding: EdgeInsets.only(left: _checkBoxWith, top: 10, right: 15),
+        padding: EdgeInsets.only(left: _checkBoxWidth, top: 10, right: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -737,11 +841,17 @@ class CartItemWidget extends StatelessWidget {
   _getItemActivityTitle(CarItem itemData) {
     String promTypeTitle = '';
     switch (itemData.promType) {
+      case 4:
+        promTypeTitle = '全场换购';
+        break;
       case 102:
         promTypeTitle = '满赠';
         break;
       case 104:
         promTypeTitle = '换购';
+        break;
+      case 106:
+        promTypeTitle = 'N元任选';
         break;
       case 107:
         promTypeTitle = '满件减';

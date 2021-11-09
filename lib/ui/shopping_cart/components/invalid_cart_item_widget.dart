@@ -40,14 +40,14 @@ class InvalidCartItemWidget extends StatelessWidget {
                     GestureDetector(
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                            EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                         decoration: BoxDecoration(
-                          border: Border.all(color: lineColor, width: 0.5),
+                          border: Border.all(color: textBlack, width: 0.5),
                           borderRadius: BorderRadius.circular(3),
                         ),
                         child: Text(
                           '清除失效商品',
-                          style: t14black,
+                          style: t13black,
                         ),
                       ),
                       onTap: () {

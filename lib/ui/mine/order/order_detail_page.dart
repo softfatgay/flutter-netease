@@ -596,8 +596,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
               ),
               onTap: () {
-                Routers.push(Routers.webView, context,
-                    {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+                Routers.push(Routers.webView, context, {'url': kefuUrl});
               },
             ),
           ),

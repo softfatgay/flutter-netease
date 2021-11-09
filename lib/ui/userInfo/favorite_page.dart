@@ -71,7 +71,7 @@ class _FavoritePageState extends State<FavoritePage> {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.fromLTRB(0, 30, 0, 45),
+          margin: EdgeInsets.fromLTRB(0, 30, 0, 50),
           child: GridView.count(
             crossAxisCount: 3,
             mainAxisSpacing: 20,

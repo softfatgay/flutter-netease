@@ -10,6 +10,7 @@ import 'package:flutter_app/component/button_widget.dart';
 
 class MineSizePage extends StatefulWidget {
   final Map? params;
+
   const MineSizePage({Key? key, this.params}) : super(key: key);
 
   @override
@@ -20,6 +21,7 @@ class _MineSizePageState extends State<MineSizePage> {
   List<SizeItemModel> _dataList = [];
 
   String? _from;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -149,7 +151,9 @@ class _MineSizePageState extends State<MineSizePage> {
         ),
       ),
       onTap: () {
-        Navigator.pop(context, item);
+        if (_from != null) {
+          Navigator.pop(context, item);
+        }
       },
     );
   }

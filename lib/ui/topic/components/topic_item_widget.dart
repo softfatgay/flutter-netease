@@ -105,14 +105,20 @@ class TopicItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(2),
         ),
         child: Container(
-          height: 300,
           child: TopRoundNetImage(
             corner: 6,
-            url: item.picUrl,
+            url: _getImage(item),
           ),
         ),
       ),
     );
+  }
+
+  _getImage(TopicItem item) {
+    if (item.newAppBanner != null && item.newAppBanner!.isNotEmpty) {
+      return item.newAppBanner;
+    }
+    return item.picUrl;
   }
 
   _buyBtn(BuildContext context, TopicItem item) {

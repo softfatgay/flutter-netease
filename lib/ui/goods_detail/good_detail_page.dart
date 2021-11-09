@@ -13,6 +13,7 @@ import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/normal_textfiled.dart';
+import 'package:flutter_app/component/page_loading.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
@@ -376,7 +377,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
     setState(() {
       _goodDetailPre = GoodDetailPre.fromJson(oData);
-      // _goodDetailPre = GoodDetailPre.fromJson(dataMap);
 
       _goodDetail = _goodDetailPre.item!;
       _detailPromBanner = _goodDetail.detailPromBanner;
@@ -466,12 +466,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       body: Stack(
         children: <Widget>[
           _buildContent(),
-          Positioned(
-            bottom: MediaQuery.of(context).padding.bottom,
-            left: 0,
-            right: 0,
-            child: _buildFoot(1),
-          ),
+          if (!_initLoading)
+            Positioned(
+              bottom: MediaQuery.of(context).padding.bottom,
+              left: 0,
+              right: 0,
+              child: _buildFoot(1),
+            ),
         ],
       ),
       floatingActionButton: ValueListenableBuilder(
@@ -487,7 +488,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   //内容
   _buildContent() {
     if (_initLoading) {
-      return Loading();
+      return PageLoading();
     } else {
       return Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
@@ -957,7 +958,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _buildComment() {
-    var commentCount = _goodDetailPre.commentCount;
+    var commentCount = _goodDetail.commentCount;
     List<ResultItem>? comments = _goodDetail.comments;
     var goodCmtRate = _goodDetail.goodCmtRate;
     return GoodDetailCommentWidget(
@@ -1088,7 +1089,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _scrollState.dispose();
     _tabState.dispose();
     _scrollController.dispose();
@@ -1903,8 +1903,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         ),
       ),
       onTap: () {
-        Routers.push(Routers.webView, context,
-            {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+        Routers.push(Routers.webView, context, {'url': kefuUrl});
       },
     );
   }

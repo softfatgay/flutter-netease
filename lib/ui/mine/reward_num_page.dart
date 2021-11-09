@@ -297,8 +297,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     child: Image.asset('assets/images/kefu.png'),
                   ),
                   onTap: () {
-                    Routers.push(Routers.webView, context,
-                        {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+                    Routers.push(Routers.webView, context, {'url': kefuUrl});
                   },
                 ),
               )
@@ -341,8 +340,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     style: t14white,
                   ),
                   onTap: () {
-                    Routers.push(Routers.webView, context,
-                        {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+                    Routers.push(Routers.webView, context, {'url': kefuUrl});
                   },
                 )
               ],

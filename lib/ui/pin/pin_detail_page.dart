@@ -199,8 +199,7 @@ class _PinDetailPageState extends State<PinDetailPage> {
               ),
             ),
             onTap: () {
-              Routers.push(Routers.webView, context,
-                  {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+              Routers.push(Routers.webView, context, {'url': kefuUrl});
             },
           ),
           Expanded(

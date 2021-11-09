@@ -49,6 +49,7 @@ class CartItemListItem {
   String? finishTip;
   num? remainTime;
   WarehouseInfo? warehouseInfo;
+  AppFreshmanBannerVO? appFreshmanBannerVO;
 
   CartItemListItem();
 
@@ -76,4 +77,15 @@ class WarehouseInfo {
 
   factory WarehouseInfo.fromJson(Map<String, dynamic> json) =>
       _$WarehouseInfoFromJson(json);
+}
+
+@JsonSerializable()
+class AppFreshmanBannerVO {
+  String? freshmanDesc;
+  String? appFreshmanPrice;
+
+  AppFreshmanBannerVO();
+
+  factory AppFreshmanBannerVO.fromJson(Map<String, dynamic> json) =>
+      _$AppFreshmanBannerVOFromJson(json);
 }

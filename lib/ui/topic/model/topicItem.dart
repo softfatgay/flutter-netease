@@ -18,11 +18,16 @@ class TopicItem {
   String? title;
   String? subTitle;
   String? picUrl;
+  String? newAppBanner;
   bool? hasVideo;
   bool? hasLookCollects;
   num? size;
   num? duration;
   num? supportNum;
+  num? appBanHeight;
+  num? appBanWidth;
+  num? newAppBannerWidth;
+  num? newAppBannerHeight;
   bool? supportFlag;
   BannerInfo? bannerInfo;
 

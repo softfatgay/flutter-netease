@@ -161,8 +161,7 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
         ),
       ),
       onTap: () {
-        Routers.push(Routers.webView, context,
-            {'url': 'https://cs.you.163.com/client?k=$kefuKey'});
+        Routers.push(Routers.webView, context, {'url': kefuUrl});
       },
     );
   }

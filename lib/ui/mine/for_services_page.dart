@@ -73,7 +73,7 @@ class _ForServicesPageState extends State<ForServicesPage> {
     {
       'id': 7,
       'type': 2,
-      'url': '${NetConstants.baseUrl}client?k=$kefuKey',
+      'url': kefuUrl,
       'name': '在线客服',
       'icon': 'assets/images/service/zaixiankefu.png',
       'color': textBlack
