@@ -354,6 +354,12 @@ Future<ResponseData> clearInvalidItem(Map<String, dynamic> params) async {
       params: _getParams(), formData: params);
 }
 
+///购物车改变组状态选择
+Future<ResponseData> batchUpdateCheck(Map<String, dynamic> params) async {
+  return await HttpManager.post(BATCH_UPDATE_CHECK,
+      params: _getParams(), formData: params);
+}
+
 ///check-cart
 Future<ResponseData> checkBeforeInit(Map<String, dynamic> postParams) async {
   return await HttpManager.post(

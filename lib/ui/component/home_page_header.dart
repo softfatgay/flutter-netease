@@ -13,6 +13,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
   final UserModel? userInfo;
   final bool showBack;
   final num? totalNum;
+  final Color backGroundColor;
 
   HomeHeader({
     this.collapsedHeight,
@@ -21,6 +22,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
     this.child,
     this.title,
     this.userInfo,
+    this.backGroundColor = backColor,
     this.totalNum = 0,
     this.showBack = false,
   });
@@ -46,7 +48,20 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
       final int alpha = (shrinkOffset / verOffset * 255).clamp(0, 255).toInt();
       return Color.fromARGB(alpha, 255, 255, 255);
     } else {
-      return Colors.white;
+      return Colors.black;
+    }
+  }
+
+  Color logoColorCopy(shrinkOffset) {
+    print(shrinkOffset);
+    if (shrinkOffset == 0) {
+      return Colors.black;
+    }
+    if (shrinkOffset <= verOffset) {
+      final int alpha = (shrinkOffset / verOffset * 255).clamp(0, 255).toInt();
+      return Color.fromARGB(1 - alpha, 0, 0, 0);
+    } else {
+      return Colors.transparent;
     }
   }
 
@@ -70,10 +85,9 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
     }
 
     return Container(
-      decoration: BoxDecoration(color: backWhite),
+      decoration: BoxDecoration(color: backGroundColor),
       height: maxExtent,
       width: double.infinity,
-      //堆叠布局,和frame差不多,一层一层堆叠
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -166,6 +180,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Image.asset(
                         'assets/images/logo_and_text.png',
+                        color: logoColorCopy(shrinkOffset),
                       ),
                     ),
                     top: 0,
@@ -174,7 +189,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
                   Container(
                     width: 200,
                     height: 50,
-                    color: logoColor(shrinkOffset),
+                    // color: logoColor(shrinkOffset),
                   )
                 ],
               ),

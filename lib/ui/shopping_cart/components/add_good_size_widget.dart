@@ -630,7 +630,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
     } else {
       Map<String, dynamic> params = {
         "cnt": _goodCount,
-        "skuId": _skuMapItem!.id
+        "skuId": _skuMapItem!.id,
+        'source': _skuMapItem!.promId,
       };
       await addCart(params).then((value) {
         Toast.show('添加成功', context);

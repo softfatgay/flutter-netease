@@ -146,6 +146,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         _selectedNum = 0;
 
         ///获取选择的数量
+        _isCheckedAll = true;
         _itemList.forEach((element) {
           var cartItemList = element.cartItemList!;
           cartItemList.forEach((item) {
@@ -156,18 +157,35 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         });
 
         ///判断是否全选
+        _isCheckedAll = true;
         _itemList.forEach((element) {
           var cartItemList = element.cartItemList!;
           cartItemList.forEach((item) {
-            _isCheckedAll = true;
-            if (!item.checked!) {
-              _isCheckedAll = false;
-              return;
+            if (item.skuId == 300255035) {
+              print('===============${_itemCanCheck(item)}');
+            }
+            if (_itemCanCheck(item)) {
+              if (!item.checked!) {
+                _isCheckedAll = false;
+                return;
+              }
             }
           });
         });
       }
     });
+  }
+
+  _itemCanCheck(CartItemListItem item) {
+    if ((item.limitPurchaseFlag! && (item.limitPurchaseCount! < item.cnt!)) ||
+        item.preemptionStatus == 0 ||
+        item.sellVolume! < item.cnt! ||
+        item.sellVolume == 0 ||
+        item.id == 0 ||
+        item.type == 110) {
+      return false;
+    }
+    return true;
   }
 
   /// 购物车 全选/不选 网络请求
@@ -196,6 +214,35 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'extId': extId,
     };
     var responseData = await shoppingCartCheckOne(params);
+    setState(() {
+      _data = responseData.data;
+      setData(_data);
+    });
+  }
+
+  /// 购物车  分组选择或不选
+  _checkGroup(CarItem itemData) async {
+    setState(() {
+      _loading = true;
+    });
+    List skuList = [];
+    var carItem = itemData.cartItemList;
+    carItem!.forEach((element) {
+      Map<String, dynamic> params = {
+        'type': element.type,
+        'skuId': element.skuId,
+        'promId': itemData.promId,
+        'gift': false,
+        'addBuy': false,
+        'extId': element.extId,
+        'checked': !itemData.checked!
+      };
+      skuList.add(params);
+    });
+
+    Map<String, dynamic> params = {'skuList': skuList};
+    var responseData =
+        await batchUpdateCheck({'selectedSku': json.encode(params)});
     setState(() {
       _data = responseData.data;
       setData(_data);
@@ -509,6 +556,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       checkOne: (CarItem? itemData, num? source, num? type, num? skuId,
           bool? check, String? extId) {
         _checkOne(source!, type!, skuId!, check!, extId!);
+      },
+      checkGroup: (CarItem? itemData) {
+        _checkGroup(itemData!);
       },
       deleteCheckItem: (bool check, CarItem itemData, CartItemListItem item) {
         _deleteCheckItem(check, itemData, item);

@@ -18,6 +18,7 @@ CarItem _$CarItemFromJson(Map<String, dynamic> json) => CarItem()
   ..promSatisfy = json['promSatisfy'] as bool?
   ..checked = json['checked'] as bool?
   ..canCheck = json['canCheck'] as bool?
+  ..showCheck = json['showCheck'] as bool?
   ..promNotSatisfyType = json['promNotSatisfyType'] as num?
   ..promotionBtn = json['promotionBtn'] as num?
   ..allowCount = json['allowCount'] as int?
@@ -41,6 +42,7 @@ Map<String, dynamic> _$CarItemToJson(CarItem instance) => <String, dynamic>{
       'promSatisfy': instance.promSatisfy,
       'checked': instance.checked,
       'canCheck': instance.canCheck,
+      'showCheck': instance.showCheck,
       'promNotSatisfyType': instance.promNotSatisfyType,
       'promotionBtn': instance.promotionBtn,
       'allowCount': instance.allowCount,

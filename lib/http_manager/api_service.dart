@@ -188,6 +188,9 @@ final String SELECT_GIFT_SUBMIT = '${suffixUrl}xhr/cart/selectGift.json';
 ///购物清除失效商品https://m.you.163.com/xhr/cart/clearInvalidItem.json
 final String CLEAR_INVALID_ITEMS = '${suffixUrl}xhr/cart/clearInvalidItem.json';
 
+///购物车改变组是否选择状态
+final String BATCH_UPDATE_CHECK = '${suffixUrl}xhr/cart/batchUpdateCheck.json';
+
 ///check-cart
 final String CHECK_BEFORE_INIT = '${suffixUrl}xhr/order/checkBeforeInit.json';
 

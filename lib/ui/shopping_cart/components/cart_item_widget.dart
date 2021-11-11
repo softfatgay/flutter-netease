@@ -18,6 +18,7 @@ typedef void NumChange(
     num? source, num? type, num? skuId, num cnt, String? extId);
 typedef void CheckOne(CarItem itemData, num? source, num? type, num? skuId,
     bool check, String? extId);
+typedef void CheckGroup(CarItem itemData);
 
 typedef void DeleteCheckItem(
     bool check, CarItem itemData, CartItemListItem item);
@@ -35,6 +36,7 @@ class CartItemWidget extends StatelessWidget {
   final SkuClick skuClick;
   final NumChange numChange;
   final CheckOne checkOne;
+  final CheckGroup checkGroup;
   final GoRedeem goRedeem;
   final DeleteCheckItem deleteCheckItem;
   final List<CarItem> itemList;
@@ -46,6 +48,7 @@ class CartItemWidget extends StatelessWidget {
       required this.callBack,
       required this.numChange,
       required this.checkOne,
+      required this.checkGroup,
       required this.goRedeem,
       required this.deleteCheckItem,
       required this.itemList,
@@ -626,11 +629,9 @@ class CartItemWidget extends StatelessWidget {
         width: _checkBoxWidth,
         child: GestureDetector(
           onTap: () {
-            if (itemData.canCheck! || item.checked!) {
-              if (item.id != 0 && item.id != null) {
-                checkOne(itemData, item.source, item.type, item.skuId,
-                    !item.checked!, item.extId);
-              }
+            if (_canCheck(item)) {
+              checkOne(itemData, item.source, item.type, item.skuId,
+                  !item.checked!, item.extId);
             }
           },
           child: Container(
@@ -644,17 +645,17 @@ class CartItemWidget extends StatelessWidget {
 
   _checkBox(CarItem itemData, CartItemListItem item) {
     if (item.id == 0) {
-      return _checkGreyBox();
+      if (item.type == 110) {
+        return Container();
+      } else {
+        return _checkGreyBox();
+      }
     } else {
       if (item.checked!) {
         return _checkedBox();
       } else {
-        if (itemData.canCheck!) {
-          if (_canCheck(item)) {
-            return _canClickBox();
-          } else {
-            return _cantClickBox();
-          }
+        if (_canCheck(item)) {
+          return _canClickBox();
         } else {
           return _cantClickBox();
         }
@@ -666,7 +667,9 @@ class CartItemWidget extends StatelessWidget {
     if ((item.limitPurchaseFlag! && (item.limitPurchaseCount! < item.cnt!)) ||
         item.preemptionStatus == 0 ||
         item.sellVolume! < item.cnt! ||
-        item.sellVolume == 0) {
+        item.sellVolume == 0 ||
+        item.id == 0 ||
+        item.type == 110) {
       return false;
     }
     return true;
@@ -786,10 +789,19 @@ class CartItemWidget extends StatelessWidget {
         promType == 109) {
       return Container(
         color: backWhite,
-        padding: EdgeInsets.only(left: _checkBoxWidth, top: 10, right: 15),
+        padding: EdgeInsets.only(left: 0, top: 10, right: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            GestureDetector(
+              child: Container(
+                width: _checkBoxWidth,
+                child: _groupCheckBox(itemData),
+              ),
+              onTap: () {
+                _groupCheckClick(itemData);
+              },
+            ),
             Container(
               margin: EdgeInsets.only(right: 6),
               padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
@@ -834,6 +846,43 @@ class CartItemWidget extends StatelessWidget {
           ],
         ),
       );
+    }
+    return Container();
+  }
+
+  _groupCheckClick(CarItem itemData) {
+    if (isEdit) {
+    } else {
+      checkGroup(itemData);
+    }
+  }
+
+  _groupCheckBox(CarItem itemData) {
+    if (isEdit) {
+      // return Container(
+      //   width: _checkBoxWidth,
+      //   child: CartCheckBox(
+      //     canCheck: true,
+      //     onCheckChanged: (check) {
+      //       var cartItemList = itemData.cartItemList!;
+      //       cartItemList.forEach((element) {
+      //         deleteCheckItem(check, itemData, element);
+      //       });
+      //     },
+      //   ),
+      // );
+    } else {
+      if (itemData.showCheck!) {
+        if (itemData.canCheck!) {
+          if (itemData.checked!) {
+            return _checkedBox();
+          } else {
+            return _canClickBox();
+          }
+        } else {
+          return _cantClickBox();
+        }
+      }
     }
     return Container();
   }

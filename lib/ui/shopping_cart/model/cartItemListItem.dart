@@ -26,6 +26,8 @@ class CartItemListItem {
   String? extId;
   String? promTag;
   String? priceReductDesc;
+  // num? crmCartInfo;
+
   bool? valid;
   bool? checked;
 

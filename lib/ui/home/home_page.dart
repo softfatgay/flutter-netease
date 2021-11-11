@@ -83,6 +83,8 @@ class _HomeState extends State<HomePage>
 
   num? _totalNum = 0;
 
+  Color _backGroundColor = backWhite;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -171,7 +173,7 @@ class _HomeState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: _backGroundColor,
       floatingActionButton:
           floatingABRefresh(context, _animalController, _incrementCounter),
       body: _isLoading ? _loadingView() : _contentBody(),
@@ -182,9 +184,7 @@ class _HomeState extends State<HomePage>
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
-        SliverRefreshIndicator(
-          refresh: _getData,
-        ),
+        SliverRefreshIndicator(refresh: _getData),
         _appBar(),
 
         _buildSwiper(),
@@ -221,6 +221,7 @@ class _HomeState extends State<HomePage>
         showBack: false,
         title: '',
         totalNum: _totalNum,
+        backGroundColor: _backGroundColor,
         collapsedHeight: 50,
         expandedHeight: 100 + MediaQuery.of(context).padding.top,
         paddingTop: MediaQuery.of(context).padding.top,
