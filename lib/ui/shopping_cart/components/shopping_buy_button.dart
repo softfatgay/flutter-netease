@@ -13,24 +13,24 @@ typedef void EditDelete();
 
 class ShoppingBuyButton extends StatelessWidget {
   final bool isEdit;
-  final List checkList;
   final bool isCheckedAll;
   final CheckAll checkAll;
   final EditDelete editDelete;
   final int selectedNum;
+  final num editSelectedNum;
   final num price;
   final num promotionPrice;
 
   const ShoppingBuyButton({
     Key? key,
     required this.isEdit,
-    required this.checkList,
     required this.checkAll,
     required this.isCheckedAll,
     required this.selectedNum,
     required this.price,
     required this.promotionPrice,
     required this.editDelete,
+    required this.editSelectedNum,
   }) : super(key: key);
 
   @override
@@ -55,21 +55,21 @@ class ShoppingBuyButton extends StatelessWidget {
             Expanded(
               child: Container(
                 child: Text(
-                  '已选(${checkList.length})',
+                  '已选($editSelectedNum)',
                   style: t14grey,
                 ),
               ),
             ),
             GestureDetector(
               onTap: () {
-                if (checkList.length > 0) {
+                if (editSelectedNum > 0) {
                   editDelete();
                 }
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
                 alignment: Alignment.center,
-                color: checkList.length > 0 ? redColor : Color(0xFFB4B4B4),
+                color: editSelectedNum > 0 ? redColor : Color(0xFFB4B4B4),
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 height: double.infinity,
                 child: Text(

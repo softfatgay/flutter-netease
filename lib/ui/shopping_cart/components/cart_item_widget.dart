@@ -21,6 +21,9 @@ typedef void CheckGroup(CarItem itemData);
 typedef void DeleteCheckItem(
     CarItem itemData, CartItemListItem item, bool check);
 
+///编辑状态选择group
+typedef void DeleteCheckGroup(CarItem itemData, bool check);
+
 typedef void NumChange(CartItemListItem item, num cnt);
 
 typedef void GoRedeem(CarItem itemData);
@@ -40,6 +43,7 @@ class CartItemWidget extends StatelessWidget {
   final CheckGroup checkGroup;
   final GoRedeem goRedeem;
   final DeleteCheckItem deleteCheckItem;
+  final DeleteCheckGroup deleteCheckGroup;
   final List<CarItem> dataList;
   final bool isEdit;
   final TextEditingController controller;
@@ -53,6 +57,7 @@ class CartItemWidget extends StatelessWidget {
     required this.checkGroup,
     required this.goRedeem,
     required this.deleteCheckItem,
+    required this.deleteCheckGroup,
     required this.dataList,
     required this.isEdit,
     required this.controller,
@@ -96,9 +101,6 @@ class CartItemWidget extends StatelessWidget {
             }
             if (itemItemList.isNotEmpty) {
               itemItemList.forEach((element_2) {
-                /// TODO
-                // element_2.editChecked = false;
-
                 ///方便编辑添加check
                 if (element_2.checked!) {
                   hasCheck = true;
@@ -650,6 +652,7 @@ class CartItemWidget extends StatelessWidget {
         width: _checkBoxWidth,
         child: CartCheckBox(
           canCheck: true,
+          checked: item.editChecked ?? false,
           onCheckChanged: (check) {
             deleteCheckItem(itemData, item, check);
           },
@@ -914,18 +917,17 @@ class CartItemWidget extends StatelessWidget {
       return Container();
     }
     if (isEdit) {
-      // return Container(
-      //   width: _checkBoxWidth,
-      //   child: CartCheckBox(
-      //     canCheck: true,
-      //     onCheckChanged: (check) {
-      //       var cartItemList = itemData.cartItemList!;
-      //       cartItemList.forEach((element) {
-      //         deleteCheckItem(check, itemData, element);
-      //       });
-      //     },
-      //   ),
-      // );
+      return Container(
+        width: _checkBoxWidth,
+        child: CartCheckBox(
+          canCheck: true,
+          checked: itemData.editChecked ?? false,
+          onCheckChanged: (checked) {
+            ///group选择
+            deleteCheckGroup(itemData, checked);
+          },
+        ),
+      );
     } else {
       if (itemData.showCheck!) {
         if (itemData.canCheck!) {
