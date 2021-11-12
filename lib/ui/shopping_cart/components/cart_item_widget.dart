@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/my_vertical_text.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/timer_text.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -14,14 +15,14 @@ import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 
-typedef void NumChange(
-    num? source, num? type, num? skuId, num cnt, String? extId);
-typedef void CheckOne(CarItem itemData, num? source, num? type, num? skuId,
-    bool check, String? extId);
+typedef void CheckOne(CartItemListItem item);
 typedef void CheckGroup(CarItem itemData);
 
 typedef void DeleteCheckItem(
-    bool check, CarItem itemData, CartItemListItem item);
+    CarItem itemData, CartItemListItem item, bool check);
+
+typedef void NumChange(CartItemListItem item, num cnt);
+
 typedef void GoRedeem(CarItem itemData);
 typedef void SkuClick(CartItemListItem item);
 
@@ -39,23 +40,25 @@ class CartItemWidget extends StatelessWidget {
   final CheckGroup checkGroup;
   final GoRedeem goRedeem;
   final DeleteCheckItem deleteCheckItem;
-  final List<CarItem> itemList;
+  final List<CarItem> dataList;
   final bool isEdit;
   final TextEditingController controller;
+  final bool isInvalid;
 
-  const CartItemWidget(
-      {Key? key,
-      required this.callBack,
-      required this.numChange,
-      required this.checkOne,
-      required this.checkGroup,
-      required this.goRedeem,
-      required this.deleteCheckItem,
-      required this.itemList,
-      required this.isEdit,
-      required this.controller,
-      required this.skuClick})
-      : super(key: key);
+  const CartItemWidget({
+    Key? key,
+    required this.callBack,
+    required this.numChange,
+    required this.checkOne,
+    required this.checkGroup,
+    required this.goRedeem,
+    required this.deleteCheckItem,
+    required this.dataList,
+    required this.isEdit,
+    required this.controller,
+    required this.skuClick,
+    this.isInvalid = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,7 @@ class CartItemWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        CarItem itemData = itemList[index];
+        CarItem itemData = dataList[index];
         List<CartItemListItem> _itemList = [];
 
         ///TODO 102满赠,104换购,107满件减,108满额减,109满折(待补充),
@@ -117,20 +120,20 @@ class CartItemWidget extends StatelessWidget {
         itemItems.add(_giftStep(context, itemData, hasCheck));
 
         List<Widget> goodWidget = _itemList.map<Widget>((item) {
-          return _buildItem(context, itemData, item, index);
+          return _buildItem(context, _itemList, itemData, item, index);
         }).toList();
         itemItems.addAll(goodWidget);
         return Column(
           children: itemItems,
         );
       },
-      itemCount: itemList.length,
+      itemCount: dataList.length,
     );
   }
 
   /// 有效商品列表Item
-  _buildItem(BuildContext context, CarItem itemData, CartItemListItem item,
-      int index) {
+  _buildItem(BuildContext context, List<CartItemListItem> _itemList,
+      CarItem itemData, CartItemListItem item, int index) {
     List<String>? cartItemTips = item.cartItemTips;
     return Container(
       color: Colors.white,
@@ -330,7 +333,7 @@ class CartItemWidget extends StatelessWidget {
           ///图片
           _buildImageInfo(context, item),
 
-          _buildDes(item, context)
+          _buildDes(itemData, item, context)
         ],
       ),
     );
@@ -415,7 +418,21 @@ class CartItemWidget extends StatelessWidget {
     );
   }
 
-  _buildDes(CartItemListItem item, BuildContext context) {
+  _desPromTag(CarItem itemData, CartItemListItem item) {
+    String promTag = '';
+    switch (itemData.promType) {
+      case 4:
+      case 104:
+        promTag = '换购';
+        break;
+      case 102:
+        promTag = '满赠';
+        break;
+    }
+    return item.promTag ?? promTag;
+  }
+
+  _buildDes(CarItem itemData, CartItemListItem item, BuildContext context) {
     return Expanded(
       child: GestureDetector(
         child: Container(
@@ -428,19 +445,32 @@ class CartItemWidget extends StatelessWidget {
               if (!isEdit)
                 Container(
                   padding: EdgeInsets.only(left: 10),
-                  child: RichText(
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
-                      style: t14black,
-                      children: [
-                        TextSpan(
-                            text:
-                                '${item.promTag ?? (item.id == 0 ? '换购' : '')}',
-                            style: t14Yellow),
-                        TextSpan(text: '${item.itemName ?? ''}'),
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: RichText(
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            style: t14black,
+                            children: [
+                              TextSpan(
+                                text: '${_desPromTag(itemData, item)}',
+                                style: t14Yellow,
+                              ),
+                              TextSpan(text: '${item.itemName ?? ''}'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (isInvalid)
+                        Container(
+                          child: Text(
+                            'x${item.cnt}',
+                            style: t14lightGrey,
+                          ),
+                        )
+                    ],
                   ),
                 ),
               GestureDetector(
@@ -488,11 +518,9 @@ class CartItemWidget extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(
-                      child: Text(
-                        '¥${item.actualPrice}',
-                        style: t14blackBold,
-                      ),
+                    Text(
+                      '¥${item.actualPrice}',
+                      style: t14blackBold,
                     ),
                     Expanded(
                       child: Container(
@@ -509,23 +537,25 @@ class CartItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                      child: CartCount(
-                        number: item.cnt as int?,
-                        min: 1,
-                        max: item.id == 0 ? 1 : item.sellVolume as int?,
-                        onChange: (numValue) {
-                          numChange(item.source, item.type, item.skuId,
-                              numValue!, item.extId);
-                        },
-                        numClick: () {
-                          if (item.id != 0) {
-                            _showNumClickDialog(context, item);
-                          }
-                        },
-                      ),
-                    ),
+                    isInvalid
+                        ? Container(height: 30)
+                        : Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 3, vertical: 3),
+                            child: CartCount(
+                              number: item.cnt as int?,
+                              min: 1,
+                              max: item.id == 0 ? 1 : item.sellVolume as int?,
+                              onChange: (numValue) {
+                                numChange(item, numValue!);
+                              },
+                              numClick: () {
+                                if (item.id != 0) {
+                                  _showNumClickDialog(context, item);
+                                }
+                              },
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -580,8 +610,7 @@ class CartItemWidget extends StatelessWidget {
                         duration: 3);
                     return;
                   }
-                  numChange(item.source, item.type, item.skuId,
-                      num.parse(controller.text.toString()), item.extId);
+                  numChange(item, num.parse(controller.text.toString()));
                   Navigator.of(context).pop();
                   // item.cnt = int.parse(controller.text.toString());
                 }
@@ -618,7 +647,7 @@ class CartItemWidget extends StatelessWidget {
         child: CartCheckBox(
           canCheck: true,
           onCheckChanged: (check) {
-            deleteCheckItem(check, itemData, item);
+            deleteCheckItem(itemData, item, check);
           },
         ),
       );
@@ -630,12 +659,13 @@ class CartItemWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             if (_canCheck(item)) {
-              checkOne(itemData, item.source, item.type, item.skuId,
-                  !item.checked!, item.extId);
+              // checkOne(itemData, item.source, item.type, item.skuId,
+              //     !item.checked!, item.extId);
+              checkOne(item);
             }
           },
           child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(8),
               color: Colors.transparent,
               child: _checkBox(itemData, item)),
         ),
@@ -644,6 +674,24 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _checkBox(CarItem itemData, CartItemListItem item) {
+    if (isInvalid) {
+      return item.sellVolume == 0
+          ? Container(
+              width: _checkBoxWidth,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xFFB4B4B4),
+                    borderRadius: BorderRadius.circular(2)),
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 2),
+                child: VerticalText(
+                  "售罄",
+                  style: TextStyle(height: 1, color: textWhite, fontSize: 12),
+                ),
+              ),
+            )
+          : Container();
+    }
     if (item.id == 0) {
       if (item.type == 110) {
         return Container();
@@ -858,6 +906,9 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _groupCheckBox(CarItem itemData) {
+    if (isInvalid) {
+      return Container();
+    }
     if (isEdit) {
       // return Container(
       //   width: _checkBoxWidth,

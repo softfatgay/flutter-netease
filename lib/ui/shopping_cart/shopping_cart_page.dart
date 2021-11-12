@@ -19,7 +19,6 @@ import 'package:flutter_app/ui/shopping_cart/components/add_good_size_widget.dar
 import 'package:flutter_app/ui/shopping_cart/components/cart_item_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_navbar_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/empty_cart_widget.dart';
-import 'package:flutter_app/ui/shopping_cart/components/invalid_cart_item_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/shoppingCartModel.dart';
@@ -58,7 +57,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   bool _loading = false; // 是否正在加载
   int _selectedNum = 0; // 选中商品数量
 
-  bool isEdit = false; // 是否正在编辑
+  bool _isEdit = false; // 是否正在编辑
 
   bool _isLogin = true;
   List _checkList = [];
@@ -202,16 +201,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 购物车  某个勾选框 选/不选 请求
-  _checkOne(num source, num type, num skuId, bool isChecked, var extId) async {
+  _checkOne(CartItemListItem item) async {
     setState(() {
       _loading = true;
     });
     Map<String, dynamic> params = {
-      'source': source,
-      'type': type,
-      'skuId': skuId,
-      'isChecked': isChecked,
-      'extId': extId,
+      'source': item.source,
+      'type': item.type,
+      'skuId': item.skuId,
+      'isChecked': !item.checked!,
+      'extId': item.extId,
     };
     var responseData = await shoppingCartCheckOne(params);
     setState(() {
@@ -250,16 +249,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 购物车  商品 选购数量变化 请求
-  _checkOneNum(num source, num type, num skuId, num cnt, var extId) async {
+  _checkOneNum(CartItemListItem item, num cnt) async {
     setState(() {
       _loading = true;
     });
     Map<String, dynamic> params = {
-      'source': source,
-      'type': type,
-      'skuId': skuId,
+      'source': item.source,
+      'type': item.type,
+      'skuId': item.skuId,
       'cnt': cnt,
-      'extId': extId,
+      'extId': item.extId,
     };
     var responseData = await shoppingCartCheckNum(params);
     if (responseData.code == '200') {
@@ -282,7 +281,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 编辑状态 删除
-  void _deleteCheckItem(bool check, CarItem itemData, CartItemListItem item) {
+  void _deleteCheckItem(CarItem itemData, CartItemListItem item, bool check) {
     if (check) {
       var map = {
         "type": item.type,
@@ -316,7 +315,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
       setState(() {
-        isEdit = false;
+        _isEdit = false;
       });
       _data = responseData.data;
       setData(_data);
@@ -435,11 +434,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         shadowColor: backColor,
         title: CartNavBarWidget(
           canBack: widget.params != null,
-          isEdit: isEdit,
+          isEdit: _isEdit,
           editPress: () {
             setState(() {
               _checkList.clear();
-              isEdit = !isEdit;
+              _isEdit = !_isEdit;
             });
           },
         ),
@@ -494,6 +493,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                   if (_topItem != null) singleSliverWidget(_buildTitle()),
                   singleSliverWidget(_dataList()),
                   singleSliverWidget(Container(height: 10)),
+                  singleSliverWidget(_invalidTitle()),
                   singleSliverWidget(_invalidList()),
                   singleSliverWidget(Container(height: 10)),
                 ],
@@ -504,6 +504,44 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       left: 0,
       right: 0,
     );
+  }
+
+  _invalidTitle() {
+    if (_invalidCartGroupList.isNotEmpty) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(bottom: BorderSide(color: lineColor, width: 0.3))),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                '失效商品',
+                style: t16black,
+              ),
+            ),
+            GestureDetector(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                decoration: BoxDecoration(
+                  border: Border.all(color: textBlack, width: 0.5),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: Text(
+                  '清除失效商品',
+                  style: t13black,
+                ),
+              ),
+              onTap: () {
+                _showClearInvalidDialog();
+              },
+            )
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 
   /// 导航下面，商品上面  标题部分
@@ -553,18 +591,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   _dataList() {
     return CartItemWidget(
       controller: _controller,
-      checkOne: (CarItem? itemData, num? source, num? type, num? skuId,
-          bool? check, String? extId) {
-        _checkOne(source!, type!, skuId!, check!, extId!);
+      checkOne: (CartItemListItem item) {
+        _checkOne(item);
       },
       checkGroup: (CarItem? itemData) {
         _checkGroup(itemData!);
       },
-      deleteCheckItem: (bool check, CarItem itemData, CartItemListItem item) {
-        _deleteCheckItem(check, itemData, item);
+      deleteCheckItem: (CarItem itemData, CartItemListItem item, bool check) {
+        _deleteCheckItem(itemData, item, check);
       },
-      numChange: (num? source, num? type, num? skuId, num? cnt, String? extId) {
-        _checkOneNum(source!, type!, skuId!, cnt!, extId);
+      numChange: (CartItemListItem item, num? cnt) {
+        _checkOneNum(item, cnt!);
       },
       goRedeem: (CarItem itemData) {
         Routers.push(Routers.getCarsPage, context,
@@ -575,8 +612,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       skuClick: (CartItemListItem item) {
         _getSkuClickGood(item);
       },
-      isEdit: isEdit,
-      itemList: _itemList,
+      isEdit: _isEdit,
+      dataList: _itemList,
       callBack: () {
         _getData();
       },
@@ -623,10 +660,34 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   // 无效商品列表
   _invalidList() {
-    return InvalidCartItemWidget(
-      invalidCartGroupList: _invalidCartGroupList,
-      clearInvalid: () {
-        _showClearInvalidDialog();
+    return CartItemWidget(
+      controller: _controller,
+      checkOne: (CartItemListItem item) {
+        _checkOne(item);
+      },
+      checkGroup: (CarItem? itemData) {
+        _checkGroup(itemData!);
+      },
+      deleteCheckItem: (CarItem itemData, CartItemListItem item, bool check) {
+        _deleteCheckItem(itemData, item, check);
+      },
+      numChange: (CartItemListItem item, num? cnt) {
+        _checkOneNum(item, cnt!);
+      },
+      goRedeem: (CarItem itemData) {
+        Routers.push(Routers.getCarsPage, context,
+            {'data': itemData, 'promType': itemData.promType}, (value) {
+          _getData();
+        });
+      },
+      skuClick: (CartItemListItem item) {
+        _getSkuClickGood(item);
+      },
+      isEdit: _isEdit,
+      dataList: _invalidCartGroupList,
+      isInvalid: true,
+      callBack: () {
+        _getData();
       },
     );
   }
@@ -634,7 +695,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   /// 底部 商品勾选状态、价格信息、下单 部分
   _buildBuy() {
     ///编辑状态
-    if (isEdit) {
+    if (_isEdit) {
       return Container(
         decoration: BoxDecoration(
             color: Colors.white,

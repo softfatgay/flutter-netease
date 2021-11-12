@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/net_image.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -142,7 +143,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                       top: Radius.circular(5.0),
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +158,6 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                               top: Radius.circular(5.0),
                             ),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,16 +271,18 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         ? goodDetail.primaryPicUrl
         : _skuMapItem!.pic;
     return Container(
+      padding: EdgeInsets.only(top: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           GestureDetector(
-            child: NetImage(
-              imageUrl: img,
+            child: RoundNetImage(
+              url: img,
               fit: BoxFit.cover,
-              height: 100,
-              width: 100,
+              height: 90,
+              width: 90,
               fontSize: 14,
+              backColor: backColor,
             ),
             onTap: () {
               Routers.push(Routers.image, context, {
@@ -298,7 +300,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
               children: <Widget>[
                 if (_skuMapItem != null &&
                     _skuMapItem!.promotionDesc != null &&
-                    _skuMapItem!.promotionDesc != '')
+                    _skuMapItem!.promotionDesc!.isNotEmpty)
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
@@ -306,7 +308,8 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                         color: Color(0xFFEF7C15)),
                     child: Text(
                       '${_skuMapItem!.promotionDesc ?? ''}',
-                      style: t12white,
+                      style: TextStyle(
+                          fontSize: 12, color: textWhite, height: 1.1),
                     ),
                   ),
                 Container(

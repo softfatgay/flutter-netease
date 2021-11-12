@@ -82,9 +82,9 @@ class GoodItemAddCartWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(1),
                     ),
                     margin: EdgeInsets.only(top: 5, left: 5),
-                    child: MyVerticalText(
+                    child: VerticalText(
                       '${item.colorNum}色可选',
-                      TextStyle(color: Color(0xFFA28C63), fontSize: 10),
+                      style: TextStyle(color: Color(0xFFA28C63), fontSize: 10),
                     ),
                   ),
                 if (item.promDesc != null)

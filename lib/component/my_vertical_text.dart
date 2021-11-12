@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/constant/fonts.dart';
 
-class MyVerticalText extends StatelessWidget {
+class VerticalText extends StatelessWidget {
   final String text;
-  final TextStyle textStyle;
+  final TextStyle style;
 
-  const MyVerticalText(this.text, this.textStyle);
+  const VerticalText(this.text, {this.style = t14black});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class MyVerticalText extends StatelessWidget {
           .map((e) => Container(
                 child: Text(
                   e,
-                  style: textStyle,
+                  style: style,
                 ),
               ))
           .toList(),
