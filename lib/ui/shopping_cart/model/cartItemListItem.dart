@@ -30,6 +30,7 @@ class CartItemListItem {
 
   bool? valid;
   bool? checked;
+  bool? editChecked;
 
   ///限购
   bool? limitPurchaseFlag;

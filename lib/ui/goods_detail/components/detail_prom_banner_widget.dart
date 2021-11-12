@@ -107,7 +107,7 @@ class DetailPromBannerWidget extends StatelessWidget {
       height: 10,
       width: 1,
       color: backWhite,
-      margin: EdgeInsets.symmetric(horizontal: 5),
+      margin: EdgeInsets.only(left: 5, right: 5, top: 2),
     );
 
     var cntDay = Expanded(

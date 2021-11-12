@@ -96,6 +96,10 @@ class CartItemWidget extends StatelessWidget {
             }
             if (itemItemList.isNotEmpty) {
               itemItemList.forEach((element_2) {
+                /// TODO
+                // element_2.editChecked = false;
+
+                ///方便编辑添加check
                 if (element_2.checked!) {
                   hasCheck = true;
                   _itemList.add(element_2);

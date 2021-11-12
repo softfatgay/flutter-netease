@@ -17,6 +17,7 @@ class CarItem {
   bool? checked;
   bool? canCheck;
   bool? showCheck;
+  bool? editChecked;
   num? promNotSatisfyType;
   num? promotionBtn;
   int? allowCount;

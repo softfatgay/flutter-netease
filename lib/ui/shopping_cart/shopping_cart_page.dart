@@ -19,6 +19,7 @@ import 'package:flutter_app/ui/shopping_cart/components/add_good_size_widget.dar
 import 'package:flutter_app/ui/shopping_cart/components/cart_item_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_navbar_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/empty_cart_widget.dart';
+import 'package:flutter_app/ui/shopping_cart/components/shopping_buy_button.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/shoppingCartModel.dart';
@@ -27,6 +28,8 @@ import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/toast.dart';
 
 import 'model/postageVO.dart';
+
+const double _checkBoxWidth = 40.0;
 
 class ShoppingCartPage extends StatefulWidget {
   final Map? params;
@@ -45,11 +48,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   List<CarItem> _cartGroupList = []; // 有效的购物车组列表
   ///包邮条件
   PostageVO? _postageVO;
-  CarItem? _topItem; // 顶部商品数据
-  List<CarItem> _itemList = []; // 显示的商品数据
   List<CarItem> _invalidCartGroupList = []; // 无效的购物车组列表
-  double _price = 0; // 价格
-  double _promotionPrice = 0; // 促销价
+  num _price = 0; // 价格
+  num _promotionPrice = 0; // 促销价
 
   bool isChecked = false; // 是否全部勾选选中
   bool _isCheckedAll = false; // 是否全部勾选选中
@@ -126,7 +127,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     if (_data == null) {
       _getData();
     }
-
     var shoppingCartModel = ShoppingCartModel.fromJson(_data);
     setState(() {
       _loading = false;
@@ -135,43 +135,36 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       _postageVO = shoppingCartModel.postageVO;
 
       _invalidCartGroupList = shoppingCartModel.invalidCartGroupList ?? [];
-      _price = double.parse(shoppingCartModel.actualPrice.toString());
-      _promotionPrice =
-          double.parse(shoppingCartModel.promotionPrice.toString());
+      _price = shoppingCartModel.actualPrice ?? 0;
+      _promotionPrice = shoppingCartModel.promotionPrice ?? 0;
+    });
+    if (_cartGroupList.length > 0) {
+      _setCheckedNum(_cartGroupList);
+    }
+  }
 
-      if (_cartGroupList.length > 0) {
-        _topItem = _cartGroupList[0];
-        _itemList = _cartGroupList;
-        _selectedNum = 0;
+  _setCheckedNum(List<CarItem> cartGroupList) {
+    ///获取选择的数量
+    int selectedNum = 0;
 
-        ///获取选择的数量
-        _isCheckedAll = true;
-        _itemList.forEach((element) {
-          var cartItemList = element.cartItemList!;
-          cartItemList.forEach((item) {
-            if (item.checked!) {
-              _selectedNum += item.cnt as int;
-            }
-          });
-        });
-
-        ///判断是否全选
-        _isCheckedAll = true;
-        _itemList.forEach((element) {
-          var cartItemList = element.cartItemList!;
-          cartItemList.forEach((item) {
-            if (item.skuId == 300255035) {
-              print('===============${_itemCanCheck(item)}');
-            }
-            if (_itemCanCheck(item)) {
-              if (!item.checked!) {
-                _isCheckedAll = false;
-                return;
-              }
-            }
-          });
-        });
-      }
+    ///判断是否全选
+    bool isCheckedAll = true;
+    _cartGroupList.forEach((element) {
+      var cartItemList = element.cartItemList!;
+      cartItemList.forEach((item) {
+        if (item.checked!) {
+          selectedNum += item.cnt as int;
+        }
+        if (_itemCanCheck(item)) {
+          if (!item.checked!) {
+            isCheckedAll = false;
+          }
+        }
+      });
+    });
+    setState(() {
+      _selectedNum = selectedNum;
+      _isCheckedAll = isCheckedAll;
     });
   }
 
@@ -188,11 +181,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 购物车 全选/不选 网络请求
-  _check() async {
+  _checkAllOrNot() async {
     setState(() {
       _loading = true;
     });
-    Map<String, dynamic> params = {'isChecked': isChecked};
+    Map<String, dynamic> params = {'isChecked': _isCheckedAll};
     var responseData = await shoppingCartCheck(params);
     setState(() {
       _data = responseData.data;
@@ -439,6 +432,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
             setState(() {
               _checkList.clear();
               _isEdit = !_isEdit;
+              if (_isEdit) {
+                // _setEditChecked();
+              }
             });
           },
         ),
@@ -456,6 +452,19 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         ],
       ),
     );
+  }
+
+  /// 点击编辑的时候,重置所有编辑选择状态
+  _setEditChecked() {
+    setState(() {
+      _cartGroupList.forEach((element) {
+        element.editChecked = false;
+        var cartItemList = element.cartItemList ?? [];
+        cartItemList.forEach((element) {
+          element.editChecked = false;
+        });
+      });
+    });
   }
 
   Container _pageLoading() {
@@ -482,27 +491,22 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   _buildData(BuildContext context) {
     return Positioned(
-      child: (_data == null || _cartGroupList.isEmpty)
-          ? EmptyCartWidget()
-          : MediaQuery.removePadding(
-              removeTop: true,
-              removeBottom: true,
-              context: context,
-              child: CustomScrollView(
-                slivers: [
-                  if (_topItem != null) singleSliverWidget(_buildTitle()),
-                  singleSliverWidget(_dataList()),
-                  singleSliverWidget(Container(height: 10)),
-                  singleSliverWidget(_invalidTitle()),
-                  singleSliverWidget(_invalidList()),
-                  singleSliverWidget(Container(height: 10)),
-                ],
-              ),
-            ),
       bottom: 36,
       top: 0,
       left: 0,
       right: 0,
+      child: _cartGroupList.isEmpty
+          ? EmptyCartWidget()
+          : CustomScrollView(
+              slivers: [
+                singleSliverWidget(_buildTitle()),
+                singleSliverWidget(_dataList()),
+                singleSliverWidget(Container(height: 10)),
+                singleSliverWidget(_invalidTitle()),
+                singleSliverWidget(_invalidList()),
+                singleSliverWidget(Container(height: 10)),
+              ],
+            ),
     );
   }
 
@@ -613,7 +617,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         _getSkuClickGood(item);
       },
       isEdit: _isEdit,
-      dataList: _itemList,
+      dataList: _cartGroupList,
       callBack: () {
         _getData();
       },
@@ -694,146 +698,24 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   /// 底部 商品勾选状态、价格信息、下单 部分
   _buildBuy() {
-    ///编辑状态
-    if (_isEdit) {
-      return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(top: BorderSide(color: backColor, width: 0.5))),
-        height: 46,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 15),
-                child: Text(
-                  '已选(${_checkList.length})',
-                  style: t14grey,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                if (_checkList.length > 0) {
-                  _deleteCart();
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 10),
-                alignment: Alignment.center,
-                color: _checkList.length > 0 ? redColor : Color(0xFFB4B4B4),
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                height: double.infinity,
-                child: Text(
-                  '删除所选',
-                  style: t14white,
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    } else {
-      ///正常状态
-      return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(top: BorderSide(color: backColor, width: 0.5))),
-        height: 46,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    // _isCheckedAll = !_isCheckedAll;
-                    isChecked = !isChecked;
-                    _check();
-                  });
-                },
-                child: Container(
-                  child: Padding(
-                    padding: EdgeInsets.all(2),
-                    child: _isCheckedAll
-                        ? Icon(
-                            Icons.check_circle,
-                            size: 22,
-                            color: Colors.red,
-                          )
-                        : Icon(
-                            Icons.brightness_1_outlined,
-                            size: 22,
-                            color: lineColor,
-                          ),
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              child: Container(
-                margin: EdgeInsets.only(bottom: 3),
-                child: Text(
-                  '已选($_selectedNum)',
-                  style: t14grey,
-                ),
-              ),
-              onTap: () {
-                setState(() {
-                  // _isCheckedAll = !_isCheckedAll;
-                  isChecked = !isChecked;
-                  _check();
-                });
-              },
-            ),
-            Expanded(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      child: Text(
-                        '合计：¥${_getPrice()}',
-                        style: TextStyle(
-                            color: textRed, fontSize: 14, height: 1.1),
-                      ),
-                    ),
-                    if (_promotionPrice != 0)
-                      Container(
-                        child: Text(
-                          '已优惠：¥$_promotionPrice',
-                          style: TextStyle(
-                              color: textGrey, fontSize: 12, height: 1.1),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              child: Container(
-                margin: EdgeInsets.only(left: 10),
-                alignment: Alignment.center,
-                color: _getPrice() > 0 ? redColor : Color(0xFFB4B4B4),
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                height: double.infinity,
-                child: Text(
-                  '下单',
-                  style: t14white,
-                ),
-              ),
-              onTap: () {
-                Toast.show('暂未开发', context);
-                // _goPay();
-              },
-            )
-          ],
-        ),
-      );
-    }
+    return ShoppingBuyButton(
+      price: _price,
+      promotionPrice: _promotionPrice,
+      checkList: _checkList,
+      isCheckedAll: _isCheckedAll,
+      isEdit: _isEdit,
+      selectedNum: _selectedNum,
+      checkAll: (bool) {
+        setState(() {
+          _isCheckedAll = !_isCheckedAll;
+          _checkAllOrNot();
+        });
+      },
+      editDelete: () {
+        ///删除所选
+        _deleteCart();
+      },
+    );
   }
 
   // 分割线

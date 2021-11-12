@@ -284,7 +284,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _checkLogin(int type) async {
     var responseData = await checkLogin();
     var isLogin = responseData.data;
-    if (isLogin) {
+    if (isLogin != null && isLogin) {
       _getAddressList(type);
     }
   }
