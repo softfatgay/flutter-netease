@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/check_box.dart';
+import 'package:flutter_app/component/check_box_width.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/utils/toast.dart';
@@ -7,6 +9,7 @@ const double _checkBoxWidth = 40.0;
 
 ///全选不选
 typedef void CheckAll(bool checked);
+typedef void EditCheckAll(bool checked);
 
 ///删除编辑状态选中
 typedef void EditDelete();
@@ -14,9 +17,11 @@ typedef void EditDelete();
 class ShoppingBuyButton extends StatelessWidget {
   final bool isEdit;
   final bool isCheckedAll;
+  final bool isEditCheckedAll;
   final CheckAll checkAll;
+  final EditCheckAll editCheckAll;
   final EditDelete editDelete;
-  final int selectedNum;
+  final num selectedNum;
   final num editSelectedNum;
   final num price;
   final num promotionPrice;
@@ -25,7 +30,9 @@ class ShoppingBuyButton extends StatelessWidget {
     Key? key,
     required this.isEdit,
     required this.checkAll,
+    required this.editCheckAll,
     required this.isCheckedAll,
+    required this.isEditCheckedAll,
     required this.selectedNum,
     required this.price,
     required this.promotionPrice,
@@ -51,6 +58,12 @@ class ShoppingBuyButton extends StatelessWidget {
           children: [
             Container(
               width: _checkBoxWidth,
+              child: MCheckBoxWidth(
+                onPress: () {
+                  editCheckAll(isEditCheckedAll);
+                },
+                check: isEditCheckedAll,
+              ),
             ),
             Expanded(
               child: Container(
@@ -93,26 +106,11 @@ class ShoppingBuyButton extends StatelessWidget {
           children: [
             Container(
               width: _checkBoxWidth,
-              child: InkWell(
-                onTap: () {
+              child: MCheckBoxWidth(
+                onPress: () {
                   checkAll(isCheckedAll);
                 },
-                child: Container(
-                  child: Padding(
-                    padding: EdgeInsets.all(2),
-                    child: isCheckedAll
-                        ? Icon(
-                            Icons.check_circle,
-                            size: 22,
-                            color: Colors.red,
-                          )
-                        : Icon(
-                            Icons.brightness_1_outlined,
-                            size: 22,
-                            color: lineColor,
-                          ),
-                  ),
-                ),
+                check: isCheckedAll,
               ),
             ),
             GestureDetector(

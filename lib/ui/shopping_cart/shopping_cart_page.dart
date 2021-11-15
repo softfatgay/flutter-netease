@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/component/back_loading.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/component/service_tag_widget.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -20,13 +18,13 @@ import 'package:flutter_app/ui/shopping_cart/components/cart_item_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_navbar_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/empty_cart_widget.dart';
 import 'package:flutter_app/ui/shopping_cart/components/shopping_buy_button.dart';
+import 'package:flutter_app/ui/shopping_cart/components/shopping_cart_page_top_tips.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/ui/shopping_cart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
-import 'package:flutter_app/utils/toast.dart';
 
 import 'model/postageVO.dart';
 
@@ -51,9 +49,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   num _price = 0; // 价格
   num _promotionPrice = 0; // 促销价
   bool _isCheckedAll = false; // 是否全部勾选选中
+  bool _isEditCheckedAll = false; // 是否全部勾选选中
 
   bool _loading = false; // 是否正在加载
-  int _selectedNum = 0; // 选中商品数量
+  num _selectedNum = 0; // 选中商品数量
 
   bool _isEdit = false; // 是否正在编辑
 
@@ -65,9 +64,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  /*
-  *   初始化
-  * */
   @override
   void initState() {
     // TODO: implement initState
@@ -75,7 +71,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     _checkLogin();
     HosEventBusUtils.on((dynamic event) {
       if (event == REFRESH_CART) {
-        print('-------------------------------------------------------');
         _checkLogin();
       }
     });
@@ -132,6 +127,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       _postageVO = shoppingCartModel.postageVO;
 
       _invalidCartGroupList = shoppingCartModel.invalidCartGroupList ?? [];
+
       _price = shoppingCartModel.actualPrice ?? 0;
       _promotionPrice = shoppingCartModel.promotionPrice ?? 0;
     });
@@ -145,7 +141,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   _setCheckedNum() {
     ///获取选择的数量
-    int selectedNum = 0;
+    num selectedNum = 0;
 
     ///判断是否全选
     bool isCheckedAll = true;
@@ -264,11 +260,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       setState(() {
         _loading = false;
       });
-      Toast.show('msg', context);
     }
   }
 
-  // 购物车编辑删除
+  /// 购物车编辑删除
   void _deleteCart() async {
     List checkedList = [];
     _cartGroupList.forEach((element) {
@@ -316,8 +311,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     }
   }
 
-  ///清除无效商品 type-0清除无效商品弹窗，1删除购物车所选商品弹窗，
-  _showClearInvalidDialog(int type) {
+  ///清除无效商品/删除所选商品 type-0清除无效商品弹窗，1删除购物车所选商品弹窗，
+  _showDeleteDialog(int type) {
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -384,10 +379,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'skuList': invalidSku,
     };
     Map<String, dynamic> param = {'invalidSku': convert.jsonEncode(map)};
-    print(param);
     var response = await clearInvalidItem(param);
-    if (response.data != null) {
-      _getData();
+    if (response.code == '200') {
+      setState(() {
+        _invalidCartGroupList = [];
+      });
       refreshCartNum();
     }
   }
@@ -451,43 +447,53 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
             left: 0,
             right: 0,
           ),
-          _loading ? _pageLoading() : Container(),
+          if (_loading) _pageLoading(),
         ],
       ),
     );
   }
 
-  ///重置编辑选中状态
+  ///点击编辑，重置选中状态全部不选中
   _setEditCheckedDft() {
     setState(() {
+      _isEditCheckedAll = false;
+
+      ///设置有效商品全不选
       _cartGroupList.forEach((element) {
         element.editChecked = false;
-        setItemEditChecked(element, false);
+        _setItemEditChecked(element, false);
+      });
+
+      ///设置无效商品全不选
+      _invalidCartGroupList.forEach((element) {
+        element.editChecked = false;
+        _setItemEditChecked(element, false);
       });
     });
   }
 
-  void setItemEditChecked(CarItem itemData, bool editChecked) {
+  ///设置条目选中状态
+  void _setItemEditChecked(CarItem itemData, bool editChecked) {
     var getGroupItemList = _getGroupItemList(itemData);
     for (var item in getGroupItemList) {
       item.editChecked = editChecked;
     }
   }
 
-  /// 点击group复选框
+  /// （编辑状态下）点击group复选框
   _setEditGroupChecked(CarItem itemData, bool checked) {
     /// TODO 关联编辑选中状态 （CartItemWidget中）
     setState(() {
       _cartGroupList.forEach((element) {
         if (element.promId == itemData.promId) {
           element.editChecked = checked;
-          setItemEditChecked(element, checked);
+          _setItemEditChecked(element, checked);
         }
       });
     });
   }
 
-  ///编辑状态单选某个商品
+  ///（编辑状态下）编辑状态单选某个商品
   _setEditItemChecked(CarItem itemData, CartItemListItem item, bool checked) {
     setState(() {
       _cartGroupList.forEach((element) {
@@ -502,6 +508,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       });
     });
 
+    ///判断group复选框是否全选
     setState(() {
       _cartGroupList.forEach((element) {
         bool isItemDataChecked = true;
@@ -516,8 +523,37 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         element.editChecked = isItemDataChecked;
       });
     });
+
+    ///判断全选按钮是否全选
+    setState(() {});
   }
 
+  ///编辑状态下全选/全不选
+  _setEditCheckAll() {
+    setState(() {
+      ///设置有效商品全不选
+      _cartGroupList.forEach((element) {
+        element.editChecked = _isEditCheckedAll;
+        _setItemEditChecked(element, _isEditCheckedAll);
+      });
+
+      ///设置无效商品全不选
+      _invalidCartGroupList.forEach((element) {
+        element.editChecked = _isEditCheckedAll;
+        _setItemEditChecked(element, _isEditCheckedAll);
+      });
+    });
+  }
+
+  _getInvalidItemList() {
+    List<CartItemListItem> itemList = [];
+    _invalidCartGroupList.forEach((element) {
+      itemList.addAll(element.cartItemList ?? []);
+    });
+    return itemList;
+  }
+
+  ///获取购物车有效展示条目（LIST）
   _getGroupItemList(CarItem itemData) {
     List<CartItemListItem> itemList = [];
     var cartItemList = itemData.cartItemList ?? [];
@@ -557,7 +593,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     return itemList;
   }
 
-  Container _pageLoading() {
+  _pageLoading() {
     return Container(
       color: Colors.transparent,
       child: Loading(),
@@ -589,7 +625,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
           ? EmptyCartWidget()
           : CustomScrollView(
               slivers: [
-                singleSliverWidget(_buildTitle()),
+                singleSliverWidget(_buildTopTips()),
                 singleSliverWidget(_dataList()),
                 singleSliverWidget(Container(height: 10)),
                 singleSliverWidget(_invalidTitle()),
@@ -628,7 +664,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
                 ),
               ),
               onTap: () {
-                _showClearInvalidDialog(0);
+                _showDeleteDialog(0);
               },
             )
           ],
@@ -639,46 +675,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   /// 导航下面，商品上面  标题部分
-  _buildTitle() {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _shoppingCartModel.postageVO!.postageTip == null
-              ? ServerTagWidget()
-              : GestureDetector(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    color: Color(0xFFFFF6E5),
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    height: 40,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '${_postageVO == null ? '' : _postageVO!.postageTip ?? ''}',
-                            style: t14Orange,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (!_postageVO!.postFree!) arrowRightIcon
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    if (!_postageVO!.postFree!) {
-                      Routers.push(Routers.cartItemPoolPage, context, {},
-                          (value) {
-                        _getData();
-                      });
-                    }
-                  },
-                ),
-        ],
-      ),
-    );
+  _buildTopTips() {
+    return TopTipsWidget(
+        postageVO: _postageVO,
+        callBack: () {
+          _getData();
+        });
   }
 
   /// 有效商品列表
@@ -803,30 +805,41 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       price: _price,
       promotionPrice: _promotionPrice,
       isCheckedAll: _isCheckedAll,
+      isEditCheckedAll: _getEditSelectedNum()[2],
       isEdit: _isEdit,
       selectedNum: _selectedNum,
-      editSelectedNum: _getEditSelectedNum(),
+      editSelectedNum: _getEditSelectedNum()[1],
       checkAll: (bool) {
         setState(() {
           _isCheckedAll = !_isCheckedAll;
           _checkAllOrNot();
         });
       },
+      editCheckAll: (bool) {
+        setState(() {
+          _isEditCheckedAll = !_isEditCheckedAll;
+          _setEditCheckAll();
+        });
+      },
       editDelete: () {
         ///删除所选
-        _showClearInvalidDialog(1);
+        _showDeleteDialog(1);
       },
     );
   }
 
+  ///获取编辑状态下选择数量，购物车数量
   _getEditSelectedNum() {
     num selectNum = 0;
+    num allCartNum = 0;
+    bool isEditSelectedAll = false;
     _cartGroupList.forEach((element) {
       List<CartItemListItem> getGroupItemList = _getGroupItemList(element);
       for (var item in getGroupItemList) {
         if (item.editChecked ?? false) {
           selectNum += item.cnt ?? 0;
         }
+        allCartNum += item.cnt ?? 0;
       }
     });
 
@@ -836,9 +849,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         if (item.editChecked ?? false) {
           selectNum += item.cnt ?? 0;
         }
+        allCartNum += item.cnt ?? 0;
       }
     });
-    return selectNum;
+    if (selectNum == allCartNum) {
+      isEditSelectedAll = true;
+    }
+    return [allCartNum, selectNum, isEditSelectedAll];
   }
 
   // 分割线

@@ -6,12 +6,12 @@ import 'package:flutter_app/constant/fonts.dart';
 typedef void OnCheckChanged(bool check);
 typedef void OnPress();
 
-class MCheckBox extends StatelessWidget {
+class MCheckBoxWidth extends StatelessWidget {
   final OnPress onPress;
   final bool check;
   final String? suffixText;
 
-  const MCheckBox(
+  const MCheckBoxWidth(
       {Key? key,
       required this.onPress,
       required this.check,
@@ -25,6 +25,7 @@ class MCheckBox extends StatelessWidget {
         onPress();
       },
       child: Container(
+        width: double.infinity,
         color: Colors.transparent,
         padding: EdgeInsets.symmetric(vertical: 5),
         child: Row(
