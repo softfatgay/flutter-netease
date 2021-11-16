@@ -495,8 +495,22 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   ///（编辑状态下）编辑状态单选某个商品
   _setEditItemChecked(CarItem itemData, CartItemListItem item, bool checked) {
+    print(checked);
+    print(item.skuId);
+
     setState(() {
       _cartGroupList.forEach((element) {
+        List<CartItemListItem> getGroupItemList = _getGroupItemList(element);
+
+        for (var element_2 in getGroupItemList) {
+          if (element_2.skuId == item.skuId) {
+            element_2.editChecked = checked;
+            break;
+          }
+        }
+      });
+
+      _invalidCartGroupList.forEach((element) {
         List<CartItemListItem> getGroupItemList = _getGroupItemList(element);
 
         for (var element_2 in getGroupItemList) {
@@ -523,9 +537,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         element.editChecked = isItemDataChecked;
       });
     });
-
-    ///判断全选按钮是否全选
-    setState(() {});
   }
 
   ///编辑状态下全选/全不选

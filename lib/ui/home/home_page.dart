@@ -12,10 +12,15 @@ import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/model/category.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/component/home_page_header.dart';
 import 'package:flutter_app/ui/home/components/gift_dialog.dart';
+import 'package:flutter_app/ui/home/components/home_bottom_view.dart';
+import 'package:flutter_app/ui/home/components/home_category_hot_items.dart';
+import 'package:flutter_app/ui/home/components/home_category_hot_sell.dart';
+import 'package:flutter_app/ui/home/components/home_flash_sale_item.dart';
+import 'package:flutter_app/ui/home/components/home_new_comer_package.dart';
+import 'package:flutter_app/ui/home/components/home_new_first_sell.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModuleItem.dart';
@@ -31,7 +36,6 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/utils/constans.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:package_info/package_info.dart';
 
@@ -52,31 +56,29 @@ class _HomeState extends State<HomePage>
   List<FocusItem>? _focusList;
 
   ///banner下面tag
-  List<PolicyDescItem>? _policyDescList;
+  List<PolicyDescItem> _policyDescList = [];
 
   ///kingkong
-  List<KingKongItem>? _kingKongList;
+  List<KingKongItem> _kingKongList = [];
 
   ///活动大图
-  List<FloorItem>? _floorList;
+  List<FloorItem> _floorList = [];
 
   ///新人礼包
-  List<IndexActivityModule>? _indexActivityModule;
+  List<IndexActivityModule> _indexActivityModule = [];
 
   ///类目热销榜
   CategoryHotSellModule? _categoryHotSellModule;
 
-  List<Category>? _categoryList;
-
   ///限时购
   FlashSaleModule? _flashSaleModule;
-  List<FlashSaleModuleItem>? _flashSaleModuleItemList;
+  List<FlashSaleModuleItem> _flashSaleModuleItemList = [];
 
   ///新品首发
-  List<NewItemModel>? _newItemList;
+  List<NewItemModel> _newItemList = [];
 
   ///底部数据
-  List<SceneLightShoppingGuideModule>? _sceneLightShoppingGuideModule;
+  List<SceneLightShoppingGuideModule> _sceneLightShoppingGuideModule = [];
 
   //动画控制器
   late AnimationController _animalController;
@@ -92,17 +94,8 @@ class _HomeState extends State<HomePage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 110) {
-        // 如果下拉的当前位置到scroll的最下面
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (_hasMore) {}
-        }
-      } else {}
-    });
+    _scrollController.addListener(() {});
     _getData();
-    // _checkLogin();
     _newUserGift();
     _checkVersion();
     _initAnimal();
@@ -146,24 +139,23 @@ class _HomeState extends State<HomePage>
   void setData(HomeModel homeModel) {
     setState(() {
       _focusList = homeModel.focusList;
-      _policyDescList = homeModel.policyDescList;
-      _kingKongList = homeModel.kingKongModule!.kingKongList;
+      _policyDescList = homeModel.policyDescList ?? [];
+      _kingKongList = homeModel.kingKongModule!.kingKongList ?? [];
       if (homeModel.bigPromotionModule != null) {
-        _floorList = homeModel.bigPromotionModule!.floorList;
+        _floorList = homeModel.bigPromotionModule!.floorList ?? [];
       } else {
         _floorList = [];
       }
-      _indexActivityModule = homeModel.indexActivityModule;
+      _indexActivityModule = homeModel.indexActivityModule ?? [];
       _categoryHotSellModule = homeModel.categoryHotSellModule;
-      if (_categoryHotSellModule != null) {
-        _categoryList = _categoryHotSellModule?.categoryList;
-      }
+
       _flashSaleModule = homeModel.flashSaleModule;
       if (_flashSaleModule != null) {
-        _flashSaleModuleItemList = _flashSaleModule!.itemList;
+        _flashSaleModuleItemList = _flashSaleModule!.itemList ?? [];
       }
-      _newItemList = homeModel.newItemList;
-      _sceneLightShoppingGuideModule = homeModel.sceneLightShoppingGuideModule;
+      _newItemList = homeModel.newItemList ?? [];
+      _sceneLightShoppingGuideModule =
+          homeModel.sceneLightShoppingGuideModule ?? [];
 
       _isLoading = false;
     });
@@ -197,7 +189,7 @@ class _HomeState extends State<HomePage>
         _categoryHotSellItem(context), //类目热销榜条目
 
         _normalTitle(context, '限时购'), //限时购
-        _flashSaleItem(context), //类目热销榜条目
+        _flashSaleItem(context), //限时购
 
         _normalTitle(context, '新品首发'), //新品首发
         _newModelItem(context), //新品首发条目
@@ -255,7 +247,7 @@ class _HomeState extends State<HomePage>
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _policyDescList!
+          children: _policyDescList
               .map((item) => Container(
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
@@ -286,42 +278,48 @@ class _HomeState extends State<HomePage>
           crossAxisCount: 5, childAspectRatio: 1),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          Widget widget = Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4), color: Colors.white),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: NetImage(
-                      imageUrl: '${_kingKongList![index].picUrl ?? ""}',
-                      fontSize: 12,
+          var kingKongItem = _kingKongList[index];
+          Widget widget = GestureDetector(
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4), color: Colors.white),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      child: NetImage(
+                        imageUrl: '${kingKongItem.picUrl ?? ""}',
+                        fontSize: 12,
+                      ),
                     ),
                   ),
-                  flex: 2,
-                ),
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                        bottom: 4,
-                      ),
-                      color: Colors.white,
-                      child: Center(
-                        child: Text(
-                          _kingKongList![index].text ?? "",
-                          style: t12black,
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          bottom: 4,
                         ),
-                      ),
-                    )),
-              ],
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            kingKongItem.text ?? "",
+                            style: t12black,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
             ),
+            onTap: () {
+              Routers.push(Routers.kingKong, context,
+                  {"schemeUrl": kingKongItem.schemeUrl});
+            },
           );
-          return Routers.link(widget, Routers.kingKong, context,
-              {"schemeUrl": _kingKongList![index].schemeUrl});
+          return widget;
         },
-        childCount: _kingKongList == null ? 0 : _kingKongList!.length,
+        childCount: _kingKongList.length,
       ),
     );
   }
@@ -331,7 +329,7 @@ class _HomeState extends State<HomePage>
       padding: EdgeInsets.symmetric(vertical: 8),
       color: backColor,
       child: Column(
-        children: _floorList!
+        children: _floorList
             .map(
               (item) => Container(
                 width: double.infinity,
@@ -398,276 +396,21 @@ class _HomeState extends State<HomePage>
   }
 
   _newcomerPack(BuildContext context) {
-    return singleSliverWidget(Column(children: [
-      Container(
-        padding: EdgeInsets.symmetric(vertical: 12),
-        child: Text(
-          "- 新人专享礼包 -",
-          style: t14black,
-        ),
-      ),
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        height: 200,
-        child: Row(
-          children: [
-            Expanded(
-                flex: 1,
-                child: GestureDetector(
-                  child: Container(
-                    height: double.infinity,
-                    margin: EdgeInsets.only(bottom: 3),
-                    color: Color(0xFFF6E5C4),
-                    child: Stack(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.fromLTRB(40, 60, 40, 20),
-                          child: NetImage(
-                              imageUrl: '$redPackageUrl', fit: BoxFit.cover),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                          child: Text(
-                            '新人专享礼包',
-                            style: t14blackBold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    _goWebview('$redPackageHtml');
-                  },
-                )),
-            Container(
-              width: 4,
-              color: Colors.white,
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                  height: 200,
-                  child: Column(
-                      children: _indexActivityModule!.map((item) {
-                    return GestureDetector(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: double.infinity / 2,
-                            height: 96,
-                            color: Color(0xFFF9DCC9),
-                            margin: EdgeInsets.only(bottom: 4),
-                            child: NetImage(
-                              alignment: Alignment.bottomRight,
-                              fit: BoxFit.fitHeight,
-                              imageUrl: '${item.showPicUrl ?? ''}',
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${item.title ?? ''}',
-                                  style: t14blackBold,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Container(
-                                  child: Text(
-                                    item.subTitle == ""
-                                        ? item.tag!
-                                        : item.subTitle!,
-                                    style: t12grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () {
-                        if (item.targetUrl!.contains('pin/item/list')) {
-                          Routers.push(Routers.mineItems, context, {'id': 2});
-                        } else {
-                          _goWebview(item.targetUrl);
-                        }
-                      },
-                    );
-                  }).toList())),
-            ),
-          ],
-        ),
-      ),
-      SizedBox(
-        height: 10,
-      )
-    ]));
+    return HomeNewComerPackage(indexActivityModule: _indexActivityModule);
   }
 
   _categoryHotSell(BuildContext context) {
-    if (_categoryHotSellModule == null) {
-      return singleSliverWidget(Container());
-    }
-    return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      sliver: singleSliverWidget(
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 5, 12, 12),
-              child: Text(
-                _categoryHotSellModule!.title!,
-                style: t14black,
-              ),
-            ),
-            Container(
-              child: Row(
-                children: [
-                  _hotTopCell(0),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  _hotTopCell(1),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Expanded _hotTopCell(int index) {
-    return Expanded(
-      flex: 1,
-      child: GestureDetector(
-        onTap: () {
-          _goHotList(index, context);
-        },
-        child: Container(
-          color: index == 0 ? Color(0xFFF7F1DD) : Color(0xFFE4E8F0),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _categoryList![index].categoryName!,
-                      style: t12blackBold,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      height: 2,
-                      width: 30,
-                      color: Colors.black,
-                    )
-                  ],
-                ),
-                flex: 2,
-              ),
-              Expanded(
-                child: Container(
-                  child: CachedNetworkImage(
-                    imageUrl: '${_categoryList![index].picUrl}',
-                  ),
-                ),
-                flex: 3,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return HomeCategoryHotSell(categoryHotSellModule: _categoryHotSellModule);
   }
 
   _categoryHotSellItem(BuildContext context) {
-    if (_categoryHotSellModule == null ||
-        _categoryList == null ||
-        _categoryList!.length < 2) {
-      return singleSliverWidget(Container());
-    }
-    var sublist = _categoryList!.sublist(2, _categoryList!.length);
-    return SliverPadding(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
-      sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, crossAxisSpacing: 4, mainAxisSpacing: 4),
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                _goHotList(index, context);
-              },
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          top: 4,
-                        ),
-                        color: Color(0xFFF2F2F2),
-                        child: Center(
-                          child: Text(
-                            sublist[index].categoryName!,
-                            style: TextStyle(
-                                color: textBlack,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )),
-                  Expanded(
-                      flex: 3,
-                      child: Container(
-                        color: Color(0xFFF2F2F2),
-                        child: Center(
-                          child: NetImage(
-                            imageUrl: sublist[index].picUrl,
-                            fit: BoxFit.fitWidth,
-                            fontSize: 14,
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-            );
-          },
-          childCount: sublist.length,
-        ),
-      ),
-    );
-  }
-
-  void _goHotList(int index, BuildContext context) {
-    String categoryId = '0';
-    var categoryList = _categoryList![index];
-    var targetUrl = categoryList.targetUrl;
-
-    if (targetUrl != null && targetUrl.contains('categoryId')) {
-      var parse = Uri.parse(targetUrl);
-      var id = parse.queryParameters['categoryId'];
-      if (id != null) {
-        categoryId = id;
-      }
-    }
-    Routers.push(Routers.hotList, context,
-        {'categoryId': categoryId, 'name': categoryList.categoryName});
+    return HomeCategoryHotItems(categoryHotSellModule: _categoryHotSellModule);
   }
 
   _normalTitle(BuildContext context, String title) {
     if (_flashSaleModule == null && title == '限时购') {
       return singleSliverWidget(Container());
-    } else if ((_newItemList == null || _newItemList!.isEmpty) &&
-        title == '新品首发') {
+    } else if (_newItemList.isEmpty && title == '新品首发') {
       return singleSliverWidget(Container());
     }
     return SliverToBoxAdapter(
@@ -682,7 +425,7 @@ class _HomeState extends State<HomePage>
             alignment: Alignment.centerLeft,
             child: Text(
               "$title",
-              style: t14black,
+              style: t16black,
             ),
           ),
         ],
@@ -691,218 +434,15 @@ class _HomeState extends State<HomePage>
   }
 
   _flashSaleItem(BuildContext context) {
-    if (_flashSaleModuleItemList == null || _flashSaleModuleItemList!.isEmpty) {
-      return singleSliverWidget(Container());
-    }
-    return SliverPadding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-      sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            childAspectRatio: 0.8),
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            Widget widget = Column(
-              children: <Widget>[
-                Container(
-                  color: Colors.white,
-                  child: Center(
-                    child: NetImage(
-                      imageUrl: _flashSaleModuleItemList![index].picUrl,
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "¥${_flashSaleModuleItemList![index].activityPrice}",
-                        style: t14red,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "¥${_flashSaleModuleItemList![index].originPrice}",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: textGrey,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            );
-            return Routers.link(widget, Routers.goodDetail, context,
-                {'id': _flashSaleModuleItemList![index].itemId});
-          },
-          childCount: _flashSaleModuleItemList!.length,
-        ),
-      ),
-    );
+    return HomeFlashSaleItem(flashSaleModuleItemList: _flashSaleModuleItemList);
   }
 
   _newModelItem(BuildContext context) {
-    if (_newItemList == null || _newItemList!.isEmpty) {
-      return singleSliverWidget(Container());
-    }
-    return SliverPadding(
-        padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-        sliver: SliverGrid(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              childAspectRatio: 0.58),
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              var item = _newItemList![index];
-              Widget widget = Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        child: NetImage(
-                          height: 210,
-                          imageUrl: item.scenePicUrl,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        "${item.simpleDesc}",
-                        style: t12black,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text(
-                      "¥${item.retailPrice}",
-                      style: t14red,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      constraints: BoxConstraints(minHeight: 18),
-                      child: _newItemsTags(item),
-                    )
-                  ],
-                ),
-              );
-              return Routers.link(
-                  widget, Routers.goodDetail, context, {'id': item.id});
-            },
-            childCount: _newItemList!.length > 6 ? 6 : _newItemList!.length,
-          ),
-        ));
-  }
-
-  _newItemsTags(NewItemModel item) {
-    var itemTagList = item.itemTagList;
-    if (itemTagList != null && itemTagList.length > 1) {
-      var itemD = itemTagList[itemTagList.length - 1];
-      return Container(
-        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            border: Border.all(width: 0.5, color: redColor)),
-        child: Text(
-          itemD.name!,
-          style: t12red,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    } else {
-      return Container();
-    }
+    return HomeNewFirstSell(newItemList: _newItemList);
   }
 
   _bottomView(BuildContext context) {
-    List<SceneLightShoppingGuideModule>? _sceneModule =
-        _sceneLightShoppingGuideModule;
-    if (_sceneModule == null || _sceneModule.isEmpty) {
-      return singleSliverWidget(Container());
-    }
-    return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
-      sliver: singleSliverWidget(Row(
-        children: _sceneModule.map((item) {
-          Widget widget = Expanded(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () {
-                _goWebview(item.styleItem!.targetUrl);
-              },
-              child: Container(
-                color: Color(0xFFF2F2F2),
-                margin: EdgeInsets.symmetric(horizontal: 2),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.styleItem!.title!,
-                            style: t14blackBold,
-                          ),
-                          SizedBox(
-                            height: 2,
-                          ),
-                          Text(
-                            item.styleItem!.desc!,
-                            style: _sceneModule.indexOf(item) % 2 == 1
-                                ? t12warmingRed
-                                : t12violet,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: '${item.styleItem!.picUrlList![0]}',
-                            ),
-                          ),
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: '${item.styleItem!.picUrlList![1]}',
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
-          return widget;
-        }).toList(),
-      )),
-    );
-  }
-
-  _goWebview(String? url) {
-    Routers.push(Routers.webView, context, {'url': url});
+    return HomeBottomView(dataList: _sceneLightShoppingGuideModule);
   }
 
   @override
