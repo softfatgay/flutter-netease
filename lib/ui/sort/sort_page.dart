@@ -74,13 +74,10 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
           _categoryL1List = sortDataModel.categoryL1List ?? [];
           _dataList = List.filled(_categoryL1List.length, SortPageModel());
         }
-        if (_dataList[_activeIndex].categoryGroupList.isEmpty ||
-            _dataList[_activeIndex].bannerList.isEmpty) {
-          var data = SortPageModel(
-              bannerList: sortDataModel.currentCategory!.bannerList ?? [],
-              categoryGroupList: sortDataModel.categoryGroupList ?? []);
-          _dataList[_activeIndex] = data;
-        }
+        var data = SortPageModel(
+            bannerList: sortDataModel.currentCategory!.bannerList ?? [],
+            categoryGroupList: sortDataModel.categoryGroupList ?? []);
+        _dataList[_activeIndex] = data;
       });
     }
   }
