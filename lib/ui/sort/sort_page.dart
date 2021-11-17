@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/net_image.dart';
-import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -25,22 +24,19 @@ class SortPage extends StatefulWidget {
 }
 
 class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
-  bool _isLoading = true;
+  bool _firstLoading = true;
 
   int _rondomIndex = 0;
   var _timer;
 
+  int _activeIndex = 0;
+
   String _categoryId = "";
-  int _activityTab = 0;
 
   ///左侧tab
-  List<CategoryL1Item>? _categoryL1List;
+  List<CategoryL1Item> _categoryL1List = [];
 
-  ///右侧头部banner
-  List<BannerItem> _bannerList = [];
-
-  ///body数据
-  List<CategoryGroupItem> _categoryGroupList = [];
+  List<SortPageModel> _dataList = [];
 
   @override
   bool get wantKeepAlive => true;
@@ -68,16 +64,23 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       _totalNum = sp!.get(LocalStorage.totalNum) as num?;
     });
 
-    _isLoading = true;
     var responseData = await sortData({"categoryId": "$id"});
     if (responseData.data != null) {
       var data = responseData.data;
       var sortDataModel = SortData.fromJson(data);
       setState(() {
-        _isLoading = false;
-        _categoryL1List = sortDataModel.categoryL1List;
-        _bannerList = sortDataModel.currentCategory!.bannerList ?? [];
-        _categoryGroupList = sortDataModel.categoryGroupList ?? [];
+        _firstLoading = false;
+        if (_categoryL1List.isEmpty) {
+          _categoryL1List = sortDataModel.categoryL1List ?? [];
+          _dataList = List.filled(_categoryL1List.length, SortPageModel());
+        }
+        if (_dataList[_activeIndex].categoryGroupList.isEmpty ||
+            _dataList[_activeIndex].bannerList.isEmpty) {
+          var data = SortPageModel(
+              bannerList: sortDataModel.currentCategory!.bannerList ?? [],
+              categoryGroupList: sortDataModel.categoryGroupList ?? []);
+          _dataList[_activeIndex] = data;
+        }
       });
     }
   }
@@ -86,46 +89,53 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     List<String?> newTabs = [];
-    if (_categoryL1List != null) {
-      _categoryL1List!.forEach((item) => newTabs.add(item.name));
-    }
+    _categoryL1List.forEach((item) => newTabs.add(item.name));
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          _buildSearch(context),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                VerticalTab(
-                  tabs: newTabs,
-                  onTabChange: (index) {
-                    _activityTab = index;
-                    if (index == 0) {
-                      _categoryId = "";
-                    } else {
-                      _categoryId = "${_categoryL1List![index].id}";
-                    }
-                    _getInitData(_categoryId);
-                  },
-                  activeIndex: 0,
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(width: 0.5, color: lineColor),
-                        bottom: BorderSide(width: 0.5, color: lineColor),
-                      ),
+      body: _firstLoading
+          ? Loading()
+          : Container(
+              child: Column(
+                children: <Widget>[
+                  _buildSearch(context),
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        VerticalTab(
+                          tabs: newTabs,
+                          onTabChange: (index) {
+                            setState(() {
+                              _activeIndex = index;
+                            });
+                            if (index == 0) {
+                              _categoryId = "";
+                            } else {
+                              _categoryId = "${_categoryL1List[index].id}";
+                            }
+                            _getInitData(_categoryId);
+                          },
+                          activeIndex: 0,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(width: 0.5, color: lineColor),
+                                bottom:
+                                    BorderSide(width: 0.5, color: lineColor),
+                              ),
+                            ),
+                            child: _buildContent(),
+                          ),
+                        )
+                      ],
                     ),
-                    child: _isLoading ? Loading() : _buildContent(),
                   ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -141,98 +151,109 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   }
 
   _buildContent() {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverPadding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          sliver: singleSliverWidget(
-            IndicatorBanner(
-              dataList: _bannerList.map((e) => '${e.picUrl ?? ''}').toList(),
-              onPress: (index) {
-                var targetUrl = _bannerList[index].targetUrl;
-                if (targetUrl!.isNotEmpty) {
-                  Routers.push(Routers.webView, context, {'url': targetUrl});
-                }
-              },
-              corner: 4,
-              fit: BoxFit.cover,
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              height: 110,
+    var dataList = _dataList[_activeIndex];
+    var bannerList = dataList.bannerList;
+    var categoryGroupList = dataList.categoryGroupList;
+
+    return categoryGroupList.isEmpty
+        ? Container(
+            height: MediaQuery.of(context).size.height / 2, child: Loading())
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                if (bannerList.isNotEmpty)
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: IndicatorBanner(
+                      dataList:
+                          bannerList.map((e) => '${e.picUrl ?? ''}').toList(),
+                      onPress: (index) {
+                        var targetUrl = bannerList[index].targetUrl;
+                        if (targetUrl!.isNotEmpty) {
+                          Routers.push(
+                              Routers.webView, context, {'url': targetUrl});
+                        }
+                      },
+                      corner: 4,
+                      fit: BoxFit.cover,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      height: 110,
+                    ),
+                  ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                  child: _dataListItems(bannerList, categoryGroupList),
+                )
+              ],
             ),
-          ),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                List<Category> itemItem =
-                    _categoryGroupList[index].categoryList!;
-                return Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (_categoryGroupList[index].name != null &&
-                          _categoryGroupList[index].name!.isNotEmpty)
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.only(bottom: 5),
-                          decoration: BoxDecoration(
-                              border: Border(
-                            bottom: BorderSide(color: lineColor, width: 0.5),
-                          )),
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "${_categoryGroupList[index].name ?? ''}",
-                            style: t16blackbold,
+          );
+  }
+
+  _dataListItems(
+      List<BannerItem> bannerList, List<CategoryGroupItem> categoryGroupList) {
+    return Column(
+      children: categoryGroupList.map<Widget>((item) {
+        List<Category> itemItem = item.categoryList!;
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (item.name != null && item.name!.isNotEmpty)
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(bottom: 5),
+                  decoration: BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(color: lineColor, width: 0.5),
+                  )),
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    "${item.name ?? ''}",
+                    style: t16blackbold,
+                  ),
+                ),
+              GridView.count(
+                ///这两个属性起关键性作用，列表嵌套列表一定要有Container
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.all(0),
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.8,
+                children: itemItem.map<Widget>((item) {
+                  Widget widget = Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: NetImage(
+                            imageUrl: item.wapBannerUrl,
+                            fontSize: 12,
                           ),
                         ),
-                      GridView.count(
-                        ///这两个属性起关键性作用，列表嵌套列表一定要有Container
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.8,
-                        children: itemItem.map<Widget>((item) {
-                          Widget widget = Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: NetImage(
-                                    imageUrl: item.wapBannerUrl,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    item.name!,
-                                    style: t12black,
-                                    maxLines: 1,
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                          return Routers.link(
-                              widget, Routers.catalogTag, context, {
-                            'subCategoryId': item.id,
-                            'categoryId': item.superCategoryId,
-                          });
-                        }).toList(),
-                      )
-                    ],
-                  ),
-                );
-              },
-              childCount: _categoryGroupList.length,
-            ),
+                        Container(
+                          margin: EdgeInsets.only(top: 6),
+                          child: Text(
+                            '${item.name ?? ''}',
+                            style: t12black,
+                            maxLines: 1,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                  return Routers.link(widget, Routers.catalogTag, context, {
+                    'subCategoryId': item.id,
+                    'categoryId': item.superCategoryId,
+                  });
+                }).toList(),
+              ),
+            ],
           ),
-        )
-      ],
+        );
+      }).toList(),
     );
   }
 
@@ -244,4 +265,12 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       _timer.cancel();
     }
   }
+}
+
+class SortPageModel {
+  List<BannerItem> bannerList;
+  List<CategoryGroupItem> categoryGroupList;
+
+  SortPageModel(
+      {this.bannerList = const [], this.categoryGroupList = const []});
 }

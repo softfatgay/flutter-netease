@@ -30,6 +30,7 @@ class TopicItem {
   num? newAppBannerHeight;
   bool? supportFlag;
   BannerInfo? bannerInfo;
+  List<dynamic>? lookPics;
 
   BuyNow? buyNow;
 

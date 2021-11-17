@@ -42,7 +42,7 @@ class _KingKongPageState extends State<NewItemPage> {
   List<ZcItems> _zcItems = [];
   late NewItems _newItems;
 
-  final _scrollController = new ScrollController();
+  final _scrollController = ScrollController();
 
   var _searchModel = NormalSearchModel(index: 0, descSorted: true);
 

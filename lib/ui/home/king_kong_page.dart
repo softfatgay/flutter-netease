@@ -33,7 +33,7 @@ class _KingKongPageState extends State<KingKongPage> {
   List<CategoryItemListItem>? _categoryItemList;
 
   ///_banner
-  List<BannerItem>? _bannerList;
+  List<BannerItem> _bannerList = [];
 
   final _scrollController = new ScrollController();
   bool _isShowFloatBtn = false;
@@ -95,9 +95,9 @@ class _KingKongPageState extends State<KingKongPage> {
     setState(() {
       _currentCategory = kingkongModel.currentCategory;
 
-      _bannerList = kingkongModel.currentCategory!.bannerList;
+      _bannerList = kingkongModel.currentCategory!.bannerList ?? [];
       _categoryItemList = kingkongModel.categoryItemList;
-      _banner = _bannerList!.map((item) => '${item.picUrl ?? ''}').toList();
+      _banner = _bannerList.map((item) => '${item.picUrl ?? ''}').toList();
       _initLoading = false;
     });
   }
@@ -150,7 +150,7 @@ class _KingKongPageState extends State<KingKongPage> {
         indicatorType: IndicatorType.line,
         onPress: (index) {
           Routers.push(
-              Routers.webView, context, {'url': _bannerList![index].targetUrl});
+              Routers.webView, context, {'url': _bannerList[index].targetUrl});
         });
   }
 

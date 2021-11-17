@@ -23,13 +23,13 @@ class _SortChildState extends State<SortListPage>
 
   int _activeIndex = 0;
   late TabController _mController;
-  List<Category>? _catalogList = [];
+  List<Category> _catalogList = [];
   int? _id = 0;
 
   @override
   void initState() {
     // TODO: implement initState
-    _mController = TabController(length: _catalogList!.length, vsync: this);
+    _mController = TabController(length: _catalogList.length, vsync: this);
     super.initState();
     _id = widget.params!["subCategoryId"];
     _getInitData();
@@ -45,27 +45,24 @@ class _SortChildState extends State<SortListPage>
     var sortListDataModel = SortListData.fromJson(data);
 
     setState(() {
-      _catalogList = sortListDataModel.categoryL2List;
+      _catalogList = sortListDataModel.categoryL2List ?? [];
       _isLoading = false;
 
       if (_firstLoading) {
-        for (int i = 0; i < (_catalogList!.length); i++) {
-          if (widget.params!['subCategoryId'] == _catalogList![i].id) {
+        for (int i = 0; i < (_catalogList.length); i++) {
+          if (widget.params!['subCategoryId'] == _catalogList[i].id) {
             _activeIndex = i;
           }
         }
         _firstLoading = false;
       }
-
       _mController = TabController(
-          length: _catalogList!.length,
-          vsync: this,
-          initialIndex: _activeIndex);
+          length: _catalogList.length, vsync: this, initialIndex: _activeIndex);
     });
     _mController.addListener(() {
       setState(() {
         _activeIndex = _mController.index;
-        _id = _catalogList![_activeIndex].id as int?;
+        _id = _catalogList[_activeIndex].id as int?;
       });
     });
   }
@@ -73,8 +70,8 @@ class _SortChildState extends State<SortListPage>
   @override
   Widget build(BuildContext context) {
     List<String?> tabItem = [];
-    for (int i = 0; i < (_catalogList!.length); i++) {
-      tabItem.add(_catalogList![i].name);
+    for (int i = 0; i < (_catalogList.length); i++) {
+      tabItem.add(_catalogList[i].name);
     }
     return Scaffold(
       backgroundColor: backColor,
@@ -100,7 +97,7 @@ class _SortChildState extends State<SortListPage>
       child: _isLoading
           ? Loading()
           : TabBarView(
-              children: _catalogList!.map((item) {
+              children: _catalogList.map((item) {
                 return SortListItemPage(arguments: item);
               }).toList(),
               controller: _mController,

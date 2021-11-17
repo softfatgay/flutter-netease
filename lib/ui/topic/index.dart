@@ -26,7 +26,7 @@ class TopicPage extends StatefulWidget {
 
 class _TopicPageState extends State<TopicPage>
     with AutomaticKeepAliveClientMixin {
-  final _scrollController = new ScrollController();
+  final _scrollController = ScrollController();
 
   final _streamController = StreamController<double>.broadcast();
 
@@ -45,10 +45,10 @@ class _TopicPageState extends State<TopicPage>
   var _timer;
 
   ///头部nav
-  List<NavItem>? _navList;
+  List<NavItem> _navList = [];
 
   ///数据
-  List<Result>? _result;
+  List<Result> _result = [];
 
   ///条目数据
   List<TopicItem> _dataList = [];
@@ -65,36 +65,7 @@ class _TopicPageState extends State<TopicPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > _expandedHeight - 50) {
-        if (_toolbarHeight == 0) {
-          setState(() {
-            _toolbarHeight = 50;
-          });
-          _streamControllerTab.sink.add(50);
-        }
-        if (_scrollController.position.pixels > 700) {
-          _footerController.sink.add(true);
-        } else {
-          _footerController.sink.add(false);
-        }
-      } else {
-        if (_toolbarHeight == 50) {
-          setState(() {
-            _toolbarHeight = 0;
-          });
-          _streamControllerTab.sink.add(0);
-        }
-      }
-
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _getMore();
-      }
-    });
-    _getTopicData();
-    _getMore();
-
+    _scrollController.addListener(_scrollerListener);
     _timer = Timer.periodic(Duration(milliseconds: 4000), (_timer) {
       setState(() {
         if (_roundWords.length > 0) {
@@ -105,6 +76,36 @@ class _TopicPageState extends State<TopicPage>
         }
       });
     });
+    _getTopicData();
+    _getMore();
+  }
+
+  void _scrollerListener() {
+    if (_scrollController.position.pixels > _expandedHeight - 50) {
+      if (_toolbarHeight == 0) {
+        setState(() {
+          _toolbarHeight = 50;
+        });
+        _streamControllerTab.sink.add(50);
+      }
+      if (_scrollController.position.pixels > 700) {
+        _footerController.sink.add(true);
+      } else {
+        _footerController.sink.add(false);
+      }
+    } else {
+      if (_toolbarHeight == 50) {
+        setState(() {
+          _toolbarHeight = 0;
+        });
+        _streamControllerTab.sink.add(0);
+      }
+    }
+
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      _getMore();
+    }
   }
 
   ///头部nav
@@ -119,7 +120,7 @@ class _TopicPageState extends State<TopicPage>
       var data = responseData.data;
       if (data != null) {
         var topData = TopData.fromJson(data);
-        _navList = topData.navList;
+        _navList = topData.navList ?? [];
       }
     });
   }
@@ -132,19 +133,24 @@ class _TopicPageState extends State<TopicPage>
     };
 
     var responseData = await findRecAuto(params);
-    var data = responseData.data;
-    if (data != null) {
-      var topicData = TopicData.fromJson(data);
-      setState(() {
-        _page++;
-        _hasMore = topicData.hasMore ?? false;
-        _result = topicData.result;
-        _result!.forEach((element) {
-          _dataList.addAll(element.topics!);
+    if (responseData.code == '200') {
+      var data = responseData.data;
+      if (data != null) {
+        var topicData = TopicData.fromJson(data);
+        setState(() {
+          _page++;
+          _hasMore = topicData.hasMore ?? false;
+          _result = topicData.result ?? [];
+          _result.forEach((element) {
+            _dataList.addAll(element.topics!);
+            if (element.look != null) {
+              _dataList.add(element.look!);
+            }
+          });
         });
-      });
-      if (_dataList.length < 3 && _page == 2) {
-        _getMore();
+        if (_dataList.length < 3 && _page == 2) {
+          _getMore();
+        }
       }
     }
   }
@@ -203,10 +209,10 @@ class _TopicPageState extends State<TopicPage>
 
   double _crosAxis(TopicItem item) {
     double imgH = 0.9;
-    if (item.appBanHeight == null ||
-        item.appBanWidth == null ||
-        item.appBanWidth == 0) {
-      return 1;
+    if (item.appBanHeight != null ||
+        item.appBanWidth != null ||
+        item.appBanWidth != 0) {
+      imgH += item.appBanHeight! / item.appBanWidth! - 0.5;
     }
     if (item.newAppBanner != null && item.newAppBanner!.isNotEmpty) {
       imgH += 0.5;
@@ -253,7 +259,7 @@ class _TopicPageState extends State<TopicPage>
   }
 
   _buildNav() {
-    if (_navList == null) {
+    if (_navList.isEmpty) {
       return Container();
     }
     return Container(
@@ -297,7 +303,7 @@ class _TopicPageState extends State<TopicPage>
                     crossAxisCount: 2,
                     childAspectRatio: 1.1,
                     scrollDirection: Axis.horizontal,
-                    children: _navList!.map((item) {
+                    children: _navList.map((item) {
                       return GestureDetector(
                         child: Container(
                           margin: EdgeInsets.only(bottom: 10),

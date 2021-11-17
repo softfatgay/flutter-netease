@@ -33,6 +33,7 @@ TopicItem _$TopicItemFromJson(Map<String, dynamic> json) => TopicItem()
   ..bannerInfo = json['bannerInfo'] == null
       ? null
       : BannerInfo.fromJson(json['bannerInfo'] as Map<String, dynamic>)
+  ..lookPics = json['lookPics'] as List<dynamic>?
   ..buyNow = json['buyNow'] == null
       ? null
       : BuyNow.fromJson(json['buyNow'] as Map<String, dynamic>);
@@ -62,5 +63,6 @@ Map<String, dynamic> _$TopicItemToJson(TopicItem instance) => <String, dynamic>{
       'newAppBannerHeight': instance.newAppBannerHeight,
       'supportFlag': instance.supportFlag,
       'bannerInfo': instance.bannerInfo,
+      'lookPics': instance.lookPics,
       'buyNow': instance.buyNow,
     };

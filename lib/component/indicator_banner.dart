@@ -37,12 +37,10 @@ class IndicatorBanner extends StatefulWidget {
 
 class _IndicatorBannerState extends State<IndicatorBanner> {
   int _currentIndex = 0;
-  List<String> _dataList = [];
 
   @override
   void initState() {
     // TODO: implement initState
-    _dataList = widget.dataList;
     super.initState();
   }
 
@@ -66,7 +64,7 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                     _currentIndex = index;
                   });
                 }),
-            itemCount: _dataList.length,
+            itemCount: widget.dataList.length,
             itemBuilder: (context, index, realIdx) {
               return GestureDetector(
                 child: Container(
@@ -76,7 +74,7 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                   ),
                   margin: widget.margin,
                   child: RoundNetImage(
-                    url: _dataList[index],
+                    url: widget.dataList[index],
                     width: double.infinity,
                     height: widget.height,
                     fit: widget.fit,
@@ -95,7 +93,7 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                   ? Positioned(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: _dataList.asMap().entries.map((entry) {
+                        children: widget.dataList.asMap().entries.map((entry) {
                           return Container(
                             width: widget.indicatorWidth,
                             height: 2.0,
@@ -121,7 +119,7 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                             color: Color(0xFFFFFFFF),
                             borderRadius: BorderRadius.circular(2)),
                         child: Text(
-                          '$_currentIndex/${_dataList.length}',
+                          '$_currentIndex/${widget.dataList.length}',
                           style: t12black,
                         ),
                       ),

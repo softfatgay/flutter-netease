@@ -42,7 +42,8 @@ class TopicItemWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           RoundNetImage(
             url: item.avatar,
@@ -55,30 +56,26 @@ class TopicItemWidget extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Text(
-                  item.nickname ?? '',
-                  style: t12grey,
+                  '${item.nickname ?? ''}',
+                  style: TextStyle(fontSize: 12, color: textGrey, height: 1.1),
                 ),
               ),
             ),
           ),
-          Container(
-              child: item.readCount == null
-                  ? Container()
-                  : Icon(
-                      Icons.remove_red_eye,
-                      color: textGrey,
-                      size: 16,
-                    )),
-          Container(
-            child: Text(
-              item.readCount == null
-                  ? ''
-                  : (item.readCount! > 1000
-                      ? '${int.parse((item.readCount! / 1000).toStringAsFixed(0))}K'
-                      : '${item.readCount}'),
-              style: t12grey,
+          if (item.readCount != null)
+            Image.asset(
+              'assets/images/topic_look_icon.png',
+              width: 20,
+              height: 20,
             ),
-          ),
+          Text(
+            item.readCount == null
+                ? ''
+                : (item.readCount! > 1000
+                    ? '${int.parse((item.readCount! / 1000).toStringAsFixed(0))}K'
+                    : '${item.readCount}'),
+            style: t12grey,
+          )
         ],
       ),
     );
@@ -86,9 +83,11 @@ class TopicItemWidget extends StatelessWidget {
 
   _desText(TopicItem item) {
     return Container(
-      padding: EdgeInsets.all(5),
+      height: 40,
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(horizontal: 5),
       child: Text(
-        item.title!,
+        '${item.title}',
         textAlign: TextAlign.left,
         style: t14black,
         maxLines: 2,
@@ -108,6 +107,7 @@ class TopicItemWidget extends StatelessWidget {
           child: TopRoundNetImage(
             corner: 6,
             url: _getImage(item),
+            fit: BoxFit.cover,
           ),
         ),
       ),

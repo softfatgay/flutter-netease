@@ -48,12 +48,12 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  ScrollController _scrollController = new ScrollController();
+  final _scrollController = ScrollController();
 
   bool _isLoading = true;
 
   ///banner数据
-  List<FocusItem>? _focusList;
+  List<FocusItem> _focusList = [];
 
   ///banner下面tag
   List<PolicyDescItem> _policyDescList = [];
@@ -138,7 +138,7 @@ class _HomeState extends State<HomePage>
 
   void setData(HomeModel homeModel) {
     setState(() {
-      _focusList = homeModel.focusList;
+      _focusList = homeModel.focusList ?? [];
       _policyDescList = homeModel.policyDescList ?? [];
       _kingKongList = homeModel.kingKongModule!.kingKongList ?? [];
       if (homeModel.bigPromotionModule != null) {
@@ -223,7 +223,7 @@ class _HomeState extends State<HomePage>
 
   _buildSwiper() {
     List<String> banner = [];
-    for (var item in _focusList!) {
+    for (var item in _focusList) {
       banner.add(item.picUrl ?? '');
     }
     return singleSliverWidget(
@@ -234,8 +234,8 @@ class _HomeState extends State<HomePage>
           margin: EdgeInsets.symmetric(horizontal: 10),
           indicatorType: IndicatorType.line,
           onPress: (index) {
-            Routers.push(Routers.webView, context,
-                {'url': _focusList![index].targetUrl});
+            Routers.push(
+                Routers.webView, context, {'url': _focusList[index].targetUrl});
           }),
     );
   }

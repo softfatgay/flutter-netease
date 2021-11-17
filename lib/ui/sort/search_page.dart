@@ -21,8 +21,8 @@ class SearchGoodsPage extends StatefulWidget {
 }
 
 class _SearchGoodsPageState extends State<SearchGoodsPage> {
-  TextEditingController _controller = TextEditingController();
-  ScrollController _scrollController = new ScrollController();
+  final _controller = TextEditingController();
+  final _scrollController = ScrollController();
   bool _isLoading = false;
   String? _textValue = '';
 

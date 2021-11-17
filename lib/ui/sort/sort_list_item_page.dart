@@ -24,28 +24,16 @@ class _CatalogGoodsState extends State<SortListItemPage>
     with AutomaticKeepAliveClientMixin {
   bool _isLoading = true;
   int _total = 0;
-  bool _moreLoading = false;
-  final _scrollController = new ScrollController();
   Category? category;
 
   ///商品
-  List<ItemListItem>? _itemList;
+  List<ItemListItem> _itemList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getInitData();
-
-    _scrollController.addListener(() {
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (!_moreLoading && (_total > _itemList!.length)) {
-          // _getMore();
-        }
-      }
-    });
   }
 
   _getInitData() async {
@@ -59,13 +47,11 @@ class _CatalogGoodsState extends State<SortListItemPage>
     var sortListDataModel = SortListData.fromJson(data);
 
     setState(() {
-      _itemList = sortListDataModel.categoryItems!.itemList;
+      _itemList = sortListDataModel.categoryItems!.itemList ?? [];
 
       category = sortListDataModel.categoryItems!.category;
-
-      // category = data["categoryItems"]["category"];
       _isLoading = false;
-      _total = _itemList!.length;
+      _total = _itemList.length;
     });
   }
 
@@ -79,7 +65,6 @@ class _CatalogGoodsState extends State<SortListItemPage>
         backgroundColor: backWhite,
         onRefresh: _refresh,
         child: CustomScrollView(
-          controller: _scrollController,
           slivers: <Widget>[
             if (category!.frontName != null && category!.frontName != "")
               singleSliverWidget(Container(
@@ -89,13 +74,13 @@ class _CatalogGoodsState extends State<SortListItemPage>
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: Text(
-                    category!.frontName!,
+                    '${category!.frontName ?? ''}',
                     style: t14black,
                   ),
                 ),
               )),
             GoodItems(dataList: _itemList),
-            SliverFooter(hasMore: _itemList!.length != _total),
+            SliverFooter(hasMore: _itemList.length != _total),
           ],
         ),
       );
@@ -110,7 +95,6 @@ class _CatalogGoodsState extends State<SortListItemPage>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _scrollController.dispose();
   }
 
   @override

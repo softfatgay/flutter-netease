@@ -6,6 +6,7 @@ part 'result.g.dart';
 @JsonSerializable()
 class Result {
   List<TopicItem>? topics;
+  TopicItem? look;
 
   Result();
 
