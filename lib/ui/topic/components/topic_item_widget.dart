@@ -53,12 +53,10 @@ class TopicItemWidget extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Container(
-                margin: EdgeInsets.only(left: 5),
-                child: Text(
-                  '${item.nickname ?? ''}',
-                  style: TextStyle(fontSize: 12, color: textGrey, height: 1.1),
-                ),
+              margin: EdgeInsets.only(left: 5),
+              child: Text(
+                '${item.nickname ?? ''}',
+                style: TextStyle(fontSize: 12, color: textGrey, height: 1.1),
               ),
             ),
           ),
@@ -69,16 +67,23 @@ class TopicItemWidget extends StatelessWidget {
               height: 20,
             ),
           Text(
-            item.readCount == null
-                ? ''
-                : (item.readCount! > 1000
-                    ? '${int.parse((item.readCount! / 1000).toStringAsFixed(0))}K'
-                    : '${item.readCount}'),
+            '${_readCount(item)}',
             style: t12grey,
           )
         ],
       ),
     );
+  }
+
+  _readCount(TopicItem item) {
+    if (item.readCount != null) {
+      if (item.readCount! > 1000) {
+        return '${int.parse((item.readCount! / 1000).toStringAsFixed(0))}K';
+      } else {
+        return '${item.readCount}';
+      }
+    }
+    return '';
   }
 
   _desText(TopicItem item) {

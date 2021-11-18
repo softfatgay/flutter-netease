@@ -10,7 +10,7 @@ import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/searchResultModel.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 
-@Deprecated('使用SearchIndexPage代替')
+@Deprecated('已弃用，使用SearchIndexPage代替')
 class SearchGoodsPage extends StatefulWidget {
   final Map? arguments;
 

@@ -126,6 +126,9 @@ final String POINT_CENTER = "${suffixUrl}xhr/points/index.json";
 ///会员俱乐部
 final String VIP_CENTER = "${suffixUrl}xhr/membership/indexPrivilege.json";
 
+///会员俱乐部
+final String VIP_CENTER_INDEX = "${suffixUrl}membership/index.json";
+
 ///加入购物车
 final String ADD_CART = "${suffixUrl}xhr/cart/add.json";
 

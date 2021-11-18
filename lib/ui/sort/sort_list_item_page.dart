@@ -11,9 +11,9 @@ import 'package:flutter_app/ui/sort/component/good_items.dart';
 import 'package:flutter_app/ui/sort/model/sortListData.dart';
 
 class SortListItemPage extends StatefulWidget {
-  var arguments;
+  final Category arguments;
 
-  SortListItemPage({this.arguments});
+  SortListItemPage({required this.arguments});
 
   @override
   _CatalogGoodsState createState() => _CatalogGoodsState();

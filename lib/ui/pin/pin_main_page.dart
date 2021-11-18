@@ -50,29 +50,31 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: _tabTitle.length, vsync: this);
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 95) {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (!_isLoading) {
-            setState(() {
-              this._isLoading = true;
-              _page += 1;
-            });
-            _getPinDataList(false); //加载数据
-          }
-        }
-        _streamController.sink.add(true);
-        if (_scrollController.position.pixels > 700) {
-          _upStreamController.sink.add(true);
-        } else {
-          _upStreamController.sink.add(false);
-        }
-      } else {
-        _streamController.sink.add(false);
-      }
-    });
+    _scrollController.addListener(_scrollListener);
     _getCategoryList();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels > 95) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (!_isLoading) {
+          setState(() {
+            this._isLoading = true;
+            _page += 1;
+          });
+          _getPinDataList(false); //加载数据
+        }
+      }
+      _streamController.sink.add(true);
+      if (_scrollController.position.pixels > 700) {
+        _upStreamController.sink.add(true);
+      } else {
+        _upStreamController.sink.add(false);
+      }
+    } else {
+      _streamController.sink.add(false);
+    }
   }
 
   @override
@@ -320,7 +322,6 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
 
         for (var item in result) {
           if (item.recommendRank == 0) {
-            print('---------------------------');
             moreData.add(item);
           } else {
             listData.add(item);
@@ -331,7 +332,6 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
           _moreDataList = moreData;
         });
       } else {
-        print('================================');
         setState(() {
           _moreDataList.insertAll(
               _moreDataList.length, saturdayBuyModel.result!);

@@ -59,7 +59,7 @@ class _TopicPageState extends State<TopicPage>
   var _toolbarHeight = 0;
   var _expandedHeight = 280.0;
 
-  num? _totalNum = 0;
+  num _totalNum = 0;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _TopicPageState extends State<TopicPage>
   void _getTopicData() async {
     var sp = await LocalStorage.sp;
     setState(() {
-      _totalNum = sp!.get(LocalStorage.totalNum) as num?;
+      _totalNum = (sp!.get(LocalStorage.totalNum) ?? 0) as num;
     });
     var responseData = await knowNavwap();
     setState(() {
@@ -139,7 +139,7 @@ class _TopicPageState extends State<TopicPage>
         var topicData = TopicData.fromJson(data);
         setState(() {
           _page++;
-          _hasMore = topicData.hasMore ?? false;
+          _hasMore = topicData.hasMore ?? true;
           _result = topicData.result ?? [];
           _result.forEach((element) {
             _dataList.addAll(element.topics!);
@@ -153,19 +153,6 @@ class _TopicPageState extends State<TopicPage>
         }
       }
     }
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _streamController.close();
-    _streamControllerTab.close();
-    _footerController.close();
-    _scrollController.dispose();
-    if (_timer != null) {
-      _timer.cancel();
-    }
-    super.dispose();
   }
 
   @override
@@ -200,14 +187,14 @@ class _TopicPageState extends State<TopicPage>
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
           staggeredTileBuilder: (index) =>
-              StaggeredTile.count(1, _crosAxis(_dataList[index])),
+              StaggeredTile.count(1, _crossAxis(_dataList[index])),
           itemBuilder: (context, index) {
             return TopicItemWidget(item: _dataList[index]);
           }),
     );
   }
 
-  double _crosAxis(TopicItem item) {
+  double _crossAxis(TopicItem item) {
     double imgH = 0.9;
     if (item.appBanHeight != null ||
         item.appBanWidth != null ||
@@ -273,19 +260,17 @@ class _TopicPageState extends State<TopicPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/topic_icon.png',
-                  height: 30,
-                ),
-                Text(
-                  '严选好物 用心生活',
-                  style: t14white,
-                )
-              ],
-            ),
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/topic_icon.png',
+                height: 30,
+              ),
+              Text(
+                '严选好物 用心生活',
+                style: t14white,
+              )
+            ],
           ),
           Container(
             height: 220,
@@ -375,5 +360,18 @@ class _TopicPageState extends State<TopicPage>
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _streamController.close();
+    _streamControllerTab.close();
+    _footerController.close();
+    _scrollController.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    super.dispose();
   }
 }

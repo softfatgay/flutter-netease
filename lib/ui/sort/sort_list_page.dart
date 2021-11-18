@@ -8,7 +8,7 @@ import 'package:flutter_app/ui/sort/model/sortListData.dart';
 import 'package:flutter_app/ui/sort/sort_list_item_page.dart';
 
 class SortListPage extends StatefulWidget {
-  Map? params;
+  final Map? params;
 
   SortListPage({this.params});
 

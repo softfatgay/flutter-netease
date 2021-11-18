@@ -34,6 +34,7 @@ import 'package:flutter_app/ui/mine/points_center_page.dart';
 import 'package:flutter_app/ui/mine/red_package/red_package_use_page.dart';
 import 'package:flutter_app/ui/mine/red_package/red_packet_page.dart';
 import 'package:flutter_app/ui/mine/reward_num_page.dart';
+import 'package:flutter_app/ui/mine/vip_center_page.dart';
 import 'package:flutter_app/ui/order_init/order_init_page.dart';
 import 'package:flutter_app/ui/pin/pin_detail_page.dart';
 import 'package:flutter_app/ui/pin/pin_main_page.dart';
@@ -288,8 +289,8 @@ class Routers {
           return PaySafeCenterPage();
         case 11: //反馈
           return FeedBack();
-        case 5: //优先购
         case 7: //会员俱乐部
+        case 5: //优先购
         case 10: //帮助客服
         case 12: //关于
         case 13: //关于

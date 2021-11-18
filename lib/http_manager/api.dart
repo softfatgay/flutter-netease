@@ -228,6 +228,11 @@ Future<ResponseData> vipCenter() async {
   return await HttpManager.post(VIP_CENTER, params: _getParams());
 }
 
+///会员俱乐部
+Future<ResponseData> vipCenterIndex() async {
+  return await HttpManager.get(VIP_CENTER_INDEX, params: _getParams());
+}
+
 ///加入购物车
 Future<ResponseData> addCart(Map<String, dynamic> params) async {
   params.addAll(_getParams());

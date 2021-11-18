@@ -48,6 +48,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     // TODO: implement initState
     super.initState();
     _getInitData("");
+    _getTotalNum();
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
       setState(() {
         _rondomIndex++;
@@ -58,12 +59,14 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     });
   }
 
-  _getInitData(String id) async {
+  _getTotalNum() async {
     var sp = await LocalStorage.sp;
     setState(() {
       _totalNum = sp!.get(LocalStorage.totalNum) as num?;
     });
+  }
 
+  _getInitData(String id) async {
     var responseData = await sortData({"categoryId": "$id"});
     if (responseData.data != null) {
       var data = responseData.data;
@@ -91,47 +94,44 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
       backgroundColor: Colors.white,
       body: _firstLoading
           ? Loading()
-          : Container(
-              child: Column(
-                children: <Widget>[
-                  _buildSearch(context),
-                  Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        VerticalTab(
-                          tabs: newTabs,
-                          onTabChange: (index) {
-                            setState(() {
-                              _activeIndex = index;
-                            });
-                            if (index == 0) {
-                              _categoryId = "";
-                            } else {
-                              _categoryId = "${_categoryL1List[index].id}";
-                            }
-                            _getInitData(_categoryId);
-                          },
-                          activeIndex: 0,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(width: 0.5, color: lineColor),
-                                bottom:
-                                    BorderSide(width: 0.5, color: lineColor),
-                              ),
+          : Column(
+              children: <Widget>[
+                _buildSearch(context),
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      VerticalTab(
+                        tabs: newTabs,
+                        onTabChange: (index) {
+                          setState(() {
+                            _activeIndex = index;
+                          });
+                          if (index == 0) {
+                            _categoryId = "";
+                          } else {
+                            _categoryId = "${_categoryL1List[index].id}";
+                          }
+                          _getInitData(_categoryId);
+                        },
+                        activeIndex: 0,
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(width: 0.5, color: lineColor),
+                              bottom: BorderSide(width: 0.5, color: lineColor),
                             ),
-                            child: _buildContent(),
                           ),
-                        )
-                      ],
-                    ),
+                          child: _buildContent(),
+                        ),
+                      )
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
     );
   }
@@ -257,10 +257,10 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     if (_timer != null) {
       _timer.cancel();
     }
+    super.dispose();
   }
 }
 
