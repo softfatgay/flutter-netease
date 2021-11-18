@@ -119,7 +119,7 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                             color: Color(0xFFFFFFFF),
                             borderRadius: BorderRadius.circular(2)),
                         child: Text(
-                          '$_currentIndex/${widget.dataList.length}',
+                          '${_currentIndex + 1}/${widget.dataList.length}',
                           style: t12black,
                         ),
                       ),
