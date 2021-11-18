@@ -419,7 +419,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         String? match = m.group(0);
         String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
         if (!imageUrls.contains(imageUrl)) {
-          print(imageUrl);
           imageUrls.add(imageUrl);
         }
       }
@@ -817,7 +816,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         ),
       ),
       onTap: () {
-        print('-------------------');
         NormalScrollDialog(
           title: '配送至',
           child: Padding(
@@ -921,7 +919,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _saveDftAddress(LocationItemModel item) async {
     var encode = json.encode(item);
-    print(encode);
     var sp = await LocalStorage.sp;
     sp?.setString(LocalStorage.dftAddress, encode);
     setState(() {
@@ -1681,7 +1678,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _showCouponDialog() {
     List<CouponModel> couponList = _couponList;
-    print(_couponList);
     return showModalBottomSheet(
       //设置true,不会造成底部溢出
       isScrollControlled: true,
@@ -2054,7 +2050,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            DialogTitleWidget(title: ''),
+            DialogTitleWidget(title: '到货提醒'),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(8),
