@@ -6,6 +6,10 @@ part 'styleItem.g.dart';
 class StyleItem {
   String? targetUrl;
   String? title;
+  String? picUrl;
+  String? originSchemeUrl;
+  String? descColor;
+  String? titleColor;
   String? desc;
   List<String?>? picUrlList;
 

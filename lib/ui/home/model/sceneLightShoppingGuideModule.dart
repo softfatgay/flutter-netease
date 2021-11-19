@@ -6,6 +6,7 @@ part 'sceneLightShoppingGuideModule.g.dart';
 @JsonSerializable()
 class SceneLightShoppingGuideModule {
   StyleItem? styleItem;
+  StyleItem? styleBanner;
 
   SceneLightShoppingGuideModule();
 

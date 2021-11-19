@@ -11,10 +11,14 @@ SceneLightShoppingGuideModule _$SceneLightShoppingGuideModuleFromJson(
     SceneLightShoppingGuideModule()
       ..styleItem = json['styleItem'] == null
           ? null
-          : StyleItem.fromJson(json['styleItem'] as Map<String, dynamic>);
+          : StyleItem.fromJson(json['styleItem'] as Map<String, dynamic>)
+      ..styleBanner = json['styleBanner'] == null
+          ? null
+          : StyleItem.fromJson(json['styleBanner'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$SceneLightShoppingGuideModuleToJson(
         SceneLightShoppingGuideModule instance) =>
     <String, dynamic>{
       'styleItem': instance.styleItem,
+      'styleBanner': instance.styleBanner,
     };

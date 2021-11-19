@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
+import 'package:flutter_app/ui/home/model/styleItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/color_util.dart';
 
 class HomeBottomView extends StatelessWidget {
   final List<SceneLightShoppingGuideModule> dataList;
@@ -17,17 +18,25 @@ class HomeBottomView extends StatelessWidget {
 
   _buildWidget(BuildContext context) {
     if (dataList.isEmpty) return singleSliverWidget(Container());
+
+    List<StyleItem?> data = [];
+    dataList.forEach((element) {
+      if (element.styleItem != null) data.add(element.styleItem);
+      if (element.styleBanner != null) data.add(element.styleBanner);
+    });
+
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
       sliver: singleSliverWidget(Row(
-        children: dataList.map((item) {
+        children: data.map((item) {
           Widget widget = Expanded(
             flex: 1,
             child: GestureDetector(
               onTap: () {
-                _goWebview(context, item.styleItem!.targetUrl);
+                _goWebView(context, item!.targetUrl);
               },
               child: Container(
+                height: 130,
                 decoration: BoxDecoration(
                     color: Color(0xFFF2F2F2),
                     borderRadius: BorderRadius.circular(3)),
@@ -42,39 +51,38 @@ class HomeBottomView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${item.styleItem!.title ?? ''}',
-                            style: t14blackBold,
+                            '${item!.title ?? ''}',
+                            style: TextStyle(
+                                color: HexColor.fromHex(
+                                    item.titleColor ?? '333333'),
+                                fontSize: 14),
                           ),
                           SizedBox(
                             height: 2,
                           ),
-                          Text(
-                            '${item.styleItem!.desc ?? ''}',
-                            style: dataList.indexOf(item) % 2 == 1
-                                ? t12warmingRed
-                                : t12violet,
-                          ),
+                          Text('${item.desc ?? ''}',
+                              style: TextStyle(
+                                  color: HexColor.fromHex(
+                                      item.descColor ?? '999999'),
+                                  fontSize: 12)),
                         ],
                       ),
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: '${item.styleItem!.picUrlList![0]}',
+                    Expanded(
+                      child: item.picUrlList == null
+                          ? CachedNetworkImage(imageUrl: '${item.picUrl}')
+                          : Row(
+                              children: item.picUrlList!
+                                  .map(
+                                    (element) => Expanded(
+                                      child: CachedNetworkImage(
+                                        imageUrl: '$element',
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
-                          ),
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: '${item.styleItem!.picUrlList![1]}',
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -86,7 +94,7 @@ class HomeBottomView extends StatelessWidget {
     );
   }
 
-  _goWebview(BuildContext context, String? url) {
+  _goWebView(BuildContext context, String? url) {
     Routers.push(Routers.webView, context, {'url': url});
   }
 }
