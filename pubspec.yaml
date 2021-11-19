@@ -74,5 +74,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mine/
+    - assets/images/user/
     - assets/images/service/
     - assets/json/home_data_json.json

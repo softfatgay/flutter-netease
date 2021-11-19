@@ -8,6 +8,7 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class RedPacketListPage extends StatefulWidget {
   final int searchType;
@@ -23,7 +24,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   int _size = 20;
 
   bool _hasMore = false;
-  List<PackageItem>? _dataList = [];
+  List<PackageItem> _dataList = [];
 
   final _scrollController = new ScrollController();
   bool _isLoading = true;
@@ -37,9 +38,9 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
         : CustomScrollView(
             controller: _scrollController,
             slivers: [
-              singleSliverWidget(_useDec()),
+              if (widget.searchType != 3) singleSliverWidget(_useDec()),
               if (_banner != null) _topBanner(context),
-              _buildItems(context),
+              _buildList1(context),
               SliverFooter(hasMore: _hasMore),
             ],
           );
@@ -50,19 +51,19 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: GestureDetector(
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
               'assets/images/dec_icon.png',
-              width: 18,
-              height: 18,
+              width: 16,
+              height: 16,
             ),
             SizedBox(width: 5),
             Text(
               '使用说明',
-              style: t14grey,
+              style: TextStyle(fontSize: 12, color: textLightGrey, height: 1),
             )
           ],
         ),
@@ -74,157 +75,205 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
     );
   }
 
-  _buildItems(BuildContext context) {
+  _buildList1(BuildContext context) {
+    print('重回');
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      sliver: SliverList(
-          delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-        return _buildItem(context, _dataList![index], index);
-      }, childCount: _dataList!.length)),
+      padding: EdgeInsets.all(10),
+      sliver: SliverStaggeredGrid.countBuilder(
+          itemCount: _dataList.length,
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          staggeredTileBuilder: (index) =>
+              StaggeredTile.count(1, _crossAxis(_dataList[index])),
+          itemBuilder: (context, index) {
+            return _buildItem(context, _dataList[index], index);
+          }),
     );
   }
 
+  _crossAxis(PackageItem item) {
+    if (item.isSelected == null || !item.isSelected!) {
+      return 1.3;
+    }
+    return 1.5;
+  }
+
   _buildItem(BuildContext context, PackageItem item, int index) {
-    var backColor =
-        widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFAFB4BC);
-    var bottomColor =
-        widget.searchType == 1 ? Color(0xFFE8837F) : Color(0xFFA3A5AE);
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      child: Stack(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Color(0xFFf5948b),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            widget.searchType == 1 ? Color(0xFFf5948b) : Color(0xFFB8BCC3),
+            widget.searchType == 1 ? Color(0xFFec6f73) : Color(0xFFB8BCC3),
+          ],
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 5),
+            height: 30,
+            width: double.infinity,
             decoration: BoxDecoration(
-                color: backColor, borderRadius: BorderRadius.circular(4)),
-            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(color: backColor),
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text(
-                            '${item.price}',
-                            style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w300,
-                                color: textWhite),
-                          ),
-                          Text(
-                            '元',
-                            style: TextStyle(color: textWhite),
-                          ),
-                        ],
+              borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
+              image: widget.searchType == 1
+                  ? DecorationImage(
+                      image: AssetImage(
+                        'assets/images/redpackage_top.png',
                       ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text('${item.name ?? ''}', style: t14white),
-                              Text(
-                                '${Util.long2date(item.validStartTime! * 1000 as int)}-${Util.long2date(item.validEndTime! * 1000 as int)}',
-                                style:
-                                    TextStyle(color: textWhite, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                widget.searchType == 1
-                    ? GestureDetector(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 15, left: 10),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: backWhite,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Text(
-                            '去使用',
-                            style: t14red,
-                          ),
-                        ),
-                        onTap: () {
-                          Routers.push(Routers.webView, context,
-                              {'url': item.schemeUrl});
-                        },
-                      )
-                    : Container(height: 15),
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                    decoration: BoxDecoration(
-                        color: bottomColor,
-                        borderRadius:
-                            BorderRadius.vertical(bottom: Radius.circular(4))),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '${item.rule ?? ''}',
-                            style: t12white,
-                            maxLines: item.isSelected == null
-                                ? 1
-                                : (item.isSelected! ? 15 : 1),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Icon(
-                          _returnIcon(item),
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if (item.isSelected == null) {
-                        item.isSelected = true;
-                      } else {
-                        item.isSelected = !item.isSelected!;
-                      }
-                    });
-                  },
-                ),
-              ],
+                      fit: BoxFit.fill,
+                    )
+                  : null,
             ),
           ),
-          if (item.tagList != null && item.tagList!.isNotEmpty)
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 5),
-              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-              decoration: BoxDecoration(
-                  color: Color(0xFFFBE8E8),
-                  borderRadius:
-                      BorderRadius.horizontal(right: Radius.circular(10))),
-              child: Text(
-                '${item.tagList![0].tagName}',
-                style: t12red,
+          (item.tagList == null || item.tagList!.isEmpty)
+              ? Container(height: 0)
+              : _buildTagItems(item.tagList!),
+          SizedBox(height: 5),
+          Text(
+            '${item.name}',
+            style: t14white,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                '${item.price}',
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w300,
+                    color: textWhite,
+                    height: 1),
+              ),
+              Text(
+                '元',
+                style: TextStyle(color: textWhite),
+              ),
+            ],
+          ),
+          Container(
+            child: Text(
+              '${Util.long2dateSecond(item.validStartTime! * 1000 as int)}-\n${Util.long2dateSecond(item.validEndTime! * 1000 as int)}',
+              style: TextStyle(color: textWhite, fontSize: 10),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: GestureDetector(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      '--------------------------------------------------------',
+                      style: t12white,
+                      maxLines: 1,
+                    ),
+                  ),
+                  if (item.schemeUrl != null)
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: backWhite,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        '去使用',
+                        style: t12red,
+                      ),
+                    ),
+                ],
+              ),
+              onTap: () {
+                Routers.push(Routers.webView, context, {'url': item.schemeUrl});
+              },
+            ),
+          ),
+          Expanded(
+              child: GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${item.rule ?? ''}',
+                      style: t12white,
+                      maxLines: item.isSelected == null
+                          ? 2
+                          : (item.isSelected! ? 15 : 2),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    _returnIcon(item),
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ],
               ),
             ),
+            onTap: () {
+              setState(() {
+                if (item.isSelected == null) {
+                  item.isSelected = true;
+                } else {
+                  item.isSelected = !item.isSelected!;
+                }
+              });
+              setState(() {});
+            },
+          )),
         ],
       ),
     );
+  }
+
+  _buildTagItems(List<TagListItem> list) {
+    return SingleChildScrollView(
+      child: Row(
+        children: list
+            .map(
+              (item) => Container(
+                margin: EdgeInsets.only(right: 5),
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                decoration: _tagDecoration(item),
+                child: Text(
+                  '${item.tagName}',
+                  style: TextStyle(
+                      color: item.tagStyle == 1 ? textRed : textWhite,
+                      fontSize: 12,
+                      height: 1.1),
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  _tagDecoration(TagListItem item) {
+    if (item.tagStyle == 1) {
+      return BoxDecoration(
+          color: Color(0xFFFBE8E8),
+          borderRadius: BorderRadius.horizontal(right: Radius.circular(10)));
+    } else {
+      return BoxDecoration(
+          color: backRed, borderRadius: BorderRadius.circular(10));
+    }
   }
 
   _returnIcon(PackageItem item) {
@@ -269,7 +318,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
       var redPackageMode = RedPackageMode.fromJson(data);
       setState(() {
         _banner = redPackageMode.banner;
-        _dataList = redPackageMode.searchResult!.result;
+        _dataList = redPackageMode.searchResult!.result ?? [];
         _pagination = redPackageMode.searchResult!.pagination;
         _hasMore = !_pagination.lastPage;
         _page = _pagination.page + 1;

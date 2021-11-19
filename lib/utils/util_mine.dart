@@ -28,6 +28,12 @@ class Util {
     return formatter.format(time);
   }
 
+  static String long2dateSecond(int tem) {
+    DateTime time = DateTime.fromMicrosecondsSinceEpoch(tem);
+    var formatter = DateFormat('yyyy.MM.dd HH:MM:ss');
+    return formatter.format(time);
+  }
+
   static String long2dateD(int tem) {
     DateTime time = DateTime.fromMicrosecondsSinceEpoch(tem);
     var formatter = DateFormat('yyyy.MM.dd');

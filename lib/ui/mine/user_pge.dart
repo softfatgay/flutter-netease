@@ -175,10 +175,10 @@ class _MinePageState extends State<UserPage>
           mineSettingItems.insert(2, {
             "name": "我的手机号",
             "status": "${_phoneStatusModel.status}",
-            "image": "assets/images/mine/phone.png",
             "url":
                 "${NetConstants.baseUrl}ucenter/mymobile?mobile=${_phoneStatusModel.mobile}&status=${_phoneStatusModel.status}&callback=${NetConstants.baseUrl}ucenter",
-            "id": 12
+            "id": 12,
+            "pic": "assets/images/user/mine_item_3.png",
           });
         });
       }
@@ -392,9 +392,9 @@ class _MinePageState extends State<UserPage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  item["image"] as String,
-                  width: 30,
-                  height: 30,
+                  item["pic"] as String,
+                  width: 35,
+                  height: 35,
                 ),
                 SizedBox(
                   height: 5,
@@ -474,84 +474,84 @@ class _MinePageState extends State<UserPage>
     {
       "name": "我的订单",
       "status": "0",
-      "image": "assets/images/mine/dingdan.png",
-      "id": 0
+      "id": 0,
+      "pic": "assets/images/user/mine_item_1.png",
     },
     {
       "name": "账号管理",
       "status": "0",
-      "image": "assets/images/mine/zhanghaoguanli.png",
-      "id": 1
+      "id": 1,
+      "pic": "assets/images/user/mine_item_2.png",
     },
     {
       "name": "周六一起拼",
       "status": "0",
-      "image": "assets/images/mine/zhouliu.png",
-      "id": 2
+      "id": 2,
+      "pic": "assets/images/user/mine_item_4.png",
     },
     {
       "name": "售后服务",
       "status": "0",
-      "image": "assets/images/mine/shouhoufuwu.png",
-      "id": 3
+      "id": 3,
+      "pic": "assets/images/user/mine_item_5.png",
     },
     {
       "name": "邀请返利",
       "status": "0",
-      "image": "assets/images/mine/yaoqingfanli.png",
-      "id": 4
+      "id": 4,
+      "pic": "assets/images/user/mine_item_6.png",
     },
     {
       "name": "优先购",
       "status": "0",
-      "image": "assets/images/mine/youxiangou.png",
       "url": "${NetConstants.baseUrl}preemption/index.html",
-      "id": 5
+      "id": 5,
+      "pic": "assets/images/user/mine_item_7.png",
     },
     {
       "name": "积分中心",
       "status": "0",
-      "image": "assets/images/mine/jifenzhongxin.png",
-      "id": 6
+      "id": 6,
+      "pic": "assets/images/user/mine_item_8.png",
     },
     {
       "name": "会员俱乐部",
       "status": "0",
-      "image": "assets/images/mine/huiyuanzhongxin.png",
       "url": "${NetConstants.baseUrl}membership/index",
-      "id": 7
+      "id": 7,
+      "pic": "assets/images/user/mine_item_9.png",
     },
     {
       "name": "地址管理",
       "status": "0",
-      "image": "assets/images/mine/dizhiguanli.png",
-      "id": 8
+      "id": 8,
+      "pic": "assets/images/user/mine_item_10.png",
     },
     {
       "name": "支付安全",
       "status": "0",
-      "image": "assets/images/mine/zhifuanquan.png",
-      "id": 9
+      "id": 9,
+      "pic": "assets/images/user/mine_item_11.png",
     },
     {
       "name": "帮助与客服",
       "status": "0",
-      "image": "assets/images/mine/kefu.png",
       "url": "${NetConstants.baseUrl}help/new#/",
-      "id": 10
+      "id": 10,
+      "pic": "assets/images/user/mine_item_12.png",
     },
     {
       "name": "意见反馈",
       "status": "0",
-      "image": "assets/images/mine/yijianfankui.png",
-      "id": 11
+      "id": 11,
+      "pic": "assets/images/user/mine_item_13.png",
     },
     {
       "name": "我的拍卖",
       "status": "0",
-      "image": "assets/images/mine/paimai.png",
       "url": "${NetConstants.baseUrl}auction/wap/profile/list",
-      "id": 13
+      "id": 13,
+      "pic": "assets/images/user/mine_item_14.png",
     }
   ];
 
