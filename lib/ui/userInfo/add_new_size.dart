@@ -45,7 +45,7 @@ class _AddNewSizeState extends State<AddNewSize> {
 
   num? _id;
 
-  SizeItemModel _sizeItemModel = SizeItemModel();
+  var _sizeItemModel = SizeItemModel();
 
   @override
   void initState() {
@@ -54,7 +54,6 @@ class _AddNewSizeState extends State<AddNewSize> {
       _sizeImg = _manImg;
       if (widget.params != null) {
         _id = widget.params!['id'];
-        print(_id);
         _querySizeId(_id);
       }
     });
@@ -64,10 +63,10 @@ class _AddNewSizeState extends State<AddNewSize> {
   _querySizeId(num? id) async {
     Map<String, dynamic> params = {'id': id};
     var responseData = await querySizeId(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _sizeItemModel = SizeItemModel.fromJson(responseData.data);
+    if (mounted) {
+      if (responseData.code == '200') {
         setState(() {
+          _sizeItemModel = SizeItemModel.fromJson(responseData.data);
           _tController1.text = _sizeItemModel.roleName!;
           _tController2.text = _setSize(_sizeItemModel.height);
           _tController3.text = _setSize(_sizeItemModel.bodyWeight);
@@ -84,7 +83,7 @@ class _AddNewSizeState extends State<AddNewSize> {
             _sizeImg = _womenImg;
           }
         });
-      });
+      }
     }
   }
 
@@ -92,62 +91,62 @@ class _AddNewSizeState extends State<AddNewSize> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(title: '添加尺码').build(context),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 65 + MediaQuery.of(context).padding.bottom,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildName('角色名称', _tController1),
-                  _buildSex(),
-                  _buildContent(
-                      '身高(cm)', _tController2, '体重(kg)', _tController3),
-                  _buildContent(
-                      '肩宽(cm)', _tController4, '胸围(cm)', _tController5),
-                  _buildContent(
-                      '腰围(cm)', _tController6, '臀围(cm)', _tController7),
-                  _buildContent(
-                      '脚长(cm)', _tController8, '脚围(cm)', _tController9),
-                  (_sex == 1 || _sex == 3)
-                      ? Container()
-                      : _buildContent('下胸围(cm)', _tController10, '', null),
-                  Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Text(
-                      '信息越完整, 对您选择服饰时越有帮助',
-                      style: t12grey,
-                    ),
-                  ),
-                  _checkDft(),
-                  Container(height: 10, color: backColor),
-                  _sizeModelTitle(),
-                  _sizeModelImg()
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0 + MediaQuery.of(context).padding.bottom,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: backWhite,
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              child: NormalBtn('保存', backRed, () {
-                _saveSize();
-              }, corner: 4),
-            ),
-          ),
-        ],
-      ),
+      body: _buildBody(context),
     );
   }
 
-  Container _sizeModelTitle() {
+  _buildBody(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 65 + MediaQuery.of(context).padding.bottom,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildName('角色名称', _tController1),
+                _buildSex(),
+                _buildContent('身高(cm)', _tController2, '体重(kg)', _tController3),
+                _buildContent('肩宽(cm)', _tController4, '胸围(cm)', _tController5),
+                _buildContent('腰围(cm)', _tController6, '臀围(cm)', _tController7),
+                _buildContent('脚长(cm)', _tController8, '脚围(cm)', _tController9),
+                (_sex == 1 || _sex == 3)
+                    ? Container()
+                    : _buildContent('下胸围(cm)', _tController10, '', null),
+                Container(
+                  margin: EdgeInsets.only(top: 15),
+                  child: Text(
+                    '信息越完整, 对您选择服饰时越有帮助',
+                    style: t12grey,
+                  ),
+                ),
+                _checkDft(),
+                Container(height: 10, color: backColor),
+                _sizeModelTitle(),
+                _sizeModelImg()
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0 + MediaQuery.of(context).padding.bottom,
+          left: 0,
+          right: 0,
+          child: Container(
+            color: backWhite,
+            padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            child: NormalBtn('保存', backRed, () {
+              _saveSize();
+            }, corner: 4),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _sizeModelTitle() {
     return Container(
       width: double.infinity,
       alignment: Alignment.center,

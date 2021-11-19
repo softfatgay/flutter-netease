@@ -74,16 +74,18 @@ class _LayawayPageState extends State<LayawayPage> {
 
   void _layaway() async {
     var responseData = await layaway();
-    if (responseData.OData != null) {
-      List layawayList = responseData.OData['layawayIndex']['layawayList'];
+    if (mounted) {
+      if (responseData.OData != null) {
+        List layawayList = responseData.OData['layawayIndex']['layawayList'];
 
-      List<LayawayModel> data = [];
-      layawayList.forEach((element) {
-        data.add(LayawayModel.fromJson(element));
-      });
-      setState(() {
-        _dataList = data;
-      });
+        List<LayawayModel> data = [];
+        layawayList.forEach((element) {
+          data.add(LayawayModel.fromJson(element));
+        });
+        setState(() {
+          _dataList = data;
+        });
+      }
     }
   }
 

@@ -261,40 +261,44 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
 
   void _getCategoryList() async {
     var responseData = await getPinCategoryList();
-    var data = responseData.data;
+    if (mounted) {
+      if (responseData.code == '200') {
+        var data = responseData.data;
+        var tabGroupModel = TabGroupModel.fromJson(data);
+        var tabList = tabGroupModel.tabList!;
+        List<TabModel> dataList = [];
+        tabList.forEach((element) {
+          element.type = 'tabId';
+          dataList.add(element);
+        });
+        var categoryList = tabGroupModel.categoryList!;
+        dataList.addAll(categoryList);
 
-    var tabGroupModel = TabGroupModel.fromJson(data);
-    var tabList = tabGroupModel.tabList!;
-    List<TabModel> dataList = [];
-    tabList.forEach((element) {
-      element.type = 'tabId';
-      dataList.add(element);
-    });
-    var categoryList = tabGroupModel.categoryList!;
-    dataList.addAll(categoryList);
-
-    if (_tabTitle.isEmpty) {
-      setState(() {
-        _tabTitle = dataList;
-        _tabController = TabController(length: _tabTitle.length, vsync: this)
-          ..addListener(() {
-            setState(() {
-              if (_tabController.index == _tabController.animation!.value) {
-                _hasMore = true;
-                _page = 1;
-                if (_tabTitle[_tabController.index].type != null) {
-                  _tabIdType = 'tabId';
-                } else {
-                  _tabIdType = 'categoryId';
-                }
-                tabId = _tabTitle[_tabController.index].id as int?;
-                _getPinDataList(true);
-              }
-            });
+        if (_tabTitle.isEmpty) {
+          setState(() {
+            _tabTitle = dataList;
+            _tabController = TabController(
+                length: _tabTitle.length, vsync: this)
+              ..addListener(() {
+                setState(() {
+                  if (_tabController.index == _tabController.animation!.value) {
+                    _hasMore = true;
+                    _page = 1;
+                    if (_tabTitle[_tabController.index].type != null) {
+                      _tabIdType = 'tabId';
+                    } else {
+                      _tabIdType = 'categoryId';
+                    }
+                    tabId = _tabTitle[_tabController.index].id as int?;
+                    _getPinDataList(true);
+                  }
+                });
+              });
+            _isFirstLoading = false;
+            _getPinDataList(false);
           });
-        _isFirstLoading = false;
-        _getPinDataList(false);
-      });
+        }
+      }
     }
   }
 
@@ -307,52 +311,40 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
     var responseData = await getPinDataList(params, showLoading);
     var saturdayBuyModel = SaturdayBuyModel.fromJson(responseData.data);
 
-    setState(() {
-      _isLoading = false;
-      _pagination = saturdayBuyModel.pagination;
-      if (_page >= _pagination!.totalPage!) {
-        _hasMore = false;
-      }
-      if (_page == 1) {
-        _dataList.clear();
-        _moreDataList.clear();
-        List result = saturdayBuyModel.result!;
-        List<Result> listData = [];
-        List<Result> moreData = [];
-
-        for (var item in result) {
-          if (item.recommendRank == 0) {
-            moreData.add(item);
-          } else {
-            listData.add(item);
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _isLoading = false;
+          _pagination = saturdayBuyModel.pagination;
+          if (_page >= _pagination!.totalPage!) {
+            _hasMore = false;
           }
-        }
-        setState(() {
-          _dataList = listData;
-          _moreDataList = moreData;
-        });
-      } else {
-        setState(() {
-          _moreDataList.insertAll(
-              _moreDataList.length, saturdayBuyModel.result!);
+          if (_page == 1) {
+            _dataList.clear();
+            _moreDataList.clear();
+            List result = saturdayBuyModel.result!;
+            List<Result> listData = [];
+            List<Result> moreData = [];
+
+            for (var item in result) {
+              if (item.recommendRank == 0) {
+                moreData.add(item);
+              } else {
+                listData.add(item);
+              }
+            }
+            setState(() {
+              _dataList = listData;
+              _moreDataList = moreData;
+            });
+          } else {
+            setState(() {
+              _moreDataList.insertAll(
+                  _moreDataList.length, saturdayBuyModel.result!);
+            });
+          }
         });
       }
-    });
-
-    // setState(() {
-    //   _isLoading = false;
-    //   _pagination = saturdayBuyModel.pagination;
-    //   if (_page >= _pagination.totalPage) {
-    //     _hasMore = false;
-    //   }
-    //   if (_page == 1) {
-    //     _dataList.clear();
-    //     _moreDataList.clear();
-    //     _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
-    //     _scrollController.position.jumpTo(0);
-    //   } else {
-    //     _dataList.insertAll(_dataList.length, saturdayBuyModel.result);
-    //   }
-    // });
+    }
   }
 }

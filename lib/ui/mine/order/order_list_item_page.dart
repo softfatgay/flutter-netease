@@ -24,7 +24,7 @@ class _OrderListItemPageState extends State<OrderListItemPage>
   bool get wantKeepAlive => true;
 
   late OrderListModel _data;
-  List<OrderListItem>? _orderList;
+  List<OrderListItem> _orderList = [];
   bool _isLoading = true;
 
   @override
@@ -51,42 +51,49 @@ class _OrderListItemPageState extends State<OrderListItemPage>
       "status": widget.arguments!['status']
     };
     var responseData = await getOrderList(params);
-
-    setState(() {
-      _data = OrderListModel.fromJson(responseData.data);
-      _orderList = _data.list;
-      _isLoading = false;
-    });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _data = OrderListModel.fromJson(responseData.data);
+          _orderList = _data.list ?? [];
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   _buildOrderList() {
-    return _orderList == null || _orderList!.isEmpty
-        ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/no_order.png",
-                  width: 120,
-                  height: 120,
-                ),
-                Text(
-                  "还没有任何订单呢",
-                  style: t14grey,
-                )
-              ],
-            ),
-          )
+    return _orderList.isEmpty
+        ? _emptyPage()
         : ListView.builder(
             padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
             itemBuilder: (context, index) => _buildItem(context, index),
-            itemCount: _orderList!.length,
+            itemCount: _orderList.length,
           );
   }
 
+  _emptyPage() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/images/no_order.png",
+            width: 120,
+            height: 120,
+          ),
+          Text(
+            "还没有任何订单呢",
+            style: t14grey,
+          )
+        ],
+      ),
+    );
+  }
+
   _buildItem(BuildContext context, int index) {
-    OrderListItem item = _orderList![index];
+    OrderListItem item = _orderList[index];
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(top: 10),

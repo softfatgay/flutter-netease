@@ -27,10 +27,18 @@ class _CouponPageState extends State<CouponPage> {
 
   bool _isLoading = true;
   Pagination? _pagination;
-  final controller = TextEditingController();
+  final _textController = TextEditingController();
 
   List<CouponItemModel> _dataList = [];
   final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+    _getResult();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,51 +59,47 @@ class _CouponPageState extends State<CouponPage> {
     );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _scrollController.addListener(() {
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_pagination != null && !_pagination!.lastPage!) {
-          _getMore();
-        }
+  void _scrollListener() {
+    // 如果下拉的当前位置到scroll的最下面
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_pagination != null && !_pagination!.lastPage!) {
+        _getMore();
       }
-    });
-    _getResult();
+    }
   }
 
   _getResult() async {
     Future.wait([_getData(1), _getData(3)]).then((result) {
-      List<CouponItemModel> dataList = [];
+      if (mounted) {
+        List<CouponItemModel> dataList = [];
 
-      ///可使用
-      List data = result[0].data['result'];
-      data.forEach((element) {
-        var couponItemModel = CouponItemModel.fromJson(element);
-        dataList.add(couponItemModel);
-      });
+        ///可使用
+        List data = result[0].data['result'];
+        data.forEach((element) {
+          var couponItemModel = CouponItemModel.fromJson(element);
+          dataList.add(couponItemModel);
+        });
 
-      ///添加一个失效标记
-      var couponItemModel = CouponItemModel()..title = '已失效';
-      dataList.insert(dataList.length, couponItemModel);
+        ///添加一个失效标记
+        var couponItemModel = CouponItemModel()..title = '已失效';
+        dataList.insert(dataList.length, couponItemModel);
 
-      ///已过期
-      List unData = result[1].data['result'];
+        ///已过期
+        List unData = result[1].data['result'];
 
-      unData.forEach((element) {
-        var couponItemModel = CouponItemModel.fromJson(element);
-        dataList.add(couponItemModel);
-      });
+        unData.forEach((element) {
+          var couponItemModel = CouponItemModel.fromJson(element);
+          dataList.add(couponItemModel);
+        });
 
-      setState(() {
-        _nowCoupon = data;
-        _dataList = dataList;
-        _pagination = Pagination.fromJson(result[1].data['pagination']);
-        _isLoading = false;
-      });
+        setState(() {
+          _nowCoupon = data;
+          _dataList = dataList;
+          _pagination = Pagination.fromJson(result[1].data['pagination']);
+          _isLoading = false;
+        });
+      }
     });
   }
 
@@ -303,6 +307,7 @@ class _CouponPageState extends State<CouponPage> {
   void dispose() {
     // TODO: implement dispose
     _scrollController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -327,7 +332,7 @@ class _CouponPageState extends State<CouponPage> {
     return Container(
       color: backWhite,
       child: NormalFiledClearWidget(
-        controller: controller,
+        controller: _textController,
         hintText: '请输入激活码',
         onBtnClick: (value) {
           _couponActivate(value);
@@ -339,8 +344,10 @@ class _CouponPageState extends State<CouponPage> {
   void _couponActivate(String value) async {
     Map<String, dynamic> params = {'activationCode': value};
     var responseData = await couponActivate(params);
-    if (responseData.code == '200') {
-      Toast.show(responseData.data['countInfo'], context);
+    if (mounted) {
+      if (responseData.code == '200') {
+        Toast.show(responseData.data['countInfo'], context);
+      }
     }
   }
 

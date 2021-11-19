@@ -82,44 +82,48 @@ class _PinDetailPageState extends State<PinDetailPage> {
   _pinRecommend() async {
     Map<String, dynamic> params = {'baseId': _baseId};
     var responseData = await pinRecommend(params);
-    if (responseData.code == '200') {
-      List<PinRecommonModel> commonList = [];
-      var data = responseData.data;
-      data.forEach((element) {
-        commonList.add(PinRecommonModel.fromJson(element));
-      });
-      setState(() {
-        _commonList = commonList;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        List<PinRecommonModel> commonList = [];
+        var data = responseData.data;
+        data.forEach((element) {
+          commonList.add(PinRecommonModel.fromJson(element));
+        });
+        setState(() {
+          _commonList = commonList;
+        });
+      }
     }
   }
 
   _pinItemDetail() async {
     Map<String, dynamic> params = {'baseId': _baseId};
     var responseData = await pinItemDetail(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _detailModel = PinItemDetailModel.fromJson(responseData.data);
-        _itemInfo = _detailModel.itemInfo;
-        _initLoading = false;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _detailModel = PinItemDetailModel.fromJson(responseData.data);
+          _itemInfo = _detailModel.itemInfo;
+          _initLoading = false;
+        });
 
-      var html = _detailModel.itemDetail!['detailHtml'];
-      RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
-      List<String> imageUrls = [];
-      Iterable<Match> mobiles = exp.allMatches(html);
-      for (Match m in mobiles) {
-        String? match = m.group(0);
-        String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
-        if (!imageUrls.contains(imageUrl)) {
-          print(imageUrl);
-          imageUrls.add(imageUrl);
+        var html = _detailModel.itemDetail!['detailHtml'];
+        RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
+        List<String> imageUrls = [];
+        Iterable<Match> mobiles = exp.allMatches(html);
+        for (Match m in mobiles) {
+          String? match = m.group(0);
+          String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
+          if (!imageUrls.contains(imageUrl)) {
+            print(imageUrl);
+            imageUrls.add(imageUrl);
+          }
         }
-      }
 
-      setState(() {
-        _detailImages = imageUrls;
-      });
+        setState(() {
+          _detailImages = imageUrls;
+        });
+      }
     }
   }
 
@@ -132,11 +136,13 @@ class _PinDetailPageState extends State<PinDetailPage> {
       'tag': '',
     };
     var responseData = await commentListData(params);
-    setState(() {
-      var recommendPageModel = CommondPageModel.fromJson(responseData.data);
-      _commentList = recommendPageModel.result;
-      _commentCount = recommendPageModel.pagination!.total;
-    });
+    if (mounted) {
+      setState(() {
+        var recommendPageModel = CommondPageModel.fromJson(responseData.data);
+        _commentList = recommendPageModel.result;
+        _commentCount = recommendPageModel.pagination!.total;
+      });
+    }
   }
 
   @override

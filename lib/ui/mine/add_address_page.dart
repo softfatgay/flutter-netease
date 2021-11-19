@@ -78,153 +78,154 @@ class _AddAddressPageState extends State<AddAddressPage>
         appBar: TopAppBar(
           title: _title,
         ).build(context),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: MTextFiled(
-                        keyboardType: TextInputType.text,
-                        controller: _nameController,
-                        hintText: '姓名',
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: MTextFiled(
-                        keyboardType: TextInputType.number,
-                        controller: _phoneC,
-                        maxLength: 11,
-                        hintText: '手机号',
-                      ),
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        color: Colors.white,
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          padding: EdgeInsets.symmetric(
-                            vertical: 15,
-                          ),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 0.5, color: lineColor))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '$_addressTips',
-                                style: _addressTips == _dftAddressTips
-                                    ? t14lightGrey
-                                    : t16black,
-                              ),
-                              _addressTips == _dftAddressTips
-                                  ? Text(
-                                      '(请选择乡镇/街道)',
-                                      style: t14Orange,
-                                    )
-                                  : Container()
-                            ],
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        _showAddress(context);
-                      },
-                    ),
-                    Container(
-                      color: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: MTextFiled(
-                        keyboardType: TextInputType.text,
-                        controller: _addressC,
-                        hintText: '详细地址 街道 楼盘号等',
-                      ),
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        padding: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(color: Color(0xFFFEFEFE)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Checkbox(
-                              value: _check,
-                              //选中时的颜色
-                              activeColor: Colors.red,
-                              onChanged: (value) {
-                                setState(() {
-                                  _check = !_check;
-                                });
-                              },
-                            ),
-                            Text(
-                              '设为默认地址',
-                              style: t16black,
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _check = !_check;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Row(
+        body: _buildBody(context),
+      ),
+    );
+  }
+
+  _buildBody(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Container(
+            child: Column(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      alignment: Alignment.center,
-                      color: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      child: Text(
-                        '取消',
-                        style: TextStyle(color: textGrey, fontSize: 16),
-                      ),
-                    ),
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: MTextFiled(
+                    keyboardType: TextInputType.text,
+                    controller: _nameController,
+                    hintText: '姓名',
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: _addAddress,
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: MTextFiled(
+                    keyboardType: TextInputType.number,
+                    controller: _phoneC,
+                    maxLength: 11,
+                    hintText: '手机号',
+                  ),
+                ),
+                GestureDetector(
+                  child: Container(
+                    color: Colors.white,
                     child: Container(
-                      alignment: Alignment.center,
-                      color: redColor,
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      child: Text(
-                        '保存',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 15,
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              bottom:
+                                  BorderSide(width: 0.5, color: lineColor))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '$_addressTips',
+                            style: _addressTips == _dftAddressTips
+                                ? t14lightGrey
+                                : t16black,
+                          ),
+                          _addressTips == _dftAddressTips
+                              ? Text(
+                                  '(请选择乡镇/街道)',
+                                  style: t14Orange,
+                                )
+                              : Container()
+                        ],
                       ),
                     ),
                   ),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    _showAddress(context);
+                  },
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: MTextFiled(
+                    keyboardType: TextInputType.text,
+                    controller: _addressC,
+                    hintText: '详细地址 街道 楼盘号等',
+                  ),
+                ),
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    decoration: BoxDecoration(color: Color(0xFFFEFEFE)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: _check,
+                          //选中时的颜色
+                          activeColor: Colors.red,
+                          onChanged: (value) {
+                            setState(() {
+                              _check = !_check;
+                            });
+                          },
+                        ),
+                        Text(
+                          '设为默认地址',
+                          style: t16black,
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _check = !_check;
+                    });
+                  },
                 ),
               ],
             ),
+          ),
+        ),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  child: Text(
+                    '取消',
+                    style: TextStyle(color: textGrey, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: _addAddress,
+                child: Container(
+                  alignment: Alignment.center,
+                  color: redColor,
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  child: Text(
+                    '保存',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
-      ),
+      ],
     );
   }
 
@@ -237,24 +238,19 @@ class _AddAddressPageState extends State<AddAddressPage>
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (context, setStates) {
           return Container(
-            child: SingleChildScrollView(
-              child: Container(
-                height: 350,
-                color: Colors.white,
-                child: AddressSelector(
-                  addressValue: (province, city, dis, town) {
-                    setState(() {
-                      _provinceItem = province;
-                      _cityItem = city;
-                      _disItem = dis;
-                      _townItem = town;
-                      _addressTips =
-                          '${_provinceItem.zonename! + ' ' + _cityItem.zonename! + ' ' + _disItem.zonename! + ' ' + _townItem.zonename!}';
-                    });
-                    // Navigator.pop(context);
-                  },
-                ),
-              ),
+            height: 350,
+            color: Colors.white,
+            child: AddressSelector(
+              addressValue: (province, city, dis, town) {
+                setState(() {
+                  _provinceItem = province;
+                  _cityItem = city;
+                  _disItem = dis;
+                  _townItem = town;
+                  _addressTips =
+                      '${_provinceItem.zonename! + ' ' + _cityItem.zonename! + ' ' + _disItem.zonename! + ' ' + _townItem.zonename!}';
+                });
+              },
             ),
           );
         });
@@ -279,11 +275,12 @@ class _AddAddressPageState extends State<AddAddressPage>
       'dft': _check,
     };
 
-    await addAddress(params).then((responseData) {
+    var responseData = await addAddress(params);
+    if (mounted) {
       if (responseData.code == '200') {
         Navigator.pop(context);
       }
-    });
+    }
   }
 
   @override

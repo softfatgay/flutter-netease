@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
+import 'package:flutter_app/component/check_box.dart';
+import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/button_widget.dart';
-import 'package:flutter_app/component/check_box.dart';
-import 'package:flutter_app/component/global.dart';
-import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -42,70 +42,76 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   void _getUserInfo() async {
     var responseData = await ucenterInfo();
-    setState(() {
-      _userInfoModel = UserInfoModel.fromJson(responseData.data);
-      var user = _userInfoModel.user!;
-      _nameController.text = user.nickname!;
-      _sex = user.gender as int?;
-      if (user.birthYear != 0) {
-        _bYear = user.birthYear.toString();
-        _bMonth = user.birthMonth.toString();
-        _bDay = user.birthDay.toString();
-      }
-    });
+    if (mounted) {
+      setState(() {
+        _userInfoModel = UserInfoModel.fromJson(responseData.data);
+        var user = _userInfoModel.user!;
+        _nameController.text = user.nickname!;
+        _sex = user.gender as int?;
+        if (user.birthYear != 0) {
+          _bYear = user.birthYear.toString();
+          _bMonth = user.birthMonth.toString();
+          _bDay = user.birthDay.toString();
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopAppBar(title: '个人信息').build(context),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            bottom: 45,
-            left: 0,
-            right: 0,
-            child: SingleChildScrollView(
-              child: Column(
+      body: _buildBody(context),
+    );
+  }
+
+  Stack _buildBody(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          bottom: 45,
+          left: 0,
+          right: 0,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildUserIcon(),
+                SizedBox(height: 10),
+                _buildId(),
+                _buildAccount(),
+                _buildNickame(),
+                _buildSexy(),
+                _buildBirthday(),
+                _favorite(),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: SafeArea(
+            child: Container(
+              width: double.infinity,
+              color: backWhite,
+              child: Row(
                 children: [
-                  _buildUserIcon(),
-                  SizedBox(height: 10),
-                  _buildId(),
-                  _buildAccount(),
-                  _buildNickame(),
-                  _buildSexy(),
-                  _buildBirthday(),
-                  _favorite(),
+                  Expanded(
+                      child: NormalBtn('取消', backWhite, () {
+                    Navigator.pop(context);
+                  }, textStyle: t14grey)),
+                  Expanded(
+                      child: NormalBtn('保存', backRed, () {
+                    _saveDetail();
+                  })),
                 ],
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: Container(
-                width: double.infinity,
-                color: backWhite,
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: NormalBtn('取消', backWhite, () {
-                      Navigator.pop(context);
-                    }, textStyle: t14grey)),
-                    Expanded(
-                        child: NormalBtn('保存', backRed, () {
-                      _saveDetail();
-                    })),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 

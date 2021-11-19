@@ -55,31 +55,35 @@ class _KingKongPageState extends State<NewItemPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController.addListener(() {
-      var position = _scrollController.position;
-      if (position.pixels > _key1Height) {
-        if (_isPinned) {
-          setState(() {
-            _isPinned = false;
-          });
-        }
-      }
-    });
+    _scrollController.addListener(_scrollListener);
     _getInitData(0);
+  }
+
+  void _scrollListener() {
+    var position = _scrollController.position;
+    if (position.pixels > _key1Height) {
+      if (_isPinned) {
+        setState(() {
+          _isPinned = false;
+        });
+      }
+    }
   }
 
   void _preNewItem() async {
     var responseData = await preNewItem();
-    if (responseData.code == '200') {
-      List data = responseData.data;
-      List<PreNewItem> preItemList = [];
-      data.forEach((element) {
-        preItemList.add(PreNewItem.fromJson(element));
-      });
-      setState(() {
-        _preItemList = preItemList;
-      });
-      _key1Height = RenderBoxUtil.offsetY(context, _key1);
+    if (mounted) {
+      if (responseData.code == '200') {
+        List data = responseData.data;
+        List<PreNewItem> preItemList = [];
+        data.forEach((element) {
+          preItemList.add(PreNewItem.fromJson(element));
+        });
+        setState(() {
+          _preItemList = preItemList;
+        });
+        _key1Height = RenderBoxUtil.offsetY(context, _key1);
+      }
     }
   }
 

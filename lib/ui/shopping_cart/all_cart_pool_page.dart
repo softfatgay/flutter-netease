@@ -5,7 +5,6 @@ import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/tab_app_bar.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
-import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/model/pagination.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/shopping_cart/components/bottom_pool_widget.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_app/ui/shopping_cart/components/good_item_add_cart_widge
 import 'package:flutter_app/ui/shopping_cart/model/itemPoolBarModel.dart';
 import 'package:flutter_app/ui/shopping_cart/model/itemPoolModel.dart';
 import 'package:flutter_app/ui/sort/model/categoryL1Item.dart';
-import 'package:flutter_app/utils/user_config.dart';
 
 ///去凑单，未达到包邮条件
 class AllCartItemPoolPage extends StatefulWidget {
@@ -51,34 +49,36 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: _categoryList.length, vsync: this);
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 500) {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (_pagination != null) {
-            if (_pagination!.totalPage! > _pagination!.page!) {
-              setState(() {
-                _page++;
-              });
-              _itemPool();
-            }
-          }
-        }
-        if (!_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = true;
-          });
-        }
-      } else {
-        if (_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = false;
-          });
-        }
-      }
-    });
+    _scrollController.addListener(_scrollListener);
     _itemPool();
     _itemPoolBar();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels > 500) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (_pagination != null) {
+          if (_pagination!.totalPage! > _pagination!.page!) {
+            setState(() {
+              _page++;
+            });
+            _itemPool();
+          }
+        }
+      }
+      if (!_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = true;
+        });
+      }
+    } else {
+      if (_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = false;
+        });
+      }
+    }
   }
 
   @override
@@ -159,55 +159,58 @@ class _AllCartItemPoolPageState extends State<AllCartItemPoolPage>
       'resultKey': _resultKey,
     };
 
-    // var responseData = await itemPool(params, showProgress: showProgress);
     var responseData = await getItemPool(params, showProgress: showProgress);
-    if (responseData.code == '200') {
-      setState(() {
-        _isLoading = false;
-        _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
-        var searchParams = _itemPoolModel.searchParams;
-        _resultKey = searchParams!.resultKey ?? '';
-        if (_categoryList.isEmpty) {
-          _categoryList = _itemPoolModel.categorytList ?? [];
-          if (_categoryList.length == 1) {
-            _categoryList.addAll(_addCategory());
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _isLoading = false;
+          _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
+          var searchParams = _itemPoolModel.searchParams;
+          _resultKey = searchParams!.resultKey ?? '';
+          if (_categoryList.isEmpty) {
+            _categoryList = _itemPoolModel.categorytList ?? [];
+            if (_categoryList.length == 1) {
+              _categoryList.addAll(_addCategory());
+            }
+            _tabController = TabController(
+                length: _categoryList.length,
+                vsync: this,
+                initialIndex:
+                    _categoryList.isEmpty ? 0 : _categoryList.length - 1)
+              ..addListener(() {
+                if (_tabController.index == _tabController.animation!.value) {
+                  setState(() {
+                    _activeIndex = _tabController.index;
+                    _id = _categoryList[_activeIndex].categoryVO!.id as int?;
+                    _page = 1;
+                    _resultKey = '';
+                    _itemPool(showProgress: true);
+                  });
+                }
+              });
           }
-          _tabController = TabController(
-              length: _categoryList.length,
-              vsync: this,
-              initialIndex:
-                  _categoryList.isEmpty ? 0 : _categoryList.length - 1)
-            ..addListener(() {
-              if (_tabController.index == _tabController.animation!.value) {
-                setState(() {
-                  _activeIndex = _tabController.index;
-                  _id = _categoryList[_activeIndex].categoryVO!.id as int?;
-                  _page = 1;
-                  _resultKey = '';
-                  _itemPool(showProgress: true);
-                });
-              }
-            });
-        }
 
-        var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
-        if (_page == 1 || showProgress) {
-          _result.clear();
-          _isEmptyResult = searcherItemListResult.result!.isEmpty;
-        }
-        _result.addAll(searcherItemListResult.result!);
-        _pagination = searcherItemListResult.pagination;
-      });
+          var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
+          if (_page == 1 || showProgress) {
+            _result.clear();
+            _isEmptyResult = searcherItemListResult.result!.isEmpty;
+          }
+          _result.addAll(searcherItemListResult.result!);
+          _pagination = searcherItemListResult.pagination;
+        });
+      }
     }
   }
 
   void _itemPoolBar() async {
     Map<String, dynamic> params = {'promotionId': 0};
     var responseData = await itemPoolBar(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _itemPoolBarModel = ItemPoolBarModel.fromJson(responseData.data);
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _itemPoolBarModel = ItemPoolBarModel.fromJson(responseData.data);
+        });
+      }
     }
   }
 

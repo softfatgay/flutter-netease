@@ -37,7 +37,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   List<dynamic> _hotKeyWordList = [];
 
   ///分类
-  List<CategoryL1Item>? _categoryL1List = [];
+  List<CategoryL1Item> _categoryL1List = [];
 
   ///搜索提示
   List<dynamic> _searchTipsData = [];
@@ -68,23 +68,25 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   @override
   void initState() {
     // TODO: implement initState
+    setState(() {
+      if (widget.params != null) {
+        _textValue = widget.params!['id'];
+      }
+    });
     super.initState();
+    _setTextEditingController();
+    _scrollController.addListener(_scrollerListener);
+    _getKeyword();
+    _searchInit();
+  }
 
+  _setTextEditingController() {
     _controller = TextEditingController.fromValue(TextEditingValue(
         // 设置内容
         text: _textValue!,
         // 保持光标在最后
         selection: TextSelection.fromPosition(TextPosition(
             affinity: TextAffinity.downstream, offset: _textValue!.length))));
-
-    setState(() {
-      if (widget.params != null) {
-        _textValue = widget.params!['id'];
-      }
-    });
-    _scrollController.addListener(_scrollerListener);
-    _getKeyword();
-    _searchInit();
   }
 
   void _scrollerListener() {
@@ -104,12 +106,14 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
 
   void _searchInit() async {
     var responseData = await searchInit();
-    if (responseData.code == '200') {
-      var searchInitModel = SearchInitModel.fromJson(responseData.data);
-      if (searchInitModel.hotKeywordVOList != null) {
-        setState(() {
-          _hotKeyWordList = searchInitModel.hotKeywordVOList!;
-        });
+    if (mounted) {
+      if (responseData.code == '200') {
+        var searchInitModel = SearchInitModel.fromJson(responseData.data);
+        if (searchInitModel.hotKeywordVOList != null) {
+          setState(() {
+            _hotKeyWordList = searchInitModel.hotKeywordVOList!;
+          });
+        }
       }
     }
   }
@@ -152,51 +156,54 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
     }
     var responseData = await searchSearch(params, showProgress: showProgress);
 
-    var data = responseData.data;
-    if (data == null) {
-      setState(() {
-        if (_isFirstLoading) {
-          _noData = true;
-        }
-      });
-    }
-    if (responseData.code == '200') {
-      var searchResultModel = SearchResultModel.fromJson(data);
-      setState(() {
-        var directlyList = searchResultModel.directlyList;
-        var categoryL1List = searchResultModel.categoryL1List;
-        _categoryL1List = categoryL1List;
-        _hasMore = searchResultModel.hasMore ?? false;
-        if (directlyList == null || directlyList.isEmpty) {
-          _bottomTipsText = '没有找到您想要的内容';
+    if (mounted) {
+      var data = responseData.data;
+      if (data == null) {
+        setState(() {
           if (_isFirstLoading) {
             _noData = true;
           }
-        } else {
-          _directlyList.addAll(directlyList);
-          if (!_hasMore) {
-            _bottomTipsText = '没有更多了';
+        });
+      }
+      if (responseData.code == '200') {
+        var searchResultModel = SearchResultModel.fromJson(data);
+        setState(() {
+          var directlyList = searchResultModel.directlyList;
+          _categoryL1List = searchResultModel.categoryL1List ?? [];
+          _hasMore = searchResultModel.hasMore ?? false;
+          if (directlyList == null || directlyList.isEmpty) {
+            _bottomTipsText = '没有找到您想要的内容';
+            if (_isFirstLoading) {
+              _noData = true;
+            }
+          } else {
+            _directlyList.addAll(directlyList);
+            if (!_hasMore) {
+              _bottomTipsText = '没有更多了';
+            }
+            _isSearchResult = true;
           }
-          _isSearchResult = true;
-        }
-      });
+        });
+      }
     }
   }
 
   void _getSearchTips() async {
     Map<String, dynamic> params = {'keywordPrefix': _textValue};
     var responseData = await searchTips(params);
-    if (responseData.data != null) {
-      setState(() {
-        _searchTipsData = responseData.data;
-        _isSearchResult = false;
-        _hasMore = false;
-        if (_searchTipsData.length == 0) {
-          _bottomTipsText = '暂时没有您想要的内容';
-        } else {
-          _bottomTipsText = '';
-        }
-      });
+    if (mounted) {
+      if (responseData.data != null) {
+        setState(() {
+          _searchTipsData = responseData.data;
+          _isSearchResult = false;
+          _hasMore = false;
+          if (_searchTipsData.length == 0) {
+            _bottomTipsText = '暂时没有您想要的内容';
+          } else {
+            _bottomTipsText = '';
+          }
+        });
+      }
     }
   }
 

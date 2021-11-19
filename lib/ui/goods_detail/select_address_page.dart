@@ -6,6 +6,7 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/component/app_bar.dart';
 
+@Deprecated('no used')
 class SelectAddressPage extends StatefulWidget {
   const SelectAddressPage({Key? key}) : super(key: key);
 

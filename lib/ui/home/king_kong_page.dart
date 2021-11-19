@@ -30,7 +30,7 @@ class _KingKongPageState extends State<KingKongPage> {
   Category? _currentCategory;
 
   ///数据
-  List<CategoryItemListItem>? _categoryItemList;
+  List<CategoryItemListItem> _categoryItemList = [];
 
   ///_banner
   List<BannerItem> _bannerList = [];
@@ -88,28 +88,27 @@ class _KingKongPageState extends State<KingKongPage> {
       "__timestamp": "${DateTime.now().millisecondsSinceEpoch}"
     });
 
-    var data = responseData.data;
+    if (mounted) {
+      var data = responseData.data;
+      var kingkongModel = KingkongModel.fromJson(data);
 
-    var kingkongModel = KingkongModel.fromJson(data);
+      setState(() {
+        _currentCategory = kingkongModel.currentCategory;
 
-    setState(() {
-      _currentCategory = kingkongModel.currentCategory;
-
-      _bannerList = kingkongModel.currentCategory!.bannerList ?? [];
-      _categoryItemList = kingkongModel.categoryItemList;
-      _banner = _bannerList.map((item) => '${item.picUrl ?? ''}').toList();
-      _initLoading = false;
-    });
+        _bannerList = kingkongModel.currentCategory!.bannerList ?? [];
+        _categoryItemList = kingkongModel.categoryItemList ?? [];
+        _banner = _bannerList.map((item) => '${item.picUrl ?? ''}').toList();
+        _initLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> slivers = [_buildTitle(context)];
-    if (_categoryItemList != null) {
-      for (var value in _categoryItemList!) {
-        slivers.add(_bodyTitle(value));
-        slivers.add(GoodItems(dataList: value.itemList));
-      }
+    for (var value in _categoryItemList) {
+      slivers.add(_bodyTitle(value));
+      slivers.add(GoodItems(dataList: value.itemList));
     }
     slivers.add(SliverFooter(
       hasMore: false,

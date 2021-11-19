@@ -22,8 +22,6 @@ class _ItemSizeDetailPageState extends State<ItemSizeDetailPage> {
   late ItemSizeDetailModel _detailModel;
   bool _isLoading = true;
 
-  String _mineSizeTitle = '';
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +29,6 @@ class _ItemSizeDetailPageState extends State<ItemSizeDetailPage> {
       _itemId = widget.params!['id'] ?? 0;
     });
     super.initState();
-
     _querySizeList(null);
   }
 
@@ -44,11 +41,13 @@ class _ItemSizeDetailPageState extends State<ItemSizeDetailPage> {
     }
     var responseData = await getSizeDetail(params);
     print({'itemId': _itemId, 'roleId': roleId});
-    if (responseData.code == '200') {
-      setState(() {
-        _detailModel = ItemSizeDetailModel.fromJson(responseData.data);
-        _isLoading = false;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _detailModel = ItemSizeDetailModel.fromJson(responseData.data);
+          _isLoading = false;
+        });
+      }
     }
   }
 

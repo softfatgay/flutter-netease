@@ -5,7 +5,7 @@ import 'package:flutter_app/constant/fonts.dart';
 typedef void ItemClick(int index);
 
 class VerticalSliderText extends StatelessWidget {
-  final List<String>? dateList;
+  final List<dynamic>? dateList;
   final ItemClick? itemClick;
   final BoxDecoration? decoration;
   final double? width;
@@ -32,7 +32,7 @@ class VerticalSliderText extends StatelessWidget {
     );
   }
 
-  itemList(List<String> dateList) {
+  itemList(List<dynamic> dateList) {
     return dateList.map((item) {
       return GestureDetector(
         child: Center(

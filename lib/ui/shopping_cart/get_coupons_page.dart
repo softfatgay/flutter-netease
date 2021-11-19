@@ -34,13 +34,15 @@ class _GetCouponPageState extends State<GetCouponPage> {
 
   void _couponListInCart() async {
     var responseData = await couponListInCart();
-    if (responseData.data != null) {
-      setState(() {
-        _couponModel = GetCouponModel.fromJson(responseData.data);
-        _availableCouponList = _couponModel.avalibleCouponList ?? [];
-        _receiveCouponList = _couponModel.receiveCouponList ?? [];
-        _isLoading = false;
-      });
+    if (mounted) {
+      if (responseData.data != null) {
+        setState(() {
+          _couponModel = GetCouponModel.fromJson(responseData.data);
+          _availableCouponList = _couponModel.avalibleCouponList ?? [];
+          _receiveCouponList = _couponModel.receiveCouponList ?? [];
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -56,21 +58,7 @@ class _GetCouponPageState extends State<GetCouponPage> {
 
   _buildBody() {
     if (_availableCouponList.isEmpty || _receiveCouponList.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/no_coupon.png',
-              height: 124,
-            ),
-            Text(
-              '暂时没有可领的优惠券',
-              style: t12grey,
-            )
-          ],
-        ),
-      );
+      return _emptyPage();
     }
     List<Widget> childs = [];
     childs.add(_availableCouponList.isEmpty ? Container() : _title("可领取的优惠券"));
@@ -82,6 +70,24 @@ class _GetCouponPageState extends State<GetCouponPage> {
       padding: EdgeInsets.only(bottom: 15),
       child: Column(
         children: childs,
+      ),
+    );
+  }
+
+  _emptyPage() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/no_coupon.png',
+            height: 124,
+          ),
+          Text(
+            '暂时没有可领的优惠券',
+            style: t12grey,
+          )
+        ],
       ),
     );
   }
@@ -306,8 +312,10 @@ class _GetCouponPageState extends State<GetCouponPage> {
   void _couponActivate(String? value) async {
     Map<String, dynamic> params = {'activationCode': value};
     var responseData = await couponActivate(params);
-    if (responseData.code == '200') {
-      Toast.show(responseData.data['countInfo'], context);
+    if (mounted) {
+      if (responseData.code == '200') {
+        Toast.show(responseData.data['countInfo'], context);
+      }
     }
   }
 }

@@ -136,9 +136,11 @@ class _AccountManagePageState extends State<AccountManagePage> {
 
   void _getUserAlias() async {
     var responseData = await getUserAlias();
-    setState(() {
-      _accountMGModel = AccountMGModel.fromJson(responseData.data);
-    });
+    if (mounted) {
+      setState(() {
+        _accountMGModel = AccountMGModel.fromJson(responseData.data);
+      });
+    }
   }
 
   _buildBottom() {

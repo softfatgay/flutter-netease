@@ -23,11 +23,11 @@ class _MainPageState extends State<MainPage> {
 
   int _tabIndex = 0;
 
-  var _homeNew = HomePage();
-  var _topicPage = TopicPage();
-  var _sortNew = SortPage();
-  var _shoppingCart = ShoppingCartPage();
-  var _userPage = UserPage();
+  final _homeNew = HomePage();
+  final _topicPage = TopicPage();
+  final _sortNew = SortPage();
+  final _shoppingCart = ShoppingCartPage();
+  final _userPage = UserPage();
 
   @override
   Widget build(BuildContext context) {
@@ -205,6 +205,13 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _pageController.dispose();
+    super.dispose();
   }
 }
 

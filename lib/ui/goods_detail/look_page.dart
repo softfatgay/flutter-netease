@@ -44,7 +44,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
     }
   ];
 
-  double narbarHeight = 70;
+  double _navbarHeight = 70;
   final _scrollController = new ScrollController();
 
   int? _type = 4;
@@ -53,8 +53,8 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   int? _id = 0;
 
   bool _hasMore = true;
-  String? _recommendName = '';
-  String? _title = '';
+  String _recommendName = '';
+  String _title = '';
   int _activeIndex = 0;
 
   late LookHomeDataModel _lookHomeDataModel;
@@ -66,6 +66,14 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
+    _initTabController();
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+    _lookHomeData();
+    _lookGetList();
+  }
+
+  _initTabController() {
     setState(() {
       _tabController = TabController(
           length: _tabItem.length, vsync: this, initialIndex: _activeIndex)
@@ -82,74 +90,73 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
           }
         });
     });
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_hasMore) {
-          setState(() {
-            _page += 1;
-          });
-          _lookGetList();
-        }
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_hasMore) {
+        setState(() {
+          _page += 1;
+        });
+        _lookGetList();
       }
-    });
-    _lookHomeData();
-    _lookGetList();
+    }
   }
 
   void _lookHomeData() async {
     var responseData = await lookHomeData();
-    var data = responseData.data;
-    if (responseData.code == '200') {
-      setState(() {
-        _lookHomeDataModel = LookHomeDataModel.fromJson(data);
-        var recModule = _lookHomeDataModel.recModule!;
-        _tabItem[2]['name'] = _lookHomeDataModel.hotTabName as String;
-        _tabItem[3]['name'] = recModule.topicTagName as String;
-        _recommendName = recModule.recommendName;
-        var collectionList = recModule.collectionList;
-        if (collectionList != null && collectionList.isNotEmpty) {
-          var collection = collectionList[0];
-          _title = collection.title;
-        }
-        if (collectionList != null && collectionList.isNotEmpty) {
-          setState(() {
-            _id = collectionList[0].id as int?;
-          });
-          _lookGetCollection(collectionList[0].id);
-        }
-      });
+    if (mounted) {
+      var data = responseData.data;
+      if (responseData.code == '200') {
+        setState(() {
+          _lookHomeDataModel = LookHomeDataModel.fromJson(data);
+          var recModule = _lookHomeDataModel.recModule!;
+          _tabItem[2]['name'] = _lookHomeDataModel.hotTabName as String;
+          _tabItem[3]['name'] = recModule.topicTagName as String;
+          _recommendName = recModule.recommendName ?? '';
+          var collectionList = recModule.collectionList;
+          if (collectionList != null && collectionList.isNotEmpty) {
+            var collection = collectionList[0];
+            _title = collection.title ?? '';
+          }
+          if (collectionList != null && collectionList.isNotEmpty) {
+            setState(() {
+              _id = collectionList[0].id as int?;
+            });
+            _lookGetCollection(collectionList[0].id);
+          }
+        });
+      }
     }
   }
 
   void _lookGetList() async {
-    Map<String, dynamic> params = {
-      'type': _type,
-      'page': _page,
-      'size': _size,
-    };
+    Map<String, dynamic> params = {'type': _type, 'page': _page, 'size': _size};
     var responseData = await lookGetList(params, _page == 1);
-    if (responseData.code == '200') {
-      setState(() {
-        _lookListModel = LookListModel.fromJson(responseData.data);
-        if (_page == 1) {
-          _dataList.clear();
-        }
-        _dataList.addAll(_lookListModel.topicList!);
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _lookListModel = LookListModel.fromJson(responseData.data);
+          if (_page == 1) {
+            _dataList.clear();
+          }
+          _dataList.addAll(_lookListModel.topicList!);
+        });
+      }
     }
   }
 
   void _lookGetCollection(num? id) async {
-    Map<String, dynamic> params = {
-      'id': id,
-    };
+    Map<String, dynamic> params = {'id': id};
     var responseData = await lookGetCollection(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _lookCollectionModel = LookCollectionModel.fromJson(responseData.data);
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _lookCollectionModel =
+              LookCollectionModel.fromJson(responseData.data);
+        });
+      }
     }
   }
 
@@ -233,10 +240,11 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                         child: Container(
                           margin: EdgeInsets.only(left: 10),
                           child: RoundNetImage(
+                            url: item.banner!.picUrl,
+                            backColor: backColor,
                             height: 120,
                             width: 120,
                             corner: 6,
-                            url: item.banner!.picUrl,
                           ),
                         ),
                         onTap: () {
@@ -259,8 +267,8 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
       pinned: true, //是否固定在顶部
       floating: true,
       delegate: SliverAppBarDelegate(
-          minHeight: narbarHeight - 30, //收起的高度
-          maxHeight: narbarHeight, //展开的最大高度
+          minHeight: _navbarHeight - 30, //收起的高度
+          maxHeight: _navbarHeight, //展开的最大高度
           child: Container(
             color: backWhite,
             child: Column(

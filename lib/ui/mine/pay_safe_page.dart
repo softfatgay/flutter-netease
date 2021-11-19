@@ -18,45 +18,49 @@ class _PaySafeCenterPageState extends State<PaySafeCenterPage> {
       appBar: TopAppBar(
         title: '账号安全',
       ).build(context),
-      body: Container(
-        margin: EdgeInsets.only(top: 10),
-        child: Column(
-          children: tabs.map((item) {
-            return GestureDetector(
+      body: _buildBody(context),
+    );
+  }
+
+  _buildBody(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        children: tabs.map((item) {
+          return GestureDetector(
+            child: Container(
+              color: Colors.white,
               child: Container(
-                color: Colors.white,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: item['id'] == 1
-                        ? null
-                        : Border(
-                            bottom: BorderSide(color: lineColor, width: 0.5),
-                          ),
-                  ),
-                  margin: EdgeInsets.only(left: 15),
-                  padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            '${item['name']}',
-                            style: t14black,
-                          ),
+                decoration: BoxDecoration(
+                  border: item['id'] == 1
+                      ? null
+                      : Border(
+                          bottom: BorderSide(color: lineColor, width: 0.5),
+                        ),
+                ),
+                margin: EdgeInsets.only(left: 15),
+                padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: Text(
+                          '${item['name']}',
+                          style: t14black,
                         ),
                       ),
-                      arrowRightIcon
-                    ],
-                  ),
+                    ),
+                    arrowRightIcon
+                  ],
                 ),
               ),
-              onTap: () {
-                Routers.push(Routers.webView, context, {'url': item['url']});
-              },
-            );
-          }).toList(),
-        ),
+            ),
+            onTap: () {
+              Routers.push(Routers.webView, context, {'url': item['url']});
+            },
+          );
+        }).toList(),
       ),
     );
   }

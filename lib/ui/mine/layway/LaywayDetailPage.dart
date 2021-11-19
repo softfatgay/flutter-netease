@@ -68,29 +68,31 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
 
   _layawayDetail() async {
     var responseData = await layawayDetail({'id': _id});
-    if (responseData.OData != null) {
-      var laywayDetailModel = LaywayDetailModel.fromJson(responseData.OData);
-      setState(() {
-        _layawayModel = laywayDetailModel.layaway ?? LayawayInModel();
-        _moreLayawayList = laywayDetailModel.moreLayawayList ?? [];
-        _policyList = laywayDetailModel.policyList ?? [];
-        _isLoading = false;
-      });
-      if (_layawayModel.primaryPicUrl != null) {
-        List<String> banner = [];
-        banner.add(_layawayModel.primaryPicUrl ?? '');
-        var detail = _layawayModel.detail;
-
-        var encode = detail!.toJson();
-        for (String key in encode.keys) {
-          if (key.startsWith('picUrl')) {
-            banner.add(encode[key]);
-          }
-        }
+    if (mounted) {
+      if (responseData.OData != null) {
+        var laywayDetailModel = LaywayDetailModel.fromJson(responseData.OData);
         setState(() {
-          _banner = banner;
+          _layawayModel = laywayDetailModel.layaway ?? LayawayInModel();
+          _moreLayawayList = laywayDetailModel.moreLayawayList ?? [];
+          _policyList = laywayDetailModel.policyList ?? [];
+          _isLoading = false;
         });
-        _getDetailImg(detail);
+        if (_layawayModel.primaryPicUrl != null) {
+          List<String> banner = [];
+          banner.add(_layawayModel.primaryPicUrl ?? '');
+          var detail = _layawayModel.detail;
+
+          var encode = detail!.toJson();
+          for (String key in encode.keys) {
+            if (key.startsWith('picUrl')) {
+              banner.add(encode[key]);
+            }
+          }
+          setState(() {
+            _banner = banner;
+          });
+          _getDetailImg(detail);
+        }
       }
     }
   }

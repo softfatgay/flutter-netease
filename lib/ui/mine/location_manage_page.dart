@@ -141,15 +141,17 @@ class _LocationManagePageState extends State<LocationManagePage> {
 
   void _getLocations() async {
     var responseData = await getLocationList();
-    List data = responseData.data;
-    List<LocationItemModel> dataList = [];
-    data.forEach((element) {
-      dataList.add(LocationItemModel.fromJson(element));
-    });
+    if (mounted) {
+      List data = responseData.data;
+      List<LocationItemModel> dataList = [];
+      data.forEach((element) {
+        dataList.add(LocationItemModel.fromJson(element));
+      });
 
-    setState(() {
-      _locationList = dataList;
-    });
+      setState(() {
+        _locationList = dataList;
+      });
+    }
   }
 
   void _deleteAddress() async {
@@ -201,29 +203,6 @@ class _LocationManagePageState extends State<LocationManagePage> {
         );
       },
     );
-
-    // showDialog(
-    //     context: context,
-    //     builder: (context) => AlertDialog(
-    //           content: Text(('确定删除该地址？')),
-    //           actions: <Widget>[
-    //             new TextButton(
-    //               child: new Text("取消"),
-    //               onPressed: () {
-    //                 Navigator.of(context).pop();
-    //               },
-    //             ),
-    //             new TextButton(
-    //               child: new Text(
-    //                 "确定",
-    //               ),
-    //               onPressed: () {
-    //                 _deleteAddress();
-    //                 Navigator.of(context).pop();
-    //               },
-    //             ),
-    //           ],
-    //         ));
   }
 
   _addAddress(BuildContext context) {

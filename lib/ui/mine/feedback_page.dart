@@ -26,31 +26,32 @@ class _FeedBackState extends State<FeedBack> {
   }
 
   void _getData() async {
-    var responseData = await userMobile();
-    setState(() {
-      _phone = responseData.data;
-    });
-
     var feedback = await feedbackType();
-    if (feedback.data != null) {
-      setState(() {
-        _feedbackList = feedback.data;
-        for (var value in _feedbackList) {
-          if (value['type'] == 6) {
-            setState(() {
-              _selectType = value;
-            });
+    if (mounted) {
+      if (feedback.data != null) {
+        setState(() {
+          _feedbackList = feedback.data;
+          for (var value in _feedbackList) {
+            if (value['type'] == 6) {
+              setState(() {
+                _selectType = value;
+              });
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 
   void _getPhone() async {
     var responseData = await userMobile();
-    setState(() {
-      _phone = responseData.data;
-    });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _phone = responseData.data;
+        });
+      }
+    }
   }
 
   void _submit() async {
@@ -60,17 +61,19 @@ class _FeedBackState extends State<FeedBack> {
       "mobile": _phone,
     };
     var feedback = await feedbackSubmit(params);
-    if (feedback.data != null) {
-      setState(() {
-        _feedbackList = feedback.data;
-        for (var value in _feedbackList) {
-          if (value['type'] == 6) {
-            setState(() {
-              _selectType = value;
-            });
+    if (mounted) {
+      if (feedback.data != null) {
+        setState(() {
+          _feedbackList = feedback.data;
+          for (var value in _feedbackList) {
+            if (value['type'] == 6) {
+              setState(() {
+                _selectType = value;
+              });
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 
@@ -224,5 +227,12 @@ class _FeedBackState extends State<FeedBack> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _tvController.dispose();
+    super.dispose();
   }
 }

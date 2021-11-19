@@ -66,52 +66,57 @@ class _MakeUpPageState extends State<MakeUpPage> {
       }
     });
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 500) {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (!_pagination!.lastPage!) {
-            _page += 1;
-            _itemPool();
-          }
-        }
-        if (!_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = true;
-          });
-        }
-      } else {
-        if (_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = false;
-          });
-        }
-      }
-    });
+    _scrollController.addListener(_scrollListener);
     _itemPool();
     _itemPoolBar();
     _getMakeUpCartInfo();
   }
 
+  void _scrollListener() {
+    if (_scrollController.position.pixels > 500) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (!_pagination!.lastPage!) {
+          _page += 1;
+          _itemPool();
+        }
+      }
+      if (!_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = true;
+        });
+      }
+    } else {
+      if (_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = false;
+        });
+      }
+    }
+  }
+
   void _itemPoolBar() async {
     Map<String, dynamic> params = {'promotionId': _searchModel.promotionId};
     var responseData = await itemPoolBar(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _itemPoolBarModel = ItemPoolBarModel.fromJson(responseData.data);
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _itemPoolBarModel = ItemPoolBarModel.fromJson(responseData.data);
+        });
+      }
     }
   }
 
   _getMakeUpCartInfo() async {
-    Map<String, dynamic> params = {
-      'promotionId': _searchModel.promotionId,
-    };
+    Map<String, dynamic> params = {'promotionId': _searchModel.promotionId};
     var responseData = await getMakeUpCartInfo(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _makeUpCartInfoModel = MakeUpCartInfoModel.fromJson(responseData.data);
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _makeUpCartInfoModel =
+              MakeUpCartInfoModel.fromJson(responseData.data);
+        });
+      }
     }
   }
 
@@ -137,25 +142,27 @@ class _MakeUpPageState extends State<MakeUpPage> {
     }
 
     var responseData = await getItemPool(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _isLoading = false;
-        _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
-        if (_categoryList.isEmpty) {
-          List<CategoryL1Item?> categoryList = [];
-          var categoryListList = _itemPoolModel.categorytList!;
-          categoryListList.forEach((element) {
-            categoryList.add(element.categoryVO);
-          });
-          _categoryList = categoryList;
-        }
-        var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
-        if (_page == 1) {
-          _result.clear();
-        }
-        _result.addAll(searcherItemListResult.result!);
-        _pagination = searcherItemListResult.pagination;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _isLoading = false;
+          _itemPoolModel = ItemPoolModel.fromJson(responseData.data);
+          if (_categoryList.isEmpty) {
+            List<CategoryL1Item?> categoryList = [];
+            var categoryListList = _itemPoolModel.categorytList!;
+            categoryListList.forEach((element) {
+              categoryList.add(element.categoryVO);
+            });
+            _categoryList = categoryList;
+          }
+          var searcherItemListResult = _itemPoolModel.searcherItemListResult!;
+          if (_page == 1) {
+            _result.clear();
+          }
+          _result.addAll(searcherItemListResult.result!);
+          _pagination = searcherItemListResult.pagination;
+        });
+      }
     }
   }
 
@@ -166,61 +173,65 @@ class _MakeUpPageState extends State<MakeUpPage> {
       appBar: TopAppBar(
         title: '凑单',
       ).build(context),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 35,
-            left: 0,
-            right: 0,
-            bottom: _from == null
-                ? MediaQuery.of(context).padding.bottom
-                : 45 + MediaQuery.of(context).padding.bottom,
-            child: _isLoading
-                ? Loading()
-                : CustomScrollView(
-                    controller: _scrollController,
-                    slivers: [
-                      singleSliverWidget(_topBarInfo()),
-                      GoodItemAddCartWidget(
-                        dataList: _result,
-                        addCarSuccess: () {
-                          _itemPoolBar();
-                        },
-                      ),
-                      SliverFooter(hasMore: !_pagination!.lastPage!)
-                    ],
-                  ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: MenuPopWidget(
-              searchParamModel: _searchModel,
-              categorytList: _categoryList,
-              menuChange: (searchModel) {
-                setState(() {
-                  _searchModel = searchModel!;
-                });
-                _resetPage();
-              },
-            ),
-          ),
-          if (_from != null)
-            Positioned(
-              bottom: MediaQuery.of(context).padding.bottom,
-              left: 0,
-              right: 0,
-              child: BottomPoolWidget(
-                itemPoolBarModel: _itemPoolBarModel,
-                from: _from,
-              ),
-            ),
-        ],
-      ),
+      body: _buildBody(context),
       floatingActionButton:
           _isShowFloatBtn ? floatingAB(_scrollController) : Container(),
+    );
+  }
+
+  _buildBody(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 35,
+          left: 0,
+          right: 0,
+          bottom: _from == null
+              ? MediaQuery.of(context).padding.bottom
+              : 45 + MediaQuery.of(context).padding.bottom,
+          child: _isLoading
+              ? Loading()
+              : CustomScrollView(
+                  controller: _scrollController,
+                  slivers: [
+                    singleSliverWidget(_topBarInfo()),
+                    GoodItemAddCartWidget(
+                      dataList: _result,
+                      addCarSuccess: () {
+                        _itemPoolBar();
+                      },
+                    ),
+                    SliverFooter(hasMore: !_pagination!.lastPage!)
+                  ],
+                ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: MenuPopWidget(
+            searchParamModel: _searchModel,
+            categorytList: _categoryList,
+            menuChange: (searchModel) {
+              setState(() {
+                _searchModel = searchModel!;
+              });
+              _resetPage();
+            },
+          ),
+        ),
+        if (_from != null)
+          Positioned(
+            bottom: MediaQuery.of(context).padding.bottom,
+            left: 0,
+            right: 0,
+            child: BottomPoolWidget(
+              itemPoolBarModel: _itemPoolBarModel,
+              from: _from,
+            ),
+          ),
+      ],
     );
   }
 

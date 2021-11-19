@@ -66,6 +66,12 @@ class _TopicPageState extends State<TopicPage>
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(_scrollerListener);
+    _startTimer();
+    _getTopicData();
+    _getMore();
+  }
+
+  void _startTimer() {
     _timer = Timer.periodic(Duration(milliseconds: 4000), (_timer) {
       setState(() {
         if (_roundWords.length > 0) {
@@ -76,8 +82,6 @@ class _TopicPageState extends State<TopicPage>
         }
       });
     });
-    _getTopicData();
-    _getMore();
   }
 
   void _scrollerListener() {
@@ -115,14 +119,16 @@ class _TopicPageState extends State<TopicPage>
       _totalNum = (sp!.get(LocalStorage.totalNum) ?? 0) as num;
     });
     var responseData = await knowNavwap();
-    setState(() {
-      _isFirstLoading = false;
-      var data = responseData.data;
-      if (data != null) {
-        var topData = TopData.fromJson(data);
-        _navList = topData.navList ?? [];
-      }
-    });
+    if (mounted) {
+      setState(() {
+        _isFirstLoading = false;
+        var data = responseData.data;
+        if (data != null) {
+          var topData = TopData.fromJson(data);
+          _navList = topData.navList ?? [];
+        }
+      });
+    }
   }
 
   _getMore() async {
@@ -131,25 +137,26 @@ class _TopicPageState extends State<TopicPage>
       'size': _pageSize,
       'exceptIds': ''
     };
-
     var responseData = await findRecAuto(params);
-    if (responseData.code == '200') {
-      var data = responseData.data;
-      if (data != null) {
-        var topicData = TopicData.fromJson(data);
-        setState(() {
-          _page++;
-          _hasMore = topicData.hasMore ?? true;
-          _result = topicData.result ?? [];
-          _result.forEach((element) {
-            _dataList.addAll(element.topics!);
-            if (element.look != null) {
-              _dataList.add(element.look!);
-            }
+    if (mounted) {
+      if (responseData.code == '200') {
+        var data = responseData.data;
+        if (data != null) {
+          var topicData = TopicData.fromJson(data);
+          setState(() {
+            _page++;
+            _hasMore = topicData.hasMore ?? true;
+            _result = topicData.result ?? [];
+            _result.forEach((element) {
+              _dataList.addAll(element.topics!);
+              if (element.look != null) {
+                _dataList.add(element.look!);
+              }
+            });
           });
-        });
-        if (_dataList.length < 3 && _page == 2) {
-          _getMore();
+          if (_dataList.length < 3 && _page == 2) {
+            _getMore();
+          }
         }
       }
     }

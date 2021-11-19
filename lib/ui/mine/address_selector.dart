@@ -130,16 +130,18 @@ class _AddressSelectorState extends State<AddressSelector>
   void _getProvince() async {
     Map<String, dynamic> params = {"withOverseasCountry": true};
     var responseData = await getProvenceList(params);
-    if (responseData.code == '200') {
-      List data = responseData.data;
-      List<AddressItem> dataList = [];
-      data.forEach((element) {
-        dataList.add(AddressItem.fromJson(element));
-      });
-      setState(() {
-        _province = dataList;
-        _currentList = dataList;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        List data = responseData.data;
+        List<AddressItem> dataList = [];
+        data.forEach((element) {
+          dataList.add(AddressItem.fromJson(element));
+        });
+        setState(() {
+          _province = dataList;
+          _currentList = dataList;
+        });
+      }
     }
   }
 
@@ -202,37 +204,38 @@ class _AddressSelectorState extends State<AddressSelector>
 
   void _getTown(int? parentId) async {
     Map<String, dynamic> params = {"parentId": parentId};
-
     var responseData = await getTown(params);
-    List data = responseData.data;
-    if (data.isEmpty) {
-      if (widget.addressValue != null) {
-        widget.addressValue!(_provinceItem, _cityItem, _disItem, _townItem);
-      }
-      Navigator.pop(context);
-    }
-    List<AddressItem> dataList = [];
-    data.forEach((element) {
-      dataList.add(AddressItem.fromJson(element));
-    });
-
-    setState(() {
-      _currentList = dataList;
-      _selectType = 4;
-      _tabTitle.clear();
-      _tabTitle.add('省');
-      _tabTitle.add('市');
-      _tabTitle.add('区县');
-      _tabTitle.add('街道');
-      _tabController =
-          TabController(length: _tabTitle.length, initialIndex: 3, vsync: this);
-      _tabController!.addListener(() {
-        if (_tabController!.index == _tabController!.animation!.value) {
-          _tabclick(_tabController!.index);
+    if (mounted) {
+      List data = responseData.data;
+      if (data.isEmpty) {
+        if (widget.addressValue != null) {
+          widget.addressValue!(_provinceItem, _cityItem, _disItem, _townItem);
         }
+        Navigator.pop(context);
+      }
+      List<AddressItem> dataList = [];
+      data.forEach((element) {
+        dataList.add(AddressItem.fromJson(element));
       });
-      _town = dataList;
-    });
+
+      setState(() {
+        _currentList = dataList;
+        _selectType = 4;
+        _tabTitle.clear();
+        _tabTitle.add('省');
+        _tabTitle.add('市');
+        _tabTitle.add('区县');
+        _tabTitle.add('街道');
+        _tabController = TabController(
+            length: _tabTitle.length, initialIndex: 3, vsync: this);
+        _tabController!.addListener(() {
+          if (_tabController!.index == _tabController!.animation!.value) {
+            _tabclick(_tabController!.index);
+          }
+        });
+        _town = dataList;
+      });
+    }
   }
 
   _tabclick(int index) {

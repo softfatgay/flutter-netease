@@ -38,19 +38,20 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       _no = no;
     });
     super.initState();
-
     _orderDetail();
   }
 
   void _orderDetail() async {
     Map<String, dynamic> params = {'orderId': _no};
     var responseData = await orderDetail(params);
-    if (responseData.code == '200') {
-      var orderDetailModel = OrderDetailModel.fromJson(responseData.data);
-      setState(() {
-        _detailModel = orderDetailModel;
-        _firstLoading = false;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        var orderDetailModel = OrderDetailModel.fromJson(responseData.data);
+        setState(() {
+          _detailModel = orderDetailModel;
+          _firstLoading = false;
+        });
+      }
     }
   }
 

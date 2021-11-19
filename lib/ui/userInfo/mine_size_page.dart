@@ -76,14 +76,16 @@ class _MineSizePageState extends State<MineSizePage> {
 
   void _mineSizeList() async {
     var responseData = await mineSize();
-    var data = responseData.data;
-    List<SizeItemModel> dataList = [];
-    data.forEach((element) {
-      dataList.add(SizeItemModel.fromJson(element));
-    });
-    setState(() {
-      _dataList = dataList;
-    });
+    if (mounted) {
+      var data = responseData.data;
+      List<SizeItemModel> dataList = [];
+      data.forEach((element) {
+        dataList.add(SizeItemModel.fromJson(element));
+      });
+      setState(() {
+        _dataList = dataList;
+      });
+    }
   }
 
   _buildSizeItem(int index) {

@@ -20,7 +20,7 @@ class OrderListPage extends StatefulWidget {
 
 class _OrderListPageState extends State<OrderListPage>
     with TickerProviderStateMixin {
-  TabController? _mController;
+  late TabController _mController;
 
   NoticeListModel? _noticeListModel;
 
@@ -57,10 +57,9 @@ class _OrderListPageState extends State<OrderListPage>
         _activeIndex = widget.params!['tab'];
       });
     }
-    super.initState();
     _mController = TabController(
         length: _tabItem.length, vsync: this, initialIndex: _activeIndex!);
-
+    super.initState();
     _getNotice();
   }
 
@@ -82,8 +81,8 @@ class _OrderListPageState extends State<OrderListPage>
   @override
   void dispose() {
     // TODO: implement dispose
+    _mController.dispose();
     super.dispose();
-    _mController!.dispose();
   }
 
   _buildBody(BuildContext context) {

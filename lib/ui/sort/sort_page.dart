@@ -92,48 +92,52 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
     _categoryL1List.forEach((item) => newTabs.add(item.name));
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _firstLoading
-          ? Loading()
-          : Column(
-              children: <Widget>[
-                _buildSearch(context),
-                Expanded(
-                  child: Row(
-                    children: <Widget>[
-                      VerticalTab(
-                        tabs: newTabs,
-                        onTabChange: (index) {
-                          setState(() {
-                            _activeIndex = index;
-                          });
-                          if (index == 0) {
-                            _categoryId = "";
-                          } else {
-                            _categoryId = "${_categoryL1List[index].id}";
-                          }
-                          _getInitData(_categoryId);
-                        },
-                        activeIndex: 0,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(width: 0.5, color: lineColor),
-                              bottom: BorderSide(width: 0.5, color: lineColor),
-                            ),
-                          ),
-                          child: _buildContent(),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
+      body: _buildBody(context, newTabs),
     );
+  }
+
+  _buildBody(BuildContext context, List<String?> newTabs) {
+    return _firstLoading
+        ? Loading()
+        : Column(
+            children: <Widget>[
+              _buildSearch(context),
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    VerticalTab(
+                      tabs: newTabs,
+                      onTabChange: (index) {
+                        setState(() {
+                          _activeIndex = index;
+                        });
+                        if (index == 0) {
+                          _categoryId = "";
+                        } else {
+                          _categoryId = "${_categoryL1List[index].id}";
+                        }
+                        _getInitData(_categoryId);
+                      },
+                      activeIndex: 0,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(width: 0.5, color: lineColor),
+                            bottom: BorderSide(width: 0.5, color: lineColor),
+                          ),
+                        ),
+                        child: _buildContent(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
   }
 
   _buildSearch(BuildContext context) {

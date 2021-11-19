@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/app_bar.dart';
+import 'package:flutter_app/component/button_widget.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -10,9 +11,6 @@ import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_app/component/app_bar.dart';
-import 'package:flutter_app/component/button_widget.dart';
-import 'package:flutter_app/component/slivers.dart';
 
 const double _imageWith = 76;
 
@@ -420,12 +418,10 @@ class _GetCarsPageState extends State<GetCarsPage> {
         dataList.add(item);
       }
     });
-
     var param = {
       'promotionId': _carItem.promId,
       'selectList': dataList,
     };
-
     var responseData = ResponseData();
 
     if (_carItem.promType == 102) {
@@ -433,13 +429,14 @@ class _GetCarsPageState extends State<GetCarsPage> {
     } else {
       responseData = await getCartsSubmit(param);
     }
-    // var responseData = await getCartsSubmit(param);
-    if (responseData.code == '200') {
-      if (_from != null) {
-        Routers.push(Routers.makeUpPage, context,
-            {'id': _promotionId, 'from': Routers.goodDetail});
-      } else {
-        Navigator.pop(context);
+    if (mounted) {
+      if (responseData.code == '200') {
+        if (_from != null) {
+          Routers.push(Routers.makeUpPage, context,
+              {'id': _promotionId, 'from': Routers.goodDetail});
+        } else {
+          Navigator.pop(context);
+        }
       }
     }
   }

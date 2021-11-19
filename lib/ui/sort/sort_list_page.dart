@@ -41,30 +41,34 @@ class _SortChildState extends State<SortListPage>
       "subCategoryId": _id,
       "categoryId": widget.params!["categoryId"],
     });
-    var data = responseData.data;
-    var sortListDataModel = SortListData.fromJson(data);
+    if (mounted) {
+      var data = responseData.data;
+      var sortListDataModel = SortListData.fromJson(data);
 
-    setState(() {
-      _catalogList = sortListDataModel.categoryL2List ?? [];
-      _isLoading = false;
-
-      if (_firstLoading) {
-        for (int i = 0; i < (_catalogList.length); i++) {
-          if (widget.params!['subCategoryId'] == _catalogList[i].id) {
-            _activeIndex = i;
-          }
-        }
-        _firstLoading = false;
-      }
-      _mController = TabController(
-          length: _catalogList.length, vsync: this, initialIndex: _activeIndex);
-    });
-    _mController.addListener(() {
       setState(() {
-        _activeIndex = _mController.index;
-        _id = _catalogList[_activeIndex].id as int?;
+        _catalogList = sortListDataModel.categoryL2List ?? [];
+        _isLoading = false;
+
+        if (_firstLoading) {
+          for (int i = 0; i < (_catalogList.length); i++) {
+            if (widget.params!['subCategoryId'] == _catalogList[i].id) {
+              _activeIndex = i;
+            }
+          }
+          _firstLoading = false;
+        }
+        _mController = TabController(
+            length: _catalogList.length,
+            vsync: this,
+            initialIndex: _activeIndex);
       });
-    });
+      _mController.addListener(() {
+        setState(() {
+          _activeIndex = _mController.index;
+          _id = _catalogList[_activeIndex].id as int?;
+        });
+      });
+    }
   }
 
   @override
@@ -87,8 +91,8 @@ class _SortChildState extends State<SortListPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _mController.dispose();
+    super.dispose();
   }
 
   _buildBody(BuildContext context) {

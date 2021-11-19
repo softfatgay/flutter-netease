@@ -42,17 +42,19 @@ class _CatalogGoodsState extends State<SortListItemPage>
       "subCategoryId": widget.arguments.id,
       "categoryId": widget.arguments.superCategoryId,
     };
-    var responseData = await sortListData(map);
-    var data = responseData.data;
-    var sortListDataModel = SortListData.fromJson(data);
+    if (mounted) {
+      var responseData = await sortListData(map);
+      var data = responseData.data;
+      var sortListDataModel = SortListData.fromJson(data);
 
-    setState(() {
-      _itemList = sortListDataModel.categoryItems!.itemList ?? [];
+      setState(() {
+        _itemList = sortListDataModel.categoryItems!.itemList ?? [];
 
-      category = sortListDataModel.categoryItems!.category;
-      _isLoading = false;
-      _total = _itemList.length;
-    });
+        category = sortListDataModel.categoryItems!.category;
+        _isLoading = false;
+        _total = _itemList.length;
+      });
+    }
   }
 
   @override

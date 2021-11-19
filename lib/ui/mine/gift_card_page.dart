@@ -25,53 +25,59 @@ class _GiftCardPageState extends State<GiftCardPage> {
       appBar: TopAppBar(
         title: '礼品卡',
       ).build(context),
-      body: Column(
-        children: [
-          _buildCard(),
-          Expanded(
-            child: _noCard(),
-          ),
-          GestureDetector(
+      body: _buildBody(context),
+    );
+  }
+
+  _buildBody(BuildContext context) {
+    return Column(
+      children: [
+        _buildCard(),
+        Expanded(
+          child: _noCard(),
+        ),
+        GestureDetector(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(
+                10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
+            height: 65 + MediaQuery.of(context).padding.bottom,
+            color: Colors.white,
             child: Container(
-              padding: EdgeInsets.fromLTRB(
-                  10, 10, 10, MediaQuery.of(context).padding.bottom + 10),
-              height: 65 + MediaQuery.of(context).padding.bottom,
-              color: Colors.white,
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: redColor, width: 1)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 16,
-                      color: textRed,
-                    ),
-                    Text(
-                      '添加礼品卡',
-                      style: t16red,
-                    )
-                  ],
-                ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: redColor, width: 1)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add,
+                    size: 16,
+                    color: textRed,
+                  ),
+                  Text(
+                    '添加礼品卡',
+                    style: t16red,
+                  )
+                ],
               ),
             ),
-            onTap: () {
-              _checkIfSetPsw();
-            },
-          )
-        ],
-      ),
+          ),
+          onTap: () {
+            _checkIfSetPsw();
+          },
+        )
+      ],
     );
   }
 
   _checkIfSetPsw() async {
     var responseData = await checkIfSetPsw();
-    if (responseData.code == '200') {
-      if (responseData.data) {
-      } else {
-        _showSetPswDialog();
+    if (mounted) {
+      if (responseData.code == '200') {
+        if (responseData.data) {
+        } else {
+          _showSetPswDialog();
+        }
       }
     }
   }

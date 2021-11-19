@@ -86,53 +86,57 @@ class _ForServicesPageState extends State<ForServicesPage> {
       appBar: TopAppBar(
         title: '售后服务',
       ).build(context),
-      body: Container(
-        margin: EdgeInsets.only(top: 10),
-        child: Column(
-          children: _tabs.map((item) {
-            return GestureDetector(
+      body: _buildBody(context),
+    );
+  }
+
+  _buildBody(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        children: _tabs.map((item) {
+          return GestureDetector(
+            child: Container(
+              color: Colors.white,
               child: Container(
-                color: Colors.white,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: item['id'] == 7
-                        ? null
-                        : Border(
-                            bottom: BorderSide(color: lineColor, width: 0.5),
+                decoration: BoxDecoration(
+                  border: item['id'] == 7
+                      ? null
+                      : Border(
+                          bottom: BorderSide(color: lineColor, width: 0.5),
+                        ),
+                ),
+                margin: EdgeInsets.only(left: 15),
+                padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          '${item['icon']}',
+                          width: 20,
+                          height: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 15),
+                          child: Text(
+                            '${item['name']}',
+                            style: t14black,
                           ),
-                  ),
-                  margin: EdgeInsets.only(left: 15),
-                  padding: EdgeInsets.fromLTRB(0, 15, 15, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            '${item['icon']}',
-                            width: 20,
-                            height: 20,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 15),
-                            child: Text(
-                              '${item['name']}',
-                              style: t14black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      arrowRightIcon
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    arrowRightIcon
+                  ],
                 ),
               ),
-              onTap: () {
-                Routers.push(Routers.webView, context, {'url': item['url']});
-              },
-            );
-          }).toList(),
-        ),
+            ),
+            onTap: () {
+              Routers.push(Routers.webView, context, {'url': item['url']});
+            },
+          );
+        }).toList(),
       ),
     );
   }

@@ -11,13 +11,13 @@ typedef void MenuChange(SearchParamModel? searchParamModel);
 class MenuPopWidget extends StatefulWidget {
   final MenuChange? menuChange;
   final SearchParamModel? searchParamModel;
-  final List<CategoryL1Item?>? categorytList;
+  final List<CategoryL1Item?> categorytList;
   final double menuHeight;
 
   const MenuPopWidget(
       {Key? key,
+      required this.categorytList,
       this.menuChange,
-      this.categorytList,
       this.searchParamModel,
       this.menuHeight = 35})
       : super(key: key);
@@ -140,12 +140,12 @@ class _MenuPopWidgetState extends State<MenuPopWidget> {
       );
     } else if (_popType == 2) {
       return TypePopWidget(
-        categoryList: widget.categorytList ?? [],
+        categoryList: widget.categorytList,
         selectIndex: _categoryIndex as int,
         selectedIndex: (index) {
           setState(() {
             _categoryIndex = index;
-            _searchModel.categoryId = widget.categorytList![index]!.id;
+            _searchModel.categoryId = widget.categorytList[index]!.id;
           });
           _closeMenuPop();
           _resetPage();

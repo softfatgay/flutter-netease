@@ -19,7 +19,12 @@ class RedPacketListPage extends StatefulWidget {
   _RedEnvelopeListState createState() => _RedEnvelopeListState();
 }
 
-class _RedEnvelopeListState extends State<RedPacketListPage> {
+class _RedEnvelopeListState extends State<RedPacketListPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
   int? _page = 1;
   int _size = 20;
 
@@ -40,7 +45,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
             slivers: [
               if (widget.searchType != 3) singleSliverWidget(_useDec()),
               if (_banner != null) _topBanner(context),
-              _buildList1(context),
+              _buildList(context),
               SliverFooter(hasMore: _hasMore),
             ],
           );
@@ -75,8 +80,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
     );
   }
 
-  _buildList1(BuildContext context) {
-    print('重回');
+  _buildList(BuildContext context) {
     return SliverPadding(
       padding: EdgeInsets.all(10),
       sliver: SliverStaggeredGrid.countBuilder(
@@ -292,18 +296,18 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _scrollController.addListener(() {
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_hasMore) {
-          _getData();
-        }
-      }
-    });
-
+    _scrollController.addListener(_scrollListener);
     _getData();
+  }
+
+  void _scrollListener() {
+    // 如果下拉的当前位置到scroll的最下面
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_hasMore) {
+        _getData();
+      }
+    }
   }
 
   _getData() async {
@@ -313,7 +317,8 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
       "size": _size,
     };
 
-    redPacket(params).then((responseData) {
+    var responseData = await redPacket(params);
+    if (mounted) {
       var data = responseData.data;
       var redPackageMode = RedPackageMode.fromJson(data);
       setState(() {
@@ -324,7 +329,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage> {
         _page = _pagination.page + 1;
         _isLoading = false;
       });
-    });
+    }
   }
 
   @override

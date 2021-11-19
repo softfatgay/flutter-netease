@@ -39,29 +39,31 @@ class _RewardNumPageState extends State<RewardNumPage> {
     // TODO: implement initState
     super.initState();
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 500) {
-        if (!_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = true;
-          });
-        }
-      } else {
-        if (_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = false;
-          });
-        }
-      }
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_hasMore) {
-          _getRcmd();
-        }
-      }
-    });
+    _scrollController.addListener(_scrollListener);
     _getRcmd();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels > 500) {
+      if (!_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = true;
+        });
+      }
+    } else {
+      if (_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = false;
+        });
+      }
+    }
+    // 如果下拉的当前位置到scroll的最下面
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_hasMore) {
+        _getRcmd();
+      }
+    }
   }
 
   void _getRcmd() async {
@@ -71,19 +73,21 @@ class _RewardNumPageState extends State<RewardNumPage> {
     };
 
     await rewardRcmd(params).then((responseData) {
-      List result = responseData.data['result'];
-      List<ItemListItem> dataList = [];
+      if (mounted) {
+        List result = responseData.data['result'];
+        List<ItemListItem> dataList = [];
 
-      result.forEach((element) {
-        dataList.add(ItemListItem.fromJson(element));
-      });
+        result.forEach((element) {
+          dataList.add(ItemListItem.fromJson(element));
+        });
 
-      setState(() {
-        _dataList.addAll(dataList);
-        _pagination = responseData.data['pagination'];
-        _hasMore = !_pagination['lastPage'];
-        _page = _pagination['page'] + 1;
-      });
+        setState(() {
+          _dataList.addAll(dataList);
+          _pagination = responseData.data['pagination'];
+          _hasMore = !_pagination['lastPage'];
+          _page = _pagination['page'] + 1;
+        });
+      }
     });
   }
 

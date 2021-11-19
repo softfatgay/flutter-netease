@@ -32,29 +32,28 @@ class _FavoritePageState extends State<FavoritePage> {
 
   void _interestCategory() async {
     Map<String, dynamic> headers = {"Cookie": cookie};
-    Options options = Options(
-      method: 'get',
-      headers: headers,
-    );
+    Options options = Options(method: 'get', headers: headers);
     Response response = await Dio().get(
         '${NetConstants.baseUrl}interestCategory/list.json',
         queryParameters: {'csrf_token': csrf_token},
         options: options);
-    Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
-    List dataMap2 = dataMap['interestCategoryList'];
-    List<InterstItemModel> dataList = [];
-    dataMap2.forEach((element) {
-      dataList.add(InterstItemModel.fromJson(element));
-    });
-    setState(() {
-      _dataList = dataList;
-    });
+    if (mounted) {
+      Map<String, dynamic> dataMap = Map<String, dynamic>.from(response.data);
+      List dataMap2 = dataMap['interestCategoryList'];
+      List<InterstItemModel> dataList = [];
+      dataMap2.forEach((element) {
+        dataList.add(InterstItemModel.fromJson(element));
+      });
+      setState(() {
+        _dataList = dataList;
+      });
 
-    _dataList.forEach((element) {
-      if (element.selectFlag!) {
-        _up.add(element.categoryCode);
-      }
-    });
+      _dataList.forEach((element) {
+        if (element.selectFlag!) {
+          _up.add(element.categoryCode);
+        }
+      });
+    }
   }
 
   @override

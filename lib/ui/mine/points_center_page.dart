@@ -58,31 +58,34 @@ class _PointCenterPageState extends State<PointCenterPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getPoint();
+    _getPoint();
     _rcmd();
   }
 
   _rcmd() async {
     var responseData = await pointsRcmd();
-
-    List data = responseData.data;
-    List<ItemListItem> dataList = [];
-    data.forEach((element) {
-      dataList.add(ItemListItem.fromJson(element));
-    });
-    setState(() {
-      _rcmdDataList = dataList;
-    });
+    if (mounted) {
+      List data = responseData.data;
+      List<ItemListItem> dataList = [];
+      data.forEach((element) {
+        dataList.add(ItemListItem.fromJson(element));
+      });
+      setState(() {
+        _rcmdDataList = dataList;
+      });
+    }
   }
 
-  void getPoint() async {
+  void _getPoint() async {
     var responseData = await pointCenter();
-    setState(() {
-      _isLoading = false;
-      _data = PointsModel.fromJson(responseData.data);
-      _bannerData = _data.ponitBanners;
-      _banner = _bannerData!.map((item) => '${item.picUrl ?? ''}').toList();
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+        _data = PointsModel.fromJson(responseData.data);
+        _bannerData = _data.ponitBanners;
+        _banner = _bannerData!.map((item) => '${item.picUrl ?? ''}').toList();
+      });
+    }
   }
 
   @override

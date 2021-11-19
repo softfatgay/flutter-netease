@@ -26,7 +26,7 @@ class _CommentListState extends State<CommentList> {
   var _tag = '全部';
   var _checkedItem = '全部';
   int _page = 1;
-  Praise _praise = Praise();
+  var _praise = Praise();
   bool _isFirstLoading = true;
 
   var _showTagsNum = 6;
@@ -44,26 +44,23 @@ class _CommentListState extends State<CommentList> {
 
   @override
   void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
     _getCommentPraise();
     _getCommentTags();
     _reset();
-    super.initState();
+  }
 
-//    https://m.you.163.com/xhr/comment/listByItemByTag.json?itemId=1006013&page=1&tag=全部
-//    https://m.you.163.com/xhr/comment/itemGoodRates.json    好评率  itemId: 1023014
-//    https://m.you.163.com/xhr/comment/tags.json    //评价tag  itemId: 1023014
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_pagination!.totalPage! > _pagination!.page!) {
-          setState(() {
-            _page++;
-          });
-          _getCommentList();
-        }
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_pagination!.totalPage! > _pagination!.page!) {
+        setState(() {
+          _page++;
+        });
+        _getCommentList();
       }
-    });
+    }
   }
 
   void _reset() {
@@ -83,41 +80,53 @@ class _CommentListState extends State<CommentList> {
       'tag': _tag,
     };
     var responseData = await commentListData(params);
-    setState(() {
-      _isFirstLoading = false;
-      _commondPageModel = CommondPageModel.fromJson(responseData.data);
-      _pagination = _commondPageModel.pagination;
-      List<ResultItem> commentList = _commondPageModel.result!;
-      _commentList.addAll(commentList);
-    });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _isFirstLoading = false;
+          _commondPageModel = CommondPageModel.fromJson(responseData.data);
+          _pagination = _commondPageModel.pagination;
+          List<ResultItem> commentList = _commondPageModel.result!;
+          _commentList.addAll(commentList);
+        });
+      }
+    }
   }
 
   ///好评率
   void _getCommentPraise() async {
     var params = {'itemId': widget.params!['id']};
     var responseData = await commentPraiseApi(params);
-    setState(() {
-      _praise = Praise.fromJson(responseData.data);
-    });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _praise = Praise.fromJson(responseData.data);
+        });
+      }
+    }
   }
 
   ///评价Tag
   void _getCommentTags() async {
     var params = {'itemId': widget.params!['id']};
     var responseData = await commentTagsApi(params);
-    List data = responseData.data;
-    List<CommentItem> list = [];
-    data.forEach((element) {
-      list.add(CommentItem.fromJson(element));
-    });
-    setState(() {
-      _commentTags = list;
-      if (_commentTags.length > 6) {
-        _showTagsNum = 6;
-      } else {
-        _showTagsNum = _commentTags.length;
+    if (mounted) {
+      if (responseData.code == '200') {
+        var data = responseData.data;
+        List<CommentItem> list = [];
+        data.forEach((element) {
+          list.add(CommentItem.fromJson(element));
+        });
+        setState(() {
+          _commentTags = list;
+          if (_commentTags.length > 6) {
+            _showTagsNum = 6;
+          } else {
+            _showTagsNum = _commentTags.length;
+          }
+        });
       }
-    });
+    }
   }
 
   @override
@@ -214,7 +223,7 @@ class _CommentListState extends State<CommentList> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                _praise.goodCmtRate!,
+                '${_praise.goodCmtRate ?? ''}',
                 style: TextStyle(color: Colors.grey),
               ),
             ),

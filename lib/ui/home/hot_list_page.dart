@@ -28,7 +28,7 @@ class _HotListPageState extends State<HotListPage>
     with TickerProviderStateMixin {
   final _streamController = StreamController<bool>.broadcast();
 
-  var _scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   String _currentCategoryId = '0';
 
@@ -46,7 +46,7 @@ class _HotListPageState extends State<HotListPage>
 
   ///头部
   List<CurrentCategory> _subCateList = [];
-  List<CurrentCategory>? _moreCategories = [];
+  List<CurrentCategory> _moreCategories = [];
 
   ///数据
   List<ItemListItem> _dataList = [];
@@ -67,15 +67,16 @@ class _HotListPageState extends State<HotListPage>
         }
       });
     });
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > 140) {
-        _streamController.sink.add(true);
-      } else {
-        _streamController.sink.add(false);
-      }
-    });
+    _scrollController.addListener(_scrollListener);
     _getData();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels > 140) {
+      _streamController.sink.add(true);
+    } else {
+      _streamController.sink.add(false);
+    }
   }
 
   void _getData() async {
@@ -86,45 +87,51 @@ class _HotListPageState extends State<HotListPage>
 
   _submitOrderInfo() async {
     var responseData = await submitOrderInfo();
-    if (responseData.code == '200') {
-      setState(() {
-        _seller = responseData.data;
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _seller = responseData.data;
+        });
+      }
     }
   }
 
   _getCat() async {
     Map<String, dynamic> params = {
       "categoryId": _categoryId,
-      "subCategoryId": 0,
+      "subCategoryId": 0
     };
 
     var responseData = await hotListCat(params);
-    var oData = responseData.OData;
-    var hotListModel = HotListModel.fromJson(oData);
+    if (mounted) {
+      var oData = responseData.OData;
+      var hotListModel = HotListModel.fromJson(oData);
 
-    ///tab列表
-    List<CurrentCategory> cateList = [];
-    var currentCategory = hotListModel.currentCategory!;
-    currentCategory.name = '全部';
-    var subCateList = currentCategory.subCateList!;
-    cateList.add(currentCategory);
-    cateList.addAll(subCateList);
-    setState(() {
-      _moreCategories = hotListModel.moreCategories;
-      _subCateList = cateList;
-      _tabController = TabController(length: _subCateList.length, vsync: this);
-      _isFirstLoading = false;
-      _bannerUrl = currentCategory.bannerUrl!;
-    });
-    _tabController.addListener(() {
+      ///tab列表
+      List<CurrentCategory> cateList = [];
+      var currentCategory = hotListModel.currentCategory!;
+      currentCategory.name = '全部';
+      var subCateList = currentCategory.subCateList!;
+      cateList.add(currentCategory);
+      cateList.addAll(subCateList);
       setState(() {
-        if (_tabController.index == _tabController.animation!.value) {
-          _currentCategoryId = _subCateList[_tabController.index].id.toString();
-          _getItemList(true);
-        }
+        _moreCategories = hotListModel.moreCategories ?? [];
+        _subCateList = cateList;
+        _tabController =
+            TabController(length: _subCateList.length, vsync: this);
+        _isFirstLoading = false;
+        _bannerUrl = currentCategory.bannerUrl!;
       });
-    });
+      _tabController.addListener(() {
+        setState(() {
+          if (_tabController.index == _tabController.animation!.value) {
+            _currentCategoryId =
+                _subCateList[_tabController.index].id.toString();
+            _getItemList(true);
+          }
+        });
+      });
+    }
   }
 
   ///列表数据
@@ -135,15 +142,16 @@ class _HotListPageState extends State<HotListPage>
       "userBusId": '',
     };
     var responseData = await hotList(params, showLoading);
-    List<ItemListItem> dataList = [];
-    List data = responseData.data['itemList'];
-    data.forEach((element) {
-      dataList.add(ItemListItem.fromJson(element));
-    });
-
-    setState(() {
-      _dataList = dataList;
-    });
+    if (mounted) {
+      List<ItemListItem> dataList = [];
+      var data = responseData.data['itemList'];
+      data.forEach((element) {
+        dataList.add(ItemListItem.fromJson(element));
+      });
+      setState(() {
+        _dataList = dataList;
+      });
+    }
   }
 
   @override
@@ -166,9 +174,7 @@ class _HotListPageState extends State<HotListPage>
               _topBack(),
               Column(
                 children: [
-                  Container(
-                    height: 180,
-                  ),
+                  Container(height: 180),
                   Stack(
                     children: [
                       _buildGoodItem(),
@@ -300,7 +306,7 @@ class _HotListPageState extends State<HotListPage>
             crossAxisSpacing: 5,
             mainAxisSpacing: 5,
             childAspectRatio: 2.2,
-            children: _moreCategories!
+            children: _moreCategories
                 .map<Widget>((e) => _buildMoreCatItem(e))
                 .toList(),
           )
@@ -361,26 +367,5 @@ class _HotListPageState extends State<HotListPage>
     super.dispose();
   }
 
-  List<String>? _seller = [
-    "6***撵刚刚下单啦！",
-    "馁**1刚刚下单啦！",
-    "凯***z刚刚下单啦！",
-    "5**9刚刚下单啦！",
-    "柿***f刚刚下单啦！",
-    "7*****9刚刚下单啦！",
-    "棚*y刚刚下单啦！",
-    "秸****9刚刚下单啦！",
-    "3**战刚刚下单啦！",
-    "召*8刚刚下单啦！",
-    "咏****C刚刚下单啦！",
-    "溢*****9刚刚下单啦！",
-    "2***6刚刚下单啦！",
-    "1*认刚刚下单啦！",
-    "聊*****f刚刚下单啦！",
-    "4*它刚刚下单啦！",
-    "崭*****3刚刚下单啦！",
-    "9**1刚刚下单啦！",
-    "5*雁刚刚下单啦！",
-    "E****5刚刚下单啦！"
-  ];
+  List<dynamic>? _seller = [];
 }

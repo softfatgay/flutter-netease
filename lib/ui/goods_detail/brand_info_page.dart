@@ -39,9 +39,9 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   bool _isLoading = true;
   String _extInfo = '';
 
-  double narbarHeight = 40;
+  double _navbarHeight = 40;
 
-  bool resetPage = false;
+  bool isResetPage = false;
 
   final _scrollController = new ScrollController();
   bool _isShowFloatBtn = false;
@@ -58,32 +58,34 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
     });
     super.initState();
 
-    _scrollController.addListener(() {
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels > 500) {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (_hasMore) {
-            _getBrandIndex();
-          }
-        }
-        if (!_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = true;
-          });
-        }
-      } else {
-        if (_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = false;
-          });
-        }
-      }
-    });
+    _scrollController.addListener(_scrollListener);
 
     _getBrandInfo();
 
     _getBrandIndex();
+  }
+
+  void _scrollListener() {
+    // 如果下拉的当前位置到scroll的最下面
+    if (_scrollController.position.pixels > 500) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (_hasMore) {
+          _getBrandIndex();
+        }
+      }
+      if (!_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = true;
+        });
+      }
+    } else {
+      if (_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = false;
+        });
+      }
+    }
   }
 
   void _getBrandInfo() async {
@@ -94,12 +96,13 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       'merchantId': _brandInfo.merchantId ?? 'undefined'
     };
     var responseData = await brandInfo(params);
-
-    var brandInfoData = BrandInfo.fromJson(responseData.data);
-    setState(() {
-      _brandInfo.subTitle = brandInfoData.subTitle;
-      _brandInfo.desc = brandInfoData.desc;
-    });
+    if (mounted) {
+      var brandInfoData = BrandInfo.fromJson(responseData.data);
+      setState(() {
+        _brandInfo.subTitle = brandInfoData.subTitle;
+        _brandInfo.desc = brandInfoData.desc;
+      });
+    }
   }
 
   void _getBrandIndex() async {
@@ -113,18 +116,20 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       'type': _brandInfo.type,
     };
     var responseData = await brandIndex(params);
-    if (responseData.code == '200') {
-      setState(() {
-        _isLoading = false;
-        _brandIndexModel = BrandIndexModel.fromJson(responseData.data);
-        var itemList = _brandIndexModel.itemList!;
-        if (resetPage) {
-          _itemList.clear();
-        }
-        _itemList.addAll(itemList);
-        _hasMore = _brandIndexModel.hasMore ?? false;
-        _extInfo = _brandIndexModel.extInfo ?? '';
-      });
+    if (mounted) {
+      if (responseData.code == '200') {
+        setState(() {
+          _isLoading = false;
+          _brandIndexModel = BrandIndexModel.fromJson(responseData.data);
+          var itemList = _brandIndexModel.itemList!;
+          if (isResetPage) {
+            _itemList.clear();
+          }
+          _itemList.addAll(itemList);
+          _hasMore = _brandIndexModel.hasMore ?? false;
+          _extInfo = _brandIndexModel.extInfo ?? '';
+        });
+      }
     }
   }
 
@@ -162,11 +167,11 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
       pinned: true, //是否固定在顶部
       floating: true,
       delegate: SliverAppBarDelegate(
-          minHeight: narbarHeight, //收起的高度
-          maxHeight: narbarHeight, //展开的最大高度
+          minHeight: _navbarHeight, //收起的高度
+          maxHeight: _navbarHeight, //展开的最大高度
           child: Container(
             child: NormalConditionsBar(
-              height: narbarHeight,
+              height: _navbarHeight,
               pressChange: (searchModel) {
                 _resetPage(searchModel!);
               },
@@ -178,7 +183,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
   void _resetPage(NormalSearchModel searchModel) {
     setState(() {
       _extInfo = '';
-      resetPage = true;
+      isResetPage = true;
       _searchModel = searchModel;
     });
     _getBrandIndex();

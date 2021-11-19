@@ -215,7 +215,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
     _scrollPhysics = NeverScrollableScrollPhysics();
     super.initState();
-    _getDetailPageUp();
+    _getDetailData();
     _checkLogin(0);
 
     ///配送信息
@@ -283,28 +283,32 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   _checkLogin(int type) async {
     var responseData = await checkLogin();
-    var isLogin = responseData.data;
-    if (isLogin != null && isLogin) {
-      _getAddressList(type);
+    if (mounted) {
+      var isLogin = responseData.data;
+      if (isLogin != null && isLogin) {
+        _getAddressList(type);
+      }
     }
   }
 
   _getAddressList(int type) async {
     var responseData = await getLocationList();
-    if (responseData.code == '200' &&
-        responseData.data != null &&
-        responseData.data.isNotEmpty) {
-      List data = responseData.data;
-      List<LocationItemModel> dataList = [];
-      data.forEach((element) {
-        dataList.add(LocationItemModel.fromJson(element));
-      });
-      setState(() {
-        _addressList = dataList;
-      });
-      if (type == 1) {
-        ///当本地无保存地址时取第一个，当作邮寄地址
-        _wapitemDelivery(dataList[0]);
+    if (mounted) {
+      if (responseData.code == '200' &&
+          responseData.data != null &&
+          responseData.data.isNotEmpty) {
+        List data = responseData.data;
+        List<LocationItemModel> dataList = [];
+        data.forEach((element) {
+          dataList.add(LocationItemModel.fromJson(element));
+        });
+        setState(() {
+          _addressList = dataList;
+        });
+        if (type == 1) {
+          ///当本地无保存地址时取第一个，当作邮寄地址
+          _wapitemDelivery(dataList[0]);
+        }
       }
     }
   }
@@ -343,11 +347,13 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
 
     var responseData = await wapitemDelivery(params);
-    if (responseData.code == '200' && responseData.data != null) {
-      setState(() {
-        _wapitemDeliveryModel =
-            WapitemDeliveryModel.fromJson(responseData.data);
-      });
+    if (mounted) {
+      if (responseData.code == '200' && responseData.data != null) {
+        setState(() {
+          _wapitemDeliveryModel =
+              WapitemDeliveryModel.fromJson(responseData.data);
+        });
+      }
     }
   }
 
@@ -370,91 +376,84 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     });
   }
 
-  void _getDetailPageUp() async {
+  void _getDetailData() async {
     var param = {'id': _goodId};
     var response = await goodDetail(param);
-    var oData = response.OData;
-
-    setState(() {
-      _goodDetailPre = GoodDetailPre.fromJson(oData);
-
-      _goodDetail = _goodDetailPre.item!;
-      _detailPromBanner = _goodDetail.detailPromBanner;
-      _bannerModel = _goodDetail.banner;
-      _welfareCardVO = _goodDetail.welfareCardVO;
-      _priceModel = _goodDetail.price;
-      _skuLimit = _goodDetail.itemLimit;
-      _skuSpecList = _goodDetail.skuSpecList;
-
-      _selectSkuMapKey = List.filled(_skuSpecList!.length, '');
-      _selectSkuMapDec = List.filled(_skuSpecList!.length, '');
-      _skuMap = _goodDetail.skuMap;
-      _promoTip = _goodDetail.promoTip;
-      _featuredSeries = _goodDetail.featuredSeries;
-      _couponShortNameList = _goodDetail.couponShortNameList;
-      _hdrkDetailVOList = _goodDetail.hdrkDetailVOList;
-
-      _skuFreight = _goodDetail.skuFreight;
-
-      _brandInfo = _goodDetail.brandInfo;
-
-      _fullRefundPolicy = _goodDetail.fullRefundPolicy;
-
-      ///banner数据
-      var itemDetail = _goodDetail.itemDetail!;
-      _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
-      List<dynamic> bannerList = List<dynamic>.from(itemDetail.keys);
-      bannerList.forEach((key) {
-        if (key.startsWith('picUrl')) {
-          _banner.add(itemDetail[key]);
-        }
-      });
-
-      ///x详情图片
-      var detailHtml = itemDetail['detailHtml'] as String;
-      RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
-      List<String> imageUrls = [];
-      Iterable<Match> mobiles = exp.allMatches(detailHtml);
-      for (Match m in mobiles) {
-        String? match = m.group(0);
-        String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
-        if (!imageUrls.contains(imageUrl)) {
-          imageUrls.add(imageUrl);
-        }
-      }
+    if (mounted) {
+      var oData = response.OData;
       setState(() {
-        _detailImages = imageUrls;
+        _goodDetailPre = GoodDetailPre.fromJson(oData);
+
+        _goodDetail = _goodDetailPre.item!;
+        _detailPromBanner = _goodDetail.detailPromBanner;
+        _bannerModel = _goodDetail.banner;
+        _welfareCardVO = _goodDetail.welfareCardVO;
+        _priceModel = _goodDetail.price;
+        _skuLimit = _goodDetail.itemLimit;
+        _skuSpecList = _goodDetail.skuSpecList;
+
+        _selectSkuMapKey = List.filled(_skuSpecList!.length, '');
+        _selectSkuMapDec = List.filled(_skuSpecList!.length, '');
+        _skuMap = _goodDetail.skuMap;
+        _promoTip = _goodDetail.promoTip;
+        _featuredSeries = _goodDetail.featuredSeries;
+        _couponShortNameList = _goodDetail.couponShortNameList;
+        _hdrkDetailVOList = _goodDetail.hdrkDetailVOList;
+
+        _skuFreight = _goodDetail.skuFreight;
+
+        _brandInfo = _goodDetail.brandInfo;
+
+        _fullRefundPolicy = _goodDetail.fullRefundPolicy;
+
+        ///banner数据
+        var itemDetail = _goodDetail.itemDetail!;
+        _videoInfo = VideoInfo.fromJson(itemDetail['videoInfo']);
+        List<dynamic> bannerList = List<dynamic>.from(itemDetail.keys);
+        bannerList.forEach((key) {
+          if (key.startsWith('picUrl')) {
+            _banner.add(itemDetail[key]);
+          }
+        });
+
+        ///x详情图片
+        var detailHtml = itemDetail['detailHtml'] as String;
+        RegExp exp = new RegExp(r'[a-z|A-Z|0-9]{32}.jpg');
+        List<String> imageUrls = [];
+        Iterable<Match> mobiles = exp.allMatches(detailHtml);
+        for (Match m in mobiles) {
+          String? match = m.group(0);
+          String imageUrl = 'https://yanxuan-item.nosdn.127.net/$match';
+          if (!imageUrls.contains(imageUrl)) {
+            imageUrls.add(imageUrl);
+          }
+        }
+        setState(() {
+          _detailImages = imageUrls;
+        });
+        _initLoading = false;
+        if (_couponShortNameList != null && _couponShortNameList!.isNotEmpty) {
+          _getCoupon();
+        }
       });
-      _initLoading = false;
-      if (_couponShortNameList != null && _couponShortNameList!.isNotEmpty) {
-        _getCoupon();
-      }
-    });
-    _getRMD();
-    _getDftAddress();
+      _getRMD();
+      _getDftAddress();
+    }
   }
 
   void _getRMD() async {
     Map<String, dynamic> params = {'id': _goodId};
     var responseData = await wapitemRcmdApi(params);
-    List item = responseData.data['items'];
-    List<ItemListItem> rmdList = [];
-    item.forEach((element) {
-      rmdList.add(ItemListItem.fromJson(element));
-    });
-    setState(() {
-      _rmdList = rmdList;
-    });
-
-    _getOffset();
-  }
-
-  // 获取某规格的商品信息
-  getGoodsMsgById(List productList, String id) {
-    for (int i = 0; i < productList.length; i++) {
-      if (productList[i]['goods_specification_ids'] == id) {
-        return productList[i];
-      }
+    if (mounted) {
+      List item = responseData.data['items'];
+      List<ItemListItem> rmdList = [];
+      item.forEach((element) {
+        rmdList.add(ItemListItem.fromJson(element));
+      });
+      setState(() {
+        _rmdList = rmdList;
+      });
+      _getOffset();
     }
   }
 
