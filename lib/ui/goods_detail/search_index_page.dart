@@ -68,11 +68,11 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
   @override
   void initState() {
     // TODO: implement initState
-    setState(() {
-      if (widget.params != null) {
-        _textValue = widget.params!['id'];
-      }
-    });
+    // setState(() {
+    //   if (widget.params != null) {
+    //     _textValue = widget.params!['id'];
+    //   }
+    // });
     super.initState();
     _setTextEditingController();
     _scrollController.addListener(_scrollerListener);

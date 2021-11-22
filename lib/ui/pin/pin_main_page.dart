@@ -55,7 +55,8 @@ class _TestPageState extends State<PinMainPage> with TickerProviderStateMixin {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels > 95) {
+    if (_scrollController.position.pixels >
+        MediaQuery.of(context).padding.top + 50) {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (!_isLoading) {

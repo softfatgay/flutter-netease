@@ -38,6 +38,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return _isLoading
         ? Container()
         : CustomScrollView(
@@ -137,8 +138,9 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
                   : null,
             ),
           ),
+          SizedBox(height: 5),
           (item.tagList == null || item.tagList!.isEmpty)
-              ? Container(height: 0)
+              ? Container(height: 12)
               : _buildTagItems(item.tagList!),
           SizedBox(height: 5),
           Text(
@@ -184,19 +186,20 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
                       maxLines: 1,
                     ),
                   ),
-                  if (item.schemeUrl != null)
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: backWhite,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        '去使用',
-                        style: t12red,
-                      ),
-                    ),
+                  item.schemeUrl == null
+                      ? Container(height: 26)
+                      : Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: backWhite,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            '去使用',
+                            style: t12red,
+                          ),
+                        ),
                 ],
               ),
               onTap: () {
@@ -207,25 +210,29 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
           Expanded(
               child: GestureDetector(
             child: Container(
-              margin: EdgeInsets.only(top: 10),
+              color: Colors.transparent,
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: Text(
-                      '${item.rule ?? ''}',
-                      style: t12white,
-                      maxLines: item.isSelected == null
-                          ? 2
-                          : (item.isSelected! ? 15 : 2),
-                      overflow: TextOverflow.ellipsis,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${item.rule ?? ''}',
+                        style: t12white,
+                        maxLines: item.isSelected == null
+                            ? 2
+                            : (item.isSelected! ? 15 : 2),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   Icon(
                     _returnIcon(item),
                     color: Colors.white,
-                    size: 16,
+                    size: 26,
                   ),
                 ],
               ),

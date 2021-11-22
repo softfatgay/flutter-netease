@@ -43,20 +43,21 @@ class StuBuyGridItemWidget extends StatelessWidget {
             text: TextSpan(
               style: t14black,
               children: [
-                WidgetSpan(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                    child: Text(
-                      '${item.isRefundPay! ? '返¥${item.price}余额 ' : ''}',
-                      style: TextStyle(
-                          color: textWhite, fontSize: 12, height: 1.1),
-                      textAlign: TextAlign.center,
+                if (item.isRefundPay!)
+                  WidgetSpan(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                      child: Text(
+                        '${item.isRefundPay! ? '返¥${item.price}余额 ' : ''}',
+                        style: TextStyle(
+                            color: textWhite, fontSize: 12, height: 1.1),
+                        textAlign: TextAlign.center,
+                      ),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFF5252),
+                          borderRadius: BorderRadius.circular(15)),
                     ),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFF5252),
-                        borderRadius: BorderRadius.circular(15)),
                   ),
-                ),
                 TextSpan(
                     text: '${item.title}',
                     style:
