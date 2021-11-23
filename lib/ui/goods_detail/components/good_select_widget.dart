@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/component/global.dart';
 
@@ -8,14 +9,14 @@ typedef void OnPress();
 class GoodSelectWidget extends StatelessWidget {
   final String? selectedStrDec;
   final int? goodCount;
-  final OnPress? onPress;
+  final OnPress onPress;
   final SkuMapValue? skuMapItem;
 
   const GoodSelectWidget(
       {Key? key,
       this.selectedStrDec,
       this.goodCount,
-      this.onPress,
+      required this.onPress,
       this.skuMapItem})
       : super(key: key);
 
@@ -25,9 +26,10 @@ class GoodSelectWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    return InkResponse(
+    return TextButton(
+      style: gdButtonStyle,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        padding: EdgeInsets.only(top: 15, bottom: 15, right: 10),
         decoration: bottomBorder,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +39,7 @@ class GoodSelectWidget extends StatelessWidget {
                 selectedStrDec == null || selectedStrDec == ''
                     ? '请选择参数规格'
                     : '已选：',
-                  style: t14black,
+                style: t14black,
               ),
             ),
             Expanded(
@@ -64,10 +66,8 @@ class GoodSelectWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        if (onPress != null) {
-          onPress!();
-        }
+      onPressed: () {
+        onPress();
       },
     );
   }

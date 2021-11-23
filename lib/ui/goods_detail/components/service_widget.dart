@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/component/global.dart';
 
@@ -8,10 +9,13 @@ typedef void ShowDialog();
 
 class ServiceWidget extends StatelessWidget {
   final List<PolicyListItem>? policyList;
-  final ShowDialog? showDialog;
+  final ShowDialog showDialog;
 
-  const ServiceWidget({Key? key, this.policyList, this.showDialog})
-      : super(key: key);
+  const ServiceWidget({
+    Key? key,
+    this.policyList,
+    required this.showDialog,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +25,11 @@ class ServiceWidget extends StatelessWidget {
   _buildWidget() {
     return policyList == null || policyList!.isEmpty
         ? Container()
-        : GestureDetector(
+        : TextButton(
+            style: gdButtonStyle,
             child: Container(
-              color: Colors.white,
-              margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 5),
+              padding: EdgeInsets.only(right: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,10 +71,8 @@ class ServiceWidget extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              if (showDialog != null) {
-                showDialog!();
-              }
+            onPressed: () {
+              showDialog();
             },
           );
   }

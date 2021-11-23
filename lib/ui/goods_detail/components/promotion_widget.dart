@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
 import 'package:flutter_app/component/global.dart';
 
@@ -9,10 +10,13 @@ typedef void OnPress();
 
 class PromotionWidget extends StatelessWidget {
   final List<HdrkDetailVOListItem>? hdrkDetailVOList;
-  final OnPress? onPress;
+  final OnPress onPress;
 
-  const PromotionWidget({Key? key, this.hdrkDetailVOList, this.onPress})
-      : super(key: key);
+  const PromotionWidget({
+    Key? key,
+    this.hdrkDetailVOList,
+    required this.onPress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +26,10 @@ class PromotionWidget extends StatelessWidget {
   _buildWidget() {
     return (hdrkDetailVOList == null || hdrkDetailVOList!.isEmpty)
         ? Container()
-        : GestureDetector(
+        : TextButton(
+            style: gdButtonStyle,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              padding: EdgeInsets.only(top: 13, bottom: 13, right: 10),
               decoration: bottomBorder,
               child: Row(
                 children: <Widget>[
@@ -43,10 +48,8 @@ class PromotionWidget extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              if (onPress != null) {
-                onPress!();
-              }
+            onPressed: () {
+              onPress();
             },
           );
   }
@@ -64,7 +67,7 @@ class CuxiaoItems extends StatelessWidget {
       child: Column(
         children: hdrkDetailVOList!
             .map((item) => Container(
-                  padding: EdgeInsets.symmetric(vertical: 3),
+                  padding: EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
                       Container(
@@ -83,7 +86,7 @@ class CuxiaoItems extends StatelessWidget {
                             border: Border.all(color: Colors.red, width: 1),
                             borderRadius: BorderRadius.circular(14)),
                         child: Text(
-                          item.activityType!,
+                          '${item.activityType}',
                           style: t11red,
                         ),
                       ),
@@ -116,10 +119,13 @@ typedef void ItemClick(HdrkDetailVOListItem item);
 
 class DetailCuxiaoItems extends StatelessWidget {
   final List<HdrkDetailVOListItem>? hdrkDetailVOList;
-  final ItemClick? itemClick;
+  final ItemClick itemClick;
 
-  const DetailCuxiaoItems({Key? key, this.hdrkDetailVOList, this.itemClick})
-      : super(key: key);
+  const DetailCuxiaoItems({
+    Key? key,
+    this.hdrkDetailVOList,
+    required this.itemClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -178,9 +184,7 @@ class DetailCuxiaoItems extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    if (itemClick != null) {
-                      itemClick!(item);
-                    }
+                    itemClick(item);
                   },
                 ))
             .toList(),

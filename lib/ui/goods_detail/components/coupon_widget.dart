@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/component/global.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 
 ///领券
 typedef void OnPress();
@@ -8,10 +9,10 @@ typedef void OnPress();
 class CouponWidget extends StatelessWidget {
   final List<String>? couponShortNameList;
   final num? id;
-  final OnPress? onPress;
+  final OnPress onPress;
 
   const CouponWidget(
-      {Key? key, this.couponShortNameList, this.id, this.onPress})
+      {Key? key, this.couponShortNameList, this.id, required this.onPress})
       : super(key: key);
 
   @override
@@ -22,9 +23,10 @@ class CouponWidget extends StatelessWidget {
   _buildWidget(BuildContext context) {
     return (couponShortNameList == null || couponShortNameList!.isEmpty)
         ? Container()
-        : InkResponse(
+        : TextButton(
+            style: gdButtonStyle,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              padding: EdgeInsets.only(top: 15, bottom: 15, right: 10),
               decoration: bottomBorder,
               child: Row(
                 children: <Widget>[
@@ -58,10 +60,8 @@ class CouponWidget extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              if (onPress != null) {
-                onPress!();
-              }
+            onPressed: () {
+              onPress();
             },
           );
   }

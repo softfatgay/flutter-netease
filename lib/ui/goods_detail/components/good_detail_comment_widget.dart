@@ -3,6 +3,7 @@ import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/components/common_item_widget.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
@@ -36,10 +37,9 @@ class GoodDetailCommentWidget extends StatelessWidget {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            InkResponse(
-              highlightColor: Colors.transparent,
-              radius: 0,
-              onTap: () {
+            TextButton(
+              style: gdButtonStyle,
+              onPressed: () {
                 if (commentCount != 0)
                   Routers.push(Routers.comment, context, {'id': goodId});
               },

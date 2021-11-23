@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/component/global.dart';
 
@@ -7,10 +9,13 @@ typedef void ShowDialog();
 
 class FreightWidget extends StatelessWidget {
   final SkuFreight? skuFreight;
-  final ShowDialog? showDialog;
+  final ShowDialog showDialog;
 
-  const FreightWidget({Key? key, this.skuFreight, this.showDialog})
-      : super(key: key);
+  const FreightWidget({
+    Key? key,
+    this.skuFreight,
+    required this.showDialog,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +25,10 @@ class FreightWidget extends StatelessWidget {
   _buildWidget() {
     return skuFreight == null
         ? Container()
-        : InkResponse(
+        : TextButton(
+            style: gdButtonStyle,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              padding: EdgeInsets.only(top: 15, bottom: 15, right: 10),
               decoration: bottomBorder,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,10 +52,8 @@ class FreightWidget extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              if (showDialog != null) {
-                showDialog!();
-              }
+            onPressed: () {
+              showDialog();
             },
           );
   }

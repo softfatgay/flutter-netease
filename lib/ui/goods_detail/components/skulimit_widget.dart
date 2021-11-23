@@ -16,24 +16,27 @@ class SkulimitWidget extends StatelessWidget {
     return (skuLimit == null || skuLimit == '')
         ? Container()
         : Container(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            decoration: bottomBorder,
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    '限制：',
-                    style: t14black,
+            margin: EdgeInsets.only(left: 10),
+            child: Container(
+              padding: EdgeInsets.only(top: 15, bottom: 15, right: 10),
+              decoration: bottomBorder,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '限制：',
+                      style: t14black,
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text(
-                    skuLimit!,
-                    style: t14black,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6),
+                    child: Text(
+                      skuLimit!,
+                      style: t14black,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
   }

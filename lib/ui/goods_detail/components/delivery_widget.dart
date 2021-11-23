@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/component/global.dart';
 
@@ -8,10 +9,13 @@ typedef void OnPress();
 
 class DeliveryWidget extends StatelessWidget {
   final WapitemDeliveryModel? wapitemDelivery;
-  final OnPress? onPress;
+  final OnPress onPress;
 
-  const DeliveryWidget({Key? key, this.wapitemDelivery, this.onPress})
-      : super(key: key);
+  const DeliveryWidget({
+    Key? key,
+    this.wapitemDelivery,
+    required this.onPress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +23,10 @@ class DeliveryWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    return GestureDetector(
+    return TextButton(
+      style: gdButtonStyle,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        padding: EdgeInsets.only(top: 15, bottom: 15, right: 10),
         decoration: bottomBorder,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,10 +67,8 @@ class DeliveryWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        if (onPress != null) {
-          onPress!();
-        }
+      onPressed: () {
+        onPress();
       },
     );
   }

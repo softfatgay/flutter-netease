@@ -9,11 +9,11 @@ typedef void ShowDialog();
 
 ///规则
 class FullRefundPolicyWidget extends StatelessWidget {
-  final ShowDialog? showDialog;
+  final ShowDialog showDialog;
   final FullRefundPolicy? fullRefundPolicy;
 
   const FullRefundPolicyWidget(
-      {Key? key, this.showDialog, this.fullRefundPolicy})
+      {Key? key, required this.showDialog, this.fullRefundPolicy})
       : super(key: key);
 
   @override
@@ -22,71 +22,59 @@ class FullRefundPolicyWidget extends StatelessWidget {
   }
 
   _buildWidget() {
-    // String policyTitle = '';
-    // if (fullRefundPolicy != null) {
-    //   List? fullRefundPolicyTitle = fullRefundPolicy!.titles;
-    //   if (fullRefundPolicyTitle != null && fullRefundPolicyTitle.isNotEmpty) {
-    //     fullRefundPolicyTitle.forEach((element) {
-    //       policyTitle += '▪$element ';
-    //     });
-    //   }
-    // }
-    return fullRefundPolicy == null
-        ? Container()
-        : fullRefundPolicy!.titles == null || fullRefundPolicy!.titles!.isEmpty
-            ? Container()
-            : GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  decoration: bottomBorder,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '规则：',
-                          style: t14black,
-                        ),
-                      ),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: fullRefundPolicy!.titles!
-                              .map((item) => Container(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(right: 2),
-                                          width: 4,
-                                          height: 4,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(2),
-                                              color: backRed),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '$item',
-                                            style: t14black,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                      arrowRightIcon
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  if (showDialog != null) {
-                    showDialog!();
-                  }
-                },
-              );
+    if (fullRefundPolicy == null ||
+        fullRefundPolicy!.titles == null ||
+        fullRefundPolicy!.titles!.isEmpty) {
+      return Container();
+    }
+
+    var titles = fullRefundPolicy!.titles ?? [];
+    return GestureDetector(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        color: backWhite,
+        child: Row(
+          children: <Widget>[
+            Container(
+              child: Text('规则：', style: t14black),
+            ),
+            SizedBox(width: 6),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: titles
+                    .map((item) => Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 2),
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2),
+                                    color: backRed),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '$item',
+                                  style: t14black,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            ],
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            arrowRightIcon
+          ],
+        ),
+      ),
+      onTap: () {
+        showDialog();
+      },
+    );
   }
 }

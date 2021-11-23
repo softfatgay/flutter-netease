@@ -11,7 +11,6 @@ import 'package:flutter_app/component/dashed_decoration.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
-import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/normal_textfiled.dart';
 import 'package:flutter_app/component/page_loading.dart';
 import 'package:flutter_app/component/round_net_image.dart';
@@ -529,13 +528,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               recommendReason: _goodDetail.recommendReason,
               simpleDesc: _goodDetail.simpleDesc,
             ),
-            singleSliverWidget(Container(
-              height: 15,
-              color: Colors.white,
-            )),
 
             ///活动卡
             singleSliverWidget(_buildWelfareCardVO()),
+
+            ///规则
+            singleSliverWidget(FullRefundPolicyWidget(
+              fullRefundPolicy: _fullRefundPolicy,
+              showDialog: () {
+                _fullRefundPolicyDialog(context, _fullRefundPolicy);
+              },
+            )),
 
             ///选择属性
             singleSliverWidget(_buildSelectProperty()),
@@ -657,18 +660,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _buildWelfareCardVO() {
     return _welfareCardVO == null
         ? Container()
-        : Container(
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(color: Color(0xFFFFF0DD)),
-            child: GestureDetector(
-              child: CachedNetworkImage(
-                imageUrl: _welfareCardVO!.picUrl!,
-              ),
-              onTap: () {
-                Routers.push(Routers.webView, context,
-                    {'url': _welfareCardVO!.schemeUrl});
-              },
+        : GestureDetector(
+            child: CachedNetworkImage(
+              imageUrl: '${_welfareCardVO!.picUrl}',
             ),
+            onTap: () {
+              Routers.push(
+                  Routers.webView, context, {'url': _welfareCardVO!.schemeUrl});
+            },
           );
   }
 
@@ -710,14 +709,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
-          ///规则
-          FullRefundPolicyWidget(
-            fullRefundPolicy: _fullRefundPolicy,
-            showDialog: () {
-              _fullRefundPolicyDialog(context, _fullRefundPolicy);
-            },
-          ),
-
           ///领券
           CouponWidget(
             couponShortNameList: _couponShortNameList,

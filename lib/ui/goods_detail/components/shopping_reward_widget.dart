@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/ui/goods_detail/components/gd_button_style.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
 import 'package:flutter_app/component/global.dart';
 
@@ -8,10 +9,13 @@ typedef void ShowDialog();
 ///购物返
 class ShoppingRewardWidget extends StatelessWidget {
   final ShoppingReward? shoppingReward;
-  final ShowDialog? showDialog;
+  final ShowDialog showDialog;
 
-  const ShoppingRewardWidget({Key? key, this.shoppingReward, this.showDialog})
-      : super(key: key);
+  const ShoppingRewardWidget({
+    Key? key,
+    this.shoppingReward,
+    required this.showDialog,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +25,10 @@ class ShoppingRewardWidget extends StatelessWidget {
   _buildWidget() {
     return shoppingReward == null
         ? Container()
-        : InkResponse(
+        : TextButton(
+            style: gdButtonStyle,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              decoration: bottomBorder,
+              padding: EdgeInsets.only(top: 15, bottom: 15, right: 10),
               child: Row(
                 children: <Widget>[
                   Container(
@@ -52,10 +56,8 @@ class ShoppingRewardWidget extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              if (showDialog != null) {
-                showDialog!();
-              }
+            onPressed: () {
+              showDialog();
             },
           );
   }
