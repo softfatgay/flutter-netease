@@ -71,13 +71,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     _checkLogin();
     HosEventBusUtils.on((dynamic event) {
       if (event == REFRESH_CART) {
-        _checkLogin();
+        setState(() {
+          _isEdit = false;
+        });
+        _checkLogin(showProgress: false);
       }
     });
   }
 
   ///检查是否登录
-  _checkLogin() async {
+  _checkLogin({bool showProgress = true}) async {
     var responseData = await checkLogin();
     var isLogin = responseData.data;
     if (isLogin == null) {
@@ -89,7 +92,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         _isLogin = isLogin;
       });
       if (isLogin) {
-        _getData();
+        _getData(showProgress: showProgress);
         Timer(Duration(seconds: 1), () {
           HosEventBusUtils.fire(REFRESH_MINE);
           HosEventBusUtils.fire(REFRESH_CART_NUM);
@@ -99,27 +102,26 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
   }
 
   // 获取购物车数据
-  void _getData() async {
+  void _getData({bool showProgress = true}) async {
     setState(() {
-      _loading = true;
+      _loading = showProgress;
     });
     var responseData = await shoppingCart();
     if (responseData.code == '200') {
-      setState(() {
-        _data = responseData.data;
-        if (_data != null) {
-          setData(_data);
-        }
-      });
+      _data = responseData.data;
+      if (_data != null) {
+        _setData(_data);
+      }
     }
   }
 
   // 更新状态机 刷新界面
-  void setData(var _data) {
-    if (_data == null) {
+  void _setData(var data) {
+    if (data == null) {
       _getData();
+      return;
     }
-    var shoppingCartModel = ShoppingCartModel.fromJson(_data);
+    var shoppingCartModel = ShoppingCartModel.fromJson(data);
     setState(() {
       _loading = false;
       _shoppingCartModel = shoppingCartModel;
@@ -183,10 +185,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     });
     Map<String, dynamic> params = {'isChecked': _isCheckedAll};
     var responseData = await shoppingCartCheck(params);
-    setState(() {
-      _data = responseData.data;
-      setData(_data);
-    });
+    _data = responseData.data;
+    _setData(_data);
   }
 
   /// 购物车  某个勾选框 选/不选 请求
@@ -202,10 +202,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'extId': item.extId,
     };
     var responseData = await shoppingCartCheckOne(params);
-    setState(() {
-      _data = responseData.data;
-      setData(_data);
-    });
+    _data = responseData.data;
+    _setData(_data);
   }
 
   /// 购物车  分组选择或不选
@@ -231,10 +229,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     Map<String, dynamic> params = {'skuList': skuList};
     var responseData =
         await batchUpdateCheck({'selectedSku': json.encode(params)});
-    setState(() {
-      _data = responseData.data;
-      setData(_data);
-    });
+    _data = responseData.data;
+    _setData(_data);
   }
 
   /// 购物车  商品 选购数量变化 请求
@@ -251,11 +247,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     };
     var responseData = await shoppingCartCheckNum(params);
     if (responseData.code == '200') {
-      setState(() {
-        _data = responseData.data;
-        setData(_data);
-        refreshCartNum();
-      });
+      _data = responseData.data;
+      _setData(_data);
+      refreshCartNum();
     } else {
       setState(() {
         _loading = false;
@@ -302,11 +296,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     Map<String, dynamic> params = {'selectedSku': json.encode(item)};
     var responseData = await deleteCart(params);
     if (responseData.code == "200") {
-      setState(() {
-        _isEdit = false;
-      });
       _data = responseData.data;
-      setData(_data);
+      _setData(_data);
       refreshCartNum();
     }
   }
@@ -375,9 +366,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         invalidSku.add(map);
       });
     });
-    var map = {
-      'skuList': invalidSku,
-    };
+    var map = {'skuList': invalidSku};
     Map<String, dynamic> param = {'invalidSku': convert.jsonEncode(map)};
     var response = await clearInvalidItem(param);
     if (response.code == '200') {
@@ -442,10 +431,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         children: [
           _data == null ? Loading() : _buildData(context),
           Positioned(
-            child: _buildBuy(),
             bottom: 0,
             left: 0,
             right: 0,
+            child: _buildBuy(),
           ),
           if (_loading) _pageLoading(),
         ],
@@ -495,9 +484,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   ///（编辑状态下）编辑状态单选某个商品
   _setEditItemChecked(CarItem itemData, CartItemListItem item, bool checked) {
-    print(checked);
-    print(item.skuId);
-
     setState(() {
       _cartGroupList.forEach((element) {
         List<CartItemListItem> getGroupItemList = _getGroupItemList(element);
