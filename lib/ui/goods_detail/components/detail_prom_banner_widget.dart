@@ -46,17 +46,17 @@ class DetailPromBannerWidget extends StatelessWidget {
                     if (_basicTextInt()[0] != null)
                       Text(
                         '¥',
-                        style: t18whiteBold,
+                        style: num18WhiteBold,
                       ),
                     if (_basicTextInt()[0] != null) SizedBox(width: 3),
                     if (_basicTextInt()[0] != null)
                       Text(
                         '${_basicTextInt()[0]}',
-                        style: t32whiteBold,
+                        style: num32WhiteBold,
                       ),
                     Text(
                       '${_basicTextInt()[1]}',
-                      style: t20whitebold,
+                      style: t20whiteBold,
                     ),
                     SizedBox(width: 5),
                     if (banner!.processBanner!.priceInfo!.counterPrice != null)
@@ -65,6 +65,7 @@ class DetailPromBannerWidget extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           color: textWhite,
+                          fontFamily: 'DINAlternateBold',
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),

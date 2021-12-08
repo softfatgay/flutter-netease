@@ -64,7 +64,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               '${goodCmtRate ?? ''}',
-                              style: t16red,
+                              style: num16Red,
                             ),
                             Text(
                               (goodCmtRate == null || goodCmtRate == '')

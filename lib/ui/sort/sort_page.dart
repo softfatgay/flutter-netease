@@ -211,7 +211,7 @@ class _SortState extends State<SortPage> with AutomaticKeepAliveClientMixin {
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
                     "${item.name ?? ''}",
-                    style: t16blackbold,
+                    style: t16blackBold,
                   ),
                 ),
               GridView.count(

@@ -45,7 +45,7 @@ class PinTopWidget extends StatelessWidget {
               ),
               Text(
                 '${itemInfo!.price}',
-                style: t20whitebold,
+                style: t20whiteBold,
               ),
             ],
           ),

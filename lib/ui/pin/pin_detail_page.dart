@@ -429,7 +429,7 @@ class _PinDetailPageState extends State<PinDetailPage> {
           ),
           Text(
             '${_itemInfo!.name}',
-            style: t16blackbold,
+            style: t16blackBold,
           )
         ],
       ),

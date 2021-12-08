@@ -209,7 +209,7 @@ class _BrandInfoPageState extends State<BrandInfoPage> {
                   children: [
                     Text(
                       '${_brandInfo.title ?? ''}',
-                      style: t16blackbold,
+                      style: t16blackBold,
                     ),
                     SizedBox(
                       height: 6,

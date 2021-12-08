@@ -65,7 +65,7 @@ void showGiftDialog(BuildContext context, NewUserGift newUserGift) {
                         margin: EdgeInsets.only(top: 250),
                         child: Text(
                           '${Util.temFormat(newUserGift2.useExpireTime! * 1000 as int)}结束',
-                          style: t16whiteblod,
+                          style: t16whiteBold,
                         ),
                       ),
                       Positioned(

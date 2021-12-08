@@ -207,10 +207,10 @@ class GoodItemWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Text("$pricePrefix¥", style: t12redBold),
+        Text("$pricePrefix¥", style: num12RedBold),
         Text(
           "${priceToStr[0]}",
-          style: t20redBold,
+          style: num20RedBold,
         ),
         Text(
           "${priceToStr[1]}$priceSuffix",
@@ -226,6 +226,7 @@ class GoodItemWidget extends StatelessWidget {
           style: TextStyle(
               color: textGrey,
               decoration: TextDecoration.lineThrough,
+              fontFamily: 'DINAlternateBold',
               fontSize: 11),
         ),
       ],

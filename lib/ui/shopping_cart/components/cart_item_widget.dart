@@ -526,7 +526,7 @@ class CartItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       '¥${item.actualPrice}',
-                      style: t14blackBold,
+                      style: num14BlackBold,
                     ),
                     Expanded(
                       child: Container(
@@ -538,6 +538,7 @@ class CartItemWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             color: textGrey,
+                            fontFamily: 'DINAlternateBold',
                             decoration: TextDecoration.lineThrough,
                           ),
                         ),

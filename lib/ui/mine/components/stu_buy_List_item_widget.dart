@@ -175,7 +175,7 @@ class StuBuyListItemWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '¥${item!.isRefundPay! ? '0' : '${item!.price}'}',
-                    style: t20whitebold,
+                    style: t20whiteBold,
                   ),
                 ),
               ],

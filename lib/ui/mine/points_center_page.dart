@@ -163,7 +163,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
               children: [
                 Text(
                   '你的可用积分：${_data.availablePoint}',
-                  style: t16whiteblod,
+                  style: t16whiteBold,
                 ),
                 GestureDetector(
                   child: Container(
@@ -270,7 +270,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                         SizedBox(height: 5),
                         Text(
                           item['name'],
-                          style: t16blackbold,
+                          style: t16blackBold,
                         ),
                         Text(
                           item['dec'],
@@ -500,7 +500,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   '${item.title}',
-                  style: t16blackbold,
+                  style: t16blackBold,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -597,7 +597,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
       alignment: Alignment.center,
       child: Text(
         '热销好物',
-        style: t16blackbold,
+        style: t16blackBold,
       ),
     );
   }

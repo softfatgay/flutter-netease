@@ -30,7 +30,7 @@ class GoodTitleWidget extends StatelessWidget {
           Expanded(
             child: Text(
               '$name',
-              style: t16blackbold,
+              style: t16blackBold,
             ),
           ),
           SizedBox(
@@ -54,7 +54,7 @@ class GoodTitleWidget extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Text('${goodCmtRate ?? ''}', style: t16redBold),
+                            Text('${goodCmtRate ?? ''}', style: num16RedBold),
                             Text(
                               '好评率',
                               style:

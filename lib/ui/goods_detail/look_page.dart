@@ -389,7 +389,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                 children: [
                   Text(
                     '${collection.title}',
-                    style: t18blackbold,
+                    style: t18blackBold,
                   ),
                   SizedBox(
                     height: 4,

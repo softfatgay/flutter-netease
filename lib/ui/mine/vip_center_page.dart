@@ -338,7 +338,7 @@ class _VipCenterPageState extends State<VipCenterPage> {
             Expanded(
                 child: Text(
               title,
-              style: t16blackbold,
+              style: t16blackBold,
             )),
             Row(
               children: [

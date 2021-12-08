@@ -263,7 +263,7 @@ class _MinePageState extends State<UserPage>
                   item.fundType == 1 || item.fundType == 4
                       ? "¥${item.fundValue}"
                       : "${item.fundValue}",
-                  style: t16blackbold),
+                  style: t16blackBold),
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(

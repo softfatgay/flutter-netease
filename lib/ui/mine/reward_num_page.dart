@@ -162,7 +162,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                   Center(
                     child: Text(
                       '¥${widget.params!['value']}',
-                      style: t20whitebold,
+                      style: t20whiteBold,
                     ),
                   ),
                   SizedBox(height: 10),

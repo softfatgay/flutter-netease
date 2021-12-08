@@ -49,6 +49,7 @@ class _AboutPageState extends State<AboutPage> {
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 18,
+                    fontWeight: FontWeight.w500,
                     decoration: TextDecoration.underline),
                 textAlign: TextAlign.left,
               ),
@@ -63,24 +64,26 @@ class _AboutPageState extends State<AboutPage> {
               text: TextSpan(
                 style: TextStyle(color: Colors.black87, fontSize: 14),
                 children: [
-                  TextSpan(text: '项目地址:  ', style: t16blackbold),
+                  TextSpan(text: '项目地址:  ', style: t16blackBold),
                   TextSpan(
                       text: '项目地址\n\n',
                       style: TextStyle(
                           color: Colors.blueAccent,
                           fontSize: 16,
+                          fontWeight: FontWeight.w500,
                           decoration: TextDecoration.underline),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           _goWebview(
                               'https://github.com/softfatgay/flutter-netease');
                         }),
-                  TextSpan(text: '关于:          ', style: t16blackbold),
+                  TextSpan(text: '关于:          ', style: t16blackBold),
                   TextSpan(
                       text: '我',
                       style: TextStyle(
                           color: Colors.blueAccent,
                           fontSize: 16,
+                          fontWeight: FontWeight.w500,
                           decoration: TextDecoration.underline),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -198,10 +201,19 @@ class _AboutPageState extends State<AboutPage> {
             style: t20blackBold,
           ),
           GestureDetector(
-            child: Text(
-              'wan_tuan@163.com',
-              style: TextStyle(color: Colors.blue, fontSize: 18),
-              textAlign: TextAlign.left,
+            child: Container(
+              decoration: BoxDecoration(
+                  border:
+                      Border(bottom: BorderSide(color: Colors.blue, width: 1))),
+              child: Text(
+                'wan_tuan@163.com',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    height: 2),
+                textAlign: TextAlign.left,
+              ),
             ),
             onTap: () async {
               var url = 'mailto:wan_tuan@163.com?subject=flutter-netease';

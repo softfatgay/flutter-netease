@@ -53,7 +53,7 @@ class TopAppBar extends StatelessWidget {
                 child: Center(
                   child: Text(
                     title ?? '',
-                    style: t16black,
+                    style: t18black,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

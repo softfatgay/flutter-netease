@@ -29,12 +29,12 @@ class GoodPriceWidget extends StatelessWidget {
                 Text(
                   '￥',
                   overflow: TextOverflow.ellipsis,
-                  style: t16redBold,
+                  style: num16RedBold,
                 ),
                 Text(
                   '${priceModel!.basicPrice}',
                   overflow: TextOverflow.ellipsis,
-                  style: t27redBold,
+                  style: num27RedBold,
                 ),
                 if (priceModel!.counterPrice != priceModel!.basicPrice)
                   Container(
@@ -45,6 +45,7 @@ class GoodPriceWidget extends StatelessWidget {
                         fontSize: 12,
                         color: textGrey,
                         height: 1,
+                        fontFamily: 'DINAlternateBold',
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),

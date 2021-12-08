@@ -38,7 +38,7 @@ class TabAppBar extends StatelessWidget {
             Expanded(
               child: Text(
                 '$title',
-                style: t16black,
+                style: t18black,
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,

@@ -83,7 +83,7 @@ const TextStyle t14whiteBold = TextStyle(
   fontWeight: fontWeightMedium,
 );
 
-const TextStyle t20whitebold = TextStyle(
+const TextStyle t20whiteBold = TextStyle(
   color: textWhite,
   fontSize: 20,
   fontWeight: fontWeightMedium,
@@ -163,7 +163,7 @@ const TextStyle t16black = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
-const TextStyle t16blackbold = TextStyle(
+const TextStyle t16blackBold = TextStyle(
   color: textBlack,
   fontSize: 16,
   fontWeight: fontWeightMedium,
@@ -177,7 +177,7 @@ const TextStyle t18black = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
-const TextStyle t18blackbold = TextStyle(
+const TextStyle t18blackBold = TextStyle(
   color: textBlack,
   fontSize: 18,
   fontWeight: fontWeightMedium,
@@ -380,7 +380,7 @@ const TextStyle t16white = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
-const TextStyle t16whiteblod = TextStyle(
+const TextStyle t16whiteBold = TextStyle(
   color: textWhite,
   fontSize: 16,
   fontWeight: fontWeightMedium,
@@ -401,7 +401,7 @@ const TextStyle t24white = TextStyle(
   fontWeight: fontWeightRegular,
 );
 
-const TextStyle t24whiteblod = TextStyle(
+const TextStyle t24whiteBold = TextStyle(
   color: textWhite,
   fontSize: 24,
   fontWeight: fontWeightMedium,
@@ -585,9 +585,105 @@ const TextStyle num18White = TextStyle(
     decoration: TextDecoration.none,
     fontFamily: 'DINAlternateBold');
 
+const TextStyle num18WhiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 18,
+  fontWeight: fontWeightMedium,
+  decoration: TextDecoration.none,
+  fontFamily: 'DINAlternateBold',
+);
+
 const TextStyle num24White = TextStyle(
   color: textWhite,
   fontSize: 24,
   decoration: TextDecoration.none,
   fontFamily: 'DINAlternateBold',
 );
+
+const TextStyle num32WhiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 32,
+  fontWeight: fontWeightMedium,
+  decoration: TextDecoration.none,
+  fontFamily: 'DINAlternateBold',
+);
+
+///黑色数字字体-----------------------------------------------
+const TextStyle num14Black = TextStyle(
+    color: textBlack,
+    fontSize: 14,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num14BlackBold = TextStyle(
+    color: textBlack,
+    fontSize: 14,
+    fontWeight: fontWeightMedium,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num16Black = TextStyle(
+    color: textBlack,
+    fontSize: 16,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+///红色数字字体-----------------------------------------------
+const TextStyle num12RedBold = TextStyle(
+    color: textRed,
+    fontSize: 12,
+    fontWeight: fontWeightMedium,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num14Red = TextStyle(
+    color: textRed,
+    fontSize: 14,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num14RedBold = TextStyle(
+    color: textRed,
+    fontSize: 14,
+    fontWeight: fontWeightMedium,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num16Red = TextStyle(
+    color: textRed,
+    fontSize: 16,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num16RedBold = TextStyle(
+    color: textRed,
+    fontSize: 16,
+    fontWeight: fontWeightMedium,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num20RedBold = TextStyle(
+    color: textRed,
+    fontSize: 20,
+    fontWeight: fontWeightMedium,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num27RedBold = TextStyle(
+    color: textRed,
+    fontSize: 27,
+    fontWeight: fontWeightMedium,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+///灰色数字字体-----------------------------------------------
+const TextStyle num12Grey = TextStyle(
+    color: textGrey,
+    fontSize: 12,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+const TextStyle num14Grey = TextStyle(
+    color: textGrey,
+    fontSize: 14,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');

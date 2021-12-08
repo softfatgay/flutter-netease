@@ -56,7 +56,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                     Container(
                       child: Text(
                         _userData.nickname!,
-                        style: t16blackbold,
+                        style: t16blackBold,
                       ),
                     ),
                     Container(

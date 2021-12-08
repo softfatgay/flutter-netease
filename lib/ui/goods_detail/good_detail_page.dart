@@ -1579,7 +1579,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                         Text(
                           '￥${_priceModel!.basicPrice} ',
                           overflow: TextOverflow.ellipsis,
-                          style: t14red,
+                          style: num14Red,
                         ),
                         if (_priceModel!.basicPrice !=
                                 _priceModel!.counterPrice &&
@@ -1590,6 +1590,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                               style: TextStyle(
                                 fontSize: 12,
                                 color: textGrey,
+                                fontFamily: 'DINAlternateBold',
                                 decoration: TextDecoration.lineThrough,
                               ),
                             ),
@@ -1597,7 +1598,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                         if (_priceModel!.finalPrice != null)
                           Container(
                             child: Text(
-                              '${_priceModel!.finalPrice!.prefix ?? ''}${_priceModel!.finalPrice!.price == null ? '' : '¥${_priceModel!.finalPrice!.price}'}${_priceModel!.finalPrice!.suffix ?? ''}',
+                              ' ${_priceModel!.finalPrice!.prefix ?? ''}${_priceModel!.finalPrice!.price == null ? '' : '¥${_priceModel!.finalPrice!.price}'}${_priceModel!.finalPrice!.suffix ?? ''}',
                               style: t14red,
                             ),
                           )
@@ -1923,7 +1924,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               _buyGoods();
             }
           },
-          textStyle: purchaseAttribute == 0 ? t16blackbold : t16whiteblod,
+          textStyle: purchaseAttribute == 0 ? t16blackBold : t16whiteBold,
         ),
       ),
     );

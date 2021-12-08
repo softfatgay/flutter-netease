@@ -56,7 +56,7 @@ class BrandInfoWidget extends StatelessWidget {
                             Expanded(
                                 child: Text(
                               '${brandInfo!.title}',
-                              style: t16blackbold,
+                              style: t16blackBold,
                             )),
                             arrowRightIcon
                           ],

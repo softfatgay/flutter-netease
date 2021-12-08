@@ -69,3 +69,8 @@ flutter:
     - assets/images/user/
     - assets/images/service/
     - assets/json/home_data_json.json
+
+  fonts:
+    - family: DINAlternateBold
+      fonts:
+        - asset: fonts/DINAlternateBold.ttf
