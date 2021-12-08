@@ -45,7 +45,7 @@ class _AboutPageState extends State<AboutPage> {
               margin: EdgeInsets.only(top: 15),
               padding: EdgeInsets.only(left: 15),
               child: Text(
-                'demo.apk下载地址',
+                'Demo.apk下载地址',
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 18,
@@ -73,7 +73,7 @@ class _AboutPageState extends State<AboutPage> {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           _goWebview(
-                              'https://github.com/softfatgay/FlutterWant');
+                              'https://github.com/softfatgay/flutter-netease');
                         }),
                   TextSpan(text: '关于:          ', style: t16blackbold),
                   TextSpan(
@@ -98,9 +98,8 @@ class _AboutPageState extends State<AboutPage> {
                 Text('深度还原网易严选webApp', style: t20blackBold),
                 SizedBox(height: 10),
                 _desApp('已实现登录功能，动态获取cookie。感谢 Tdreamy 提供的思路以及对ios插件的支持'),
-                _desApp('cookie和csrf_token已实现动态更新，网页登录即可'),
-                _desApp('lutter(2.2.1)/dart(2.13.1)升级到新版本，兼容Flutter2.0以上版本'),
                 _desApp('首页，值得买，分类，购物车，我的，搜索，商品详情等等，都已实现（除了下单之后的逻辑）'),
+                _desApp('升级到null-safety'),
                 _desApp('后续有时间会持续完善此项目'),
               ],
             ),
@@ -131,20 +130,22 @@ class _AboutPageState extends State<AboutPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('使用的库：', style: t20blackBold),
+          Text('使用的一些三方库', style: t20blackBold),
           SizedBox(height: 10),
-          _buildLink('Dio', 'https://pub.flutter-io.cn/packages/dio'),
+          _buildLink('dio', 'https://pub.flutter-io.cn/packages/dio'),
           _buildLink('webview_flutter',
               'https://pub.flutter-io.cn/packages/webview_flutter'),
           _buildLink('cached_network_image',
               'https://pub.flutter-io.cn/packages/cached_network_image'),
-          _buildLink('flutter_swiper',
-              'https://pub.flutter-io.cn/packages/flutter_swiper'),
+          _buildLink('carousel_slider',
+              'https://pub.flutter-io.cn/packages/carousel_slider'),
           _buildLink('flutter_html',
               'https://pub.flutter-io.cn/packages/flutter_html'),
+          _buildLink('flutter_staggered_grid_view',
+              'https://pub.flutter-io.cn/packages/flutter_staggered_grid_view'),
           _buildLink('common_utils ',
               'https://pub.flutter-io.cn/packages/common_utils'),
-          _buildLink('...等', ''),
+          Text('...等', style: t16black),
         ],
       ),
     );
@@ -193,13 +194,22 @@ class _AboutPageState extends State<AboutPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '我的邮箱：',
+            '我的邮箱',
             style: t20blackBold,
           ),
-          _buildLink(
-            'wan_tuan@163.com',
-            'wan_tuan@163.com',
-          ),
+          GestureDetector(
+            child: Text(
+              'wan_tuan@163.com',
+              style: TextStyle(color: Colors.blue, fontSize: 18),
+              textAlign: TextAlign.left,
+            ),
+            onTap: () async {
+              var url = 'mailto:wan_tuan@163.com?subject=flutter-netease';
+              if (await canLaunch(url)) {
+                _launchURL(url);
+              }
+            },
+          )
         ],
       ),
     );
