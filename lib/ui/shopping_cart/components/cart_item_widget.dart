@@ -682,22 +682,7 @@ class CartItemWidget extends StatelessWidget {
 
   _checkBox(CarItem itemData, CartItemListItem item) {
     if (isInvalid) {
-      return item.sellVolume == 0
-          ? Container(
-              width: _checkBoxWidth,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Color(0xFFB4B4B4),
-                    borderRadius: BorderRadius.circular(2)),
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 2),
-                child: VerticalText(
-                  "售罄",
-                  style: TextStyle(height: 1, color: textWhite, fontSize: 12),
-                ),
-              ),
-            )
-          : Container();
+      return _invalidCheckBoxView(item);
     }
     if (item.id == 0) {
       if (item.type == 110) {
@@ -715,6 +700,32 @@ class CartItemWidget extends StatelessWidget {
           return _cantClickBox();
         }
       }
+    }
+  }
+
+  _invalidCheckBoxView(CartItemListItem item) {
+    return Container(
+      width: _checkBoxWidth,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color(0xFFB4B4B4), borderRadius: BorderRadius.circular(2)),
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 2),
+        child: VerticalText(
+          '${_getInvalidCheckBoxTv(item)}',
+          style: TextStyle(height: 1, color: textWhite, fontSize: 12),
+        ),
+      ),
+    );
+  }
+
+  _getInvalidCheckBoxTv(CartItemListItem item) {
+    if (item.status == 0) {
+      return '售罄下架';
+    } else if (item.sellVolume == 0) {
+      return '售罄';
+    } else {
+      return '';
     }
   }
 

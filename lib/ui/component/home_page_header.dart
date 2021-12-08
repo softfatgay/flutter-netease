@@ -12,7 +12,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
   final String? title;
   final UserModel? userInfo;
   final bool showBack;
-  final num? totalNum;
+  final num totalNum;
   final Color backGroundColor;
 
   HomeHeader({

@@ -62,7 +62,7 @@ class HomeCategoryHotSell extends StatelessWidget {
             color: index == 0 ? Color(0xFFF7F1DD) : Color(0xFFE4E8F0),
             borderRadius: BorderRadius.circular(3),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.only(left: 20),
           child: Row(
             children: [
               Expanded(

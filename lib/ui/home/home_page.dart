@@ -83,7 +83,7 @@ class _HomeState extends State<HomePage>
   //动画控制器
   late AnimationController _animalController;
 
-  num? _totalNum = 0;
+  num _totalNum = 0;
 
   Color _backGroundColor = backWhite;
 
@@ -106,7 +106,7 @@ class _HomeState extends State<HomePage>
     var responseData = await totalNumbersOfProducts();
     if (responseData.code == '200') {
       setState(() {
-        _totalNum = responseData.data;
+        _totalNum = responseData.data ?? 0;
       });
       var sp = await LocalStorage.sp;
       sp!.setInt(LocalStorage.totalNum, responseData.data);
