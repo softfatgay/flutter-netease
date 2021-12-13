@@ -68,7 +68,7 @@ class TopicItemWidget extends StatelessWidget {
             ),
           Text(
             '${_readCount(item)}',
-            style: t12grey,
+            style: num12Grey,
           )
         ],
       ),

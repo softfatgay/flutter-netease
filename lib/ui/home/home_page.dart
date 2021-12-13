@@ -36,6 +36,7 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/color_util.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:package_info/package_info.dart';
 
@@ -356,8 +357,31 @@ class _HomeState extends State<HomePage>
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 2),
                 child: GestureDetector(
-                  child: CachedNetworkImage(
-                    imageUrl: '${e.picUrl ?? ''}',
+                  child: Stack(
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: '${e.picUrl ?? ''}',
+                      ),
+                      Positioned(
+                        left: 15,
+                        child: Column(
+                          children: [
+                            Container(
+                              child: Text(
+                                '${e.title ?? ''}',
+                                style: t14blackBold,
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                '${e.subTitle ?? ''}',
+                                style: t12lightGrey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                   onTap: () {
                     Routers.push(

@@ -41,7 +41,7 @@ class ProVipWidget extends StatelessWidget {
                         TextSpan(
                             text: '${spmcBanner!.spmcDesc}', style: t14black),
                         TextSpan(
-                            text: '${spmcBanner!.spmcPrice}', style: t14red),
+                            text: '${spmcBanner!.spmcPrice}', style: num14Red),
                       ]),
                     ),
                   ),

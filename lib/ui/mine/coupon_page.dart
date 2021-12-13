@@ -147,11 +147,13 @@ class _CouponPageState extends State<CouponPage> {
                       style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.w700,
-                          color: textWhite),
+                          color: textWhite,
+                          fontFamily: 'DINAlternateBold'),
                     ),
                     Text(
                       '${item.unit}',
-                      style: TextStyle(color: textWhite),
+                      style: TextStyle(
+                          color: textWhite, fontFamily: 'DINAlternateBold'),
                     ),
                   ],
                 ),
@@ -162,8 +164,8 @@ class _CouponPageState extends State<CouponPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.name!, style: t14white),
-                        Text('${_valueDate(item)}', style: t12white),
+                        Text(item.name!, style: num14White),
+                        Text('${_valueDate(item)}', style: num12White),
                       ],
                     ),
                   ),

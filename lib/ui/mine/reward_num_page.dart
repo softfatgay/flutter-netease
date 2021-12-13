@@ -162,7 +162,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                   Center(
                     child: Text(
                       '¥${widget.params!['value']}',
-                      style: t20whiteBold,
+                      style: num20WhiteBold,
                     ),
                   ),
                   SizedBox(height: 10),
@@ -212,10 +212,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                 ),
                                 Text(
                                   '¥${widget.params!['value']}',
-                                  style: TextStyle(
-                                      color: textWhite,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                  style: num16WhiteBold,
                                 )
                               ],
                             ),
@@ -243,10 +240,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                 ),
                                 Text(
                                   '¥${widget.params!['value']}',
-                                  style: TextStyle(
-                                      color: textWhite,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                  style: num16WhiteBold,
                                 )
                               ],
                             ),
@@ -274,10 +268,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                               ),
                               Text(
                                 '¥${widget.params!['value']}',
-                                style: TextStyle(
-                                    color: textWhite,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
+                                style: num16WhiteBold,
                               )
                             ],
                           ),
@@ -387,10 +378,10 @@ class _RewardNumPageState extends State<RewardNumPage> {
                               Text(
                                 '${widget.params!['value']}',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 30,
-                                  color: Color(0xFFCCCCCC),
-                                ),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 30,
+                                    color: Color(0xFFCCCCCC),
+                                    fontFamily: 'DINAlternateBold'),
                               )
                             ],
                           ),

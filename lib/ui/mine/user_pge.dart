@@ -263,7 +263,7 @@ class _MinePageState extends State<UserPage>
                   item.fundType == 1 || item.fundType == 4
                       ? "¥${item.fundValue}"
                       : "${item.fundValue}",
-                  style: t16blackBold),
+                  style: num16BlackBold),
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
@@ -444,7 +444,7 @@ class _MinePageState extends State<UserPage>
             CookieConfig.cookie = '';
             _checkLogin();
           }
-        }, textStyle: t16darkGrey),
+        }, textStyle: t14darkGrey),
       ),
     );
   }

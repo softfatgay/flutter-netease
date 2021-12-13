@@ -184,7 +184,7 @@ class _MineSizePageState extends State<MineSizePage> {
         children: [
           Expanded(
             flex: 1,
-            child: _item('$lTitle'),
+            child: _itemTitle('$lTitle'),
           ),
           Expanded(
             flex: 2,
@@ -192,7 +192,7 @@ class _MineSizePageState extends State<MineSizePage> {
           ),
           Expanded(
             flex: 1,
-            child: _item('$rTitle'),
+            child: _itemTitle('$rTitle'),
           ),
           Expanded(
             flex: 2,
@@ -219,10 +219,17 @@ class _MineSizePageState extends State<MineSizePage> {
         : Container();
   }
 
-  _item(String tabTitle) {
+  _itemTitle(String tabTitle) {
     return Text(
       '$tabTitle',
       style: t12black,
+    );
+  }
+
+  _item(String tabTitle) {
+    return Text(
+      '$tabTitle',
+      style: num12Black,
     );
   }
 }

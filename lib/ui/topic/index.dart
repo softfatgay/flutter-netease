@@ -267,17 +267,28 @@ class _TopicPageState extends State<TopicPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/topic_icon.png',
-                height: 30,
-              ),
-              Text(
-                '严选好物 用心生活',
-                style: t14white,
-              )
-            ],
+          Container(
+            height: 35,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Container(
+                  child: Image.asset(
+                    'assets/images/topic_icon.png',
+                    height: 35,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    '严选好物 用心生活',
+                    style: t14white,
+                  ),
+                ),
+              ],
+            ),
           ),
           Container(
             height: 220,

@@ -101,7 +101,7 @@ class _SendPinPageState extends State<SendPinPage> {
                           Expanded(
                               child: Text(
                             '实付：¥${_itemInfo!.totalPrice}',
-                            style: t14red,
+                            style: num14Red,
                           )),
                           GestureDetector(
                             child: Container(
@@ -116,7 +116,7 @@ class _SendPinPageState extends State<SendPinPage> {
                                 children: [
                                   Text(
                                     '${_itemInfo!.totalPrice}',
-                                    style: t14whiteBold,
+                                    style: num14White,
                                   ),
                                   Text(
                                     '发起拼团',
@@ -202,7 +202,10 @@ class _SendPinPageState extends State<SendPinPage> {
             '商品合计',
             style: t14black,
           )),
-          Text('¥${_itemInfo!.totalPrice}'),
+          Text(
+            '¥${_itemInfo!.totalPrice}',
+            style: num14Black,
+          ),
         ],
       ),
     );
@@ -278,16 +281,16 @@ class _SendPinPageState extends State<SendPinPage> {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        '¥${item.retailPrice}',
-                        style: t14black,
+                        '¥${item.retailPrice}  ',
+                        style: num14Black,
                       ),
                       Text(
                         '¥${item.originPrice}',
                         style: TextStyle(
-                          fontSize: 12,
-                          color: textGrey,
-                          decoration: TextDecoration.lineThrough,
-                        ),
+                            fontSize: 12,
+                            color: textGrey,
+                            decoration: TextDecoration.lineThrough,
+                            fontFamily: 'DINAlternateBold'),
                       ),
                     ],
                   ),

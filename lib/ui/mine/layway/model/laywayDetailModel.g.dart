@@ -194,14 +194,21 @@ Map<String, dynamic> _$PolicyListItemModelToJson(
 DistributionAreaModel _$DistributionAreaModelFromJson(
         Map<String, dynamic> json) =>
     DistributionAreaModel()
+      ..districtList = (json['districtList'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
       ..provinceList = (json['provinceList'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList()
+      ..cityList =
+          (json['cityList'] as List<dynamic>?)?.map((e) => e as String).toList()
       ..support = json['support'] as bool?;
 
 Map<String, dynamic> _$DistributionAreaModelToJson(
         DistributionAreaModel instance) =>
     <String, dynamic>{
+      'districtList': instance.districtList,
       'provinceList': instance.provinceList,
+      'cityList': instance.cityList,
       'support': instance.support,
     };

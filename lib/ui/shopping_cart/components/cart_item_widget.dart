@@ -887,8 +887,6 @@ class CartItemWidget extends StatelessWidget {
               child: Text(
                 '${itemData.promTip}',
                 style: t14black,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             )),
             GestureDetector(

@@ -250,7 +250,7 @@ class _KingKongPageState extends State<NewItemPage> {
                     SizedBox(height: 5),
                     Text(
                       '¥${item.sortOriginPrice}',
-                      style: t16red,
+                      style: num16Red,
                     ),
                   ],
                 ),
@@ -300,11 +300,11 @@ class _KingKongPageState extends State<NewItemPage> {
                     children: [
                       Text(
                         '¥',
-                        style: t12Orange,
+                        style: num20Orange,
                       ),
                       Text(
                         '${item.minPrice}',
-                        style: t20Orange,
+                        style: num20Orange,
                       ),
                       Text(
                         '起',
@@ -328,7 +328,7 @@ class _KingKongPageState extends State<NewItemPage> {
                       ),
                       Text(
                         '${item.actualAmountPercent!.toStringAsFixed(0)}%',
-                        style: t14Orange,
+                        style: num14Orange,
                       )
                     ],
                   )
@@ -411,7 +411,7 @@ class _KingKongPageState extends State<NewItemPage> {
               ),
               Text(
                 '${item.retailPrice}',
-                style: t20redBold,
+                style: num20RedBold,
               ),
             ],
           )

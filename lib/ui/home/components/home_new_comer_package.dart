@@ -124,16 +124,16 @@ class HomeNewComerPackage extends StatelessWidget {
                         children: [
                           Text(
                             '${item.activityPrice ?? ''}',
-                            style: t12white,
+                            style: num12White,
                           ),
                           Text(
                             '${item.originPrice ?? ''}',
                             style: TextStyle(
-                              fontSize: 12,
-                              height: 1,
-                              color: textWhite,
-                              decoration: TextDecoration.lineThrough,
-                            ),
+                                fontSize: 12,
+                                height: 1,
+                                color: textWhite,
+                                decoration: TextDecoration.lineThrough,
+                                fontFamily: 'DINAlternateBold'),
                           ),
                         ],
                       ),

@@ -579,6 +579,14 @@ const TextStyle num16White = TextStyle(
     decoration: TextDecoration.none,
     fontFamily: 'DINAlternateBold');
 
+const TextStyle num16WhiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 16,
+  fontWeight: fontWeightMedium,
+  decoration: TextDecoration.none,
+  fontFamily: 'DINAlternateBold',
+);
+
 const TextStyle num18White = TextStyle(
     color: textWhite,
     fontSize: 18,
@@ -600,6 +608,14 @@ const TextStyle num24White = TextStyle(
   fontFamily: 'DINAlternateBold',
 );
 
+const TextStyle num20WhiteBold = TextStyle(
+  color: textWhite,
+  fontSize: 20,
+  fontWeight: fontWeightMedium,
+  decoration: TextDecoration.none,
+  fontFamily: 'DINAlternateBold',
+);
+
 const TextStyle num32WhiteBold = TextStyle(
   color: textWhite,
   fontSize: 32,
@@ -609,6 +625,12 @@ const TextStyle num32WhiteBold = TextStyle(
 );
 
 ///黑色数字字体-----------------------------------------------
+const TextStyle num12Black = TextStyle(
+    color: textBlack,
+    fontSize: 12,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
 const TextStyle num14Black = TextStyle(
     color: textBlack,
     fontSize: 14,
@@ -625,6 +647,13 @@ const TextStyle num14BlackBold = TextStyle(
 const TextStyle num16Black = TextStyle(
     color: textBlack,
     fontSize: 16,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num16BlackBold = TextStyle(
+    color: textBlack,
+    fontSize: 16,
+    fontWeight: fontWeightMedium,
     decoration: TextDecoration.none,
     fontFamily: 'DINAlternateBold');
 
@@ -685,5 +714,17 @@ const TextStyle num12Grey = TextStyle(
 const TextStyle num14Grey = TextStyle(
     color: textGrey,
     fontSize: 14,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num14Orange = TextStyle(
+    color: textOrange,
+    fontSize: 14,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
+const TextStyle num20Orange = TextStyle(
+    color: textOrange,
+    fontSize: 20,
     decoration: TextDecoration.none,
     fontFamily: 'DINAlternateBold');

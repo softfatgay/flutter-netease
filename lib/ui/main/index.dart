@@ -198,10 +198,12 @@ class _MainPageState extends State<MainPage> {
         constraints: BoxConstraints(minHeight: 15, minWidth: 15),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: backRed, borderRadius: BorderRadius.circular(10)),
+            color: backRed,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: textWhite, width: 1)),
         child: Text(
           '$_cartNum',
-          style: TextStyle(fontSize: 10, color: textWhite, height: 1.1),
+          style: TextStyle(fontSize: 9, color: textWhite, height: 1.1),
         ),
       ),
     );

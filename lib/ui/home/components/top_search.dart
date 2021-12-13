@@ -55,7 +55,7 @@ class TopSearch extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "搜索商品，共$totalNum款好物",
-                      style: t12black,
+                      style: num12Grey,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

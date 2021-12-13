@@ -45,7 +45,7 @@ class PinTopWidget extends StatelessWidget {
               ),
               Text(
                 '${itemInfo!.price}',
-                style: t20whiteBold,
+                style: num20WhiteBold,
               ),
             ],
           ),
@@ -66,7 +66,7 @@ class PinTopWidget extends StatelessWidget {
                       ),
                       Text(
                         '${itemInfo!.prePrice}',
-                        style: t18redBold,
+                        style: num20RedBold,
                       ),
                     ],
                   ),

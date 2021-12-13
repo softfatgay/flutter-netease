@@ -116,11 +116,11 @@ class _IndicatorBannerState extends State<IndicatorBanner> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 2),
                         decoration: BoxDecoration(
-                            color: Color(0xFFFFFFFF),
+                            color: Color(0x80FFFFFF),
                             borderRadius: BorderRadius.circular(2)),
                         child: Text(
                           '${_currentIndex + 1}/${widget.dataList.length}',
-                          style: t12black,
+                          style: num12Black,
                         ),
                       ),
                     ),

@@ -124,16 +124,16 @@ class _LayawayPageState extends State<LayawayPage> {
               children: [
                 Text(
                   '¥${item.retailPrice}',
-                  style: TextStyle(fontSize: 20, color: textRed),
+                  style: num20RedBold,
                 ),
                 SizedBox(width: 5),
                 Text(
                   '¥${_countPrice(item)}',
                   style: TextStyle(
-                    fontSize: 15,
-                    color: textLightGrey,
-                    decoration: TextDecoration.lineThrough,
-                  ),
+                      fontSize: 15,
+                      color: textLightGrey,
+                      decoration: TextDecoration.lineThrough,
+                      fontFamily: 'DINAlternateBold'),
                 ),
                 Expanded(
                   child: Container(
@@ -145,12 +145,16 @@ class _LayawayPageState extends State<LayawayPage> {
                             return backRed;
                           }),
                           padding: MaterialStateProperty.all(
-                              EdgeInsets.symmetric(horizontal: 20))),
+                              EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 0))),
                       child: Text(
                         '立即购买',
                         style: t14white,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Routers.push(
+                            Routers.layawayDetail, context, {'id': item.id});
+                      },
                     ),
                   ),
                 )

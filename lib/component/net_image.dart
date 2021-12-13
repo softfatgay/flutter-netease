@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/component/img_error.dart';
 import 'package:flutter_app/component/img_palceholder.dart';
+import 'package:flutter_app/constant/colors.dart';
 
 class NetImage extends CachedNetworkImage {
   NetImage(

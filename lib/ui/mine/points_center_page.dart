@@ -163,7 +163,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
               children: [
                 Text(
                   '你的可用积分：${_data.availablePoint}',
-                  style: t16whiteBold,
+                  style: num16WhiteBold,
                 ),
                 GestureDetector(
                   child: Container(
@@ -500,7 +500,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   '${item.title}',
-                  style: t16blackBold,
+                  style: t14blackBold,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -510,9 +510,10 @@ class _PointCenterPageState extends State<PointCenterPage> {
                 child: Text(
                   '${item.needPoint}积分兑',
                   style: TextStyle(
-                      color: textYellow,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                    color: textYellow,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

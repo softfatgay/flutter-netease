@@ -173,7 +173,10 @@ class _AddNewSizeState extends State<AddNewSize> {
       child: TextField(
         controller: controller,
         textAlign: TextAlign.center,
-        style: TextStyle(textBaseline: TextBaseline.alphabetic, fontSize: 14),
+        style: TextStyle(
+            textBaseline: TextBaseline.alphabetic,
+            fontSize: 14,
+            fontFamily: 'DINAlternateBold'),
         decoration: InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent, width: 0),

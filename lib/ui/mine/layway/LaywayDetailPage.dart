@@ -13,6 +13,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/globle/scrollState.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/goods_detail/components/normal_scroll_dialog.dart';
 import 'package:flutter_app/ui/mine/layway/model/laywayDetailModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
@@ -472,22 +473,11 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: _policyList
-                    .map((item) => Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 4,
-                                width: 4,
-                                color: backRed,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${item.title}',
-                                  style: t14grey,
-                                ),
-                              )
-                            ],
-                          ),
+                    .map((item) => GestureDetector(
+                          child: _serviceTitle(item),
+                          onTap: () {
+                            _showServiceDialog(item);
+                          },
                         ))
                     .toList()),
           ),
@@ -495,6 +485,30 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
         ],
       ),
     ));
+  }
+
+  _serviceTitle(PolicyListItemModel item) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: 3),
+            height: 4,
+            width: 4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2),
+              color: backRed,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              '${item.title}',
+              style: t14grey,
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   _buildDec() {
@@ -520,16 +534,20 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '¥${_layawayModel.retailPrice}',
+                '¥${_layawayModel.retailPrice} ',
                 style: TextStyle(
-                    fontSize: 25, color: textRed, fontWeight: FontWeight.w600),
+                    fontSize: 25,
+                    color: textRed,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'DINAlternateBold'),
               ),
               Text(
                 '¥${_layawayModel.originalPrice}',
                 style: TextStyle(
                     fontSize: 15,
                     color: textLightGrey,
-                    decoration: TextDecoration.lineThrough),
+                    decoration: TextDecoration.lineThrough,
+                    fontFamily: 'DINAlternateBold'),
               ),
             ],
           )
@@ -571,5 +589,81 @@ class _LaywayDetailPageState extends State<LaywayDetailPage> {
     _scrollState.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _showServiceDialog(PolicyListItemModel item) {
+    var distributionArea = item.distributionArea;
+    if (distributionArea == null) {
+      return;
+    }
+    var provinceList = distributionArea.provinceList;
+    var districtList = distributionArea.districtList;
+    var cityList = distributionArea.cityList;
+    String provinceStr = '不支持的省份：';
+    String cityStr = '不支持的市级：';
+    String districtStr = '不支持的区县：';
+    if (provinceList != null && provinceList.isNotEmpty) {
+      for (var item in provinceList) {
+        if (provinceList.indexOf(item) != provinceList.length - 1) {
+          provinceStr += item + '、';
+        } else {
+          provinceStr += item;
+        }
+      }
+      if (cityList != null && cityList.isNotEmpty) {
+        for (var item in cityList) {
+          if (cityList.indexOf(item) != cityList.length - 1) {
+            cityStr += item + '、';
+          } else {
+            cityStr += item;
+          }
+        }
+        if (districtList != null && districtList.isNotEmpty) {
+          for (var item in districtList) {
+            if (districtList.indexOf(item) != districtList.length - 1) {
+              districtStr += item + '、';
+            } else {
+              districtStr += item;
+            }
+          }
+        }
+
+        NormalScrollDialog(
+          child: Container(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _serviceTitle(item),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    provinceStr,
+                    style: t14grey,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    cityStr,
+                    style: t14grey,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    districtStr,
+                    style: t14grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          title: '服务',
+          maxHeight: 600,
+        ).build(context);
+      }
+    }
   }
 }

@@ -173,7 +173,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   : Text(
                       '${this.title ?? ''}',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 17,
                         color:
                             this.makeStickyHeaderTextColor(shrinkOffset, false),
                       ),

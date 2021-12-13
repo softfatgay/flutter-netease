@@ -67,13 +67,13 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                         children: [
                           Text(
                             '用户ID:${_userData.userId}',
-                            style: t14black,
+                            style: num14Black,
                           ),
                           GestureDetector(
                             child: Container(
                               margin: EdgeInsets.only(left: 5),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
+                                  horizontal: 10, vertical: 2),
                               decoration: BoxDecoration(
                                   border:
                                       Border.all(color: redColor, width: 0.5),

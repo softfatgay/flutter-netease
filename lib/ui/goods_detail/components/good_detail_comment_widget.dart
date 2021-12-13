@@ -45,7 +45,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
               },
               child: Container(
                 height: 50,
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.only(right: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[

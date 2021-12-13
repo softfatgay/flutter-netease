@@ -126,7 +126,9 @@ class PolicyListItemModel {
 
 @JsonSerializable()
 class DistributionAreaModel {
+  List<String>? districtList;
   List<String>? provinceList;
+  List<String>? cityList;
   bool? support;
 
   DistributionAreaModel();

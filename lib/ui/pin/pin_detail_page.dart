@@ -219,11 +219,11 @@ class _PinDetailPageState extends State<PinDetailPage> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 height: double.infinity,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       '¥${_itemInfo!.originPrice}',
-                      style: t14blackBold,
+                      style: num14BlackBold,
                     ),
                     Text(
                       '单独购买',
@@ -247,11 +247,11 @@ class _PinDetailPageState extends State<PinDetailPage> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 height: double.infinity,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       '¥${_itemInfo!.price}',
-                      style: t14whiteBold,
+                      style: num14White,
                     ),
                     Text(
                       '发起拼团',
@@ -477,7 +477,7 @@ class _PinDetailPageState extends State<PinDetailPage> {
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               child: Text(
                 '¥${item.price}',
-                style: t14red,
+                style: num14Red,
                 maxLines: 2,
               ),
             )
