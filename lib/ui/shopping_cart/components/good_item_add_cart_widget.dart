@@ -275,11 +275,11 @@ class GoodItemAddCartWidget extends StatelessWidget {
         Text("$pricePrefix¥", style: t12redBold),
         Text(
           "${priceToStr[0]}",
-          style: t20redBold,
+          style: num20RedBold,
         ),
         Text(
           "${priceToStr[1]}$priceSuffix",
-          style: t12redBold,
+          style: num12RedBold,
         ),
         SizedBox(
           width: 5,

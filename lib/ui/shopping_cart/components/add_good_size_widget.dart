@@ -315,26 +315,27 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 6),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
                       Text(
-                        "价格：",
+                        "价格：￥",
                         style: t14red,
                       ),
                       Text(
-                        '￥$_price',
+                        '$_price  ',
                         overflow: TextOverflow.ellipsis,
-                        style: t14red,
+                        style: num16RedBold,
                       ),
                       if (_price != _counterPrice)
                         Container(
                           child: Text(
                             '￥$_counterPrice',
                             style: TextStyle(
-                              fontSize: 12,
-                              color: textGrey,
-                              decoration: TextDecoration.lineThrough,
-                            ),
+                                fontSize: 12,
+                                color: textGrey,
+                                decoration: TextDecoration.lineThrough,
+                                fontFamily: 'DINAlternateBold'),
                           ),
                         ),
                     ],

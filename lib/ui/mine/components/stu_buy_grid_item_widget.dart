@@ -72,7 +72,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
               child: Text(
                 '${item.userNum}人团',
-                style: TextStyle(fontSize: 12, color: textGrey),
+                style: t12grey,
               ),
             ),
             Expanded(
@@ -107,7 +107,7 @@ class StuBuyGridItemWidget extends StatelessWidget {
                   Expanded(
                     child: Text(
                       '${item.joinUsers}人已拼',
-                      style: TextStyle(fontSize: 12, color: textGrey),
+                      style: t12grey,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -177,15 +177,15 @@ class StuBuyGridItemWidget extends StatelessWidget {
                       children: [
                         Text(
                           '¥${item!.price}',
-                          style: t16redBold,
+                          style: num16RedBold,
                         ),
                         Text(
                           '¥${item!.originPrice}',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: textGrey,
-                            decoration: TextDecoration.lineThrough,
-                          ),
+                              fontSize: 12,
+                              color: textGrey,
+                              decoration: TextDecoration.lineThrough,
+                              fontFamily: 'DINAlternateBold'),
                         ),
                       ],
                     ),

@@ -180,7 +180,7 @@ class HotListItem extends StatelessWidget {
               children: [
                 Text(
                   '¥${item!.retailPrice}',
-                  style: t18redBold,
+                  style: num20RedBold,
                 ),
                 (item!.counterPrice == item!.retailPrice ||
                         item!.counterPrice == 0)
@@ -190,7 +190,8 @@ class HotListItem extends StatelessWidget {
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             color: textGrey,
-                            fontSize: 14),
+                            fontSize: 14,
+                            fontFamily: 'DINAlternateBold'),
                       )
               ],
             ),
@@ -259,7 +260,7 @@ class HotListItem extends StatelessWidget {
                 ),
                 Text(
                   '${item!.goodCmtRate}好评率',
-                  style: t12white,
+                  style: num12White,
                 ),
               ],
             ),

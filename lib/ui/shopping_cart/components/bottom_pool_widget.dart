@@ -30,7 +30,7 @@ class BottomPoolWidget extends StatelessWidget {
                     children: [
                       Text(
                         '小计：¥${itemPoolBarModel!.subtotalPrice}',
-                        style: t14redBold,
+                        style: num14RedBold,
                       ),
                       Text(
                         '${itemPoolBarModel!.promTip!.replaceAll('#', '')}',
