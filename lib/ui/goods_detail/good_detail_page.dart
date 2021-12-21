@@ -357,8 +357,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   }
 
   _getOffset() {
-    _calculateAfterLayout();
-    Future.delayed(const Duration(milliseconds: 500), () {
+    // _calculateAfterLayout();
+    Future.delayed(const Duration(milliseconds: 200), () {
       _calculateAfterLayout();
     });
   }
@@ -435,8 +435,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           _getCoupon();
         }
       });
-      _getRMD();
       _getDftAddress();
+      _getRMD();
     }
   }
 

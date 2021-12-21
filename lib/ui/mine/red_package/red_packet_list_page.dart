@@ -169,7 +169,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
           Container(
             child: Text(
               '${Util.long2dateSecond(item.validStartTime! * 1000 as int)}-\n${Util.long2dateSecond(item.validEndTime! * 1000 as int)}',
-              style: TextStyle(color: textWhite, fontSize: 10),
+              style: t10white,
             ),
           ),
           Container(

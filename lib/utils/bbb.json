@@ -1,0 +1,77 @@
+{
+  "uniqueKey": "0_2758052661_300220541_0",
+  "id": 2758052661,
+  "itemId": 3992121,
+  "itemName": "女式咖啡碳保暖内衣2.0",
+  "status": 2,
+  "pic": "https://yanxuan-item.nosdn.127.net/ff455703d639b3705638ae67090c6d93.png",
+  "skuId": 300220541,
+  "valid": true,
+  "sellVolume": 0,
+  "specList": [
+    {
+      "specName": "颜色",
+      "specValue": "粉色"
+    },
+    {
+      "specName": "领型",
+      "specValue": "圆领"
+    },
+    {
+      "specName": "尺码",
+      "specValue": "L"
+    },
+    {
+      "specName": "上下装",
+      "specValue": "裤装"
+    }
+  ],
+  "cnt": 2,
+  "totalPrice": 118,
+  "retailPrice": 89,
+  "actualPrice": 59,
+  "subtotalPrice": 118,
+  "retailPoint": null,
+  "actualPoint": null,
+  "totalPoint": null,
+  "subtotalPoint": null,
+  "promList": [],
+  "source": 128976159,
+  "checked": false,
+  "preSellStatus": 0,
+  "preSellPrice": 89,
+  "preSellVolume": 0,
+  "preSellDesc": null,
+  "limitedFlag": 204,
+  "promTag": "新人特价",
+  "limitPurchaseFlag": false,
+  "limitPurchaseCount": 0,
+  "limitPointCount": 0,
+  "preemptionStatus": 1,
+  "topLeftTag": null,
+  "sources": [
+    128976159
+  ],
+  "customInfo": null,
+  "extId": "{\"proDiscountExtId\":\"1\",\"cartExtId\":\"0\"}",
+  "type": 0,
+  "crmCartInfo": null,
+  "checkExt": null,
+  "cartItemTips": [
+    "该商品不参加全场活动"
+  ],
+  "priceReductDesc": "",
+  "canSwitchSpec": true,
+  "cartItemInvalid": false,
+  "extraServiceInfo": null,
+  "remainTime": 0,
+  "timingPromotion": "",
+  "finishTip": "",
+  "appFreshmanBannerVO": null,
+  "leftTag": null,
+  "warehouseInfo": {
+    "desc": "自营仓商品满99免邮",
+    "type": 0
+  },
+  "forbiddenBuy": false
+}
