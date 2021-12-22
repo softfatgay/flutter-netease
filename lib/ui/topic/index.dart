@@ -267,114 +267,124 @@ class _TopicPageState extends State<TopicPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          _title(),
+          _navItems(),
+        ],
+      ),
+    );
+  }
+
+  _navItems() {
+    return Container(
+      height: 220,
+      decoration: BoxDecoration(
+        color: backWhite,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: _handleScrollNotification,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            GridView.count(
+              crossAxisCount: 2,
+              childAspectRatio: 1.1,
+              scrollDirection: Axis.horizontal,
+              children: _navList.map<Widget>((item) => _navItem(item)).toList(),
+            ),
+            _navScrollBar(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _navScrollBar() {
+    return StreamBuilder(
+        stream: _streamController.stream,
+        initialData: -1.0,
+        builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+          return Container(
+            height: 3,
+            decoration: BoxDecoration(
+              color: lineColor,
+              borderRadius: BorderRadius.circular(2),
+            ),
+            width: 100,
+            alignment: Alignment(snapshot.data!, 1),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: redColor, borderRadius: BorderRadius.circular(2)),
+              height: 4,
+              width: 20,
+            ),
+          );
+        });
+  }
+
+  _navItem(NavItem item) {
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                height: 50,
+                width: 50,
+                child: CachedNetworkImage(
+                  imageUrl: '${item.picUrl}',
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 2),
+              child: Text('${item.mainTitle}',
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: textBlack,
+                      fontWeight: FontWeight.w500),
+                  maxLines: 1),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 2),
+              child: Text(
+                '${item.viceTitle}',
+                style: TextStyle(fontSize: 10, color: textLightGrey),
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        Routers.push(Routers.webView, context, {'url': '${item.columnUrl}'});
+      },
+    );
+  }
+
+  _title() {
+    return Container(
+      height: 35,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
           Container(
-            height: 35,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Container(
-                  child: Image.asset(
-                    'assets/images/topic_icon.png',
-                    height: 35,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: 4),
-                  child: Text(
-                    '严选好物 用心生活',
-                    style: t14white,
-                  ),
-                ),
-              ],
+            child: Image.asset(
+              'assets/images/topic_icon.png',
+              height: 35,
             ),
           ),
           Container(
-            height: 220,
-            decoration: BoxDecoration(
-              color: backWhite,
-              borderRadius: BorderRadius.circular(6),
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(bottom: 4),
+            child: Text(
+              '严选好物 用心生活',
+              style: t14white,
             ),
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-            child: NotificationListener<ScrollNotification>(
-              onNotification: _handleScrollNotification,
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  GridView.count(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.1,
-                    scrollDirection: Axis.horizontal,
-                    children: _navList.map((item) {
-                      return GestureDetector(
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  child: CachedNetworkImage(
-                                    imageUrl: '${item.picUrl}',
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 2),
-                                child: Text('${item.mainTitle}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: textBlack,
-                                        fontWeight: FontWeight.w500),
-                                    maxLines: 1),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 2),
-                                child: Text(
-                                  '${item.viceTitle}',
-                                  style: TextStyle(
-                                      fontSize: 10, color: textLightGrey),
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          Routers.push(Routers.webView, context,
-                              {'url': '${item.columnUrl}'});
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  StreamBuilder(
-                      stream: _streamController.stream,
-                      initialData: -1.0,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<double> snapshot) {
-                        return Container(
-                          height: 3,
-                          decoration: BoxDecoration(
-                            color: lineColor,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          width: 100,
-                          alignment: Alignment(snapshot.data!, 1),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: redColor,
-                                borderRadius: BorderRadius.circular(2)),
-                            height: 4,
-                            width: 20,
-                          ),
-                        );
-                      }),
-                ],
-              ),
-            ),
-          )
+          ),
         ],
       ),
     );

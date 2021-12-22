@@ -3,6 +3,7 @@ import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/topic/model/topicItem.dart';
 
@@ -33,7 +34,7 @@ class TopicItemWidget extends StatelessWidget {
     );
     String schemeUrl = item.schemeUrl!;
     if (!schemeUrl.startsWith('http')) {
-      schemeUrl = 'https://m.you.163.com$schemeUrl';
+      schemeUrl = '${NetConstants.baseURL}$schemeUrl';
     }
     return Routers.link(widget, Routers.webView, context, {'url': schemeUrl});
   }

@@ -3,21 +3,24 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 
-typedef void ReceiveClick(bool? albeToActivated);
+typedef void ReceiveClick(bool? ableToActivated);
 
 class CouponItemWidget extends StatelessWidget {
-  final ReceiveClick? receiveClick;
-  final CouponModel? couponItem;
+  final ReceiveClick receiveClick;
+  final CouponModel couponItem;
 
-  const CouponItemWidget({Key? key, this.receiveClick, this.couponItem})
-      : super(key: key);
+  const CouponItemWidget({
+    Key? key,
+    required this.receiveClick,
+    required this.couponItem,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _buildCouponItem(couponItem);
   }
 
-  _buildCouponItem(CouponModel? item) {
+  _buildCouponItem(CouponModel item) {
     return Container(
         margin: EdgeInsets.all(10),
         child: StatefulBuilder(builder: (context, setstate) {
@@ -48,7 +51,7 @@ class CouponItemWidget extends StatelessWidget {
                             textBaseline: TextBaseline.alphabetic,
                             children: [
                               Text(
-                                '${item!.briefDesc}',
+                                '${item.briefDesc}',
                                 style: TextStyle(
                                     fontSize: 40,
                                     fontWeight: FontWeight.w700,
@@ -88,9 +91,7 @@ class CouponItemWidget extends StatelessWidget {
                               ),
                             ),
                             onTap: () {
-                              if (receiveClick != null) {
-                                receiveClick!(item.albeToActivated);
-                              }
+                              receiveClick(item.albeToActivated);
                             },
                           )
                         ],

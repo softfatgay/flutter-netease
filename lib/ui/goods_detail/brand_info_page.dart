@@ -26,7 +26,6 @@ class BrandInfoPage extends StatefulWidget {
 }
 
 class _BrandInfoPageState extends State<BrandInfoPage> {
-  // num _brandId;
   num? _goodId;
 
   late BrandInfo _brandInfo;

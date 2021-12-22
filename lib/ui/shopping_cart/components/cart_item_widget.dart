@@ -6,6 +6,7 @@ import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/timer_text.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_check_box.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
@@ -238,7 +239,7 @@ class CartItemWidget extends StatelessWidget {
             ),
             onTap: () {
               Routers.push(Routers.webView, context,
-                  {'url': 'https://m.you.163.com/downloadapp'});
+                  {'url': '${NetConstants.baseUrl}downloadapp'});
             },
           )
         ],

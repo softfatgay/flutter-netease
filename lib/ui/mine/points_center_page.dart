@@ -38,19 +38,19 @@ class _PointCenterPageState extends State<PointCenterPage> {
       'name': 'Pro会员',
       'dec': '购物享双倍积分',
       'pic': 'assets/images/ji_pro.png',
-      'target': 'https://m.you.163.com/supermc/index'
+      'target': '${NetConstants.baseUrl}supermc/index'
     },
     {
       'name': '口红机挑战',
       'dec': '凭实力赢奖品',
       'pic': 'assets/images/ji_kouh.png',
-      'target': 'https://act.you.163.com/act/pub/guJMK5DxL1.html',
+      'target': '${NetConstants.baseUrl}act/pub/guJMK5DxL1.html',
     },
     {
       'name': '积分抽奖',
       'dec': '100%中奖',
       'pic': 'assets/images/ji_chouj.png',
-      'target': 'https://m.you.163.com/act/pub/PI1Bnd7PfS.html',
+      'target': '${NetConstants.baseUrl}act/pub/PI1Bnd7PfS.html',
     }
   ];
 
@@ -182,7 +182,7 @@ class _PointCenterPageState extends State<PointCenterPage> {
                   ),
                   onTap: () {
                     Routers.push(Routers.webView, context,
-                        {'url': 'https://m.you.163.com/membership/index'});
+                        {'url': '${NetConstants.baseUrl}membership/index'});
                   },
                 ),
               ],

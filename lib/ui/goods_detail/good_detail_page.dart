@@ -1710,8 +1710,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   _buildCouponItem(CouponModel item) {
     return CouponItemWidget(
       couponItem: item,
-      receiveClick: (albeToActivated) {
-        if (albeToActivated!) {
+      receiveClick: (ableToActivated) {
+        if (ableToActivated!) {
           ///领券
           _getItemCoupon(item);
         } else {
@@ -1753,7 +1753,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                 if (item.huodongUrlWap!.startsWith('http')) {
                   url = item.huodongUrlWap;
                 } else {
-                  url = '${NetConstants.baseUrl_}${item.huodongUrlWap}';
+                  url = '${NetConstants.baseURL}${item.huodongUrlWap}';
                 }
                 Routers.push(Routers.webView, context, {'url': url});
               }

@@ -6,6 +6,7 @@ import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuListItem.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/pin/model/pinItemDetailModel.dart';
@@ -319,7 +320,7 @@ class _SendPinPageState extends State<SendPinPage> {
             ),
             onTap: () {
               Routers.push(Routers.webView, context,
-                  {'url': 'https://m.you.163.com/help#/agreement'});
+                  {'url': '${NetConstants.baseUrl}help#/agreement'});
             },
           ),
         ],

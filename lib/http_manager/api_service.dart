@@ -1,10 +1,11 @@
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
 final String suffixUrl = "";
 
-const String baseUrl = "https://m.you.163.com/";
+// const String baseUrl = "https://m.you.163.com/";
 
-final String LOGIN_PAGE_URL = "${baseUrl}login";
+final String LOGIN_PAGE_URL = "${NetConstants.baseUrl}login";
 
 ///检查登录GET
 final String CHECK_LOGIN = "${suffixUrl}xhr/common/checklogin.json";

@@ -346,7 +346,7 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
                 if (dataItem.bannerUrl == null) {
                   url = '$tagUrl${dataItem.topicId}';
                 } else {
-                  url = '${NetConstants.baseUrl_}${_dataList[index].bannerUrl}';
+                  url = '${NetConstants.baseURL}${_dataList[index].bannerUrl}';
                 }
                 Routers.push(Routers.webView, context, {'url': url});
               },

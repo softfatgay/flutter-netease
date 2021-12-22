@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
 class OpenVipWidget extends StatelessWidget {
@@ -45,7 +46,7 @@ class OpenVipWidget extends StatelessWidget {
       ),
       onTap: () {
         Routers.push(Routers.webView, context,
-            {'url': 'https://m.you.163.com/supermc/index'});
+            {'url': '${NetConstants.baseUrl}supermc/index'});
       },
     );
   }

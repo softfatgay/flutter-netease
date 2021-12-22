@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/mine/red_package/model/red_package_mode.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/util_mine.dart';
@@ -75,7 +76,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
         ),
         onTap: () {
           Routers.push(Routers.webView, context,
-              {'url': 'https://m.you.163.com/help/new#/36/62'});
+              {'url': '${NetConstants.baseUrl}help/new#/36/62'});
         },
       ),
     );
