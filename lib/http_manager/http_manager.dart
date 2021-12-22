@@ -64,7 +64,7 @@ class HttpManager {
         }
         _print("│message = ${e.message}");
         _print("│stackTrace = ${e.message}");
-        _print("───────────────────────────────────────────\n");
+        _print("└──────────────────────────────────────────\n");
         handler.next(e);
       });
       _dio = Dio(baseOptions);
