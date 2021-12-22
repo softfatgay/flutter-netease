@@ -20,8 +20,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final _pageController = PageController();
-
   int _tabIndex = 0;
+  final List<_Item> itemNames = [];
+  String _cartNum = '0';
 
   final _homeNew = HomePage();
   final _topicPage = TopicPage();
@@ -34,7 +35,6 @@ class _MainPageState extends State<MainPage> {
     var bottomNaviBar = _bottomNaviBar();
     mainContext = context;
     //获取屏幕宽高
-    _saveScreenInfo(context);
     return Scaffold(
       backgroundColor: backColor,
       body: PageView(
@@ -67,7 +67,8 @@ class _MainPageState extends State<MainPage> {
         },
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.red,
-        iconSize: 20,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         currentIndex: _tabIndex,
         type: BottomNavigationBarType.fixed,
       ),
@@ -111,19 +112,6 @@ class _MainPageState extends State<MainPage> {
           cartNum: _cartNum);
     }
   }
-
-  final List<_Item> itemNames = [];
-
-  _saveScreenInfo(BuildContext context) async {
-//    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-//    final width = MediaQuery.of(context).size.width;
-//    final height = MediaQuery.of(context).size.height;
-//    SharedPreferences prefs = await _prefs;
-//    prefs.setDouble('screen_width', width);
-//    prefs.setDouble('screen_height', height);
-  }
-
-  String _cartNum = '0';
 
   void _getMiniCartNum() async {
     final globalCookie = GlobalCookie();

@@ -37,13 +37,15 @@ class HttpManager {
       );
       var interceptorsWrapper = InterceptorsWrapper(onRequest:
           (RequestOptions options, RequestInterceptorHandler handler) {
-        _print("┌───────────────请求数据开始─────────────── \n");
-        _print("│method = ${options.method.toString()}");
-        _print("│url    = ${options.uri.toString()}");
-        // _print("headers= │${options.headers}");
-        _print("│params = ${options.queryParameters}");
-        _print("│body   = ${json.encode(options.data)}");
-        _print("└────────────────────────────────────────\n\n");
+        try {
+          _print("┌───────────────请求数据开始─────────────── \n");
+          _print("│method = ${options.method.toString()}");
+          _print("│url    = ${options.uri.toString()}");
+          // _print("headers= │${options.headers}");
+          _print("│params = ${options.queryParameters}");
+          _print("│body   = ${options.data}");
+          _print("└────────────────────────────────────────\n\n");
+        } catch (e) {}
 
         handler.next(options);
       }, onResponse: (Response response, ResponseInterceptorHandler handler) {
@@ -55,14 +57,14 @@ class HttpManager {
         handler.next(response);
         _print("└────────────────响应结束──────────────────\n\n");
       }, onError: (DioError e, ErrorInterceptorHandler handler) {
-        _print("┌────────────────错误响应数据──────────────────\n");
+        _print("┌────────────────错误响应数据───────────────\n");
         _print("│type = ${e.type}");
         if (e.type == DioErrorType.other) {
           _netError();
         }
         _print("│message = ${e.message}");
         _print("│stackTrace = ${e.message}");
-        _print("─────────────────────────────────────────────\n");
+        _print("───────────────────────────────────────────\n");
         handler.next(e);
       });
       _dio = Dio(baseOptions);
@@ -225,11 +227,11 @@ class HttpManager {
   static int _maxLen = 900;
   static void _printLog(String msg) {
     if (kDebugMode) {
-      String da = msg.toString();
-      if (da.length <= _maxLen) {
-        print('$da');
-        return;
-      }
+      // String da = msg.toString();
+      // if (da.length <= _maxLen) {
+      //   print('$da');
+      //   return;
+      // }
       while (msg.length > _maxLen) {
         print(msg.substring(0, _maxLen));
         msg = msg.substring(_maxLen);

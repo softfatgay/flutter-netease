@@ -665,6 +665,12 @@ const TextStyle num12RedBold = TextStyle(
     decoration: TextDecoration.none,
     fontFamily: 'DINAlternateBold');
 
+const TextStyle num12Red = TextStyle(
+    color: textRed,
+    fontSize: 12,
+    decoration: TextDecoration.none,
+    fontFamily: 'DINAlternateBold');
+
 const TextStyle num14Red = TextStyle(
     color: textRed,
     fontSize: 14,

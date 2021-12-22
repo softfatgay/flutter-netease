@@ -23,7 +23,7 @@ class CartTextFiled extends CupertinoTextField {
           enabled: enabled,
           autofocus: true,
           textAlign: TextAlign.center,
-          inputFormatters: [],
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: BoxDecoration(
             border: Border.all(color: borderColor, width: 1),
             borderRadius: BorderRadius.circular(3),

@@ -5,8 +5,9 @@ import 'package:flutter_app/component/img_error.dart';
 import 'package:flutter_app/component/img_palceholder.dart';
 import 'package:flutter_app/ui/full_screen/full_screen_image.dart';
 
-class RoundNetImage extends StatelessWidget {
-  final String? url;
+class RoundClickNetImage extends StatelessWidget {
+  final List<String?> images;
+  final int index;
   final double? height;
   final double width;
   final double corner;
@@ -14,26 +15,35 @@ class RoundNetImage extends StatelessWidget {
   final Color backColor;
   final double fontSize;
 
-  const RoundNetImage(
-      {Key? key,
-      required this.url,
-      this.height = 100,
-      this.width = 100,
-      this.corner = 5,
-      this.fontSize = 20,
-      this.fit = BoxFit.cover,
-      this.backColor = Colors.transparent})
-      : super(key: key);
+  const RoundClickNetImage({
+    Key? key,
+    this.images = const [''],
+    this.height = 100,
+    this.width = 100,
+    this.corner = 5,
+    this.fontSize = 20,
+    this.fit = BoxFit.cover,
+    this.backColor = Colors.transparent,
+    this.index = 0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _image(context);
+    return OpenContainer(
+      openBuilder:
+          (BuildContext context, void Function({Object returnValue}) action) {
+        return FullScreenImage({'images': images, 'page': index});
+      },
+      closedBuilder: (BuildContext context, void Function() action) {
+        return _image(context);
+      },
+      closedElevation: 0,
+      closedColor: backColor,
+    );
   }
 
   _image(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: backColor, borderRadius: BorderRadius.circular(corner)),
       child: CachedNetworkImage(
         height: height,
         width: width,
@@ -46,7 +56,7 @@ class RoundNetImage extends StatelessWidget {
             ),
           ),
         ),
-        imageUrl: '$url',
+        imageUrl: '${images[index]}',
         errorWidget: (context, url, error) {
           return ImgError(
             fontSize: fontSize,

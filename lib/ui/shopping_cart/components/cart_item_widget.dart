@@ -469,11 +469,11 @@ class CartItemWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (isInvalid)
+                      if (isInvalid || item.id == 0)
                         Container(
                           child: Text(
                             'x${item.cnt}',
-                            style: t14lightGrey,
+                            style: isInvalid ? t14lightGrey : t14black,
                           ),
                         )
                     ],
@@ -544,25 +544,7 @@ class CartItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    isInvalid
-                        ? Container(height: 30)
-                        : Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 3, vertical: 3),
-                            child: CartCount(
-                              number: item.cnt as int?,
-                              min: 1,
-                              max: item.id == 0 ? 1 : item.sellVolume as int?,
-                              onChange: (numValue) {
-                                numChange(item, numValue!);
-                              },
-                              numClick: () {
-                                if (item.id != 0) {
-                                  _showNumClickDialog(context, item);
-                                }
-                              },
-                            ),
-                          ),
+                    _cartCnt(context, item)
                   ],
                 ),
               ),
@@ -574,6 +556,30 @@ class CartItemWidget extends StatelessWidget {
         },
       ),
     );
+  }
+
+  _cartCnt(BuildContext context, CartItemListItem item) {
+    if (isInvalid ||
+        (item.id == 0 || (item.sellVolume ?? 1) <= (item.cnt ?? 1))) {
+      return Container(height: 30);
+    } else {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+        child: CartCount(
+          number: (item.cnt ?? 1) as int,
+          min: 1,
+          max: item.id == 0 ? 1 : ((item.sellVolume ?? 1) as int),
+          onChange: (numValue) {
+            numChange(item, numValue!);
+          },
+          numClick: () {
+            if (item.id != 0) {
+              _showNumClickDialog(context, item);
+            }
+          },
+        ),
+      );
+    }
   }
 
   _showNumClickDialog(BuildContext context, CartItemListItem item) {
@@ -611,13 +617,20 @@ class CartItemWidget extends StatelessWidget {
               ),
               onPressed: () {
                 if (controller.text.isNotEmpty) {
-                  if (num.parse(controller.text.toString()) >
-                      item.sellVolume!) {
+                  var nums = num.parse(controller.text.toString());
+                  if (nums > item.sellVolume!) {
                     Toast.show('不能超过最大库存量(${item.sellVolume})', context,
                         duration: 3);
                     return;
                   }
-                  numChange(item, num.parse(controller.text.toString()));
+                  if (nums > 99) {
+                    Toast.show('达到单次添加上限', context, duration: 2);
+                    nums = 99;
+                  }
+                  if (nums < 1) {
+                    nums = 1;
+                  }
+                  numChange(item, nums);
                   Navigator.of(context).pop();
                   // item.cnt = int.parse(controller.text.toString());
                 }

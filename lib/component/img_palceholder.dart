@@ -10,7 +10,9 @@ class ImgPlaceHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: backWhite, width: 0.5)),
       child: Transform.rotate(
         angle: 0.75,
         child: Text(

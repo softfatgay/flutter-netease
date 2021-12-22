@@ -133,8 +133,8 @@ class ShoppingBuyButton extends StatelessWidget {
                   children: [
                     Container(
                       child: Text(
-                        '合计：¥$price',
-                        style: num14Red,
+                        '  合计：¥$price',
+                        style: num12Red,
                       ),
                     ),
                     if (promotionPrice != 0)

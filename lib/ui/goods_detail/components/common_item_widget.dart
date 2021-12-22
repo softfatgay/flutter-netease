@@ -2,16 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/component/round_net_image.dart';
+import 'package:flutter_app/component/round_click_net_image.dart';
 import 'package:flutter_app/component/star_widget.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 
 class CommonItemWidget extends StatelessWidget {
-  final ResultItem? item;
+  final ResultItem item;
 
-  const CommonItemWidget({Key? key, this.item}) : super(key: key);
+  const CommonItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class CommonItemWidget extends StatelessWidget {
                   width: 30,
                   height: 30,
                   child: CachedNetworkImage(
-                    imageUrl: item!.frontUserAvatar == null
+                    imageUrl: item.frontUserAvatar == null
                         ? ''
-                        : item!.frontUserAvatar!,
+                        : item.frontUserAvatar!,
                     errorWidget: (context, url, error) {
                       return ClipOval(
                         child: Container(
@@ -54,7 +54,7 @@ class CommonItemWidget extends StatelessWidget {
               Container(
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
-                  child: Text(item!.frontUserName!),
+                  child: Text(item.frontUserName!),
                 ),
               ),
               Container(
@@ -76,7 +76,7 @@ class CommonItemWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                          text: '${item!.memberLevel}',
+                          text: '${item.memberLevel}',
                           style: TextStyle(
                               fontStyle: FontStyle.normal,
                               fontSize: 8,
@@ -89,17 +89,17 @@ class CommonItemWidget extends StatelessWidget {
                 child: StaticRatingBar(
                   size: 15,
                   rate: double.parse(
-                      item!.star == null ? '0' : item!.star!.toString()),
+                      item.star == null ? '0' : item.star!.toString()),
                 ),
               ),
               Expanded(
-                child: item!.commentItemTagVO == null
+                child: item.commentItemTagVO == null
                     ? Container()
                     : Container(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
                           child: Image.asset(
-                              item!.commentItemTagVO!.type == 1
+                              item.commentItemTagVO!.type == 1
                                   ? 'assets/images/commond_look.png'
                                   : '',
                               height: 40,
@@ -115,7 +115,7 @@ class CommonItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              '${DateUtil.formatDateMs(item!.createTime as int) + '   ' + item!.skuInfo![0]}',
+              '${DateUtil.formatDateMs(item.createTime as int) + '   ' + item.skuInfo![0]}',
               style: t12grey,
               maxLines: 2,
               textAlign: TextAlign.left,
@@ -125,15 +125,14 @@ class CommonItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: Text(
-              item!.content!,
+              item.content!,
               style: t14black,
             ),
           ),
           Wrap(
             spacing: 5,
             runSpacing: 5,
-            children: _commentPic(
-                context, item!.picList == null ? [] : item!.picList!),
+            children: _commentPic(context, item.picList ?? []),
           ),
           _buildCommentReplyVO(context),
           _commentReplyVO(),
@@ -142,23 +141,23 @@ class CommonItemWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> _commentPic(BuildContext context, List _commentList) =>
-      List.generate(_commentList.length, (indexC) {
+  List<Widget> _commentPic(BuildContext context, List<String> images) =>
+      List.generate(images.length, (indexC) {
         Widget widget = Container(
           width: (MediaQuery.of(context).size.width - 42) / 4,
           height: (MediaQuery.of(context).size.width - 42) / 4,
-          child: RoundNetImage(
-            url: _commentList[indexC],
+          child: RoundClickNetImage(
+            images: images,
+            index: indexC,
             corner: 3,
           ),
         );
-        return Routers.link(widget, Routers.image, context,
-            {'images': _commentList, 'page': indexC});
+        return widget;
       });
 
   ///追评
   _buildCommentReplyVO(BuildContext context) {
-    var appendCommentVO = item!.appendCommentVO;
+    var appendCommentVO = item.appendCommentVO;
     if (appendCommentVO == null) {
       return Container();
     } else {
@@ -192,11 +191,7 @@ class CommonItemWidget extends StatelessWidget {
           Wrap(
             spacing: 2,
             runSpacing: 5,
-            children: _commentPic(
-                context,
-                appendCommentVO.picList == null
-                    ? []
-                    : appendCommentVO.picList!),
+            children: _commentPic(context, appendCommentVO.picList ?? []),
           ),
         ],
       );
@@ -205,7 +200,7 @@ class CommonItemWidget extends StatelessWidget {
 
   ///老板回复
   _commentReplyVO() {
-    if (item!.commentReplyVO == null) {
+    if (item.commentReplyVO == null) {
       return Container();
     } else {
       return Container(
@@ -222,7 +217,7 @@ class CommonItemWidget extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
               TextSpan(
-                text: '${item!.commentReplyVO!.replyContent}',
+                text: '${item.commentReplyVO!.replyContent}',
               ),
             ],
           ),

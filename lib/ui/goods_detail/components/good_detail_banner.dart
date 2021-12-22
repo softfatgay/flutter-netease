@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
