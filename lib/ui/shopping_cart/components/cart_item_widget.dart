@@ -561,7 +561,7 @@ class CartItemWidget extends StatelessWidget {
 
   _cartCnt(BuildContext context, CartItemListItem item) {
     if (isInvalid ||
-        (item.id == 0 || (item.sellVolume ?? 1) <= (item.cnt ?? 1))) {
+        (item.id == 0 || (item.sellVolume ?? 1) < (item.cnt ?? 1))) {
       return Container(height: 30);
     } else {
       return Container(
@@ -570,13 +570,8 @@ class CartItemWidget extends StatelessWidget {
           number: (item.cnt ?? 1) as int,
           min: 1,
           max: item.id == 0 ? 1 : ((item.sellVolume ?? 1) as int),
-          onChange: (numValue) {
-            numChange(item, numValue!);
-          },
-          numClick: () {
-            if (item.id != 0) {
-              _showNumClickDialog(context, item);
-            }
+          numChange: (numValue) {
+            numChange(item, numValue);
           },
         ),
       );

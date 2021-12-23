@@ -26,6 +26,8 @@ class GoodSelectWidget extends StatelessWidget {
   }
 
   _buildWidget() {
+    print('---------------------------');
+    print(skuMapItem);
     return TextButton(
       style: gdButtonStyle,
       child: Container(
@@ -52,12 +54,11 @@ class GoodSelectWidget extends StatelessWidget {
                       '$selectedStrDec',
                       style: t14black,
                     ),
-                    selectedStrDec == null || selectedStrDec == ''
-                        ? Container()
-                        : Text(
-                            'x$goodCount',
-                            style: t16black,
-                          )
+                    if (selectedStrDec != null && selectedStrDec!.isNotEmpty)
+                      Text(
+                        'x$goodCount',
+                        style: t14black,
+                      )
                   ],
                 ),
               ),

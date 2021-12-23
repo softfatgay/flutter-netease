@@ -60,6 +60,7 @@ import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/address_selector.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/shopping_cart/components/shopping_cart_count.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';
@@ -484,94 +485,90 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   //内容
   _buildContent() {
-    if (_initLoading) {
-      return PageLoading();
-    } else {
-      return Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-        child: CustomScrollView(
-          physics: _scrollPhysics,
-          controller: _scrollController,
-          slivers: <Widget>[
-            _sliverHeader(),
-            // banner底部活动
-            singleSliverWidget(DetailPromBannerWidget(
-              banner: _bannerModel,
-              priceModel: _priceModel,
-            )),
-            singleSliverWidget(_buildActivity()),
+    if (_initLoading) return PageLoading();
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+      child: CustomScrollView(
+        physics: _scrollPhysics,
+        controller: _scrollController,
+        slivers: <Widget>[
+          _sliverHeader(),
+          // banner底部活动
+          singleSliverWidget(DetailPromBannerWidget(
+            banner: _bannerModel,
+            priceModel: _priceModel,
+          )),
+          singleSliverWidget(_buildActivity()),
 
-            ///banner下面图片
-            singleSliverWidget(_featuredSeriesWidget()),
+          ///banner下面图片
+          singleSliverWidget(_featuredSeriesWidget()),
 
-            ///商品价格，showPrice字段控制
-            singleSliverWidget(_promBanner()),
+          ///商品价格，showPrice字段控制
+          singleSliverWidget(_promBanner()),
 
-            ///pro会员
-            singleSliverWidget(
-                ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
+          ///pro会员
+          singleSliverWidget(ProVipWidget(spmcBanner: _goodDetail.spmcBanner)),
 
-            ///商品名称
-            singleSliverWidget(GoodTitleWidget(
-              name: _goodDetail.name,
-              goodId: _goodId,
-              goodCmtRate: _goodDetail.goodCmtRate,
-              commentCount: _goodDetail.commentCount,
-            )),
+          ///商品名称
+          singleSliverWidget(GoodTitleWidget(
+            name: _goodDetail.name,
+            goodId: _goodId,
+            goodCmtRate: _goodDetail.goodCmtRate,
+            commentCount: _goodDetail.commentCount,
+          )),
 
-            ///网易严选
-            singleSliverWidget(_buildYanxuanTitle()),
+          ///网易严选
+          singleSliverWidget(_buildYanxuanTitle()),
 
-            ///推荐理由
-            singleSliverWidget(_buildOnlyText('推荐理由')),
-            RecommendWidget(
-              recommendReason: _goodDetail.recommendReason,
-              simpleDesc: _goodDetail.simpleDesc,
-            ),
+          ///推荐理由
+          singleSliverWidget(_buildOnlyText('推荐理由')),
+          RecommendWidget(
+            recommendReason: _goodDetail.recommendReason,
+            simpleDesc: _goodDetail.simpleDesc,
+          ),
 
-            ///活动卡
-            singleSliverWidget(_buildWelfareCardVO()),
+          ///活动卡
+          singleSliverWidget(_buildWelfareCardVO()),
 
-            ///规则
-            singleSliverWidget(FullRefundPolicyWidget(
-              fullRefundPolicy: _fullRefundPolicy,
-              showDialog: () {
-                _fullRefundPolicyDialog(context, _fullRefundPolicy);
-              },
-            )),
+          ///规则
+          singleSliverWidget(FullRefundPolicyWidget(
+            fullRefundPolicy: _fullRefundPolicy,
+            showDialog: () {
+              _fullRefundPolicyDialog(context, _fullRefundPolicy);
+            },
+          )),
 
-            ///选择属性
-            singleSliverWidget(_buildSelectProperty()),
+          ///选择属性
+          singleSliverWidget(_buildSelectProperty()),
 
-            ///addbanners
-            singleSliverWidget(_addBanners()),
+          ///addbanners
+          singleSliverWidget(_addBanners()),
 
-            ///用户评价
-            singleSliverWidget(_buildComment()),
+          ///用户评价
+          singleSliverWidget(_buildComment()),
 
-            ///_brandInfo
-            singleSliverWidget(_brandInfoWidget()),
+          ///_brandInfo
+          singleSliverWidget(_brandInfoWidget()),
 
-            ///甄选家测评
-            // if (_tryOutEventReport != null) singleSliverWidget(_detailTab()),
+          ///甄选家测评
+          // if (_tryOutEventReport != null) singleSliverWidget(_detailTab()),
 
-            ///商品详情
-            singleSliverWidget(_buildGoodDetail()),
+          ///商品详情
+          singleSliverWidget(_buildGoodDetail()),
 
-            ///常见问题
-            singleSliverWidget(_buildIssueTitle(' 常见问题 ', null)),
-            singleSliverWidget(_buildIssueList()),
+          ///常见问题
+          singleSliverWidget(_buildIssueTitle(' 常见问题 ', null)),
+          singleSliverWidget(_buildIssueList()),
 
-            ///推荐
-            singleSliverWidget(Container(key: _RCMKey)),
-            singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
-            _buildRCMD(),
-            // GoodItems(dataList: _rmdList),
-            singleSliverWidget(Container(height: 45)),
-          ],
-        ),
-      );
-    }
+          ///推荐
+          singleSliverWidget(Container(key: _RCMKey)),
+          singleSliverWidget(_buildIssueTitle(' 你可能还喜欢 ', null)),
+          _buildRCMD(),
+          // GoodItems(dataList: _rmdList),
+          singleSliverWidget(Container(height: 45)),
+        ],
+      ),
+    );
   }
 
   _buildRCMD() {
@@ -1216,18 +1213,18 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
-                            child: Count(
+                            child: CartCount(
                               number: _goodCount,
                               min: 1,
                               max: _skuMapItem == null
                                   ? 1
-                                  : _skuMapItem!.sellVolume as int?,
-                              onChange: (index) {
+                                  : _skuMapItem!.sellVolume!,
+                              numChange: (index) {
                                 setstate(() {
-                                  _goodCount = index;
+                                  _goodCount = index as int;
                                 });
                                 setState(() {
-                                  _goodCount = index;
+                                  _goodCount = index as int;
                                 });
                               },
                             ),
@@ -1484,9 +1481,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     ///描述信息
     String selectStrDec = '';
     _selectSkuMapDec.forEach((element) {
-      selectStrDec += '$element ';
+      selectStrDec += '$element';
     });
-    _selectStrDec = selectStrDec;
+    setState(() {
+      _selectStrDec = selectStrDec;
+    });
+
     _skuMapItem = skuMapItem;
     if (_skuMapItem == null) {
       ///顺序不同，导致选择失败
