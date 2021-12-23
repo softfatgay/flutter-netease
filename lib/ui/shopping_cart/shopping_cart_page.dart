@@ -25,6 +25,7 @@ import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
 import 'package:flutter_app/ui/shopping_cart/model/shoppingCartModel.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
+import 'package:flutter_app/utils/toast.dart';
 
 import 'model/postageVO.dart';
 
@@ -697,8 +698,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         /// group选择
         _setEditGroupChecked(itemData, check);
       },
-      numChange: (CartItemListItem item, num? cnt) {
-        _checkOneNum(item, cnt!);
+      numChange: (CartItemListItem item, num cnt) {
+        _checkOneNum(item, cnt);
       },
       goRedeem: (CarItem itemData) {
         Routers.push(Routers.getCarsPage, context,
@@ -728,13 +729,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var responseData = await detailForCart(params);
     if (responseData.code == '200' && responseData.data != null) {
       var goodDetail = GoodDetail.fromJson(responseData.data);
-      _buildSizeModel(context, item.skuId, item.extId, item.type, goodDetail);
+      _buildSizeModel(context, item, goodDetail);
     }
   }
 
   ///属性选择底部弹窗
-  _buildSizeModel(BuildContext context, num? skuId, String? extId, num? type,
-      GoodDetail item) {
+  _buildSizeModel(
+      BuildContext context, CartItemListItem item, GoodDetail detail) {
     //底部弹出框,背景圆角的话,要设置全透明,不然会有默认你的白色背景
     return showModalBottomSheet(
       //设置true,不会造成底部溢出
@@ -743,10 +744,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return AddGoodSizeWidget(
-          goodDetail: item,
-          skuId: skuId,
-          extId: extId,
-          type: type,
+          goodDetail: detail,
+          skuId: item.skuId,
+          extId: item.extId,
+          type: item.type,
+          cnt: item.cnt,
           updateSkuSuccess: () {
             _getData();
           },

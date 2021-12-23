@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
+import 'package:flutter_app/utils/toast.dart';
 
 typedef void ValueChanged(num count);
 
@@ -188,6 +189,7 @@ class _CartCountState extends State<CartCount> {
                 }
                 var text = num.parse(controller.text);
                 if (text > 99) {
+                  Toast.show('达到单次添加上限', context, duration: 2);
                   controller.text = '99';
                 }
                 if (text > widget.max) {

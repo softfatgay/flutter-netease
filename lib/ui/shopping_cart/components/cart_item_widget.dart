@@ -10,7 +10,7 @@ import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_check_box.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
-import 'package:flutter_app/ui/shopping_cart/components/shopping_cart_count.dart';
+import 'package:flutter_app/ui/component/shopping_cart_count.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
@@ -576,66 +576,6 @@ class CartItemWidget extends StatelessWidget {
         ),
       );
     }
-  }
-
-  _showNumClickDialog(BuildContext context, CartItemListItem item) {
-    controller.text = item.cnt.toString();
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          content: Container(
-            margin: EdgeInsets.symmetric(vertical: 10),
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            decoration: BoxDecoration(
-                // border: Border.all(color: textGrey, width: 1),
-                // borderRadius: BorderRadius.circular(4),
-                ),
-            child: CartTextFiled(
-              controller: controller,
-            ),
-          ),
-          actions: [
-            CupertinoDialogAction(
-              child: Text(
-                '取消',
-                style: t16grey,
-              ),
-              isDestructiveAction: true,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: Text(
-                '确认',
-                style: t16red,
-              ),
-              onPressed: () {
-                if (controller.text.isNotEmpty) {
-                  var nums = num.parse(controller.text.toString());
-                  if (nums > item.sellVolume!) {
-                    Toast.show('不能超过最大库存量(${item.sellVolume})', context,
-                        duration: 3);
-                    return;
-                  }
-                  if (nums > 99) {
-                    Toast.show('达到单次添加上限', context, duration: 2);
-                    nums = 99;
-                  }
-                  if (nums < 1) {
-                    nums = 1;
-                  }
-                  numChange(item, nums);
-                  Navigator.of(context).pop();
-                  // item.cnt = int.parse(controller.text.toString());
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   _buildSaveMoney(CartItemListItem item) {

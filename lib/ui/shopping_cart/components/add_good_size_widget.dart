@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/component/count.dart';
 import 'package:flutter_app/component/dashed_decoration.dart';
-import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -12,6 +10,7 @@ import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/component/shopping_cart_count.dart';
 import 'package:flutter_app/utils/toast.dart';
 
 typedef void ConfigClick(SkuMapValue value);
@@ -28,6 +27,7 @@ class AddGoodSizeWidget extends StatefulWidget {
   final num? skuId;
   final String? extId;
   final num? type;
+  final num? cnt;
 
   const AddGoodSizeWidget({
     Key? key,
@@ -39,6 +39,7 @@ class AddGoodSizeWidget extends StatefulWidget {
     this.updateSkuSuccess,
     this.addCarSuccess,
     this.type,
+    this.cnt = 1,
   }) : super(key: key);
 
   @override
@@ -78,7 +79,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
   String _counterPrice = '';
 
   ///商品数量
-  int _goodCount = 1;
+  num _goodCount = 1;
 
   var goodDetail = GoodDetail();
 
@@ -98,6 +99,7 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
         _skuId = skuId;
         _setSelectSkuMapKey(_skuId);
       }
+      _goodCount = widget.cnt ?? 1;
     });
     super.initState();
   }
@@ -129,120 +131,118 @@ class _AddGoodSizeWidgetState extends State<AddGoodSizeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: StatefulBuilder(builder: (context, setstate) {
-        return Container(
-          constraints: BoxConstraints(maxHeight: 800),
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(5.0),
-                    ),
+    return StatefulBuilder(builder: (context, setstate) {
+      return Container(
+        constraints: BoxConstraints(maxHeight: 800),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(5.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    //最小包裹高度
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SingleChildScrollView(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(5.0),
-                            ),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  //最小包裹高度
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(5.0),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            //最小包裹高度
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Stack(
-                                children: [
-                                  ///商品描述
-                                  _selectGoodDetail(context, goodDetail),
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: InkResponse(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        padding:
-                                            EdgeInsets.only(top: 10, right: 5),
-                                        child: Image.asset(
-                                          'assets/images/close.png',
-                                          width: 20,
-                                          height: 20,
-                                        ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          //最小包裹高度
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Stack(
+                              children: [
+                                ///商品描述
+                                _selectGoodDetail(context, goodDetail),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: InkResponse(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.only(top: 10, right: 5),
+                                      child: Image.asset(
+                                        'assets/images/close.png',
+                                        width: 20,
+                                        height: 20,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
 
-                              ///颜色，规格等参数
-                              _modelAndSize(context, goodDetail, setstate),
-                              //数量
-                              Container(
-                                margin: EdgeInsets.only(top: 15, bottom: 10),
-                                child: Text(
-                                  '数量',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 14),
-                                ),
+                            ///颜色，规格等参数
+                            _modelAndSize(context, goodDetail, setstate),
+                            //数量
+                            Container(
+                              margin: EdgeInsets.only(top: 15, bottom: 10),
+                              child: Text(
+                                '数量',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 14),
                               ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
-                                child: Count(
-                                  number: _goodCount,
-                                  min: 1,
-                                  max: _skuMapItem == null
-                                      ? 1
-                                      : _skuMapItem!.sellVolume as int?,
-                                  onChange: (index) {
-                                    setstate(() {
-                                      _goodCount = index;
-                                    });
-                                    setState(() {
-                                      _goodCount = index;
-                                    });
-                                  },
-                                ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
+                              child: CartCount(
+                                number: _goodCount,
+                                min: 1,
+                                max: _skuMapItem == null
+                                    ? 1
+                                    : _skuMapItem!.sellVolume ?? 1,
+                                numChange: (index) {
+                                  setstate(() {
+                                    _goodCount = index;
+                                  });
+                                  setState(() {
+                                    _goodCount = index;
+                                  });
+                                },
                               ),
-                              SizedBox(
-                                height: 45,
-                              )
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: 45,
+                            )
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 45,
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    )
+                  ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: _defaultBottomBtns(0),
-              ),
-            ],
-          ),
-        );
-      }),
-    );
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: _defaultBottomBtns(0),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   ///默认展示形式
