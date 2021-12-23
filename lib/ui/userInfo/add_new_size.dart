@@ -139,7 +139,7 @@ class _AddNewSizeState extends State<AddNewSize> {
             padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: NormalBtn('保存', backRed, () {
               _saveSize();
-            }, corner: 4),
+            }, corner: 6),
           ),
         ),
       ],
@@ -181,7 +181,7 @@ class _AddNewSizeState extends State<AddNewSize> {
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent, width: 0),
             ),
-            contentPadding: EdgeInsets.only(top: 0, bottom: 0),
+            contentPadding: EdgeInsets.all(0),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent, width: 0),
             ),

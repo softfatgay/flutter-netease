@@ -1,18 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
 
-class CountClickDialog {
-  final TextEditingController controller;
+class SimpleCupertinoDialog {
+  final String tips;
+  final String confirmTv;
+  final String cancelTv;
   final Function confirm;
 
-  CountClickDialog(this.controller, this.confirm);
+  SimpleCupertinoDialog({
+    required this.tips,
+    required this.confirm,
+    this.confirmTv = '确定',
+    this.cancelTv = '取消',
+  });
 
-  build(BuildContext context) async {
-    return _showDialog(context);
+  build(BuildContext context) {
+    _showDialog(context);
   }
 
-  _showDialog(BuildContext context) {
+  void _showDialog(BuildContext context) {
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -24,14 +30,15 @@ class CountClickDialog {
                 // border: Border.all(color: textGrey, width: 1),
                 // borderRadius: BorderRadius.circular(4),
                 ),
-            child: CartTextFiled(
-              controller: controller,
+            child: Text(
+              '$tips',
+              style: t16black,
             ),
           ),
           actions: [
             CupertinoDialogAction(
               child: Text(
-                '取消',
+                '$cancelTv',
                 style: t16grey,
               ),
               isDestructiveAction: true,
@@ -41,10 +48,11 @@ class CountClickDialog {
             ),
             CupertinoDialogAction(
               child: Text(
-                '确认',
+                '$confirmTv',
                 style: t16red,
               ),
               onPressed: () {
+                Navigator.of(context).pop();
                 confirm();
               },
             ),

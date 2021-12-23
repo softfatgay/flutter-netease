@@ -7,10 +7,11 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/model/postageVO.dart';
 
 class TopTipsWidget extends StatelessWidget {
-  final PostageVO? postageVO;
+  final PostageVO postageVO;
   final Function callBack;
 
-  const TopTipsWidget({Key? key, this.postageVO, required this.callBack})
+  const TopTipsWidget(
+      {Key? key, required this.postageVO, required this.callBack})
       : super(key: key);
 
   @override
@@ -24,39 +25,41 @@ class TopTipsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          postageVO!.postageTip == null
-              ? ServerTagWidget()
-              : GestureDetector(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    color: Color(0xFFFFF6E5),
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    height: 40,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '${postageVO == null ? '' : postageVO!.postageTip ?? ''}',
-                            style: t14Orange,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (!postageVO!.postFree!) arrowRightIcon
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    if (!postageVO!.postFree!) {
-                      Routers.push(Routers.cartItemPoolPage, context, {},
-                          (value) {
-                        callBack();
-                      });
-                    }
-                  },
-                ),
+          postageVO.postageTip == null ? ServerTagWidget() : _tips(context),
         ],
       ),
+    );
+  }
+
+  _tips(BuildContext context) {
+    var postFree = postageVO.postFree ?? false;
+    return GestureDetector(
+      child: Container(
+        alignment: Alignment.centerLeft,
+        color: Color(0xFFFFF8D8),
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        height: 40,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                '${postageVO.postageTip ?? ''}',
+                style: t14Orange,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (!postFree) arrowRightIcon
+          ],
+        ),
+      ),
+      onTap: () {
+        if (!postFree) {
+          Routers.push(Routers.cartItemPoolPage, context, {}, (value) {
+            callBack();
+          });
+        }
+      },
     );
   }
 }

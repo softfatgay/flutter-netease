@@ -5,11 +5,8 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
 import 'package:flutter_app/utils/toast.dart';
 
-typedef void ValueChanged(num count);
-
-Color? borderColor = Colors.grey[200];
 const double _borderWidth = 0.5;
-
+typedef void ValueChanged(num count);
 typedef void NumClick();
 
 class CartCount extends StatefulWidget {
@@ -133,7 +130,7 @@ class _CartCountState extends State<CartCount> {
   }
 
   _getRightColor() {
-    return widget.max <= widget.number ? Color(0x33999999) : textLightGrey;
+    return _getMaxCnt() <= widget.number ? Color(0x33999999) : textLightGrey;
   }
 
   onClickBtn(String type) {
@@ -142,12 +139,17 @@ class _CartCountState extends State<CartCount> {
         widget.number = widget.number - 1;
         widget.numChange(widget.number);
       });
-    } else if (type == 'add' && widget.number < widget.max) {
+    } else if (type == 'add' && widget.number < _getMaxCnt()) {
       setState(() {
         widget.number = widget.number + 1;
         widget.numChange(widget.number);
       });
     }
+  }
+
+  _getMaxCnt() {
+    if (widget.max > 99) return 99;
+    return widget.max;
   }
 
   _showDialog(BuildContext context) {

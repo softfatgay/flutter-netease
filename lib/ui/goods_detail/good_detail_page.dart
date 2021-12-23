@@ -59,7 +59,7 @@ import 'package:flutter_app/ui/goods_detail/model/wapitemDeliveryModel.dart';
 import 'package:flutter_app/ui/mine/address_selector.dart';
 import 'package:flutter_app/ui/mine/model/locationItemModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/component/shopping_cart_count.dart';
+import 'package:flutter_app/ui/component/cart_count.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
 import 'package:flutter_app/utils/constans.dart';

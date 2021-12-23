@@ -319,9 +319,19 @@ class _RewardNumPageState extends State<RewardNumPage> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    child: Text(
-                      '什么是购物津贴？',
-                      style: t14white,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/dec_icon.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          '什么是购物津贴？',
+                          style: t14white,
+                        ),
+                      ],
                     ),
                     onTap: () {
                       Routers.push(Routers.webView, context,
@@ -330,9 +340,21 @@ class _RewardNumPageState extends State<RewardNumPage> {
                   ),
                 ),
                 GestureDetector(
-                  child: Text(
-                    '有问题，找客服',
-                    style: t14white,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        'assets/images/mine/kefu.png',
+                        width: 18,
+                        height: 18,
+                        color: backWhite,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        '有问题，找客服',
+                        style: t14white,
+                      )
+                    ],
                   ),
                   onTap: () {
                     Routers.push(Routers.webView, context, {'url': kefuUrl});

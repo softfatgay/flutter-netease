@@ -10,6 +10,7 @@ import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
+import 'package:flutter_app/ui/component/simple_cupertino_dialog.dart';
 import 'package:flutter_app/ui/component/webview_login_page.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/ui/router/router.dart';
@@ -40,22 +41,38 @@ class ShoppingCartPage extends StatefulWidget {
 
 class _ShoppingCartPageState extends State<ShoppingCartPage>
     with AutomaticKeepAliveClientMixin {
-  var _data; // 完整数据
-  late ShoppingCartModel _shoppingCartModel;
+  /// 完整数据
+  var _data;
 
-  List<CarItem> _cartGroupList = []; // 有效的购物车组列表
+  /// 有效的购物车组列表
+  List<CarItem> _cartGroupList = [];
+
   ///包邮条件
-  PostageVO? _postageVO;
-  List<CarItem> _invalidCartGroupList = []; // 无效的购物车组列表
-  num _price = 0; // 价格
-  num _promotionPrice = 0; // 促销价
-  bool _isCheckedAll = false; // 是否全部勾选选中
-  bool _isEditCheckedAll = false; // 是否全部勾选选中
+  var _postageVO = PostageVO();
 
-  bool _loading = false; // 是否正在加载
-  num _selectedNum = 0; // 选中商品数量
+  /// 无效的购物车组列表
+  List<CarItem> _invalidCartGroupList = [];
 
-  bool _isEdit = false; // 是否正在编辑
+  /// 价格
+  num _price = 0;
+
+  /// 促销价
+  num _promotionPrice = 0;
+
+  /// 是否全部勾选选中
+  bool _isCheckedAll = false;
+
+  /// 是否全部勾选选中
+  bool _isEditCheckedAll = false;
+
+  /// 选中商品数量
+  num _selectedNum = 0;
+
+  /// 是否正在加载
+  bool _loading = false;
+
+  /// 是否正在编辑
+  bool _isEdit = false;
 
   bool _isLogin = true;
 
@@ -116,7 +133,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     }
   }
 
-  // 更新状态机 刷新界面
   void _setData(var data) {
     if (data == null) {
       _getData();
@@ -125,9 +141,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     var shoppingCartModel = ShoppingCartModel.fromJson(data);
     setState(() {
       _loading = false;
-      _shoppingCartModel = shoppingCartModel;
       _cartGroupList = shoppingCartModel.cartGroupList ?? [];
-      _postageVO = shoppingCartModel.postageVO;
+      _postageVO = shoppingCartModel.postageVO ?? PostageVO();
 
       _invalidCartGroupList = shoppingCartModel.invalidCartGroupList ?? [];
 
@@ -167,6 +182,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
     });
   }
 
+  ///可以被选择的条件
   _itemCanCheck(CartItemListItem item) {
     if ((item.limitPurchaseFlag! && (item.limitPurchaseCount! < item.cnt!)) ||
         item.preemptionStatus == 0 ||
@@ -199,7 +215,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
       'source': item.source,
       'type': item.type,
       'skuId': item.skuId,
-      'isChecked': !item.checked!,
+      'isChecked': !(item.checked ?? false),
       'extId': item.extId,
     };
     var responseData = await shoppingCartCheckOne(params);
@@ -222,7 +238,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         'gift': false,
         'addBuy': false,
         'extId': element.extId,
-        'checked': !itemData.checked!
+        'checked': !(itemData.checked ?? false)
       };
       skuList.add(params);
     });
@@ -305,51 +321,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   ///清除无效商品/删除所选商品 type-0清除无效商品弹窗，1删除购物车所选商品弹窗，
   _showDeleteDialog(int type) {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          content: Container(
-            margin: EdgeInsets.symmetric(vertical: 10),
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            decoration: BoxDecoration(
-                // border: Border.all(color: textGrey, width: 1),
-                // borderRadius: BorderRadius.circular(4),
-                ),
-            child: Text(
-              type == 0 ? '确定清除无效商品？' : '要删除所选商品？',
-              style: t16black,
-            ),
-          ),
-          actions: [
-            CupertinoDialogAction(
-              child: Text(
-                '取消',
-                style: t16grey,
-              ),
-              isDestructiveAction: true,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: Text(
-                '确认',
-                style: t16red,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                if (type == 0) {
-                  _clearInvalid();
-                } else {
-                  _deleteCart();
-                }
-              },
-            ),
-          ],
-        );
+    SimpleCupertinoDialog(
+      tips: type == 0 ? '确定清除无效商品？' : '要删除所选商品？',
+      confirm: () {
+        if (type == 0) {
+          _clearInvalid();
+        } else {
+          _deleteCart();
+        }
       },
-    );
+    ).build(context);
   }
 
   ///清除无效商品
@@ -541,14 +522,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
         _setItemEditChecked(element, _isEditCheckedAll);
       });
     });
-  }
-
-  _getInvalidItemList() {
-    List<CartItemListItem> itemList = [];
-    _invalidCartGroupList.forEach((element) {
-      itemList.addAll(element.cartItemList ?? []);
-    });
-    return itemList;
   }
 
   ///获取购物车有效展示条目（LIST）

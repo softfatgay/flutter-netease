@@ -437,14 +437,20 @@ class _MinePageState extends State<UserPage>
       Container(
         margin: EdgeInsets.only(top: 10, left: 10, right: 10),
         color: backColor,
-        child: NormalBtn('退出登录', backWhite, () async {
-          var globalCookie = GlobalCookie();
-          var bool = await globalCookie.clearCookie();
-          if (bool) {
-            CookieConfig.cookie = '';
-            _checkLogin();
-          }
-        }, textStyle: t14darkGrey),
+        child: NormalBtn(
+          '退出登录',
+          backWhite,
+          () async {
+            var globalCookie = GlobalCookie();
+            var bool = await globalCookie.clearCookie();
+            if (bool) {
+              CookieConfig.cookie = '';
+              _checkLogin();
+            }
+          },
+          textStyle: t14darkGrey,
+          corner: 2,
+        ),
       ),
     );
   }

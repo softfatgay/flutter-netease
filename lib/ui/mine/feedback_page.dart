@@ -171,7 +171,7 @@ class _FeedBackState extends State<FeedBack> {
               child: NormalBtn('提交', backRed, () {
                 _submit();
                 Navigator.pop(context);
-              }, corner: 4),
+              }, corner: 6),
             ),
           ),
         ],

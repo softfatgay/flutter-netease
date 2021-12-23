@@ -57,7 +57,7 @@ class _MineSizePageState extends State<MineSizePage> {
               padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
               child: NormalBtn('新增', backRed, () {
                 Routers.push(Routers.addNewSize, context);
-              }, corner: 4),
+              }, corner: 6),
             ),
           ),
         ],

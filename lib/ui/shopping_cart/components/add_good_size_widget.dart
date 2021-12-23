@@ -10,7 +10,7 @@ import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/ui/component/shopping_cart_count.dart';
+import 'package:flutter_app/ui/component/cart_count.dart';
 import 'package:flutter_app/utils/toast.dart';
 
 typedef void ConfigClick(SkuMapValue value);

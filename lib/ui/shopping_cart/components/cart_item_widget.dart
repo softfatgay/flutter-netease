@@ -9,12 +9,10 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/shopping_cart/components/cart_check_box.dart';
-import 'package:flutter_app/ui/shopping_cart/components/cart_num_filed.dart';
-import 'package:flutter_app/ui/component/shopping_cart_count.dart';
+import 'package:flutter_app/ui/component/cart_count.dart';
 import 'package:flutter_app/ui/shopping_cart/model/carItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/cartItemListItem.dart';
 import 'package:flutter_app/ui/shopping_cart/model/redeemModel.dart';
-import 'package:flutter_app/utils/toast.dart';
 
 typedef void CheckOne(CartItemListItem item);
 typedef void CheckGroup(CarItem itemData);

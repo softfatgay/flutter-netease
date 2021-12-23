@@ -58,7 +58,7 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: GestureDetector(
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -66,11 +66,12 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
               'assets/images/dec_icon.png',
               width: 16,
               height: 16,
+              color: textGrey,
             ),
             SizedBox(width: 5),
             Text(
               '使用说明',
-              style: TextStyle(fontSize: 12, color: textLightGrey, height: 1),
+              style: t12grey,
             )
           ],
         ),

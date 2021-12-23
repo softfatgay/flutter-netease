@@ -4,6 +4,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
+import 'package:flutter_app/ui/component/simple_cupertino_dialog.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/component/app_bar.dart';
 
@@ -44,7 +45,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
             color: Colors.white,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(color: redColor, width: 1)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -111,9 +112,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                       fontWeight: FontWeight.w300,
                       color: textWhite),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 GestureDetector(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -211,46 +210,11 @@ class _GiftCardPageState extends State<GiftCardPage> {
   }
 
   void _showSetPswDialog() {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          content: Container(
-            margin: EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-                // border: Border.all(color: textGrey, width: 1),
-                // borderRadius: BorderRadius.circular(4),
-                ),
-            child: Text(
-              '使用礼品卡必须启用支付密码',
-              style: t16black,
-            ),
-          ),
-          actions: [
-            CupertinoDialogAction(
-              child: Text(
-                '取消',
-                style: t14grey,
-              ),
-              isDestructiveAction: true,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: Text(
-                '前去设置',
-                style: t14red,
-              ),
-              onPressed: () {
-                Routers.push(Routers.mineItems, context, {'id': 9}, (value) {
-                  Navigator.pop(context);
-                });
-              },
-            ),
-          ],
-        );
-      },
-    );
+    SimpleCupertinoDialog(
+        tips: '使用礼品卡必须启用支付密码',
+        confirmTv: '前去设置',
+        confirm: () {
+          Routers.push(Routers.mineItems, context, {'id': 9}, (value) {});
+        }).build(context);
   }
 }

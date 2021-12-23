@@ -49,15 +49,9 @@ class CartNavBarWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
-                Text(
-                  '购物车',
-                  style: t20blackBold,
-                ),
+                Text('购物车', style: t20blackBold),
                 SizedBox(width: 5),
-                Text(
-                  '无忧退换，购物更省心',
-                  style: t12grey,
-                ),
+                Text('无忧退换，购物更省心', style: t12grey),
               ],
             ),
           ),
@@ -68,10 +62,7 @@ class CartNavBarWidget extends StatelessWidget {
                 //     image: DecorationImage(
                 //         fit: BoxFit.fill,
                 //         image: AssetImage('assets/images/lingquan.png'))),
-                child: Text(
-                  '领券',
-                  style: t16red,
-                ),
+                child: Text('领券', style: t16red),
               ),
               onTap: () {
                 Routers.push(Routers.getCouponPage, context);
