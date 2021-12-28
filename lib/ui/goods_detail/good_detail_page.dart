@@ -52,6 +52,7 @@ import 'package:flutter_app/ui/goods_detail/model/goodDetailPre.dart';
 import 'package:flutter_app/ui/goods_detail/model/hdrkDetailVOListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/priceModel.dart';
 import 'package:flutter_app/ui/goods_detail/model/shoppingReward.dart';
+import 'package:flutter_app/ui/goods_detail/model/shoppingRewardRule.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuMapValue.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecListItem.dart';
 import 'package:flutter_app/ui/goods_detail/model/skuSpecValue.dart';
@@ -73,12 +74,12 @@ import 'package:flutter_app/utils/user_config.dart';
 const _toolbarHeight = 70.0;
 
 class GoodsDetailPage extends StatefulWidget {
-  final Map? params;
+  final Map params;
 
   @override
   _GoodsDetailPageState createState() => _GoodsDetailPageState();
 
-  GoodsDetailPage({this.params});
+  GoodsDetailPage({required this.params});
 }
 
 class _GoodsDetailPageState extends State<GoodsDetailPage>
@@ -171,7 +172,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   ///banner
   List<String> _banner = [];
 
-  num? _goodId;
+  late num _goodId;
 
   ///skuMap key键值
   var _selectSkuMapKey = [];
@@ -210,7 +211,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
   void initState() {
     // TODO: implement initState
     setState(() {
-      _goodId = num.parse(widget.params!['id'].toString());
+      _goodId = num.parse((widget.params['id'] ?? 0).toString());
     });
     _scrollPhysics = NeverScrollableScrollPhysics();
     super.initState();
@@ -312,6 +313,25 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     }
   }
 
+  ///获取优惠券
+  _getCoupon() async {
+    Map<String, dynamic> params = {
+      'itemId': _goodId,
+      'skuId': _goodDetail.primarySkuId,
+    };
+    var responseData = await queryByItemAndUser(params);
+    if (responseData.code == '200') {
+      List data = responseData.data;
+      List<CouponModel> couponList = [];
+      data.forEach((element) {
+        couponList.add(CouponModel.fromJson(element));
+      });
+      setState(() {
+        _couponList = couponList;
+      });
+    }
+  }
+
   _wapitemDelivery(LocationItemModel? item) async {
     var params;
     if (item == null) {
@@ -383,7 +403,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       setState(() {
         _goodDetailPre = GoodDetailPre.fromJson(oData);
 
-        _goodDetail = _goodDetailPre.item!;
+        _goodDetail = _goodDetailPre.item ?? GoodDetail();
         _detailPromBanner = _goodDetail.detailPromBanner;
         _bannerModel = _goodDetail.banner;
         _welfareCardVO = _goodDetail.welfareCardVO;
@@ -516,7 +536,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             commentCount: _goodDetail.commentCount,
           )),
 
-          ///网易严选
+          ///品牌名称(网易严选)
           singleSliverWidget(_buildYanxuanTitle()),
 
           ///推荐理由
@@ -532,7 +552,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ///规则
           singleSliverWidget(FullRefundPolicyWidget(
             fullRefundPolicy: _fullRefundPolicy,
-            showDialog: () {
+            onPress: () {
               _fullRefundPolicyDialog(context, _fullRefundPolicy);
             },
           )),
@@ -709,8 +729,9 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           CouponWidget(
             couponShortNameList: _couponShortNameList,
             id: _goodId,
-            onPress: () {
-              _showCouponDialog();
+            couponList: _couponList,
+            getCoupon: (item) {
+              _getItemCoupon(item);
             },
           ),
 
@@ -719,7 +740,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             skuFreight: _skuFreight,
             showDialog: () {
               var title = _skuFreight!.title;
-              List policyList = _skuFreight!.policyList!;
+              List policyList = _skuFreight!.policyList ?? [];
               _buildSkuFreightDialog(
                   context, title, policyList as List<PolicyListItem>);
             },
@@ -737,9 +758,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ShoppingRewardWidget(
             shoppingReward: shoppingReward,
             showDialog: () {
-              var shoppingRewardRule = _goodDetail.shoppingRewardRule!;
+              var shoppingRewardRule =
+                  _goodDetail.shoppingRewardRule ?? ShoppingRewardRule();
               _buildSkuFreightDialog(context, shoppingRewardRule.title,
-                  shoppingRewardRule.ruleList!);
+                  shoppingRewardRule.ruleList ?? []);
             },
           ),
 
@@ -772,7 +794,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           ServiceWidget(
             policyList: _goodDetailPre.policyList,
             showDialog: () {
-              List<PolicyListItem> policyList = _goodDetailPre.policyList!;
+              List<PolicyListItem> policyList = _goodDetailPre.policyList ?? [];
               _buildSkuFreightDialog(context, '服务', policyList);
             },
           )
@@ -871,27 +893,19 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         child: Row(
           children: [
             _dftAddress == null
-                ? Icon(
-                    Icons.circle_outlined,
-                    color: backGrey,
-                  )
-                : (_dftAddress!.id == item.id
-                    ? Icon(
-                        Icons.check_circle_rounded,
-                        color: textRed,
-                      )
-                    : Icon(
-                        Icons.circle_outlined,
-                        color: lineColor,
-                      )),
+                ? Icon(Icons.circle_outlined, color: backGrey)
+                : _dftAddress!.id == item.id
+                    ? Icon(Icons.check_circle_rounded, color: textRed)
+                    : Icon(Icons.circle_outlined, color: lineColor),
             SizedBox(width: 10),
             Expanded(
-                child: Text(
-              '${item.fullAddress}',
-              style: t13black,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            )),
+              child: Text(
+                '${item.fullAddress}',
+                style: t13black,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
@@ -919,8 +933,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       for (var item in adBanners) {
         banner.add(item.picUrl ?? '');
       }
-    }
-    if (adBanners != null && adBanners.isNotEmpty) {
       return Container(
         margin: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
@@ -945,11 +957,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     List<ResultItem>? comments = _goodDetail.comments;
     var goodCmtRate = _goodDetail.goodCmtRate;
     return GoodDetailCommentWidget(
-        key: _commentKey,
-        commentCount: commentCount,
-        comments: comments,
-        goodCmtRate: goodCmtRate,
-        goodId: _goodId);
+      key: _commentKey,
+      commentCount: commentCount,
+      comments: comments,
+      goodCmtRate: goodCmtRate,
+      goodId: _goodId,
+    );
   }
 
   _brandInfoWidget() {
@@ -978,10 +991,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       key: _detailKey,
       margin: EdgeInsets.only(top: 10),
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      child: Column(children: imgWidget),
       color: Colors.white,
       width: double.infinity,
       alignment: Alignment.center,
+      child: Column(
+        children: imgWidget,
+      ),
     );
   }
 
@@ -1002,7 +1017,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Text(
         '商品参数',
-        style: t16black,
+        style: t14black,
       ),
     );
   }
@@ -1019,11 +1034,22 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        child: Text(
-                          '• ${item.question}',
-                          style: t14black,
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                color: textRed,
+                                borderRadius: BorderRadius.circular(4)),
+                          ),
+                          Container(
+                            child: Text(
+                              ' ${item.question}',
+                              style: t14black,
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
@@ -1104,9 +1130,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                   imageUrl:
                       '${simpleBrandInfo.logoUrl ?? 'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png'}',
                 ),
-                SizedBox(
-                  width: 3,
-                ),
+                SizedBox(width: 3),
                 Text(
                   '${simpleBrandInfo.title ?? ''}',
                   style: TextStyle(
@@ -1178,9 +1202,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: _selectGoodDetail(context),
-                              ),
+                              Expanded(child: _selectGoodDetail(context)),
                               GestureDetector(
                                 child: Container(
                                   padding: EdgeInsets.only(top: 15, right: 5),
@@ -1201,7 +1223,8 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
                           ///颜色，规格等参数
                           _modelAndSize(context, setstate),
-                          //数量
+
+                          ///数量
                           Container(
                             margin: EdgeInsets.only(top: 15, bottom: 10),
                             child: Text(
@@ -1228,9 +1251,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 45,
-                          )
+                          SizedBox(height: 45)
                         ],
                       ),
                     ),
@@ -1256,10 +1277,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
         margin: EdgeInsets.only(top: 10),
         child: Row(
           children: [
-            Text(
-              '尺码助手',
-              style: t14red,
-            ),
+            Text('尺码助手', style: t14red),
             Container(
               padding: EdgeInsets.only(top: 2),
               child: arrowRightRed10Icon,
@@ -1298,7 +1316,10 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  child: Text(skuSpecItem.name!),
+                  child: Text(
+                    '${skuSpecItem.name ?? ''}',
+                    style: t14black,
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -1339,9 +1360,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
           setstate(() {
             _selectModelDialogSize(context, index, item);
           });
-          // setState(() {
-          //   _selectModelDialogSize(context, index, item);
-          // });
         },
       );
     }).toList();
@@ -1620,25 +1638,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
     );
   }
 
-  ///------------------------------------------领券弹窗------------------------------------------
-  _getCoupon() async {
-    Map<String, dynamic> params = {
-      'itemId': _goodId,
-      'skuId': _goodDetail.primarySkuId,
-    };
-    var responseData = await queryByItemAndUser(params);
-    if (responseData.code == '200') {
-      List data = responseData.data;
-      List<CouponModel> couponList = [];
-      data.forEach((element) {
-        couponList.add(CouponModel.fromJson(element));
-      });
-      setState(() {
-        _couponList = couponList;
-      });
-    }
-  }
-
   ///------------------------------------------规则------------------------------------------
   _fullRefundPolicyDialog(
       BuildContext context, FullRefundPolicy? fullRefundPolicy) {
@@ -1666,62 +1665,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
 
   ///------------------------------------------领券------------------------------------------
 
-  _showCouponDialog() {
-    List<CouponModel> couponList = _couponList;
-    return showModalBottomSheet(
-      //设置true,不会造成底部溢出
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          constraints: BoxConstraints(maxHeight: 400),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(5.0),
-            ),
-          ),
-          child: Container(
-            padding: EdgeInsets.only(bottom: 50),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                DialogTitleWidget(title: '领券'),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: couponList
-                      .map(
-                        (item) => Container(
-                          child: _buildCouponItem(item),
-                        ),
-                      )
-                      .toList(),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  _buildCouponItem(CouponModel item) {
-    return CouponItemWidget(
-      couponItem: item,
-      receiveClick: (ableToActivated) {
-        if (ableToActivated!) {
-          ///领券
-          _getItemCoupon(item);
-        } else {
-          ///已领取，去凑单
-          Routers.push(Routers.makeUpPage, context,
-              {'from': Routers.goodDetail, 'id': -1});
-        }
-      },
-    );
-  }
-
   _getItemCoupon(CouponModel item) async {
     Map<String, dynamic> params = {'token': item.activationCode};
     var responseData = await getItemCoupon(params);
@@ -1744,9 +1687,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
             itemClick: (item) {
               if (item.huodongUrlWap!.contains('cart/itemPool')) {
                 _getMakeUpCartInfo(item);
-                //
-                // Routers.push(Routers.makeUpPage, context,
-                //     {'id': item.id, 'from': 'cart-item'});
               } else {
                 String? url = '';
                 if (item.huodongUrlWap!.startsWith('http')) {
@@ -1758,9 +1698,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
               }
             },
           ),
-          SizedBox(
-            height: 100,
-          )
+          SizedBox(height: 100)
         ],
       ),
       title: '${_hdrkDetailVOList!.length}个促销',
@@ -1806,14 +1744,14 @@ class _GoodsDetailPageState extends State<GoodsDetailPage>
                     Container(
                       padding: EdgeInsets.only(top: 15, left: 10, right: 10),
                       child: Text(
-                        item.title!,
+                        '${item.title}',
                         style: t14black,
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        item.content!,
+                        '${item.content}',
                         style: t14grey,
                       ),
                     )

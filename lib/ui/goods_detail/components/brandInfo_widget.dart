@@ -5,14 +5,15 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/goodDetail.dart';
 import 'package:flutter_app/component/global.dart';
 
-typedef void OnPress();
-
 class BrandInfoWidget extends StatelessWidget {
   final BrandInfo? brandInfo;
-  final OnPress onPress;
+  final Function onPress;
 
-  const BrandInfoWidget({Key? key, this.brandInfo, required this.onPress})
-      : super(key: key);
+  const BrandInfoWidget({
+    Key? key,
+    this.brandInfo,
+    required this.onPress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,7 @@ class BrandInfoWidget extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: 16,
-                      ),
+                      SizedBox(height: 16),
                       CachedNetworkImage(
                           height: 35, imageUrl: '${brandInfo!.picUrl}'),
                       brandInfo!.ownType == 2
@@ -40,30 +39,23 @@ class BrandInfoWidget extends StatelessWidget {
                               height: 12,
                               imageUrl:
                                   'https://yanxuan.nosdn.127.net/9f91c012a7a42c776d785c09f6ed85b4.png')
-                          : Container(
-                              height: 16,
-                            ),
+                          : SizedBox(height: 16),
                     ],
                   ),
-                  SizedBox(
-                    width: 12,
-                  ),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       children: [
                         Row(
                           children: [
                             Expanded(
-                                child: Text(
-                              '${brandInfo!.title}',
-                              style: t16blackBold,
-                            )),
+                              child: Text('${brandInfo!.title}',
+                                  style: t16blackBold),
+                            ),
                             arrowRightIcon
                           ],
                         ),
-                        SizedBox(
-                          height: 12,
-                        ),
+                        SizedBox(height: 12),
                         Text(
                           '${brandInfo!.desc}',
                           style: t12black,

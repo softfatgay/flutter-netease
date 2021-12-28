@@ -99,21 +99,24 @@ class StuBuyListItemWidget extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      ClipOval(
-                          child: Image.network(
-                        item.recentUsers == null ? '' : item.recentUsers![0],
+                      RoundNetImage(
+                        url: _getUserIcon(item, 0),
                         width: 16,
                         height: 16,
-                        fit: BoxFit.cover,
-                      )),
+                        corner: 8,
+                        fontSize: 10,
+                      ),
                       SizedBox(width: 2),
-                      ClipOval(
-                          child: Image.network(
-                        item.recentUsers == null ? '' : item.recentUsers![1],
-                        width: 16,
-                        height: 16,
-                        fit: BoxFit.cover,
-                      )),
+                      Positioned(
+                        right: 0,
+                        child: RoundNetImage(
+                          url: _getUserIcon(item, 1),
+                          width: 16,
+                          height: 16,
+                          corner: 8,
+                          fontSize: 10,
+                        ),
+                      ),
                       Expanded(
                         child: Text(
                           '${item.joinUsers}人已拼',
@@ -133,6 +136,16 @@ class StuBuyListItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _getUserIcon(Result item, int index) {
+    if (item.recentUsers == null || item.recentUsers!.isEmpty) {
+      return '';
+    }
+    if (item.recentUsers!.length < index + 1) {
+      return '';
+    }
+    return item.recentUsers![index];
   }
 
   _priceDec() {

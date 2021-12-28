@@ -14,8 +14,10 @@ const double _widgetHeight = 200;
 class HomeNewComerPackage extends StatelessWidget {
   final List<IndexActivityModule> indexActivityModule;
 
-  const HomeNewComerPackage({Key? key, required this.indexActivityModule})
-      : super(key: key);
+  const HomeNewComerPackage({
+    Key? key,
+    required this.indexActivityModule,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

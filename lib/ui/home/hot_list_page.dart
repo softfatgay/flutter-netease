@@ -51,9 +51,10 @@ class _HotListPageState extends State<HotListPage>
   ///数据
   List<ItemListItem> _dataList = [];
 
+  List<dynamic>? _seller = [];
+
   @override
   void initState() {
-    // TODO: implement initState
     setState(() {
       _tabController = TabController(length: _subCateList.length, vsync: this);
       _categoryId = widget.param!['categoryId'];
@@ -260,8 +261,6 @@ class _HotListPageState extends State<HotListPage>
     );
   }
 
-  bool isTabScroll = false;
-
   _buildGoodItem() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10, top: 45),
@@ -366,6 +365,4 @@ class _HotListPageState extends State<HotListPage>
     _timer.cancel();
     super.dispose();
   }
-
-  List<dynamic>? _seller = [];
 }

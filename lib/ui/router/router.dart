@@ -139,7 +139,8 @@ class Routers {
     testPage: (context, {params}) => ErrorPage(),
 
     ///商品详情
-    goodDetail: (context, {params}) => GoodsDetailPage(params: params),
+    goodDetail: (context, {params}) =>
+        GoodsDetailPage(params: params ?? {'id': 0}),
 
     ///拼团
     pinPage: (context, {params}) => PinDetailPage(params: params),

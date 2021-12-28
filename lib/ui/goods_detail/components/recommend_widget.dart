@@ -8,8 +8,11 @@ class RecommendWidget extends StatelessWidget {
   final List<String>? recommendReason;
   final String? simpleDesc;
 
-  const RecommendWidget({Key? key, this.recommendReason, this.simpleDesc})
-      : super(key: key);
+  const RecommendWidget({
+    Key? key,
+    this.recommendReason,
+    this.simpleDesc,
+  }) : super(key: key);
 
   // border: Border.all(color:Color(0XFFE6E6E6,),width: 1 )
   @override

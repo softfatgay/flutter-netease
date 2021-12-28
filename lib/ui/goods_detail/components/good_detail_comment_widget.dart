@@ -67,7 +67,7 @@ class GoodDetailCommentWidget extends StatelessWidget {
                               style: num16Red,
                             ),
                             Text(
-                              (goodCmtRate == null || goodCmtRate == '')
+                              goodCmtRate == null || goodCmtRate!.isEmpty
                                   ? '查看全部'
                                   : '好评率',
                               style: t14black,

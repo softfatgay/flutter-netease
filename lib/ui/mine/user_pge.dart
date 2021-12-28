@@ -267,7 +267,7 @@ class _MinePageState extends State<UserPage>
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
-                  item.fundName!,
+                  '${item.fundName}',
                   style: t12black,
                 ),
               )

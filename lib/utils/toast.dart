@@ -65,7 +65,7 @@ class ToastView {
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                  child: Text(msg!,
+                  child: Text('${msg ?? ''}',
                       softWrap: true,
                       style: TextStyle(fontSize: 14, color: textColor)),
                 )),

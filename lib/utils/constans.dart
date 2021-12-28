@@ -7,6 +7,9 @@ const String flutter2activityParams = 'connect_params';
 const String logIcon =
     'https://yanxuan-item.nosdn.127.net/87e08c87410fb13b6e42a077ccd15165.png';
 
+const String dftAvatarIcon =
+    'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
+
 const String redPackageUrl =
     'http://yanxuan.nosdn.127.net/352b0ea9b2d058094956efde167ef852.png';
 

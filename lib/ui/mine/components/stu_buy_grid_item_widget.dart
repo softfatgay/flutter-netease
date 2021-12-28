@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/top_round_net_image.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -82,24 +83,22 @@ class StuBuyGridItemWidget extends StatelessWidget {
                     width: 28,
                     child: Stack(
                       children: [
-                        ClipOval(
-                            child: Image.network(
-                          item.recentUsers == null ? '' : item.recentUsers![0],
+                        RoundNetImage(
+                          url: _getUserIcon(item, 0),
                           width: 16,
                           height: 16,
-                          fit: BoxFit.cover,
-                        )),
+                          corner: 8,
+                          fontSize: 10,
+                        ),
                         Positioned(
                           right: 0,
-                          child: ClipOval(
-                              child: Image.network(
-                            item.recentUsers == null
-                                ? ''
-                                : item.recentUsers![1],
+                          child: RoundNetImage(
+                            url: _getUserIcon(item, 1),
                             width: 16,
                             height: 16,
-                            fit: BoxFit.cover,
-                          )),
+                            corner: 8,
+                            fontSize: 10,
+                          ),
                         ),
                       ],
                     ),
@@ -121,6 +120,16 @@ class StuBuyGridItemWidget extends StatelessWidget {
         SizedBox(height: 5)
       ],
     );
+  }
+
+  _getUserIcon(Result item, int index) {
+    if (item.recentUsers == null || item.recentUsers!.isEmpty) {
+      return '';
+    }
+    if (item.recentUsers!.length < index + 1) {
+      return '';
+    }
+    return item.recentUsers![index];
   }
 
   _image(Result item) {

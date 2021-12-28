@@ -158,7 +158,7 @@ class DetailCuxiaoItems extends StatelessWidget {
                               border: Border.all(color: Colors.red),
                               borderRadius: BorderRadius.circular(14)),
                           child: Text(
-                            item.activityType!,
+                            '${item.activityType}',
                             style: t12white,
                           ),
                         ),

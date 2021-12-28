@@ -5,6 +5,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/constans.dart';
 
 class HotListItem extends StatelessWidget {
   final ItemListItem? item;
@@ -99,13 +100,12 @@ class HotListItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20)),
             child: Row(
               children: [
-                ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: '${item!.hotSaleListBottomInfo!.iconUrl ?? ''}',
-                    height: 20,
-                    width: 20,
-                    fit: BoxFit.cover,
-                  ),
+                RoundNetImage(
+                  url: item!.hotSaleListBottomInfo!.iconUrl ?? dftAvatarIcon,
+                  height: 20,
+                  width: 20,
+                  corner: 10,
+                  fontSize: 10,
                 ),
                 SizedBox(width: 5),
                 Expanded(

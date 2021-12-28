@@ -3,7 +3,7 @@ import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/couponModel.dart';
 
-typedef void ReceiveClick(bool? ableToActivated);
+typedef void ReceiveClick(bool ableToActivated);
 
 class CouponItemWidget extends StatelessWidget {
   final ReceiveClick receiveClick;
@@ -70,7 +70,7 @@ class CouponItemWidget extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item.name!, style: t14white),
+                                  Text('${item.name}', style: t14white),
                                   Text('${item.timeDesc}', style: t12white),
                                 ],
                               ),
@@ -85,13 +85,13 @@ class CouponItemWidget extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 2),
                               child: Text(
-                                '${item.albeToActivated! ? '立即领取' : '去凑单'}',
+                                '${item.albeToActivated ?? false ? '立即领取' : '去凑单'}',
                                 style: TextStyle(
                                     color: Color(0XFFb69150), fontSize: 12),
                               ),
                             ),
                             onTap: () {
-                              receiveClick(item.albeToActivated);
+                              receiveClick(item.albeToActivated ?? false);
                             },
                           )
                         ],
@@ -111,7 +111,7 @@ class CouponItemWidget extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                item.useCondition!,
+                                '${item.useCondition}',
                                 style: t12white,
                                 maxLines: item.isSelected == null
                                     ? 1

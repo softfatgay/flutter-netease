@@ -3,10 +3,12 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/round_click_net_image.dart';
+import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/star_widget.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/constans.dart';
 
 class CommonItemWidget extends StatelessWidget {
   final ResultItem item;
@@ -31,30 +33,17 @@ class CommonItemWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              ClipOval(
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  child: CachedNetworkImage(
-                    imageUrl: item.frontUserAvatar == null
-                        ? ''
-                        : item.frontUserAvatar!,
-                    errorWidget: (context, url, error) {
-                      return ClipOval(
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(color: Colors.grey),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+              RoundNetImage(
+                url: item.frontUserAvatar ?? dftAvatarIcon,
+                height: 30,
+                width: 30,
+                corner: 15,
+                fontSize: 10,
               ),
               Container(
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
-                  child: Text(item.frontUserName!),
+                  child: Text('${item.frontUserName ?? ''}'),
                 ),
               ),
               Container(
@@ -125,7 +114,7 @@ class CommonItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: Text(
-              item.content!,
+              '${item.content}',
               style: t14black,
             ),
           ),

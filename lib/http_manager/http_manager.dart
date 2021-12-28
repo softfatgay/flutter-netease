@@ -52,8 +52,8 @@ class HttpManager {
         _print("┌────────────────开始响应──────────────────\n");
         _print("│url  = ${response.realUri.origin}${response.realUri.path}\n");
         _print("│code = ${response.statusCode}");
-        // _print("│data = ${json.encode(response.data)}");
-        _printLog("│data = ${json.encode(response.data ?? '')}"); //打印长Log
+        _print("│data = ${json.encode(response.data ?? '')}");
+        // _printLog("│data = ${json.encode(response.data ?? '')}"); //打印长Log
         handler.next(response);
         _print("└────────────────响应结束──────────────────\n\n");
       }, onError: (DioError e, ErrorInterceptorHandler handler) {
@@ -225,6 +225,7 @@ class HttpManager {
   }
 
   static int _maxLen = 900;
+
   static void _printLog(String msg) {
     if (kDebugMode) {
       // String da = msg.toString();

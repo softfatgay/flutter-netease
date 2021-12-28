@@ -36,11 +36,8 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/utils/color_util.dart';
 import 'package:flutter_app/utils/local_storage.dart';
 import 'package:package_info/package_info.dart';
-
-enum VersionState { none, loading, shouldUpdate, downloading }
 
 class HomePage extends StatefulWidget {
   @override
@@ -181,22 +178,22 @@ class _HomeState extends State<HomePage>
         _appBar(),
 
         _buildSwiper(),
-        _topTags(context), //标签
-        _kingkong(context), //
-        _bigPromotion(context), //活动
-        _newcomerPack(context), //新人礼包
+        _topTags(), //标签
+        _kingkong(), //
+        _bigPromotion(), //活动
+        _newcomerPack(), //新人礼包
         _splitLine(),
-        _categoryHotSell(context), //类目热销榜
-        _categoryHotSellItem(context), //类目热销榜条目
+        _categoryHotSell(), //类目热销榜
+        _categoryHotSellItem(), //类目热销榜条目
 
-        _normalTitle(context, '限时购'), //限时购
-        _flashSaleItem(context), //限时购
+        _normalTitle('限时购'), //限时购
+        _flashSaleItem(), //限时购
 
-        _normalTitle(context, '新品首发'), //新品首发
-        _newModelItem(context), //新品首发条目
+        _normalTitle('新品首发'), //新品首发
+        _newModelItem(), //新品首发条目
 
         _splitLine(),
-        _bottomView(context),
+        _bottomView(),
       ],
     );
   }
@@ -241,7 +238,7 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _topTags(BuildContext context) {
+  _topTags() {
     return singleSliverWidget(
       Container(
         width: double.infinity,
@@ -273,7 +270,7 @@ class _HomeState extends State<HomePage>
   }
 
   ///  分类
-  _kingkong(BuildContext context) {
+  _kingkong() {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5, childAspectRatio: 1),
@@ -299,13 +296,11 @@ class _HomeState extends State<HomePage>
                   Expanded(
                       flex: 1,
                       child: Container(
-                        padding: EdgeInsets.only(
-                          bottom: 4,
-                        ),
+                        padding: EdgeInsets.only(bottom: 4),
                         color: Colors.white,
                         child: Center(
                           child: Text(
-                            kingKongItem.text ?? "",
+                            '${kingKongItem.text ?? ''}',
                             style: t12black,
                           ),
                         ),
@@ -325,7 +320,7 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _bigPromotion(BuildContext context) {
+  _bigPromotion() {
     return singleSliverWidget(Container(
       padding: EdgeInsets.symmetric(vertical: 8),
       color: backColor,
@@ -419,19 +414,19 @@ class _HomeState extends State<HomePage>
     ));
   }
 
-  _newcomerPack(BuildContext context) {
+  _newcomerPack() {
     return HomeNewComerPackage(indexActivityModule: _indexActivityModule);
   }
 
-  _categoryHotSell(BuildContext context) {
+  _categoryHotSell() {
     return HomeCategoryHotSell(categoryHotSellModule: _categoryHotSellModule);
   }
 
-  _categoryHotSellItem(BuildContext context) {
+  _categoryHotSellItem() {
     return HomeCategoryHotItems(categoryHotSellModule: _categoryHotSellModule);
   }
 
-  _normalTitle(BuildContext context, String title) {
+  _normalTitle(String title) {
     if (_flashSaleModule == null && title == '限时购') {
       return singleSliverWidget(Container());
     } else if (_newItemList.isEmpty && title == '新品首发') {
@@ -448,7 +443,7 @@ class _HomeState extends State<HomePage>
             padding: EdgeInsets.fromLTRB(15, 12, 15, 4),
             alignment: Alignment.centerLeft,
             child: Text(
-              "$title",
+              '$title',
               style: t16black,
             ),
           ),
@@ -457,15 +452,15 @@ class _HomeState extends State<HomePage>
     );
   }
 
-  _flashSaleItem(BuildContext context) {
+  _flashSaleItem() {
     return HomeFlashSaleItem(flashSaleModuleItemList: _flashSaleModuleItemList);
   }
 
-  _newModelItem(BuildContext context) {
+  _newModelItem() {
     return HomeNewFirstSell(newItemList: _newItemList);
   }
 
-  _bottomView(BuildContext context) {
+  _bottomView() {
     return HomeBottomView(dataList: _sceneLightShoppingGuideModule);
   }
 
@@ -481,7 +476,7 @@ class _HomeState extends State<HomePage>
   List<ItemListItem> _rcmDataList = [];
   var _pagination;
   bool _hasMore = true;
-  int? _page = 1;
+  int _page = 1;
   int _size = 10;
 
   void _getRcmd() async {

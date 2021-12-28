@@ -42,23 +42,25 @@ class _KingKongPageState extends State<KingKongPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController.addListener(() {
-      // 如果下拉的当前位置到scroll的最下面
-      if (_scrollController.position.pixels > 500) {
-        if (!_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = true;
-          });
-        }
-      } else {
-        if (_isShowFloatBtn) {
-          setState(() {
-            _isShowFloatBtn = false;
-          });
-        }
-      }
-    });
+    _scrollController.addListener(_scrollerListener);
     _getInitData();
+  }
+
+  void _scrollerListener() {
+    // 如果下拉的当前位置到scroll的最下面
+    if (_scrollController.position.pixels > 500) {
+      if (!_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = true;
+        });
+      }
+    } else {
+      if (_isShowFloatBtn) {
+        setState(() {
+          _isShowFloatBtn = false;
+        });
+      }
+    }
   }
 
   void _getInitData() async {
@@ -168,11 +170,11 @@ class _KingKongPageState extends State<KingKongPage> {
               height: 10,
             ),
             Text(
-              category.name!,
+              '${category.name}',
               style: t16black,
             ),
             Text(
-              category.frontName!,
+              '${category.frontName}',
               style: t12grey,
             ),
             SizedBox(
