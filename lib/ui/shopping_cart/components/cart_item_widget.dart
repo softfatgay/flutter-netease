@@ -358,7 +358,8 @@ class CartItemWidget extends StatelessWidget {
               height: _imageWidth,
               width: _imageWidth,
             ),
-            Positioned(bottom: 0, left: 0, right: 0, child: _imgFlag(item))
+            if (!isInvalid)
+              Positioned(bottom: 0, left: 0, right: 0, child: _imgFlag(item))
           ],
         ),
       ),
@@ -668,10 +669,10 @@ class CartItemWidget extends StatelessWidget {
   }
 
   _getInvalidCheckBoxTv(CartItemListItem item) {
-    if (item.status == 0) {
-      return '售罄下架';
-    } else if (item.sellVolume == 0) {
+    if (item.canSwitchSpec!) {
       return '售罄';
+    } else if (!item.canSwitchSpec!) {
+      return '售罄下架';
     } else {
       return '';
     }

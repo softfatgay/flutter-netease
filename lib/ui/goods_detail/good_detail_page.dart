@@ -18,7 +18,7 @@ import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/btn_height.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/globle/scrollState.dart';
+import 'package:flutter_app/global/scrollState.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/model/itemListItem.dart';

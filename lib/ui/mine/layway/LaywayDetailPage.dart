@@ -11,7 +11,7 @@ import 'package:flutter_app/component/sliver_custom_header_delegate.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
-import 'package:flutter_app/globle/scrollState.dart';
+import 'package:flutter_app/global/scrollState.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/goods_detail/components/normal_scroll_dialog.dart';
 import 'package:flutter_app/ui/mine/layway/model/laywayDetailModel.dart';

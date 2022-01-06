@@ -534,7 +534,7 @@ final String LAST_VERSION_FIR =
 ///领券
 //https://m.you.163.com/xhr/coupon/getItemCoupon.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
 
-///globle
+///global
 //https://m.you.163.com/xhr/page/global.json?csrf_token=66aed4b6a860e2c66324d42c46ac8b59
 
 ///搜索框数量
