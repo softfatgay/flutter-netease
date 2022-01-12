@@ -1,11 +1,13 @@
 buildscript {
     ext.kotlin_version = '1.5.21'
     repositories {
+        maven { url = "http://maven.aliyun.com/nexus/content/groups/public/" }
         google()
         jcenter()
         maven {
             url 'http://download.flutter.io'
         }
+
     }
 
     dependencies {
@@ -16,11 +18,13 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url = "http://maven.aliyun.com/nexus/content/groups/public/" }
         google()
         jcenter()
         maven {
             url 'http://download.flutter.io'
         }
+
     }
 }
 
