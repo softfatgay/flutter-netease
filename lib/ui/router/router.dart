@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/error_page.dart';
 import 'package:flutter_app/ui/full_screen/full_screen_image.dart';
 import 'package:flutter_app/ui/goods_detail/brand_info_page.dart';
@@ -246,7 +247,7 @@ class Routers {
 
     ///回馈金等
     mineTopItems: (context, {required params}) {
-      var id = params['id'];
+      var id = params['item'].fundType;
       switch (id) {
         case 1: //  回馈金
           return RewardNumPage(
@@ -264,6 +265,11 @@ class Routers {
           return GiftCardPage(
             params: params,
           );
+        case 6: //积分
+          return PointCenterPage();
+        default:
+          return WebViewPage(
+              {'url': NetConstants.baseURL + params['item'].targetUrl});
       }
       return ErrorPage();
     },

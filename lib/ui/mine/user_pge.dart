@@ -275,8 +275,7 @@ class _MinePageState extends State<UserPage>
           ),
         ),
         onTap: () {
-          Routers.push(Routers.mineTopItems, context,
-              {"id": item.fundType, "value": item.fundValue});
+          Routers.push(Routers.mineTopItems, context, {'item': item});
         },
       ),
     );
@@ -392,7 +391,7 @@ class _MinePageState extends State<UserPage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  item["pic"] as String,
+                  '${item["pic"]}',
                   width: 35,
                   height: 35,
                 ),
@@ -400,7 +399,7 @@ class _MinePageState extends State<UserPage>
                   height: 5,
                 ),
                 Text(
-                  item["name"] as String,
+                  '${item["name"]}',
                   style: t12black,
                 ),
               ],

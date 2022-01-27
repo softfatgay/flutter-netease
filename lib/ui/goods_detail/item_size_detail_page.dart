@@ -90,7 +90,7 @@ class _ItemSizeDetailPageState extends State<ItemSizeDetailPage> {
           Routers.push(Routers.userInfoPageIndex, context,
               {'id': 2, 'from': Routers.itemSizeDetailPage}, (value) {
             if (value != null) {
-              _querySizeList(value.id);
+              _querySizeList(value._id);
             }
           });
         },

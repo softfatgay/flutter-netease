@@ -32,11 +32,20 @@ class _RewardNumPageState extends State<RewardNumPage> {
   bool _isShowFloatBtn = false;
   var _pagination;
 
+  num _fundType = 4;
+  var _fundName = "";
+
   List<ItemListItem> _dataList = [];
 
   @override
   void initState() {
     // TODO: implement initState
+
+    setState(() {
+      _fundType = widget.params!['item'].fundType;
+      _fundName = widget.params!['item'].fundName;
+    });
+
     super.initState();
 
     _scrollController.addListener(_scrollListener);
@@ -96,12 +105,12 @@ class _RewardNumPageState extends State<RewardNumPage> {
     return Scaffold(
         backgroundColor: backWhite,
         appBar: TopAppBar(
-          title: widget.params!['id'] == 4 ? '津贴' : '余额',
+          title: _fundType == 4 ? '津贴' : '余额',
         ).build(context),
         body: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            singleSliverWidget(widget.params!['id'] == 4
+            singleSliverWidget(_fundType == 4
                 ? _buildjintieTop(context)
                 : _buildBalanceTop(context)),
             singleSliverWidget(_buildRcmdTitle(context)),
@@ -161,7 +170,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                   SizedBox(height: 10),
                   Center(
                     child: Text(
-                      '¥${widget.params!['value']}',
+                      '¥$_fundName',
                       style: num20WhiteBold,
                     ),
                   ),
@@ -181,7 +190,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                     ),
                     onTap: () {
                       String url = '';
-                      if (widget.params!['id'] == 4) {
+                      if (_fundType == 4) {
                         url = '${NetConstants.baseUrl}bonus/detail';
                       } else {
                         url = '${NetConstants.baseUrl}reward/detail';
@@ -211,7 +220,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '¥${widget.params!['value']}',
+                                  '¥$_fundName',
                                   style: num16WhiteBold,
                                 )
                               ],
@@ -239,7 +248,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '¥${widget.params!['value']}',
+                                  '¥$_fundName',
                                   style: num16WhiteBold,
                                 )
                               ],
@@ -267,7 +276,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                 height: 5,
                               ),
                               Text(
-                                '¥${widget.params!['value']}',
+                                '¥$_fundName',
                                 style: num16WhiteBold,
                               )
                             ],
@@ -398,7 +407,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                                 ),
                               ),
                               Text(
-                                '${widget.params!['value']}',
+                                '$_fundName',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 30,
@@ -428,7 +437,7 @@ class _RewardNumPageState extends State<RewardNumPage> {
                           ),
                           onTap: () {
                             String url = '';
-                            if (widget.params!['id'] == 4) {
+                            if (_fundType == 4) {
                               url = '${NetConstants.baseUrl}bonus/detail';
                             } else {
                               url = '${NetConstants.baseUrl}reward/detail';
