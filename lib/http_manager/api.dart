@@ -488,7 +488,8 @@ Future<ResponseData> getMakeUpCartInfo(Map<String, dynamic> params,
 ///购物车更改商品属性
 Future<ResponseData> detailForCart(Map<String, dynamic> params) async {
   params.addAll(_getParams());
-  return await HttpManager.get(DETAIL_FOR_CART, params: params);
+  return await HttpManager.get(DETAIL_FOR_CART,
+      params: params, showProgress: true);
 }
 
 ///购物车更改商品属性,点击确定

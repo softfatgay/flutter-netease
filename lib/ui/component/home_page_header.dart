@@ -100,7 +100,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
             child: GestureDetector(
               child: _searchWidget(),
               onTap: () {
-                Routers.push(Routers.search, context, {'id': "零食"});
+                Routers.push(Routers.search, context, {'id': '零食'});
               },
             ),
             bottom: 0,
@@ -136,7 +136,7 @@ class HomeHeader extends SliverPersistentHeaderDelegate {
             SizedBox(width: 5),
             Expanded(
               child: Text(
-                "搜索商品，共$totalNum款好物",
+                '搜索商品，共$totalNum款好物',
                 style: num12Grey,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

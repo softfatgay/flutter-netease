@@ -77,7 +77,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
               onWebViewCreated: (controller) async {
                 controller.loadUrl(
                   LOGIN_PAGE_URL,
-                  headers: {"Cookie": cookie},
+                  headers: {'Cookie': cookie},
                 );
                 _webController.complete(controller);
               },

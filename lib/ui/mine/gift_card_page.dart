@@ -19,6 +19,18 @@ class GiftCardPage extends StatefulWidget {
 }
 
 class _GiftCardPageState extends State<GiftCardPage> {
+  num _fundType = 4;
+  var _fundName = "";
+
+  @override
+  void initState() {
+    setState(() {
+      _fundType = widget.params!['item'].fundType;
+      _fundName = widget.params!['item'].fundName;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +118,7 @@ class _GiftCardPageState extends State<GiftCardPage> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '¥${double.parse(widget.params!['value'].toString())}',
+                  '¥$_fundName',
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w300,

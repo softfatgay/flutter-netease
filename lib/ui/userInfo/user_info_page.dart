@@ -20,7 +20,8 @@ class UserInfoPage extends StatefulWidget {
   _UserInfoPageState createState() => _UserInfoPageState();
 }
 
-class _UserInfoPageState extends State<UserInfoPage> {
+class _UserInfoPageState extends State<UserInfoPage>
+    with WidgetsBindingObserver {
   String _userIcon =
       'https://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png';
 
@@ -37,6 +38,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
     _getUserInfo();
   }
 
@@ -184,7 +186,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         ),
       ),
       onTap: () {
-        return Routers.push(Routers.mineItems, context, {"id": 1});
+        return Routers.push(Routers.mineItems, context, {'id': 1});
       },
     );
   }
@@ -345,9 +347,23 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    if (state == AppLifecycleState.resumed) {
+      FocusScope.of(context).unfocus();
+    } else if (state == AppLifecycleState.detached) {
+      FocusScope.of(context).unfocus();
+    }
+
+    print('---------------${state}');
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     _nameController.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 }

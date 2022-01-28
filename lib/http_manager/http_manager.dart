@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_app/utils/user_config.dart';
 class HttpManager {
   static _netError() {
     BotToast.showSimpleNotification(
-        title: "请检查网络是否连接",
+        title: "网络错误！请检查网络是否正常",
         backgroundColor: backYellow,
         titleStyle: t16white,
         closeIcon: Icon(
@@ -90,7 +89,6 @@ class HttpManager {
     bool? needCommonParameters,
     bool? needCommonHeaders,
     bool showProgress = false,
-    SignatureCondition? signatureCondition, // 签名条件
   }) async {
     if (showProgress) {
       BotToast.showLoading(
@@ -171,7 +169,6 @@ class HttpManager {
       needCommonHeaders: needCommonHeaders,
       accept: accept,
       showProgress: showProgress,
-      signatureCondition: signatureCondition,
     );
   }
 
@@ -203,7 +200,6 @@ class HttpManager {
       needCommonHeaders: needCommonHeaders,
       accept: accept,
       showProgress: showProgress,
-      signatureCondition: signatureCondition,
     );
   }
 
