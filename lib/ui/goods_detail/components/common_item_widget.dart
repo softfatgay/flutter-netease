@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/component/round_click_net_image.dart';
@@ -9,6 +7,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/goods_detail/model/commondPageModel.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/constans.dart';
+import 'package:flutter_app/utils/time_util.dart';
 
 class CommonItemWidget extends StatelessWidget {
   final ResultItem item;
@@ -104,7 +103,7 @@ class CommonItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              '${DateUtil.formatDateMs(item.createTime as int) + '   ' + item.skuInfo![0]}',
+              '${TimeUtil.formatLong(item.createTime) + '   ' + item.skuInfo![0]}',
               style: t12grey,
               maxLines: 2,
               textAlign: TextAlign.left,
@@ -164,7 +163,7 @@ class CommonItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              '${DateUtil.formatDateMs(appendCommentVO.createTime as int)}',
+              '${TimeUtil.formatLong(appendCommentVO.createTime)}',
               style: TextStyle(color: Colors.grey),
               maxLines: 2,
               textAlign: TextAlign.left,

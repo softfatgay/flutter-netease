@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -93,9 +92,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                           child: TextField(
                             style: t14black,
                             decoration: InputDecoration(
-                                hintText: TextUtil.isEmpty(widget.hintText)
-                                    ? ''
-                                    : widget.hintText,
+                                hintText: widget.hintText ?? '',
                                 border: InputBorder.none),
                             textInputAction: TextInputAction.search,
                             onSubmitted: (text) {
@@ -113,7 +110,7 @@ class _SearchGoodsState extends State<SearchWidget> {
                             controller: _controller,
                           )),
                     ),
-                    if (!TextUtil.isEmpty(_controller.text))
+                    if (_controller.text.isNotEmpty)
                       Container(
                         margin: EdgeInsets.only(right: 8),
                         child: GestureDetector(
