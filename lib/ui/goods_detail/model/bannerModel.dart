@@ -19,6 +19,7 @@ class ProcessBanner {
   String? title;
   String? supplementText;
   PriceModel? priceInfo;
+  String? logoUrl;
   String? timePrefix;
   num? endTimeGap;
   String? bgColor;

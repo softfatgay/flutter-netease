@@ -72,7 +72,8 @@ class DetailPromBannerWidget extends StatelessWidget {
                   ],
                 ),
                 if (banner!.processBanner!.priceInfo!.finalPrice != null)
-                  _finalPrice()
+                  _finalPrice(),
+                // if(banner!.processBanner!.logoUrl !=null)
               ],
             ),
           ),

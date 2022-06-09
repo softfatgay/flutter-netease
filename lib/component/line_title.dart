@@ -8,7 +8,12 @@ class LineTitle extends StatelessWidget {
   const LineTitle({
     Key? key,
     required this.title,
-    this.style = const TextStyle(fontSize: 16, color: textBlack, height: 1.1),
+    this.style = const TextStyle(
+      fontSize: 17,
+      color: textBlack,
+      height: 1.1,
+      fontWeight: FontWeight.w500,
+    ),
   }) : super(key: key);
 
   @override
@@ -34,7 +39,7 @@ class LineTitle extends StatelessWidget {
 
   _titleLine() {
     return Container(
-      width: 15,
+      width: 12,
       color: textBlack,
       height: 1,
     );

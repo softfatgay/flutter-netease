@@ -26,7 +26,7 @@ class HomeNewComerPackage extends StatelessWidget {
 
   _buildWidget(BuildContext context) {
     return singleSliverWidget(Column(children: [
-      LineTitle(title: '新人专享礼包'),
+      LineTitle(title: '新人专享礼'),
       Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
         height: _widgetHeight,
