@@ -17,9 +17,9 @@ class Cells {
   bool? showPrice;
   String? popupUrl;
   int? leftTime;
-  String? id;
+  dynamic? id;
   String? targetUrl;
-  List<dynamic>? itemList;
+  List<Cells>? itemList;
 
   Cells();
 

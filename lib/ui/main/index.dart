@@ -12,6 +12,7 @@ import 'package:flutter_app/ui/sort/sort_page.dart';
 import 'package:flutter_app/ui/topic/index.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
+import 'package:flutter_app/utils/user_config.dart';
 
 class MainPage extends StatefulWidget {
   @override

@@ -20,9 +20,11 @@ Cells _$CellsFromJson(Map<String, dynamic> json) => Cells()
   ..showPrice = json['showPrice'] as bool?
   ..popupUrl = json['popupUrl'] as String?
   ..leftTime = json['leftTime'] as int?
-  ..id = json['id'] as String?
+  ..id = json['id']
   ..targetUrl = json['targetUrl'] as String?
-  ..itemList = json['itemList'] as List<dynamic>?;
+  ..itemList = (json['itemList'] as List<dynamic>?)
+      ?.map((e) => Cells.fromJson(e as Map<String, dynamic>))
+      .toList();
 
 Map<String, dynamic> _$CellsToJson(Cells instance) => <String, dynamic>{
       'subTitleColor': instance.subTitleColor,

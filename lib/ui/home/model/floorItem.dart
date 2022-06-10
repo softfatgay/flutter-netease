@@ -11,7 +11,7 @@ class FloorItem {
   List<Cells>? cells;
   int? style;
   int? taskId;
-  int? height;
+  num? height;
 
   FloorItem(this.layout, this.columnNum, this.floorType, this.cells, this.style,
       this.taskId, this.height);

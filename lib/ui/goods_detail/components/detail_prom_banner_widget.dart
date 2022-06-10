@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
@@ -22,63 +23,76 @@ class DetailPromBannerWidget extends StatelessWidget {
   _detailPromBannerWidget() {
     return banner == null || banner!.processBanner == null
         ? Container()
-        : _activity();
+        : _acrivitys();
+  }
+
+  _acrivitys() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        decoration: BoxDecoration(
+            color: HexColor.fromHex(banner!.processBanner == null
+                ? '#E53B44'
+                : banner!.processBanner!.bgColor ?? '#E53B44')),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _activity(),
+            if (banner!.processBanner!.logoUrl != null)
+              CachedNetworkImage(
+                imageUrl: banner!.processBanner!.logoUrl ?? "",
+                height: 40,
+              )
+          ],
+        ));
   }
 
   _activity() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      decoration: BoxDecoration(
-          color: HexColor.fromHex(banner!.processBanner == null
-              ? '#E53B44'
-              : banner!.processBanner!.bgColor ?? '#E53B44')),
-      child: Column(
-        children: [
-          if (banner!.processBanner != null) _sellDes(),
-          Container(
-            margin: EdgeInsets.only(top: 5),
-            child: Row(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    if (_basicTextInt()[0] != null)
-                      Text(
-                        '¥',
-                        style: num18WhiteBold,
-                      ),
-                    if (_basicTextInt()[0] != null) SizedBox(width: 3),
-                    if (_basicTextInt()[0] != null)
-                      Text(
-                        '${_basicTextInt()[0]}',
-                        style: num32WhiteBold,
-                      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (banner!.processBanner != null) _sellDes(),
+        Container(
+          margin: EdgeInsets.only(top: 5),
+          child: Row(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  if (_basicTextInt()[0] != null)
                     Text(
-                      '${_basicTextInt()[1]}',
-                      style: t20whiteBold,
+                      '¥',
+                      style: num18WhiteBold,
                     ),
-                    SizedBox(width: 5),
-                    if (banner!.processBanner!.priceInfo!.counterPrice != null)
-                      Text(
-                        '¥${banner!.processBanner!.priceInfo!.counterPrice}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: textWhite,
-                          fontFamily: 'DINAlternateBold',
-                          decoration: TextDecoration.lineThrough,
-                        ),
+                  if (_basicTextInt()[0] != null) SizedBox(width: 3),
+                  if (_basicTextInt()[0] != null)
+                    Text(
+                      '${_basicTextInt()[0]}',
+                      style: num32WhiteBold,
+                    ),
+                  Text(
+                    '${_basicTextInt()[1]}',
+                    style: t20whiteBold,
+                  ),
+                  SizedBox(width: 5),
+                  if (banner!.processBanner!.priceInfo!.counterPrice != null)
+                    Text(
+                      '¥${banner!.processBanner!.priceInfo!.counterPrice}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: textWhite,
+                        fontFamily: 'DINAlternateBold',
+                        decoration: TextDecoration.lineThrough,
                       ),
-                  ],
-                ),
-                if (banner!.processBanner!.priceInfo!.finalPrice != null)
-                  _finalPrice(),
-                // if(banner!.processBanner!.logoUrl !=null)
-              ],
-            ),
+                    ),
+                ],
+              ),
+              if (banner!.processBanner!.priceInfo!.finalPrice != null)
+                _finalPrice(),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -134,21 +148,23 @@ class DetailPromBannerWidget extends StatelessWidget {
     }
 
     if (day == 0) {
-      return Row(
-        children: [
-          Text(
-            '${banner!.processBanner!.title ?? ''}',
-            style: t12white,
-          ),
-          if (day == 0)
-            Container(
-              height: 10,
-              width: 1,
-              color: backWhite,
-              margin: EdgeInsets.symmetric(horizontal: 5),
+      return Container(
+        child: Row(
+          children: [
+            Text(
+              '${banner!.processBanner!.title ?? ''}',
+              style: t12white,
             ),
-          _timer(banner!.processBanner!.endTimeGap!),
-        ],
+            if (day == 0)
+              Container(
+                height: 10,
+                width: 1,
+                color: backWhite,
+                margin: EdgeInsets.symmetric(horizontal: 5),
+              ),
+            _timer(banner!.processBanner!.endTimeGap!),
+          ],
+        ),
       );
     }
     return Row(children: list);
@@ -226,13 +242,20 @@ class DetailPromBannerWidget extends StatelessWidget {
   _finalPrice() {
     var finalPrice = banner!.processBanner!.priceInfo!.finalPrice!;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      decoration: BoxDecoration(
-          color: backWhite, borderRadius: BorderRadius.circular(20)),
-      child: Text(
-        '${finalPrice.prefix ?? ''} ¥${finalPrice.price ?? ''} ${finalPrice.suffix ?? ''}',
-        style: t14redBold,
-      ),
-    );
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+        decoration: BoxDecoration(
+            color: backWhite, borderRadius: BorderRadius.circular(20)),
+        child: Row(
+          children: [
+            Text(
+              '${finalPrice.prefix ?? ''} ¥',
+              style: t14redBold,
+            ),
+            Text(
+              '${finalPrice.price ?? ''} ${finalPrice.suffix ?? ''}',
+              style: num20RedBold,
+            ),
+          ],
+        ));
   }
 }

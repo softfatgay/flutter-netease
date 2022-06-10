@@ -8,6 +8,7 @@ import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/ui/home/home_page.dart';
 import 'package:flutter_app/ui/main/index.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'channel/globalCookie.dart';
@@ -38,6 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(statusBarDark);
+    csrf_token;
     return MaterialApp(
       builder: BotToastInit(),
       theme: ThemeData(

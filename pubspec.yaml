@@ -14,7 +14,7 @@ dependencies:
   #网络
   dio: ^4.0.0
   #  webview
-  webview_flutter: ^2.0.10
+  webview_flutter: ^3.0.4
   # 弃用（无法支持null-safety）
   # webview_cookie_manager: ^2.0.6
   #状态管理
@@ -39,6 +39,8 @@ dependencies:
   carousel_slider: ^4.0.0
   #高性能json序列化
   json_annotation: ^4.3.0
+
+#  flutter_html: ^2.2.1
 
 
   #  对话框

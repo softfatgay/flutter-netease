@@ -336,6 +336,7 @@ class TryOutEventReport {
   String? job;
   String? title;
   num? score;
+  String? avatar;
   Detail? detail;
 
   TryOutEventReport();

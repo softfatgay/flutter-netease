@@ -36,6 +36,7 @@ class _WebViewPageState extends State<WebViewPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
     setState(() {
       _url = widget.params!['url'];
       print('url=$_url');
@@ -45,6 +46,8 @@ class _WebViewPageState extends State<WebViewPage> {
   String? _title = '';
 
   void setCookie() async {
+    print(CookieConfig.cookie);
+
     if (!CookieConfig.isLogin) return;
 
     List<Cookie> cookies = [];
@@ -60,7 +63,7 @@ class _WebViewPageState extends State<WebViewPage> {
       cookie += 'document.cookie = ' + "'${item.name}=" + "${item.value}';";
     }
     _webController.future.then((value) {
-      value.evaluateJavascript(cookie).then((result) {});
+      value.runJavascript(cookie).then((result) {});
     });
 
     // await cookieManager.setCookies([
@@ -157,7 +160,9 @@ class _WebViewPageState extends State<WebViewPage> {
                 _isLoading = false;
               });
               final updateCookie = await globalCookie.globalCookieValue(url);
-              if (updateCookie.length > 0 && updateCookie.contains('yx_csrf')) {
+              if (updateCookie != null &&
+                  updateCookie.length > 0 &&
+                  updateCookie.contains('yx_csrf')) {
                 setState(() {
                   CookieConfig.cookie = updateCookie;
                 });
@@ -199,10 +204,10 @@ class _WebViewPageState extends State<WebViewPage> {
         HosEventBusUtils.fire(GO_HOME);
         return NavigationDecision.prevent;
       } else {
-        return NavigationDecision.navigate;
+        return NavigationDecision.prevent;
       }
     } catch (e) {
-      return NavigationDecision.navigate;
+      return NavigationDecision.prevent;
     }
   }
 

@@ -27,6 +27,7 @@ ProcessBanner _$ProcessBannerFromJson(Map<String, dynamic> json) =>
       ..priceInfo = json['priceInfo'] == null
           ? null
           : PriceModel.fromJson(json['priceInfo'] as Map<String, dynamic>)
+      ..logoUrl = json['logoUrl'] as String?
       ..timePrefix = json['timePrefix'] as String?
       ..endTimeGap = json['endTimeGap'] as num?
       ..bgColor = json['bgColor'] as String?
@@ -37,6 +38,7 @@ Map<String, dynamic> _$ProcessBannerToJson(ProcessBanner instance) =>
       'title': instance.title,
       'supplementText': instance.supplementText,
       'priceInfo': instance.priceInfo,
+      'logoUrl': instance.logoUrl,
       'timePrefix': instance.timePrefix,
       'endTimeGap': instance.endTimeGap,
       'bgColor': instance.bgColor,

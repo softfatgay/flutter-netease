@@ -502,6 +502,7 @@ TryOutEventReport _$TryOutEventReportFromJson(Map<String, dynamic> json) =>
       ..job = json['job'] as String?
       ..title = json['title'] as String?
       ..score = json['score'] as num?
+      ..avatar = json['avatar'] as String?
       ..detail = json['detail'] == null
           ? null
           : Detail.fromJson(json['detail'] as Map<String, dynamic>);
@@ -512,6 +513,7 @@ Map<String, dynamic> _$TryOutEventReportToJson(TryOutEventReport instance) =>
       'job': instance.job,
       'title': instance.title,
       'score': instance.score,
+      'avatar': instance.avatar,
       'detail': instance.detail,
     };
 

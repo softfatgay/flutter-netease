@@ -11,12 +11,17 @@ _timestampParams() => {
       '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
     };
 
+_homeParams() => {
+      'csrf_token': csrf_token,
+      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}&',
+    };
+
 _timesParams() => {
       '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
     };
 
 Future<ResponseData> homeData() async {
-  return await HttpManager.get(URL_HOME_NEW, params: _timesParams());
+  return await HttpManager.get(URL_HOME_NEW, params: _homeParams());
 }
 
 ///全局

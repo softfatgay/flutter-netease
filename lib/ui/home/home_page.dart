@@ -9,6 +9,7 @@ import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
 import 'package:flutter_app/component/slivers.dart';
+import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -36,7 +37,10 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/utils/eventbus_constans.dart';
+import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/local_storage.dart';
+import 'package:flutter_app/utils/user_config.dart';
 import 'package:package_info/package_info.dart';
 
 class HomePage extends StatefulWidget {
@@ -85,6 +89,8 @@ class _HomeState extends State<HomePage>
 
   Color _backGroundColor = backWhite;
 
+  bool _isFirst = true;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -93,6 +99,11 @@ class _HomeState extends State<HomePage>
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {});
+    HosEventBusUtils.on((dynamic event) {
+      if (event == REFRESH_CART) {
+        _getData();
+      }
+    });
     _getData();
     _newUserGift();
     _checkVersion();
@@ -117,6 +128,11 @@ class _HomeState extends State<HomePage>
   }
 
   void _getData() async {
+    if (_isFirst) {
+      await getUserInfo();
+      _isFirst = false;
+    }
+
     var responseData = await homeData();
     var data = responseData.data;
     if (data != null) {
@@ -322,14 +338,13 @@ class _HomeState extends State<HomePage>
 
   _bigPromotion() {
     return singleSliverWidget(Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.only(bottom: 8),
       color: backColor,
       child: Column(
         children: _floorList
             .map(
               (item) => Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(vertical: 2),
                 child: _huoDong(item),
               ),
             )
@@ -339,44 +354,42 @@ class _HomeState extends State<HomePage>
   }
 
   _huoDong(FloorItem item) {
-    if (item.cells != null && item.cells!.isNotEmpty) {
-      return Container(
-        width: double.infinity,
-        margin:
-            EdgeInsets.symmetric(horizontal: item.cells!.length > 1 ? 10 : 0),
-        child: Row(
-          children: item.cells!.map((e) {
-            return Expanded(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 2),
+    var cells = item.cells;
+    var layout = item.layout;
+    var itemHeight = item.height! / 2.7;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: layout == 5 ? 11 : 0),
+      child: Row(
+        children: cells!
+            .map<Widget>(
+              (e) => Expanded(
+                flex: 1,
                 child: GestureDetector(
-                  child: Stack(
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl: '${e.picUrl ?? ''}',
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: 2, right: 2, top: layout == 5 ? 6 : 0),
+                    height: double.parse(itemHeight.toString()),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage('${e.picUrl ?? ''}'),
+                        fit: BoxFit.fill,
                       ),
-                      Positioned(
-                        left: 15,
-                        child: Column(
-                          children: [
-                            Container(
-                              child: Text(
-                                '${e.title ?? ''}',
-                                style: t14blackBold,
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                '${e.subTitle ?? ''}',
-                                style: t12lightGrey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                    ),
+                    child: Row(
+                      children: e.itemList!
+                          .map<Widget>((ee) => Expanded(
+                                flex: 1,
+                                child: Container(
+                                  height: itemHeight,
+                                  alignment: Alignment.bottomCenter,
+                                  child: CachedNetworkImage(
+                                    height: itemHeight / 1.5,
+                                    imageUrl: ee.picUrl ?? '',
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                    ),
                   ),
                   onTap: () {
                     Routers.push(
@@ -384,27 +397,10 @@ class _HomeState extends State<HomePage>
                   },
                 ),
               ),
-            );
-          }).toList(),
-        ),
-      );
-    } else if (item.cells != null && item.cells!.isNotEmpty) {
-      return Container(
-        width: double.infinity,
-        child: GestureDetector(
-          child: NetImage(
-            imageUrl: '${item.cells![0].picUrl ?? ''}',
-            fit: BoxFit.cover,
-          ),
-          onTap: () {
-            Routers.push(
-                Routers.webView, context, {'url': item.cells![0].schemeUrl});
-          },
-        ),
-      );
-    } else {
-      return Container();
-    }
+            )
+            .toList(),
+      ),
+    );
   }
 
   _splitLine() {
@@ -467,6 +463,7 @@ class _HomeState extends State<HomePage>
   @override
   void dispose() {
     // TODO: implement dispose
+    HosEventBusUtils.off();
     _scrollController.dispose();
     _animalController.dispose();
     super.dispose();

@@ -15,7 +15,7 @@ FloorItem _$FloorItemFromJson(Map<String, dynamic> json) => FloorItem(
           .toList(),
       json['style'] as int?,
       json['taskId'] as int?,
-      json['height'] as int?,
+      json['height'] as num?,
     );
 
 Map<String, dynamic> _$FloorItemToJson(FloorItem instance) => <String, dynamic>{
