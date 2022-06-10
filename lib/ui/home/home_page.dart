@@ -129,7 +129,7 @@ class _HomeState extends State<HomePage>
 
   void _getData() async {
     if (_isFirst) {
-      await getUserInfo();
+      await homeData();
       _isFirst = false;
     }
 
