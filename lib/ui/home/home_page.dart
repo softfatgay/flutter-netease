@@ -244,7 +244,7 @@ class _HomeState extends State<HomePage>
       IndicatorBanner(
           dataList: banner,
           fit: BoxFit.cover,
-          height: 200,
+          height: 175,
           margin: EdgeInsets.symmetric(horizontal: 10),
           indicatorType: IndicatorType.line,
           onPress: (index) {

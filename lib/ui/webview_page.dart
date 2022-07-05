@@ -185,8 +185,11 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   NavigationDecision _interceptUrl(String url) {
+    print(url);
+    print('${NetConstants.baseUrl}item/detail');
     try {
-      if (url.startsWith('${NetConstants.baseUrl}item/detail')) {
+      if (url.startsWith('${NetConstants.baseUrl}item/detail')||url.startsWith('https://you.163.com/item/detail')) {
+        print("-----------");
         var parse = Uri.parse(url);
         var id = parse.queryParameters['id'];
         if (id != null && id.isNotEmpty) {
@@ -204,7 +207,10 @@ class _WebViewPageState extends State<WebViewPage> {
         HosEventBusUtils.fire(GO_HOME);
         return NavigationDecision.prevent;
       } else {
-        return NavigationDecision.prevent;
+        if(Platform.isAndroid){
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
       }
     } catch (e) {
       return NavigationDecision.prevent;
