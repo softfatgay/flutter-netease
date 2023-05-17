@@ -147,7 +147,7 @@ class _LoginState extends State<Login> {
                           margin: EdgeInsets.fromLTRB(15, 30, 15, 0),
                           height: 44,
                           width: double.infinity,
-                          child: RaisedButton(
+                          child: TextButton(
                             onPressed: () {
                               if (!Util.isPhone(phone)) {
                                 Toast.show('请输入正确的手机号', context);
@@ -167,8 +167,6 @@ class _LoginState extends State<Login> {
                               '登录',
                               style: TextStyle(fontSize: 16),
                             ),
-                            textColor: Colors.white,
-                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ],

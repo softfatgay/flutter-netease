@@ -33,8 +33,8 @@ dependencies:
   #  瀑布流
   flutter_staggered_grid_view: ^0.4.0
   #二维码
-  qr_flutter: ^4.0.0
-  intl: ^0.17.0
+#  qr_flutter: ^4.0.0
+  intl: ^0.18.0
   #轮播
   carousel_slider: ^4.0.0
   #高性能json序列化
@@ -47,7 +47,7 @@ dependencies:
   bot_toast: 4.0.1
   event_bus: 2.0.0
   flutter_datetime_picker: ^1.5.1
-  qr_code_scanner: ^0.5.2
+#  qr_code_scanner: ^0.5.2
   video_player: ^2.1.12
   permission_handler: ^8.1.4+2
   path_provider: ^2.0.2

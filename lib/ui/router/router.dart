@@ -128,7 +128,7 @@ class Routers {
     brandInfoPage: (context, {params}) => BrandInfoPage(params: params),
 
     ///二维码扫描
-    qrScanPage: (context, {params}) => QRScanPage(),
+    // qrScanPage: (context, {params}) => QRScanPage(),
 
     ///视频
     videoPage: (context, {params}) => VideoPage(params: params),

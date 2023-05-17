@@ -12,7 +12,6 @@ import 'package:flutter_app/ui/userInfo/model/qrCodeModel.dart';
 import 'package:flutter_app/ui/userInfo/model/qrUserInfoModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:flutter_app/utils/user_config.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class QRCodeMinePage extends StatefulWidget {
   @override
@@ -98,7 +97,7 @@ class _QRCodeMinePageState extends State<QRCodeMinePage> {
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       width: double.infinity,
-                      child: QrImage(data: _qrCodeDate.qrCode!),
+                      // child: QrImage(data: _qrCodeDate.qrCode!),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),

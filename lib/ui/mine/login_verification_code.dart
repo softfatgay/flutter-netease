@@ -127,7 +127,7 @@ class _LoginState extends State<LoginForCode> {
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 10),
-                            child: RaisedButton(
+                            child: TextButton(
                               onPressed: () {
                                 if (btnStr == '获取验证码') {
                                   if (!Util.isPhone(phone)) {
@@ -138,8 +138,6 @@ class _LoginState extends State<LoginForCode> {
                                 }
                               },
                               child: Text(btnStr),
-                              color: Colors.blue,
-                              textColor: Colors.white,
                             ),
                           )
                         ],
@@ -184,7 +182,7 @@ class _LoginState extends State<LoginForCode> {
                       margin: EdgeInsets.fromLTRB(15, 50, 15, 0),
                       height: 44,
                       width: double.infinity,
-                      child: RaisedButton(
+                      child: TextButton(
                         onPressed: () {
                           if (!Util.isPhone(phone)) {
                             Toast.show('请输入正确的手机号', context);
@@ -204,8 +202,6 @@ class _LoginState extends State<LoginForCode> {
                           '登录',
                           style: TextStyle(fontSize: 16),
                         ),
-                        textColor: Colors.white,
-                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ],

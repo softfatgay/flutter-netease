@@ -11,7 +11,6 @@ import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/ui/userInfo/model/userInfoModel.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
   const UserInfoPage({Key? key}) : super(key: key);
@@ -289,23 +288,17 @@ class _UserInfoPageState extends State<UserInfoPage>
         ),
       ),
       onTap: () {
-        DatePicker.showDatePicker(context,
-            showTitleActions: true,
-            minTime: DateTime(1980, 1, 31),
-            maxTime: DateTime(2021, 1, 31),
-            theme: DatePickerTheme(
-                headerColor: backWhite,
-                backgroundColor: backWhite,
-                itemStyle: t14black,
-                doneStyle: t14black,
-                cancelStyle: t14grey),
-            onChanged: (date) {}, onConfirm: (DateTime date) {
-          setState(() {
-            _bYear = date.year.toString();
-            _bMonth = date.month.toString();
-            _bDay = date.day.toString();
-          });
-        }, currentTime: DateTime.now(), locale: LocaleType.zh);
+        // DatePicker.showDatePicker(context,
+        //     showTitleActions: true,
+        //     minTime: DateTime(1980, 1, 31),
+        //     maxTime: DateTime(2021, 1, 31),
+        //     onChanged: (date) {}, onConfirm: (DateTime date) {
+        //   setState(() {
+        //     _bYear = date.year.toString();
+        //     _bMonth = date.month.toString();
+        //     _bDay = date.day.toString();
+        //   });
+        // }, currentTime: DateTime.now(), locale: LocaleType.zh);
       },
     );
   }
