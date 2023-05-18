@@ -30,7 +30,7 @@ class SearchIndexPage extends StatefulWidget {
 
 class _SearchIndexPageState extends State<SearchIndexPage> {
   late TextEditingController _controller;
-  final _scrollController = new ScrollController();
+  final _scrollController = ScrollController();
   String? _textValue = '';
 
   var _keywordList = [];

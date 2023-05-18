@@ -28,11 +28,13 @@ class DetailPromBannerWidget extends StatelessWidget {
 
   _acrivitys() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        decoration: BoxDecoration(
-            color: HexColor.fromHex(banner!.processBanner == null
-                ? '#E53B44'
-                : banner!.processBanner!.bgColor ?? '#E53B44')),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      decoration: BoxDecoration(
+          color: HexColor.fromHex(banner!.processBanner == null
+              ? '#E53B44'
+              : banner!.processBanner!.bgColor ?? '#E53B44')),
+      child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -43,7 +45,9 @@ class DetailPromBannerWidget extends StatelessWidget {
                 height: 40,
               )
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   _activity() {
@@ -112,9 +116,11 @@ class DetailPromBannerWidget extends StatelessWidget {
       day = f ~/ 24;
     }
 
-    var title = Text(
-      '${banner!.processBanner!.title ?? ''}',
-      style: t12white,
+    var title = Container(
+      child: Text(
+        '${banner!.processBanner!.title ?? ''}',
+        style: t12white,
+      ),
     );
 
     var cntTimer = Expanded(child: _timer(banner!.processBanner!.endTimeGap!));
@@ -126,7 +132,7 @@ class DetailPromBannerWidget extends StatelessWidget {
       margin: EdgeInsets.only(left: 5, right: 5, top: 2),
     );
 
-    var cntDay = Expanded(
+    var cntDay = Container(
         child: Text(
       '距结束$day天$hour小时',
       style: t12white,
@@ -167,7 +173,7 @@ class DetailPromBannerWidget extends StatelessWidget {
         ),
       );
     }
-    return Row(children: list);
+    return Container(child: Row(children: list));
   }
 
   _basicTextInt() {
