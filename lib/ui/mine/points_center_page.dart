@@ -128,7 +128,8 @@ class _PointCenterPageState extends State<PointCenterPage> {
         _buildChangePoint(),
         singleSliverWidget(_rcmTitle()),
         singleSliverWidget(_buildTitle('精选超值年购', '', '')),
-        _rcmdOne(),
+        if (_data.memLayawayVO != null) _rcmdOne(),
+
         singleSliverWidget(_rcmAll()),
         singleSliverWidget(SizedBox(height: 25)),
         singleSliverWidget(_buildTitle('精选返积分商品', '', '')),
@@ -604,10 +605,12 @@ class _PointCenterPageState extends State<PointCenterPage> {
   }
 
   _rcmdOne() {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+    return SliverToBoxAdapter(
+        child: SliverList(
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
       return _rcmdOneItem(index);
-    }, childCount: _data.memLayawayVO!.layawayList!.length));
+    }, childCount: _data.memLayawayVO!.layawayList!.length)));
   }
 
   _rcmdOneItem(int index) {

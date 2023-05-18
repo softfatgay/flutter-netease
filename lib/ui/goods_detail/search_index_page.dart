@@ -276,6 +276,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
       children: <Widget>[
         Container(height: _searchHeight),
         Container(
+          width: double.infinity,
           color: backWhite,
           padding: EdgeInsets.fromLTRB(
               10, MediaQuery.of(context).padding.top + 15, 10, 10),
@@ -301,7 +302,7 @@ class _SearchIndexPageState extends State<SearchIndexPage> {
                     height: 20,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
