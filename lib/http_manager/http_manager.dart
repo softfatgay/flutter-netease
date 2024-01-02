@@ -29,9 +29,9 @@ class HttpManager {
     if (_dio == null) {
       var baseOptions = BaseOptions(
         baseUrl: NetConstants.baseUrl,
-        sendTimeout: 30000,
-        receiveTimeout: 30000,
-        connectTimeout: 30000,
+        sendTimeout: Duration(seconds: 30),
+        receiveTimeout: Duration(seconds: 30),
+        connectTimeout: Duration(seconds: 30),
         headers: commonHeaders(),
       );
       var interceptorsWrapper = InterceptorsWrapper(onRequest:
@@ -58,7 +58,7 @@ class HttpManager {
       }, onError: (DioError e, ErrorInterceptorHandler handler) {
         _print("┌────────────────错误响应数据───────────────\n");
         _print("│type = ${e.type}");
-        if (e.type == DioErrorType.other) {
+        if (e.type == DioExceptionType.unknown) {
           _netError();
         }
         _print("│message = ${e.message}");

@@ -77,8 +77,8 @@ class HttpRequestOptions {
   factory HttpRequestOptions.convert(RequestOptions requestOptions) {
     return HttpRequestOptions(
       method: requestOptions.method,
-      sendTimeout: requestOptions.sendTimeout,
-      receiveTimeout: requestOptions.receiveTimeout,
+      sendTimeout: 30000,
+      receiveTimeout: 30000,
       path: requestOptions.path,
       baseUrl: requestOptions.baseUrl,
       headers: requestOptions.headers,

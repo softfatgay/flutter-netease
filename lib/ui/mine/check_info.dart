@@ -113,7 +113,7 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
 
     await Dio().download(url!, dstPath,
         onReceiveProgress: _onReceiveProgress,
-        options: Options(receiveTimeout: 24 * 60 * 60 * 1000));
+        options: Options(receiveTimeout: Duration(hours: 1),sendTimeout: Duration(hours: 1)));
     // versionState.value = VersionState.none;
     _installApk(dstPath);
   }
