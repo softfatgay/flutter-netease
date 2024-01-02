@@ -9,7 +9,6 @@ import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
 import 'package:flutter_app/component/slivers.dart';
-import 'package:flutter_app/config/cookieConfig.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -325,8 +324,9 @@ class _HomeState extends State<HomePage>
               ),
             ),
             onTap: () {
+              print(kingKongItem.schemeUrl);
               Routers.push(Routers.kingKong, context,
-                  {"schemeUrl": kingKongItem.schemeUrl});
+                  {"schemeUrl": Uri.decodeFull("${Uri.decodeFull("${kingKongItem.schemeUrl}")}")});
             },
           );
           return widget;

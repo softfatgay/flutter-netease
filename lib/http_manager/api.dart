@@ -13,7 +13,7 @@ _timestampParams() => {
 
 _homeParams() => {
       'csrf_token': csrf_token,
-      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}&',
+      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
     };
 
 _timesParams() => {

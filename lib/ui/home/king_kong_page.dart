@@ -67,18 +67,19 @@ class _KingKongPageState extends State<KingKongPage> {
     var categoryId;
 
     String schemeUrl = widget.params!["schemeUrl"];
+    print("----------------${schemeUrl}");
     if (schemeUrl.contains("categoryId")) {
-      var split = schemeUrl.split("?");
+      var split = schemeUrl.split("categoryId=");
       var params = split[1];
-
       List split2 = params.split("&");
-      for (var value in split2) {
-        if (value.contains("categoryId")) {
-          var split3 = value.split("=");
-          var split32 = split3[1];
-          categoryId = split32;
-        }
-      }
+      // for (var value in split2) {
+      //   if (value.contains("categoryId")) {
+      //     var split3 = value.split("=");
+      //     var split32 = split3[1];
+      //     categoryId = split32;
+      //   }
+      // }
+      categoryId = split2[0];
     } else {
       _getNewData();
     }
@@ -108,6 +109,7 @@ class _KingKongPageState extends State<KingKongPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> slivers = [_buildTitle(context)];
+
     for (var value in _categoryItemList) {
       slivers.add(_bodyTitle(value));
       slivers.add(GoodItems(dataList: value.itemList));
@@ -130,11 +132,16 @@ class _KingKongPageState extends State<KingKongPage> {
   }
 
   _buildTitle(BuildContext context) {
+    var height = 80.0;
+    if (_banner.isNotEmpty) {
+      height = 200.0;
+    }
+
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverCustomHeaderDelegate(
         title: _initLoading ? 'loading...' : '${_currentCategory!.name}',
-        expandedHeight: 200,
+        expandedHeight: height,
         paddingTop: MediaQuery.of(context).padding.top,
         child: _buildSwiper(context),
       ),
@@ -143,16 +150,26 @@ class _KingKongPageState extends State<KingKongPage> {
 
   //轮播图
   _buildSwiper(BuildContext context) {
-    return IndicatorBanner(
-        dataList: _banner,
-        fit: BoxFit.cover,
-        height: 300,
-        corner: 0,
-        indicatorType: IndicatorType.line,
-        onPress: (index) {
-          Routers.push(
-              Routers.webView, context, {'url': _bannerList[index].targetUrl});
-        });
+    if (_banner.isNotEmpty)
+      return IndicatorBanner(
+          dataList: _banner,
+          fit: BoxFit.cover,
+          height: 300,
+          corner: 0,
+          indicatorType: IndicatorType.line,
+          onPress: (index) {
+            Routers.push(Routers.webView, context,
+                {'url': _bannerList[index].targetUrl});
+          });
+    else
+      return Container(
+        padding: EdgeInsets.only(bottom: 12),
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(color: Colors.white),
+        alignment: Alignment.bottomCenter,
+        child: Text("${_currentCategory?.name ?? ""}",style: t16black,),
+      );
   }
 
   _bodyTitle(CategoryItemListItem value) {
