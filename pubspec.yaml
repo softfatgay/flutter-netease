@@ -14,7 +14,7 @@ dependencies:
   #网络
   dio: ^5.4.0
   #  webview
-  webview_flutter: ^3.0.4
+  webview_flutter: ^4.7.0
   # 弃用（无法支持null-safety）
   # webview_cookie_manager: ^2.0.6
   #状态管理

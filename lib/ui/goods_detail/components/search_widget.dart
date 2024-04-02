@@ -140,7 +140,7 @@ class _SearchGoodsState extends State<SearchWidget> {
             child: Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
+                  backgroundColor: Colors.white,
                   elevation: 0,
                   textStyle: TextStyle(color: Colors.black),
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
