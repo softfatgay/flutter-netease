@@ -9,7 +9,15 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/utils/user_config.dart';
+
 import 'package:webview_flutter/webview_flutter.dart';
+
+// #docregion platform_imports
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 typedef void OnValueChanged(bool result);
 
@@ -25,7 +33,111 @@ class WebLoginWidget extends StatefulWidget {
 }
 
 class _WebLoginWidgetState extends State<WebLoginWidget> {
-  final _webController = Completer<WebViewController>();
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    final globalCookie = GlobalCookie();
+
+    // #docregion platform_features
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    final WebViewController controller =
+        WebViewController.fromPlatformCreationParams(params);
+    // #enddocregion platform_features
+
+    controller
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            debugPrint('WebView is loading (progress : $progress%)');
+          },
+          onPageStarted: (String url) {
+            hideTop();
+            debugPrint('Page started loading: $url');
+          },
+          onPageFinished: (String url) async {
+            debugPrint('Page finished loading: $url');
+            hideTop();
+            final updateCookie = await globalCookie.globalCookieValue(url);
+            print('更新Cookie-------------->${updateCookie.toString()}');
+            print(updateCookie.toString());
+            if (updateCookie.isNotEmpty) {
+              CookieConfig.cookie = updateCookie;
+              _checkLogin();
+            }
+
+          },
+          onWebResourceError: (WebResourceError error) {
+            debugPrint('''
+Page resource error:
+  code: ${error.errorCode}
+  description: ${error.description}
+  errorType: ${error.errorType}
+  isForMainFrame: ${error.isForMainFrame}
+          ''');
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              debugPrint('blocking navigation to ${request.url}');
+              return NavigationDecision.prevent;
+            }
+            debugPrint('allowing navigation to ${request.url}');
+            return NavigationDecision.navigate;
+          },
+          onUrlChange: (UrlChange change) {
+            debugPrint('url change to ${change.url}');
+          },
+          onHttpAuthRequest: (HttpAuthRequest request) {},
+        ),
+      )
+      ..addJavaScriptChannel(
+        'Toaster',
+        onMessageReceived: (JavaScriptMessage message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        },
+      )
+      ..loadRequest(
+        Uri.parse(LOGIN_PAGE_URL),
+        headers: {'Cookie': cookie},
+      );
+
+    // #docregion platform_features
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    // #enddocregion platform_features
+
+    _controller = controller;
+  }
+
+
+
+
+
+
+
+
+
+
+
   bool hide = true;
 
   @override
@@ -43,17 +155,14 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
   }
 
   _backPress(BuildContext context) async {
-    var controller = await _webController.future.then((value) => value);
-    print(await controller.canGoBack());
-    if (await controller.canGoBack()) {
-      _webController.future.then((value) => value.goBack());
+    if (await _controller.canGoBack()) {
+      _controller.canGoForward();
     } else {
       Navigator.pop(context);
     }
   }
 
   _buildBody() {
-    final globalCookie = GlobalCookie();
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -70,31 +179,7 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
           ),
           Container(
             height: MediaQuery.of(context).size.height - 45,
-            child: WebView(
-              initialUrl: LOGIN_PAGE_URL,
-              //JS执行模式 是否允许JS执行
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (controller) async {
-                controller.loadUrl(
-                  LOGIN_PAGE_URL,
-                  headers: {'Cookie': cookie},
-                );
-                _webController.complete(controller);
-              },
-              onPageStarted: (url) async {
-                hideTop();
-              },
-              onPageFinished: (url) async {
-                hideTop();
-                final updateCookie = await globalCookie.globalCookieValue(url);
-                print('更新Cookie-------------->${updateCookie.toString()}');
-                print(updateCookie.toString());
-                if (updateCookie.isNotEmpty) {
-                  CookieConfig.cookie = updateCookie;
-                  _checkLogin();
-                }
-              },
-            ),
+            child: WebViewWidget(controller: _controller),
           ),
         ],
       ),
@@ -133,18 +218,15 @@ class _WebLoginWidgetState extends State<WebLoginWidget> {
   void hideTop() {
     Timer(Duration(milliseconds: 10), () {
       try {
-        _webController.future.then((value) {
-          value.evaluateJavascript(hideHeaderJs()).then((result) {});
-          value.evaluateJavascript(hideOpenAppJs()).then((result) {});
-        });
+        _controller.platform.runJavaScript(hideHeaderJs()).then((result) {});
+        _controller.platform.runJavaScript(hideOpenAppJs()).then((result) {});
       } catch (e) {}
     });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    // _webController.future.then((value) => value.clearCache());
+    _controller.clearCache();
     super.dispose();
   }
 }

@@ -13,7 +13,6 @@ import 'package:flutter_app/component/back_loading.dart';
 import 'package:flutter_app/component/global.dart';
 import 'package:flutter_app/component/round_net_image.dart';
 import 'package:flutter_app/component/slivers.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final Map? params;
@@ -636,7 +635,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
               ),
               onTap: () {
-                launch("tel://400-0368-163");
+                // launch("tel://400-0368-163");
               },
             ),
           ),
