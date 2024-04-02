@@ -4,7 +4,6 @@ import 'package:flutter_app/component/app_bar.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -183,8 +182,8 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   _launchURL(apkUrl) async {
-    if (await canLaunch(apkUrl)) {
-      await launch(apkUrl);
+    if (await _goWebview(apkUrl)) {
+      await _goWebview(apkUrl);
     } else {
       throw 'Could not launch $apkUrl';
     }
@@ -217,9 +216,7 @@ class _AboutPageState extends State<AboutPage> {
             ),
             onTap: () async {
               var url = 'mailto:wan_tuan@163.com?subject=flutter-netease';
-              if (await canLaunch(url)) {
-                _launchURL(url);
-              }
+              _goWebview(url);
             },
           )
         ],

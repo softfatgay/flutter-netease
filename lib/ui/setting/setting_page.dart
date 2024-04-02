@@ -7,7 +7,7 @@ import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/toast.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingPage extends StatefulWidget {
   Map? arguments;
