@@ -39,8 +39,7 @@ import 'package:flutter_app/ui/router/router.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/local_storage.dart';
-import 'package:flutter_app/utils/user_config.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomePage extends StatefulWidget {
   @override

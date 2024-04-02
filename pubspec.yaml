@@ -14,7 +14,7 @@ dependencies:
   #网络
   dio: ^5.4.0
   #  webview
-  webview_flutter: ^3.0.4
+  webview_flutter: ^4.7.0
   # 弃用（无法支持null-safety）
   # webview_cookie_manager: ^2.0.6
   #状态管理
@@ -25,9 +25,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   #包信息
-  package_info: ^2.0.2
+  package_info_plus: ^5.0.1
   #url启动
-  url_launcher: ^6.0.7
+#  url_launcher: ^6.2.5
   #shared_preferences插件
   shared_preferences: ^2.0.6
   #  瀑布流
@@ -75,3 +75,4 @@ flutter:
     - family: DINAlternateBold
       fonts:
         - asset: fonts/DINAlternateBold.ttf
+
