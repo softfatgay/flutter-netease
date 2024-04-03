@@ -8,7 +8,7 @@
 
 #import "GloableCookie.h"
 #import "Aspects.h"
-#import <webview_flutter_wkwebview/FLTWKNavigationDelegate.h>
+#import <webview_flutter_wkwebview/FLTWebViewFlutterPlugin.h>
 
 NSString *COOKIESAVEKEY = @"FlutterUseCookie";
 
@@ -88,7 +88,7 @@ NSString *COOKIESAVEKEY = @"FlutterUseCookie";
             [stand synchronize];
         }];
     };
-    [FLTWKNavigationDelegate aspect_hookSelector: @selector(webView:didFinishNavigation:)
+    [FLTWebViewFlutterPlugin aspect_hookSelector: @selector(webView:didFinishNavigation:)
                                   withOptions: AspectPositionBefore
                                    usingBlock: webViewOnpageFinish
                                     error:NULL];
