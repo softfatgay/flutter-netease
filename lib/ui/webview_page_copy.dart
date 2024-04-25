@@ -4,13 +4,19 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_app/channel/globalCookie.dart';
 // import 'package:flutter_app/config/cookieConfig.dart';
+// import 'package:flutter_app/http_manager/api_service.dart';
 // import 'package:flutter_app/http_manager/net_contants.dart';
 // import 'package:flutter_app/ui/router/router.dart';
 // import 'package:flutter_app/utils/eventbus_constans.dart';
 // import 'package:flutter_app/utils/eventbus_utils.dart';
 // import 'package:flutter_app/utils/user_config.dart';
 // import 'package:flutter_app/component/app_bar.dart';
+//
 // import 'package:webview_flutter/webview_flutter.dart';
+//
+// import 'package:webview_flutter_android/webview_flutter_android.dart';
+//
+// import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 //
 // class WebViewPage extends StatefulWidget {
 //   final Map? params;
@@ -22,7 +28,9 @@
 // }
 //
 // class _WebViewPageState extends State<WebViewPage> {
-//   final _webController = Completer<WebViewController>();
+//   late final WebViewController _controller;
+//
+//   // final _webController = Completer<WebViewController>();
 //   final globalCookie = GlobalCookie();
 //
 //   String? _url = '';
@@ -36,11 +44,82 @@
 //   void initState() {
 //     // TODO: implement initState
 //     super.initState();
-//     if (Platform.isAndroid) WebView.platform = AndroidWebView();
 //     setState(() {
 //       _url = widget.params!['url'];
 //       print('url=$_url');
+//       print("-----------------------------");
+//       print('$_url');
 //     });
+//
+//     // #docregion platform_features
+//     late final PlatformWebViewControllerCreationParams params;
+//     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+//       params = WebKitWebViewControllerCreationParams(
+//         allowsInlineMediaPlayback: true,
+//         mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+//       );
+//     } else {
+//       params = const PlatformWebViewControllerCreationParams();
+//     }
+//
+//     final WebViewController controller =
+//         WebViewController.fromPlatformCreationParams(params);
+//
+//     controller
+//       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+//       ..setBackgroundColor(const Color(0x00000000))
+//       ..setNavigationDelegate(
+//         NavigationDelegate(
+//           onProgress: (int progress) {},
+//           onPageStarted: (String url) {
+//             hideTop();
+//           },
+//           onPageFinished: (String url) async {
+//             setCookie();
+//             hideTop();
+//             String? aa = await _controller.getTitle();
+//             setState(() {
+//               _title = aa;
+//               _isLoading = false;
+//             });
+//             final updateCookie = await globalCookie.globalCookieValue(url);
+//             if (updateCookie != null &&
+//                 updateCookie.length > 0 &&
+//                 updateCookie.contains('yx_csrf')) {
+//               setState(() {
+//                 CookieConfig.cookie = updateCookie;
+//               });
+//             }
+//           },
+//           onWebResourceError: (WebResourceError error) {},
+//           onNavigationRequest: (NavigationRequest request) {
+//             var url = request.url;
+//             return _interceptUrl(url);
+//           },
+//           onUrlChange: (UrlChange change) {},
+//           onHttpAuthRequest: (HttpAuthRequest request) {},
+//         ),
+//       )
+//       ..addJavaScriptChannel(
+//         'Toaster',
+//         onMessageReceived: (JavaScriptMessage message) {
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             SnackBar(content: Text(message.message)),
+//           );
+//         },
+//       )
+//       ..loadRequest(
+//         Uri.parse(LOGIN_PAGE_URL),
+//         headers: {'Cookie': cookie},
+//       );
+//
+//     // #docregion platform_features
+//     if (controller.platform is AndroidWebViewController) {
+//       AndroidWebViewController.enableDebugging(true);
+//       (controller.platform as AndroidWebViewController)
+//           .setMediaPlaybackRequiresUserGesture(false);
+//     }
+//     _controller = controller;
 //   }
 //
 //   String? _title = '';
@@ -62,9 +141,7 @@
 //     for (var item in cookies) {
 //       cookie += 'document.cookie = ' + "'${item.name}=" + "${item.value}';";
 //     }
-//     _webController.future.then((value) {
-//       value.runJavascript(cookie).then((result) {});
-//     });
+//     _controller.runJavaScript(cookie).then((result) {});
 //   }
 //
 //   @override
@@ -88,60 +165,18 @@
 //   }
 //
 //   _backPress(BuildContext context) async {
-//     var controller = await _webController.future.then((value) => value);
-//     print(await controller.canGoBack());
-//     if (await controller.canGoBack()) {
-//       _webController.future.then((value) => value.goBack());
-//     } else {
-//       Navigator.pop(context);
-//     }
+//       if(await _controller.canGoBack()){
+//         await _controller.goBack();
+//       } else {
+//         Navigator.pop(context);
+//       }
 //   }
 //
 //   _buildBody() {
 //     return Container(
 //       child: Stack(
 //         children: [
-//           WebView(
-//             initialUrl: _url,
-//             //JS执行模式 是否允许JS执行
-//             javascriptMode: JavascriptMode.unrestricted,
-//             onWebViewCreated: (controller) async {
-//               controller.loadUrl(
-//                 _url!,
-//                 headers: {"Cookie": cookie},
-//               );
-//               _webController.complete(controller);
-//             },
-//             onPageStarted: (url) async {
-//               setCookie();
-//               hideTop();
-//               setState(() {
-//                 _isLoading = true;
-//               });
-//             },
-//             onPageFinished: (url) async {
-//               setCookie();
-//               hideTop();
-//               String? aa =
-//                   await _webController.future.then((value) => value.getTitle());
-//               setState(() {
-//                 _title = aa;
-//                 _isLoading = false;
-//               });
-//               final updateCookie = await globalCookie.globalCookieValue(url);
-//               if (updateCookie != null &&
-//                   updateCookie.length > 0 &&
-//                   updateCookie.contains('yx_csrf')) {
-//                 setState(() {
-//                   CookieConfig.cookie = updateCookie;
-//                 });
-//               }
-//             },
-//             navigationDelegate: (NavigationRequest request) {
-//               var url = request.url;
-//               return _interceptUrl(url);
-//             },
-//           ),
+//           WebViewWidget(controller: _controller),
 //           if (_isLoading)
 //             Center(
 //               child: CircularProgressIndicator(
@@ -155,9 +190,11 @@
 //
 //   NavigationDecision _interceptUrl(String url) {
 //     print(url);
+//     var decodeFull = Uri.decodeFull(_url??'');
 //     print('${NetConstants.baseUrl}item/detail');
 //     try {
-//       if (url.startsWith('${NetConstants.baseUrl}item/detail')||url.startsWith('https://you.163.com/item/detail')) {
+//       if (url.startsWith('${NetConstants.baseUrl}item/detail') ||
+//           url.startsWith('https://you.163.com/item/detail')) {
 //         print("-----------");
 //         var parse = Uri.parse(url);
 //         var id = parse.queryParameters['id'];
@@ -175,8 +212,10 @@
 //         Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
 //         HosEventBusUtils.fire(GO_HOME);
 //         return NavigationDecision.prevent;
+//       } else if(url.startsWith('https://m.you.163.com/error')){
+//         return NavigationDecision.prevent;
 //       } else {
-//         if(Platform.isAndroid){
+//         if (Platform.isAndroid) {
 //           return NavigationDecision.prevent;
 //         }
 //         return NavigationDecision.navigate;
@@ -206,9 +245,7 @@
 //   void hideTop() {
 //     _timer = Timer(Duration(milliseconds: 10), () {
 //       try {
-//         _webController.future.then((value) async {
-//           await value.evaluateJavascript(hideGoCart());
-//         });
+//         _controller.runJavaScript(hideGoCart());
 //       } catch (e) {
 //         _timerCancel();
 //       }

@@ -4,7 +4,7 @@ import 'package:flutter_app/http_manager/http_util.dart';
 import 'package:flutter_app/http_manager/response_data.dart';
 import 'package:flutter_app/utils/user_config.dart';
 
-_getParams() => {'csrf_token': csrf_token};
+_getParams() => {'csrf_token': csrf_token ?? ''};
 
 _timestampParams() => {
       'csrf_token': csrf_token,
@@ -12,8 +12,8 @@ _timestampParams() => {
     };
 
 _homeParams() => {
-      'csrf_token': csrf_token,
-      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
+      'csrf_token': '',
+      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}&',
     };
 
 _timesParams() => {
@@ -22,6 +22,11 @@ _timesParams() => {
 
 Future<ResponseData> homeData() async {
   return await HttpManager.get(URL_HOME_NEW, params: _homeParams());
+}
+
+Future<ResponseData> homeDataList(String params) async {
+  return await HttpManager.post(URL_HOME_LIST,
+      params: _getParams(), formData: params);
 }
 
 ///全局
