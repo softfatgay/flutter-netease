@@ -4,24 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
-import 'package:flutter_app/constant/colors.dart';
-import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
 import 'package:flutter_app/http_manager/api_service.dart';
+import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/utils/user_config.dart';
-
-import 'package:webview_flutter/webview_flutter.dart';
-
-// #docregion platform_imports
-// Import for Android features.
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-
-// Import for iOS features.
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 typedef void OnValueChanged(bool result);
-
-const _tips = '部分手机登录页面，邮箱登录密码弹出软键盘导致页面空白，没有找到解决办法，正常输入就可以，收回键盘页面会正常显示';
 
 class WebLoginWidget extends StatefulWidget {
   final OnValueChanged? onValueChanged;
@@ -33,112 +22,93 @@ class WebLoginWidget extends StatefulWidget {
 }
 
 class _WebLoginWidgetState extends State<WebLoginWidget> {
-  late final WebViewController _controller;
+  bool hide = true;
+  var globalCookie = GlobalCookie();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  Timer? _timer;
 
-    final globalCookie = GlobalCookie();
+  InAppWebViewController? webViewController;
+  InAppWebViewSettings settings = InAppWebViewSettings(
+    useShouldOverrideUrlLoading: true,
+    mediaPlaybackRequiresUserGesture: true,
+    applicationNameForUserAgent: "dface-yjxdh-webview",
+  );
 
-    // #docregion platform_features
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
-    }
-
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
-
-    controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            debugPrint('WebView is loading (progress : $progress%)');
+  _buildBody() {
+    return Container(
+        height: MediaQuery
+            .of(context)
+            .size
+            .height - 45,
+        child: InAppWebView(
+          initialUrlRequest: URLRequest(
+              url: WebUri(LOGIN_PAGE_URL), headers: {'Cookie': cookie}),
+          initialSettings: settings,
+          onWebViewCreated: (controller) {
+            this.webViewController = controller;
           },
-          onPageStarted: (String url) {
+          onLoadStart: (controller, url) async {
+            print("------------onLoadStart");
+            print(url?.uriValue.toString());
             hideTop();
-            debugPrint('Page started loading: $url');
-          },
-          onPageFinished: (String url) async {
-            debugPrint('Page finished loading: $url');
-            hideTop();
-            final updateCookie = await globalCookie.globalCookieValue(url);
+            print("------------onLoadStart11111");
+            final updateCookie = await globalCookie
+                .globalCookieValue(
+                url?.uriValue.toString() ?? NetConstants.baseURL);
             print('更新Cookie-------------->${updateCookie.toString()}');
             print(updateCookie.toString());
-            if (updateCookie.isNotEmpty) {
-              CookieConfig.cookie = updateCookie;
+          },
+          onLoadStop: (controller, url) async {
+            print("------------onLoadStop");
+            hideTop();
+            await saveCookie(url);
+          },
+          onReceivedServerTrustAuthRequest: (controller, challenge) async {
+            return ServerTrustAuthResponse(
+                action: ServerTrustAuthResponseAction.PROCEED);
+          },
+          shouldOverrideUrlLoading: (controller, navigation) async {
+            print("------------11111111");
+            var url = navigation.request.url?.uriValue.toString() ?? '';
+            print(url);
+            print("------------22222222");
+            var path = navigation.request.url?.path ?? '';
+            print(path);
+            if (path == '/') {
+              await saveCookie(navigation.request.url);
               _checkLogin();
+              int count = 0;
+              _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+                _checkLogin();
+                count += 2;
+                if (count == 10) {
+                  _timer?.cancel();
+                }
+              });
             }
-
           },
-          onWebResourceError: (WebResourceError error) {
-            debugPrint('''
-Page resource error:
-  code: ${error.errorCode}
-  description: ${error.description}
-  errorType: ${error.errorType}
-  isForMainFrame: ${error.isForMainFrame}
-          ''');
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              debugPrint('blocking navigation to ${request.url}');
-              return NavigationDecision.prevent;
+          onNavigationResponse: (controller, request) async {
+            var path = request.response?.url?.path ?? '';
+            if (path.startsWith('https://www.youtube.com/')) {
+              debugPrint('blocking navigation to ${path}');
+              return NavigationResponseAction.ALLOW;
             }
-            debugPrint('allowing navigation to ${request.url}');
-            return NavigationDecision.navigate;
+            debugPrint('allowing navigation to ${path}');
+            return NavigationResponseAction.CANCEL;
           },
-          onUrlChange: (UrlChange change) {
-            debugPrint('url change to ${change.url}');
-          },
-          onHttpAuthRequest: (HttpAuthRequest request) {},
-        ),
-      )
-      ..addJavaScriptChannel(
-        'Toaster',
-        onMessageReceived: (JavaScriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        },
-      )
-      ..loadRequest(
-        Uri.parse(LOGIN_PAGE_URL),
-        headers: {'Cookie': cookie},
-      );
-
-    // #docregion platform_features
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    }
-    // #enddocregion platform_features
-
-    _controller = controller;
+        ));
   }
 
-
-
-
-
-
-
-
-
-
-
-  bool hide = true;
+  Future<void> saveCookie(WebUri? url) async {
+    final updateCookie = await globalCookie
+        .globalCookieValue(url?.uriValue.toString() ?? NetConstants.baseURL);
+    print('更新Cookie-------------->${updateCookie.toString()}');
+    print(updateCookie.toString());
+    if (updateCookie.isNotEmpty) {
+      CookieConfig.cookie = updateCookie;
+      _checkLogin();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,45 +125,20 @@ Page resource error:
   }
 
   _backPress(BuildContext context) async {
-    if (await _controller.canGoBack()) {
-      _controller.canGoForward();
+    if (await webViewController!.canGoBack()) {
+      webViewController!.canGoForward();
     } else {
       Navigator.pop(context);
     }
   }
 
-  _buildBody() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            alignment: Alignment.center,
-            child: Text(
-              '$_tips',
-              style: t10red,
-            ),
-            height: 45,
-            color: warmingBack,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height - 45,
-            child: WebViewWidget(controller: _controller),
-          ),
-        ],
-      ),
-    );
-  }
-
-  ///检查是否登录
+//  /检查是否登录
   _checkLogin() async {
-    Map<String, dynamic> postParams = {
-      'csrf_token': CookieConfig.token,
-      '__timestamp': '${DateTime.now().millisecondsSinceEpoch}',
-    };
-    var responseData = await checkLoginP(postParams);
+    if (CookieConfig.token.isEmpty) return;
+    var responseData = await checkLogin();
     var isLogin = responseData.data;
+    print("------------3333333");
+    print('isLogin = $isLogin');
     setState(() {
       if (isLogin != null && isLogin) {
         widget.onValueChanged!(isLogin);
@@ -201,14 +146,14 @@ Page resource error:
     });
   }
 
-  //隐藏头部
+//隐藏头部
   String hideHeaderJs() {
     var js =
         "var wrap = document.querySelector('.hdWraper'); if(wrap != null){wrap.style.display = 'none';}";
     return js;
   }
 
-  //隐藏打开appicon
+//隐藏打开appicon
   String hideOpenAppJs() {
     var js =
         "var head = document.querySelector('.X_icon_5982'); if(head != null){head.style.display = 'none';}";
@@ -216,17 +161,20 @@ Page resource error:
   }
 
   void hideTop() {
-    Timer(Duration(milliseconds: 10), () {
-      try {
-        _controller.platform.runJavaScript(hideHeaderJs()).then((result) {});
-        _controller.platform.runJavaScript(hideOpenAppJs()).then((result) {});
-      } catch (e) {}
-    });
+    webViewController
+        ?.callAsyncJavaScript(functionBody: hideHeaderJs())
+        .then((value) => {});
+    webViewController
+        ?.callAsyncJavaScript(functionBody: hideOpenAppJs())
+        .then((value) => {});
   }
 
   @override
   void dispose() {
-    _controller.clearCache();
+    if (_timer != null) {
+      _timer?.cancel();
+    }
+    InAppWebViewController.clearAllCache();
     super.dispose();
   }
 }

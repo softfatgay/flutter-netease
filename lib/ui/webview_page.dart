@@ -1,25 +1,11 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/channel/globalCookie.dart';
 import 'package:flutter_app/config/cookieConfig.dart';
-import 'package:flutter_app/http_manager/api_service.dart';
 import 'package:flutter_app/http_manager/net_contants.dart';
 import 'package:flutter_app/ui/router/router.dart';
-import 'package:flutter_app/utils/eventbus_constans.dart';
-import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/user_config.dart';
 import 'package:flutter_app/component/app_bar.dart';
-
-import 'package:webview_flutter/webview_flutter.dart';
-
-// #docregion platform_imports
-// Import for Android features.
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-
-// Import for iOS features.
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class WebViewPage extends StatefulWidget {
   final Map? params;
@@ -31,17 +17,76 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  late final WebViewController _controller;
-
-  // final _webController = Completer<WebViewController>();
-  final globalCookie = GlobalCookie();
-
+  final _globalCookie = GlobalCookie();
   String? _url = '';
-  bool hide = true;
+  bool _hide = true;
+  String? _title = '';
 
-  var _isLoading = true;
+  InAppWebViewController? _webViewController;
+  InAppWebViewSettings settings = InAppWebViewSettings(
+    useShouldOverrideUrlLoading: true,
+    mediaPlaybackRequiresUserGesture: true,
+  );
 
-  Timer? _timer;
+  _buildBody() {
+    return Container(
+        height: MediaQuery.of(context).size.height - 45,
+        child: InAppWebView(
+            initialUrlRequest: URLRequest(
+                url: WebUri(_url ?? ''), headers: {'Cookie': cookie}),
+            initialSettings: settings,
+            onWebViewCreated: (controller) {
+              this._webViewController = controller;
+              CookieManager.instance().setCookie(
+                  url: WebUri(_url ?? NetConstants.baseURL),
+                  name: "document.cookie =",
+                  value: CookieConfig.cookie);
+            },
+            onLoadStart: (controller, url) {
+              hideTop();
+            },
+            onLoadStop: (controller, url) async {
+              print('---------pageStart');
+              print(url?.uriValue.toString());
+              hideTop();
+              String? aa = await controller.getTitle();
+              setState(() {
+                _title = aa;
+              });
+              final updateCookie =
+                  await _globalCookie.globalCookieValue(url?.path ?? '');
+              if (updateCookie.isEmpty &&
+                  updateCookie.length > 0 &&
+                  updateCookie.contains('yx_csrf')) {
+                setState(() {
+                  CookieConfig.cookie = updateCookie;
+                });
+              }
+            },
+            onReceivedServerTrustAuthRequest: (controller, challenge) async {
+              return ServerTrustAuthResponse(
+                  action: ServerTrustAuthResponseAction.PROCEED);
+            },
+            shouldOverrideUrlLoading: (controller, navigation) async {
+              print("------------11111111");
+              var path = navigation.request.url?.path ?? '';
+              print(path);
+              if (path == '/item/detail') {
+                print("------------222222222");
+                var params = navigation.request.url?.queryParameters;
+                var id = params!['id'];
+                if (id != null && id.isNotEmpty) {
+                  Routers.push(Routers.goodDetail, context, {'id': '$id'});
+                }
+                return NavigationActionPolicy.CANCEL;
+              } else if (path == '/cart') {
+                Routers.push(Routers.shoppingCart, context,
+                    {'from': Routers.goodDetail});
+                return NavigationActionPolicy.CANCEL;
+              }
+              return NavigationActionPolicy.ALLOW;
+            }));
+  }
 
   @override
   void initState() {
@@ -53,98 +98,6 @@ class _WebViewPageState extends State<WebViewPage> {
       print("-----------------------------");
       print('$_url');
     });
-
-    // #docregion platform_features
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
-    }
-
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(params);
-
-    controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {},
-          onPageStarted: (String url) {
-            hideTop();
-          },
-          onPageFinished: (String url) async {
-            setCookie();
-            hideTop();
-            String? aa = await _controller.getTitle();
-            setState(() {
-              _title = aa;
-              _isLoading = false;
-            });
-            final updateCookie = await globalCookie.globalCookieValue(url);
-            if (updateCookie != null &&
-                updateCookie.length > 0 &&
-                updateCookie.contains('yx_csrf')) {
-              setState(() {
-                CookieConfig.cookie = updateCookie;
-              });
-            }
-          },
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            var url = request.url;
-            return _interceptUrl(url);
-          },
-          onUrlChange: (UrlChange change) {},
-          onHttpAuthRequest: (HttpAuthRequest request) {},
-        ),
-      )
-      ..addJavaScriptChannel(
-        'Toaster',
-        onMessageReceived: (JavaScriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        },
-      )
-      ..loadRequest(
-        Uri.parse(LOGIN_PAGE_URL),
-        headers: {'Cookie': cookie},
-      );
-
-    // #docregion platform_features
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    }
-    _controller = controller;
-  }
-
-  String? _title = '';
-
-  void setCookie() async {
-    print(CookieConfig.cookie);
-
-    if (!CookieConfig.isLogin) return;
-
-    List<Cookie> cookies = [];
-
-    for (var key in CookieConfig.cookieMap.keys) {
-      var cookie = Cookie(key, CookieConfig.cookieMap[key]!);
-      cookies.add(cookie);
-    }
-    // await cookieManager.setCookies(cookies);
-
-    String cookie = '';
-    for (var item in cookies) {
-      cookie += 'document.cookie = ' + "'${item.name}=" + "${item.value}';";
-    }
-    _controller.runJavaScript(cookie).then((result) {});
   }
 
   @override
@@ -168,63 +121,10 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   _backPress(BuildContext context) async {
-      if(await _controller.canGoBack()){
-        await _controller.goBack();
-      } else {
-        Navigator.pop(context);
-      }
-  }
-
-  _buildBody() {
-    return Container(
-      child: Stack(
-        children: [
-          WebViewWidget(controller: _controller),
-          if (_isLoading)
-            Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              ),
-            )
-        ],
-      ),
-    );
-  }
-
-  NavigationDecision _interceptUrl(String url) {
-    print(url);
-    var decodeFull = Uri.decodeFull(_url??'');
-    print('${NetConstants.baseUrl}item/detail');
-    try {
-      if (url.startsWith('${NetConstants.baseUrl}item/detail') ||
-          url.startsWith('https://you.163.com/item/detail')) {
-        print("-----------");
-        var parse = Uri.parse(url);
-        var id = parse.queryParameters['id'];
-        if (id != null && id.isNotEmpty) {
-          Routers.push(Routers.goodDetail, context, {'id': '$id'});
-        }
-        return NavigationDecision.prevent;
-      } else if (url.startsWith('${NetConstants.baseUrl}cart')) {
-        Routers.push(
-            Routers.shoppingCart, context, {'from': Routers.goodDetail});
-        return NavigationDecision.prevent;
-      } else if (url == NetConstants.baseUrl ||
-          url.startsWith('https://m.you.163.com/?') ||
-          url.startsWith('https://m.you.163.com/downloadapp?')) {
-        Navigator.of(context).popUntil(ModalRoute.withName(Routers.mainPage));
-        HosEventBusUtils.fire(GO_HOME);
-        return NavigationDecision.prevent;
-      } else if(url.startsWith('https://m.you.163.com/error')){
-        return NavigationDecision.prevent;
-      } else {
-        if (Platform.isAndroid) {
-          return NavigationDecision.prevent;
-        }
-        return NavigationDecision.navigate;
-      }
-    } catch (e) {
-      return NavigationDecision.prevent;
+    if (await _webViewController!.canGoBack()) {
+      await _webViewController!.goBack();
+    } else {
+      Navigator.pop(context);
     }
   }
 
@@ -246,25 +146,15 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   void hideTop() {
-    _timer = Timer(Duration(milliseconds: 10), () {
-      try {
-        _controller.runJavaScript(hideGoCart());
-      } catch (e) {
-        _timerCancel();
-      }
-    });
+    _webViewController
+        ?.callAsyncJavaScript(functionBody: hideGoCart())
+        .then((value) => {});
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _timerCancel();
+    InAppWebViewController.clearAllCache();
     super.dispose();
-  }
-
-  _timerCancel() {
-    if (_timer != null) {
-      _timer!.cancel();
-    }
   }
 }

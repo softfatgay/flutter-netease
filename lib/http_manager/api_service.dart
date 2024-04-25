@@ -5,13 +5,17 @@ final String suffixUrl = "";
 
 // const String baseUrl = "https://m.you.163.com/";
 
-final String LOGIN_PAGE_URL = "${NetConstants.baseUrl}login";
+final String LOGIN_PAGE_URL = "https://m.you.163.com/u/login";
+// final String LOGIN_PAGE_URL = "${NetConstants.baseUrl}login";
 
 ///检查登录GET
 final String CHECK_LOGIN = "${suffixUrl}xhr/common/checklogin.json";
 
 ///首页
 final String URL_HOME_NEW = "${suffixUrl}xhr/index.json";
+
+/// 为您推荐
+final String URL_HOME_LIST = "${suffixUrl}xhr/index/items.json";
 
 ///首页
 final String GLOBAL = "${suffixUrl}xhr/page/global.json";

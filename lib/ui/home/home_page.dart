@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
@@ -21,6 +19,7 @@ import 'package:flutter_app/ui/home/components/home_category_hot_sell.dart';
 import 'package:flutter_app/ui/home/components/home_flash_sale_item.dart';
 import 'package:flutter_app/ui/home/components/home_new_comer_package.dart';
 import 'package:flutter_app/ui/home/components/home_new_first_sell.dart';
+import 'package:flutter_app/ui/home/model/homeRecommendList.dart';
 import 'package:flutter_app/ui/home/model/categoryHotSellModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModule.dart';
 import 'package:flutter_app/ui/home/model/flashSaleModuleItem.dart';
@@ -103,6 +102,7 @@ class _HomeState extends State<HomePage>
       }
     });
     _getData();
+    _getDataList();
     _newUserGift();
     _checkVersion();
     _initAnimal();
@@ -126,10 +126,10 @@ class _HomeState extends State<HomePage>
   }
 
   void _getData() async {
-    if (_isFirst) {
-      await homeData();
-      _isFirst = false;
-    }
+    // if (_isFirst) {
+    //   await homeData();
+    //   _isFirst = false;
+    // }
 
     var responseData = await homeData();
     var data = responseData.data;
@@ -145,6 +145,20 @@ class _HomeState extends State<HomePage>
           sp!.remove(LocalStorage.noticeList);
         }
       } catch (e) {}
+    }
+  }
+
+  _getDataList() async{
+    Map<String, dynamic> params = {
+      '': '',
+      'size': 20
+    };
+    var responseData = await homeDataList(json.encode(params));
+    var data = responseData.data;
+    if(data!=null) {
+      var homeListData = HomeRecommendList.fromJson(data);
+      print("------------------");
+      print(homeListData.itemList);
     }
   }
 
@@ -324,8 +338,10 @@ class _HomeState extends State<HomePage>
             ),
             onTap: () {
               print(kingKongItem.schemeUrl);
-              Routers.push(Routers.kingKong, context,
-                  {"schemeUrl": Uri.decodeFull("${Uri.decodeFull("${kingKongItem.schemeUrl}")}")});
+              Routers.push(Routers.kingKong, context, {
+                "schemeUrl": Uri.decodeFull(
+                    "${Uri.decodeFull("${kingKongItem.schemeUrl}")}")
+              });
             },
           );
           return widget;
@@ -360,8 +376,7 @@ class _HomeState extends State<HomePage>
       padding: EdgeInsets.symmetric(horizontal: layout == 5 ? 11 : 0),
       child: Row(
         children: cells!
-            .map<Widget>(
-              (e) => Expanded(
+            .map<Widget>((e) => Expanded(
                 flex: 1,
                 child: GestureDetector(
                   child: Container(
@@ -374,21 +389,32 @@ class _HomeState extends State<HomePage>
                         fit: BoxFit.fill,
                       ),
                     ),
-                    child: Row(
-                      children: e.itemList!
-                          .map<Widget>((ee) => Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: itemHeight,
-                                  alignment: Alignment.bottomCenter,
-                                  child: CachedNetworkImage(
-                                    height: itemHeight / 1.5,
-                                    imageUrl: ee.picUrl ?? '',
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                    ),
+                    child: item.layout == 2
+                        ? Container(
+                            height: itemHeight,
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(left: 40),
+                            child: CachedNetworkImage(
+                              height: itemHeight / 1.5,
+                              imageUrl:
+                                  '${item.cells!.first.itemList!.first.picUrl}',
+                            ),
+                          )
+                        : Row(
+                            children: e.itemList!
+                                .map<Widget>((ee) => Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        height: itemHeight,
+                                        alignment: Alignment.bottomCenter,
+                                        child: CachedNetworkImage(
+                                          height: itemHeight / 1.5,
+                                          imageUrl: ee.picUrl ?? '',
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                   ),
                   onTap: () {
                     Routers.push(
