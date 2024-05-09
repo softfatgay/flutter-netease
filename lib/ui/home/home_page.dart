@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/indicator_banner.dart';
 import 'package:flutter_app/component/net_image.dart';
+import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_app/component/sliver_refresh_indicator.dart';
 import 'package:flutter_app/component/slivers.dart';
 import 'package:flutter_app/constant/colors.dart';
@@ -35,6 +36,7 @@ import 'package:flutter_app/ui/home/model/sceneLightShoppingGuideModule.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/ui/mine/check_info.dart';
 import 'package:flutter_app/ui/router/router.dart';
+import 'package:flutter_app/ui/sort/component/good_item_widget.dart';
 import 'package:flutter_app/utils/eventbus_constans.dart';
 import 'package:flutter_app/utils/eventbus_utils.dart';
 import 'package:flutter_app/utils/local_storage.dart';
@@ -88,6 +90,10 @@ class _HomeState extends State<HomePage>
 
   bool _isFirst = true;
 
+  var _itemIdsStr = '';
+
+  List<ItemListItem> _recomendItemList = [];
+
   @override
   bool get wantKeepAlive => true;
 
@@ -95,7 +101,12 @@ class _HomeState extends State<HomePage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController.addListener(() {});
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _getDataList();
+      }
+    });
     HosEventBusUtils.on((dynamic event) {
       if (event == REFRESH_CART) {
         _getData();
@@ -148,17 +159,16 @@ class _HomeState extends State<HomePage>
     }
   }
 
-  _getDataList() async{
-    Map<String, dynamic> params = {
-      '': '',
-      'size': 20
-    };
+  _getDataList() async {
+    Map<String, dynamic> params = {'itemIdsStr': '', 'size': 20};
     var responseData = await homeDataList(json.encode(params));
     var data = responseData.data;
-    if(data!=null) {
-      var homeListData = HomeRecommendList.fromJson(data);
-      print("------------------");
-      print(homeListData.itemList);
+    if (data != null) {
+      setState(() {
+        var homeListData = HomeRecommendList.fromJson(data);
+        _itemIdsStr = homeListData.itemIdsStr;
+        _recomendItemList.addAll(homeListData.itemList ?? []);
+      });
     }
   }
 
@@ -219,11 +229,35 @@ class _HomeState extends State<HomePage>
 
         _normalTitle('新品首发'), //新品首发
         _newModelItem(), //新品首发条目
-
-        _splitLine(),
         _bottomView(),
+        _normalTitle('为您推荐'), //新品首发
+        _commendList(),
+        SliverFooter(hasMore: _hasMore)
       ],
     );
+  }
+
+  _commendList() {
+    return SliverPadding(
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        sliver: SliverGrid(
+          delegate:
+              SliverChildBuilderDelegate((BuildContext context, int index) {
+            var item = _recomendItemList[index];
+            Widget widget = GestureDetector(
+              child: GoodItemWidget(item: item),
+              onTap: () {
+                Routers.push(Routers.goodDetail, context, {'id': item.id});
+              },
+            );
+            return widget;
+          }, childCount: _recomendItemList.length),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.55,
+              mainAxisSpacing: 6,
+              crossAxisSpacing: 6),
+        ));
   }
 
   _loadingView() {
@@ -376,7 +410,8 @@ class _HomeState extends State<HomePage>
       padding: EdgeInsets.symmetric(horizontal: layout == 5 ? 11 : 0),
       child: Row(
         children: cells!
-            .map<Widget>((e) => Expanded(
+            .map<Widget>(
+              (e) => Expanded(
                 flex: 1,
                 child: GestureDetector(
                   child: Container(

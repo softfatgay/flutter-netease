@@ -25,8 +25,7 @@ Future<ResponseData> homeData() async {
 }
 
 Future<ResponseData> homeDataList(String params) async {
-  return await HttpManager.post(URL_HOME_LIST,
-      params: _getParams(), formData: params);
+  return await HttpManager.post(URL_HOME_LIST, data: params);
 }
 
 ///全局

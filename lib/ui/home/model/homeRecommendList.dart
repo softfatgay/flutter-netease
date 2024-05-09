@@ -5,8 +5,9 @@ part 'homeRecommendList.g.dart';
 
 @JsonSerializable()
 class HomeRecommendList {
-  List<ItemListItem>? itemList;
+  List<ItemListItem>? itemList = [];
   String rcmdVer = "";
+  String itemIdsStr = "";
   var hasMore = false;
 
   HomeRecommendList();

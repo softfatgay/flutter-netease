@@ -13,14 +13,14 @@ import 'package:flutter_app/utils/user_config.dart';
 
 class HttpManager {
   static _netError() {
-    BotToast.showSimpleNotification(
-        title: "网络错误！请检查网络是否正常",
-        backgroundColor: backYellow,
-        titleStyle: t16white,
-        closeIcon: Icon(
-          Icons.cancel,
-          color: textWhite,
-        ));
+    // BotToast.showSimpleNotification(
+    //     title: "网络错误！请检查网络是否正常",
+    //     backgroundColor: backYellow,
+    //     titleStyle: t16white,
+    //     closeIcon: Icon(
+    //       Icons.cancel,
+    //       color: textWhite,
+    //     ));
   }
 
   static Dio? _dio;
@@ -90,10 +90,10 @@ class HttpManager {
     bool? needCommonHeaders,
     bool showProgress = false,
   }) async {
-    if (showProgress) {
-      BotToast.showLoading(
-          clickClose: true, backgroundColor: Colors.transparent);
-    }
+    // if (showProgress) {
+    //   BotToast.showLoading(
+    //       clickClose: true, backgroundColor: Colors.transparent);
+    // }
     // get native data
     cancelToken = cancelToken ?? RequestCancelToken();
     headers = headers ?? Map();
@@ -131,7 +131,7 @@ class HttpManager {
       _netError();
     } finally {
       if (showProgress) {
-        BotToast.closeAllLoading();
+        // BotToast.closeAllLoading();
       }
     }
     return Future.value(ResponseData());
