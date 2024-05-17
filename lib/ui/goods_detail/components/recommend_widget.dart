@@ -41,11 +41,7 @@ class RecommendWidget extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
                   color: Color(0XFFFAFAFA),
-                  border: Border.all(
-                      color: Color(
-                        0XFFE6E6E6,
-                      ),
-                      width: 0.5),
+                  border: Border.all(color: Color(0XFFE6E6E6), width: 0.5),
                   borderRadius: BorderRadius.circular(2)),
               child: Column(
                 children: recommendReason!

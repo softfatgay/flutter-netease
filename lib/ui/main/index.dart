@@ -26,8 +26,8 @@ class _MainPageState extends State<MainPage> {
   String _cartNum = '0';
 
   final _homeNew = HomePage();
-  final _topicPage = TopicPage();
   final _sortNew = SortPage();
+  final _topicPage = TopicPage();
   final _shoppingCart = ShoppingCartPage();
   final _userPage = UserPage();
 
