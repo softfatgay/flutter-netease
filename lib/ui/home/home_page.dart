@@ -415,8 +415,7 @@ class _HomeState extends State<HomePage>
                 flex: 1,
                 child: GestureDetector(
                   child: Container(
-                    margin: EdgeInsets.only(
-                        left: 2, right: 2, top: layout == 5 ? 6 : 0),
+                    margin: EdgeInsets.only(left: 2, right: 2, top: layout == 5 ? 6 : 0),
                     height: double.parse(itemHeight.toString()),
                     decoration: BoxDecoration(
                       image: DecorationImage(
