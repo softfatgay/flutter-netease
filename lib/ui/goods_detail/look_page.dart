@@ -327,13 +327,11 @@ class _LookPageState extends State<LookPage> with TickerProviderStateMixin {
   _listData() {
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-      sliver: SliverStaggeredGrid.countBuilder(
+      sliver: MasonryGridView.count(
           itemCount: _dataList.length,
           crossAxisCount: 2,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
-          staggeredTileBuilder: (index) =>
-              StaggeredTile.count(1, _crosAxis(_dataList[index])),
           itemBuilder: (context, index) {
             var buildGoodItem = _buildItem(context, index);
             return GestureDetector(

@@ -8,7 +8,7 @@ part of 'itemPicBeanList.dart';
 
 ItemPicBeanList _$ItemPicBeanListFromJson(Map<String, dynamic> json) =>
     ItemPicBeanList()
-      ..itemId = json['itemId'] as int?
+      ..itemId = (json['itemId'] as num?)?.toInt()
       ..picUrl = json['picUrl'] as String?;
 
 Map<String, dynamic> _$ItemPicBeanListToJson(ItemPicBeanList instance) =>

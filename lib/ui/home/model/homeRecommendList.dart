@@ -1,7 +1,7 @@
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'homeRecommendList.g.dart';
+part 'HomeRecommendList.g.dart';
 
 @JsonSerializable()
 class HomeRecommendList {
@@ -14,5 +14,4 @@ class HomeRecommendList {
 
   factory HomeRecommendList.fromJson(Map<String, dynamic> json) =>
       _$HomeRecommendListFromJson(json);
-
 }

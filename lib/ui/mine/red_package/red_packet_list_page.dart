@@ -86,13 +86,11 @@ class _RedEnvelopeListState extends State<RedPacketListPage>
   _buildList(BuildContext context) {
     return SliverPadding(
       padding: EdgeInsets.all(10),
-      sliver: SliverStaggeredGrid.countBuilder(
+      sliver: MasonryGridView.count(
           itemCount: _dataList.length,
           crossAxisCount: 2,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          staggeredTileBuilder: (index) =>
-              StaggeredTile.count(1, _crossAxis(_dataList[index])),
           itemBuilder: (context, index) {
             return _buildItem(context, _dataList[index], index);
           }),

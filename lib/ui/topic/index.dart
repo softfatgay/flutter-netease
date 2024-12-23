@@ -188,13 +188,11 @@ class _TopicPageState extends State<TopicPage>
   _staggeredGridview() {
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      sliver: SliverStaggeredGrid.countBuilder(
+      sliver: MasonryGridView.count(
           itemCount: _dataList.length,
           crossAxisCount: 2,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
-          staggeredTileBuilder: (index) =>
-              StaggeredTile.count(1, _crossAxis(_dataList[index])),
           itemBuilder: (context, index) {
             return TopicItemWidget(item: _dataList[index]);
           }),
