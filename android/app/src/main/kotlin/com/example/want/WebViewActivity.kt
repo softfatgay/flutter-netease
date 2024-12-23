@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import com.example.untitled.R
 import java.util.HashMap
 
 class WebViewActivity : Activity() {

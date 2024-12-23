@@ -43,9 +43,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       builder: BotToastInit(),
       theme: ThemeData(
-        platform: TargetPlatform.iOS,
-        backgroundColor: backColor,
-        primarySwatch: Colors.red,
+        platform: TargetPlatform.iOS, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(background: backColor),
       ),
       title: '仿网易严选-Flutter',
       onGenerateRoute: (RouteSettings settings) {

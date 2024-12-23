@@ -1,30 +1,7 @@
-buildscript {
-    ext.kotlin_version = '1.7.10'
-    repositories {
-        maven { url = "https://maven.aliyun.com/nexus/content/groups/public/" }
-        google()
-        jcenter()
-        maven {
-            url 'https://download.flutter.io'
-        }
-
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
 allprojects {
     repositories {
-        maven { url = "https://maven.aliyun.com/nexus/content/groups/public/" }
         google()
-        jcenter()
-        maven {
-            url 'https://download.flutter.io'
-        }
-
+        mavenCentral()
     }
 }
 

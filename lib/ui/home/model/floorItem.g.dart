@@ -7,14 +7,14 @@ part of 'floorItem.dart';
 // **************************************************************************
 
 FloorItem _$FloorItemFromJson(Map<String, dynamic> json) => FloorItem(
-      json['layout'] as int?,
-      json['columnNum'] as int?,
-      json['floorType'] as int?,
+      (json['layout'] as num?)?.toInt(),
+      (json['columnNum'] as num?)?.toInt(),
+      (json['floorType'] as num?)?.toInt(),
       (json['cells'] as List<dynamic>?)
           ?.map((e) => Cells.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['style'] as int?,
-      json['taskId'] as int?,
+      (json['style'] as num?)?.toInt(),
+      (json['taskId'] as num?)?.toInt(),
       json['height'] as num?,
     );
 

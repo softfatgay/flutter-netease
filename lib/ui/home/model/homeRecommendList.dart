@@ -14,5 +14,4 @@ class HomeRecommendList {
 
   factory HomeRecommendList.fromJson(Map<String, dynamic> json) =>
       _$HomeRecommendListFromJson(json);
-
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constant/colors.dart';
 import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/http_manager/api.dart';
@@ -18,7 +19,7 @@ import 'package:flutter_app/component/floating_action_button.dart';
 import 'package:flutter_app/component/loading.dart';
 import 'package:flutter_app/component/sliver_footer.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
+import 'package:flutter_app/component/slivers.dart';
 class TopicPage extends StatefulWidget {
   @override
   _TopicPageState createState() => _TopicPageState();
@@ -188,16 +189,15 @@ class _TopicPageState extends State<TopicPage>
   _staggeredGridview() {
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      sliver: SliverStaggeredGrid.countBuilder(
-          itemCount: _dataList.length,
-          crossAxisCount: 2,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          staggeredTileBuilder: (index) =>
-              StaggeredTile.count(1, _crossAxis(_dataList[index])),
-          itemBuilder: (context, index) {
-            return TopicItemWidget(item: _dataList[index]);
-          }),
+      sliver: singleSliverWidget(MasonryGridView.count(
+            itemCount: _dataList.length,
+            crossAxisCount: 2,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            itemBuilder: (context, index) {
+              return TopicItemWidget(item: _dataList[index]);
+            })
+      ),
     );
   }
 
@@ -239,7 +239,7 @@ class _TopicPageState extends State<TopicPage>
                 ),
               );
             }),
-        _staggeredGridview(),
+        // _staggeredGridview(),
         SliverFooter(hasMore: _hasMore)
       ],
     );

@@ -13,7 +13,7 @@ NewItemModel _$NewItemModelFromJson(Map<String, dynamic> json) => NewItemModel()
   ..itemTagList = (json['itemTagList'] as List<dynamic>?)
       ?.map((e) => NewItemTagModel.fromJson(e as Map<String, dynamic>))
       .toList()
-  ..id = json['id'] as int?;
+  ..id = (json['id'] as num?)?.toInt();
 
 Map<String, dynamic> _$NewItemModelToJson(NewItemModel instance) =>
     <String, dynamic>{

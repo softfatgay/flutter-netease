@@ -25,7 +25,7 @@ class StaticRatingBar extends StatelessWidget {
     Color? colorLight,
     Color? colorDark,
     int? count,
-    this.size: kSize,
+    this.size = kSize,
   })  : rate = rate ?? kMaxRate,
         count = count ?? kNumberOfStarts,
         colorDark = colorDark ?? new Color(0xffeeeeee),

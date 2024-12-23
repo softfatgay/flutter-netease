@@ -258,19 +258,6 @@ class DashedDecoration extends Decoration {
   }
 
   @override
-  int get hashCode {
-    return hashValues(
-      color,
-      image,
-      border,
-      borderRadius,
-      boxShadow,
-      gradient,
-      shape,
-    );
-  }
-
-  @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties

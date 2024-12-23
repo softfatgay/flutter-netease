@@ -14,7 +14,7 @@ TagItem _$TagItemFromJson(Map<String, dynamic> json) => TagItem()
   ..simpleDesc = json['simpleDesc'] as String?
   ..name = json['name'] as String?
   ..appListPicUrl = json['appListPicUrl'] as String?
-  ..id = json['id'] as int?;
+  ..id = (json['id'] as num?)?.toInt();
 
 Map<String, dynamic> _$TagItemToJson(TagItem instance) => <String, dynamic>{
       'floorPrice': instance.floorPrice,
