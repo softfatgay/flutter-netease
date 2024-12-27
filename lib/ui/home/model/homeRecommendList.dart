@@ -1,7 +1,7 @@
 import 'package:flutter_app/model/itemListItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'HomeRecommendList.g.dart';
+part 'homeRecommendList.g.dart';
 
 @JsonSerializable()
 class HomeRecommendList {
