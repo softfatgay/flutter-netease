@@ -1,22 +1,14 @@
-### [Demo.apk下载地址](http://d.maps9.com/7c8n) 
-如无法直接打开，请复制 http://d.maps9.com/7c8n 到浏览器打开
+pub/grade/kotlin .. upgrade(Reminder => flutter: 3.3.0, grade:8.7.3, kotlin:2.0.0)
 
-## 
+#### 注意项目中使用的flutter,kotlin,gradle版本
+
+#### [Demo.apk下载地址](http://d.maps9.com/7c8n) 如无法直接打开，请复制 http://d.maps9.com/7c8n 到浏览器打开
+
 #### 已实现登录功能，动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持，以及优化
-#### 新增支持Null-safety
-
-
-## 注意
-#### Flutter3.0升级报错更新
-#### 注意项目中使用的kotlin,gradle版本
-#### cookie已实现动态更新
-#### jdk最低支持11
-
 
 ## 深度还原网易严选web-app
 1. 首页,值得买,分类,购物车,我的,搜索,商品详情,拼团,年购等等，都已实现（除了下单之后的逻辑）
 2. 登录功能已实现,网页登录即可，回调回来（拦截用户cookie，本地实现保存，无过期，下次打开自动为登录状态）
-
 
 ## Screenshots
 |         首页         |        分类         |         值得买         |         购物车         |
