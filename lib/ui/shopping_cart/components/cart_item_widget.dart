@@ -434,6 +434,12 @@ class CartItemWidget extends StatelessWidget {
       case 102:
         promTag = '满赠';
         break;
+      case null:
+        promTag = '';
+      case double():
+        promTag = '';
+      case int():
+        promTag = '';
     }
     return item.promTag ?? promTag;
   }
@@ -926,6 +932,12 @@ class CartItemWidget extends StatelessWidget {
       case 109:
         promTypeTitle = '满折';
         break;
+      case null:
+        promTypeTitle = '';
+      case double():
+        promTypeTitle = '';
+      case int():
+        promTypeTitle = '';
     }
     return promTypeTitle;
   }

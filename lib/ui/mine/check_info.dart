@@ -8,7 +8,7 @@ import 'package:flutter_app/constant/fonts.dart';
 import 'package:flutter_app/ui/home/model/versionFirModel.dart';
 import 'package:flutter_app/utils/toast.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AppVersionChecker extends StatefulWidget {
@@ -101,7 +101,9 @@ class _AppVersionCheckerState extends State<AppVersionChecker> {
   }
 
   _doDownload(String? url) async {
-    Directory? dir = await getExternalStorageDirectory();
+    // Directory? dir = await getExternalStorageDirectory();
+    // TODO
+    Directory? dir = await Directory("path");
     String dstPath =
         path.join(dir!.path, 'FlutterWant-${versionModel!.version}.apk');
 
