@@ -1,22 +1,13 @@
-### [Demo.apk下载地址](http://d.maps9.com/7c8n) 
-如无法直接打开，请复制 http://d.maps9.com/7c8n 到浏览器打开
+#### pub/gradle/kotlin.. upgrade(Reminder: flutter: 3.3.0, gradle:8.7.3, kotlin:2.0.0)
 
-## 
-#### 已实现登录功能，动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) 提供的思路以及对ios插件的支持，以及优化
-#### 新增支持Null-safety
+#### 注意项目中使用的 Flutter，Kotlin，Gradle版本
 
+#### [Demo.apk下载地址](http://d.maps9.com/7c8n) 如无法直接打开，请复制 http://d.maps9.com/7c8n 到浏览器打开
 
-## 注意
-#### Flutter3.0升级报错更新
-#### 注意项目中使用的kotlin,gradle版本
-#### cookie已实现动态更新
-#### jdk最低支持11
-
-
-## 深度还原网易严选web-app
-1. 首页,值得买,分类,购物车,我的,搜索,商品详情,拼团,年购等等，都已实现（除了下单之后的逻辑）
-2. 登录功能已实现,网页登录即可，回调回来（拦截用户cookie，本地实现保存，无过期，下次打开自动为登录状态）
-
+## Done
+1. 已实现登录功能，动态获取cookie。感谢 [Tdreamy](https://github.com/Tdreamy) ios插件的支持
+2. 首页,值得买,分类,购物车,我的,搜索,商品详情,拼团,年购等等，都已实现（除了下单之后的逻辑）
+3. 登录拦截用户cookie，本地实现保存。无过期，下次打开自动为登录状态
 
 ## Screenshots
 |         首页         |        分类         |         值得买         |         购物车         |
@@ -30,7 +21,7 @@
 
 ## 主要功能点
 - 网络请求封装，返回数据实例化模型
-- flutter与原生Android/iOS的交互
+- Flutter与原生Android/iOS的交互
 - 常见的安卓Material Design风格
 - 状态管理，局部刷新
 - 纯属学习项目，数据全部来源于网易严选Web端,切勿涉及违法行为
