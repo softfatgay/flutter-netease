@@ -29,7 +29,7 @@ dependencies:
   #url启动
 #  url_launcher: ^6.2.5
   #shared_preferences插件
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.5.3
   #  瀑布流
   flutter_staggered_grid_view: ^0.7.0
   #二维码

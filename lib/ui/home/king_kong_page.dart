@@ -108,8 +108,8 @@ class _KingKongPageState extends State<KingKongPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> slivers = [_buildTitle(context)];
-
+    List<Widget> slivers = [];
+    // _buildTitle(context);
     for (var value in _categoryItemList) {
       slivers.add(_bodyTitle(value));
       slivers.add(GoodItems(dataList: value.itemList));
